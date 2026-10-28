@@ -24,9 +24,15 @@ Orbital Lance and Fabricator are placed with a click or tap. Rotate girders with
 
 ## Arsenal
 - **Artillery:** Plasma Mortar, Frag Charge
-- **Guns:** Rail Carbine, Scatter Gun, Dakka Bolter, Las Burner
+- **Guns:** Rail Carbine, Scatter Gun, Dakka Bolter, Las Burner, Promethium Flamer
 - **Melee:** Chainblade, Thunder Fist
 - **Heavy (one use):** Sun Grenade, Orbital Lance, Doomsday Shell
 - **Tools:** Jump Pack ×2, Plasma Cutter ×5, Fabricator ×3
+
+## The ward fights back
+- **Rising sump:** from turn 10 the water climbs before every turn.
+- **Supply drops:** a gunship parachutes in crates holding heavy weapons, health or tool charges. Walk into one to grab it.
+- **Promethium tanks:** shoot, burn or blast them and they explode, chain, and leave fire behind.
+- **Kill cam:** killing blows and chain reactions drop into slow motion.
 
 Prototype. Built with Claude.
