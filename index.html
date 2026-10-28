@@ -435,7 +435,7 @@ function initAudio(){if(AC){if(AC.state==='suspended')AC.resume();return}try{AC=
 
 /* ---- generative score: heartbeat bass, creeping drone, glass echoes ---- */
 const MUS={on:true,started:false,out:null,bus:null,send:null,drone:[],dF:null,next:0,step:0,root:0,timer:null};
-const MVOL=.55;
+const MVOL=.65;
 function startMusic(){
   if(!AC||MUS.started)return;MUS.started=true;const t0=AC.currentTime;
   const out=AC.createGain();out.gain.setValueAtTime(0,t0);out.gain.linearRampToValueAtTime(MUS.on?MVOL:0,t0+6);out.connect(AC.destination);MUS.out=out;
