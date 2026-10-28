@@ -631,6 +631,7 @@ function sfx(k,r){
     case'ship':noise(3.2,300,.35);tone(90,70,3,.12,'sawtooth');break;
     case'pickup':tone(520,1040,.18,.08,'triangle');setTimeout(()=>tone(780,1560,.2,.06,'triangle'),90);break;
     case'chute':noise(.4,2500,.1,'highpass');break;
+    case'gloomp':tone(150,36,.4,.45,'sine');noise(.3,280,.35);setTimeout(()=>noise(.7,5200,.12,'highpass'),120);break;
     case'step':tone(70,45,.07,.05,'triangle');noise(.05,400,.04);break;
     case'thud':noise(.25,260,.5);tone(80,30,.2,.25);tone(420,300,.08,.04,'square');break;
     case'skid':noise(.12,3800,.07,'bandpass');break;
@@ -782,19 +783,28 @@ function shove(o,vx,vy){if(!o.alive)return;
 function hurt(t,d,soft){if(d<=0||!t.alive)return;const was=t.hp;t.hp=Math.max(0,t.hp-d);if(was>0&&t.hp===0)slowmo(1.4);sfx('clank');
   if(!soft&&t===S.active&&(S.phase==='aim'||S.phase==='retreat')){if(S.phase==='aim')texts.push({x:t.x,y:t.y-58,txt:'Turn lost',life:1.6,col:BONE,small:true});S.phase='end';S.charging=false;S.jet=null;S.wait=0}texts.push({x:t.x,y:t.y-38,txt:'-'+d,life:1.5,col:TEAM[t.team].col})}
 function abyss(t){t.alive=false;t.hp=0;t.wet=false;slowmo(1);texts.push({x:clamp(t.x,40,W-40),y:sump-40,txt:t.name+' · lost to the abyss',life:2.4,col:BONE,small:true});sfx('splash')}
+const WADE=28;
+function floorBelow(x){for(let y=Math.floor(sump);y<=sump+WADE;y+=2)if(isSolid(x,y)||isSolid(x-3,y)||isSolid(x+3,y))return true;return false}
+function bubbles(x,y,n){for(let i=0;i<n;i++)parts.push({k:'splash',x:x+rnd(-8,8),y:y-rnd(0,4),vx:rnd(-15,15),vy:rnd(-70,-20),life:rnd(.3,.8),max:.8});
+  parts.push({k:'ring',x,y,vx:0,vy:0,life:.6,max:.6,r:26,col:[150,180,235]})}
+function sinkDrown(t,msg){if(!t.alive)return;t.alive=false;t.hp=0;t.wet=false;t.rope=null;bubbles(t.x,sump,14);sfx('gloomp');slowmo(1);
+  texts.push({x:clamp(t.x,40,W-40),y:sump-36,txt:t.name+' · '+msg,life:2.4,col:'#9fb4d8',small:true})}
 function enterWater(t){if(t.x<-4||t.x>W+4){abyss(t);return}
+  if(!floorBelow(t.x)){splash(t.x,sump);sinkDrown(t,'lost to the sump');return}
   t.wet=true;t.wt=0;t.air=false;t.skid=false;t.knocked=false;t.rope=null;t.crouch=0;t.vy=Math.min(Math.max(t.vy,0),180)*.5;t.vx*=.3;splash(t.x,sump);
   texts.push({x:t.x,y:sump-34,txt:'In the sump',life:1.4,col:'#9fb4d8',small:true})}
 function swim(t,ax,dt){const dir=Math.sign(ax);if(!dir)return;t.face=dir;t.anim+=dt*8;t.moving=true;
   const nx=clamp(t.x+dir*30*Math.max(.5,Math.abs(ax))*dt,6,W-6);
   if(!isSolid(nx,t.y-8)&&!isSolid(nx,t.y-16)){
     if(isSolid(nx,t.y)){let k=0;while(isSolid(nx,t.y-k)&&k<16)k++;if(k<16&&!isSolid(nx,t.y-k-16)){t.x=nx;t.y-=k;t.wet=false;t.air=false;S.moved=true;return}}
-    else{t.x=nx;S.moved=true;return}}
+    else if(floorBelow(nx)){t.x=nx;S.moved=true;return}else return}
   // a bank too tall to wade onto: climb it if it's short enough
   let k=0;while(isSolid(nx,t.y-k)&&k<22)k++;if(k<22&&!isSolid(nx,t.y-k-16)){t.x=nx;t.y-=k;t.wet=false;t.air=false;S.moved=true}}
 function updSwim(t,dt){
   if(t.x<-4||t.x>W+4){abyss(t);return}
   t.wt=(t.wt||0)+dt;if(t.wt>=1){t.wt-=1;hurt(t,SUMP_DPS,true)}
+  if(t.hp<=0){sinkDrown(t,'drowned');return}
+  if(!floorBelow(t.x)){sinkDrown(t,'lost to the sump');return}
   const fy=sump+12;t.vy+=(fy-t.y)*16*dt;t.vy*=Math.pow(.02,dt);t.y+=t.vy*dt;
   if(Math.abs(t.vx)>1){const nx=clamp(t.x+t.vx*dt,6,W-6);if(!isSolid(nx,t.y-10))t.x=nx;t.vx*=Math.pow(.15,dt)}
   if(Math.random()<dt*1.5)parts.push({k:'splash',x:t.x+rnd(-5,5),y:sump,vx:rnd(-20,20),vy:rnd(-50,-20),life:.4,max:.5});
@@ -993,6 +1003,8 @@ function updTrooper(t,dt){
   if(t.y>sump-2)enterWater(t);
 }
 function hitTrooper(x,y,p){return troopers.some(t=>t.alive&&!(t===p.owner&&p.age<.3)&&Math.abs(t.x-x)<6&&y>t.y-BH&&y<t.y+1)}
+function fizzle(p){const big=p.w.nuke||p.w.id==='sun';splash(p.x,sump);bubbles(p.x,sump,big?20:10);steam(p.x,sump,big?24:8);sfx('gloomp');
+  flashes.push({x:p.x,y:sump,r:big?160:80,c:p.w.id==='sun'?[150,220,255]:[255,170,90],life:.35,max:.35,i:.6})}
 function detonate(p){const w=p.w;
   if(w.nuke){explode(p.x,p.y,w.r,w.dmg,{big:true,col:[255,230,180]});for(let i=0;i<40;i++)parts.push({k:'smoke',x:p.x+rnd(-40,40),y:p.y-rnd(0,60),vx:rnd(-30,30),vy:rnd(-140,-40),life:rnd(2,4),max:4,s:rnd(14,30),c:rnd(28,60)|0});
     sump-=26;flash=1.6;texts.push({x:p.x,y:p.y-60,txt:'The sump rises',life:2.4,col:BONE,small:true})}
@@ -1005,12 +1017,13 @@ function updProjs(dt){
     p.vy+=G*dt;if(p.w.wind)p.vx+=S.wind*WACC*dt;
     const n=Math.max(1,Math.ceil(Math.hypot(p.vx,p.vy)*dt/2));let dead=false;
     for(let k=0;k<n;k++){const nx=p.x+p.vx*dt/n,ny=p.y+p.vy*dt/n;
+      if(ny>=sump&&nx>=0&&nx<=W){p.x=nx;p.y=sump;fizzle(p);dead=true;break}
       if(p.w.kind==='shell'){if(isSolid(nx,ny)||hitTrooper(nx,ny,p)||barrelAt(nx,ny)){p.x=nx;p.y=ny;detonate(p);dead=true;break}}
       else if(isSolid(nx,ny)){const[mx,my]=normalAt(nx,ny),d=p.vx*mx+p.vy*my;if(d<0){p.vx-=2*d*mx;p.vy-=2*d*my}
         p.vx*=.5;p.vy*=.5;if(Math.abs(d)>60)sfx('clink');if(Math.hypot(p.vx,p.vy)<35){p.vx=p.vy=0;p.rest=true}break}
       p.x=nx;p.y=ny}
     if(dead){projs.splice(i,1);continue}
-    if(p.x<-300||p.x>W+300||p.y>sump){if(p.y>sump)splash(p.x,sump);projs.splice(i,1);continue}
+    if(p.x<-300||p.x>W+300||p.y>sump+300){projs.splice(i,1);continue}
     if(p.w.kind==='shell'){parts.push({k:'smoke',x:p.x,y:p.y,vx:rnd(-10,10),vy:rnd(-10,10),life:.9,max:.9,s:2.5,c:60});
       parts.push({k:'fire',x:p.x,y:p.y,vx:-p.vx*.05,vy:-p.vy*.05,life:.18,max:.7,s:p.w.nuke?5:3})}
   }
@@ -1617,7 +1630,7 @@ function frame(now){const dt=Math.min(.033,(now-last)/1000);last=now;
   time+=dt*sc;update(dt*sc);render(dt);if(S.phase!=='title')updHud();requestAnimationFrame(frame)}
 requestAnimationFrame(frame);
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(resize);
-window.__G={S,MUS,get AC(){return AC},initAudio,setMusicMode,ammo:(tm,id)=>S.ammo[tm][id],surfY:surf,press:k=>{press.add(k);held.add(k)},release:k=>held.delete(k),dropRopeT:t=>dropRope(t),isSolid,explode,shove,switchTo,addFire,hurtT:(t,d)=>hurt(t,d),jumpT:t=>jump(t),get projs(){return projs},get troopers(){return troopers},get barrels(){return barrels},get crates(){return crates},get fires(){return fires},get puddles(){return puddles},sump:()=>sump,newGame,update,render,tryFire,launch,selectWeapon};
+window.__G={S,setSump:v=>{sump=v},spawnShell:(x,y)=>projs.push({w:WP.mortar,x,y,vx:0,vy:200,owner:null,age:1,fuse:0,rest:false}),MUS,get AC(){return AC},initAudio,setMusicMode,ammo:(tm,id)=>S.ammo[tm][id],surfY:surf,press:k=>{press.add(k);held.add(k)},release:k=>held.delete(k),dropRopeT:t=>dropRope(t),isSolid,explode,shove,switchTo,addFire,hurtT:(t,d)=>hurt(t,d),jumpT:t=>jump(t),get projs(){return projs},get troopers(){return troopers},get barrels(){return barrels},get crates(){return crates},get fires(){return fires},get puddles(){return puddles},sump:()=>sump,newGame,update,render,tryFire,launch,selectWeapon};
 })();
 </script>
 

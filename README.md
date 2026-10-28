@@ -35,7 +35,7 @@ Orbital Lance and Fabricator are placed with a click or tap. Rotate girders with
 - Taking damage ends your turn. Two-shot weapons let you move between shots.
 - Blasts throw a shockwave that shoves anyone nearby. Thrown troopers skid, get knocked flat, then get up.
 - Knock someone past the edge of the map and they're gone.
-- The sump eats 5 HP a second. Swim for shore.
+- The sump is bottomless. Wade where there is footing (5 HP a second), drown where there is not. Ordnance fizzles in it.
 - Troopers step out of fire on their own, so fire herds people, ledges included.
 
 ## The ward fights back
