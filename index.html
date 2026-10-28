@@ -816,7 +816,7 @@ function attachRope(t,ax,ay,dir){
   const r={x:ax,y:ay,L:16,a:dir*.5,v:dir*1.4};let k=0;while(ropeHits(r,r.a,r.L)&&k<30){r.a+=dir*.05;k++}
   if(t===S.active&&curW().kind==='rope'){useAmmo(curW());updWeapUI()}
   t.rope=r;t.air=false;t.skid=false;t.vx=t.vy=0;t.face=dir;S.moved=true;[t.x,t.y]=ropePos(r,r.a,r.L);sfx('rope')}
-function dropRope(t){t.rope=null;t.air=true;t.y-=1;if(t===S.active&&curW().kind==='rope'){S.weapon[S.team]=S.lastAtk[S.team];S.shots=curW().shots||1;updWeapUI()}}
+function dropRope(t){t.rope=null;t.air=true;t.y-=1;if(t===S.active&&curW().kind==='rope'&&!hasAmmo(curW())){S.weapon[S.team]=S.lastAtk[S.team];S.shots=curW().shots||1;updWeapUI()}}
 function ropeRelease(t){const r=t.rope;t.vx=r.L*Math.cos(r.a)*r.v;t.vy=-r.L*Math.sin(r.a)*r.v;dropRope(t);sfx('zap')}
 function ropeJump(t){const r=t.rope;t.vx=r.L*Math.cos(r.a)*r.v;t.vy=-r.L*Math.sin(r.a)*r.v-200;dropRope(t);sfx('jump')}
 function updRope(t,dt,ctrl){const r=t.rope;
