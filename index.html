@@ -1079,13 +1079,15 @@ function fabValid(){const t=S.active,b=S.target;if(!t||!b)return false;if(Math.h
 function explode(x,y,r,dmg,o={}){
   carve(x,y,r);
   // blast: full damage inside ~1.2r. Shockwave: shoves out to ~2.6r, with a sting of damage just past the blast edge
-  const R=r*1.2,SW=r*2.6,STING=r*.45;
+  const R=r*1.2,SW=r*2.6,STING=r*.45;let bigHits=0,bigTotal=0;
   for(const t of troopers){if(!t.alive)continue;const cy=t.y-11,d=Math.hypot(t.x-x,cy-y);if(d>=SW)continue;
-    if(d<R)hurt(t,Math.round(dmg*Math.min(1,(1-d/R)*1.3)));
+    if(d<R){const h=Math.round(dmg*Math.min(1,(1-d/R)*1.3));hurt(t,h);if(h>=15){bigHits++;bigTotal+=h}}
     else if(d<R+STING)hurt(t,Math.max(1,Math.round(7*(1-(d-R)/STING))));
     const f=Math.pow(1-d/SW,1.2),a=Math.atan2(cy-y,t.x-x),imp=(190+r*5.5)*f;
     shove(t,Math.cos(a)*imp*1.15,Math.min(0,Math.sin(a)*imp*.5)-70*f);
     if(f>.15)for(let i=0;i<4;i++)parts.push({k:'smoke',x:t.x+rnd(-5,5),y:t.y-1,vx:Math.sign(t.x-x)*rnd(20,60),vy:rnd(-30,-5),life:rnd(.4,.8),max:.8,s:rnd(2,4),c:70})}
+  // a blast that catches a group hard gets the slow-motion treatment too
+  if(bigHits>=2&&bigTotal>=50)slowmo(1.2);
   parts.push({k:'ring',x,y,vx:0,vy:0,life:.45,max:.45,r:SW*1.25,col:[170,190,230]});
   for(const b of barrels)if(b.alive&&b.fuse<0&&Math.hypot(b.x-x,b.y-7-y)<r*1.3)ignite(b);
   for(const m of mines)if(!m.dead&&(m.trig<0||m.trig>.2)&&Math.hypot(m.x-x,m.y-y)<r*1.3)m.trig=.2;
