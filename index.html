@@ -244,8 +244,8 @@ const W=2000,H=900,G=620,WACC=150,TS=1.12,BH=24,RET=64,REACH=260;
 let sump=H-40;
 const INK='#08090c',EDGE='#5f6676',BONE='#e6e4de';
 const TEAM=[
-  {name:'Ash Legion',col:'#3ff3ff',rgb:[63,243,255],names:['Vael','Castor','Orsk','Hadrin']},
-  {name:'Neon Choir',col:'#ff2e88',rgb:[255,46,136],names:['Seraph','Lumen','Kett','Mordre']}
+  {name:'Ash Legion',col:'#3ff3ff',rgb:[63,243,255],names:['Vael','Castor','Orsk','Hadrin','Absalom','Malchus','Corvin','Ezekar','Tobiah','Ulvar','Jehan','Severin']},
+  {name:'Neon Choir',col:'#ff2e88',rgb:[255,46,136],names:['Seraph','Lumen','Kett','Mordre','Cantor','Ismay','Zerah','Vesper','Obadiah','Solenne','Thessaly','Verity']}
 ];
 const NEON={cyan:[63,243,255],mag:[255,46,136],amber:[255,165,40],acid:[160,255,70],ice:[185,212,255]};
 const FIRE=[255,160,60];
@@ -283,6 +283,7 @@ const cv=$('#cv'),ctx=cv.getContext('2d');
 const mask=mk(W,H),mctx=mask.getContext('2d');
 const struct=mk(1,1),sctx=struct.getContext('2d');
 const terr=mk(W,H),tctx=terr.getContext('2d');
+const back=mk(W,H),bctx=back.getContext('2d'); // non-solid back walls and ruined facades, drawn behind the play layer
 const rim=mk(W,H),rctx=rim.getContext('2d');
 const lit=mk(1,1),lctx=lit.getContext('2d');
 const lmap=mk(1,1),lg=lmap.getContext('2d');
@@ -311,36 +312,117 @@ const useAmmo=w=>{if(w.ammo>=0)S.ammo[S.team][w.id]--};
 /* ================= terrain generation ================= */
 function poly(g,pts){g.beginPath();g.moveTo(pts[0][0],pts[0][1]);for(let i=1;i<pts.length;i++)g.lineTo(pts[i][0],pts[i][1]);g.closePath();g.fill()}
 function archHole(g,cx,y,w,h){g.beginPath();g.moveTo(cx-w/2,y+h);g.lineTo(cx-w/2,y+w*.45);g.quadraticCurveTo(cx-w/2,y,cx,y-w*.35);g.quadraticCurveTo(cx+w/2,y,cx+w/2,y+w*.45);g.lineTo(cx+w/2,y+h);g.closePath();g.fill()}
+/* 2D simplex noise (Gustavson), seeded */
+function makeNoise(seed){const p=new Uint8Array(512),perm=[...Array(256).keys()];let sd=seed%2147483646+1;const r=()=>(sd=sd*16807%2147483647)/2147483647;
+  for(let i=255;i>0;i--){const j=Math.floor(r()*(i+1));[perm[i],perm[j]]=[perm[j],perm[i]]}for(let i=0;i<512;i++)p[i]=perm[i&255];
+  const GR=[[1,1],[-1,1],[1,-1],[-1,-1],[1,0],[-1,0],[0,1],[0,-1]],F2=.5*(Math.sqrt(3)-1),G2=(3-Math.sqrt(3))/6;
+  return(x,y)=>{const s2=(x+y)*F2,i=Math.floor(x+s2),j=Math.floor(y+s2),t=(i+j)*G2,x0=x-(i-t),y0=y-(j-t),i1=x0>y0?1:0,j1=1-i1,
+    x1=x0-i1+G2,y1=y0-j1+G2,x2=x0-1+2*G2,y2=y0-1+2*G2,ii=i&255,jj=j&255;let n=0,q;
+    let t0=.5-x0*x0-y0*y0;if(t0>0){q=GR[p[ii+p[jj]]&7];t0*=t0;n+=t0*t0*(q[0]*x0+q[1]*y0)}
+    let t1=.5-x1*x1-y1*y1;if(t1>0){q=GR[p[ii+i1+p[jj+j1]]&7];t1*=t1;n+=t1*t1*(q[0]*x1+q[1]*y1)}
+    let t2=.5-x2*x2-y2*y2;if(t2>0){q=GR[p[ii+1+p[jj+1]]&7];t2*=t2;n+=t2*t2*(q[0]*x2+q[1]*y2)}
+    return 70*n}}
+/* Ruins: noise for the natural rock, then architecture placed on top.
+   Density = noise + a top-to-bottom fade; positive is rock. Chasms cut down to the bottomless sump. */
+function ruinRock(g,hs){
+  const N=makeNoise(Math.random()*1e9|0),sc=1/230,GW=W/2|0,GH=H/2|0,D=new Float32Array((GW+1)*(GH+1));
+  const ch=[];for(let i=0,n=1+(Math.random()<.6?1:0);i<n;i++)ch.push([rnd(.22,.78)*W,rnd(30,55)]);
+  const ph=Array.from({length:4},()=>rnd(0,9)),hl=new Float32Array(GW+1);
+  for(let gx=0;gx<=GW;gx++){const t=gx*2/W,e=Math.min(t,1-t);hl[gx]=H*.6+Math.sin(t*6.3+ph[0])*58+Math.sin(t*13.1+ph[1])*24+Math.sin(t*2.2+ph[2])*50+Math.sin(t*29+ph[3])*8+(e<.055?(.055-e)*3000:0)}
+  for(let gy=0;gy<=GH;gy++){const y=gy*2,ny=y/H,ceil=ny<.2?(.2-ny)*8:0;
+    for(let gx=0;gx<=GW;gx++){const x=gx*2;let c=0;for(const[cx,w]of ch)c+=Math.exp(-(((x-cx)/w)**2))*1.8;
+      // noise rides on a classic ground line, stretched sideways so it reads as broken strata and ledges rather than blobs
+      const n=N(x*sc*.75,y*sc*1.5)+.45*N(x*sc*1.8+31.7,y*sc*2.6+5.1)+.18*N(x*sc*4.4+77.3,y*sc*4.4+19.9);
+      D[gy*(GW+1)+gx]=(y-hl[gx])/150+n*.58-ceil-c*(.7+2.4*ny)}}
+  const m=new Uint8Array(W*H);
+  for(let y=0;y<H;y++){const gy=Math.min(GH-1,y>>1),fy=(y&1)*.5;for(let x=0;x<W;x++){const gx=Math.min(GW-1,x>>1),fx=(x&1)*.5,i=gy*(GW+1)+gx;
+    const v=D[i]*(1-fx)*(1-fy)+D[i+1]*fx*(1-fy)+D[i+GW+1]*(1-fx)*fy+D[i+GW+2]*fx*fy;m[y*W+x]=v>0?1:0}}
+  // drop rock specks too small to matter
+  const seen=new Uint8Array(W*H),st=new Int32Array(W*H);
+  for(let i0=0;i0<W*H;i0++){if(!m[i0]||seen[i0])continue;let sp=0,cnt=0;st[sp++]=i0;seen[i0]=1;const comp=[];
+    while(sp){const i=st[--sp];cnt++;if(comp.length<8000)comp.push(i);const x=i%W;
+      for(const j of[i-1,i+1,i-W,i+W]){if(j<0||j>=W*H||seen[j]||!m[j])continue;if((j===i-1&&x===0)||(j===i+1&&x===W-1))continue;seen[j]=1;st[sp++]=j}}
+    if(cnt<7000)for(const i of comp)m[i]=0}
+  const img=g.createImageData(W,H),d=img.data;for(let i=0;i<W*H;i++)if(m[i]){d[i*4]=d[i*4+1]=d[i*4+2]=d[i*4+3]=255}
+  g.putImageData(img,0,0);
+  for(let x=0;x<=W;x++){let y=0;const cx=Math.min(W-1,x);while(y<H&&!m[y*W+cx])y++;hs[x]=y}
+}
 function genTerrain(){
   struct.width=W;struct.height=H;
   const g=mctx;g.globalCompositeOperation='source-over';g.clearRect(0,0,W,H);sctx.clearRect(0,0,W,H);
-  g.fillStyle='#fff';sctx.fillStyle='#fff';
-  const L=['spires','islands','canyon'][Math.random()*3|0];S.layout=L;
+  g.fillStyle='#fff';sctx.fillStyle='#fff';bctx.clearRect(0,0,W,H);
+  const L=['spires','islands','canyon','ruins','ruins'][Math.random()*5|0];S.layout=L;
   const base=L==='islands'?H*.8:L==='canyon'?H*.56:H*.66, amp=L==='islands'?.55:L==='canyon'?1.2:1;
   const p=Array.from({length:5},()=>rnd(0,9)),ccx=rnd(.4,.6)*W,cwid=rnd(80,120);
   const hs=new Float32Array(W+1);
+  if(L==='ruins')ruinRock(g,hs);else{
   g.beginPath();g.moveTo(0,H);
   for(let x=0;x<=W;x++){const t=x/W;
     let h=base+amp*(Math.sin(t*6.3+p[0])*60+Math.sin(t*13.1+p[1])*28+Math.sin(t*31+p[2])*9+Math.sin(t*2.2+p[3])*52+Math.sin(t*47+p[4])*4);
     if(L==='canyon')h+=430*Math.exp(-Math.pow((x-ccx)/cwid,4));
     const e=Math.min(t,1-t);if(e<.055)h+=(.055-e)*3000;
     hs[x]=h;if(x%2===0)g.lineTo(x,h)}
-  g.lineTo(W,H);g.closePath();g.fill();
+  g.lineTo(W,H);g.closePath();g.fill()}
   const hAt=x=>hs[clamp(Math.round(x),0,W)];
   const used=[],spires=[],hangs=[];
   const freeX=(gap,lo=220,hi=W-220)=>{let x,k=0;do{x=rnd(lo,hi);k++}while(k<80&&used.some(u=>Math.abs(u-x)<gap));used.push(x);return x};
   const both=fn=>{fn(g);fn(sctx)};
+  // on noise rock, look for a reasonably level patch to build on
+  const flatX=(gap,w)=>{let best=null;for(let k=0;k<40;k++){const x=rnd(220,W-220);if(used.some(u=>Math.abs(u-x)<gap))continue;const h=hAt(x),dl=Math.abs(hAt(x-w/2)-h),dr=Math.abs(hAt(x+w/2)-h);
+    if(h<150||h>sump-70)continue;const sc=dl+dr;if(!best||sc<best.sc)best={x,sc};if(sc<12)break}const x=best?best.x:rnd(220,W-220);used.push(x);return x};
   // spires
-  const ns=L==='spires'?4+(Math.random()*2|0):L==='canyon'?2:1+(Math.random()*2|0);
-  for(let i=0;i<ns;i++){const cx=freeX(240);if(L==='canyon'&&Math.abs(cx-ccx)<cwid*1.7)continue;
+  const ns=L==='spires'?3+(Math.random()*2|0):L==='canyon'?2:L==='ruins'?1:1+(Math.random()*2|0);
+  for(let i=0;i<ns;i++){const cx=L==='ruins'?flatX(240,60):freeX(240);if(L==='canyon'&&Math.abs(cx-ccx)<cwid*1.7)continue;
     const w=rnd(46,72),bs=hAt(cx),hh=rnd(140,240),top=bs-hh,roof=w*rnd(1,1.5);
     both(gg=>{gg.fillRect(cx-w/2,top,w,hh+40);
       poly(gg,[[cx-w/2-22,bs+30],[cx-w/2,top+hh*.35],[cx-w/2,bs+30]]);poly(gg,[[cx+w/2+22,bs+30],[cx+w/2,top+hh*.35],[cx+w/2,bs+30]]);
       poly(gg,[[cx-w/2-5,top],[cx,top-roof],[cx+w/2+5,top]]);for(let k=0;k<w;k+=12)gg.fillRect(cx-w/2+k-2,top-6,6,6);
       gg.globalCompositeOperation='destination-out';for(let y=top+24;y<bs-26;y+=50)archHole(gg,cx,y,w*.38,28);gg.globalCompositeOperation='source-over'});
     spires.push({cx,w,top,base:bs,roof})}
+  // ---- ruined city: twin towers on bridges, hollow tenements with rooms to hide in ----
+  const backWall=(x,y,w,h,col)=>{bctx.fillStyle=col;bctx.fillRect(x,y,w,h);bctx.strokeStyle='rgba(0,0,0,.45)';bctx.lineWidth=1;bctx.beginPath();
+    for(let yy=y,r=0;yy<y+h;yy+=9,r++){bctx.moveTo(x,yy+.5);bctx.lineTo(x+w,yy+.5);for(let xx=x+(r%2)*11;xx<x+w;xx+=22){bctx.moveTo(xx+.5,yy);bctx.lineTo(xx+.5,yy+9)}}bctx.stroke()};
+  const glowWin=(x,y,w,h)=>{const r=Math.random();bctx.fillStyle=r<.6?'rgba(0,0,0,.6)':r<.8?'rgba(255,165,40,.35)':r<.9?'rgba(63,243,255,.3)':'rgba(255,46,136,.3)';bctx.fillRect(x,y,w,h)};
+  const facade=()=>{const w=rnd(70,140),x=rnd(140,W-140-w);let gy=1e9,gb=0;for(let xx=x;xx<=x+w;xx+=4){gy=Math.min(gy,hAt(xx));gb=Math.max(gb,hAt(xx))}const h=rnd(140,300),top=gy-h;backWall(x,top,w,Math.min(sump,gb+40)-top,'#111319');
+    for(let yy=top+16;yy<gy-20;yy+=26)for(let xx=x+10;xx<x+w-14;xx+=18)if(Math.random()<.7)glowWin(xx,yy,7,13);
+    bctx.globalCompositeOperation='destination-out';const bx=x+rnd(.1,.6)*w,bw=rnd(.3,.6)*w;
+    bctx.beginPath();bctx.moveTo(bx,top-2);bctx.lineTo(bx+bw*.25,top+rnd(20,70));bctx.lineTo(bx+bw*.55,top+rnd(5,40));bctx.lineTo(bx+bw*.8,top+rnd(30,90));bctx.lineTo(bx+bw,top-2);bctx.fill();
+    bctx.globalCompositeOperation='source-over'};
+  const tower=(gg,cx,w,top,bs,crown)=>{const ground=Math.max(hAt(cx-w/2),hAt(cx+w/2),hAt(cx));
+    gg.fillRect(cx-w/2,top,w,ground-top+30);
+    poly(gg,[[cx-w/2-16,ground+20],[cx-w/2,top+(ground-top)*.45],[cx-w/2,ground+20]]);poly(gg,[[cx+w/2+16,ground+20],[cx+w/2,top+(ground-top)*.45],[cx+w/2,ground+20]]);
+    if(crown==='spire')poly(gg,[[cx-w/2-5,top],[cx,top-w*rnd(1.1,1.6)],[cx+w/2+5,top]]);
+    else if(crown==='broken'){poly(gg,[[cx-w/2,top],[cx-w/2,top-rnd(14,30)],[cx-w*.1,top-rnd(4,12)],[cx+w*.15,top-rnd(18,34)],[cx+w/2,top-rnd(0,8)],[cx+w/2,top]])}
+    else for(let k=0;k<w;k+=12)gg.fillRect(cx-w/2+k-2,top-7,6,7);
+    gg.globalCompositeOperation='destination-out';for(let y=top+26;y<bs-34;y+=52)archHole(gg,cx,y,w*.36,26);gg.globalCompositeOperation='source-over'};
+  const twinTowers=()=>{const gap=rnd(150,220),w=rnd(40,54),cx=flatX(gap+w+160,gap+w);const ax=cx-gap/2,bx=cx+gap/2;
+    const ab=hAt(ax),bb=hAt(bx),at=ab-rnd(190,270),bt=bb-rnd(170,250),cr=['spire','crenel','broken'];
+    both(gg=>{tower(gg,ax,w,at,ab,cr[Math.random()*3|0]);tower(gg,bx,w,bt,bb,cr[Math.random()*3|0])});
+    const lo=Math.max(at,bt)+30,hi=Math.min(ab,bb)-70,decks=hi-lo>110&&Math.random()<.6?2:1,span=gap-w;
+    for(let d=0;d<decks;d++){const y=decks===2?(d?hi:lo+10):rnd(lo,Math.max(lo+1,hi)),broken=Math.random()<.3;
+      both(gg=>{gg.fillRect(ax+w/2-2,y,span+4,10);for(let k=ax+w/2+10;k<bx-w/2-6;k+=16)gg.fillRect(k,y-9,3,9);gg.fillRect(ax+w/2,y-11,span,3);
+        gg.lineWidth=7;gg.strokeStyle='#fff';gg.beginPath();gg.ellipse(cx,y+10+34,span/2,34,0,Math.PI,2*Math.PI);gg.stroke();
+        if(broken){gg.globalCompositeOperation='destination-out';const mx=cx+rnd(-span*.2,span*.2);poly(gg,[[mx-14,y-14],[mx-4,y+14],[mx+3,y+6],[mx+12,y+16],[mx+16,y-14]]);gg.globalCompositeOperation='source-over'}});
+      hangs.push({cx:cx+rnd(-span*.25,span*.25),cy:y-12})}
+    spires.push({cx:ax,w,top:at,base:ab,roof:w},{cx:bx,w,top:bt,base:bb,roof:w})};
+  const tenement=()=>{const w=rnd(120,175),cx=flatX(w+90,w),x0=cx-w/2,x1=cx+w/2;let gt=1e9,gb=0;for(let x=x0;x<=x1;x+=4){const h=hAt(x);gt=Math.min(gt,h);gb=Math.max(gb,h)}
+    const base=gt+4,fl=2+(Math.random()<.45?1:0),fh=44,top=base-fl*fh-6,wl=12,bite=x0+rnd(.2,.55)*w,bw=rnd(.22,.38)*w;
+    backWall(x0+wl,top+wl,w-wl*2,base-top-wl,'#16181f');
+    for(let k=0;k<fl;k++)if(Math.random()<.8)glowWin(x0+wl+rnd(10,w-wl*2-24),base-k*fh-30,8,14);
+    both(gg=>{gg.fillRect(x0,base,w,Math.max(22,gb-base+26));gg.fillRect(x0,top,w,base-top);
+      gg.globalCompositeOperation='destination-out';gg.fillRect(x0+wl,top+wl,w-wl*2,base-top-wl);
+      gg.fillRect(x0-1,base-32,wl+2,32);gg.fillRect(x1-wl-1,base-32,wl+2,32);gg.globalCompositeOperation='source-over';
+      // floors, each with a gap at alternating ends so you can jump up through the building
+      for(let k=1;k<fl;k++){const fy=base-k*fh,gx=k%2?x0+wl:x1-wl-28;gg.fillRect(x0+wl,fy,w-wl*2,6);gg.globalCompositeOperation='destination-out';gg.fillRect(gx,fy-1,28,8);gg.globalCompositeOperation='source-over'}
+      gg.globalCompositeOperation='destination-out';
+      for(let k=1;k<fl;k++){const wy=base-k*fh-28;gg.fillRect(x0-1,wy,wl+2,12);gg.fillRect(x1-wl-1,wy,wl+2,12)}
+      poly(gg,[[bite,top-8],[bite+bw*.2,top+wl+rnd(4,14)],[bite+bw*.5,top+wl+rnd(0,6)],[bite+bw*.8,top+wl+rnd(6,16)],[bite+bw,top-8]]);
+      gg.globalCompositeOperation='source-over';for(let k=x0;k<x1-4;k+=14)if(k<bite-8||k>bite+bw+2)gg.fillRect(k,top-6,7,6)});
+    for(let k=0;k<fl;k++)if(Math.random()<.75)hangs.push({cx:x0+rnd(.3,.7)*w,cy:base-(k+1)*fh-(k===fl-1?14:-2)})};
+  if(L==='ruins'){for(let i=0;i<4;i++)facade();twinTowers();if(Math.random()<.45)twinTowers();for(let i=0,n=2+(Math.random()<.5?1:0);i<n;i++)tenement()}
+  else if(L==='spires'){for(let i=0;i<2;i++)facade();if(Math.random()<.6)tenement();if(Math.random()<.5)twinTowers()}
   // floating islands
-  const ni=L==='islands'?4+(Math.random()*3|0):1+(Math.random()*2|0);
+  const ni=L==='islands'?4+(Math.random()*3|0):L==='ruins'?(Math.random()<.5?1:0):1+(Math.random()*2|0);
   for(let i=0;i<ni;i++){let cx=L==='canyon'&&i===0?ccx:freeX(200),w=rnd(110,220);
     let cy=L==='islands'?rnd(H*.32,H*.6):Math.min(hAt(cx-w/2),hAt(cx+w/2),hAt(cx))-rnd(110,200);
     if(L==='canyon'&&i===0){w=cwid*2.2;cy=Math.min(hAt(cx-cwid*1.6),hAt(cx+cwid*1.6))-rnd(30,70)}
@@ -350,7 +432,7 @@ function genTerrain(){
     for(let k=n;k>=0;k--){const f=Math.sin(Math.PI*k/n);pts.push([cx-w/2+w*k/n+rnd(-6,6),cy+8+f*w*rnd(.22,.4)+(k%2?rnd(0,20):0)])}
     poly(g,pts);hangs.push({cx:cx+rnd(-w*.25,w*.25),cy})}
   // pillars
-  for(let i=0;i<3+(Math.random()*3|0);i++){const cx=freeX(90),w=rnd(14,22),bs=hAt(cx),hh=rnd(50,140);
+  for(let i=0;i<(L==='ruins'?2:3)+(Math.random()*3|0);i++){const cx=L==='ruins'?flatX(90,20):freeX(90),w=rnd(14,22),bs=hAt(cx),hh=rnd(50,140);
     both(gg=>poly(gg,[[cx-w/2,bs+20],[cx-w/2,bs-hh+rnd(-8,8)],[cx-w/6,bs-hh-rnd(0,14)],[cx+w/5,bs-hh+rnd(-4,10)],[cx+w/2,bs-hh+rnd(-10,6)],[cx+w/2,bs+20]]))}
   // bridges
   for(let i=0;i<1+(Math.random()*2|0);i++){const x=rnd(240,W-520),len=rnd(150,280),y=Math.min(hAt(x),hAt(x+len),hAt(x+len/2))-rnd(90,150);
@@ -361,11 +443,14 @@ function genTerrain(){
   for(let i=0;i<(Math.random()*2|0)+(L==='canyon'?1:0);i++){const x=L==='canyon'&&i===0?ccx-cwid*1.8:rnd(150,W-600),len=L==='canyon'&&i===0?cwid*3.6:rnd(260,440),
     y=L==='canyon'&&i===0?Math.min(hAt(ccx-cwid*1.8),hAt(ccx+cwid*1.8))+rnd(20,50):rnd(H*.32,H*.52);
     both(gg=>{gg.fillRect(x,y,len,9);for(let k=x;k<x+len;k+=60)gg.fillRect(k,y-3,5,15);gg.fillRect(x+len*.5,y+9,6,Math.max(0,hAt(x+len*.5)-y))})}
-  // caverns
+  // caverns (the noise makes its own on ruins)
   g.globalCompositeOperation='destination-out';
-  for(let i=0;i<5+(Math.random()*4|0);i++){const x=rnd(150,W-150),y=hAt(x)+rnd(70,200);g.beginPath();g.ellipse(x,y,rnd(30,72),rnd(18,38),rnd(-.4,.4),0,Math.PI*2);g.fill()}
+  for(let i=0;i<(L==='ruins'?0:5+(Math.random()*4|0));i++){const x=rnd(150,W-150),y=hAt(x)+rnd(70,200);g.beginPath();g.ellipse(x,y,rnd(30,72),rnd(18,38),rnd(-.4,.4),0,Math.PI*2);g.fill()}
   g.globalCompositeOperation='source-over';
   const d=g.getImageData(0,0,W,H).data;for(let i=0;i<W*H;i++)solid[i]=d[i*4+3]>127?1:0;
+  // ruins: hang lamps under natural overhangs
+  if(L==='ruins')for(let k=0;k<60&&hangs.length<6;k++){const x=rnd(120,W-120)|0;let y=0;while(y<H&&!solid[y*W+x])y++;let y2=y;while(y2<H&&solid[y2*W+x])y2++;
+    let air=0;while(y2+air<H&&!solid[(y2+air)*W+x]&&air<60)air++;if(y2<sump-90&&air>=60&&y2-y>8&&!hangs.some(h=>Math.abs(h.cx-x)<150))hangs.push({cx:x,cy:y})}
   // neon fixtures
   fixtures=[];
   const pc=()=>{const r=Math.random();return r<.34?'cyan':r<.68?'mag':r<.82?'amber':r<.92?'acid':'ice'};
@@ -647,10 +732,10 @@ function newGame(mode){
   setMusicMode('battle');
   S.mode=mode;sump=H-40;genTerrain();
   troopers=[];projs=[];parts=[];texts=[];tracers=[];graves=[];builds=[];beams=[];flashes=[];
-  const xs=[];
+  const xs=[],roll=TEAM.map(T=>{const a=T.names.slice();for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a});
   for(let team=0;team<2;team++)for(let i=0;i<4;i++){
     let x,tries=0;do{x=rnd(90,W-90);tries++}while(tries<400&&(xs.some(o=>Math.abs(o-x)<110)||surf(x)>sump-70||surf(x)<70||isSolid(x,surf(x)-BH)));
-    xs.push(x);troopers.push({team,name:TEAM[team].names[i],x,y:surf(x),vx:0,vy:0,hp:100,alive:true,face:x<W/2?1:-1,aim:-.45,air:false,anim:0,moving:false,lastPow:{}});
+    xs.push(x);troopers.push({team,name:roll[team][i],x,y:surf(x),vx:0,vy:0,hp:100,alive:true,face:x<W/2?1:-1,aim:-.45,air:false,anim:0,moving:false,lastPow:{}});
   }
   for(const tm of[0,1]){S.ammo[tm]={};for(const w of ARS)if(w.ammo>=0)S.ammo[tm][w.id]=w.ammo}
   crates=[];ships=[];fires=[];flames=[];S.turnN=0;S.events=[];S.ev=null;S.slow=null;S.cine=0;S.flame=null;
@@ -1482,6 +1567,7 @@ function render(dt){
     ctx.drawImage(Ly.c,0,0,W,H);ctx.fillStyle=Ly.col;ctx.fillRect(0,H-1,W,1800);
     for(const n of Ly.signs){if(Math.sin(time*19+n.ph*7)>.96)continue;ctx.shadowColor=n.col;ctx.shadowBlur=14;ctx.fillStyle=n.col;ctx.globalAlpha=Ly.par<.3?.5:.75;
       ctx.fillRect(n.x,n.y,n.w,n.h);ctx.globalAlpha=1;ctx.shadowBlur=0;ctx.fillStyle=Ly.col;for(let i=4;i<n.h-3;i+=7)ctx.fillRect(n.x+2,n.y+i,n.w-4,2)}}
+  ctx.setTransform(...WT);ctx.drawImage(back,0,0);
   // ---- lit terrain ----
   const lights=gatherLights();
   lctx.setTransform(1,0,0,1,0,0);lctx.globalCompositeOperation='source-over';lctx.clearRect(0,0,lit.width,lit.height);
@@ -1625,12 +1711,27 @@ function updHud(){
 /* ================= boot ================= */
 genTerrain();resize();
 let last=performance.now();
-function frame(now){const dt=Math.min(.033,(now-last)/1000);last=now;
+/* charge-up for weapons you hold to power: a low tone rising straight with the bar,
+   buzzing like mains hum (50 Hz amplitude modulation) with a warble that quickens as it fills */
+let CH=null;
+function chargeSound(){
+  const on=S.charging&&!S.paused&&S.phase==='aim'&&AC&&soundOn();
+  if(on&&!CH){const t=AC.currentTime,o=AC.createOscillator(),o2=AC.createOscillator(),lp=AC.createBiquadFilter(),g=AC.createGain(),am=AC.createGain(),
+      hum=AC.createOscillator(),hg=AC.createGain(),wob=AC.createOscillator(),wg=AC.createGain();
+    o.type='sawtooth';o2.type='sine';lp.type='lowpass';lp.frequency.value=320;lp.Q.value=2;g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.05,t+.1);
+    am.gain.value=.6;hum.frequency.value=50;hg.gain.value=.4;hum.connect(hg).connect(am.gain);
+    wob.frequency.value=6;wg.gain.value=0;wob.connect(wg);wg.connect(o.detune);wg.connect(o2.detune);
+    o.connect(lp);o2.connect(lp);lp.connect(am).connect(g).connect(bus());for(const n of[o,o2,hum,wob])n.start(t);CH={o,o2,lp,g,hum,wob,wg}}
+  if(CH){const t=AC.currentTime;
+    if(on){const c=S.charge,f=55+c*85;CH.o.frequency.setTargetAtTime(f,t,.04);CH.o2.frequency.setTargetAtTime(f*.5,t,.04);CH.lp.frequency.setTargetAtTime(300+c*600,t,.05);
+      CH.wob.frequency.setTargetAtTime(5+c*9,t,.05);CH.wg.gain.setTargetAtTime(18+c*30,t,.05)}
+    else{CH.g.gain.cancelScheduledValues(t);CH.g.gain.setValueAtTime(CH.g.gain.value,t);CH.g.gain.linearRampToValueAtTime(0,t+.06);for(const n of[CH.o,CH.o2,CH.hum,CH.wob])n.stop(t+.08);CH=null}}}
+function frame(now){const dt=Math.min(.033,(now-last)/1000);last=now;chargeSound();
   let sc=1;if(S.slow&&!S.paused){S.slow.t-=dt;sc=.3;if(S.slow.t<=0)S.slow=null}
   time+=dt*sc;update(dt*sc);render(dt);if(S.phase!=='title')updHud();requestAnimationFrame(frame)}
 requestAnimationFrame(frame);
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(resize);
-window.__G={S,setSump:v=>{sump=v},spawnShell:(x,y)=>projs.push({w:WP.mortar,x,y,vx:0,vy:200,owner:null,age:1,fuse:0,rest:false}),MUS,get AC(){return AC},initAudio,setMusicMode,ammo:(tm,id)=>S.ammo[tm][id],surfY:surf,press:k=>{press.add(k);held.add(k)},release:k=>held.delete(k),dropRopeT:t=>dropRope(t),isSolid,explode,shove,switchTo,addFire,hurtT:(t,d)=>hurt(t,d),jumpT:t=>jump(t),get projs(){return projs},get troopers(){return troopers},get barrels(){return barrels},get crates(){return crates},get fires(){return fires},get puddles(){return puddles},sump:()=>sump,newGame,update,render,tryFire,launch,selectWeapon};
+window.__G={S,maskURL:()=>{const c=mk(W/2,H/2),x=c.getContext("2d");x.fillStyle="#123";x.fillRect(0,0,W/2,H/2);x.drawImage(back,0,0,W/2,H/2);x.drawImage(terr,0,0,W/2,H/2);x.fillStyle="rgba(60,120,255,.5)";x.fillRect(0,sump/2,W/2,H);return c.toDataURL()},bus:()=>bus(),camSet:(x,y)=>{cam.x=x;cam.y=y},base:()=>baseScale,setSump:v=>{sump=v},spawnShell:(x,y)=>projs.push({w:WP.mortar,x,y,vx:0,vy:200,owner:null,age:1,fuse:0,rest:false}),MUS,get AC(){return AC},initAudio,setMusicMode,ammo:(tm,id)=>S.ammo[tm][id],surfY:surf,press:k=>{press.add(k);held.add(k)},release:k=>held.delete(k),dropRopeT:t=>dropRope(t),isSolid,explode,shove,switchTo,addFire,hurtT:(t,d)=>hurt(t,d),jumpT:t=>jump(t),get projs(){return projs},get troopers(){return troopers},get barrels(){return barrels},get crates(){return crates},get fires(){return fires},get puddles(){return puddles},sump:()=>sump,newGame,update,render,tryFire,launch,selectWeapon};
 })();
 </script>
 

@@ -38,6 +38,9 @@ Orbital Lance and Fabricator are placed with a click or tap. Rotate girders with
 - The sump is bottomless. Wade where there is footing (5 HP a second), drown where there is not. Ordnance fizzles in it.
 - Troopers step out of fire on their own, so fire herds people, ledges included.
 
+## Maps
+Four layouts: Spires, Islands, Canyon and Ruins. Ruins uses simplex noise for the natural rock on top of a rolling ground line, with chasms down to the sump, then builds a ruined city on it: twin towers joined by arched bridges, hollow tenements you can hide inside, and lit facades in the background.
+
 ## The ward fights back
 - **Rising sump:** from turn 10 the water climbs before every turn.
 - **Supply drops:** a gunship parachutes in crates holding heavy weapons, health or tool charges. Walk into one to grab it.
