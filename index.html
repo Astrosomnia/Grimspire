@@ -793,9 +793,9 @@ function boltRound(t){const[ox,oy,dx,dy]=origin(t),a=Math.atan2(dy,dx)+rnd(-.09,
   if(r.barrel){ignite(r.barrel);sparks(r.x,r.y,3)}
   if(r.victim){hurt(r.victim,5);knock(r.victim,ex,ey,45);sparks(r.x,r.y,3)}else if(r.solid){carve(r.x,r.y,6);sparks(r.x,r.y,3);for(let i=0;i<3;i++)debris(r.x,r.y)}
   shake=Math.min(10,shake+1.5)}
-function lasShot(t,ox,oy,dx,dy){const L=400,hit=new Set();let ex=ox,ey=oy;
+function lasShot(t,ox,oy,dx,dy){const L=540,hit=new Set();let ex=ox,ey=oy;
   for(let d=0;d<L;d+=3){const x=ox+dx*d,y=oy+dy*d;if(x<0||x>W||y>sump||y<-300)break;ex=x;ey=y;
-    for(const o of troopers)if(o.alive&&o!==t&&!hit.has(o)&&Math.abs(o.x-x)<5.5&&y>o.y-BH&&y<o.y+1){hit.add(o);hurt(o,30);knock(o,dx,dy,140)}
+    for(const o of troopers)if(o.alive&&o!==t&&!hit.has(o)&&Math.abs(o.x-x)<5.5&&y>o.y-BH&&y<o.y+1){hit.add(o);hurt(o,15);knock(o,dx,dy,90)}
     const bb=barrelAt(x,y);if(bb)ignite(bb);
     if(isSolid(x,y)&&Math.random()<.3)parts.push({k:'ember',x,y,vx:rnd(-60,60),vy:rnd(-120,-20),life:rnd(.4,1),max:1})}
   carveLine(ox+dx*10,oy+dy*10,ex,ey,4.5,'rgba(60,8,4,.85)');
