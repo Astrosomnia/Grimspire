@@ -815,7 +815,7 @@ function beginTurn(){
   S.jet=null;S.usedJet=false;S.cut=null;S.burst=null;S.strike=null;S.target=null;S.rot=0;S.camFree=false;S.camSnap=true;
   S.moved=false;S.second=false;S.ticked=false;S.mobile=false;S.rb=0;
   if(!hasAmmo(curW())||WP[S.weapon[S.team]].kind==='jet'||WP[S.weapon[S.team]].kind==='rope')S.weapon[S.team]=S.lastAtk[S.team];
-  S.shots=curW().shots||1;S.wind=Math.round(rnd(-1,1)*10)/10;AI.stage=0;AI.t=0;AI.gen=null;AI.plan=null;AI.cover=null;AI.replanned=false;AI.noised=false;AI.stuck=0;
+  S.shots=curW().shots||1;S.wind=Math.round(rnd(-1,1)*10)/10;AI.stage=0;AI.t=0;AI.gen=null;AI.plan=null;AI.cover=null;AI.replanned=false;AI.noised=false;AI.stuck=0;AI.roped=false;
   banner(TEAM[S.team].name,S.active.name+(isCPU()?' · machine':''),TEAM[S.team].col);updWeapUI();
 }
 function gameOver(w){
@@ -897,6 +897,7 @@ function closeArsenal(){$('#arsenal').hidden=true}
 function setPause(p){if(S.phase==='title'||S.phase==='over')return;S.paused=p;$('#pause').hidden=!p;if(p){closeArsenal();held.clear()}}
 
 /* ================= actions ================= */
+function dropDepth(x,y){let k=0;while(k<300&&!isSolid(x,y+k+1))k++;return k}
 function walk(t,dir,dt,sp){
   const ox=t.x,oy=t.y,nx=clamp(t.x+dir*52*sp*dt,4,W-4);let ny=t.y,k=0;
   while(isSolid(nx,ny)&&k<8){ny--;k++}
@@ -905,7 +906,7 @@ function walk(t,dir,dt,sp){
   t.x=nx;t.y=ny;t.moving=true;t.anim+=dt*14*sp;
   if(t===S.active&&t.anim-(t.stepA||0)>Math.PI){t.stepA=t.anim;sfx('step')}
   if(d>=8){
-    if(t===S.active&&S.phase==='aim'&&curW().kind==='rope'&&hasAmmo(curW())&&!isCPU()){attachRope(t,ox,oy,dir);return}
+    if(t===S.active&&S.phase==='aim'&&curW().kind==='rope'&&hasAmmo(curW())&&(!isCPU()||dropDepth(nx,ny)>120)){attachRope(t,ox,oy,dir);return}
     t.air=true;t.vx=dir*40;t.vy=0}
 }
 function jump(t){
@@ -1254,13 +1255,13 @@ const foesOf=t=>troopers.filter(o=>o.alive&&o.team!==t.team);
 const aimAt=(t,e)=>{const dx=e.x-t.x,dy=(e.y-11)-(t.y-12);return{face:dx>=0?1:-1,aim:clamp(Math.atan2(dy,Math.abs(dx)),-1.52,1.45),d:Math.hypot(dx,dy)}};
 const orig=(t,face,a)=>{const dx=Math.cos(a)*face,dy=Math.sin(a);return[t.x+dx*13,t.y-12+dy*13,dx,dy]};
 // spots this trooper can walk to (dropping off small ledges is fine, water and big falls are not)
-function walkReach(t,maxD=260){const res=[{x:t.x,y:t.y,dist:0,crates:[]}];
-  for(const dir of[-1,1]){const g={x:t.x,y:t.y,face:dir,air:false,anim:0,vx:0,vy:0,moving:false};let dist=0,last=t.x;const got=[];
+function walkReach(t,maxD=260,canRope=false){const res=[{x:t.x,y:t.y,dist:0,crates:[]}];
+  for(const dir of[-1,1]){const g={x:t.x,y:t.y,face:dir,air:false,anim:0,vx:0,vy:0,moving:false};let dist=0,last=t.x,rope=false;const got=[];
     for(let i=0;i<400;i++){const bx=g.x;walk(g,dir,1/30,1);
-      if(g.air){let y=g.y,k=0;while(k<150&&!isSolid(g.x,y+1)&&y<sump)y++,k++;if(k>=150||y>=sump-2||g.x<24||g.x>W-24)break;g.y=y;g.air=false}
+      if(g.air){let y=g.y,k=0;const lim=canRope&&!rope?ROPE_MAX+10:150;while(k<lim&&!isSolid(g.x,y+1)&&y<sump)y++,k++;if(k>=lim||y>=sump-2||g.x<24||g.x>W-24)break;if(k>120&&canRope)rope=true;g.y=y;g.air=false}
       if(g.x===bx)break;dist+=Math.abs(g.x-bx);
       for(const c of crates)if(c.landed&&!got.includes(c)&&Math.abs(c.x-g.x)<8&&Math.abs(c.y-g.y)<22)got.push(c);
-      if(Math.abs(g.x-last)>=32){last=g.x;res.push({x:g.x,y:g.y,dist,crates:got.slice()})}
+      if(Math.abs(g.x-last)>=32){last=g.x;res.push({x:g.x,y:g.y,dist:dist+(rope?60:0),crates:got.slice(),rope})}
       if(dist>maxD)break}}
   return res}
 function spotRisk(P){let r=0;
@@ -1271,7 +1272,7 @@ function spotRisk(P){let r=0;
 function crateVal(t,P){let v=0;for(const c of P.crates)v+=c.type==='heavy'?26:c.type==='tool'?12:Math.max(0,100-t.hp)*.5;return v}
 function* planGen(t,quick){
   const sx=t.x,sy=t.y,foes=foesOf(t);if(!foes.length)return null;
-  const spots=(quick?[{x:t.x,y:t.y,dist:0,crates:[]}]:walkReach(t)).filter(P=>spotRisk(P)<900);
+  const spots=(quick?[{x:t.x,y:t.y,dist:0,crates:[]}]:walkReach(t,260,hasAmmo(WP.rope))).filter(P=>spotRisk(P)<900);
   if(!spots.length)spots.push({x:t.x,y:t.y,dist:0,crates:[]});
   let best=null,bestNH=null;const consider=(c,P,extra)=>{c.s+=extra;c.P=P;if(!best||c.s>best.s)best=c;if(WP[c.w].ammo<0&&(!bestNH||c.s>bestNH.s))bestNH=c};
   // orbital lance doesn't care where you stand
@@ -1332,7 +1333,11 @@ function aiUpdate(dt){
   if(AI.stage===0){if(AI.t>.5){AI.gen=planGen(t,false);AI.stage='think'}return}
   if(AI.stage==='think'){const t0=performance.now();while(performance.now()-t0<7){const r=AI.gen.next();if(r.done){AI.plan=r.value||{w:'mortar',face:t.face,aim:-.8,power:.6,P:{x:t.x}};AI.stage='walk';AI.t=0;AI.stuck=0;break}}return}
   const pl=AI.plan;
-  if(AI.stage==='walk'){if(aiWalk(t,pl.P.x,dt)||AI.t>7||S.timer<9){
+  if(AI.stage==='walk'){
+    if(t.rope){const r=t.rope,nL=Math.min(ROPE_MAX,r.L+90*dt),[px,py]=ropePos(r,r.a,r.L);
+      if(isSolid(px,py+2)||r.L>=ROPE_MAX||ropeHits(r,r.a,nL))ropeRelease(t);else r.L=nL;return}
+    if(pl.P.rope&&!AI.roped&&hasAmmo(WP.rope)){AI.roped=true;S.weapon[S.team]='rope';updWeapUI()}
+    if(aiWalk(t,pl.P.x,dt)||AI.t>9||S.timer<9){
       if(Math.abs(pl.P.x-t.x)>=3&&!AI.replanned){AI.replanned=true;AI.gen=planGen(t,true);AI.stage='think';return}
       S.weapon[S.team]=pl.w;S.shots=WP[pl.w].shots||1;updWeapUI();AI.stage='aim';AI.t=0}return}
   if(AI.stage==='aim'){
