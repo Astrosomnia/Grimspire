@@ -5,7 +5,7 @@ A Worms-style artillery game in a single HTML file. Two squads of cyber troopers
 **Play:** open `index.html` in a browser, or use the GitHub Pages link once it's switched on.
 
 ## Modes
-- **Fight the machine:** you lead the Ash Legion against a CPU squad.
+- **Fight the machine:** you lead the Ash Legion against a CPU squad that walks to better positions, picks from its whole arsenal, times grenades, sets traps, grabs crates and backs off to cover.
 - **Two commanders:** pass the device each turn.
 
 ## Controls
