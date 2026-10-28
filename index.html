@@ -138,6 +138,9 @@ body.intitle #hud,body.intitle #desk,body.intitle #touch,body.intitle #recenter{
 .tile[aria-pressed="true"]{border-color:var(--fire);box-shadow:inset 0 0 0 1px var(--fire);background:rgba(255,178,30,.06)}
 .tile:disabled{opacity:.35;cursor:default}
 .pbtns{display:grid;gap:8px}
+.vol{display:grid;grid-template-columns:62px 1fr 44px;align-items:center;gap:10px;padding-block:8px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ash)}
+.vol output{text-align:right;color:var(--bone);font-variant-numeric:tabular-nums}
+.vol input{width:100%;min-width:0;accent-color:var(--fire);height:28px}
 
 #ov{background:radial-gradient(ellipse at 50% 45%,rgba(0,0,0,.35),rgba(0,0,0,.9) 75%);backdrop-filter:none;-webkit-backdrop-filter:none}
 .card{width:100%;max-width:540px;display:grid;gap:18px}
@@ -197,8 +200,8 @@ h1{font-family:var(--display);font-weight:400;font-size:clamp(68px,17vw,138px);l
     <div class="pbtns">
       <button class="go" id="pResume" type="button">Resume</button>
       <button class="go alt" id="pRestart" type="button">Restart this battle</button>
-      <button class="go alt" id="pSound" type="button">Sound on</button>
-      <button class="go alt" id="pMusic" type="button">Music on</button>
+      <label class="vol" for="vSfx"><span>Effects</span><input type="range" id="vSfx" min="0" max="100" step="1" value="100"><output id="oSfx">100%</output></label>
+      <label class="vol" for="vMus"><span>Music</span><input type="range" id="vMus" min="0" max="100" step="1" value="75"><output id="oMus">75%</output></label>
       <button class="go alt" id="pQuit" type="button">Quit to title</button>
     </div>
   </div>
@@ -430,15 +433,19 @@ let grainPat=null;
 const rain=Array.from({length:150},()=>({x:Math.random(),y:Math.random(),l:rnd(8,22),s:rnd(.7,1.3)}));
 
 /* ================= sound ================= */
-let AC=null,soundOn=true;const sfxT={};
+let AC=null,sfxBus=null;const sfxT={};
+const VOL={sfx:1,mus:.75};
+try{const v=JSON.parse(localStorage.getItem('grimspire-vol')||'null');if(v&&typeof v.sfx==='number'&&typeof v.mus==='number'){VOL.sfx=v.sfx;VOL.mus=v.mus}}catch(e){}
+function saveVol(){try{localStorage.setItem('grimspire-vol',JSON.stringify(VOL))}catch(e){}}
+const soundOn=()=>VOL.sfx>0;
 function initAudio(){if(AC){if(AC.state==='suspended')AC.resume();return}try{AC=new(window.AudioContext||window.webkitAudioContext)()}catch(e){AC=null}if(AC)startMusic()}
 
 /* ---- generative score: heartbeat bass, creeping drone, glass echoes ---- */
 const MUS={on:true,started:false,out:null,bus:null,send:null,drone:[],dF:null,next:0,step:0,root:0,timer:null};
-const MVOL=.65;
+const MVOL=1.25; // music gain at 100% on the slider; the default 75% sits ~45% louder than before
 function startMusic(){
   if(!AC||MUS.started)return;MUS.started=true;const t0=AC.currentTime;
-  const out=AC.createGain();out.gain.setValueAtTime(0,t0);out.gain.linearRampToValueAtTime(MUS.on?MVOL:0,t0+6);out.connect(AC.destination);MUS.out=out;
+  const out=AC.createGain();out.gain.setValueAtTime(0,t0);out.gain.linearRampToValueAtTime(MVOL*VOL.mus,t0+6);out.connect(AC.destination);MUS.out=out;
   const comp=AC.createDynamicsCompressor();comp.threshold.value=-30;comp.ratio.value=4;comp.connect(out);
   const bus=AC.createGain();bus.gain.value=.22;bus.connect(comp);MUS.bus=bus;
   // echo
@@ -477,15 +484,17 @@ function schedMusic(){
       for(const d of MUS.drone)d.o.frequency.setTargetAtTime(d.f*k,t,2.5)}
     MUS.next+=.32;MUS.step++}
 }
-function setMusic(on){MUS.on=on;if(MUS.out&&AC)MUS.out.gain.setTargetAtTime(on?MVOL:0,AC.currentTime,.4)}
+function setMusicVol(v){VOL.mus=v;if(MUS.out&&AC)MUS.out.gain.setTargetAtTime(MVOL*v,AC.currentTime,.15)}
+function setSfxVol(v){VOL.sfx=v;if(sfxBus&&AC)sfxBus.gain.setTargetAtTime(v,AC.currentTime,.05)}
+function bus(){if(!sfxBus){sfxBus=AC.createGain();sfxBus.gain.value=VOL.sfx;sfxBus.connect(AC.destination)}return sfxBus}
 document.addEventListener('visibilitychange',()=>{if(!AC)return;if(document.hidden)AC.suspend();else AC.resume()});
-function noise(dur,f,gain,type){if(!AC||!soundOn)return;const n=Math.floor(AC.sampleRate*dur),b=AC.createBuffer(1,n,AC.sampleRate),d=b.getChannelData(0);
+function noise(dur,f,gain,type){if(!AC||!soundOn())return;const n=Math.floor(AC.sampleRate*dur),b=AC.createBuffer(1,n,AC.sampleRate),d=b.getChannelData(0);
   for(let i=0;i<n;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/n,2.2);
   const s=AC.createBufferSource();s.buffer=b;const fl=AC.createBiquadFilter();fl.type=type||'lowpass';fl.frequency.value=f;const g=AC.createGain();g.gain.value=gain;
-  s.connect(fl).connect(g).connect(AC.destination);s.start()}
-function tone(f0,f1,dur,gain,type){if(!AC||!soundOn)return;const o=AC.createOscillator(),g=AC.createGain(),t=AC.currentTime;o.type=type||'sine';
+  s.connect(fl).connect(g).connect(bus());s.start()}
+function tone(f0,f1,dur,gain,type){if(!AC||!soundOn())return;const o=AC.createOscillator(),g=AC.createGain(),t=AC.currentTime;o.type=type||'sine';
   o.frequency.setValueAtTime(f0,t);o.frequency.exponentialRampToValueAtTime(Math.max(1,f1),t+dur);g.gain.setValueAtTime(gain,t);g.gain.exponentialRampToValueAtTime(.001,t+dur);
-  o.connect(g).connect(AC.destination);o.start(t);o.stop(t+dur+.02)}
+  o.connect(g).connect(bus());o.start(t);o.stop(t+dur+.02)}
 function sfx(k,r){
   const gap={clink:.1,jet:.09,cut:.08,fizz:.1,bolt:.03}[k];if(gap){if(time-(sfxT[k]||-9)<gap)return;sfxT[k]=time}
   switch(k){
@@ -830,8 +839,11 @@ $('#bArs').addEventListener('click',openArsenal);$('#dArs').addEventListener('cl
 $('#aClose').addEventListener('click',closeArsenal);$('#arsenal').addEventListener('click',e=>{if(e.target.id==='arsenal')closeArsenal()});
 $('#pauseBtn').addEventListener('click',()=>setPause(true));$('#pResume').addEventListener('click',()=>setPause(false));
 $('#pRestart').addEventListener('click',()=>newGame(S.mode));$('#pQuit').addEventListener('click',quitToTitle);
-$('#pSound').addEventListener('click',e=>{soundOn=!soundOn;e.currentTarget.textContent=soundOn?'Sound on':'Sound off'});
-$('#pMusic').addEventListener('click',e=>{setMusic(!MUS.on);e.currentTarget.textContent=MUS.on?'Music on':'Music off'});
+{const vs=$('#vSfx'),vm=$('#vMus');vs.value=Math.round(VOL.sfx*100);vm.value=Math.round(VOL.mus*100);$('#oSfx').textContent=vs.value+'%';$('#oMus').textContent=vm.value+'%';
+  vs.addEventListener('input',()=>{setSfxVol(vs.value/100);$('#oSfx').textContent=vs.value+'%';saveVol()});
+  vs.addEventListener('change',()=>sfx('clink'));
+  vm.addEventListener('input',()=>{setMusicVol(vm.value/100);$('#oMus').textContent=vm.value+'%';saveVol()});
+  for(const el of[vs,vm]){el.addEventListener('pointerdown',e=>e.stopPropagation());el.addEventListener('keydown',e=>{if(e.code!=='Escape')e.stopPropagation()})}}
 $('#recenter').addEventListener('click',()=>{S.camFree=false});
 $('#goCpu').addEventListener('click',()=>{initAudio();newGame('cpu')});
 $('#goHot').addEventListener('click',()=>{initAudio();newGame('hot')});
