@@ -1989,7 +1989,7 @@ const SKEYS=['team','ptr','timer','phase','turnN','events','wind','ammo','weapon
 function snapState(){const o={v:1,seed:S.seed,terr:rleEnc(solid),sump,time,rng:SR.s,act:troopers.indexOf(S.active),S:{}};
   for(const k of SKEYS)o.S[k]=S[k];
   Object.assign(o,{troopers,mines,barrels,crates,fires,puddles,graves,corpses,girders,fx:fixtures.map(f=>f.alive?1:0).join('')});
-  return JSON.stringify(o)}
+  return JSON.stringify(o,(k,v)=>k[0]==='_'?undefined:v)}
 function loadState(str){const d=JSON.parse(str);
   // same map: keep this device's scorch marks and just apply the authoritative shape; new seed: rebuild from scratch
   if(S.seed!==d.seed||!S.genOK){S.seed=d.seed;SR.seed(d.seed);sump=H-40;inSim(()=>genTerrain());girders=[];S.genOK=true}
@@ -2074,7 +2074,11 @@ function netTick(){
     if(NET.handover){const over=NET.handover==='over';NET.handover=false;netHandover(over);return}
     if(NET.step-NET.sentTo>=60)netFlush(false);return}
   if(NET.role==='watch'){localFrame();
-    if(NET.step<NET.avail){const e=NET.ent.get(NET.step);let p=0,acts=[];if(e){NET.H=e[1];p=e[2];NET.SX=e[3];NET.SY=e[4];acts=e[5]}
+    // ease off as we near the live edge and lean in when behind, so playback never stops and starts
+    const behind=NET.avail-NET.step,end=NET.final!=null;
+    NET.pace=(NET.pace||0)+(end||NET.skip?1:behind<15?.7:behind<40?.9:behind>120?1.15:1);
+    while(NET.pace>=1){NET.pace--;if(NET.step>=NET.avail)break;
+      const e=NET.ent.get(NET.step);let p=0,acts=[];if(e){NET.H=e[1];p=e[2];NET.SX=e[3];NET.SY=e[4];acts=e[5]}
       simStep([NET.H,p,NET.SX,NET.SY,acts]);NET.step++}
     if(NET.final!=null&&NET.step>=NET.final&&NET.snapK>=NET.k){
       NET.skip=false;const pre=stateHash();loadState(NET.snap);NET.log.push([NET.k,pre,stateHash(),NET.step]);if(S.phase!=='over')becomeActor(NET.k+1)}
@@ -2083,7 +2087,7 @@ function netTick(){
 function netMaxSteps(){return S.mode==='online'&&NET.role==='watch'&&NET.skip?600:5}
 function netCatchUp(){if(S.mode!=='online'||NET.role!=='watch')return;const behind=NET.avail-NET.step;
   // opened late, or the network burst a backlog in: run a little faster until we're near the live edge
-  if(behind>90&&!NET.skip)for(let i=0;i<Math.min(6,behind-60);i++)tick()}
+  if(behind>300&&!NET.skip)for(let i=0;i<Math.min(6,behind-240);i++)tick()}
 function netGameOver(){if(NET.role!=='act')clearNet()}
 function netLeave(){if(NET.unC)NET.unC();if(NET.unM)NET.unM();NET.unC=NET.unM=null;NET.role=null;NET.started=false;S.mode='hot';$('#netBar').hidden=true}
 function startOnline(code,me,d){NET.code=code;NET.me=me;NET.snapK=-1;NET.snap=null;NET.matchAtt=d.att||'';NET.started=true;saveNet();
@@ -2094,7 +2098,7 @@ function startOnline(code,me,d){NET.code=code;NET.me=me;NET.snapK=-1;NET.snap=nu
   $('#netBar').hidden=false}
 function netHud(){if(S.mode!=='online'||!NET.started)return;let t='';
   if(NET.role==='act')t=`<b>Your turn</b> · ${fmtCode(NET.code)}`;
-  else if(NET.role==='watch'){const behind=NET.avail-NET.step;t=NET.avail===0?`<b>Waiting for your opponent</b> · ${fmtCode(NET.code)}`:behind>90?'<b>Catching up</b>':`<b>Watching</b> · ${fmtCode(NET.code)}`}
+  else if(NET.role==='watch'){const behind=NET.avail-NET.step;t=NET.avail===0?`<b>Waiting for your opponent</b> · ${fmtCode(NET.code)}`:behind>300?'<b>Catching up</b>':`<b>Watching</b> · ${fmtCode(NET.code)}`}
   else if(NET.role==='done')t='Match over';
   const el=$('#netTxt');if(el.innerHTML!==t)el.innerHTML=t;const sk=$('#netSkip'),show=NET.role==='watch'&&NET.avail-NET.step>120;if(sk.hidden===show)sk.hidden=!show}
 // ---- lobby ----
@@ -2125,11 +2129,15 @@ $('#netSkip').addEventListener('click',()=>{NET.skip=true});
 
 const STEP=1/60;let acc=0;
 const localTurn=()=>S.mode!=='online'||NET.role==='act';
-function simStep(f){inSim(()=>{feed(f);let sc=1;if(S.slow&&!(S.paused&&S.mode!=='online')){S.slow.t-=STEP;sc=.3;if(S.slow.t<=0)S.slow=null}time+=STEP*sc;update(STEP*sc)})}
+const LERP=()=>[troopers,projs,crates,ships,mines,barrels,corpses,parts,flames];
+function markPrev(){for(const L of LERP())for(const o of L){o._px=o.x;o._py=o.y}}
+function simStep(f){markPrev();inSim(()=>{feed(f);let sc=1;if(S.slow&&!(S.paused&&S.mode!=='online')){S.slow.t-=STEP;sc=.3;if(S.slow.t<=0)S.slow=null}time+=STEP*sc;update(STEP*sc)})}
 function tick(){if(S.mode==='online'&&S.phase!=='title'&&S.phase!=='over')return netTick();simStep(localFrame())}
 function frame(now){const real=Math.min(.1,(now-last)/1000);last=now;chargeSound();acc+=real;
   const max=netMaxSteps();let n=0;while(acc>=STEP&&n<max){acc-=STEP;n++;tick()}if(n>=max)acc=Math.min(acc,STEP);netCatchUp();
-  render(Math.min(.033,real));if(S.phase!=='title')updHud();requestAnimationFrame(frame)}
+  {const a=Math.min(1,acc/STEP),sw=[];
+  if(a<.999)for(const L of LERP())for(const o of L)if(o._px!==undefined&&Math.abs(o.x-o._px)+Math.abs(o.y-o._py)<60){sw.push(o,o.x,o.y);o.x=o._px+(o.x-o._px)*a;o.y=o._py+(o.y-o._py)*a}
+  render(Math.min(.033,real));for(let i=0;i<sw.length;i+=3){sw[i].x=sw[i+1];sw[i].y=sw[i+2]}}if(S.phase!=='title')updHud();requestAnimationFrame(frame)}
 requestAnimationFrame(frame);
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(resize);
 window.__G={S,NET,stateHash,kill:t=>killTrooper(t),get corpses(){return corpses},get graves(){return graves},AI,mines:()=>mines,blds:()=>genTerrain.blds||[],maskURL:()=>{const c=mk(W/2,H/2),x=c.getContext("2d");x.fillStyle="#123";x.fillRect(0,0,W/2,H/2);x.drawImage(back,0,0,W/2,H/2);x.drawImage(terr,0,0,W/2,H/2);x.fillStyle="rgba(60,120,255,.5)";x.fillRect(0,sump/2,W/2,H);return c.toDataURL()},bus:()=>bus(),camSet:(x,y)=>{cam.x=x;cam.y=y},base:()=>baseScale,setSump:v=>{sump=v},spawnShell:(x,y)=>projs.push({w:WP.mortar,x,y,vx:0,vy:200,owner:null,age:1,fuse:0,rest:false}),MUS,get AC(){return AC},initAudio,setMusicMode,ammo:(tm,id)=>S.ammo[tm][id],surfY:surf,press:k=>{press.add(k);held.add(k)},release:k=>held.delete(k),dropRopeT:t=>dropRope(t),isSolid,explode,shove,switchTo,addFire,hurtT:(t,d)=>hurt(t,d),jumpT:t=>jump(t),get projs(){return projs},get troopers(){return troopers},get barrels(){return barrels},get crates(){return crates},get fires(){return fires},get puddles(){return puddles},sump:()=>sump,newGame,update,render,tryFire,launch,selectWeapon};
