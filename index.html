@@ -663,7 +663,7 @@ function tryFire(){
     case'jet':if(S.usedJet)return;useAmmo(w);S.jet={fuel:3,age:0};S.usedJet=true;t.air=true;t.vy=Math.min(t.vy,-80);t.y-=1;updWeapUI();return;
     case'target':if(!S.target)return;useAmmo(w);S.strike={x:S.target.x,t:0,fired:false};S.lastAtk[S.team]='mortar';finish();sfx('lance');return;
     case'build':if(!fabValid())return;useAmmo(w);builds.push({x:S.target.x,y:S.target.y,rot:S.rot,t:0});finish();sfx('fab');return;
-    case'cutter':{useAmmo(w);const[,,dx,dy]=origin(t);S.cut={t:2.2,dx,dy};finish();return}
+    case'cutter':{useAmmo(w);const[,,dx,dy]=origin(t);S.cut={t:3.3,dx,dy,dig:false};finish();return}
   }
   const[ox,oy,dx,dy]=origin(t);S.lastAtk[S.team]=w.id;
   if(w.kind==='rail'){railShot(t,ox,oy,dx,dy);sfx('rail')}
@@ -755,7 +755,7 @@ function puff(x,y){for(let i=0;i<5;i++)parts.push({k:'smoke',x:x+rnd(-4,4),y:y-2
 /* ================= physics ================= */
 function updTrooper(t,dt){
   if(!t.alive)return;
-  if(S.cut&&t===S.active)return;
+  if(S.cut&&S.cut.dig&&t===S.active)return;
   if(!t.air){if(isSolid(t.x,t.y+1)||isSolid(t.x-3,t.y+1)||isSolid(t.x+3,t.y+1)){if(isSolid(t.x,t.y))t.y--;return}t.air=true;t.vx=0;t.vy=0}
   t.vy+=G*dt;t.vx*=Math.pow(.6,dt);
   const n=Math.max(1,Math.ceil(Math.max(Math.abs(t.vx),Math.abs(t.vy))*dt)),sx=t.vx*dt/n,sy=t.vy*dt/n;
@@ -798,10 +798,15 @@ function updEffects(dt){
   if(S.burst){S.burst.t-=dt;while(S.burst&&S.burst.t<=0){if(S.burst.owner.alive)boltRound(S.burst.owner);S.burst.n--;S.burst.t+=.065;if(S.burst.n<=0)S.burst=null}}
   // cutter
   if(S.cut){const t=S.active,c=S.cut;c.t-=dt;
-    if(t&&t.alive){t.x=clamp(t.x+c.dx*42*dt,6,W-6);t.y=clamp(t.y+c.dy*42*dt,30,H);t.vx=t.vy=0;t.air=false;
-      const cx=t.x+c.dx*7,cy=t.y-12+c.dy*7;carve(cx,cy,14,false);
-      tctx.globalCompositeOperation='source-atop';tctx.fillStyle='rgba(60,20,8,.25)';tctx.beginPath();tctx.arc(cx,cy,19,0,Math.PI*2);tctx.fill();tctx.globalCompositeOperation='source-over';
-      if(Math.random()<.8)parts.push({k:'spark',x:cx+c.dx*14,y:cy+c.dy*14,vx:rnd(-160,160),vy:rnd(-200,40),life:rnd(.2,.5),max:.5,col:'#ffd9a0'});sfx('cut');
+    if(t&&t.alive){const[dx,dy]=aimVec(t);c.dx=dx;c.dy=dy;
+      // only bore when there's something in front of the torch; otherwise behave like a normal trooper
+      let ahead=false;for(let k=8;k<=22&&!ahead;k+=3)for(const o of[-7,0,7])if(isSolid(t.x+dx*k-dy*o,t.y-12+dy*k+dx*o)){ahead=true;break}
+      if(ahead&&(c.dig||!t.air)){c.dig=true;t.x=clamp(t.x+dx*42*dt,6,W-6);t.y=clamp(t.y+dy*42*dt,30,H);t.vx=t.vy=0;t.air=false;
+        const cx=t.x+dx*7,cy=t.y-12+dy*7;carve(cx,cy,14,false);
+        tctx.globalCompositeOperation='source-atop';tctx.fillStyle='rgba(60,20,8,.25)';tctx.beginPath();tctx.arc(cx,cy,19,0,Math.PI*2);tctx.fill();tctx.globalCompositeOperation='source-over';
+        if(Math.random()<.8)parts.push({k:'spark',x:cx+dx*14,y:cy+dy*14,vx:rnd(-160,160),vy:rnd(-200,40),life:rnd(.2,.5),max:.5,col:'#ffd9a0'});sfx('cut')}
+      else{if(c.dig){c.dig=false;t.air=true}
+        if(!t.air&&Math.abs(dx)>.3)walk(t,Math.sign(dx),dt,.8)}
       if(t.y>sump-2){drown(t);S.cut=null}}
     if(S.cut&&(c.t<=0||!t||!t.alive)){S.cut=null;if(t&&t.alive)t.air=true}}
   // orbital lance
@@ -1064,6 +1069,7 @@ function update(dt){
   if(t&&t.alive){t.moving=false;
     if(!isCPU()){
       const ax=axX(),ay=axY();if(ax||ay||pressed('fire'))S.camFree=false;
+      if(S.cut){if(ay)t.aim=clamp(t.aim+ay*1.2*dt,-1.52,1.45);if(pressed('fire'))S.cut.t=0}
       if(S.jet&&S.phase==='aim'){const j=S.jet;j.age+=dt;const thrust=(key('fire')||ay<-.3)&&j.fuel>0;
         if(thrust){j.fuel-=dt;t.vy=Math.max(t.vy-1150*dt,-230);if(!t.air){t.air=true;t.y-=1}
           for(let i=0;i<2;i++)parts.push({k:'fire',x:t.x-t.face*7,y:t.y-8,vx:rnd(-20,20),vy:rnd(80,160),life:rnd(.15,.3),max:.7,s:rnd(2,4)});sfx('jet')}
@@ -1318,7 +1324,7 @@ function updHud(){
     const sd=S.turnN>=SD_TURN?' · sudden death':SD_TURN-S.turnN<=3?` · sump rises in ${SD_TURN-S.turnN}`:'';
     setT('turn',(S.jet?`${t?t.name:''} · jump pack`:`${t?t.name:''} · ${w.name}${S.shots>1&&S.fired?' · 1 shot left':''}${w.kind==='target'||w.kind==='build'?(coarse?' · tap to place':' · click to place'):''}`)+sd)}
   else if(S.phase==='retreat'){setT('timer',String(Math.ceil(S.retreat)));setT('turn','Get to cover')}
-  else{setT('timer','—');setT('turn','')}
+  else{setT('timer','—');setT('turn',S.cut&&!isCPU()?'Cutting · aim to steer · fire to stop':'')}
   const warn=(S.phase==='aim'&&S.timer<6)||S.phase==='retreat';if(hc.warn!==warn){hc.warn=warn;hudEls.timer.classList.toggle('warn',warn)}
   const wd=S.wind;setS('wfill','left',(wd>=0?50:50+wd*50)+'%');setS('wfill','width',Math.abs(wd*50)+'%');
   setT('wlab',wd===0?'NO WIND':`WIND ${wd>0?'→':'←'} ${Math.abs(wd).toFixed(1)}`);
