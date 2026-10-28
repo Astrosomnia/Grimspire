@@ -11,12 +11,14 @@ A Worms-style artillery game in a single HTML file. Two squads of cyber troopers
 ## Controls
 | | Desktop | Touch |
 |---|---|---|
-| Move | ← → / A D | Top-left stick |
-| Aim | ↑ ↓ / W S | Bottom-left stick |
+| Move | ← → / A D | Stick, sideways |
+| Aim | ↑ ↓ / W S | Stick, up/down |
 | Fire | Hold Space to charge, release to fire | Hold FIRE |
 | Jump | Enter | JUMP |
-| Arsenal | Tab | Weapon button |
-| Pan / zoom | Drag / scroll | Drag / pinch |
+| Arsenal | Tab, then arrow keys and Enter | Weapon button |
+| Switch trooper (before moving) | X or click a trooper | SWAP or tap a trooper |
+| Grenade fuse | 2–5 | Fuse button |
+| Pan / zoom | Mouse to the screen edge / scroll | Drag / pinch |
 | Recenter | C | Recenter button |
 | Pause | Esc | II |
 
@@ -27,7 +29,14 @@ Orbital Lance and Fabricator are placed with a click or tap. Rotate girders with
 - **Guns:** Rail Carbine, Scatter Gun, Dakka Bolter, Las Burner, Promethium Flamer
 - **Melee:** Chainblade, Thunder Fist
 - **Heavy (one use):** Sun Grenade, Orbital Lance, Doomsday Shell
-- **Tools:** Jump Pack ×2, Plasma Cutter ×5, Fabricator ×3
+- **Tools:** Rappel Line ×5, Jump Pack ×2, Plasma Cutter ×5, Fabricator ×3
+
+## Rules of the ward
+- Taking damage ends your turn. Two-shot weapons let you move between shots.
+- Blasts throw a shockwave that shoves anyone nearby. Thrown troopers skid, get knocked flat, then get up.
+- Knock someone past the edge of the map and they're gone.
+- The sump eats 5 HP a second. Swim for shore.
+- Troopers step out of fire on their own, so fire herds people, ledges included.
 
 ## The ward fights back
 - **Rising sump:** from turn 10 the water climbs before every turn.
