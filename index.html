@@ -168,8 +168,6 @@ h1{font-family:var(--display);font-weight:400;font-size:clamp(68px,17vw,138px);l
 .go:hover{background:var(--fire);border-color:var(--fire)}
 .go.alt{background:transparent;color:var(--bone);border-color:rgba(230,228,222,.4)}
 .go.alt:hover{border-color:var(--fire);color:var(--fire)}
-.snd{margin:0;font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--ash);animation:snd 3s ease-in-out infinite}
-@keyframes snd{50%{opacity:.4}}
 .how{font-size:12px;line-height:1.6;color:var(--ash);margin:0;max-width:52ch}
 .how b{color:var(--bone);font-weight:600}
 </style>
@@ -229,7 +227,6 @@ h1{font-family:var(--display);font-weight:400;font-size:clamp(68px,17vw,138px);l
     <h1>Grimspire</h1>
     <p class="result" id="result" hidden></p>
     <p class="lede" id="lede">Two squads, a drowned cathedral-stack, and a sump full of black water. Blow the ground out from under them. Last trooper standing holds the spire.</p>
-    <p class="snd" id="sndHint">Tap anywhere to wake the choir</p>
     <div class="btns">
       <button class="go" id="goCpu" type="button">Fight the machine<span>You lead the Ash Legion</span></button>
       <button class="go alt" id="goHot" type="button">Two commanders<span>Pass the device each turn</span></button>
@@ -1101,7 +1098,7 @@ $('#recenter').addEventListener('click',()=>{S.camFree=false;S.camSnap=true});
 for(const id of['#bFuse','#dFuse'])$(id).addEventListener('click',()=>{if(!S.charging)S.fuse=S.fuse>=5?2:S.fuse+1});
 $('#bSwap').addEventListener('click',()=>switchTo());
 $('#goCpu').addEventListener('click',()=>{initAudio();newGame('cpu')});
-for(const ev of['pointerdown','keydown'])addEventListener(ev,()=>{if(!AC){initAudio();const h=$('#sndHint');if(h)h.hidden=true}},{capture:true});
+for(const ev of['pointerdown','keydown'])addEventListener(ev,()=>{if(!AC)initAudio()},{capture:true});
 $('#goHot').addEventListener('click',()=>{initAudio();newGame('hot')});
 // canvas pan / pinch / tap
 const ptrs=new Map();let pinch=null;
