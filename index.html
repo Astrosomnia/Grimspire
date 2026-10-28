@@ -62,6 +62,7 @@ button:focus-visible{outline:2px solid var(--fire);outline-offset:2px}
 .trow{display:flex;align-items:center;gap:10px}
 #timer{font-size:30px;font-weight:700;line-height:1;font-variant-numeric:tabular-nums;min-width:2ch;text-align:center}
 #timer.warn{color:var(--fire)}
+#timer.idle{opacity:.4}
 #pauseBtn{pointer-events:auto;width:30px;height:30px;border:1px solid var(--line);display:grid;place-items:center;font-size:11px;font-weight:700;letter-spacing:.05em;background:rgba(0,0,0,.4)}
 #turn{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--ash);white-space:nowrap;max-width:46vw;overflow:hidden;text-overflow:ellipsis}
 .wind{display:grid;gap:3px;justify-items:center}
@@ -852,10 +853,11 @@ function beginTurn(){
   if(winCheck())return;
   S.team=1-S.team;S.active=pickNext(S.team);S.timer=40;S.phase='aim';S.charge=0;S.charging=false;S.locked=false;S.fired=false;
   S.jet=null;S.usedJet=false;S.cut=null;S.burst=null;S.strike=null;S.target=null;S.rot=0;S.camFree=false;S.camSnap=true;
-  S.moved=false;S.second=false;S.ticked=false;S.mobile=false;S.rb=0;
+  S.moved=false;S.second=false;S.ticked=false;S.mobile=false;S.rb=0;S.armed=isCPU()||(S.mode!=='online'&&S.mode!=='hot');
   if(!hasAmmo(curW())||WP[S.weapon[S.team]].kind==='jet'||WP[S.weapon[S.team]].kind==='rope')S.weapon[S.team]=S.lastAtk[S.team];
   S.shots=curW().shots||1;S.wind=Math.round(rnd(-1,1)*10)/10;AI.stage=0;AI.t=0;AI.gen=null;AI.plan=null;AI.cover=null;AI.replanned=false;AI.noised=false;AI.stuck=0;AI.roped=false;
-  banner(TEAM[S.team].name,S.active.name+(isCPU()?' · machine':S.mode==='online'&&S.team!==NET.me?' · opponent':''),TEAM[S.team].col);updWeapUI();
+  if(S.mode==='online'&&S.team===NET.me)banner('Your turn',TEAM[S.team].name+' · '+S.active.name,TEAM[S.team].col);
+  else banner(TEAM[S.team].name,S.active.name+(isCPU()?' · machine':S.mode==='online'?' · opponent':''),TEAM[S.team].col);updWeapUI();
   if(S.mode==='online'&&NET.role==='act'&&S.team!==NET.me)NET.handover=true;
 }
 function gameOver(w){
@@ -1426,7 +1428,7 @@ function applyAct(a){const[k,v]=a;if(k==='w')selectWeapon(v);else if(k==='f'){if
   else if(k==='s')switchTo(v<0?undefined:troopers[v]);
   else if(k==='t'){const w=curW();if(S.phase==='aim'&&!isCPU()&&(w.kind==='target'||w.kind==='build'))S.target={x:v[0],y:v[1]}}}
 function localFrame(){let h=0,p=0;KBIT.forEach((k,i)=>{if(LH.has(k))h|=1<<i;if(LP.has(k))p|=1<<i});LP.clear();return[h,p,Math.round(LS.x*100)/100,Math.round(LS.y*100)/100,LA.splice(0)]}
-function feed(f){const[h,p,sx,sy,acts]=f;held.clear();press.clear();for(let i=0;i<8;i++){if(h>>i&1)held.add(KBIT[i]);if(p>>i&1)press.add(KBIT[i])}stick.x=sx;stick.y=sy;for(const a of acts)applyAct(a)}
+function feed(f){const[h,p,sx,sy,acts]=f;if(acts.length&&S.phase==='aim')S.armed=true;held.clear();press.clear();for(let i=0;i<8;i++){if(h>>i&1)held.add(KBIT[i]);if(p>>i&1)press.add(KBIT[i])}stick.x=sx;stick.y=sy;for(const a of acts)applyAct(a)}
 const key=k=>held.has(k),pressed=k=>press.has(k);
 const axX=()=>clamp((key('left')?-1:0)+(key('right')?1:0)+stick.x,-1,1);
 const axY=()=>clamp((key('down')?1:0)-(key('up')?1:0)+stick.y,-1,1);
@@ -1687,7 +1689,8 @@ function update(dt){
       }
     }else if(!t.air&&!t.skid&&!(t.down>0)){if(S.phase==='aim')aiUpdate(dt);else if(S.phase==='retreat'||(S.phase==='resolve'&&S.mobile))aiRetreat(t,dt)}
   }
-  if(S.phase==='aim'&&!held_){S.timer-=dt;if(S.timer<=0){if(S.charging)launch();else{S.phase='end';S.jet=null}}}
+  if(S.phase==='aim'&&!S.armed&&(held.size||press.size||stick.x||stick.y))S.armed=true;
+  if(S.phase==='aim'&&!held_&&S.armed){S.timer-=dt;if(S.timer<=0){if(S.charging)launch();else{S.phase='end';S.jet=null}}}
   else if(S.phase==='retreat'){S.retreat-=dt;if(S.retreat<=0)S.phase='end'}
   for(const tr of troopers)updTrooper(tr,dt);
   updProjs(dt);updEffects(dt);updWard(dt);updCorpses(dt);updParts(dt);
@@ -1958,6 +1961,7 @@ function updHud(){netHud();
   const gren=S.phase==='aim'&&!isCPU()&&w.kind==='grenade',ft=`Fuse ${S.fuse}s`;
   for(const id of['#bFuse','#dFuse']){const el=$(id);if(el.hidden===gren)el.hidden=!gren;if(gren&&el.textContent!==ft)el.textContent=ft}
   const sw=canSwitch(),bs=$('#bSwap');if(bs.hidden===sw)bs.hidden=!sw;
+  const idle=S.phase==='aim'&&!S.armed;if(hc.idle!==idle){hc.idle=idle;hudEls.timer.classList.toggle('idle',idle)}
   const warn=(S.phase==='aim'&&S.timer<6&&!S.second)||S.phase==='retreat';if(hc.warn!==warn){hc.warn=warn;hudEls.timer.classList.toggle('warn',warn)}
   const wd=S.wind;setS('wfill','left',(wd>=0?50:50+wd*50)+'%');setS('wfill','width',Math.abs(wd*50)+'%');
   setT('wlab',wd===0?'NO WIND':`WIND ${wd>0?'→':'←'} ${Math.abs(wd).toFixed(1)}`);
@@ -1985,7 +1989,7 @@ function chargeSound(){
 /* ================= save / load a whole match ================= */
 function rleEnc(a){const out=[];let cur=0,run=0;for(let i=0;i<a.length;i++){if(a[i]===cur)run++;else{out.push(run.toString(36));cur=a[i];run=1}}out.push(run.toString(36));return out.join('.')}
 function rleDec(str,a){let i=0,cur=0;for(const t of str.split('.')){const n=parseInt(t,36);a.fill(cur,i,i+n);i+=n;cur^=1}}
-const SKEYS=['team','ptr','timer','phase','turnN','events','wind','ammo','weapon','lastAtk','shots','fuse','usedJet','rb','mobile','second','moved','fired','locked','deathCd','wait','ticked','lastBarrel','slow','deathCam','layout','retreat','target','rot'];
+const SKEYS=['armed','team','ptr','timer','phase','turnN','events','wind','ammo','weapon','lastAtk','shots','fuse','usedJet','rb','mobile','second','moved','fired','locked','deathCd','wait','ticked','lastBarrel','slow','deathCam','layout','retreat','target','rot'];
 function snapState(){const o={v:1,seed:S.seed,terr:rleEnc(solid),sump,time,rng:SR.s,act:troopers.indexOf(S.active),S:{}};
   for(const k of SKEYS)o.S[k]=S[k];
   Object.assign(o,{troopers,mines,barrels,crates,fires,puddles,graves,corpses,girders,fx:fixtures.map(f=>f.alive?1:0).join('')});
@@ -2042,6 +2046,7 @@ const BE={uid:null,db:null,mock:/[?&]mock=1/.test(location.search),
   watchChunks(code,k,cb){if(this.mock){let n=0;const f=()=>{const a=(this.mget('c:'+code)||[]).filter(c=>c.k===k);if(a.length!==n){n=a.length;cb(a)}};this.subs.push(f);f();return()=>{this.subs=this.subs.filter(x=>x!==f)}}
     return this.db.collection('matches').doc(code).collection('chunks').where('k','==',k).onSnapshot(qs=>cb(qs.docs.map(d=>d.data())))}};
 window.__BE=BE;
+const TITLE0=document.title;
 const fmtCode=c=>c.slice(0,3)+'-'+c.slice(3);
 function newCode(){const L='ACDEFHJKLMNPRTVWXY';let c='';for(let i=0;i<3;i++)c+=L[Math.floor(RR()*L.length)];return c+String(1000+Math.floor(RR()*9000))}
 function netMsg(t){$('#nMsg').textContent=t}
@@ -2049,10 +2054,10 @@ function saveNet(){try{localStorage.setItem('gs-online',JSON.stringify({code:NET
 function savedNet(){try{return JSON.parse(localStorage.getItem('gs-online')||'null')}catch(e){return null}}
 function clearNet(){try{localStorage.removeItem('gs-online')}catch(e){}}
 // ---- turn flow ----
-function becomeActor(k){NET.role='act';NET.k=k;NET.step=0;NET.rec=[];NET.last=null;NET.sentTo=0;NET.chunkI=0;NET.handover=false;
+function becomeActor(k){NET.role='act';if(k>0){document.title='\u25CF Your turn \u00B7 Grimspire';try{navigator.vibrate&&navigator.vibrate([90,60,90])}catch(e){}}NET.k=k;NET.step=0;NET.rec=[];NET.last=null;NET.sentTo=0;NET.chunkI=0;NET.handover=false;
   NET.att=Math.floor(RR()*1e9).toString(36);if(NET.unC){NET.unC();NET.unC=null}LH.clear();LP.clear();LA.length=0;
   BE.update(NET.code,{att:NET.att,actor:NET.me,turnK:k}).catch(e=>netMsg('Connection problem: '+e.message))}
-function becomeWatcher(k){NET.role='watch';NET.k=k;NET.step=0;NET.avail=0;NET.final=null;NET.ent=new Map();NET.H=0;NET.SX=0;NET.SY=0;NET.skip=false;NET.chunkAtt=null;
+function becomeWatcher(k){NET.role='watch';document.title=TITLE0;NET.k=k;NET.step=0;NET.avail=0;NET.final=null;NET.ent=new Map();NET.H=0;NET.SX=0;NET.SY=0;NET.skip=false;NET.chunkAtt=null;
   NET.base=snapState();if(NET.unC)NET.unC();NET.unC=BE.watchChunks(NET.code,k,netOnChunks)}
 function netOnChunks(list){if(NET.role!=='watch')return;
   const att=NET.matchAtt;if(!att)return;
@@ -2089,7 +2094,7 @@ function netCatchUp(){if(S.mode!=='online'||NET.role!=='watch')return;const behi
   // opened late, or the network burst a backlog in: run a little faster until we're near the live edge
   if(behind>300&&!NET.skip)for(let i=0;i<Math.min(6,behind-240);i++)tick()}
 function netGameOver(){if(NET.role!=='act')clearNet()}
-function netLeave(){if(NET.unC)NET.unC();if(NET.unM)NET.unM();NET.unC=NET.unM=null;NET.role=null;NET.started=false;S.mode='hot';$('#netBar').hidden=true}
+function netLeave(){document.title=TITLE0;if(NET.unC)NET.unC();if(NET.unM)NET.unM();NET.unC=NET.unM=null;NET.role=null;NET.started=false;S.mode='hot';$('#netBar').hidden=true}
 function startOnline(code,me,d){NET.code=code;NET.me=me;NET.snapK=-1;NET.snap=null;NET.matchAtt=d.att||'';NET.started=true;saveNet();
   $('#net').hidden=true;newGame('online',d.seed);S.genOK=true;
   if(d.snapK!=null&&d.snapK>=0){NET.snap=d.snap;NET.snapK=d.snapK;loadState(d.snap)}
@@ -2097,7 +2102,7 @@ function startOnline(code,me,d){NET.code=code;NET.me=me;NET.snapK=-1;NET.snap=nu
   if(actor===me)becomeActor(k);else becomeWatcher(k);
   $('#netBar').hidden=false}
 function netHud(){if(S.mode!=='online'||!NET.started)return;let t='';
-  if(NET.role==='act')t=`<b>Your turn</b> · ${fmtCode(NET.code)}`;
+  if(NET.role==='act')t=`<b style="color:${TEAM[NET.me].col}">Your turn</b> · ${fmtCode(NET.code)}`;
   else if(NET.role==='watch'){const behind=NET.avail-NET.step;t=NET.avail===0?`<b>Waiting for your opponent</b> · ${fmtCode(NET.code)}`:behind>300?'<b>Catching up</b>':`<b>Watching</b> · ${fmtCode(NET.code)}`}
   else if(NET.role==='done')t='Match over';
   const el=$('#netTxt');if(el.innerHTML!==t)el.innerHTML=t;const sk=$('#netSkip'),show=NET.role==='watch'&&NET.avail-NET.step>120;if(sk.hidden===show)sk.hidden=!show}
