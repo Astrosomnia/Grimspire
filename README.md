@@ -28,11 +28,11 @@ Orbital Lance and Fabricator are placed with a click or tap. Rotate girders with
 - **Artillery:** Plasma Mortar, Frag Charge
 - **Guns:** Rail Carbine, Scatter Gun, Dakka Bolter, Las Burner, Promethium Flamer
 - **Melee:** Chainblade, Thunder Fist
-- **Heavy (one use):** Sun Grenade, Orbital Lance, Doomsday Shell
+- **Heavy:** Sun Grenade ×2, Fusion Mine ×2, Orbital Lance, Doomsday Shell
 - **Tools:** Rappel Wire ×5, Jump Pack ×2, Plasma Cutter ×5, Fabricator ×3
 
 ## Rules of the ward
-- Taking damage ends your turn. Two-shot weapons let you move between shots.
+- Taking damage ends your turn. Two-shot weapons let you move between shots, and you can move while a thrown grenade's fuse burns.
 - Blasts throw a shockwave that shoves anyone nearby. Thrown troopers skid, get knocked flat, then get up.
 - Knock someone past the edge of the map and they're gone.
 - The sump is bottomless. Wade where there is footing (5 HP a second), drown where there is not. Ordnance fizzles in it.
