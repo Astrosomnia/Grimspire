@@ -17,7 +17,7 @@ A Worms-style artillery game in a single HTML file. Two squads of cyber troopers
 | Jump | Enter | JUMP |
 | Arsenal | Tab, then arrow keys and Enter | Weapon button |
 | Switch trooper (before moving) | X or click a trooper | SWAP or tap a trooper |
-| Grenade fuse | 2–5 | Fuse button |
+| Grenade fuse | 1–5 | Fuse button |
 | Pan / zoom | Mouse to the screen edge / scroll | Drag / pinch |
 | Recenter | C | Recenter button |
 | Pause | Esc | II |

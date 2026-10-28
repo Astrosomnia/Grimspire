@@ -192,7 +192,7 @@ body.intitle #hud,body.intitle #desk,body.intitle #touch,body.intitle #recenter{
 
 <div id="desk">
   <div class="drow"><button class="wchip" id="dArs" type="button">Plasma Mortar <em>∞</em></button><button class="wchip fz" id="dFuse" type="button" hidden>Fuse 3s</button></div>
-  <div class="keys"><b>← →</b> move · <b>↑ ↓</b> aim · hold <b>Space</b> to charge · <b>Enter</b> jump · <b>Tab</b> arsenal · <b>X</b> switch trooper · <b>2–5</b> fuse · mouse to the edge pans · scroll to zoom · <b>C</b> recenter · <b>Esc</b> pause</div>
+  <div class="keys"><b>← →</b> move · <b>↑ ↓</b> aim · hold <b>Space</b> to charge · <b>Enter</b> jump · <b>Tab</b> arsenal · <b>X</b> switch trooper · <b>1–5</b> fuse · mouse to the edge pans · scroll to zoom · <b>C</b> recenter · <b>Esc</b> pause</div>
 </div>
 
 <div id="touch">
@@ -253,7 +253,7 @@ const NEON={cyan:[63,243,255],mag:[255,46,136],amber:[255,165,40],acid:[160,255,
 const FIRE=[255,160,60];
 const ARS=[
   {id:'mortar',name:'Plasma Mortar',cat:'Artillery',kind:'shell',ammo:-1,charge:true,speed:900,wind:true,r:40,dmg:48,desc:'Lobbed plasma shell. Wind bends it.'},
-  {id:'frag',name:'Frag Charge',cat:'Artillery',kind:'grenade',ammo:-1,charge:true,speed:620,fuse:3,r:44,dmg:52,desc:'Bounces around. Set the fuse from 2 to 5 seconds.'},
+  {id:'frag',name:'Frag Charge',cat:'Artillery',kind:'grenade',ammo:-1,charge:true,speed:620,fuse:3,r:44,dmg:52,desc:'Bounces around. Set the fuse from 1 to 5 seconds.'},
   {id:'rail',name:'Rail Carbine',cat:'Guns',kind:'rail',ammo:-1,shots:2,desc:'Two dead-straight slugs with a small blast.'},
   {id:'scatter',name:'Scatter Gun',cat:'Guns',kind:'scatter',ammo:-1,shots:2,desc:'Two blasts of buckshot. Nasty up close.'},
   {id:'bolter',name:'Dakka Bolter',cat:'Guns',kind:'burst',ammo:-1,desc:'Fourteen-round burst with plenty of spray.'},
@@ -264,7 +264,7 @@ const ARS=[
   {id:'sun',name:'Sun Grenade',cat:'Heavy',kind:'grenade',ammo:2,charge:true,speed:560,fuse:4,r:80,dmg:72,desc:'A small star. Same adjustable fuse.'},
   {id:'mine',name:'Fusion Mine',cat:'Heavy',kind:'mine',ammo:2,r:80,dmg:72,desc:'Drop it and run. Arms in 3 seconds, then anyone close sets it off.'},
   {id:'lance',name:'Orbital Lance',cat:'Heavy',kind:'target',ammo:1,r:52,dmg:55,desc:'Pick a spot. The sky answers.'},
-  {id:'nuke',name:'Doomsday Shell',cat:'Heavy',kind:'shell',ammo:1,charge:true,speed:760,wind:false,r:125,dmg:80,nuke:true,desc:'Ends arguments. Raises the sump.'},
+  {id:'nuke',name:'Doomsday Shell',cat:'Heavy',kind:'shell',ammo:1,charge:true,speed:760,wind:true,r:125,dmg:80,nuke:true,desc:'Ends arguments. Raises the sump.'},
   {id:'rope',name:'Rappel Wire',cat:'Tools',kind:'rope',ammo:5,desc:'Walk off a ledge on a charged wire. Reel, swing, fire to release.'},
   {id:'jet',name:'Jump Pack',cat:'Tools',kind:'jet',ammo:2,desc:'Hold fire to thrust. Does not end your turn.'},
   {id:'cutter',name:'Plasma Cutter',cat:'Tools',kind:'cutter',ammo:5,desc:'Bores a tunnel in the aim direction.'},
@@ -786,7 +786,7 @@ function sfx(k,r){
 function newGame(mode){
   setMusicMode('battle');
   S.mode=mode;sump=H-40;genTerrain();
-  troopers=[];projs=[];parts=[];texts=[];tracers=[];graves=[];builds=[];beams=[];flashes=[];
+  troopers=[];projs=[];corpses=[];parts=[];texts=[];tracers=[];graves=[];builds=[];beams=[];flashes=[];
   const xs=[],roll=TEAM.map(T=>{const a=T.names.slice();for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a});
   for(let team=0;team<2;team++)for(let i=0;i<4;i++){
     let x,tries=0;do{x=rnd(90,W-90);tries++}while(tries<400&&(xs.some(o=>Math.abs(o-x)<110)||surf(x)>sump-70||surf(x)<70||isSolid(x,surf(x)-BH)));
@@ -926,12 +926,13 @@ function shove(o,vx,vy){if(!o.alive)return;
   else{o.vx=0;o.vy=0}}
 function hurt(t,d,soft){if(d<=0||!t.alive)return;const was=t.hp;t.hp=Math.max(0,t.hp-d);if(was>0&&t.hp===0)slowmo(1.4);sfx('clank');
   if(!soft&&t===S.active&&(S.phase==='aim'||S.phase==='retreat')){if(S.phase==='aim')texts.push({x:t.x,y:t.y-58,txt:'Turn lost',life:1.6,col:BONE,small:true});S.phase='end';S.charging=false;S.jet=null;S.wait=0}texts.push({x:t.x,y:t.y-38,txt:'-'+d,life:1.5,col:TEAM[t.team].col})}
-function abyss(t){t.alive=false;t.hp=0;t.wet=false;slowmo(1);texts.push({x:clamp(t.x,40,W-40),y:sump-40,txt:t.name+' · lost to the abyss',life:2.4,col:BONE,small:true});sfx('splash')}
+function deathCam(x,y){S.deathCam={x:clamp(x,20,W-20),y:Math.min(y,sump-10),t:1.7}}
+function abyss(t){deathCam(t.x,t.y);t.alive=false;t.hp=0;t.wet=false;slowmo(1);texts.push({x:clamp(t.x,40,W-40),y:sump-40,txt:t.name+' · lost to the abyss',life:2.4,col:BONE,small:true});sfx('splash')}
 const WADE=28;
 function floorBelow(x){for(let y=Math.floor(sump);y<=sump+WADE;y+=2)if(isSolid(x,y)||isSolid(x-3,y)||isSolid(x+3,y))return true;return false}
 function bubbles(x,y,n){for(let i=0;i<n;i++)parts.push({k:'splash',x:x+rnd(-8,8),y:y-rnd(0,4),vx:rnd(-15,15),vy:rnd(-70,-20),life:rnd(.3,.8),max:.8});
   parts.push({k:'ring',x,y,vx:0,vy:0,life:.6,max:.6,r:26,col:[150,180,235]})}
-function sinkDrown(t,msg){if(!t.alive)return;t.alive=false;t.hp=0;t.wet=false;t.rope=null;bubbles(t.x,sump,14);sfx('gloomp');slowmo(1);
+function sinkDrown(t,msg){if(!t.alive)return;deathCam(t.x,sump-30);t.alive=false;t.hp=0;t.wet=false;t.rope=null;bubbles(t.x,sump,14);sfx('gloomp');slowmo(1);
   texts.push({x:clamp(t.x,40,W-40),y:sump-36,txt:t.name+' · '+msg,life:2.4,col:'#9fb4d8',small:true})}
 function enterWater(t){if(t.x<-4||t.x>W+4){abyss(t);return}
   if(!floorBelow(t.x)){splash(t.x,sump);sinkDrown(t,'lost to the sump');return}
@@ -973,7 +974,21 @@ function updRope(t,dt,ctrl){const r=t.rope;
   if(ax)t.face=Math.sign(ax);t.anim+=Math.abs(r.v)*dt*3;
   [t.x,t.y]=ropePos(r,r.a,r.L);
   if(t.y>sump-2){t.rope=null;enterWater(t)}}
-function killTrooper(t){t.alive=false;t.rope=null;graves.push({x:t.x,y:t.y,vy:0,team:t.team});texts.push({x:t.x,y:t.y-44,txt:t.name+' falls',life:2,col:BONE,small:true});explode(t.x,t.y-6,22,16)}
+let corpses=[];
+const LAST=[['kneel',.3],['stagger',.25],['salute',.2],['martyr',.25]];
+function killTrooper(t){t.alive=false;t.rope=null;deathCam(t.x,t.y);let r=Math.random(),k='kneel';for(const[n,p]of LAST){if(r<p){k=n;break}r-=p}
+  corpses.push({x:t.x,y:t.y,face:t.face,team:t.team,aim:t.aim,kind:k,t:0,done:false,anim:0,moving:false,tilt:0,sq:0});
+  texts.push({x:t.x,y:t.y-44,txt:t.name+' falls',life:2,col:BONE,small:true})}
+// pose for each moment of each last act: tilt (+ is forward), squash (kneeling), aim
+function corpsePose(c){const t=c.t,f=c.face,ease=(a,b,u)=>a+(b-a)*Math.max(0,Math.min(1,u)),k=c.kind;
+  if(k==='kneel'){c.sq=ease(0,.45,t/.45);c.tilt=t<.5?ease(0,f*.18,t/.5):t<.9?ease(f*.18,f*.4,(t-.5)/.4):ease(f*.4,f*1.45,(t-.9)/.35);c.aim=ease(c.aim,.9,t/.6)}
+  else if(k==='stagger'){c.tilt=t<.35?ease(0,-f*.25,t/.35):t<.75?-f*.25:ease(-f*.25,-f*1.45,(t-.75)/.4);c.sq=t<.35?0:ease(0,.45,(t-.35)/.35);c.aim=ease(c.aim,1.1,t/.5)}
+  else if(k==='salute'){c.aim=t<.9?ease(c.aim,-1.45,t/.4):ease(-1.45,.6,(t-.9)/.4);c.sq=t<.9?0:ease(0,.45,(t-.9)/.3);c.tilt=t<1.1?0:ease(0,f*1.45,(t-1.1)/.35)}
+  else{c.sq=ease(0,.5,t/.4);c.tilt=ease(0,f*.3,t/.6);c.aim=ease(c.aim,-.2,t/.5)}}
+function updCorpses(dt){for(const c of corpses){if(c.done)continue;c.t+=dt;corpsePose(c);
+  if(c.kind==='martyr'){if(c.t>.5&&Math.random()<.4)sparks(c.x,c.y-14,1);if(c.t>=1.3){c.done=true;explode(c.x,c.y-6,30,20,{col:TEAM[c.team].rgb,ring:TEAM[c.team].rgb});graves.push({x:c.x,y:c.y,vy:0,team:c.team,rise:0})}}
+  else if(c.t>=1.75){c.done=true;graves.push({x:c.x,y:c.y,vy:0,team:c.team,rise:0,body:c})}}
+  corpses=corpses.filter(c=>!c.done)}
 function canSwitch(){return S.phase==='aim'&&!S.moved&&!S.fired&&!S.charging&&!S.jet&&!isCPU()&&!S.paused&&S.active&&troopers.filter(o=>o.alive&&o.team===S.team).length>1}
 function switchTo(o){if(!canSwitch())return;const list=troopers.filter(x=>x.team===S.team);
   if(!o){for(let k=1;k<=list.length;k++){const c=list[(S.ptr[S.team]+k)%list.length];if(c.alive&&c!==S.active){o=c;break}}}
@@ -1213,7 +1228,7 @@ function updParts(dt){
     else if(p.k==='spark'){p.vy+=G*.5*dt}}
   for(let i=texts.length-1;i>=0;i--){texts[i].life-=dt;texts[i].y-=18*dt;if(texts[i].life<=0)texts.splice(i,1)}
   for(const arr of[tracers,beams,flashes])for(let i=arr.length-1;i>=0;i--){arr[i].life-=dt;if(arr[i].life<=0)arr.splice(i,1)}
-  for(let i=graves.length-1;i>=0;i--){const g=graves[i];if(!isSolid(g.x,g.y+1)){g.vy+=G*dt;g.y+=g.vy*dt;if(g.y>sump)graves.splice(i,1)}else g.vy=0}
+  for(let i=graves.length-1;i>=0;i--){const g=graves[i];if(g.rise!==undefined&&g.rise<1)g.rise=Math.min(1,g.rise+dt*1.6);if(!isSolid(g.x,g.y+1)){g.vy+=G*dt;g.y+=g.vy*dt;if(g.y>sump)graves.splice(i,1)}else g.vy=0}
   shake=Math.max(0,shake-dt*30);flash=Math.max(0,flash-dt*2.6);boom.t-=dt;
 }
 const settled=()=>projs.length===0&&mines.every(m=>m.trig<0&&isSolid(m.x,m.y+1))&&!S.burst&&!S.cut&&!S.strike&&!S.flame&&flames.length===0&&builds.length===0&&ships.length===0&&crates.every(c=>c.landed)
@@ -1237,7 +1252,7 @@ function simGrenade(t,face,a,p,speed){
       for(let k=0;k<n;k++){const nx=x+vx*dt/n,ny=y+vy*dt/n;if(ny>=sump||nx<-50||nx>W+50)return out;
         if(isSolid(nx,ny)){const[mx,my]=normalAt(nx,ny),d=vx*mx+vy*my;if(d<0){vx-=2*d*mx;vy-=2*d*my}vx*=.5;vy*=.5;if(Math.hypot(vx,vy)<35){vx=vy=0;rest=true}break}
         x=nx;y=ny}}
-    if(s%30===0&&s>=60)out[s/30]={x,y}}
+    if(s%30===0)out[s/30]={x,y}}
   return out}
 // would a shove of this size carry o off the map or into deep water?
 function knockLethal(o,vx){if(Math.abs(vx)<60)return false;const sg=Math.sign(vx),tr=Math.abs(vx)*.45+vx*vx/860;
@@ -1250,7 +1265,10 @@ function estBlast(acc,x,y,r,dmg,me){const R=r*1.2,SW=r*2.6,ST=r*.45;
   for(const o of troopers){if(!o.alive)continue;const cy=o.y-11,d=Math.hypot(o.x-x,cy-y);if(d>=SW)continue;
     let h=0;if(d<R)h=Math.round(dmg*Math.min(1,(1-d/R)*1.3));else if(d<R+ST)h=Math.max(1,Math.round(7*(1-(d-R)/ST)));
     const f=Math.pow(1-d/SW,1.2),a=Math.atan2(cy-y,o.x-x);hitEst(acc,o,me,h,Math.cos(a)*(190+r*5.5)*f*1.15)}}
-function scoreAcc(acc,heavy){let s=acc.en+acc.kills*45-acc.sf*1.5-acc.al-acc.selfDie*220-acc.allyDie*70;if(heavy&&acc.kills<1&&acc.en<95)s-=40;return s}
+function heavyReserve(){if(S.turnN<=4)return 999;const foes=troopers.filter(o=>o.alive&&o.team!==S.team).length;
+  if(foes<=2||S.turnN>=SD_TURN)return 15;return Math.max(22,80-S.turnN*4)}
+function scoreAcc(acc,heavy){let s=acc.en+acc.kills*45-acc.sf*1.5-acc.al-acc.selfDie*220-acc.allyDie*70;
+  if(heavy){const r=heavyReserve();s-=r>=999?999:(acc.kills>=2||acc.en>=150)?r*.3:r}return s}
 const foesOf=t=>troopers.filter(o=>o.alive&&o.team!==t.team);
 const aimAt=(t,e)=>{const dx=e.x-t.x,dy=(e.y-11)-(t.y-12);return{face:dx>=0?1:-1,aim:clamp(Math.atan2(dy,Math.abs(dx)),-1.52,1.45),d:Math.hypot(dx,dy)}};
 const orig=(t,face,a)=>{const dx=Math.cos(a)*face,dy=Math.sin(a);return[t.x+dx*13,t.y-12+dy*13,dx,dy]};
@@ -1287,7 +1305,7 @@ function* planGen(t,quick){
       if(b){const b0=b;for(let da=-.08;da<=.081;da+=.04)for(let dp=-.06;dp<=.061;dp+=.03)tryIt(b0.face,b0.aim+da,clamp(b0.power+dp,.1,1))}
       if(b)consider(b,P,extra)};
     art('mortar',900,true,40,48,false);t.x=sx;t.y=sy;yield;t.x=P.x;t.y=P.y;
-    if(hasAmmo(WP.nuke)){art('nuke',760,false,125,80,true);t.x=sx;t.y=sy;yield;t.x=P.x;t.y=P.y}
+    if(hasAmmo(WP.nuke)){art('nuke',760,true,125,80,true);t.x=sx;t.y=sy;yield;t.x=P.x;t.y=P.y}
     // grenades: one simulated throw gives landing spots for every fuse length
     const gren=(id,speed,r,dmg,heavy)=>{let b=null;for(const face of[-1,1])for(let a=-1.3;a<=.4;a+=.21)for(let p=.3;p<=1.001;p+=.17){
         const o=simGrenade(t,face,a,p,speed);for(const f in o){const acc=newAcc();estBlast(acc,o[f].x,o[f].y-3,r,dmg,t);const sc=scoreAcc(acc,heavy)+(+f>=3?3:0);if(!b||sc>b.s)b={w:id,face,aim:a,power:p,fuse:+f,s:sc}}}
@@ -1312,7 +1330,7 @@ function* planGen(t,quick){
     t.x=sx;t.y=sy;yield}
   t.x=sx;t.y=sy;
   // don't burn a limited weapon on a weak shot
-  if(best&&WP[best.w].ammo>=0&&best.s<45&&bestNH)return bestNH;return best}
+  if(best&&WP[best.w].ammo>=0&&WP[best.w].cat==='Heavy'&&best.s<45&&bestNH)return bestNH;return best}
 // after firing: pick somewhere safer within a few steps and get there
 function pickCover(t){const spots=walkReach(t,150).filter(P=>spotRisk(P)<900),foes=foesOf(t);let best=null;
   const danger=[];for(const p of projs)if(p.w.kind==='grenade')danger.push([p.x,p.y,p.w.r]);for(const m of mines)danger.push([m.x,m.y,80]);for(const b of barrels)if(b.alive&&b.fuse>=0)danger.push([b.x,b.y,34]);
@@ -1367,7 +1385,7 @@ addEventListener('keydown',e=>{
   if(!$('#arsenal').hidden&&/^Arrow/.test(e.code)){e.preventDefault();navArsenal(e.code);return}
   if(e.code==='KeyC'){S.camFree=false;S.camSnap=true;return}
   if(e.code==='KeyX'){e.preventDefault();switchTo();return}
-  if(/^Digit[2-5]$/.test(e.code)&&curW().kind==='grenade'&&!S.charging){S.fuse=+e.code.slice(5);return}
+  if(/^Digit[1-5]$/.test(e.code)&&curW().kind==='grenade'&&!S.charging){S.fuse=+e.code.slice(5);return}
   if(e.code==='Equal'||e.code==='NumpadAdd'){setZoom(S.zoom*1.15);return}
   if(e.code==='Minus'||e.code==='NumpadSubtract'){setZoom(S.zoom/1.15);return}
   const k=KEYMAP[e.code];if(!k||S.paused||!$('#arsenal').hidden)return;e.preventDefault();if(!held.has(k))press.add(k);held.add(k)});
@@ -1400,7 +1418,7 @@ $('#pRestart').addEventListener('click',()=>newGame(S.mode));$('#pQuit').addEven
   vm.addEventListener('input',()=>{setMusicVol(vm.value/100);$('#oMus').textContent=vm.value+'%';saveVol()});
   for(const el of[vs,vm]){el.addEventListener('pointerdown',e=>e.stopPropagation());el.addEventListener('keydown',e=>{if(e.code!=='Escape')e.stopPropagation()})}}
 $('#recenter').addEventListener('click',()=>{S.camFree=false;S.camSnap=true});
-for(const id of['#bFuse','#dFuse'])$(id).addEventListener('click',()=>{if(!S.charging)S.fuse=S.fuse>=5?2:S.fuse+1});
+for(const id of['#bFuse','#dFuse'])$(id).addEventListener('click',()=>{if(!S.charging)S.fuse=S.fuse>=5?1:S.fuse+1});
 $('#bSwap').addEventListener('click',()=>switchTo());
 $('#goCpu').addEventListener('click',()=>{initAudio();newGame('cpu')});
 for(const ev of['pointerdown','keydown'])addEventListener(ev,()=>{if(!AC)initAudio()},{capture:true});
@@ -1588,7 +1606,9 @@ function update(dt){
   const t=S.active,w=curW();
   if((S.phase==='aim'||S.phase==='retreat')&&(!t||!t.alive||t.hp<=0)){S.phase='end';S.charging=false;S.jet=null}
   if(S.phase==='event'){if(!S.ev){const k=S.events.shift();if(k)startEvent(k);else beginTurn()}else runEvent(dt)}
-  if(t&&t.alive){t.moving=false;
+  if(S.deathCam){S.deathCam.t-=dt;if(S.deathCam.t<=0){S.deathCam=null;if(S.phase==='aim'){S.camSnap=true;S.camFree=false}}}
+  const held_=!!(S.deathCam&&S.phase==='aim');
+  if(t&&t.alive&&!held_){t.moving=false;
     if(!isCPU()){
       const ax=axX(),ay=axY();if(ax&&!t.rope)S.camFree=false;
       if(t.rope){if(pressed('jump'))ropeJump(t);else if(pressed('fire'))ropeRelease(t)}
@@ -1615,15 +1635,15 @@ function update(dt){
       }
     }else if(!t.air&&!t.skid&&!(t.down>0)){if(S.phase==='aim')aiUpdate(dt);else if(S.phase==='retreat'||(S.phase==='resolve'&&S.mobile))aiRetreat(t,dt)}
   }
-  if(S.phase==='aim'){S.timer-=dt;if(S.timer<=0){if(S.charging)launch();else{S.phase='end';S.jet=null}}}
+  if(S.phase==='aim'&&!held_){S.timer-=dt;if(S.timer<=0){if(S.charging)launch();else{S.phase='end';S.jet=null}}}
   else if(S.phase==='retreat'){S.retreat-=dt;if(S.retreat<=0)S.phase='end'}
   for(const tr of troopers)updTrooper(tr,dt);
-  updProjs(dt);updEffects(dt);updWard(dt);updParts(dt);
+  updProjs(dt);updEffects(dt);updWard(dt);updCorpses(dt);updParts(dt);
   if(S.phase==='resolve'||S.phase==='end'){
     if(settled()){
       if(S.deathCd>0)S.deathCd-=dt;
       else{const d=troopers.find(x=>x.alive&&x.hp<=0);
-        if(d){killTrooper(d);S.deathCd=.6}
+        if(d){killTrooper(d);S.deathCd=1.9}
         else if(S.phase==='resolve'){if(S.active&&S.active.alive){S.phase='retreat';S.retreat=3+(S.rb||0)}else S.phase='end';S.wait=0}
         else{S.wait+=dt;if(S.wait>.7){S.wait=0;nextTurn()}}}
     }else S.wait=0}
@@ -1646,6 +1666,7 @@ function updCamera(dt){
     if(ex||ey){cam.x+=ex*900*dt/scale;cam.y+=ey*900*dt/scale;S.camFree=true;S.camSnap=false}}
   let fx=null,fy=null,snap=false,fast=false;
   if(!live){fx=W/2+Math.sin(time*.08)*W*.33;fy=H*.6;snap=true}
+  else if(S.deathCam){fx=S.deathCam.x;fy=S.deathCam.y-16;snap=true;fast=true}
   else if(projs.length){const p=projs[projs.length-1];fx=p.x;fy=p.y;fast=true}
   else if(ships.length){const sh=ships[0];fx=sh.dropped?(crates.length?crates[crates.length-1].x:sh.x):sh.x;fy=Math.max(sh.y+160,crates.length?crates[crates.length-1].y:0);snap=true}
   else if(crates.some(c=>!c.landed)){const c=crates.find(c=>!c.landed);fx=c.x;fy=c.y}
@@ -1721,8 +1742,10 @@ function drawTrooper(t){
     ctx.fillStyle=k&&k.kind==='beam'?'#ff3b3b':col;ctx.fillRect(long?12:9,-.6,2,1.2)}
   ctx.restore();ctx.restore();
 }
-function drawGrave(g){ctx.strokeStyle='#4d525e';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(g.x,g.y);ctx.lineTo(g.x,g.y-18);ctx.moveTo(g.x-4,g.y-13);ctx.lineTo(g.x+4,g.y-13);ctx.stroke();
-  ctx.fillStyle=TEAM[g.team].col;ctx.globalAlpha=.5;ctx.beginPath();ctx.moveTo(g.x,g.y-18);ctx.lineTo(g.x+10,g.y-17);ctx.lineTo(g.x+7,g.y-14.5);ctx.lineTo(g.x+10,g.y-11);ctx.lineTo(g.x,g.y-12);ctx.fill();ctx.globalAlpha=1}
+function drawGrave(g){const r=g.rise===undefined?1:g.rise,h=18*r,bx=g.body?g.x-Math.sign(g.body.tilt||1)*12:g.x;
+  if(g.body){const b=g.body;b.x=g.x;b.y=g.y;drawTrooper(b)}
+  ctx.strokeStyle='#4d525e';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(bx,g.y);ctx.lineTo(bx,g.y-h);if(r>.7){ctx.moveTo(bx-4,g.y-13);ctx.lineTo(bx+4,g.y-13)}ctx.stroke();
+  if(r>.5){const u=(r-.5)/.5;ctx.fillStyle=TEAM[g.team].col;ctx.globalAlpha=.5*u;ctx.beginPath();ctx.moveTo(bx,g.y-h);ctx.lineTo(bx+10*u,g.y-h+1);ctx.lineTo(bx+7*u,g.y-h+3.5);ctx.lineTo(bx+10*u,g.y-h+7);ctx.lineTo(bx,g.y-h+6);ctx.fill();ctx.globalAlpha=1}}
 
 function render(dt){
   updCamera(dt);if(rimDirty)rebuildRim();
@@ -1764,6 +1787,7 @@ function render(dt){
   ctx.globalAlpha=.8;ctx.drawImage(rim,0,0);ctx.globalAlpha=1;
   for(const f of fixtures)if(f.alive)drawFixture(f);
   for(const g of graves)drawGrave(g);
+  for(const c of corpses)drawTrooper(c);
   drawWard(lights);
   drawMines();
   for(const p of parts){const a=p.life/p.max;
@@ -1911,7 +1935,7 @@ function frame(now){const dt=Math.min(.033,(now-last)/1000);last=now;chargeSound
   time+=dt*sc;update(dt*sc);render(dt);if(S.phase!=='title')updHud();requestAnimationFrame(frame)}
 requestAnimationFrame(frame);
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(resize);
-window.__G={S,AI,mines:()=>mines,blds:()=>genTerrain.blds||[],maskURL:()=>{const c=mk(W/2,H/2),x=c.getContext("2d");x.fillStyle="#123";x.fillRect(0,0,W/2,H/2);x.drawImage(back,0,0,W/2,H/2);x.drawImage(terr,0,0,W/2,H/2);x.fillStyle="rgba(60,120,255,.5)";x.fillRect(0,sump/2,W/2,H);return c.toDataURL()},bus:()=>bus(),camSet:(x,y)=>{cam.x=x;cam.y=y},base:()=>baseScale,setSump:v=>{sump=v},spawnShell:(x,y)=>projs.push({w:WP.mortar,x,y,vx:0,vy:200,owner:null,age:1,fuse:0,rest:false}),MUS,get AC(){return AC},initAudio,setMusicMode,ammo:(tm,id)=>S.ammo[tm][id],surfY:surf,press:k=>{press.add(k);held.add(k)},release:k=>held.delete(k),dropRopeT:t=>dropRope(t),isSolid,explode,shove,switchTo,addFire,hurtT:(t,d)=>hurt(t,d),jumpT:t=>jump(t),get projs(){return projs},get troopers(){return troopers},get barrels(){return barrels},get crates(){return crates},get fires(){return fires},get puddles(){return puddles},sump:()=>sump,newGame,update,render,tryFire,launch,selectWeapon};
+window.__G={S,kill:t=>killTrooper(t),get corpses(){return corpses},get graves(){return graves},AI,mines:()=>mines,blds:()=>genTerrain.blds||[],maskURL:()=>{const c=mk(W/2,H/2),x=c.getContext("2d");x.fillStyle="#123";x.fillRect(0,0,W/2,H/2);x.drawImage(back,0,0,W/2,H/2);x.drawImage(terr,0,0,W/2,H/2);x.fillStyle="rgba(60,120,255,.5)";x.fillRect(0,sump/2,W/2,H);return c.toDataURL()},bus:()=>bus(),camSet:(x,y)=>{cam.x=x;cam.y=y},base:()=>baseScale,setSump:v=>{sump=v},spawnShell:(x,y)=>projs.push({w:WP.mortar,x,y,vx:0,vy:200,owner:null,age:1,fuse:0,rest:false}),MUS,get AC(){return AC},initAudio,setMusicMode,ammo:(tm,id)=>S.ammo[tm][id],surfY:surf,press:k=>{press.add(k);held.add(k)},release:k=>held.delete(k),dropRopeT:t=>dropRope(t),isSolid,explode,shove,switchTo,addFire,hurtT:(t,d)=>hurt(t,d),jumpT:t=>jump(t),get projs(){return projs},get troopers(){return troopers},get barrels(){return barrels},get crates(){return crates},get fires(){return fires},get puddles(){return puddles},sump:()=>sump,newGame,update,render,tryFire,launch,selectWeapon};
 })();
 </script>
 
