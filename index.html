@@ -482,6 +482,21 @@ function genTerrain(){
   // ruins: hang lamps under natural overhangs
   if(L==='ruins')for(let k=0;k<60&&hangs.length<6;k++){const x=rnd(120,W-120)|0;let y=0;while(y<H&&!solid[y*W+x])y++;let y2=y;while(y2<H&&solid[y2*W+x])y2++;
     let air=0;while(y2+air<H&&!solid[(y2+air)*W+x]&&air<60)air++;if(y2<sump-90&&air>=60&&y2-y>8&&!hangs.some(h=>Math.abs(h.cx-x)<150))hangs.push({cx:x,cy:y})}
+  // ---- statues: crosses, winged angels, hooded saints. Concrete, leaning, some toppled ----
+  {const statue=(c,type,broken)=>{c.fillRect(-8,-6,16,6);c.fillRect(-6,-9,12,3);
+      if(type==='cross'){c.fillRect(-2.5,-46,5,38);c.fillRect(-11,-37,22,5);if(!broken){c.lineWidth=2.6;c.strokeStyle='#fff';c.beginPath();c.arc(0,-34.5,7.5,0,Math.PI*2);c.stroke()}}
+      else if(type==='angel'){poly(c,[[-6,-9],[-4.5,-30],[4.5,-30],[6,-9]]);if(!broken){c.beginPath();c.arc(0,-34,3.4,0,Math.PI*2);c.fill();c.lineWidth=1.6;c.strokeStyle='#fff';c.beginPath();c.ellipse(0,-40,4.5,1.6,0,0,Math.PI*2);c.stroke()}
+        poly(c,[[-3,-28],[-15,-46],[-18,-36],[-14,-26],[-9,-16]]);if(!broken)poly(c,[[3,-28],[15,-46],[18,-36],[14,-26],[9,-16]]);poly(c,[[3,-27],[9,-38],[10,-36],[5,-25]])}
+      else{poly(c,[[-6,-9],[-5,-32],[-2,-38],[2,-39],[5,-33],[6,-9]]);if(!broken)poly(c,[[-2,-38],[0,-44],[3,-39]]);c.fillRect(-3,-26,6,4)}};
+    const want=L==='ruins'?7+(Math.random()*3|0):L==='spires'?4:3,placed=[];
+    for(let k=0;k<160&&placed.length<want;k++){const x=rnd(110,W-110)|0;
+      // every standable top in this column: ground, bridge decks, tower tops
+      const tops=[];for(let y=40;y<sump-30;y++)if(solid[y*W+x]&&!solid[(y-1)*W+x]){let air=0;while(air<50&&y-1-air>0&&!solid[(y-1-air)*W+x])air++;if(air>=50)tops.push(y)}
+      if(!tops.length)continue;const y=tops[Math.random()*tops.length|0];
+      if(!solid[y*W+x-7]||!solid[y*W+x+7]||solid[(y-3)*W+x-7]||solid[(y-3)*W+x+7]||placed.some(q=>Math.abs(q-x)<70))continue;placed.push(x);
+      const type=['cross','angel','angel','saint'][Math.random()*4|0],broken=Math.random()<.3,fallen=Math.random()<.12,tilt=fallen?(Math.random()<.5?-1:1)*rnd(1.25,1.45):rnd(-.3,.3),sc=rnd(1,1.25),fl=Math.random()<.5?-1:1;
+      for(const c of[g,cctx]){c.save();c.fillStyle='#fff';c.translate(x,y+(fallen?-3:1));c.rotate(tilt);c.scale(fl*sc,sc);statue(c,type,broken);c.restore()}}
+    const d2=g.getImageData(0,0,W,H).data;for(let i=0;i<W*H;i++)solid[i]=d2[i*4+3]>127?1:0}
   // neon fixtures
   fixtures=[];
   const pc=()=>{const r=Math.random();return r<.34?'cyan':r<.68?'mag':r<.82?'amber':r<.92?'acid':'ice'};
