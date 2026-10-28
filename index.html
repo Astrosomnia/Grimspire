@@ -95,16 +95,16 @@ button:focus-visible{outline:2px solid var(--fire);outline-offset:2px}
 /* touch controls */
 #touch{display:none}
 .coarse #touch{display:block}
-.stick{position:fixed;z-index:2;width:104px;height:104px;border-radius:50%;border:1px solid var(--line);
+.stick{position:fixed;z-index:2;width:124px;height:124px;border-radius:50%;border:1px solid var(--line);
   background:radial-gradient(circle,rgba(230,228,222,.06),rgba(0,0,0,.35) 70%);touch-action:none}
-.stick::before{content:"";position:absolute;background:rgba(230,228,222,.18)}
-.stick.x::before{left:16px;right:16px;top:50%;height:2px;margin-top:-1px}
-.stick.y::before{top:16px;bottom:16px;left:50%;width:2px;margin-left:-1px}
-.stick i{position:absolute;left:50%;top:50%;width:46px;height:46px;margin:-23px 0 0 -23px;border-radius:50%;
+.stick::before,.stick::after{content:"";position:absolute;background:rgba(230,228,222,.16)}
+.stick::before{left:18px;right:18px;top:50%;height:2px;margin-top:-1px}
+.stick::after{top:18px;bottom:18px;left:50%;width:2px;margin-left:-1px}
+.stick i{position:absolute;left:50%;top:50%;width:50px;height:50px;margin:-25px 0 0 -25px;border-radius:50%;z-index:1;
   background:rgba(230,228,222,.14);border:1px solid rgba(230,228,222,.5);pointer-events:none}
-.stick span{position:absolute;left:0;right:0;bottom:-16px;text-align:center;font-size:9px;letter-spacing:.24em;color:var(--ash);pointer-events:none}
-#sMove{left:max(16px,env(safe-area-inset-left,0px));bottom:calc(env(safe-area-inset-bottom,0px) + 138px)}
-#sAim{left:calc(max(16px,env(safe-area-inset-left,0px)) + 62px);bottom:calc(env(safe-area-inset-bottom,0px) + 22px)}
+.stick b{position:absolute;font-size:8px;font-weight:600;letter-spacing:.2em;color:var(--ash);pointer-events:none}
+.stick .bl{left:-2px;top:50%;margin-top:14px}.stick .br{right:-2px;top:50%;margin-top:14px}.stick .bt{top:-14px;left:50%;margin-left:-11px}.stick .bb{bottom:-14px;left:50%;margin-left:-11px}
+#sPad{left:max(18px,env(safe-area-inset-left,0px));bottom:calc(env(safe-area-inset-bottom,0px) + 28px)}
 .rbtn{position:fixed;z-index:2;border-radius:50%;border:1px solid rgba(230,228,222,.32);background:rgba(0,0,0,.5);display:grid;place-items:center;
   font-size:10px;font-weight:700;letter-spacing:.14em;touch-action:none}
 .rbtn.on{background:rgba(230,228,222,.2)}
@@ -178,8 +178,7 @@ h1{font-family:var(--display);font-weight:400;font-size:clamp(68px,17vw,138px);l
 </div>
 
 <div id="touch">
-  <div class="stick x" id="sMove"><i></i><span>MOVE</span></div>
-  <div class="stick y" id="sAim"><i></i><span>AIM</span></div>
+  <div class="stick" id="sPad"><i></i><b class="bt">AIM</b><b class="bb">AIM</b></div>
   <button id="bArs" type="button">Plasma Mortar</button>
   <button class="rbtn" id="bJump" data-k="jump" type="button">JUMP</button>
   <button class="rbtn" id="bFire" data-k="fire" type="button">FIRE</button>
@@ -815,13 +814,18 @@ document.querySelectorAll('[data-k]').forEach(b=>{const k=b.dataset.k;
   const off=()=>{held.delete(k);b.classList.remove('on')};
   b.addEventListener('pointerdown',on);['pointerup','pointercancel','lostpointercapture'].forEach(ev=>b.addEventListener(ev,off));
   b.addEventListener('contextmenu',e=>e.preventDefault())});
-function mkStick(el,axis){const knob=el.querySelector('i'),R=38;let id=null,c=0;
-  el.addEventListener('pointerdown',e=>{e.preventDefault();initAudio();id=e.pointerId;try{el.setPointerCapture(id)}catch(_){}const r=el.getBoundingClientRect();c=axis==='x'?r.left+r.width/2:r.top+r.height/2;mv(e)});
-  const mv=e=>{if(e.pointerId!==id)return;const d=clamp((axis==='x'?e.clientX:e.clientY)-c,-R,R),v=d/R;stick[axis]=Math.abs(v)<.14?0:v;knob.style.transform=axis==='x'?`translateX(${d}px)`:`translateY(${d}px)`};
+// One stick: sideways walks, up/down aims. The weaker axis is dropped so a sloppy thumb
+// doesn't walk while aiming (or aim while walking). Jump pack flight uses both axes.
+function mkStick(el){const knob=el.querySelector('i'),R=44;let id=null,cx=0,cy=0;
+  el.addEventListener('pointerdown',e=>{e.preventDefault();initAudio();id=e.pointerId;try{el.setPointerCapture(id)}catch(_){}const r=el.getBoundingClientRect();cx=r.left+r.width/2;cy=r.top+r.height/2;mv(e)});
+  const mv=e=>{if(e.pointerId!==id)return;let dx=e.clientX-cx,dy=e.clientY-cy;const d=Math.hypot(dx,dy);if(d>R){dx*=R/d;dy*=R/d}
+    knob.style.transform=`translate(${dx}px,${dy}px)`;let vx=dx/R,vy=dy/R;
+    if(Math.hypot(vx,vy)<.16){vx=vy=0}else if(!S.jet){if(Math.abs(vx)>Math.abs(vy)*1.15)vy=0;else if(Math.abs(vy)>Math.abs(vx)*1.15)vx=0;else{vx*=.5;vy*=.5}}
+    stick.x=vx;stick.y=vy};
   el.addEventListener('pointermove',mv);
-  const end=e=>{if(e.pointerId!==id)return;id=null;stick[axis]=0;knob.style.transform=''};
+  const end=e=>{if(e.pointerId!==id)return;id=null;stick.x=stick.y=0;knob.style.transform=''};
   ['pointerup','pointercancel','lostpointercapture'].forEach(ev=>el.addEventListener(ev,end))}
-mkStick($('#sMove'),'x');mkStick($('#sAim'),'y');
+mkStick($('#sPad'));
 $('#bArs').addEventListener('click',openArsenal);$('#dArs').addEventListener('click',openArsenal);
 $('#aClose').addEventListener('click',closeArsenal);$('#arsenal').addEventListener('click',e=>{if(e.target.id==='arsenal')closeArsenal()});
 $('#pauseBtn').addEventListener('click',()=>setPause(true));$('#pResume').addEventListener('click',()=>setPause(false));
