@@ -128,19 +128,21 @@ body.intitle #hud,body.intitle #desk,body.intitle #touch,body.intitle #recenter{
 .ahead h2{font-family:var(--display);font-weight:400;font-size:30px;margin:0;line-height:1}
 .ahead button{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ash);border:1px solid var(--line);padding:7px 10px}
 .acat{display:grid;gap:8px}
-.acat h3{margin:0;font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--ash);font-weight:600}
+.acat{--c:var(--bone);--g:rgba(230,228,222,.4)}
+.acat h3{margin:0;font-size:10px;letter-spacing:.28em;text-transform:uppercase;color:var(--c);font-weight:600;opacity:.85}
+.acat.c-artillery{--c:#ff7a45;--g:rgba(255,90,40,.55)}.acat.c-guns{--c:#a9c8ff;--g:rgba(120,165,255,.5)}.acat.c-melee{--c:#ff3d93;--g:rgba(200,20,100,.6)}.acat.c-heavy{--c:#ffb21e;--g:rgba(255,150,20,.55)}.acat.c-tools{--c:#3ff3ff;--g:rgba(30,200,230,.5)}
 .agrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:6px}
 .tile{text-align:left;border:1px solid var(--line);padding:10px;display:grid;grid-template-columns:34px 1fr;column-gap:10px;row-gap:3px;align-items:center;background:rgba(255,255,255,.02);min-width:0}
-.tile .ico{grid-row:1/3;width:34px;height:34px;color:var(--bone)}
-.tile[aria-pressed="true"] .ico{color:var(--fire);filter:drop-shadow(0 0 6px rgba(255,178,30,.6))}
+.tile .ico{grid-row:1/3;width:34px;height:34px;color:var(--c);filter:drop-shadow(0 0 4px var(--g))}
+.tile[aria-pressed="true"] .ico{filter:drop-shadow(0 0 7px var(--g)) drop-shadow(0 0 2px var(--g))}
 .tile b{font-size:12px;letter-spacing:.08em;text-transform:uppercase;display:flex;justify-content:space-between;gap:8px;min-width:0}
-.ico{display:block;flex:none;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.ico{display:block;flex:none;fill:none;stroke:currentColor;stroke-width:1.25;stroke-linecap:round;stroke-linejoin:round}
 .wchip .ico,#bArs .ico{width:20px;height:20px}
 #bArs{display:flex;align-items:center;gap:8px}
-.tile b em{font-style:normal;color:var(--fire);font-variant-numeric:tabular-nums}
+.tile b em{font-style:normal;color:var(--c);font-variant-numeric:tabular-nums}
 .tile span{font-size:11px;line-height:1.35;color:var(--ash);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
-.tile:hover:not(:disabled){border-color:var(--fire)}
-.tile[aria-pressed="true"]{border-color:var(--fire);box-shadow:inset 0 0 0 1px var(--fire);background:rgba(255,178,30,.06)}
+.tile:hover:not(:disabled){border-color:var(--c)}
+.tile[aria-pressed="true"]{border-color:var(--c);box-shadow:inset 0 0 0 1px var(--c),0 0 14px var(--g);background:color-mix(in srgb,var(--c) 7%,transparent)}
 .tile:disabled{opacity:.35;cursor:default}
 .pbtns{display:grid;gap:8px}
 .vol{display:grid;grid-template-columns:62px 1fr 44px;align-items:center;gap:10px;padding-block:8px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ash)}
@@ -249,7 +251,7 @@ const ARS=[
   {id:'flamer',name:'Promethium Flamer',cat:'Guns',kind:'flame',ammo:-1,desc:'Hoses burning promethium. The ground stays on fire.'},
   {id:'chain',name:'Chainblade',cat:'Melee',kind:'melee',ammo:-1,dmg:38,knock:150,desc:'Raw damage. Barely moves them.'},
   {id:'fist',name:'Thunder Fist',cat:'Melee',kind:'melee',ammo:-1,dmg:20,knock:620,desc:'Light damage. Sends them flying.'},
-  {id:'sun',name:'Sun Grenade',cat:'Heavy',kind:'grenade',ammo:1,charge:true,speed:560,fuse:4,r:80,dmg:72,desc:'A small star on a four-second fuse.'},
+  {id:'sun',name:'Sun Grenade',cat:'Heavy',kind:'grenade',ammo:2,charge:true,speed:560,fuse:4,r:80,dmg:72,desc:'A small star on a four-second fuse.'},
   {id:'lance',name:'Orbital Lance',cat:'Heavy',kind:'target',ammo:1,r:52,dmg:55,desc:'Pick a spot. The sky answers.'},
   {id:'nuke',name:'Doomsday Shell',cat:'Heavy',kind:'shell',ammo:1,charge:true,speed:760,wind:false,r:125,dmg:80,nuke:true,desc:'Ends arguments. Raises the sump.'},
   {id:'jet',name:'Jump Pack',cat:'Tools',kind:'jet',ammo:2,desc:'Hold fire to thrust. Does not end your turn.'},
@@ -604,7 +606,7 @@ function updWeapUI(){
 function nukeIcon(){let d='';for(const a of[-90,30,150]){const r=Math.PI/180,p=(ang,rad)=>(12+Math.cos(ang*r)*rad).toFixed(2)+' '+(12+Math.sin(ang*r)*rad).toFixed(2);
   d+=`M${p(a-30,3.4)}L${p(a-30,9.5)}A9.5 9.5 0 0 1 ${p(a+30,9.5)}L${p(a+30,3.4)}A3.4 3.4 0 0 0 ${p(a-30,3.4)}Z`}return`<path d="${d}"/><circle cx="12" cy="12" r="1.3"/>`}
 const ICONS={
-  mortar:'<path d="M3 21l5-5"/><path d="M5 19l-2-2"/><path d="M9 14Q13 2 20 12" stroke-dasharray="2 2.4"/><circle cx="20.5" cy="15" r="2.2"/>',
+  mortar:'<path d="M2.5 21h10"/><path d="M4.4 18.6l6.4-6.4 3 3-6.4 6.4z"/><path d="M9.6 18.4l2.1 2.6"/><circle cx="17.6" cy="6.4" r="2.4"/><circle cx="17.6" cy="6.4" r="4.6" stroke-dasharray="1.4 2.2"/><path d="M14.2 9.8l-1.2 1.2"/>',
   frag:'<circle cx="11" cy="14.5" r="6"/><path d="M5 14.5h12M11 8.5v12"/><path d="M13 8.8V5.5l4.5-1.5"/><circle cx="19" cy="4" r="1.4"/>',
   rail:'<path d="M2 12.5h17"/><path d="M5 10h12M5 15h12"/><path d="M19 12.5h3"/><path d="M4 15v3h3v-3"/><path d="M22 11v3"/>',
   scatter:'<path d="M2 11h10v3H8l-1 3H4l1-3H2z"/><path d="M14 11.5L22 7M14 12.5h8M14 13.5l8 4.5"/>',
@@ -623,7 +625,7 @@ const ICONS={
 const icon=id=>`<svg class="ico" viewBox="0 0 24 24" aria-hidden="true">${ICONS[id]||''}</svg>`;
 function buildArsenal(){
   const root=$('#agrid');root.innerHTML='';
-  for(const cat of CATS){const sec=document.createElement('div');sec.className='acat';const h=document.createElement('h3');h.textContent=cat;sec.append(h);
+  for(const cat of CATS){const sec=document.createElement('div');sec.className='acat c-'+cat.toLowerCase();const h=document.createElement('h3');h.textContent=cat;sec.append(h);
     const grid=document.createElement('div');grid.className='agrid';
     for(const w of ARS.filter(x=>x.cat===cat)){const a=ammoOf(S.team,w);const b=document.createElement('button');b.type='button';b.className='tile';
       b.setAttribute('aria-pressed',String(S.weapon[S.team]===w.id));b.disabled=a<=0||(w.kind==='jet'&&S.usedJet);
@@ -693,7 +695,7 @@ function scatterShot(t,ox,oy,dx,dy){const a0=Math.atan2(dy,dx);muzzle(ox,oy,'#ff
   for(let i=0;i<7;i++){const a=a0+rnd(-.13,.13),ex=Math.cos(a),ey=Math.sin(a),r=ray(t,ox,oy,ex,ey,rnd(230,280));
     tracers.push({x0:ox,y0:oy,x1:r.x,y1:r.y,life:.16,max:.16,col:[255,210,140],w:1});
     if(r.barrel){ignite(r.barrel);sparks(r.x,r.y,4)}
-    if(r.victim){hurt(r.victim,8);knock(r.victim,ex,ey,70);sparks(r.x,r.y,4)}else if(r.solid){carve(r.x,r.y,7);sparks(r.x,r.y,3)}}
+    if(r.victim){hurt(r.victim,5);knock(r.victim,ex,ey,70);sparks(r.x,r.y,4)}else if(r.solid){carve(r.x,r.y,7);sparks(r.x,r.y,3)}}
   shake=Math.min(20,shake+5)}
 function boltRound(t){const[ox,oy,dx,dy]=origin(t),a=Math.atan2(dy,dx)+rnd(-.09,.09),ex=Math.cos(a),ey=Math.sin(a),r=ray(t,ox,oy,ex,ey,460);
   tracers.push({x0:ox,y0:oy,x1:r.x,y1:r.y,life:.1,max:.1,col:[255,200,110],w:1.4});flashes.push({x:ox,y:oy,r:70,c:FIRE,life:.06,max:.06,i:.9});sfx('bolt');
