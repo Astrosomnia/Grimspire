@@ -91,6 +91,8 @@ button:focus-visible{outline:2px solid var(--fire);outline-offset:2px}
 .wchip em{font-style:normal;color:var(--bone);opacity:.75}
 .drow{display:flex;gap:8px;align-items:center;pointer-events:none}
 .wchip.fz{color:var(--bone);border-color:var(--line)}
+#dArs,#bArs{color:var(--wc,var(--fire));border-color:var(--wc,var(--fire));box-shadow:0 0 16px color-mix(in srgb,var(--wc,var(--fire)) 28%,transparent),inset 0 0 12px color-mix(in srgb,var(--wc,var(--fire)) 12%,transparent)}
+#dArs .ico,#bArs .ico{filter:drop-shadow(0 0 4px var(--wc,var(--fire)))}
 #bFuse{position:fixed;z-index:2;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(env(safe-area-inset-bottom,0px) + 160px);padding:9px 12px;border:1px solid var(--line);background:rgba(0,0,0,.6);font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase}
 #bSwap{width:46px;height:46px;right:calc(max(16px,env(safe-area-inset-right,0px)) + 158px);bottom:calc(env(safe-area-inset-bottom,0px) + 33px);font-size:9px}
 .tile:focus-visible{outline:2px solid var(--c);outline-offset:2px}
@@ -282,6 +284,7 @@ const mk=(w,h)=>{const c=document.createElement('canvas');c.width=w;c.height=h;r
 const cv=$('#cv'),ctx=cv.getContext('2d');
 const mask=mk(W,H),mctx=mask.getContext('2d');
 const struct=mk(1,1),sctx=struct.getContext('2d');
+const carv=mk(1,1),cctx=carv.getContext('2d');let eyes=[]; // gargoyle stone, kept apart from the brickwork
 const terr=mk(W,H),tctx=terr.getContext('2d');
 const back=mk(W,H),bctx=back.getContext('2d'); // non-solid back walls and ruined facades, drawn behind the play layer
 const rim=mk(W,H),rctx=rim.getContext('2d');
@@ -348,9 +351,10 @@ function ruinRock(g,hs){
   for(let x=0;x<=W;x++){let y=0;const cx=Math.min(W-1,x);while(y<H&&!m[y*W+cx])y++;hs[x]=y}
 }
 function genTerrain(){
-  struct.width=W;struct.height=H;
+  struct.width=W;struct.height=H;carv.width=W;carv.height=H;eyes=[];
   const g=mctx;g.globalCompositeOperation='source-over';g.clearRect(0,0,W,H);sctx.clearRect(0,0,W,H);
   g.fillStyle='#fff';sctx.fillStyle='#fff';bctx.clearRect(0,0,W,H);
+  genTerrain.blds=[];
   const L=['spires','islands','canyon','ruins','ruins'][Math.random()*5|0];S.layout=L;
   const base=L==='islands'?H*.8:L==='canyon'?H*.56:H*.66, amp=L==='islands'?.55:L==='canyon'?1.2:1;
   const p=Array.from({length:5},()=>rnd(0,9)),ccx=rnd(.4,.6)*W,cwid=rnd(80,120);
@@ -370,55 +374,82 @@ function genTerrain(){
   // on noise rock, look for a reasonably level patch to build on
   const flatX=(gap,w)=>{let best=null;for(let k=0;k<40;k++){const x=rnd(220,W-220);if(used.some(u=>Math.abs(u-x)<gap))continue;const h=hAt(x),dl=Math.abs(hAt(x-w/2)-h),dr=Math.abs(hAt(x+w/2)-h);
     if(h<150||h>sump-70)continue;const sc=dl+dr;if(!best||sc<best.sc)best={x,sc};if(sc<12)break}const x=best?best.x:rnd(220,W-220);used.push(x);return x};
+  // ---- gothic adornments: gargoyles on corbels, crocketed roofs with finials, corner pinnacles ----
+  const gargoyle=(gg,x,y,dir,sc=1.25)=>{if(gg!==g)return;
+    for(const c of[g,cctx]){c.save();c.fillStyle='#fff';c.translate(x,y);c.scale(dir*sc,sc);
+      poly(c,[[0,-1],[5,-3],[11,-4],[14,-8],[18,-8],[21,-6],[19,-4],[20,-1],[16,0],[13,2],[11,6],[8,6],[6,3],[0,5]]);
+      poly(c,[[3,-3],[-1,-16],[2,-14],[4,-18],[8,-5]]);poly(c,[[14,-8],[13,-12],[16,-8]]);poly(c,[[-1,5],[12,5],[7,9],[-1,11]]);c.restore()}
+    eyes.push({x:x+dir*17*sc,y:y-6.3*sc,ax:x+dir*15*sc,ay:y-4*sc,c:Math.random()<.5?'cyan':'mag'})};
+  const gothicRoof=(gg,cx,top,hw,ay)=>{for(const sd of[-1,1]){const bx=cx+sd*hw,len=Math.hypot(cx-bx,ay-top),tx=(cx-bx)/len,ty=(ay-top)/len,nx=-ty*sd*-1,ny=tx*sd*-1;
+      for(let d=9;d<len-6;d+=9){const px=bx+tx*d,py=top+ty*d,ox=sd*Math.abs(ty),oy=-Math.abs(tx);poly(gg,[[px-tx*2.5,py-ty*2.5],[px+ox*5+tx*2,py+oy*5+ty*2],[px+tx*2.5,py+ty*2.5]])}}
+    gg.fillRect(cx-1,ay-16,2,16);gg.fillRect(cx-5,ay-11,10,2);gg.beginPath();gg.arc(cx,ay-17,2.2,0,Math.PI*2);gg.fill()};
+  const pinnacle=(gg,x,top,h=20)=>{poly(gg,[[x-4,top],[x,top-h],[x+4,top]]);gg.fillRect(x-.75,top-h-5,1.5,5)};
   // spires
   const ns=L==='spires'?3+(Math.random()*2|0):L==='canyon'?2:L==='ruins'?1:1+(Math.random()*2|0);
   for(let i=0;i<ns;i++){const cx=L==='ruins'?flatX(240,60):freeX(240);if(L==='canyon'&&Math.abs(cx-ccx)<cwid*1.7)continue;
-    const w=rnd(46,72),bs=hAt(cx),hh=rnd(140,240),top=bs-hh,roof=w*rnd(1,1.5);
+    const w=rnd(46,72),bs=hAt(cx),hh=rnd(140,240),top=bs-hh,roof=w*rnd(1,1.5),gr=Math.random()<.75,ga=Math.random()<.55,gy=top+rnd(16,36);
     both(gg=>{gg.fillRect(cx-w/2,top,w,hh+40);
       poly(gg,[[cx-w/2-22,bs+30],[cx-w/2,top+hh*.35],[cx-w/2,bs+30]]);poly(gg,[[cx+w/2+22,bs+30],[cx+w/2,top+hh*.35],[cx+w/2,bs+30]]);
       poly(gg,[[cx-w/2-5,top],[cx,top-roof],[cx+w/2+5,top]]);for(let k=0;k<w;k+=12)gg.fillRect(cx-w/2+k-2,top-6,6,6);
+      if(gr)gothicRoof(gg,cx,top,w/2+5,top-roof);if(ga){gargoyle(gg,cx-w/2,gy,-1);gargoyle(gg,cx+w/2,gy,1)}
       gg.globalCompositeOperation='destination-out';for(let y=top+24;y<bs-26;y+=50)archHole(gg,cx,y,w*.38,28);gg.globalCompositeOperation='source-over'});
     spires.push({cx,w,top,base:bs,roof})}
   // ---- ruined city: twin towers on bridges, hollow tenements with rooms to hide in ----
   const backWall=(x,y,w,h,col)=>{bctx.fillStyle=col;bctx.fillRect(x,y,w,h);bctx.strokeStyle='rgba(0,0,0,.45)';bctx.lineWidth=1;bctx.beginPath();
     for(let yy=y,r=0;yy<y+h;yy+=9,r++){bctx.moveTo(x,yy+.5);bctx.lineTo(x+w,yy+.5);for(let xx=x+(r%2)*11;xx<x+w;xx+=22){bctx.moveTo(xx+.5,yy);bctx.lineTo(xx+.5,yy+9)}}bctx.stroke()};
   const glowWin=(x,y,w,h)=>{const r=Math.random();bctx.fillStyle=r<.6?'rgba(0,0,0,.6)':r<.8?'rgba(255,165,40,.35)':r<.9?'rgba(63,243,255,.3)':'rgba(255,46,136,.3)';bctx.fillRect(x,y,w,h)};
-  const facade=()=>{const w=rnd(70,140),x=rnd(140,W-140-w);let gy=1e9,gb=0;for(let xx=x;xx<=x+w;xx+=4){gy=Math.min(gy,hAt(xx));gb=Math.max(gb,hAt(xx))}const h=rnd(140,300),top=gy-h;backWall(x,top,w,Math.min(sump,gb+40)-top,'#111319');
+  const facade=()=>{let w,x,gy,gb,ok=false;for(let k=0;k<12&&!ok;k++){w=rnd(70,140);x=rnd(140,W-140-w);gy=1e9;gb=0;for(let xx=x;xx<=x+w;xx+=4){gy=Math.min(gy,hAt(xx));gb=Math.max(gb,hAt(xx))}ok=gb-gy<90&&gb<sump-30}if(!ok)return;const h=rnd(140,300),top=gy-h;backWall(x,top,w,Math.min(sump,gb+40)-top,'#111319');
     for(let yy=top+16;yy<gy-20;yy+=26)for(let xx=x+10;xx<x+w-14;xx+=18)if(Math.random()<.7)glowWin(xx,yy,7,13);
     bctx.globalCompositeOperation='destination-out';const bx=x+rnd(.1,.6)*w,bw=rnd(.3,.6)*w;
     bctx.beginPath();bctx.moveTo(bx,top-2);bctx.lineTo(bx+bw*.25,top+rnd(20,70));bctx.lineTo(bx+bw*.55,top+rnd(5,40));bctx.lineTo(bx+bw*.8,top+rnd(30,90));bctx.lineTo(bx+bw,top-2);bctx.fill();
     bctx.globalCompositeOperation='source-over'};
-  const tower=(gg,cx,w,top,bs,crown)=>{const ground=Math.max(hAt(cx-w/2),hAt(cx+w/2),hAt(cx));
+  const towerPlan=(cx,w,top,bs)=>{const crown=['spire','crenel','broken'][Math.random()*3|0];
+    return{cx,w,top,bs,crown,sh:w*rnd(1.1,1.6),bk:[rnd(14,30),rnd(4,12),rnd(18,34),rnd(0,8)],gr:Math.random()<.8,ga:Math.random()<.6,gy:top+rnd(14,34),pn:Math.random()<.7}};
+  const tower=(gg,P)=>{const{cx,w,top,bs,crown}=P,ground=Math.max(hAt(cx-w/2),hAt(cx+w/2),hAt(cx));
     gg.fillRect(cx-w/2,top,w,ground-top+30);
     poly(gg,[[cx-w/2-16,ground+20],[cx-w/2,top+(ground-top)*.45],[cx-w/2,ground+20]]);poly(gg,[[cx+w/2+16,ground+20],[cx+w/2,top+(ground-top)*.45],[cx+w/2,ground+20]]);
-    if(crown==='spire')poly(gg,[[cx-w/2-5,top],[cx,top-w*rnd(1.1,1.6)],[cx+w/2+5,top]]);
-    else if(crown==='broken'){poly(gg,[[cx-w/2,top],[cx-w/2,top-rnd(14,30)],[cx-w*.1,top-rnd(4,12)],[cx+w*.15,top-rnd(18,34)],[cx+w/2,top-rnd(0,8)],[cx+w/2,top]])}
-    else for(let k=0;k<w;k+=12)gg.fillRect(cx-w/2+k-2,top-7,6,7);
+    if(crown==='spire'){poly(gg,[[cx-w/2-5,top],[cx,top-P.sh],[cx+w/2+5,top]]);if(P.gr)gothicRoof(gg,cx,top,w/2+5,top-P.sh)}
+    else if(crown==='broken')poly(gg,[[cx-w/2,top],[cx-w/2,top-P.bk[0]],[cx-w*.1,top-P.bk[1]],[cx+w*.15,top-P.bk[2]],[cx+w/2,top-P.bk[3]],[cx+w/2,top]]);
+    else{for(let k=0;k<w;k+=12)gg.fillRect(cx-w/2+k-2,top-7,6,7);if(P.pn){pinnacle(gg,cx-w/2+2,top-7,22);pinnacle(gg,cx+w/2-2,top-7,22)}}
+    if(P.ga){gargoyle(gg,cx-w/2,P.gy,-1);gargoyle(gg,cx+w/2,P.gy,1)}
     gg.globalCompositeOperation='destination-out';for(let y=top+26;y<bs-34;y+=52)archHole(gg,cx,y,w*.36,26);gg.globalCompositeOperation='source-over'};
   const twinTowers=()=>{const gap=rnd(150,220),w=rnd(40,54),cx=flatX(gap+w+160,gap+w);const ax=cx-gap/2,bx=cx+gap/2;
     const ab=hAt(ax),bb=hAt(bx),at=ab-rnd(190,270),bt=bb-rnd(170,250),cr=['spire','crenel','broken'];
-    both(gg=>{tower(gg,ax,w,at,ab,cr[Math.random()*3|0]);tower(gg,bx,w,bt,bb,cr[Math.random()*3|0])});
+    const PA=towerPlan(ax,w,at,ab),PB=towerPlan(bx,w,bt,bb);both(gg=>{tower(gg,PA);tower(gg,PB)});
     const lo=Math.max(at,bt)+30,hi=Math.min(ab,bb)-70,decks=hi-lo>110&&Math.random()<.6?2:1,span=gap-w;
-    for(let d=0;d<decks;d++){const y=decks===2?(d?hi:lo+10):rnd(lo,Math.max(lo+1,hi)),broken=Math.random()<.3;
+    for(let d=0;d<decks;d++){const y=decks===2?(d?hi:lo+10):rnd(lo,Math.max(lo+1,hi)),broken=Math.random()<.3,mx=cx+rnd(-span*.2,span*.2);
       both(gg=>{gg.fillRect(ax+w/2-2,y,span+4,10);for(let k=ax+w/2+10;k<bx-w/2-6;k+=16)gg.fillRect(k,y-9,3,9);gg.fillRect(ax+w/2,y-11,span,3);
         gg.lineWidth=7;gg.strokeStyle='#fff';gg.beginPath();gg.ellipse(cx,y+10+34,span/2,34,0,Math.PI,2*Math.PI);gg.stroke();
-        if(broken){gg.globalCompositeOperation='destination-out';const mx=cx+rnd(-span*.2,span*.2);poly(gg,[[mx-14,y-14],[mx-4,y+14],[mx+3,y+6],[mx+12,y+16],[mx+16,y-14]]);gg.globalCompositeOperation='source-over'}});
+        if(broken){gg.globalCompositeOperation='destination-out';poly(gg,[[mx-14,y-14],[mx-4,y+14],[mx+3,y+6],[mx+12,y+16],[mx+16,y-14]]);gg.globalCompositeOperation='source-over'}});
       hangs.push({cx:cx+rnd(-span*.25,span*.25),cy:y-12})}
     spires.push({cx:ax,w,top:at,base:ab,roof:w},{cx:bx,w,top:bt,base:bb,roof:w})};
-  const tenement=()=>{const w=rnd(120,175),cx=flatX(w+90,w),x0=cx-w/2,x1=cx+w/2;let gt=1e9,gb=0;for(let x=x0;x<=x1;x+=4){const h=hAt(x);gt=Math.min(gt,h);gb=Math.max(gb,h)}
-    const base=gt+4,fl=2+(Math.random()<.45?1:0),fh=44,top=base-fl*fh-6,wl=12,bite=x0+rnd(.2,.55)*w,bw=rnd(.22,.38)*w;
+  const tenement=()=>{const w=rnd(140,185),cx=flatX(w+90,w),x0=cx-w/2,x1=cx+w/2;let gt=1e9,gb=0;for(let x=x0;x<=x1;x+=4){const h=hAt(x);gt=Math.min(gt,h);gb=Math.max(gb,h)}
+    const fl=Math.random()<.35?3:2,fh=64,sl=8,wl=12,base=gt+4,top=base-fl*fh-wl,gw=52,
+      bite=x0+rnd(.25,.6)*w,bw=rnd(.2,.32)*w,bj=[rnd(4,14),rnd(0,6),rnd(6,16)],pn=Math.random()<.55,ga=Math.random()<.45?(Math.random()<.5?-1:1):0,side0=Math.random()<.5?1:-1;
     backWall(x0+wl,top+wl,w-wl*2,base-top-wl,'#16181f');
-    for(let k=0;k<fl;k++)if(Math.random()<.8)glowWin(x0+wl+rnd(10,w-wl*2-24),base-k*fh-30,8,14);
+    for(let k=0;k<fl;k++)if(Math.random()<.8)glowWin(x0+wl+rnd(gw+6,w-wl*2-gw-14),base-k*fh-40,8,14);
     both(gg=>{gg.fillRect(x0,base,w,Math.max(22,gb-base+26));gg.fillRect(x0,top,w,base-top);
       gg.globalCompositeOperation='destination-out';gg.fillRect(x0+wl,top+wl,w-wl*2,base-top-wl);
-      gg.fillRect(x0-1,base-32,wl+2,32);gg.fillRect(x1-wl-1,base-32,wl+2,32);gg.globalCompositeOperation='source-over';
-      // floors, each with a gap at alternating ends so you can jump up through the building
-      for(let k=1;k<fl;k++){const fy=base-k*fh,gx=k%2?x0+wl:x1-wl-28;gg.fillRect(x0+wl,fy,w-wl*2,6);gg.globalCompositeOperation='destination-out';gg.fillRect(gx,fy-1,28,8);gg.globalCompositeOperation='source-over'}
+      gg.fillRect(x0-1,base-40,wl+2,40);gg.fillRect(x1-wl-1,base-40,wl+2,40);
+      // keep each doorway clear of rock outside
+      gg.fillRect(x0-22,base-40,22,40);gg.fillRect(x1,base-40,22,40);gg.globalCompositeOperation='source-over';
+      // stone steps down to the ground where the door sits above it
+      for(const sd of[-1,1]){const dx=sd<0?x0:x1,drop=hAt(dx+sd*8)-base;if(drop>5&&drop<110){const n=Math.ceil(drop/6),rise=drop/n;
+        for(let i=0;i<n;i++){const xa=dx+sd*i*7,xb=dx+sd*(i+1)*7;gg.fillRect(Math.min(xa,xb),base+i*rise,7,drop-i*rise+14)}}}
+      for(let k=1;k<fl;k++){const yt=base-k*fh,yb=yt+fh,sd=k%2?side0:-side0,inL=x0+wl,inR=x1-wl;
+        // floor slab with a stairwell gap at one end
+        if(sd<0)gg.fillRect(inL+gw,yt,inR-inL-gw,sl);else gg.fillRect(inL,yt,inR-inL-gw,sl);
+        // stairs climbing away from the wall, up to the slab edge
+        const n=11,rise=fh/n,run=(gw-6)/n;
+        for(let i=0;i<n;i++){const sy=yb-(i+1)*rise;if(sd<0)gg.fillRect(inL+i*run,sy,gw-i*run,rise+1);else gg.fillRect(inR-gw,sy,gw-i*run,rise+1)}}
       gg.globalCompositeOperation='destination-out';
-      for(let k=1;k<fl;k++){const wy=base-k*fh-28;gg.fillRect(x0-1,wy,wl+2,12);gg.fillRect(x1-wl-1,wy,wl+2,12)}
-      poly(gg,[[bite,top-8],[bite+bw*.2,top+wl+rnd(4,14)],[bite+bw*.5,top+wl+rnd(0,6)],[bite+bw*.8,top+wl+rnd(6,16)],[bite+bw,top-8]]);
-      gg.globalCompositeOperation='source-over';for(let k=x0;k<x1-4;k+=14)if(k<bite-8||k>bite+bw+2)gg.fillRect(k,top-6,7,6)});
-    for(let k=0;k<fl;k++)if(Math.random()<.75)hangs.push({cx:x0+rnd(.3,.7)*w,cy:base-(k+1)*fh-(k===fl-1?14:-2)})};
+      for(let k=1;k<fl;k++){const wy=base-k*fh-36;gg.fillRect(x0-1,wy,wl+2,14);gg.fillRect(x1-wl-1,wy,wl+2,14)}
+      poly(gg,[[bite,top-8],[bite+bw*.2,top+wl+bj[0]],[bite+bw*.5,top+wl+bj[1]],[bite+bw*.8,top+wl+bj[2]],[bite+bw,top-8]]);
+      gg.globalCompositeOperation='source-over';for(let k=x0;k<x1-4;k+=14)if(k<bite-8||k>bite+bw+2)gg.fillRect(k,top-6,7,6);
+      if(pn){if(bite>x0+10)pinnacle(gg,x0+3,top-6,18);if(bite+bw<x1-10)pinnacle(gg,x1-3,top-6,18)}
+      if(ga&&((ga<0&&bite>x0+10)||(ga>0&&bite+bw<x1-10)))gargoyle(gg,ga<0?x0:x1,top+6,ga)});
+    for(let k=0;k<fl;k++)if(Math.random()<.75)hangs.push({cx:x0+w*rnd(.4,.6),cy:k===fl-1?top-14:base-(k+1)*fh-4});
+    (genTerrain.blds=genTerrain.blds||[]).push({x0,x1,base,fh,fl,side0})};
   if(L==='ruins'){for(let i=0;i<4;i++)facade();twinTowers();if(Math.random()<.45)twinTowers();for(let i=0,n=2+(Math.random()<.5?1:0);i<n;i++)tenement()}
   else if(L==='spires'){for(let i=0;i<2;i++)facade();if(Math.random()<.6)tenement();if(Math.random()<.5)twinTowers()}
   // floating islands
@@ -461,7 +492,8 @@ function genTerrain(){
   for(const h of hangs){let y=Math.max(0,h.cy-10),k=0;while(!isSolid(h.cx,y)&&k<60){y++;k++}while(isSolid(h.cx,y)&&k<260){y++;k++}
     if(k<260)add({k:'lamp',x:h.cx,y:y+16,ax:h.cx,ay:y-3})}
   for(let i=0;i<6;i++){const x=rnd(120,W-120),y=surf(x);if(y>60&&y<sump-70)add({k:'post',x,y,ax:x,ay:y+3})}
-  paintTerrain();struct.width=1;struct.height=1;rimDirty=true;
+  for(const e of eyes)add({k:'eye',x:e.x,y:e.y,ax:e.ax,ay:e.ay,c:e.c,faulty:Math.random()<.3});
+  paintTerrain();struct.width=1;struct.height=1;carv.width=1;carv.height=1;rimDirty=true;
   barrels=[];puddles=[];
   for(let i=0,k=0;i<60&&barrels.length<7;i++){const x=rnd(100,W-100),y=surf(x);
     if(y<60||y>sump-60||Math.abs(surf(x-5)-surf(x+5))>4||barrels.some(b=>Math.abs(b.x-x)<60)||isSolid(x,y-16))continue;
@@ -482,6 +514,9 @@ function paintTerrain(){
   for(let y=0,r=0;y<H;y+=9,r++){tg.moveTo(0,y+.5);tg.lineTo(W,y+.5);for(let x=(r%2)*11;x<W;x+=22){tg.moveTo(x+.5,y);tg.lineTo(x+.5,y+9)}}tg.stroke();
   for(let i=0;i<3000;i++){tg.fillStyle='rgba(0,0,0,.3)';tg.fillRect(rnd(0,W),rnd(0,H),rnd(1,4),rnd(1,3))}
   tg.globalCompositeOperation='destination-in';tg.drawImage(struct,0,0);g.drawImage(tmp,0,0);
+  if(carv.width>1){tg.globalCompositeOperation='source-over';tg.clearRect(0,0,W,H);const cg=tg.createLinearGradient(0,0,W,0);cg.addColorStop(0,'#7c818b');cg.addColorStop(1,'#858a94');
+    tg.fillStyle=cg;tg.fillRect(0,0,W,H);for(let i=0;i<4000;i++){tg.fillStyle=Math.random()<.6?'rgba(0,0,0,.25)':'rgba(255,255,255,.12)';tg.fillRect(rnd(0,W),rnd(0,H),1,1)}
+    tg.globalCompositeOperation='destination-in';tg.drawImage(carv,0,0);g.drawImage(tmp,0,0)}
   const gr=g.createLinearGradient(0,H*.45,0,H);gr.addColorStop(0,'rgba(0,0,0,0)');gr.addColorStop(1,'rgba(0,0,0,.9)');g.fillStyle=gr;g.fillRect(0,0,W,H);
   g.globalCompositeOperation='destination-in';g.drawImage(mask,0,0);g.globalCompositeOperation='source-over';
 }
@@ -785,8 +820,10 @@ function selectWeapon(id){
   else if(w.kind==='build')S.target={x:t.x+t.face*70,y:t.y-30};else S.target=null;
   updWeapUI();
 }
+const CATCOL={Artillery:'#ff7a45',Guns:'#a9c8ff',Melee:'#ff3d93',Heavy:'#ffb21e',Tools:'#3ff3ff'};
 function updWeapUI(){
   const w=curW(),a=ammoOf(S.team,w),txt=a===Infinity?'∞':'×'+a;
+  for(const id of['#dArs','#bArs'])$(id).style.setProperty('--wc',CATCOL[w.cat]);
   $('#dArs').innerHTML=icon(w.id);$('#dArs').append(w.name+' ');const em=document.createElement('em');em.textContent=txt;$('#dArs').append(em);
   $('#bArs').innerHTML=icon(w.id);$('#bArs').append(`${w.name} ${txt}`);
   if(!$('#arsenal').hidden)buildArsenal();
@@ -1492,7 +1529,7 @@ function updCamera(dt){
 function gatherLights(){
   const L=[];
   for(const f of fixtures){if(!f.alive)continue;let i=.95;if(f.faulty&&Math.sin(time*31+f.ph)+Math.sin(time*7.3+f.ph)>1.3)i=.15;else if(Math.sin(time*19+f.ph)>.985)i=.3;
-    f.i=i;L.push({x:f.x,y:f.y,r:f.k==='post'||f.k==='lamp'?150:175,c:NEON[f.c],i,h:.09})}
+    f.i=i;L.push({x:f.x,y:f.y,r:f.k==='eye'?42:f.k==='post'||f.k==='lamp'?150:175,c:NEON[f.c],i:f.k==='eye'?i*.8:i,h:f.k==='eye'?.05:.09})}
   for(const t of troopers)if(t.alive)L.push({x:t.x+t.face*3,y:t.y-21,r:46,c:TEAM[t.team].rgb,i:.45,h:0});
   wardLights(L);
   for(const p of projs){if(p.w.kind==='shell')L.push({x:p.x,y:p.y,r:p.w.nuke?190:120,c:p.w.nuke?[255,90,60]:FIRE,i:.95,h:.14});
@@ -1516,6 +1553,7 @@ function drawFixture(f){
   else if(f.k==='cross'){ctx.lineWidth=2.4;ctx.beginPath();ctx.moveTo(f.x,f.y-14);ctx.lineTo(f.x,f.y+14);ctx.moveTo(f.x-8,f.y-5);ctx.lineTo(f.x+8,f.y-5);ctx.stroke()}
   else if(f.k==='lamp'){ctx.shadowBlur=0;ctx.strokeStyle='#2a2d34';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(f.ax,f.ay);ctx.lineTo(f.x,f.y-4);ctx.stroke();
     ctx.shadowBlur=14;ctx.fillStyle=col;ctx.beginPath();ctx.moveTo(f.x-6,f.y);ctx.lineTo(f.x+6,f.y);ctx.lineTo(f.x+3,f.y-5);ctx.lineTo(f.x-3,f.y-5);ctx.fill()}
+  else if(f.k==='eye'){ctx.shadowBlur=f.i>.5?10:2;ctx.fillRect(f.x-1.3,f.y-1,2.6,2)}
   else if(f.k==='post'){ctx.shadowBlur=0;ctx.fillStyle='#1b1d23';ctx.fillRect(f.x-1.2,f.y-30,2.4,30);ctx.fillRect(f.x-1,f.y-31,8,2);
     ctx.shadowBlur=14;ctx.fillStyle=col;ctx.fillRect(f.x+3,f.y-29,5,3)}
   ctx.restore();
@@ -1731,7 +1769,7 @@ function frame(now){const dt=Math.min(.033,(now-last)/1000);last=now;chargeSound
   time+=dt*sc;update(dt*sc);render(dt);if(S.phase!=='title')updHud();requestAnimationFrame(frame)}
 requestAnimationFrame(frame);
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(resize);
-window.__G={S,maskURL:()=>{const c=mk(W/2,H/2),x=c.getContext("2d");x.fillStyle="#123";x.fillRect(0,0,W/2,H/2);x.drawImage(back,0,0,W/2,H/2);x.drawImage(terr,0,0,W/2,H/2);x.fillStyle="rgba(60,120,255,.5)";x.fillRect(0,sump/2,W/2,H);return c.toDataURL()},bus:()=>bus(),camSet:(x,y)=>{cam.x=x;cam.y=y},base:()=>baseScale,setSump:v=>{sump=v},spawnShell:(x,y)=>projs.push({w:WP.mortar,x,y,vx:0,vy:200,owner:null,age:1,fuse:0,rest:false}),MUS,get AC(){return AC},initAudio,setMusicMode,ammo:(tm,id)=>S.ammo[tm][id],surfY:surf,press:k=>{press.add(k);held.add(k)},release:k=>held.delete(k),dropRopeT:t=>dropRope(t),isSolid,explode,shove,switchTo,addFire,hurtT:(t,d)=>hurt(t,d),jumpT:t=>jump(t),get projs(){return projs},get troopers(){return troopers},get barrels(){return barrels},get crates(){return crates},get fires(){return fires},get puddles(){return puddles},sump:()=>sump,newGame,update,render,tryFire,launch,selectWeapon};
+window.__G={S,blds:()=>genTerrain.blds||[],maskURL:()=>{const c=mk(W/2,H/2),x=c.getContext("2d");x.fillStyle="#123";x.fillRect(0,0,W/2,H/2);x.drawImage(back,0,0,W/2,H/2);x.drawImage(terr,0,0,W/2,H/2);x.fillStyle="rgba(60,120,255,.5)";x.fillRect(0,sump/2,W/2,H);return c.toDataURL()},bus:()=>bus(),camSet:(x,y)=>{cam.x=x;cam.y=y},base:()=>baseScale,setSump:v=>{sump=v},spawnShell:(x,y)=>projs.push({w:WP.mortar,x,y,vx:0,vy:200,owner:null,age:1,fuse:0,rest:false}),MUS,get AC(){return AC},initAudio,setMusicMode,ammo:(tm,id)=>S.ammo[tm][id],surfY:surf,press:k=>{press.add(k);held.add(k)},release:k=>held.delete(k),dropRopeT:t=>dropRope(t),isSolid,explode,shove,switchTo,addFire,hurtT:(t,d)=>hurt(t,d),jumpT:t=>jump(t),get projs(){return projs},get troopers(){return troopers},get barrels(){return barrels},get crates(){return crates},get fires(){return fires},get puddles(){return puddles},sump:()=>sump,newGame,update,render,tryFire,launch,selectWeapon};
 })();
 </script>
 
