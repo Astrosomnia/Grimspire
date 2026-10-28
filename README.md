@@ -29,7 +29,7 @@ Orbital Lance and Fabricator are placed with a click or tap. Rotate girders with
 - **Guns:** Rail Carbine, Scatter Gun, Dakka Bolter, Las Burner, Promethium Flamer
 - **Melee:** Chainblade, Thunder Fist
 - **Heavy (one use):** Sun Grenade, Orbital Lance, Doomsday Shell
-- **Tools:** Rappel Line ×5, Jump Pack ×2, Plasma Cutter ×5, Fabricator ×3
+- **Tools:** Rappel Wire ×5, Jump Pack ×2, Plasma Cutter ×5, Fabricator ×3
 
 ## Rules of the ward
 - Taking damage ends your turn. Two-shot weapons let you move between shots.
