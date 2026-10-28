@@ -1269,7 +1269,7 @@ function spotRisk(P){let r=0;
   for(const f of fires)if(Math.abs(f.x-P.x)<22&&f.y>P.y-30&&f.y<P.y+8)r+=40;
   for(const b of barrels)if(b.alive&&Math.hypot(b.x-P.x,b.y-P.y)<42)r+=12;
   if(P.y>sump-6)return 999;return r}
-function crateVal(t,P){let v=0;for(const c of P.crates)v+=c.type==='heavy'?26:c.type==='tool'?12:Math.max(0,100-t.hp)*.5;return v}
+function crateVal(t,P){let v=0;for(const c of P.crates)v+=c.type==='heavy'?26:c.type==='tool'?12:(18+Math.max(0,100-t.hp)*.4);return v}
 function* planGen(t,quick){
   const sx=t.x,sy=t.y,foes=foesOf(t);if(!foes.length)return null;
   const spots=(quick?[{x:t.x,y:t.y,dist:0,crates:[]}]:walkReach(t,260,hasAmmo(WP.rope))).filter(P=>spotRisk(P)<900);
@@ -1457,7 +1457,7 @@ function flee(t,dt){
 const CRATE={heavy:{col:'#ffb21e',rgb:[255,178,30]},med:{col:'#a0ff46',rgb:[160,255,70]},tool:{col:'#3ff3ff',rgb:[63,243,255]}};
 function collect(c,t){
   let txt;
-  if(c.type==='med'){const h=Math.min(100,t.hp+35)-t.hp;t.hp+=h;txt='+'+h+' health'}
+  if(c.type==='med'){t.hp+=35;txt='+35 health'}
   else{const pool=c.type==='heavy'?['sun','lance','nuke','mine']:['jet','cutter','fab'],id=pool[Math.random()*pool.length|0],n=id==='cutter'?2:1;
     S.ammo[t.team][id]=(S.ammo[t.team][id]||0)+n;txt='+'+WP[id].name+(n>1?' ×'+n:'')}
   texts.push({x:c.x,y:c.y-30,txt,life:2.2,col:CRATE[c.type].col,small:true});sparks(c.x,c.y-8,10);sfx('pickup');updWeapUI();
@@ -1872,7 +1872,7 @@ const setT=(k,v)=>{if(hc[k]!==v){hc[k]=v;hudEls[k].textContent=v}};
 const setS=(k,p,v)=>{if(hc[k+p]!==v){hc[k+p]=v;hudEls[k].style[p]=v}};
 function updHud(){
   for(const tm of[0,1]){const list=troopers.filter(t=>t.team===tm),hp=list.reduce((a,t)=>a+(t.alive?t.hp:0),0);
-    setS('hp'+tm,'width',(hp/400*100).toFixed(1)+'%');setT('c'+tm,`${list.filter(t=>t.alive).length} standing`)}
+    setS('hp'+tm,'width',Math.min(100,hp/400*100).toFixed(1)+'%');setT('c'+tm,`${list.filter(t=>t.alive).length} standing`)}
   const t=S.active,w=curW();
   if(S.phase==='aim'){setT('timer',String(Math.max(0,Math.ceil(S.timer))));
     const sd=S.turnN>=SD_TURN?' · sudden death':SD_TURN-S.turnN<=3?` · sump rises in ${SD_TURN-S.turnN}`:'';
