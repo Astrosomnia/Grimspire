@@ -2379,7 +2379,7 @@ function lightOn(t){const hx=t.x,hy=t.y-13,side=[{r:0,g:0,b:0,w:0,dx:0,dy:0},{r:
   {const b=Math.min(.8,blast*1.3),o=t._blast||0;t._blast=o+(b-o)*(b>o?1:Math.min(1,k*2.5))}
   return{rims:t._rim,blast:t._blast}}
 function drawTrooper(t){if(!SPR.ready)return drawTrooperProc(t);
-  const LT=lightOn(t),off=Math.max(1,.75*scale*DPR),rb=Math.max(1.2,.95*scale*DPR);
+  const LT=lightOn(t),off=Math.max(1,.75*scale*DPR),rb=Math.max(.8,.3*scale*DPR);
   // pass 0 and 1: each side's rim; returns false when that side is unlit so the pass can be skipped
   const rimSet=i=>{const o=LT.rims[i];if(o.w<.03){ctx.shadowColor='transparent';return false}const n=Math.hypot(o.dx,o.dy)||1;
     ctx.shadowColor=rgba(o.c.map(Math.round),Math.min(.9,.2+o.w*.8));ctx.shadowOffsetX=o.dx/n*off;ctx.shadowOffsetY=o.dy/n*off;ctx.shadowBlur=rb;return true};
