@@ -322,7 +322,6 @@ body.intitle #dbg{display:none}
   <div class="apanel" style="max-width:480px" role="dialog" aria-label="Field report">
     <div class="ahead"><h2>Field report</h2><button id="rClose" type="button">Close</button></div>
     <div class="sgrp"><h3>Kind</h3><div class="seg" id="rKind"></div></div>
-    <div class="sgrp"><h3>Device</h3><div class="seg" id="rDev"></div></div>
     <label class="sgrp" for="rWho"><h3>Your name (optional)</h3><input id="rWho" class="rin" maxlength="40" autocomplete="nickname"></label>
     <label class="sgrp" for="rTi"><h3>What happened, in a line</h3><input id="rTi" class="rin" maxlength="120" placeholder="Rope won't release when I tap fire"></label>
     <label class="sgrp" for="rBo"><h3>Details (optional)</h3><textarea id="rBo" class="rin" maxlength="1200" rows="4" placeholder="What you tried, what you expected, what happened"></textarea></label>
@@ -2611,8 +2610,14 @@ $('#chatBox').addEventListener('submit',e=>{e.preventDefault();const t=$('#chatI
   const now=Date.now();if(now-CHAT.last<900)return;CHAT.last=now;
   BE.addMsg(NET.code,{u:BE.uid,f:NET.me,t,at:now}).catch(()=>banner('Chat','Message didn’t send',BONE));$('#chatIn').value='';chatClose()});
 addEventListener('keydown',e=>{if((e.code==='KeyT'||e.code==='Enter'&&e.shiftKey)&&S.mode==='online'&&!CHAT.open&&S.phase!=='title'&&document.activeElement.tagName!=='INPUT'){e.preventDefault();e.stopImmediatePropagation();chatOpen()}},true);
-const RP={kind:'Bug',dev:coarse?'Phone':'Desktop'};
-function drawRep(){segBtns($('#rKind'),['Bug','Controls','Idea','Balance'],RP.kind,v=>{RP.kind=v;drawRep()});segBtns($('#rDev'),['Phone','Desktop','Both'],RP.dev,v=>{RP.dev=v;drawRep()})}
+const RP={kind:'Bug'};
+// the device, worked out for them: kind · system · browser · screen
+function devInfo(){const u=navigator.userAgent,sm=Math.min(screen.width,screen.height);
+  const kind=coarse?(sm>=600?'Tablet':'Phone'):'Desktop';
+  const os=/iPhone/.test(u)?'iPhone':/iPad|Macintosh/.test(u)&&coarse?'iPad':/Android/.test(u)?'Android':/Mac OS X/.test(u)?'Mac':/Windows/.test(u)?'Windows':/CrOS/.test(u)?'ChromeOS':/Linux/.test(u)?'Linux':'Other';
+  const br=/Edg\//.test(u)?'Edge':/OPR\//.test(u)?'Opera':/Firefox\//.test(u)?'Firefox':/CriOS|Chrome\//.test(u)?'Chrome':/Safari\//.test(u)?'Safari':'Browser';
+  return`${kind} · ${os} ${br} · ${innerWidth}×${innerHeight}${innerWidth>innerHeight?' landscape':' portrait'}`}
+function drawRep(){segBtns($('#rKind'),['Bug','Controls','Idea','Balance'],RP.kind,v=>{RP.kind=v;drawRep()})}
 function openRep(){$('#rep').hidden=false;$('#rMsg').textContent='';try{$('#rWho').value=localStorage.getItem('gs-who')||''}catch(e){}drawRep();setTimeout(()=>$('#rTi').focus(),0)}
 for(const id of['#rWho','#rTi','#rBo'])$(id).addEventListener('keydown',e=>e.stopPropagation());
 $('#rClose').addEventListener('click',()=>{$('#rep').hidden=true});
@@ -2621,7 +2626,7 @@ $('#rSend').addEventListener('click',async()=>{const title=$('#rTi').value.trim(
   if(!title){$('#rMsg').textContent='Give it a one-line summary first.';return}
   try{localStorage.setItem('gs-who',who)}catch(e){}
   $('#rSend').disabled=true;$('#rMsg').textContent='Sending…';
-  try{await BE.init();await BE.addReport({kind:RP.kind,dev:RP.dev,title,body,who,ver:GV,mode:S.mode||'',uid:BE.uid,at:Date.now()});
+  try{await BE.init();await BE.addReport({kind:RP.kind,dev:devInfo(),title,body,who,ver:GV,mode:S.mode||'',uid:BE.uid,at:Date.now()});
     $('#rTi').value='';$('#rBo').value='';$('#rMsg').textContent='Sent. Thanks, it’s on the admin board.'}
   catch(e){$('#rMsg').textContent=onlineErr(e)}
   $('#rSend').disabled=false});
