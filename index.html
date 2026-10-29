@@ -1791,7 +1791,9 @@ function drawMines(){for(const m0 of mines){const m=SPR.ready?Object.assign({},m
 function updWard(dt){
   updMines(dt);
   // dropships
-  for(let i=ships.length-1;i>=0;i--){const sh=ships[i];sh.x+=sh.vx*dt;
+  for(let i=ships.length-1;i>=0;i--){const sh=ships[i];
+    // glide in, slow right down over the drop, then burn away
+    const d=Math.sign(sh.vx),sp=sh.dropped?Math.min(640,Math.abs(sh.vx)+420*dt):160+Math.min(1,Math.abs(sh.dropX-sh.x)/420)*420;sh.vx=d*sp;sh.x+=sh.vx*dt;
     if(Math.random()<.7)parts.push({k:'fire',x:sh.x-Math.sign(sh.vx)*34,y:sh.y+2,vx:-sh.vx*.2,vy:rnd(-10,10),life:.2,max:.7,s:rnd(2,4)});
     if(!sh.dropped&&(sh.x-sh.dropX)*Math.sign(sh.vx)>=0){sh.dropped=true;crates.push({x:sh.dropX,y:sh.y+14,vy:0,type:sh.type,landed:false,para:true});sfx('chute')}
     if(sh.dropped&&(sh.x<-220||sh.x>W+220))ships.splice(i,1)}
@@ -2434,7 +2436,7 @@ function netCatchUp(){if(S.mode!=='online'||NET.role!=='watch')return;const behi
   if(behind>300&&!NET.skip)for(let i=0;i<Math.min(6,behind-240);i++)tick()}
 function netGameOver(){if(NET.role!=='act')clearNet()}
 function netLeave(){document.title=TITLE0;if(NET.unC)NET.unC();if(NET.unM)NET.unM();NET.unC=NET.unM=null;NET.role=null;NET.started=false;S.mode='hot';$('#netBar').hidden=true}
-const GV=7;// bump on every release that changes the sim
+const GV=8;// bump on every release that changes the sim
 function startOnline(code,me,d){BE.update(code,{['vers.'+me]:GV}).catch(()=>{});NET.code=code;NET.me=me;NET.round=d.round||0;NET.snapK=-1;NET.snap=null;NET.matchAtt=d.att||'';NET.started=true;NET.leaving=false;saveNet();
   $('#net').hidden=true;const cfg=Object.assign(mkCfg('online',d.seats,d.mode==='teams'),{mode:'online'});newGame('online',d.seed,cfg);S.genOK=true;
   const base=NET.round*1e5,has=d.snapK!=null&&d.snapK>=base&&d.snap;
