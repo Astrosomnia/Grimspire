@@ -313,7 +313,7 @@ const TEAM=[
   {name:'Ash Legion',col:'#3ff3ff',rgb:[63,243,255],names:['Vael','Castor','Orsk','Hadrin','Absalom','Malchus','Corvin','Ezekar','Tobiah','Ulvar','Thrask','Severin']},
   {name:'Neon Choir',col:'#ff2e88',rgb:[255,46,136],names:['Seraph','Lumen','Kett','Mordre','Cantor','Ismay','Psalm','Vesper','Obadiah','Solenne','Thessaly','Verity']},
   {name:'The Hollow',col:'#3dff8b',rgb:[61,255,139],names:['Malphas','Sabnock','Orobas','Vapula','Zagan','Murmur','Crocell','Furfur','Andras','Haures','Bune','Glasya']},
-  {name:'Halo Guard',col:'#ffd84a',rgb:[255,216,74],names:['Uriel','Castiel','Raziel','Sariel','Jophiel','Zadkiel','Haniel','Barachiel','Azrael','Remiel','Cassiel','Ophan']}
+  {name:'Halo Guard',col:'#ffd84a',rgb:[255,216,74],names:['Uriel','Aurelian','Gideon','Lazarus','Ambrose','Matthias','Thaddeus','Clement','Jericho','Anselm','Barnabas','Sebastian']}
 ];
 const FACDESC=['Cyan. The old guard of the ward.','Magenta. Hymns and plasma.','Green. They chant backwards.','Gold. Gabriel\u2019s host, scourged and shining.'];
 const NEON={cyan:[63,243,255],mag:[255,46,136],amber:[255,165,40],acid:[160,255,70],ice:[185,212,255]};
@@ -2420,7 +2420,7 @@ function netCatchUp(){if(S.mode!=='online'||NET.role!=='watch')return;const behi
   if(behind>300&&!NET.skip)for(let i=0;i<Math.min(6,behind-240);i++)tick()}
 function netGameOver(){if(NET.role!=='act')clearNet()}
 function netLeave(){document.title=TITLE0;if(NET.unC)NET.unC();if(NET.unM)NET.unM();NET.unC=NET.unM=null;NET.role=null;NET.started=false;S.mode='hot';$('#netBar').hidden=true}
-const GV=5;// bump on every release that changes the sim
+const GV=6;// bump on every release that changes the sim
 function startOnline(code,me,d){BE.update(code,{['vers.'+me]:GV}).catch(()=>{});NET.code=code;NET.me=me;NET.round=d.round||0;NET.snapK=-1;NET.snap=null;NET.matchAtt=d.att||'';NET.started=true;NET.leaving=false;saveNet();
   $('#net').hidden=true;const cfg=Object.assign(mkCfg('online',d.seats,d.mode==='teams'),{mode:'online'});newGame('online',d.seed,cfg);S.genOK=true;
   const base=NET.round*1e5,has=d.snapK!=null&&d.snapK>=base&&d.snap;
