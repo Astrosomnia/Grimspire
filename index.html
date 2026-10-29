@@ -209,6 +209,9 @@ body.intitle #netBar{display:none}
 #dbHp{width:62px}
 body.intitle #dbg{display:none}
 #setup{z-index:8}
+#rep{z-index:9}
+.rin{font:inherit;font-size:14px;color:var(--bone);background:rgba(4,5,8,.8);border:1px solid var(--line);padding:9px 10px;width:100%;box-sizing:border-box;resize:vertical}
+.rin:focus{outline:none;border-color:var(--bone)}
 .sgrp{display:grid;gap:8px}.sgrp h3{margin:0;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ash);font-weight:600}
 .facs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
 .fac{text-align:left;border:1px solid var(--line);background:rgba(255,255,255,.02);padding:10px 12px;display:grid;gap:3px;color:var(--fc);cursor:pointer;min-width:0}
@@ -287,6 +290,7 @@ body.intitle #dbg{display:none}
       <button class="go alt" id="pRestart" type="button">Restart this battle</button>
       <label class="vol" for="vSfx"><span>Effects</span><input type="range" id="vSfx" min="0" max="100" step="1" value="100"><output id="oSfx">100%</output></label>
       <label class="vol" for="vMus"><span>Music</span><input type="range" id="vMus" min="0" max="100" step="1" value="75"><output id="oMus">75%</output></label>
+      <button class="go alt" id="pReport" type="button">Report a bug or idea</button>
       <button class="go alt" id="pForfeit" type="button" hidden>Forfeit and leave</button>
       <button class="go alt" id="pQuit" type="button">Quit to title</button>
     </div>
@@ -313,6 +317,19 @@ body.intitle #dbg{display:none}
   </div>
 </div>
 
+<div class="modal" id="rep" hidden>
+  <div class="apanel" style="max-width:480px" role="dialog" aria-label="Field report">
+    <div class="ahead"><h2>Field report</h2><button id="rClose" type="button">Close</button></div>
+    <div class="sgrp"><h3>Kind</h3><div class="seg" id="rKind"></div></div>
+    <div class="sgrp"><h3>Device</h3><div class="seg" id="rDev"></div></div>
+    <label class="sgrp" for="rWho"><h3>Your name (optional)</h3><input id="rWho" class="rin" maxlength="40" autocomplete="nickname"></label>
+    <label class="sgrp" for="rTi"><h3>What happened, in a line</h3><input id="rTi" class="rin" maxlength="120" placeholder="Rope won't release when I tap fire"></label>
+    <label class="sgrp" for="rBo"><h3>Details (optional)</h3><textarea id="rBo" class="rin" maxlength="1200" rows="4" placeholder="What you tried, what you expected, what happened"></textarea></label>
+    <button class="go" id="rSend" type="button">Send report<span>Goes to the admin board</span></button>
+    <p class="nmsg" id="rMsg" role="status"></p>
+  </div>
+</div>
+
 <div class="modal" id="setup" hidden>
   <div class="apanel" style="max-width:520px" role="dialog" aria-label="Battle setup">
     <div class="ahead"><h2 id="sTitle">Battle</h2><button id="sClose" type="button">Close</button></div>
@@ -333,6 +350,7 @@ body.intitle #dbg{display:none}
     <div class="btns">
       <button class="go" id="goCpu" type="button">Fight the machine<span>Pick your squad, face 1 to 3 machines</span></button>
       <button class="go alt" id="goHot" type="button">Commanders<span>2 to 4 players, pass the device</span></button>
+      <button class="go alt" id="goReport" type="button">Field report<span>Bug, finicky control or idea</span></button>
       <button class="go alt" id="goRematch" type="button" hidden>Rematch<span>Same players, fresh ward</span></button>
       <button class="go alt" id="goNet" type="button">Online<span>Make a match, share the code</span></button>
     </div>
@@ -2473,6 +2491,7 @@ const BE={uid:null,db:null,mock:/[?&]mock=1/.test(location.search),
     return this.db.collection('matches').doc(code).collection('msgs').add(m)},
   watchMsgs(code,cb){if(this.mock){let n=-1;const f=()=>{const a=this.mget('x:'+code)||[],s=JSON.stringify(a);if(s.length!==n){n=s.length;cb(a)}};this.subs.push(f);f();return()=>{this.subs=this.subs.filter(x=>x!==f)}}
     return this.db.collection('matches').doc(code).collection('msgs').orderBy('at').limitToLast(30).onSnapshot(qs=>cb(qs.docs.map(d=>d.data())))},
+  async addReport(r){if(this.mock){const a=this.mget('reports')||[];a.push(r);this.mset('reports',a);return}return this.db.collection('reports').add(r)},
   watchChunks(code,k,cb){if(this.mock){let n=0;const f=()=>{const a=(this.mget('c:'+code)||[]).filter(c=>c.k===k);if(a.length!==n){n=a.length;cb(a)}};this.subs.push(f);f();return()=>{this.subs=this.subs.filter(x=>x!==f)}}
     return this.db.collection('matches').doc(code).collection('chunks').where('k','==',k).onSnapshot(qs=>cb(qs.docs.map(d=>d.data())))}};
 window.__BE=BE;
@@ -2528,7 +2547,7 @@ function netCatchUp(){if(S.mode!=='online'||NET.role!=='watch')return;const behi
   if(behind>300&&!NET.skip)for(let i=0;i<Math.min(6,behind-240);i++)tick()}
 function netGameOver(){if(NET.role!=='act')clearNet()}
 function netLeave(){document.title=TITLE0;chatStop();if(NET.unC)NET.unC();if(NET.unM)NET.unM();NET.unC=NET.unM=null;NET.role=null;NET.started=false;S.mode='hot';$('#netBar').hidden=true}
-const GV=10;// bump on every release that changes the sim
+const GV=11;// bump on every release that changes the sim
 function startOnline(code,me,d){BE.update(code,{['vers.'+me]:GV}).catch(()=>{});NET.code=code;NET.me=me;NET.round=d.round||0;NET.snapK=-1;NET.snap=null;NET.matchAtt=d.att||'';NET.started=true;NET.leaving=false;saveNet();
   $('#net').hidden=true;if(!CHAT.un)chatStart();const cfg=Object.assign(mkCfg('online',d.seats,d.mode==='teams'),{mode:'online'});newGame('online',d.seed,cfg);S.genOK=true;
   const base=NET.round*1e5,has=d.snapK!=null&&d.snapK>=base&&d.snap;
@@ -2591,6 +2610,20 @@ $('#chatBox').addEventListener('submit',e=>{e.preventDefault();const t=$('#chatI
   const now=Date.now();if(now-CHAT.last<900)return;CHAT.last=now;
   BE.addMsg(NET.code,{u:BE.uid,f:NET.me,t,at:now}).catch(()=>banner('Chat','Message didn’t send',BONE));$('#chatIn').value='';chatClose()});
 addEventListener('keydown',e=>{if((e.code==='KeyT'||e.code==='Enter'&&e.shiftKey)&&S.mode==='online'&&!CHAT.open&&S.phase!=='title'&&document.activeElement.tagName!=='INPUT'){e.preventDefault();e.stopImmediatePropagation();chatOpen()}},true);
+const RP={kind:'Bug',dev:coarse?'Phone':'Desktop'};
+function drawRep(){segBtns($('#rKind'),['Bug','Controls','Idea','Balance'],RP.kind,v=>{RP.kind=v;drawRep()});segBtns($('#rDev'),['Phone','Desktop','Both'],RP.dev,v=>{RP.dev=v;drawRep()})}
+function openRep(){$('#rep').hidden=false;$('#rMsg').textContent='';try{$('#rWho').value=localStorage.getItem('gs-who')||''}catch(e){}drawRep();setTimeout(()=>$('#rTi').focus(),0)}
+for(const id of['#rWho','#rTi','#rBo'])$(id).addEventListener('keydown',e=>e.stopPropagation());
+$('#rClose').addEventListener('click',()=>{$('#rep').hidden=true});
+$('#goReport').addEventListener('click',openRep);$('#pReport').addEventListener('click',openRep);
+$('#rSend').addEventListener('click',async()=>{const title=$('#rTi').value.trim(),body=$('#rBo').value.trim(),who=$('#rWho').value.trim().slice(0,40);
+  if(!title){$('#rMsg').textContent='Give it a one-line summary first.';return}
+  try{localStorage.setItem('gs-who',who)}catch(e){}
+  $('#rSend').disabled=true;$('#rMsg').textContent='Sending…';
+  try{await BE.init();await BE.addReport({kind:RP.kind,dev:RP.dev,title,body,who,ver:GV,mode:S.mode||'',uid:BE.uid,at:Date.now()});
+    $('#rTi').value='';$('#rBo').value='';$('#rMsg').textContent='Sent. Thanks, it’s on the admin board.'}
+  catch(e){$('#rMsg').textContent=onlineErr(e)}
+  $('#rSend').disabled=false});
 $('#goRematch').addEventListener('click',()=>{if(NET.code)BE.rematch(NET.code).catch(e=>alertMsg(e.message))});
 function alertMsg(t){banner('Online',t,BONE)}
 $('#pForfeit').addEventListener('click',()=>{if(S.mode!=='online'||!NET.code)return;setPause(false);
