@@ -211,6 +211,8 @@ body.intitle #netBar{display:none}
 body.intitle #dbg{display:none}
 #setup{z-index:8}
 #rep{z-index:9}
+.lnk{justify-self:start;background:none;border:0;padding:0;margin-top:-4px;font:inherit;font-size:11px;letter-spacing:.06em;color:var(--ash);text-decoration:underline;text-underline-offset:3px;cursor:pointer;opacity:.75}
+.lnk:hover{opacity:1;color:var(--bone)}
 .rin{font:inherit;font-size:14px;color:var(--bone);background:rgba(4,5,8,.8);border:1px solid var(--line);padding:9px 10px;width:100%;box-sizing:border-box;resize:vertical}
 .rin:focus{outline:none;border-color:var(--bone)}
 .sgrp{display:grid;gap:8px}.sgrp h3{margin:0;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ash);font-weight:600}
@@ -350,11 +352,11 @@ body.intitle #dbg{display:none}
     <div class="btns">
       <button class="go" id="goCpu" type="button">Fight the machine<span>Pick your squad, face 1 to 3 machines</span></button>
       <button class="go alt" id="goHot" type="button">Commanders<span>2 to 4 players, pass the device</span></button>
-      <button class="go alt" id="goReport" type="button">Field report<span>Bug, finicky control or idea</span></button>
       <button class="go alt" id="goRematch" type="button" hidden>Rematch<span>Same players, fresh ward</span></button>
       <button class="go alt" id="goNet" type="button">Online<span>Make a match, share the code</span></button>
     </div>
-    <p class="how"><b>Sixteen weapons</b> across artillery, guns, melee, heavy ordnance and tools. Open the arsenal to pick. Heavy weapons and tools have limited uses. Shoot out the neon and that part of the ward goes dark.</p>
+    <p class="how"><b>Twenty-two weapons</b> across artillery, guns, melee, heavy ordnance and tools. Open the arsenal to pick. Heavy weapons and tools have limited uses. Shoot out the neon and that part of the ward goes dark.</p>
+    <button class="lnk" id="goReport" type="button">Found a bug? File a field report</button>
   </div>
 </div>
 
