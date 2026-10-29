@@ -1,0 +1,47 @@
+{
+  "pixel_scale": 12,
+  "units": "coordinates in exported PNG pixels; native art coordinates are divided by 12",
+  "C01": {
+    "name": "Supply Crate",
+    "art_size": [
+      30,
+      22
+    ],
+    "frame_size_px": [
+      408,
+      312
+    ],
+    "base": "C01_supply_crate.png",
+    "symbol_anchor_px": [
+      204,
+      156
+    ],
+    "symbol_masks": {
+      "medical": "C01_symbol_medical_mask.png",
+      "heavy": "C01_symbol_heavy_mask.png",
+      "arms": "C01_symbol_arms_mask.png",
+      "tool": "C01_symbol_tool_mask.png"
+    },
+    "symbol_tints": {
+      "medical": "green",
+      "heavy": "amber",
+      "arms": "steel blue",
+      "tool": "cyan"
+    }
+  },
+  "C02": {
+    "name": "Parachute",
+    "canopy_width_art_px": 55,
+    "canopy_height_art_px": 20,
+    "frame_size_px": [
+      720,
+      516
+    ],
+    "file": "C02_parachute.png",
+    "suspension_anchor_px": [
+      360,
+      480
+    ],
+    "cut_behavior": "procedural; no extra damaged animation frames"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "frame_size_px": [
+    510,
+    710
+  ],
+  "frame_count": 4,
+  "frame_duration_ms": 175,
+  "registration": "Identical 510x710 crop/origin as earlier walk and all state sheets",
+  "order": [
+    "left_contact",
+    "passing_left",
+    "right_contact",
+    "passing_right"
+  ],
+  "layers": {
+    "body": "walk_body.png",
+    "emissive": "walk_emissive.png",
+    "trim": "walk_trim.png"
+  },
+  "notes": [
+    "Upper-body pixels are completely fixed frame-to-frame.",
+    "Leg silhouettes were redrawn on a native 12px grid with distinct knees, ankles, and toe positions.",
+    "Game engine may apply body tilt/bob in addition to this drawn stride."
+  ]
+}

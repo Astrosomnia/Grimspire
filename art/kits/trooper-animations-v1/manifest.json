@@ -1,0 +1,75 @@
+{
+  "frame_size_px": [
+    510,
+    710
+  ],
+  "source_registration": "same as previous 510x710 walk",
+  "frame_order": "left-to-right",
+  "layer_names": [
+    "body",
+    "emissive",
+    "trim"
+  ],
+  "states": {
+    "idle": {
+      "frames": 3,
+      "files": {
+        "body": "idle_body.png",
+        "emissive": "idle_emissive.png",
+        "trim": "idle_trim.png"
+      },
+      "duration_ms": 250
+    },
+    "jump": {
+      "frames": 3,
+      "files": {
+        "body": "jump_body.png",
+        "emissive": "jump_emissive.png",
+        "trim": "jump_trim.png"
+      },
+      "duration_ms": 160
+    },
+    "knocked": {
+      "frames": 3,
+      "files": {
+        "body": "knocked_body.png",
+        "emissive": "knocked_emissive.png",
+        "trim": "knocked_trim.png"
+      },
+      "duration_ms": 160
+    },
+    "swim": {
+      "frames": 2,
+      "files": {
+        "body": "swim_body.png",
+        "emissive": "swim_emissive.png",
+        "trim": "swim_trim.png"
+      },
+      "duration_ms": 140
+    },
+    "death": {
+      "frames": 1,
+      "files": {
+        "body": "death_body.png",
+        "emissive": "death_emissive.png",
+        "trim": "death_trim.png"
+      },
+      "duration_ms": 160
+    },
+    "throw": {
+      "frames": 1,
+      "files": {
+        "body": "throw_body.png",
+        "emissive": "throw_emissive.png",
+        "trim": "throw_trim.png"
+      },
+      "duration_ms": 160,
+      "arm_file": "throw_arm.png",
+      "shoulder_pivot": [
+        300,
+        324
+      ]
+    }
+  },
+  "limitations": "Prototype pose transforms from the existing trooper raster, not individually hand-drawn pixel frames."
+}

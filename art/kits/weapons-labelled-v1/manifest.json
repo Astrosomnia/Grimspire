@@ -1,0 +1,222 @@
+{
+  "version": 1,
+  "grid": {
+    "columns": 4,
+    "rows": 3,
+    "cell_px": [
+      400,
+      290
+    ]
+  },
+  "weapons": [
+    {
+      "id": "W01",
+      "name": "Plasma Mortar",
+      "file": "W01_plasma_mortar.png",
+      "source_crop_px": [
+        0,
+        165,
+        365,
+        375
+      ],
+      "contact_cell": {
+        "column": 0,
+        "row": 0
+      },
+      "tile_size_px": [
+        316,
+        160
+      ]
+    },
+    {
+      "id": "W02",
+      "name": "Rail Carbine",
+      "file": "W02_rail_carbine.png",
+      "source_crop_px": [
+        370,
+        165,
+        795,
+        375
+      ],
+      "contact_cell": {
+        "column": 1,
+        "row": 0
+      },
+      "tile_size_px": [
+        358,
+        112
+      ]
+    },
+    {
+      "id": "W03",
+      "name": "Scatter Gun",
+      "file": "W03_scatter_gun.png",
+      "source_crop_px": [
+        795,
+        165,
+        1180,
+        375
+      ],
+      "contact_cell": {
+        "column": 2,
+        "row": 0
+      },
+      "tile_size_px": [
+        304,
+        140
+      ]
+    },
+    {
+      "id": "W04",
+      "name": "Dakka Bolter",
+      "file": "W04_dakka_bolter.png",
+      "source_crop_px": [
+        1180,
+        165,
+        1536,
+        375
+      ],
+      "contact_cell": {
+        "column": 3,
+        "row": 0
+      },
+      "tile_size_px": [
+        330,
+        172
+      ]
+    },
+    {
+      "id": "W05",
+      "name": "Las Burner",
+      "file": "W05_las_burner.png",
+      "source_crop_px": [
+        0,
+        380,
+        455,
+        700
+      ],
+      "contact_cell": {
+        "column": 0,
+        "row": 1
+      },
+      "tile_size_px": [
+        358,
+        104
+      ]
+    },
+    {
+      "id": "W06",
+      "name": "Promethium Flamer",
+      "file": "W06_promethium_flamer.png",
+      "source_crop_px": [
+        455,
+        380,
+        880,
+        700
+      ],
+      "contact_cell": {
+        "column": 1,
+        "row": 1
+      },
+      "tile_size_px": [
+        358,
+        144
+      ]
+    },
+    {
+      "id": "W07",
+      "name": "Chainblade",
+      "file": "W07_chainblade.png",
+      "source_crop_px": [
+        880,
+        380,
+        1210,
+        700
+      ],
+      "contact_cell": {
+        "column": 2,
+        "row": 1
+      },
+      "tile_size_px": [
+        211,
+        204
+      ]
+    },
+    {
+      "id": "W08",
+      "name": "Thunder Fist",
+      "file": "W08_thunder_fist.png",
+      "source_crop_px": [
+        1210,
+        380,
+        1536,
+        700
+      ],
+      "contact_cell": {
+        "column": 3,
+        "row": 1
+      },
+      "tile_size_px": [
+        248,
+        165
+      ]
+    },
+    {
+      "id": "W09",
+      "name": "Orbital Lance",
+      "file": "W09_orbital_lance.png",
+      "source_crop_px": [
+        150,
+        700,
+        430,
+        965
+      ],
+      "contact_cell": {
+        "column": 0,
+        "row": 2
+      },
+      "tile_size_px": [
+        153,
+        204
+      ]
+    },
+    {
+      "id": "W10",
+      "name": "Rappel Wire",
+      "file": "W10_rappel_wire.png",
+      "source_crop_px": [
+        510,
+        700,
+        890,
+        965
+      ],
+      "contact_cell": {
+        "column": 1,
+        "row": 2
+      },
+      "tile_size_px": [
+        305,
+        156
+      ]
+    },
+    {
+      "id": "W11",
+      "name": "Plasma Cutter",
+      "file": "W11_plasma_cutter.png",
+      "source_crop_px": [
+        910,
+        700,
+        1350,
+        965
+      ],
+      "contact_cell": {
+        "column": 2,
+        "row": 2
+      },
+      "tile_size_px": [
+        358,
+        145
+      ]
+    }
+  ]
+}

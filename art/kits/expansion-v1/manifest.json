@@ -1,0 +1,181 @@
+{
+  "pixel_scale": 12,
+  "coordinate_units": "exported PNG pixels, top-left origin",
+  "assets": {
+    "M01": {
+      "name": "Martyr Charge",
+      "base": "M01_base.png",
+      "frame_px": [
+        120,
+        120
+      ],
+      "emissive": "M01_emissive.png",
+      "blink": "engine controlled",
+      "use": "martyr raised hand / throwable"
+    },
+    "C04": {
+      "name": "Promethium Tank",
+      "base": "C04_base.png",
+      "frame_px": [
+        288,
+        384
+      ],
+      "emissive": "C04_emissive.png",
+      "extras": {
+        "critical_emissive": "C04_critical_emissive.png"
+      }
+    },
+    "C03": {
+      "name": "Dropship",
+      "base": "C03_base.png",
+      "frame_px": [
+        1800,
+        624
+      ],
+      "emissive": "C03_emissive.png",
+      "extras": {
+        "guide": "C03_guide.png"
+      },
+      "exhaust_art_point": [
+        96,
+        288
+      ],
+      "hatch_art_point": [
+        876,
+        456
+      ],
+      "nose_facing": "right"
+    },
+    "G01": {
+      "name": "Godfall Pod",
+      "base": "G01_base.png",
+      "frame_px": [
+        264,
+        408
+      ],
+      "emissive": "G01_emissive.png",
+      "extras": {
+        "exhaust_guide": "G01_exhaust_guide.png",
+        "opened_wreck": "G01_opened_wreck.png"
+      },
+      "exhaust_art_point": [
+        24,
+        216
+      ],
+      "nose_art_point": [
+        228,
+        180
+      ],
+      "note": "Game rotates the pod to flight vector; no launch frame."
+    },
+    "W18": {
+      "name": "Minigun",
+      "base": "W18_base.png",
+      "frame_px": [
+        456,
+        204
+      ],
+      "emissive": "W18_emissive.png",
+      "extras": {
+        "barrel_phase_0": "W18_barrel_phase_0.png",
+        "barrel_phase_1": "W18_barrel_phase_1.png",
+        "barrel_phase_2": "W18_barrel_phase_2.png"
+      },
+      "grip_art_point": [
+        144,
+        144
+      ],
+      "support_grip_art_point": [
+        240,
+        144
+      ],
+      "muzzle_art_point": [
+        444,
+        108
+      ],
+      "note": "Barrel phases are overlays in the exact same registration."
+    },
+    "W19": {
+      "name": "Sentry Turret",
+      "base": "W19_base.png",
+      "frame_px": [
+        312,
+        288
+      ],
+      "emissive": "W19_emissive.png",
+      "extras": {
+        "tracking_head": "W19_tracking_head.png",
+        "pivot_guide": "W19_pivot_guide.png"
+      },
+      "head_pivot_art_point": [
+        156,
+        156
+      ],
+      "laser_start_art_point": [
+        300,
+        108
+      ],
+      "note": "Draw base, then pivot head and head emissive together."
+    },
+    "W20": {
+      "name": "Tracked Drone",
+      "base": "W20_base.png",
+      "frame_px": [
+        264,
+        168
+      ],
+      "emissive": "W20_emissive.png",
+      "tread_animation": "scroll or cycle in engine",
+      "nose_facing": "right"
+    },
+    "W21": {
+      "name": "Teleporter",
+      "base": "W21_base.png",
+      "frame_px": [
+        300,
+        180
+      ],
+      "emissive": "W21_emissive.png",
+      "grip_art_point": [
+        156,
+        132
+      ],
+      "muzzle_art_point": [
+        288,
+        96
+      ]
+    },
+    "W07": {
+      "name": "Chainblade Rework",
+      "base": "W07_base.png",
+      "frame_px": [
+        432,
+        180
+      ],
+      "emissive": "W07_emissive.png",
+      "extras": {
+        "chain_phase_0": "W07_chain_phase_0.png",
+        "chain_phase_1": "W07_chain_phase_1.png",
+        "chain_phase_2": "W07_chain_phase_2.png"
+      },
+      "grip_art_point": [
+        96,
+        120
+      ],
+      "muzzle_art_point": [
+        420,
+        96
+      ],
+      "note": "Horizontal. Chain phases overlay stationary body; rev duration stays in code."
+    }
+  },
+  "reuse": {
+    "W12": "grimspire-pixelkit-v2/W12_frag_charge.png + emissive",
+    "W13": "grimspire-pixelkit-v2/W13_sun_grenade.png + emissive",
+    "W14": "grimspire-pixelkit-v2/W14_fusion_mine.png + emissive",
+    "P01": "grimspire-pixelkit-v2/P01_mortar_shell.png + emissive",
+    "trooper_states": "grimspire-trooper-animations-v1 (idle, jump, knocked, swim, death, throw)",
+    "salute_and_martyr": "Rotate the separate arm; attach M01 to hand.",
+    "grave": "procedural cross; no sprite"
+  }
+}

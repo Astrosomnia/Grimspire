@@ -1,0 +1,376 @@
+{
+  "pixel_scale": 12,
+  "weapon_frame_px": [
+    504,
+    240
+  ],
+  "units": "all attachment coordinates in PNG pixels, top-left origin",
+  "weapons": [
+    {
+      "id": "W01",
+      "name": "Plasma Mortar",
+      "type": "held",
+      "file": "W01_plasma_mortar.png",
+      "emissive_file": "W01_plasma_mortar_emissive.png",
+      "native_frame": [
+        42,
+        20
+      ],
+      "pixel_scale": 12,
+      "grip": [
+        132,
+        144
+      ],
+      "muzzle": [
+        396,
+        120
+      ],
+      "notes": ""
+    },
+    {
+      "id": "W02",
+      "name": "Rail Carbine",
+      "type": "held",
+      "file": "W02_rail_carbine.png",
+      "emissive_file": "W02_rail_carbine_emissive.png",
+      "native_frame": [
+        42,
+        20
+      ],
+      "pixel_scale": 12,
+      "grip": [
+        132,
+        144
+      ],
+      "muzzle": [
+        396,
+        120
+      ],
+      "notes": ""
+    },
+    {
+      "id": "W03",
+      "name": "Scatter Gun",
+      "type": "held",
+      "file": "W03_scatter_gun.png",
+      "emissive_file": "W03_scatter_gun_emissive.png",
+      "native_frame": [
+        42,
+        20
+      ],
+      "pixel_scale": 12,
+      "grip": [
+        132,
+        144
+      ],
+      "muzzle": [
+        396,
+        120
+      ],
+      "notes": ""
+    },
+    {
+      "id": "W04",
+      "name": "Dakka Bolter",
+      "type": "held",
+      "file": "W04_dakka_bolter.png",
+      "emissive_file": "W04_dakka_bolter_emissive.png",
+      "native_frame": [
+        42,
+        20
+      ],
+      "pixel_scale": 12,
+      "grip": [
+        120,
+        144
+      ],
+      "muzzle": [
+        396,
+        120
+      ],
+      "notes": ""
+    },
+    {
+      "id": "W05",
+      "name": "Las Burner",
+      "type": "held",
+      "file": "W05_las_burner.png",
+      "emissive_file": "W05_las_burner_emissive.png",
+      "native_frame": [
+        42,
+        20
+      ],
+      "pixel_scale": 12,
+      "grip": [
+        120,
+        144
+      ],
+      "muzzle": [
+        396,
+        120
+      ],
+      "notes": ""
+    },
+    {
+      "id": "W06",
+      "name": "Promethium Flamer",
+      "type": "held",
+      "file": "W06_promethium_flamer.png",
+      "emissive_file": "W06_promethium_flamer_emissive.png",
+      "native_frame": [
+        42,
+        20
+      ],
+      "pixel_scale": 12,
+      "grip": [
+        132,
+        144
+      ],
+      "muzzle": [
+        396,
+        120
+      ],
+      "notes": ""
+    },
+    {
+      "id": "W07",
+      "name": "Chainblade",
+      "type": "held",
+      "file": "W07_chainblade.png",
+      "emissive_file": "W07_chainblade_emissive.png",
+      "native_frame": [
+        42,
+        20
+      ],
+      "pixel_scale": 12,
+      "grip": [
+        84,
+        144
+      ],
+      "muzzle": [
+        396,
+        120
+      ],
+      "notes": "Blade horizontal, grip left."
+    },
+    {
+      "id": "W08",
+      "name": "Thunder Fist",
+      "type": "gauntlet",
+      "file": "W08_thunder_fist.png",
+      "emissive_file": "W08_thunder_fist_emissive.png",
+      "native_frame": [
+        42,
+        20
+      ],
+      "pixel_scale": 12,
+      "grip": [
+        72,
+        144
+      ],
+      "muzzle": [
+        288,
+        120
+      ],
+      "notes": "Replaces hand."
+    },
+    {
+      "id": "W09",
+      "name": "Orbital Lance",
+      "type": "held",
+      "file": "W09_orbital_lance.png",
+      "emissive_file": "W09_orbital_lance_emissive.png",
+      "native_frame": [
+        42,
+        20
+      ],
+      "pixel_scale": 12,
+      "grip": [
+        144,
+        144
+      ],
+      "muzzle": [
+        264,
+        120
+      ],
+      "notes": "Muzzle denotes targeting tip."
+    },
+    {
+      "id": "W10",
+      "name": "Rappel Wire",
+      "type": "held",
+      "file": "W10_rappel_wire.png",
+      "emissive_file": "W10_rappel_wire_emissive.png",
+      "native_frame": [
+        42,
+        20
+      ],
+      "pixel_scale": 12,
+      "grip": [
+        96,
+        144
+      ],
+      "muzzle": [
+        276,
+        120
+      ],
+      "notes": "Muzzle denotes grapple exit."
+    },
+    {
+      "id": "W11",
+      "name": "Plasma Cutter",
+      "type": "held",
+      "file": "W11_plasma_cutter.png",
+      "emissive_file": "W11_plasma_cutter_emissive.png",
+      "native_frame": [
+        42,
+        20
+      ],
+      "pixel_scale": 12,
+      "grip": [
+        96,
+        144
+      ],
+      "muzzle": [
+        276,
+        120
+      ],
+      "notes": ""
+    },
+    {
+      "id": "W12",
+      "name": "Frag Charge",
+      "type": "thrown",
+      "file": "W12_frag_charge.png",
+      "emissive_file": "W12_frag_charge_emissive.png",
+      "native_frame": [
+        42,
+        20
+      ],
+      "pixel_scale": 12,
+      "grip": null,
+      "muzzle": null,
+      "notes": "Light blinks in engine."
+    },
+    {
+      "id": "W13",
+      "name": "Sun Grenade",
+      "type": "thrown",
+      "file": "W13_sun_grenade.png",
+      "emissive_file": "W13_sun_grenade_emissive.png",
+      "native_frame": [
+        42,
+        20
+      ],
+      "pixel_scale": 12,
+      "grip": null,
+      "muzzle": null,
+      "notes": "Mostly emissive."
+    },
+    {
+      "id": "W14",
+      "name": "Fusion Mine",
+      "type": "dropped",
+      "file": "W14_fusion_mine.png",
+      "emissive_file": "W14_fusion_mine_emissive.png",
+      "native_frame": [
+        42,
+        20
+      ],
+      "pixel_scale": 12,
+      "grip": null,
+      "muzzle": null,
+      "notes": "Light blinks in engine."
+    },
+    {
+      "id": "W15",
+      "name": "Doomsday Shell",
+      "type": "held",
+      "file": "W15_doomsday_shell.png",
+      "emissive_file": "W15_doomsday_shell_emissive.png",
+      "native_frame": [
+        42,
+        20
+      ],
+      "pixel_scale": 12,
+      "grip": [
+        120,
+        144
+      ],
+      "muzzle": [
+        396,
+        120
+      ],
+      "notes": "Heavy mortar variant."
+    },
+    {
+      "id": "W16",
+      "name": "Fabricator",
+      "type": "held",
+      "file": "W16_fabricator.png",
+      "emissive_file": "W16_fabricator_emissive.png",
+      "native_frame": [
+        42,
+        20
+      ],
+      "pixel_scale": 12,
+      "grip": [
+        108,
+        144
+      ],
+      "muzzle": [
+        288,
+        120
+      ],
+      "notes": "Girder hologram remains procedural."
+    },
+    {
+      "id": "P01",
+      "name": "Mortar Shell",
+      "type": "projectile",
+      "file": "P01_mortar_shell.png",
+      "emissive_file": "P01_mortar_shell_emissive.png",
+      "native_frame": [
+        42,
+        20
+      ],
+      "pixel_scale": 12,
+      "grip": null,
+      "muzzle": null,
+      "notes": ""
+    }
+  ],
+  "worn": [
+    {
+      "id": "W17",
+      "name": "Jump Pack",
+      "type": "worn",
+      "source": "trooper body integrated backpack",
+      "nozzle": [
+        120,
+        370
+      ],
+      "guide": "W17_jump_pack_nozzle_guide.png",
+      "frame_size_px": [
+        510,
+        710
+      ]
+    }
+  ],
+  "arm": {
+    "file": "trooper_aim_arm.png",
+    "guide": "trooper_aim_arm_guide.png",
+    "frame_size_px": [
+      510,
+      710
+    ],
+    "shoulder_pivot": [
+      300,
+      324
+    ],
+    "hand_anchor": [
+      396,
+      336
+    ]
+  }
+}
