@@ -67,6 +67,17 @@ button:focus-visible{outline:2px solid var(--fire);outline-offset:2px}
 #timer{font-size:30px;font-weight:700;line-height:1;font-variant-numeric:tabular-nums;min-width:2ch;text-align:center}
 #timer.warn{color:var(--fire)}
 #timer.idle{opacity:.4}
+#chatBtn{pointer-events:auto;width:30px;height:30px;border:1px solid var(--line);display:grid;place-items:center;background:rgba(0,0,0,.4);color:var(--bone)}
+#chatBtn.ping{border-color:var(--bone);box-shadow:0 0 10px rgba(230,228,222,.5)}
+#chatFeed{position:fixed;z-index:3;left:max(16px,env(safe-area-inset-left,0px));top:calc(env(safe-area-inset-top,0px) + 120px);width:min(340px,70vw);display:grid;gap:4px;pointer-events:none}
+#chatFeed p{margin:0;font-size:12px;line-height:1.35;color:var(--bone);background:rgba(4,5,8,.62);padding:4px 8px;border-left:2px solid currentColor;overflow-wrap:anywhere;transition:opacity .6s}
+#chatFeed p.old{opacity:0}
+#chatFeed p b{font-weight:600;margin-right:6px}
+body.chatting #chatFeed p.old{opacity:1}
+#chatBox{position:fixed;z-index:7;left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom,0px) + 90px);width:min(460px,calc(100vw - 32px));display:flex;gap:6px}
+#chatIn{flex:1;min-width:0;font:inherit;font-size:14px;color:var(--bone);background:rgba(4,5,8,.9);border:1px solid var(--bone);padding:10px 12px}
+#chatIn:focus{outline:none}
+#chatSend{border:1px solid var(--bone);background:var(--bone);color:#000;padding:0 14px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:700}
 #pauseBtn{pointer-events:auto;width:30px;height:30px;border:1px solid var(--line);display:grid;place-items:center;font-size:11px;font-weight:700;letter-spacing:.05em;background:rgba(0,0,0,.4)}
 #turn{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--ash);white-space:nowrap;max-width:46vw;overflow:hidden;text-overflow:ellipsis}
 .wind{display:grid;gap:3px;justify-items:center}
@@ -209,7 +220,7 @@ body.intitle #netBar{display:none}
 <div id="hud">
   <div class="tside" id="tl"></div>
   <div class="mid">
-    <div class="trow"><div id="timer">—</div><button id="pauseBtn" type="button" aria-label="Pause">II</button></div>
+    <div class="trow"><div id="timer">—</div><button id="pauseBtn" type="button" aria-label="Pause">II</button><button id="chatBtn" type="button" aria-label="Chat" hidden><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 5h16v11H9l-5 4z"/></svg></button></div>
     <div id="turn"></div>
     <div class="wind"><span id="wlab">WIND</span><div class="wbar"><i id="wfill"></i></div></div>
   </div>
@@ -217,7 +228,9 @@ body.intitle #netBar{display:none}
 </div>
 
 <div id="banner"></div>
-<div id="netBar" hidden><span id="netTxt"></span><button id="netSkip" type="button" hidden>Skip</button></div>
+<div id="chatFeed" aria-live="polite"></div>
+<form id="chatBox" hidden><input id="chatIn" maxlength="140" autocomplete="off" placeholder="Say something to the ward" aria-label="Chat message"><button id="chatSend" type="submit">Send</button></form>
+<div id="netBar" hidden><span id="netTxt" hidden></span><button id="netSkip" type="button" hidden>Skip</button></div>
 <button id="recenter" type="button" hidden>Recenter</button>
 
 <div id="desk">
@@ -2381,6 +2394,10 @@ const BE={uid:null,db:null,mock:/[?&]mock=1/.test(location.search),
     return this.db.collection('matches').doc(code).update(patch)},
   addChunk(code,c){if(this.mock){const a=this.mget('c:'+code)||[];a.push(c);this.mset('c:'+code,a);return Promise.resolve()}
     return this.db.collection('matches').doc(code).collection('chunks').doc(`${c.k}_${c.att}_${c.i}`).set(c)},
+  addMsg(code,m){if(this.mock){const a=this.mget('x:'+code)||[];a.push(m);this.mset('x:'+code,a.slice(-40));return Promise.resolve()}
+    return this.db.collection('matches').doc(code).collection('msgs').add(m)},
+  watchMsgs(code,cb){if(this.mock){let n=-1;const f=()=>{const a=this.mget('x:'+code)||[],s=JSON.stringify(a);if(s.length!==n){n=s.length;cb(a)}};this.subs.push(f);f();return()=>{this.subs=this.subs.filter(x=>x!==f)}}
+    return this.db.collection('matches').doc(code).collection('msgs').orderBy('at').limitToLast(30).onSnapshot(qs=>cb(qs.docs.map(d=>d.data())))},
   watchChunks(code,k,cb){if(this.mock){let n=0;const f=()=>{const a=(this.mget('c:'+code)||[]).filter(c=>c.k===k);if(a.length!==n){n=a.length;cb(a)}};this.subs.push(f);f();return()=>{this.subs=this.subs.filter(x=>x!==f)}}
     return this.db.collection('matches').doc(code).collection('chunks').where('k','==',k).onSnapshot(qs=>cb(qs.docs.map(d=>d.data())))}};
 window.__BE=BE;
@@ -2435,10 +2452,10 @@ function netCatchUp(){if(S.mode!=='online'||NET.role!=='watch')return;const behi
   // opened late, or the network burst a backlog in: run a little faster until we're near the live edge
   if(behind>300&&!NET.skip)for(let i=0;i<Math.min(6,behind-240);i++)tick()}
 function netGameOver(){if(NET.role!=='act')clearNet()}
-function netLeave(){document.title=TITLE0;if(NET.unC)NET.unC();if(NET.unM)NET.unM();NET.unC=NET.unM=null;NET.role=null;NET.started=false;S.mode='hot';$('#netBar').hidden=true}
-const GV=8;// bump on every release that changes the sim
+function netLeave(){document.title=TITLE0;chatStop();if(NET.unC)NET.unC();if(NET.unM)NET.unM();NET.unC=NET.unM=null;NET.role=null;NET.started=false;S.mode='hot';$('#netBar').hidden=true}
+const GV=9;// bump on every release that changes the sim
 function startOnline(code,me,d){BE.update(code,{['vers.'+me]:GV}).catch(()=>{});NET.code=code;NET.me=me;NET.round=d.round||0;NET.snapK=-1;NET.snap=null;NET.matchAtt=d.att||'';NET.started=true;NET.leaving=false;saveNet();
-  $('#net').hidden=true;const cfg=Object.assign(mkCfg('online',d.seats,d.mode==='teams'),{mode:'online'});newGame('online',d.seed,cfg);S.genOK=true;
+  $('#net').hidden=true;if(!CHAT.un)chatStart();const cfg=Object.assign(mkCfg('online',d.seats,d.mode==='teams'),{mode:'online'});newGame('online',d.seed,cfg);S.genOK=true;
   const base=NET.round*1e5,has=d.snapK!=null&&d.snapK>=base&&d.snap;
   if(has){NET.snap=d.snap;NET.snapK=d.snapK;loadState(d.snap)}else NET.snapK=base-1;
   const k=has?d.snapK+1:base,actor=has?d.actor:S.team;
@@ -2466,7 +2483,7 @@ async function netJoin(raw){const code=(raw||'').toUpperCase().replace(/[^A-Z0-9
     watchLobby(code)}
   catch(e){netMsg(onlineErr(e))}}
 function onlineErr(e){return /blocked/.test(e.message)?/github\.io|localhost/.test(location.hostname)?'Couldn\u2019t reach the server. Check your connection and try again.':'Online play needs the web version of Grimspire. It can’t connect from inside this preview.':e.message||'Something went wrong.'}
-function netReset(){if(NET.unC)NET.unC();if(NET.unM)NET.unM();NET.unC=NET.unM=null;NET.role=null;NET.started=false;NET.log=[]}
+function netReset(){chatStop();if(NET.unC)NET.unC();if(NET.unM)NET.unM();NET.unC=NET.unM=null;NET.role=null;NET.started=false;NET.log=[]}
 function drawNet(){facChips($('#nFac'),false,NU.me,drawNet);segBtns($('#nCnt'),[2,3,4],NU.cnt,v=>{NU.cnt=v;drawNet()});
   $('#nModeG').hidden=NU.cnt!==4;for(const b of $('#nMode').children)b.setAttribute('aria-pressed',String(b.dataset.v===NU.rules))}
 for(const b of $('#nMode').children)b.addEventListener('click',()=>{NU.rules=b.dataset.v;drawNet()});
@@ -2480,6 +2497,25 @@ $('#nCode').addEventListener('keydown',e=>{e.stopPropagation();if(e.key==='Enter
 $('#nResume').addEventListener('click',()=>{const sv=savedNet();if(sv)netJoin(sv.code)});
 $('#nCopy').addEventListener('click',e=>{const t=fmtCode(NET.code);try{navigator.clipboard.writeText(t).then(()=>{e.target.textContent='Copied'},()=>{})}catch(_){}});
 $('#netSkip').addEventListener('click',()=>{NET.skip=true});
+/* ---- chat (online only, outside the simulation) ---- */
+const CHAT={un:null,seen:new Set(),last:0,open:false};
+function chatStart(){chatStop();CHAT.seen=new Set();$('#chatFeed').innerHTML='';$('#chatBtn').hidden=false;
+  CHAT.un=BE.watchMsgs(NET.code,list=>{for(const m of list){const id=m.id||(m.u+'|'+m.at);if(CHAT.seen.has(id))continue;CHAT.seen.add(id);chatShow(m)}})}
+function chatStop(){if(CHAT.un)CHAT.un();CHAT.un=null;$('#chatBtn').hidden=true;chatClose();$('#chatFeed').innerHTML=''}
+function chatShow(m){const T=TEAM[m.f]||{name:'?',col:'#ccc'},p=document.createElement('p');p.style.color=T.col;
+  const b=document.createElement('b');b.textContent=T.name;const sp=document.createElement('span');sp.style.color='var(--bone)';sp.textContent=m.t;p.append(b,sp);
+  const feed=$('#chatFeed');feed.append(p);while(feed.children.length>8)feed.firstChild.remove();
+  setTimeout(()=>p.classList.add('old'),9000);if(!CHAT.open&&m.u!==BE.uid){const c=$('#chatBtn');c.classList.add('ping');setTimeout(()=>c.classList.remove('ping'),2500)}
+  if(m.u!==BE.uid)sfx('clink')}
+function chatOpen(){if(S.mode!=='online'||!NET.code)return;CHAT.open=true;document.body.classList.add('chatting');$('#chatBox').hidden=false;LH.clear();setTimeout(()=>$('#chatIn').focus(),0)}
+function chatClose(){CHAT.open=false;document.body.classList.remove('chatting');$('#chatBox').hidden=true;const i=$('#chatIn');i.value='';i.blur()}
+$('#chatBtn').addEventListener('click',()=>CHAT.open?chatClose():chatOpen());
+$('#chatIn').addEventListener('keydown',e=>{e.stopPropagation();if(e.key==='Escape')chatClose()});
+$('#chatIn').addEventListener('keyup',e=>e.stopPropagation());
+$('#chatBox').addEventListener('submit',e=>{e.preventDefault();const t=$('#chatIn').value.trim().slice(0,140);if(!t){chatClose();return}
+  const now=Date.now();if(now-CHAT.last<900)return;CHAT.last=now;
+  BE.addMsg(NET.code,{u:BE.uid,f:NET.me,t,at:now}).catch(()=>banner('Chat','Message didn’t send',BONE));$('#chatIn').value='';chatClose()});
+addEventListener('keydown',e=>{if((e.code==='KeyT'||e.code==='Enter'&&e.shiftKey)&&S.mode==='online'&&!CHAT.open&&S.phase!=='title'&&document.activeElement.tagName!=='INPUT'){e.preventDefault();e.stopImmediatePropagation();chatOpen()}},true);
 $('#goRematch').addEventListener('click',()=>{if(NET.code)BE.rematch(NET.code).catch(e=>alertMsg(e.message))});
 function alertMsg(t){banner('Online',t,BONE)}
 $('#pForfeit').addEventListener('click',()=>{if(S.mode!=='online'||!NET.code)return;setPause(false);
