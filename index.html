@@ -48,7 +48,11 @@ button:focus-visible{outline:2px solid var(--fire);outline-offset:2px}
   padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
   display:grid;grid-template-columns:1fr auto 1fr;gap:14px;align-items:start;
   background:linear-gradient(rgba(0,0,0,.8),rgba(0,0,0,0))}
+.tside{display:grid;gap:9px;min-width:0;align-content:start}
+.tside.r .team{text-align:right}.tside.r .bar i{left:auto;right:0}
 .team{display:grid;gap:6px;min-width:0}
+.team.sm{gap:4px}.team.sm .tname{font-size:clamp(14px,3vw,18px)}.team.sm .tcount{font-size:10px}
+.team.out{opacity:.35}
 .team.t1{text-align:right}
 .tname{font-family:var(--display);font-size:clamp(18px,4.4vw,26px);line-height:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .t0{color:var(--cyan)} .t1{color:var(--mag)}
@@ -169,6 +173,18 @@ body.intitle #netBar{display:none}
 .vol input{width:100%;min-width:0;accent-color:var(--fire);height:28px}
 
 #net{z-index:8}
+#setup{z-index:8}
+.sgrp{display:grid;gap:8px}.sgrp h3{margin:0;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--ash);font-weight:600}
+.facs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.fac{text-align:left;border:1px solid var(--line);background:rgba(255,255,255,.02);padding:10px 12px;display:grid;gap:3px;color:var(--fc);cursor:pointer;min-width:0}
+.fac b{font-family:var(--display);font-weight:400;font-size:19px;line-height:1.1;text-shadow:0 0 12px color-mix(in srgb,var(--fc) 50%,transparent)}
+.fac span{font-size:11px;color:var(--ash);line-height:1.35}
+.fac[aria-pressed="true"]{border-color:var(--fc);box-shadow:inset 0 0 0 1px var(--fc),0 0 14px color-mix(in srgb,var(--fc) 35%,transparent);background:color-mix(in srgb,var(--fc) 7%,transparent)}
+.fac:disabled{opacity:.3;cursor:default}
+.seg{display:flex;gap:6px;flex-wrap:wrap}
+.seg button{flex:1 1 0;min-width:64px;border:1px solid var(--line);background:rgba(255,255,255,.02);color:var(--bone);padding:10px 8px;font-size:12px;letter-spacing:.12em;text-transform:uppercase}
+.seg button[aria-pressed="true"]{border-color:var(--bone);background:rgba(230,228,222,.08)}
+.seg button:disabled{opacity:.3}
 #ov{background:radial-gradient(ellipse at 50% 45%,rgba(0,0,0,.35),rgba(0,0,0,.9) 75%);backdrop-filter:none;-webkit-backdrop-filter:none}
 .card{width:100%;max-width:540px;display:grid;gap:18px}
 .kick{font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:var(--fire)}
@@ -191,13 +207,13 @@ body.intitle #netBar{display:none}
 <canvas id="cv" aria-label="Grimspire battlefield"></canvas>
 
 <div id="hud">
-  <div class="team t0"><div class="tname">Ash Legion</div><div class="bar"><i id="hp0"></i></div><div class="tcount" id="c0">4 standing</div></div>
+  <div class="tside" id="tl"></div>
   <div class="mid">
     <div class="trow"><div id="timer">—</div><button id="pauseBtn" type="button" aria-label="Pause">II</button></div>
     <div id="turn"></div>
     <div class="wind"><span id="wlab">WIND</span><div class="wbar"><i id="wfill"></i></div></div>
   </div>
-  <div class="team t1"><div class="tname">Neon Choir</div><div class="bar"><i id="hp1"></i></div><div class="tcount" id="c1">4 standing</div></div>
+  <div class="tside r" id="tr"></div>
 </div>
 
 <div id="banner"></div>
@@ -233,6 +249,7 @@ body.intitle #netBar{display:none}
       <button class="go alt" id="pRestart" type="button">Restart this battle</button>
       <label class="vol" for="vSfx"><span>Effects</span><input type="range" id="vSfx" min="0" max="100" step="1" value="100"><output id="oSfx">100%</output></label>
       <label class="vol" for="vMus"><span>Music</span><input type="range" id="vMus" min="0" max="100" step="1" value="75"><output id="oMus">75%</output></label>
+      <button class="go alt" id="pForfeit" type="button" hidden>Forfeit and leave</button>
       <button class="go alt" id="pQuit" type="button">Quit to title</button>
     </div>
   </div>
@@ -242,16 +259,30 @@ body.intitle #netBar{display:none}
   <div class="apanel" style="max-width:420px" role="dialog" aria-label="Online">
     <div class="ahead"><h2>Online</h2><button id="nClose" type="button">Close</button></div>
     <div id="nMain" class="pbtns">
-      <button class="go" id="nCreate" type="button">Create a match<span>You lead the Ash Legion. Send your mate the code.</span></button>
+      <div class="sgrp"><h3>Your squad</h3><div class="facs" id="nFac"></div></div>
+      <div class="sgrp"><h3>Players</h3><div class="seg" id="nCnt"></div></div>
+      <div class="sgrp" id="nModeG"><h3>Rules</h3><div class="seg" id="nMode"><button type="button" data-v="ffa">Free-for-all</button><button type="button" data-v="teams">2 v 2</button></div></div>
+      <button class="go" id="nCreate" type="button">Create a match<span>Send the code to the others</span></button>
       <div class="jrow"><input id="nCode" placeholder="Enter code" maxlength="8" autocomplete="off" autocapitalize="characters" spellcheck="false"><button class="go alt" id="nJoin" type="button">Join</button></div>
       <button class="go alt" id="nResume" type="button" hidden>Resume</button>
     </div>
     <div id="nWait" class="pbtns" hidden>
       <div class="ncode" id="nCodeShow">———</div>
-      <p class="how">Send this code to your opponent. The battle starts when they join.</p>
+      <p class="how" id="nWaitTxt">Send this code to your opponents. The battle starts when everyone has joined.</p>
       <button class="go alt" id="nCopy" type="button">Copy code</button>
     </div>
     <p class="nmsg" id="nMsg" role="status"></p>
+  </div>
+</div>
+
+<div class="modal" id="setup" hidden>
+  <div class="apanel" style="max-width:520px" role="dialog" aria-label="Battle setup">
+    <div class="ahead"><h2 id="sTitle">Battle</h2><button id="sClose" type="button">Close</button></div>
+    <div class="sgrp"><h3 id="sFacH">Your squad</h3><div class="facs" id="sFac"></div></div>
+    <div class="sgrp" id="sCntG"><h3 id="sCntH">Machines against you</h3><div class="seg" id="sCnt"></div></div>
+    <div class="sgrp" id="sModeG"><h3>Rules</h3><div class="seg" id="sMode"><button type="button" data-v="ffa">Free-for-all</button><button type="button" data-v="teams">2 v 2</button></div></div>
+    <button class="go" id="sGo" type="button">Fight<span id="sGoSub"></span></button>
+    <p class="nmsg" id="sMsg" role="status"></p>
   </div>
 </div>
 
@@ -260,10 +291,11 @@ body.intitle #netBar{display:none}
     <div class="kick" id="kick">Hive Ward 91 · the night it burned</div>
     <h1 class="logo"><canvas id="logo" aria-hidden="true"></canvas><span class="vh">Grimspire</span></h1>
     <p class="result" id="result" hidden></p>
-    <p class="lede" id="lede">Two squads, a drowned cathedral-stack, and a sump full of black water. Blow the ground out from under them. Last trooper standing holds the spire.</p>
+    <p class="lede" id="lede">Up to four squads, a drowned cathedral-stack, and a sump full of black water. Blow the ground out from under them. Last trooper standing holds the spire.</p>
     <div class="btns">
-      <button class="go" id="goCpu" type="button">Fight the machine<span>You lead the Ash Legion</span></button>
-      <button class="go alt" id="goHot" type="button">Two commanders<span>Pass the device each turn</span></button>
+      <button class="go" id="goCpu" type="button">Fight the machine<span>Pick your squad, face 1 to 3 machines</span></button>
+      <button class="go alt" id="goHot" type="button">Commanders<span>2 to 4 players, pass the device</span></button>
+      <button class="go alt" id="goRematch" type="button" hidden>Rematch<span>Same players, fresh ward</span></button>
       <button class="go alt" id="goNet" type="button">Online<span>Make a match, share the code</span></button>
     </div>
     <p class="how"><b>Sixteen weapons</b> across artillery, guns, melee, heavy ordnance and tools. Open the arsenal to pick. Heavy weapons and tools have limited uses. Shoot out the neon and that part of the ward goes dark.</p>
@@ -279,8 +311,11 @@ let sump=H-40;
 const INK='#08090c',EDGE='#5f6676',BONE='#e6e4de';
 const TEAM=[
   {name:'Ash Legion',col:'#3ff3ff',rgb:[63,243,255],names:['Vael','Castor','Orsk','Hadrin','Absalom','Malchus','Corvin','Ezekar','Tobiah','Ulvar','Thrask','Severin']},
-  {name:'Neon Choir',col:'#ff2e88',rgb:[255,46,136],names:['Seraph','Lumen','Kett','Mordre','Cantor','Ismay','Psalm','Vesper','Obadiah','Solenne','Thessaly','Verity']}
+  {name:'Neon Choir',col:'#ff2e88',rgb:[255,46,136],names:['Seraph','Lumen','Kett','Mordre','Cantor','Ismay','Psalm','Vesper','Obadiah','Solenne','Thessaly','Verity']},
+  {name:'The Hollow',col:'#3dff8b',rgb:[61,255,139],names:['Malphas','Sabnock','Orobas','Vapula','Zagan','Murmur','Crocell','Furfur','Andras','Haures','Bune','Glasya']},
+  {name:'Halo Guard',col:'#ffd84a',rgb:[255,216,74],names:['Uriel','Castiel','Raziel','Sariel','Jophiel','Zadkiel','Haniel','Barachiel','Azrael','Remiel','Cassiel','Ophan']}
 ];
+const FACDESC=['Cyan. The old guard of the ward.','Magenta. Hymns and plasma.','Green. They chant backwards.','Gold. Gabriel\u2019s host, scourged and shining.'];
 const NEON={cyan:[63,243,255],mag:[255,46,136],amber:[255,165,40],acid:[160,255,70],ice:[185,212,255]};
 const FIRE=[255,160,60];
 const ARS=[
@@ -349,7 +384,8 @@ const ROPE_MAX=240,SUMP_DPS=5;
 const AI={stage:0,t:0,plan:null};
 const cam={x:600,y:200};
 let DPR=1,cw=0,ch=0,baseScale=1,scale=1,time=0,shake=0,flash=0,boom={x:0,y:0,t:0};
-const isCPU=()=>S.mode==='cpu'&&S.team===1;
+const isCPU=()=>!!(S.ctl&&S.ctl[S.team]==='c');
+const foe=(a,b)=>S.ally?S.ally[a]!==S.ally[b]:a!==b;
 const aimVec=t=>[Math.cos(t.aim)*t.face,Math.sin(t.aim)];
 const curW=()=>WP[S.weapon[S.team]];
 const ammoOf=(team,w)=>w.ammo<0?Infinity:(S.ammo[team][w.id]||0);
@@ -846,25 +882,35 @@ function sfx(k,r){
 }
 
 /* ================= flow ================= */
-function newGame(mode,seed){if(seed===undefined)seed=(RR()*2147483647)|0;S.seed=seed;SR.seed(seed);inSim(()=>newGameInner(mode))}
+// a match: which factions fight, who controls each, who's allied, squad size
+function mkCfg(mode,facs,teams,cpuFrom){const n=facs.length,ally=[0,1,2,3],ctl=[null,null,null,null];
+  facs.forEach((f,i)=>{ally[f]=teams&&n===4?i%2:f;ctl[f]=mode==='cpu'&&i>=(cpuFrom||1)?'c':'h'});
+  return{order:facs.slice(),ally,ctl,squad:n<=2?4:3,teams:!!(teams&&n===4)}}
+function newGame(mode,seed,cfg){if(seed===undefined)seed=(RR()*2147483647)|0;S.seed=seed;SR.seed(seed);
+  S.cfg=cfg||S.cfg&&S.cfg.mode===mode&&S.cfg||Object.assign(mkCfg(mode,[0,1]),{mode});S.cfg.mode=mode;
+  S.order=S.cfg.order.slice();S.ally=S.cfg.ally.slice();S.ctl=S.cfg.ctl.slice();S.squad=S.cfg.squad;S.gone=[];
+  inSim(()=>newGameInner(mode));buildHud()}
 function newGameInner(mode){
   setMusicMode('battle');
   S.mode=mode;sump=H-40;genTerrain();
   troopers=[];projs=[];corpses=[];parts=[];texts=[];tracers=[];graves=[];builds=[];beams=[];flashes=[];
   const xs=[],roll=TEAM.map(T=>{const a=T.names.slice();for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a});
-  for(let team=0;team<2;team++)for(let i=0;i<4;i++){
-    let x,tries=0;do{x=rnd(90,W-90);tries++}while(tries<400&&(xs.some(o=>Math.abs(o-x)<110)||surf(x)>sump-70||surf(x)<70||isSolid(x,surf(x)-BH)));
+  const gap=S.order.length*S.squad>10?95:110;
+  for(const team of S.order)for(let i=0;i<S.squad;i++){
+    let x,tries=0;do{x=rnd(90,W-90);tries++}while(tries<400&&(xs.some(o=>Math.abs(o-x)<gap)||surf(x)>sump-70||surf(x)<70||isSolid(x,surf(x)-BH)));
     xs.push(x);troopers.push({team,name:roll[team][i],x,y:surf(x),vx:0,vy:0,hp:100,alive:true,face:x<W/2?1:-1,aim:-.45,air:false,anim:0,moving:false,lastPow:{}});
   }
-  for(const tm of[0,1]){S.ammo[tm]={};for(const w of ARS)if(w.ammo>=0)S.ammo[tm][w.id]=w.ammo}
+  for(let tm=0;tm<4;tm++){S.ammo[tm]={};for(const w of ARS)if(w.ammo>=0)S.ammo[tm][w.id]=w.ammo}
   crates=[];ships=[];fires=[];flames=[];mines=[];girders=[];zones=[];sentries=[];S.saw=S.mini=S.drone=S.pod=null;S.stag=false;S.turnN=0;S.events=[];S.ev=null;S.slow=null;S.cine=0;S.flame=null;
-  S.team=Math.random()<.5?0:1;S.ptr=[-1,-1];S.weapon=['mortar','mortar'];S.lastAtk=['mortar','mortar'];S.deathCd=0;S.paused=false;
+  const n0=S.order.length,first=Math.floor(Math.random()*n0);S.team=S.order[(first+n0-1)%n0];S.ptr=[-1,-1,-1,-1];S.weapon=['mortar','mortar','mortar','mortar'];S.lastAtk=['mortar','mortar','mortar','mortar'];S.deathCd=0;S.paused=false;
   $('#ov').hidden=true;$('#pause').hidden=true;document.body.classList.remove('intitle');
   nextTurn();
 }
 function pickNext(team){const list=troopers.filter(t=>t.team===team);
   for(let k=1;k<=list.length;k++){const i=(S.ptr[team]+k)%list.length;if(list[i].alive){S.ptr[team]=i;return list[i]}}return null}
-function winCheck(){const a0=troopers.some(t=>t.alive&&t.team===0),a1=troopers.some(t=>t.alive&&t.team===1);if(!a0||!a1){gameOver(a0?0:a1?1:-1);return true}return false}
+function aliveGroups(){return new Set(troopers.filter(t=>t.alive).map(t=>S.ally?S.ally[t.team]:t.team))}
+function winCheck(){const g=aliveGroups();if(g.size<=1){gameOver(g.size?[...g][0]:-1);return true}return false}
+function nextSide(f){const o=S.order,n=o.length,i=o.indexOf(f);for(let k=1;k<=n;k++){const g=o[(i+k+n)%n];if(troopers.some(t=>t.alive&&t.team===g))return g}return f}
 function nextTurn(){
   if(winCheck())return;
   S.turnN++;const ev=[];for(const z of zones)z.left--;zones=zones.filter(z=>z.left>0);
@@ -875,14 +921,14 @@ function nextTurn(){
 }
 function beginTurn(){
   if(winCheck())return;
-  S.team=1-S.team;S.active=pickNext(S.team);S.timer=40;S.phase='aim';S.charge=0;S.charging=false;S.locked=false;S.fired=false;
+  S.team=nextSide(S.team);S.active=pickNext(S.team);S.timer=40;S.phase='aim';S.charge=0;S.charging=false;S.locked=false;S.fired=false;
   S.jet=null;S.usedJet=false;S.cut=null;S.burst=null;S.strike=null;S.target=null;S.rot=0;S.camFree=false;S.camSnap=true;
   S.moved=false;S.second=false;S.ticked=false;S.mobile=false;S.rb=0;S.saw=S.mini=S.drone=S.pod=null;S.stag=!!(S.active&&S.active.stag);if(S.active)S.active.stag=false;S.armed=isCPU()||(S.mode!=='online'&&S.mode!=='hot');
   if(!hasAmmo(curW())||WP[S.weapon[S.team]].kind==='jet'||WP[S.weapon[S.team]].kind==='rope')S.weapon[S.team]=S.lastAtk[S.team];
   S.shots=curW().shots||1;S.wind=Math.round(rnd(-1,1)*10)/10;AI.stage=0;AI.t=0;AI.gen=null;AI.plan=null;AI.cover=null;AI.replanned=false;AI.noised=false;AI.stuck=0;AI.roped=false;
   for(const o of troopers)if(o.alive&&o.team===S.team&&zones.some(z=>inZone(o,z)))irradiate(o);
   if(S.stag)texts.push({x:S.active.x,y:S.active.y-58,txt:'Staggered · no moving this turn',life:2.4,col:BONE,small:true});
-  if(S.mode==='online'&&S.team===NET.me)banner('Your turn',TEAM[S.team].name+' · '+S.active.name,TEAM[S.team].col);
+  if(S.mode==='online'&&S.team===NET.me&&NET.role)banner('Your turn',TEAM[S.team].name+' · '+S.active.name,TEAM[S.team].col);
   else banner(TEAM[S.team].name,S.active.name+(isCPU()?' · machine':S.mode==='online'?' · opponent':''),TEAM[S.team].col);updWeapUI();
   if(S.mode==='online'&&NET.role==='act'&&S.team!==NET.me)NET.handover=true;
 }
@@ -890,13 +936,15 @@ function gameOver(w){
   if(S.mode==='online'){if(NET.role==='act')NET.handover='over';netGameOver()}
   S.phase='over';setMusicMode('title');const r=$('#result');r.hidden=false;
   if(w<0){r.textContent='Nobody holds the spire. The sump takes everyone.';r.style.color=BONE}
-  else{r.textContent=`The ${TEAM[w].name} holds the spire.`;r.style.color=TEAM[w].col}
+  else{const win=S.order.filter(f=>(S.ally?S.ally[f]:f)===w),nm=win.map(f=>TEAM[f].name);
+    r.textContent=nm.length>1?`The ${nm[0]} and the ${nm[1]} hold the spire.`:`The ${nm[0]} holds the spire.`;r.style.color=TEAM[win[0]].col}
+  $('#goRematch').hidden=S.mode!=='online';
   $('#kick').textContent='Hive Ward 91 · after the smoke';$('#lede').hidden=true;
   $('#goCpu').firstChild.textContent='Fight the machine again';
   $('#ov').hidden=false;document.body.classList.add('intitle');closeArsenal();
 }
 function quitToTitle(){if(S.mode==='online')netLeave();S.phase='title';setMusicMode('title');S.paused=false;$('#pause').hidden=true;$('#result').hidden=true;$('#lede').hidden=false;
-  $('#kick').textContent='Hive Ward 91 · the night it burned';$('#goCpu').firstChild.textContent='Fight the machine';
+  $('#goRematch').hidden=true;$('#kick').textContent='Hive Ward 91 · the night it burned';$('#goCpu').firstChild.textContent='Fight the machine';
   $('#ov').hidden=false;document.body.classList.add('intitle')}
 function banner(a,b,col){const el=$('#banner');el.innerHTML='';const t=document.createElement('div');t.textContent=a;t.style.color=col;
   t.style.textShadow=`0 0 22px ${col}`;const s=document.createElement('small');s.textContent=b;el.append(t,s);
@@ -905,7 +953,7 @@ const canPick=()=>S.phase==='aim'&&!isCPU()&&!S.fired&&!S.jet&&!S.charging&&!S.p
 function selectWeapon(id){
   const w=WP[id];if(!canPick()||!hasAmmo(w))return;if(w.kind==='jet'&&S.usedJet)return;
   S.weapon[S.team]=id;S.shots=w.shots||1;const t=S.active;
-  if(w.kind==='target'){const foes=troopers.filter(o=>o.alive&&o.team!==t.team).sort((a,b)=>Math.abs(a.x-t.x)-Math.abs(b.x-t.x));S.target={x:foes[0]?foes[0].x:t.x+t.face*150,y:0}}
+  if(w.kind==='target'){const foes=troopers.filter(o=>o.alive&&foe(o.team,t.team)).sort((a,b)=>Math.abs(a.x-t.x)-Math.abs(b.x-t.x));S.target={x:foes[0]?foes[0].x:t.x+t.face*150,y:0}}
   else if(w.kind==='build')S.target={x:t.x+t.face*70,y:t.y-30};else if(w.kind==='warp')S.target={x:t.x+t.face*120,y:t.y-40};else S.target=null;
   if(w.kind==='pod')t.aim=Math.min(t.aim,-.87);
   updWeapUI();
@@ -969,7 +1017,7 @@ function navArsenal(code){const tiles=[...document.querySelectorAll('#agrid .til
     if(sc<bs){bs=sc;best=b}}
   if(best){best.focus();best.scrollIntoView({block:'nearest'})}}
 function closeArsenal(){$('#arsenal').hidden=true}
-function setPause(p){if(S.phase==='title'||S.phase==='over')return;$('#pRestart').hidden=S.mode==='online';$('#pause').querySelector('h2').textContent=S.mode==='online'?'Match '+fmtCode(NET.code):'Paused';if(S.mode==='online'){$('#pause').hidden=!p;if(p){closeArsenal();LH.clear()}return}S.paused=p;$('#pause').hidden=!p;if(p){closeArsenal();LH.clear()}}
+function setPause(p){if(S.phase==='title'||S.phase==='over')return;$('#pRestart').hidden=S.mode==='online';$('#pForfeit').hidden=S.mode!=='online';$('#pause').querySelector('h2').textContent=S.mode==='online'?'Match '+fmtCode(NET.code):'Paused';if(S.mode==='online'){$('#pause').hidden=!p;if(p){closeArsenal();LH.clear()}return}S.paused=p;$('#pause').hidden=!p;if(p){closeArsenal();LH.clear()}}
 
 /* ================= actions ================= */
 function dropDepth(x,y){let k=0;while(k<300&&!isSolid(x,y+k+1))k++;return k}
@@ -1212,7 +1260,7 @@ function updSentries(dt){
     if(S.phase==='title'||S.phase==='over'||S.phase==='event')continue;
     // nearest enemy it can see
     let best=null,bd=300;const hx=q.x,hy=q.y-11;
-    for(const o of troopers){if(!o.alive||o.team===q.team||o.podded)continue;const d=Math.hypot(o.x-hx,o.y-11-hy);if(d<bd&&los(hx,hy,o.x,o.y-11)){bd=d;best=o}}
+    for(const o of troopers){if(!o.alive||!foe(o.team,q.team)||o.podded)continue;const d=Math.hypot(o.x-hx,o.y-11-hy);if(d<bd&&los(hx,hy,o.x,o.y-11)){bd=d;best=o}}
     const want=best?Math.atan2(best.y-11-hy,best.x-hx):q.a;let da=((want-q.a+Math.PI*3)%(Math.PI*2))-Math.PI;
     q.a+=clamp(da,-3*dt,3*dt);
     if(q.burst>0){q.bt-=dt;if(q.bt<=0){q.bt=.09;q.burst--;q.ammo--;const a=q.a+rnd(-.08,.08),r=sentryRay(q,a);
@@ -1418,16 +1466,16 @@ function knockLethal(o,vx){if(Math.abs(vx)<60)return false;const sg=Math.sign(vx
 const newAcc=()=>({hp:new Map(),en:0,al:0,sf:0,kills:0,allyDie:0,selfDie:0,dead:new Set()});
 function hitEst(acc,o,me,h,vx){if(!o.alive||acc.dead.has(o))return;const cur=acc.hp.has(o)?acc.hp.get(o):o.hp,real=Math.min(cur,h),rem=cur-h;acc.hp.set(o,rem);
   const dead=rem<=0||knockLethal(o,vx);if(dead)acc.dead.add(o);
-  if(o===me){acc.sf+=real;if(dead)acc.selfDie=1}else if(o.team===me.team){acc.al+=real;if(dead)acc.allyDie++}else{acc.en+=real;if(dead)acc.kills++}}
+  if(o===me){acc.sf+=real;if(dead)acc.selfDie=1}else if(!foe(o.team,me.team)){acc.al+=real;if(dead)acc.allyDie++}else{acc.en+=real;if(dead)acc.kills++}}
 function estBlast(acc,x,y,r,dmg,me){const R=r*1.2,SW=r*2.6,ST=r*.45;
   for(const o of troopers){if(!o.alive)continue;const cy=o.y-11,d=Math.hypot(o.x-x,cy-y);if(d>=SW)continue;
     let h=0;if(d<R)h=Math.round(dmg*Math.min(1,(1-d/R)*1.3));else if(d<R+ST)h=Math.max(1,Math.round(7*(1-(d-R)/ST)));
     const f=Math.pow(1-d/SW,1.2),a=Math.atan2(cy-y,o.x-x);hitEst(acc,o,me,h,Math.cos(a)*(190+r*5.5)*f*1.15)}}
-function heavyReserve(){if(S.turnN<=4)return 999;const foes=troopers.filter(o=>o.alive&&o.team!==S.team).length;
+function heavyReserve(){if(S.turnN<=4)return 999;const foes=troopers.filter(o=>o.alive&&foe(o.team,S.team)).length;
   if(foes<=2||S.turnN>=SD_TURN)return 15;return Math.max(22,80-S.turnN*4)}
 function scoreAcc(acc,heavy){let s=acc.en+acc.kills*45-acc.sf*1.5-acc.al-acc.selfDie*220-acc.allyDie*70;
   if(heavy){const r=heavyReserve();s-=r>=999?999:(acc.kills>=2||acc.en>=150)?r*.3:r}return s}
-const foesOf=t=>troopers.filter(o=>o.alive&&o.team!==t.team);
+const foesOf=t=>troopers.filter(o=>o.alive&&foe(o.team,t.team));
 const aimAt=(t,e)=>{const dx=e.x-t.x,dy=(e.y-11)-(t.y-12);return{face:dx>=0?1:-1,aim:clamp(Math.atan2(dy,Math.abs(dx)),-1.52,1.45),d:Math.hypot(dx,dy)}};
 const orig=(t,face,a)=>{const dx=Math.cos(a)*face,dy=Math.sin(a);return[t.x+dx*13,t.y-12+dy*13,dx,dy]};
 // spots this trooper can walk to (dropping off small ledges is fine, water and big falls are not)
@@ -1484,7 +1532,15 @@ function* planGen(t,quick){
       const rx=(e.x-t.x)*A.face;if(rx>-4&&rx<30&&Math.abs(e.y-t.y)<24){
         let acc=newAcc();hitEst(acc,e,t,38,A.face*150);consider({w:'chain',face:A.face,aim:-.3,s:scoreAcc(acc,false)},P,extra);
         acc=newAcc();hitEst(acc,e,t,20,A.face*620*.88);consider({w:'fist',face:A.face,aim:-.5,s:scoreAcc(acc,false)},P,extra)}}
-    if(hasAmmo(WP.mine)){let v=0;for(const o of troopers)if(o.alive&&o!==t&&Math.hypot(o.x-(t.x+t.face*9),o.y-t.y)<75)v+=o.team===t.team?-25:32;if(v>0)consider({w:'mine',face:t.face,aim:t.aim,s:v-20},P,extra)}
+    if(hasAmmo(WP.minigun))for(const e of foes){const A=aimAt(t,e);if(A.d>520)continue;const[ox,oy,dx,dy]=orig(t,A.face,A.aim),acc=newAcc();
+        for(let i=0;i<15;i++){const an=Math.atan2(dy,dx)+(i-7)*.008,r=ray(t,ox,oy,Math.cos(an),Math.sin(an),520);if(r.victim)hitEst(acc,r.victim,t,6,Math.cos(an)*30)}
+        consider({w:'minigun',face:A.face,aim:A.aim,target:e,s:scoreAcc(acc,true)},P,extra)}
+    if(hasAmmo(WP.sentry))for(const face of[-1,1]){const sx=P.x+face*14,acc=newAcc();for(const e of foes)if(Math.hypot(e.x-sx,e.y-P.y)<300&&los(sx,P.y-11,e.x,e.y-11))hitEst(acc,e,t,24,0);
+        if(acc.en>0)consider({w:'sentry',face,aim:t.aim,s:scoreAcc(acc,true)-8},P,extra)}
+    if(hasAmmo(WP.drone))for(const e of foes){const dx=e.x-P.x;if(Math.abs(e.y-P.y)<50&&Math.abs(dx)>40&&Math.abs(dx)<480){const acc=newAcc();hitEst(acc,e,t,50,0);consider({w:'drone',face:Math.sign(dx),aim:t.aim,target:e,s:scoreAcc(acc,true)*.6},P,extra)}}
+    if(hasAmmo(WP.pod)){let b=null;for(const face of[-1,1])for(let a=-1.5;a<=-.87;a+=.07){const hit=simShell(t,face,a,1,1080,false);if(!hit)continue;const acc=newAcc();estBlast(acc,hit.x,hit.y,60,45,t);acc.sf=0;acc.selfDie=0;
+        const sc=scoreAcc(acc,true)-5;if(!b||sc>b.s)b={w:'pod',face,aim:a,s:sc}}if(b)consider(b,P,extra)}
+    if(hasAmmo(WP.mine)){let v=0;for(const o of troopers)if(o.alive&&o!==t&&Math.hypot(o.x-(t.x+t.face*9),o.y-t.y)<75)v+=!foe(o.team,t.team)?-25:32;if(v>0)consider({w:'mine',face:t.face,aim:t.aim,s:v-20},P,extra)}
     t.x=sx;t.y=sy;yield}
   t.x=sx;t.y=sy;
   // don't burn a limited weapon on a weak shot
@@ -1502,6 +1558,10 @@ function aiWalk(t,x,dt){const dx=x-t.x;if(Math.abs(dx)<3)return true;if(t.air||t
   const bx=t.x;t.face=Math.sign(dx);walk(t,Math.sign(dx),dt,1);if(t.x!==bx){S.moved=true;AI.stuck=0}else{AI.stuck+=dt;if(AI.stuck>.25){jump(t);AI.stuck=-.7}}return false}
 function aiRetreat(t,dt){if(!t.alive||t.wet)return;if(!AI.cover)AI.cover=pickCover(t)||{x:t.x};aiWalk(t,AI.cover.x,dt)}
 function landDir(t){for(let k=10;k<700;k+=10){for(const d of[-1,1]){const x=t.x+d*k;if(x>10&&x<W-10&&surf(x)<sump-2)return d}}return t.face}
+function aiDrone(dt){const d=S.drone;let best=null,bd=1e9;for(const e of foesOf(S.active)){const k=Math.hypot(e.x-d.x,e.y-d.y);if(k<bd){bd=k;best=e}}
+  if(!best){droneBlow();return}d.dir=Math.sign(best.x-d.x)||d.dir;
+  if(Math.abs(best.x-d.x)<16&&Math.abs(best.y-d.y)<30){droneBlow();return}
+  d.prog=(d.prog||0)+dt;if(d.prog>1){if(Math.abs(d.x-(d.lx||0))<4){droneBlow();return}d.lx=d.x;d.prog=0}}
 function aiUpdate(dt){
   const t=S.active;AI.t+=dt;
   if(AI.stage===0&&t.wet){AI.sw=AI.sw||{dir:landDir(t),t:0,x:t.x};AI.sw.t+=dt;swim(t,AI.sw.dir,dt);
@@ -1518,7 +1578,7 @@ function aiUpdate(dt){
       S.weapon[S.team]=pl.w;S.shots=WP[pl.w].shots||1;updWeapUI();AI.stage='aim';AI.t=0}return}
   if(AI.stage==='aim'){
     if(pl.aim===undefined){pl.aim=t.aim;pl.face=t.face}
-    if(pl.target&&pl.target.alive&&['rail','scatter','bolter','las','flamer'].includes(pl.w)){const A=aimAt(t,pl.target);pl.face=A.face;pl.aim=pl.w==='flamer'?clamp(A.aim-.12,-1.5,1.4):A.aim}
+    if(pl.target&&pl.target.alive&&['rail','scatter','bolter','las','flamer','minigun'].includes(pl.w)){const A=aimAt(t,pl.target);pl.face=A.face;pl.aim=pl.w==='flamer'?clamp(A.aim-.12,-1.5,1.4):A.aim}
     if(!AI.noised){AI.noised=true;pl.aim+=rnd(-AIL.aimErr,AIL.aimErr);if(pl.power)pl.power=clamp(pl.power+rnd(-AIL.powErr,AIL.powErr),.1,1)}
     t.face=pl.face;const d=pl.aim-t.aim;t.aim+=Math.sign(d)*Math.min(Math.abs(d),1.4*dt);
     if(Math.abs(d)<.005&&AI.t>.4){AI.stage='fire';AI.t=0;const w=WP[pl.w];
@@ -1537,7 +1597,7 @@ const LH=new Set(),LP=new Set(),LS={x:0,y:0},LA=[];         // what this device'
 const KBIT=['left','right','up','down','fire','jump','rotl','rotr'];
 // UI actions that change the game go through a queue so they land on a step, in order, on every device
 function act(k,v){if(k==='t'||k==='f'){for(let i=LA.length-1;i>=0;i--)if(LA[i][0]===k)LA.splice(i,1)}LA.push([k,v])}
-function applyAct(a){const[k,v]=a;if(k==='k'){cutChutes();return}if(k==='w')selectWeapon(v);else if(k==='f'){if(!S.charging)S.fuse=v}
+function applyAct(a){const[k,v]=a;if(k==='k'){cutChutes();return}if(k==='q'){withdraw(v);return}if(k==='w')selectWeapon(v);else if(k==='f'){if(!S.charging)S.fuse=v}
   else if(k==='s')switchTo(v<0?undefined:troopers[v]);
   else if(k==='t'){const w=curW();if(S.phase==='aim'&&!isCPU()&&(w.kind==='target'||w.kind==='build'||w.kind==='warp'))S.target={x:v[0],y:v[1]}}}
 function localFrame(){let h=0,p=0;KBIT.forEach((k,i)=>{if(LH.has(k))h|=1<<i;if(LP.has(k))p|=1<<i});LP.clear();return[h,p,Math.round(LS.x*100)/100,Math.round(LS.y*100)/100,LA.splice(0)]}
@@ -1578,7 +1638,7 @@ mkStick($('#sPad'));
 $('#bArs').addEventListener('click',openArsenal);$('#dArs').addEventListener('click',openArsenal);
 $('#aClose').addEventListener('click',closeArsenal);$('#arsenal').addEventListener('click',e=>{if(e.target.id==='arsenal')closeArsenal()});
 $('#pauseBtn').addEventListener('click',()=>setPause(true));$('#pResume').addEventListener('click',()=>setPause(false));
-$('#pRestart').addEventListener('click',()=>newGame(S.mode));$('#pQuit').addEventListener('click',quitToTitle);
+$('#pRestart').addEventListener('click',()=>newGame(S.mode,undefined,S.cfg));$('#pQuit').addEventListener('click',quitToTitle);
 {const vs=$('#vSfx'),vm=$('#vMus');vs.value=Math.round(VOL.sfx*100);vm.value=Math.round(VOL.mus*100);$('#oSfx').textContent=vs.value+'%';$('#oMus').textContent=vm.value+'%';
   vs.addEventListener('input',()=>{setSfxVol(vs.value/100);$('#oSfx').textContent=vs.value+'%';saveVol()});
   vs.addEventListener('change',()=>sfx('clink'));
@@ -1587,9 +1647,35 @@ $('#pRestart').addEventListener('click',()=>newGame(S.mode));$('#pQuit').addEven
 $('#recenter').addEventListener('click',()=>{S.camFree=false;S.camSnap=true});
 for(const id of['#bFuse','#dFuse'])$(id).addEventListener('click',()=>{if(!S.charging)act('f',S.fuse>=5?1:S.fuse+1)});
 $('#bSwap').addEventListener('click',()=>act('s',-1));
-$('#goCpu').addEventListener('click',()=>{initAudio();newGame('cpu')});
+const PREF=(()=>{try{return JSON.parse(localStorage.getItem('gs-setup')||'null')||{}}catch(e){return{}}})();
+function savePref(){try{localStorage.setItem('gs-setup',JSON.stringify(PREF))}catch(e){}}
+// faction chips: single pick (your squad) or multi pick (who plays, pass-and-play)
+function facChips(el,multi,sel,onChange,taken){el.innerHTML='';TEAM.forEach((T,f)=>{const b=document.createElement('button');b.type='button';b.className='fac';b.style.setProperty('--fc',T.col);
+    b.innerHTML=`<b>${T.name}</b><span>${FACDESC[f]}</span>`;b.setAttribute('aria-pressed',String(sel.includes(f)));b.disabled=!!(taken&&taken.includes(f));
+    b.addEventListener('click',()=>{if(multi){const i=sel.indexOf(f);if(i>=0){if(sel.length>2)sel.splice(i,1)}else sel.push(f)}else sel.splice(0,sel.length,f);facChips(el,multi,sel,onChange,taken);onChange&&onChange()});el.append(b)})}
+function segBtns(el,vals,cur,onPick,label){el.innerHTML='';for(const v of vals){const b=document.createElement('button');b.type='button';b.textContent=label?label(v):v;b.setAttribute('aria-pressed',String(v===cur));b.addEventListener('click',()=>onPick(v));el.append(b)}}
+const SU={mode:'cpu',me:[0],hot:[0,1],cnt:1,rules:'ffa'};Object.assign(SU,PREF.su||{});
+function drawSetup(){const cpu=SU.mode==='cpu';$('#sTitle').textContent=cpu?'Fight the machine':'Commanders';
+  $('#sFacH').textContent=cpu?'Your squad':'Squads in this battle (2 to 4)';$('#sCntG').hidden=!cpu;
+  facChips($('#sFac'),!cpu,cpu?SU.me:SU.hot,drawSetup);
+  if(cpu)segBtns($('#sCnt'),[1,2,3],SU.cnt,v=>{SU.cnt=v;drawSetup()});
+  const total=cpu?SU.cnt+1:SU.hot.length,teams=total===4;$('#sModeG').hidden=!teams;
+  for(const b of $('#sMode').children)b.setAttribute('aria-pressed',String(b.dataset.v===SU.rules));
+  const allies=cpu&&teams&&SU.rules==='teams'?' with a machine ally':'';
+  $('#sGoSub').textContent=cpu?`${TEAM[SU.me[0]].name}${allies} vs ${SU.cnt} machine${SU.cnt>1?'s':''}`:`${total} squads · ${teams&&SU.rules==='teams'?'2 v 2':'free-for-all'}`}
+function openSetup(mode){initAudio();SU.mode=mode;$('#setup').hidden=false;$('#sMsg').textContent='';drawSetup()}
+for(const b of $('#sMode').children)b.addEventListener('click',()=>{SU.rules=b.dataset.v;drawSetup()});
+$('#sClose').addEventListener('click',()=>{$('#setup').hidden=true});
+$('#sGo').addEventListener('click',()=>{const cpu=SU.mode==='cpu';let facs;
+  if(cpu){const others=[0,1,2,3].filter(f=>f!==SU.me[0]);for(let i=others.length-1;i>0;i--){const j=RR()*(i+1)|0;[others[i],others[j]]=[others[j],others[i]]}facs=[SU.me[0],...others.slice(0,SU.cnt)]}
+  else facs=SU.hot.slice();
+  const teams=facs.length===4&&SU.rules==='teams';
+  // in 2v2 the turn order alternates sides: you and your ally are seats 0 and 2
+  const cfg=Object.assign(mkCfg(cpu?'cpu':'hot',facs,teams),{mode:cpu?'cpu':'hot'});
+  PREF.su={me:SU.me,hot:SU.hot,cnt:SU.cnt,rules:SU.rules};savePref();$('#setup').hidden=true;newGame(cfg.mode,undefined,cfg)});
+$('#goCpu').addEventListener('click',()=>openSetup('cpu'));
 for(const ev of['pointerdown','keydown'])addEventListener(ev,()=>{if(!AC)initAudio()},{capture:true});
-$('#goHot').addEventListener('click',()=>{initAudio();newGame('hot')});
+$('#goHot').addEventListener('click',()=>openSetup('hot'));
 // canvas pan / pinch / tap
 const ptrs=new Map();let pinch=null;
 const toWorld=(sx,sy)=>({x:sx/scale+cam.x,y:sy/scale+cam.y});
@@ -1620,6 +1706,8 @@ cv.addEventListener('contextmenu',e=>e.preventDefault());
 /* ================= the ward fights back ================= */
 function barrelAt(x,y){return barrels.find(b=>b.alive&&Math.abs(b.x-x)<5.5&&y>b.y-15&&y<b.y+1)}
 function ignite(b){if(!b.alive||b.fuse>=0)return;b.fuse=rnd(.12,.35);sparks(b.x,b.y-10,6)}
+function withdraw(f){if(S.gone.includes(f))return;S.gone.push(f);for(const t of troopers)if(t.alive&&t.team===f){t.alive=false;t.hp=0;t.rope=null;warpFx(t.x,t.y-12,TEAM[f].col)}
+  texts.push({x:cam.x+(cw/scale)/2,y:cam.y+80/scale,txt:`${TEAM[f].name} withdraws`,life:2.6,col:TEAM[f].col});if(S.team===f){S.phase='end';S.charging=false}}
 function cutChutes(){for(const c of crates)if(c.para&&!c.landed){c.para=false;c.vy=Math.max(c.vy,120);sfx('clink');
     for(let i=0;i<6;i++)parts.push({k:'debris',x:c.x+rnd(-12,12),y:c.y-26,vx:rnd(-60,60),vy:rnd(-90,-20),life:rnd(.5,.9),max:.9})}}
 function blowBarrel(b){
@@ -1835,7 +1923,7 @@ function update(dt){
           if(S.charging){S.charge+=dt*.8;if(!key('fire')||S.charge>=1){S.charge=Math.min(1,S.charge);launch()}}
         }
       }
-    }else if(!t.air&&!t.skid&&!(t.down>0)){if(S.phase==='aim'&&!S.saw)aiUpdate(dt);else if(S.phase==='retreat'||(S.phase==='resolve'&&S.mobile))aiRetreat(t,dt)}
+    }else if(S.drone){aiDrone(dt)}else if(!t.air&&!t.skid&&!(t.down>0)){if(S.phase==='aim'&&!S.saw)aiUpdate(dt);else if(S.phase==='retreat'||(S.phase==='resolve'&&S.mobile))aiRetreat(t,dt)}
   }
   if(S.phase!=='aim'&&press.has('fire')&&crates.some(c=>c.para&&!c.landed))cutChutes();
   if(S.phase==='aim'&&!S.armed&&(held.size||press.size||stick.x||stick.y))S.armed=true;
@@ -2166,12 +2254,19 @@ function render(dt){
 }
 
 /* ================= HUD ================= */
-const hudEls={hp0:$('#hp0'),hp1:$('#hp1'),c0:$('#c0'),c1:$('#c1'),timer:$('#timer'),turn:$('#turn'),wfill:$('#wfill'),wlab:$('#wlab')};const hc={};
+const hudEls={timer:$('#timer'),turn:$('#turn'),wfill:$('#wfill'),wlab:$('#wlab')};const hc={};
 const setT=(k,v)=>{if(hc[k]!==v){hc[k]=v;hudEls[k].textContent=v}};
 const setS=(k,p,v)=>{if(hc[k+p]!==v){hc[k+p]=v;hudEls[k].style[p]=v}};
+function buildHud(){const L=$('#tl'),R=$('#tr');L.innerHTML='';R.innerHTML='';const o=S.order,n=o.length,sm=n>2;
+  for(const k in hc)if(/^(hp|c|o)\d/.test(k))delete hc[k];
+  o.forEach((f,i)=>{const T=TEAM[f],b=document.createElement('div');b.className='team'+(sm?' sm':'');b.style.color=T.col;
+    b.innerHTML=`<div class="tname" style="text-shadow:0 0 14px ${T.col}80">${T.name}</div><div class="bar"><i></i></div><div class="tcount"></div>`;
+    const left=S.cfg&&S.cfg.teams?S.ally[f]===S.ally[o[0]]:i<Math.ceil(n/2);(left?L:R).append(b);
+    hudEls['hp'+f]=b.querySelector('i');hudEls['c'+f]=b.querySelector('.tcount');hudEls['b'+f]=b})}
 function updHud(){netHud();{const tc=S.phase==='aim'||S.phase==='retreat'?TEAM[S.team].col:'';if(hc.tc!==tc){hc.tc=tc;hudEls.turn.style.color=tc}}
-  for(const tm of[0,1]){const list=troopers.filter(t=>t.team===tm),hp=list.reduce((a,t)=>a+(t.alive?t.hp:0),0);
-    setS('hp'+tm,'width',Math.min(100,hp/400*100).toFixed(1)+'%');setT('c'+tm,`${list.filter(t=>t.alive).length} standing`)}
+  for(const tm of S.order||[]){if(!hudEls['hp'+tm])continue;const list=troopers.filter(t=>t.team===tm),hp=list.reduce((a,t)=>a+(t.alive?t.hp:0),0),up=list.filter(t=>t.alive).length;
+    setS('hp'+tm,'width',Math.min(100,hp/(S.squad*100)*100).toFixed(1)+'%');setT('c'+tm,up?`${up} standing`:(S.gone&&S.gone.includes(tm)?'withdrew':'fallen'));
+    const out=!up;if(hc['o'+tm]!==out){hc['o'+tm]=out;hudEls['b'+tm].classList.toggle('out',out)}}
   const t=S.active,w=curW();
   if(S.phase==='aim'){setT('timer',String(Math.max(0,Math.ceil(S.timer))));
     const sd=S.turnN>=SD_TURN?' · sudden death':SD_TURN-S.turnN<=3?` · sump rises in ${SD_TURN-S.turnN}`:'';
@@ -2209,7 +2304,7 @@ function chargeSound(){
 /* ================= save / load a whole match ================= */
 function rleEnc(a){const out=[];let cur=0,run=0;for(let i=0;i<a.length;i++){if(a[i]===cur)run++;else{out.push(run.toString(36));cur=a[i];run=1}}out.push(run.toString(36));return out.join('.')}
 function rleDec(str,a){let i=0,cur=0;for(const t of str.split('.')){const n=parseInt(t,36);a.fill(cur,i,i+n);i+=n;cur^=1}}
-const SKEYS=['stag','armed','team','ptr','timer','phase','turnN','events','wind','ammo','weapon','lastAtk','shots','fuse','usedJet','rb','mobile','second','moved','fired','locked','deathCd','wait','ticked','lastBarrel','slow','deathCam','layout','retreat','target','rot'];
+const SKEYS=['order','ally','ctl','squad','gone','stag','armed','team','ptr','timer','phase','turnN','events','wind','ammo','weapon','lastAtk','shots','fuse','usedJet','rb','mobile','second','moved','fired','locked','deathCd','wait','ticked','lastBarrel','slow','deathCam','layout','retreat','target','rot'];
 function snapState(){const o={v:1,seed:S.seed,terr:rleEnc(solid),sump,time,rng:SR.s,act:troopers.indexOf(S.active),S:{}};
   for(const k of SKEYS)o.S[k]=S[k];
   Object.assign(o,{sentries,zones,troopers,mines,barrels,crates,fires,puddles,graves,corpses,girders,fx:fixtures.map(f=>f.alive?1:0).join('')});
@@ -2227,7 +2322,7 @@ function loadState(str){const d=JSON.parse(str);
   for(const k of SKEYS)S[k]=d.S[k];sump=d.sump;time=d.time;SR.s=d.rng;S.active=troopers[d.act]||null;
   S.jet=S.cut=S.burst=S.strike=S.flame=S.swing=S.ev=S.saw=S.mini=S.drone=S.pod=null;S.charging=false;S.charge=0;S.paused=false;S.camSnap=true;S.camFree=false;
   updWeapUI();
-  if(S.phase==='over'){const a0=troopers.some(t=>t.alive&&t.team===0),a1=troopers.some(t=>t.alive&&t.team===1);gameOver(a0&&!a1?0:a1&&!a0?1:-1)}}
+  if(S.phase==='over'){const g=aliveGroups();gameOver(g.size===1?[...g][0]:-1)}}
 // a cheap fingerprint of everything that matters, for checking two devices agree
 function stateHash(){let h=0;for(let i=0;i<solid.length;i+=7)h=(h*31+solid[i])|0;for(const t of troopers)h=(h*31+Math.round(t.x*10)+Math.round(t.y*10)*7+t.hp*13+(t.alive?1:0))|0;return h}
 
@@ -2251,15 +2346,22 @@ const BE={uid:null,db:null,mock:/[?&]mock=1/.test(location.search),
   async get(code){return this.mock?this.mget('m:'+code):(await this.db.collection('matches').doc(code).get()).data()||null},
   async create(code,data){if(this.mock){if(this.mget('m:'+code))throw new Error('taken');this.mset('m:'+code,data);return}
     await this.db.collection('matches').doc(code).set(data)},
-  async join(code){if(this.mock){const d=this.mget('m:'+code);if(!d)throw new Error('No match with that code.');if(d.guest&&d.guest!==this.uid&&d.host!==this.uid)throw new Error('That match is full.');
-      if(!d.guest&&d.host!==this.uid){d.guest=this.uid;d.status='playing';this.mset('m:'+code,d)}return d}
+  // take a seat: your faction if it's free, otherwise the first free one
+  seat(d,pref){if(!d)throw new Error('No match with that code.');if(!d.players)throw new Error('That match is from an older version.');
+    if(d.players[this.uid]!=null)return null;if(d.status!=='waiting')throw new Error(d.status==='over'?'That match has finished.':'That match is full.');
+    const taken=d.seats||[],f=!taken.includes(pref)?pref:[0,1,2,3].find(x=>!taken.includes(x));const seats=taken.concat(f);
+    return{f,patch:{['players.'+this.uid]:f,seats,status:seats.length>=d.n?'playing':'waiting'}}},
+  async join(code,pref){if(this.mock){const d=this.mget('m:'+code);const s=this.seat(d,pref);if(s){this.update(code,s.patch);return this.mget('m:'+code)}return d}
     const ref=this.db.collection('matches').doc(code);
-    return this.db.runTransaction(async tx=>{const sn=await tx.get(ref);if(!sn.exists)throw new Error('No match with that code.');const d=sn.data();
-      if(d.guest&&d.guest!==this.uid&&d.host!==this.uid)throw new Error('That match is full.');
-      if(!d.guest&&d.host!==this.uid){tx.update(ref,{guest:this.uid,status:'playing'});d.guest=this.uid;d.status='playing'}return d})},
+    return this.db.runTransaction(async tx=>{const sn=await tx.get(ref);const d=sn.exists?sn.data():null;const s=this.seat(d,pref);
+      if(s){tx.update(ref,s.patch);d.players[this.uid]=s.f;d.seats=s.patch.seats;d.status=s.patch.status}return d})},
+  async rematch(code){const fresh=d=>({round:(d.round||0)+1,seed:(RR()*2147483647)|0,status:'playing',snap:null,snapK:((d.round||0)+1)*1e5-1,att:'',actor:null,gone:[]});
+    if(this.mock){const d=this.mget('m:'+code);if(d.status==='over')await this.update(code,fresh(d));return}
+    const ref=this.db.collection('matches').doc(code);
+    return this.db.runTransaction(async tx=>{const d=(await tx.get(ref)).data();if(d&&d.status==='over')tx.update(ref,fresh(d))})},
   watchMatch(code,cb){if(this.mock){let last='';const f=()=>{const d=this.mget('m:'+code),s=JSON.stringify(d);if(d&&s!==last){last=s;cb(d)}};this.subs.push(f);f();return()=>{this.subs=this.subs.filter(x=>x!==f)}}
     return this.db.collection('matches').doc(code).onSnapshot(sn=>{if(sn.exists)cb(sn.data())})},
-  update(code,patch){if(this.mock){const d=this.mget('m:'+code);Object.assign(d,patch);this.mset('m:'+code,d);return Promise.resolve()}
+  update(code,patch){if(this.mock){const d=this.mget('m:'+code);for(const k in patch){const ks=k.split('.');let o=d;for(const p of ks.slice(0,-1))o=o[p]=o[p]||{};o[ks[ks.length-1]]=patch[k]}this.mset('m:'+code,d);return Promise.resolve()}
     return this.db.collection('matches').doc(code).update(patch)},
   addChunk(code,c){if(this.mock){const a=this.mget('c:'+code)||[];a.push(c);this.mset('c:'+code,a);return Promise.resolve()}
     return this.db.collection('matches').doc(code).collection('chunks').doc(`${c.k}_${c.att}_${c.i}`).set(c)},
@@ -2271,11 +2373,12 @@ const fmtCode=c=>c.slice(0,3)+'-'+c.slice(3);
 function newCode(){const L='ACDEFHJKLMNPRTVWXY';let c='';for(let i=0;i<3;i++)c+=L[Math.floor(RR()*L.length)];return c+String(1000+Math.floor(RR()*9000))}
 function netMsg(t){$('#nMsg').textContent=t}
 function saveNet(){try{localStorage.setItem('gs-online',JSON.stringify({code:NET.code,me:NET.me}))}catch(e){}}
+const NU={me:[0],cnt:2,rules:'ffa'};Object.assign(NU,PREF.nu||{});
 function savedNet(){try{return JSON.parse(localStorage.getItem('gs-online')||'null')}catch(e){return null}}
 function clearNet(){try{localStorage.removeItem('gs-online')}catch(e){}}
 // ---- turn flow ----
 function becomeActor(k){NET.role='act';if(k>0){document.title='\u25CF Your turn \u00B7 Grimspire';try{navigator.vibrate&&navigator.vibrate([90,60,90])}catch(e){}}NET.k=k;NET.step=0;NET.rec=[];NET.last=null;NET.sentTo=0;NET.chunkI=0;NET.handover=false;
-  NET.att=Math.floor(RR()*1e9).toString(36);if(NET.unC){NET.unC();NET.unC=null}LH.clear();LP.clear();LA.length=0;
+  NET.att=Math.floor(RR()*1e9).toString(36);NET.qd=new Set();if(NET.unC){NET.unC();NET.unC=null}LH.clear();LP.clear();LA.length=0;
   BE.update(NET.code,{att:NET.att,actor:NET.me,turnK:k}).catch(e=>netMsg('Connection problem: '+e.message))}
 function becomeWatcher(k){NET.role='watch';document.title=TITLE0;NET.k=k;NET.step=0;NET.avail=0;NET.final=null;NET.ent=new Map();NET.H=0;NET.SX=0;NET.SY=0;NET.skip=false;NET.chunkAtt=null;
   NET.base=snapState();if(NET.unC)NET.unC();NET.unC=BE.watchChunks(NET.code,k,netOnChunks)}
@@ -2285,15 +2388,17 @@ function netOnChunks(list){if(NET.role!=='watch')return;
   NET.chunkAtt=att;
   for(const c of list){if(c.att!==att)continue;for(const e of JSON.parse(c.e))NET.ent.set(e[0],e);NET.avail=Math.max(NET.avail,c.to);if(c.fin!=null)NET.final=c.fin}}
 function netOnMatch(d){NET.match=d;
+  if(NET.started&&(d.round||0)>(NET.round||0)&&d.status==='playing'){NET.role=null;if(NET.unC){NET.unC();NET.unC=null}startOnline(NET.code,NET.me,d);return}
   if(d.att!==NET.matchAtt){NET.matchAtt=d.att||'';if(NET.role==='watch'&&NET.unC){NET.unC();NET.unC=BE.watchChunks(NET.code,NET.k,netOnChunks)}}
   if(d.snapK!=null&&d.snapK>NET.snapK){NET.snap=d.snap;NET.snapK=d.snapK}}
 function netFlush(fin){const c={k:NET.k,att:NET.att,i:NET.chunkI++,from:NET.sentTo,to:NET.step,e:JSON.stringify(NET.rec),fin:fin?NET.step:null};
   NET.rec=[];NET.sentTo=NET.step;BE.addChunk(NET.code,c).catch(e=>netMsg('Connection problem: '+e.message))}
 function netHandover(over){netFlush(true);const snap=snapState();
-  BE.update(NET.code,{snap,snapK:NET.k,turnK:NET.k+1,actor:1-NET.me,att:'',status:over?'over':'playing'}).catch(e=>netMsg('Connection problem: '+e.message));
-  NET.snapK=NET.k;if(over){NET.role='done';clearNet();return}becomeWatcher(NET.k+1)}
+  BE.update(NET.code,{snap,snapK:NET.k,turnK:NET.k+1,actor:S.team,att:'',status:over?'over':'playing'}).catch(e=>netMsg('Connection problem: '+e.message));
+  NET.snapK=NET.k;if(NET.leaving){NET.leaving=false;clearNet();netLeave();quitToTitle();return}if(over){NET.role='done';clearNet();return}becomeWatcher(NET.k+1)}
 function netTick(){
-  if(NET.role==='act'){const f=localFrame(),[h,p,sx,sy,acts]=f,l=NET.last;
+  if(NET.role==='act'){for(const g of(NET.match&&NET.match.gone)||[])if(!S.gone.includes(g)&&!NET.qd.has(g)){NET.qd.add(g);act('q',g)}
+    const f=localFrame(),[h,p,sx,sy,acts]=f,l=NET.last;
     if(p||acts.length||!l||l[0]!==h||l[2]!==sx||l[3]!==sy){NET.rec.push([NET.step,h,p,sx,sy,acts]);NET.last=f}
     simStep(f);NET.step++;
     if(NET.handover){const over=NET.handover==='over';NET.handover=false;netHandover(over);return}
@@ -2306,7 +2411,7 @@ function netTick(){
       const e=NET.ent.get(NET.step);let p=0,acts=[];if(e){NET.H=e[1];p=e[2];NET.SX=e[3];NET.SY=e[4];acts=e[5]}
       simStep([NET.H,p,NET.SX,NET.SY,acts]);NET.step++}
     if(NET.final!=null&&NET.step>=NET.final&&NET.snapK>=NET.k){
-      NET.skip=false;const pre=stateHash();loadState(NET.snap);NET.log.push([NET.k,pre,stateHash(),NET.step]);if(S.phase!=='over')becomeActor(NET.k+1)}
+      NET.skip=false;const pre=stateHash();loadState(NET.snap);NET.log.push([NET.k,pre,stateHash(),NET.step]);if(S.phase!=='over'){if(S.team===NET.me)becomeActor(NET.k+1);else becomeWatcher(NET.k+1)}}
     return}
   localFrame()}
 function netMaxSteps(){return S.mode==='online'&&NET.role==='watch'&&NET.skip?600:5}
@@ -2315,34 +2420,41 @@ function netCatchUp(){if(S.mode!=='online'||NET.role!=='watch')return;const behi
   if(behind>300&&!NET.skip)for(let i=0;i<Math.min(6,behind-240);i++)tick()}
 function netGameOver(){if(NET.role!=='act')clearNet()}
 function netLeave(){document.title=TITLE0;if(NET.unC)NET.unC();if(NET.unM)NET.unM();NET.unC=NET.unM=null;NET.role=null;NET.started=false;S.mode='hot';$('#netBar').hidden=true}
-const GV=4;// bump on every release that changes the sim
-function startOnline(code,me,d){BE.update(code,{['ver'+me]:GV}).catch(()=>{});NET.code=code;NET.me=me;NET.snapK=-1;NET.snap=null;NET.matchAtt=d.att||'';NET.started=true;saveNet();
-  $('#net').hidden=true;newGame('online',d.seed);S.genOK=true;
-  if(d.snapK!=null&&d.snapK>=0){NET.snap=d.snap;NET.snapK=d.snapK;loadState(d.snap)}
-  const k=d.snapK!=null&&d.snapK>=0?d.snapK+1:0,actor=k>0?d.actor:S.team;
+const GV=5;// bump on every release that changes the sim
+function startOnline(code,me,d){BE.update(code,{['vers.'+me]:GV}).catch(()=>{});NET.code=code;NET.me=me;NET.round=d.round||0;NET.snapK=-1;NET.snap=null;NET.matchAtt=d.att||'';NET.started=true;NET.leaving=false;saveNet();
+  $('#net').hidden=true;const cfg=Object.assign(mkCfg('online',d.seats,d.mode==='teams'),{mode:'online'});newGame('online',d.seed,cfg);S.genOK=true;
+  const base=NET.round*1e5,has=d.snapK!=null&&d.snapK>=base&&d.snap;
+  if(has){NET.snap=d.snap;NET.snapK=d.snapK;loadState(d.snap)}else NET.snapK=base-1;
+  const k=has?d.snapK+1:base,actor=has?d.actor:S.team;
   if(actor===me)becomeActor(k);else becomeWatcher(k);
   $('#netBar').hidden=false}
 function netHud(){if(S.mode!=='online'||!NET.started)return;let t='';
-  const m=NET.match,vs=m&&m.ver0&&m.ver1&&m.ver0!==m.ver1;
-  if(vs)t=(m['ver'+NET.me]<m['ver'+(1-NET.me)])?'<b>New version out</b> · refresh this page':'<b>Opponent needs to refresh</b> · they\u2019re on an old version';
-  else if(NET.role==='watch'){const behind=NET.avail-NET.step;t=NET.avail===0?'<b>Waiting for your opponent</b>':behind>300?'<b>Catching up</b>':''}
+  const m=NET.match,vv=Object.values((m&&m.vers)||{}),top=Math.max(0,...vv),vs=vv.length>1&&vv.some(v=>v!==top);
+  if(vs)t=((m.vers||{})[NET.me]<top)?'<b>New version out</b> · refresh this page':'<b>A player needs to refresh</b> · they\u2019re on an old version';
+  else if(NET.role==='watch'){const behind=NET.avail-NET.step;t=NET.avail===0?`<b>Waiting for ${TEAM[S.team]?TEAM[S.team].name:'your opponent'}</b>`:behind>300?'<b>Catching up</b>':''}
   const el=$('#netTxt');if(el.innerHTML!==t){el.innerHTML=t;el.hidden=!t}const sk=$('#netSkip'),show=!vs&&NET.role==='watch'&&NET.avail-NET.step>120;if(sk.hidden===show)sk.hidden=!show}
 // ---- lobby ----
-async function netCreate(){netMsg('Connecting…');try{await BE.init();let code,tries=0;
-    for(;;){code=newCode();try{await BE.create(code,{host:BE.uid,guest:null,seed:(RR()*2147483647)|0,status:'waiting',created:Date.now(),snap:null,snapK:-1,turnK:0,att:'',actor:null});break}catch(e){if(++tries>4)throw e}}
-    NET.code=code;NET.me=0;saveNet();$('#nMain').hidden=true;$('#nWait').hidden=false;$('#nCodeShow').textContent=fmtCode(code);netMsg('');
-    NET.unM=BE.watchMatch(code,d=>{netOnMatch(d);if(d.guest&&!NET.started)startOnline(code,0,d)})}
+function netWaitUI(d){$('#nMain').hidden=true;$('#nWait').hidden=false;$('#nCodeShow').textContent=fmtCode(NET.code);
+  const got=(d&&d.seats)||[],n=(d&&d.n)||2;$('#nWaitTxt').innerHTML=`Send this code to your opponents. ${got.length} of ${n} joined: `+got.map(f=>`<b style="color:${TEAM[f].col}">${TEAM[f].name}</b>`).join(', ')+'.'}
+function watchLobby(code){if(NET.unM)NET.unM();NET.unM=BE.watchMatch(code,d=>{netOnMatch(d);if(NET.started)return;if(d.status==='playing'&&d.players&&d.players[BE.uid]!=null)startOnline(code,d.players[BE.uid],d);else if(d.status==='waiting')netWaitUI(d)})}
+async function netCreate(){netMsg('Connecting…');try{await BE.init();let code,tries=0;const f=NU.me[0],n=NU.cnt,teams=n===4&&NU.rules==='teams';
+    for(;;){code=newCode();try{await BE.create(code,{host:BE.uid,n,mode:teams?'teams':'ffa',players:{[BE.uid]:f},seats:[f],seed:(RR()*2147483647)|0,round:0,status:'waiting',created:Date.now(),snap:null,snapK:-1,turnK:0,att:'',actor:null,gone:[],vers:{}});break}catch(e){if(++tries>4)throw e}}
+    PREF.nu={me:NU.me,cnt:NU.cnt,rules:NU.rules};savePref();
+    NET.code=code;NET.me=f;saveNet();netMsg('');netWaitUI({seats:[f],n});watchLobby(code)}
   catch(e){netMsg(onlineErr(e))}}
 async function netJoin(raw){const code=(raw||'').toUpperCase().replace(/[^A-Z0-9]/g,'');if(code.length<5){netMsg('Codes look like ASH-4721.');return}
-  netMsg('Joining…');try{await BE.init();const d=await BE.join(code);const me=d.host===BE.uid?0:1;
-    NET.unM=BE.watchMatch(code,netOnMatch);if(d.status==='over'){netMsg('That match has finished.');return}
-    if(me===0&&!d.guest){NET.code=code;NET.me=0;$('#nMain').hidden=true;$('#nWait').hidden=false;$('#nCodeShow').textContent=fmtCode(code);netMsg('');
-      if(NET.unM)NET.unM();NET.unM=BE.watchMatch(code,dd=>{netOnMatch(dd);if(dd.guest&&!NET.started)startOnline(code,0,dd)});return}
-    netOnMatch(d);startOnline(code,me,d)}
+  netMsg('Joining…');try{await BE.init();const d=await BE.join(code,NU.me[0]);const me=d.players[BE.uid];
+    if(me!==NU.me[0]&&d.status!=='over')netMsg(`${TEAM[NU.me[0]].name} was taken. You lead ${TEAM[me].name}.`);else netMsg('');
+    NET.code=code;NET.me=me;saveNet();if(d.status==='over'){netMsg('That match has finished.');clearNet();return}
+    if(d.status==='waiting'){netWaitUI(d);watchLobby(code);return}
+    watchLobby(code)}
   catch(e){netMsg(onlineErr(e))}}
 function onlineErr(e){return /blocked/.test(e.message)?/github\.io|localhost/.test(location.hostname)?'Couldn\u2019t reach the server. Check your connection and try again.':'Online play needs the web version of Grimspire. It can’t connect from inside this preview.':e.message||'Something went wrong.'}
 function netReset(){if(NET.unC)NET.unC();if(NET.unM)NET.unM();NET.unC=NET.unM=null;NET.role=null;NET.started=false;NET.log=[]}
-function openNet(){initAudio();netReset();$('#net').hidden=false;$('#nMain').hidden=false;$('#nWait').hidden=true;netMsg('');
+function drawNet(){facChips($('#nFac'),false,NU.me,drawNet);segBtns($('#nCnt'),[2,3,4],NU.cnt,v=>{NU.cnt=v;drawNet()});
+  $('#nModeG').hidden=NU.cnt!==4;for(const b of $('#nMode').children)b.setAttribute('aria-pressed',String(b.dataset.v===NU.rules))}
+for(const b of $('#nMode').children)b.addEventListener('click',()=>{NU.rules=b.dataset.v;drawNet()});
+function openNet(){initAudio();netReset();$('#net').hidden=false;$('#nMain').hidden=false;$('#nWait').hidden=true;netMsg('');drawNet();
   const sv=savedNet(),rb=$('#nResume');rb.hidden=!sv;if(sv)rb.innerHTML=`Resume ${fmtCode(sv.code)}<span>Pick up where you left off</span>`}
 $('#goNet').addEventListener('click',openNet);
 $('#nClose').addEventListener('click',()=>{$('#net').hidden=true;if(!NET.started&&NET.unM){NET.unM();NET.unM=null}});
@@ -2352,6 +2464,11 @@ $('#nCode').addEventListener('keydown',e=>{e.stopPropagation();if(e.key==='Enter
 $('#nResume').addEventListener('click',()=>{const sv=savedNet();if(sv)netJoin(sv.code)});
 $('#nCopy').addEventListener('click',e=>{const t=fmtCode(NET.code);try{navigator.clipboard.writeText(t).then(()=>{e.target.textContent='Copied'},()=>{})}catch(_){}});
 $('#netSkip').addEventListener('click',()=>{NET.skip=true});
+$('#goRematch').addEventListener('click',()=>{if(NET.code)BE.rematch(NET.code).catch(e=>alertMsg(e.message))});
+function alertMsg(t){banner('Online',t,BONE)}
+$('#pForfeit').addEventListener('click',()=>{if(S.mode!=='online'||!NET.code)return;setPause(false);
+  if(NET.role==='act'){NET.leaving=true;act('q',NET.me)}
+  else{BE.update(NET.code,{gone:((NET.match&&NET.match.gone)||[]).concat(NET.me)}).catch(()=>{});clearNet();netLeave();quitToTitle()}});
 
 const STEP=1/60;let acc=0;
 const localTurn=()=>S.mode!=='online'||NET.role==='act';
@@ -2366,7 +2483,7 @@ function frame(now){const real=Math.min(.1,(now-last)/1000);last=now;chargeSound
   render(Math.min(.033,real));for(let i=0;i<sw.length;i+=3){sw[i].x=sw[i+1];sw[i].y=sw[i+2]}}if(S.phase!=='title')updHud();requestAnimationFrame(frame)}
 requestAnimationFrame(frame);
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(resize);
-window.__G={S,NET,stateHash,kill:t=>killTrooper(t),get corpses(){return corpses},get graves(){return graves},AI,mines:()=>mines,blds:()=>genTerrain.blds||[],maskURL:()=>{const c=mk(W/2,H/2),x=c.getContext("2d");x.fillStyle="#123";x.fillRect(0,0,W/2,H/2);x.drawImage(back,0,0,W/2,H/2);x.drawImage(terr,0,0,W/2,H/2);x.fillStyle="rgba(60,120,255,.5)";x.fillRect(0,sump/2,W/2,H);return c.toDataURL()},bus:()=>bus(),camSet:(x,y)=>{cam.x=x;cam.y=y},scr:(x,y)=>[(x-cam.x)*scale,(y-cam.y)*scale],base:()=>baseScale,setSump:v=>{sump=v},spawnShell:(x,y)=>projs.push({w:WP.mortar,x,y,vx:0,vy:200,owner:null,age:1,fuse:0,rest:false}),MUS,get AC(){return AC},initAudio,setMusicMode,ammo:(tm,id)=>S.ammo[tm][id],surfY:surf,press:k=>{press.add(k);held.add(k)},release:k=>held.delete(k),dropRopeT:t=>dropRope(t),isSolid,explode,shove,switchTo,addFire,hurtT:(t,d)=>hurt(t,d),jumpT:t=>jump(t),get projs(){return projs},get troopers(){return troopers},get barrels(){return barrels},get crates(){return crates},get fires(){return fires},get puddles(){return puddles},sump:()=>sump,newGame,update,render,tryFire,launch,selectWeapon,WP,blowBarrel,sky,testFlat:(x0,x1,y)=>{for(let yy=y-140;yy<y+30;yy++)for(let x=x0;x<x1;x++)solid[yy*W+x]=yy>=y?1:0},get sentries(){return sentries},get zones(){return zones},get texts(){return texts},cutChutes,nextTurn};
+window.__G={S,NET,stateHash,kill:t=>killTrooper(t),get corpses(){return corpses},get graves(){return graves},AI,mines:()=>mines,blds:()=>genTerrain.blds||[],maskURL:()=>{const c=mk(W/2,H/2),x=c.getContext("2d");x.fillStyle="#123";x.fillRect(0,0,W/2,H/2);x.drawImage(back,0,0,W/2,H/2);x.drawImage(terr,0,0,W/2,H/2);x.fillStyle="rgba(60,120,255,.5)";x.fillRect(0,sump/2,W/2,H);return c.toDataURL()},bus:()=>bus(),camSet:(x,y)=>{cam.x=x;cam.y=y},scr:(x,y)=>[(x-cam.x)*scale,(y-cam.y)*scale],base:()=>baseScale,setSump:v=>{sump=v},spawnShell:(x,y)=>projs.push({w:WP.mortar,x,y,vx:0,vy:200,owner:null,age:1,fuse:0,rest:false}),MUS,get AC(){return AC},initAudio,setMusicMode,ammo:(tm,id)=>S.ammo[tm][id],surfY:surf,press:k=>{press.add(k);held.add(k)},release:k=>held.delete(k),dropRopeT:t=>dropRope(t),isSolid,explode,shove,switchTo,addFire,hurtT:(t,d)=>hurt(t,d),jumpT:t=>jump(t),get projs(){return projs},get troopers(){return troopers},get barrels(){return barrels},get crates(){return crates},get fires(){return fires},get puddles(){return puddles},sump:()=>sump,newGame,update,render,tryFire,launch,selectWeapon,WP,blowBarrel,sky,mkCfg,get order(){return S.order},testFlat:(x0,x1,y)=>{for(let yy=y-140;yy<y+30;yy++)for(let x=x0;x<x1;x++)solid[yy*W+x]=yy>=y?1:0},get sentries(){return sentries},get zones(){return zones},get texts(){return texts},cutChutes,nextTurn};
 })();
 </script>
 
