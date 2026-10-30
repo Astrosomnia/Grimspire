@@ -225,6 +225,8 @@ body.intitle #hud,body.intitle #desk,body.intitle #touch,body.intitle #recenter{
 #netBar b{color:var(--bone);font-weight:600}
 #netBar button{pointer-events:auto;border:1px solid var(--line);padding:5px 9px;background:rgba(0,0,0,.6);color:var(--bone);font-size:10px;letter-spacing:.14em;text-transform:uppercase}
 body.intitle #netBar{display:none}
+#copy{position:fixed;right:calc(max(14px,env(safe-area-inset-right,0px)));bottom:calc(env(safe-area-inset-bottom,0px) + 10px);font-size:10px;letter-spacing:.12em;color:var(--ash);opacity:.6;pointer-events:none;display:none}
+body.intitle #copy{display:block}
 .vol{display:grid;grid-template-columns:62px 1fr 44px;align-items:center;gap:10px;padding-block:8px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ash)}
 .vol output{text-align:right;color:var(--bone);font-variant-numeric:tabular-nums}
 .vol input{width:100%;min-width:0;accent-color:var(--fire);height:28px}
@@ -374,6 +376,7 @@ body.intitle #dbg{display:none}
 </div>
 
 <div class="modal" id="ov">
+  <div id="copy">© Jarred Powell 2026</div>
   <div class="card">
     <div class="kick" id="kick">Hive Ward 91 · the night it burned</div>
     <h1 class="logo"><canvas id="logo" aria-hidden="true"></canvas><span class="vh">Grimspire</span></h1>
