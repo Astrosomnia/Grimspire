@@ -414,20 +414,20 @@ const ARS=[
   {id:'scatter',name:'Scatter Gun',cat:'Guns',kind:'scatter',ammo:2,shots:2,desc:'Two blasts of buckshot. Nasty up close.'},
   {id:'bolter',name:'Dakka Bolter',cat:'Guns',kind:'burst',ammo:2,desc:'Fourteen-round burst with plenty of spray.'},
   {id:'las',name:'Las Burner',cat:'Guns',kind:'beam',ammo:2,desc:'A beam that burns straight through cover.'},
-  {id:'flamer',name:'Promethium Flamer',cat:'Guns',kind:'flame',ammo:2,desc:'Hoses burning promethium. Sets the ground alight.'},
+  {id:'flamer',name:'Promethium Flamer',cat:'Guns',kind:'flame',ammo:2,desc:'A wide hose of burning promethium. Washes over groups and sets the ground alight.'},
   {id:'chain',name:'Chainblade',cat:'Melee',kind:'saw',ammo:-1,dmg:4,desc:'Revs for 3s while you walk. Corner them. Last bite staggers.'},
   {id:'fist',name:'Thunder Fist',cat:'Melee',kind:'melee',ammo:-1,dmg:20,knock:620,desc:'Light damage. An uppercut that launches them skyward.'},
   {id:'sun',name:'Sun Grenade',cat:'Heavy',kind:'grenade',ammo:1,charge:true,speed:560,fuse:4,r:80,dmg:72,desc:'A small star. Same adjustable fuse.'},
   {id:'mine',name:'Fusion Mine',cat:'Heavy',kind:'mine',ammo:1,r:80,dmg:72,desc:'Drop it and run. Arms in 3s, then blows when anyone comes close.'},
   {id:'lance',name:'Orbital Lance',cat:'Heavy',kind:'target',ammo:0,r:52,dmg:55,desc:'Pick a spot. The sky answers.'},
   {id:'nuke',name:'Doomsday Shell',cat:'Heavy',kind:'shell',ammo:0,charge:true,speed:760,wind:true,r:125,dmg:80,nuke:true,desc:'Ends arguments. Raises the sump and poisons the crater.'},
-  {id:'minigun',name:'Minigun',cat:'Heavy',kind:'mini',ammo:0,dmg:2,desc:'Forty-five rounds. The barrel climbs and kicks you back, so hold it down.'},
-  {id:'sentry',name:'Sentry Turret',cat:'Heavy',kind:'sentry',ammo:0,dmg:4,desc:'Overwatch. Each turn: one burst at the nearest enemy in sight, and one at anyone who walks into it.'},
+  {id:'minigun',name:'Minigun',cat:'Heavy',kind:'mini',ammo:0,dmg:1,desc:'Seventy-five rounds that spray and riddle. Climbs a little, so keep it down.'},
+  {id:'sentry',name:'Sentry Turret',cat:'Heavy',kind:'sentry',ammo:0,off:true,dmg:4,desc:'Overwatch. Each turn: one burst at the nearest enemy in sight, and one at anyone who walks into it.'},
   {id:'drone',name:'Tracked Drone',cat:'Heavy',kind:'drone',ammo:0,r:62,dmg:65,desc:'Rolls on its own for 8s. Steer it, jump to hop. Fire to detonate.'},
   {id:'pod',name:'Godfall',cat:'Heavy',kind:'pod',ammo:0,r:60,dmg:45,desc:'Climb in. A slow rocket launch at high angles, then a hard fall. Land on them.'},
   {id:'rope',name:'Rappel Wire',cat:'Tools',kind:'rope',ammo:5,desc:'Walk off a ledge on a charged wire. Reel, swing, fire to release.'},
   {id:'jet',name:'Jump Pack',cat:'Tools',kind:'jet',ammo:2,desc:'Hold fire to thrust. Does not end your turn.'},
-  {id:'cutter',name:'Plasma Cutter',cat:'Tools',kind:'cutter',ammo:5,desc:'Bores a tunnel in the aim direction.'},
+  {id:'cutter',name:'Plasma Cutter',cat:'Tools',kind:'cutter',ammo:5,desc:'Bores a tunnel in the aim direction. Burns anyone in front of the torch.'},
   {id:'fab',name:'Fabricator',cat:'Tools',kind:'build',ammo:3,desc:'Prints a girder anywhere within reach.'},
   {id:'warp',name:'Teleporter',cat:'Tools',kind:'warp',ammo:0,desc:'Pick an open spot within range. Blink there.'}
 ];
@@ -1199,7 +1199,7 @@ function buildArsenal(){
   const root=$('#agrid');root.innerHTML='';
   for(const cat of CATS){const sec=document.createElement('div');sec.className='acat c-'+cat.toLowerCase();const h=document.createElement('h3');h.textContent=cat;sec.append(h);
     const grid=document.createElement('div');grid.className='agrid';
-    for(const w of ARS.filter(x=>x.cat===cat)){const a=ammoOf(S.team,w);const b=document.createElement('button');b.type='button';b.className='tile';
+    for(const w of ARS.filter(x=>x.cat===cat&&!x.off)){const a=ammoOf(S.team,w);const b=document.createElement('button');b.type='button';b.className='tile';
       b.setAttribute('aria-pressed',String(S.weapon[S.team]===w.id));b.disabled=a<=0||(w.kind==='jet'&&S.usedJet);
       const n=document.createElement('b');n.textContent=w.name;const em=document.createElement('em');em.textContent=a===Infinity?'∞':'×'+a;n.append(em);
       const d=document.createElement('span');d.textContent=w.desc;b.insertAdjacentHTML('afterbegin',icon(w.id));b.append(n,d);
@@ -1300,7 +1300,7 @@ function updRope(t,dt,ctrl){const r=t.rope;
   [t.x,t.y]=ropePos(r,r.a,r.L);
   if(t.y>sump-2){t.rope=null;enterWater(t)}}
 let corpses=[],zones=[],sentries=[];
-const FALLOUT={dmg:8,turns:4},RAD=[150,255,60];
+const FALLOUT={dmg:8,turns:10},RAD=[150,255,60];
 const LAST=[['kneel',.3],['stagger',.25],['salute',.2],['martyr',.25]];
 function killTrooper(t){t.alive=false;t.rope=null;deathCam(t.x,t.y);let r=Math.random(),k='kneel';for(const[n,p]of LAST){if(r<p){k=n;break}r-=p}
   corpses.push({x:t.x,y:t.y,face:t.face,team:t.team,aim:t.aim,kind:k,t:0,done:false,anim:0,moving:false,tilt:0,sq:0});
@@ -1311,7 +1311,7 @@ function corpsePose(c){const t=c.t,f=c.face,ease=(a,b,u)=>a+(b-a)*Math.max(0,Mat
   else if(k==='stagger'){c.tilt=t<.35?ease(0,-f*.25,t/.35):t<.75?-f*.25:ease(-f*.25,-f*1.45,(t-.75)/.4);c.sq=t<.35?0:ease(0,.45,(t-.35)/.35);c.aim=ease(c.aim,1.1,t/.5)}
   else if(k==='salute'){c.aim=t<.9?ease(c.aim,-1.45,t/.4):ease(-1.45,.6,(t-.9)/.4);c.sq=t<.9?0:ease(0,.45,(t-.9)/.3);c.tilt=t<1.1?0:ease(0,f*1.45,(t-1.1)/.35)}
   else{c.sq=ease(0,.5,t/.4);c.tilt=ease(0,-f*.08,t/.6);c.aim=ease(c.aim,-1.35,t/.45)}}
-const zoneR=z=>z.r0*(.45+.55*z.left/FALLOUT.turns);
+const zoneR=z=>z.r0;const zoneK=z=>.35+.65*z.left/FALLOUT.turns;
 const inZone=(t,z)=>Math.hypot(t.x-z.x,(t.y-8)-z.y)<zoneR(z);
 function irradiate(t){if(t.radT===S.turnN||!t.alive)return;t.radT=S.turnN;hurt(t,FALLOUT.dmg,true);for(let i=0;i<8;i++)parts.push({k:'mote',x:t.x+rnd(-6,6),y:t.y-rnd(0,20),vx:rnd(-10,10),vy:rnd(-40,-10),life:rnd(.5,1),max:1,col:'#9dff3c'})}
 function updZones(dt){for(const z of zones){const R=zoneR(z);if(Math.random()<.5)parts.push({k:'mote',x:z.x+rnd(-R,R),y:z.y+rnd(-R*.5,R*.5),vx:rnd(-6,6),vy:rnd(-22,-6),life:rnd(.8,1.8),max:1.8,col:'#9dff3c'});
@@ -1394,10 +1394,11 @@ function scatterShot(t,ox,oy,dx,dy){const a0=Math.atan2(dy,dx);muzzle(ox,oy,'#ff
     if(r.barrel){ignite(r.barrel);sparks(r.x,r.y,4)}if(r.sentry){hurtSentry(r.sentry,6);sparks(r.x,r.y,3)}
     if(r.victim){hurt(r.victim,6);knock(r.victim,ex,ey,70);sparks(r.x,r.y,4)}else if(r.solid){carve(r.x,r.y,7);sparks(r.x,r.y,3)}}
   shake=Math.min(20,shake+5)}
+const BOLT={dmg:5};
 function boltRound(t){const[ox,oy,dx,dy]=origin(t),a=Math.atan2(dy,dx)+rnd(-.09,.09),ex=Math.cos(a),ey=Math.sin(a),r=ray(t,ox,oy,ex,ey,460);
   tracers.push({x0:ox,y0:oy,x1:r.x,y1:r.y,life:.1,max:.1,col:[255,200,110],w:1.4});flashes.push({x:ox,y:oy,r:70,c:FIRE,life:.06,max:.06,i:.9});sfx('bolt');
   if(r.barrel){ignite(r.barrel);sparks(r.x,r.y,3)}if(r.sentry){hurtSentry(r.sentry,6);sparks(r.x,r.y,3)}
-  if(r.victim){hurt(r.victim,6);knock(r.victim,ex,ey,45);sparks(r.x,r.y,3)}else if(r.solid){carve(r.x,r.y,6);sparks(r.x,r.y,3);for(let i=0;i<3;i++)debris(r.x,r.y)}
+  if(r.victim){hurt(r.victim,BOLT.dmg);knock(r.victim,ex,ey,45);sparks(r.x,r.y,3)}else if(r.solid){carve(r.x,r.y,6);sparks(r.x,r.y,3);for(let i=0;i<3;i++)debris(r.x,r.y)}
   shake=Math.min(10,shake+1.5)}
 function lasShot(t,ox,oy,dx,dy){const L=540,hit=new Set();let ex=ox,ey=oy;
   for(let d=0;d<L;d+=3){const x=ox+dx*d,y=oy+dy*d;if(x<0||x>W||y>sump||y<-300)break;ex=x;ey=y;
@@ -1500,18 +1501,18 @@ function updSaw(dt){const s=S.saw;if(!s)return;const t=s.owner;if(!t.alive||t!==
       if(rx>-4&&rx<30&&Math.abs(ry)<24&&meleeClear(t,o)){hurt(o,WP.chain.dmg);s.last.push(o);if(!o.air)o.x+=t.face*1.5;sparks(o.x,o.y-12,6);sfx('cut')}}
     for(const q of sentries){const rx=(q.x-t.x)*t.face;if(rx>-4&&rx<30&&Math.abs(q.y-t.y)<24)hurtSentry(q,WP.chain.dmg)}}
   if(s.t<=0){for(const o of s.last)if(o.alive){o.stag=true;texts.push({x:o.x,y:o.y-58,txt:'Staggered',life:1.8,col:CATCOL.Melee,small:true})}S.saw=null;finish()}}
-const MINI={n:45,settle:6,climb:.011,spread0:.05,spread1:.15,push:.9};
+const MINI={n:75,dmg:1,gap:.03,settle:10,climb:.0008,spread0:.06,spread1:.1,push:.3,knock:4};
 function updMini(dt){const m=S.mini;if(!m)return;const t=m.owner;if(!t.alive||t!==S.active){S.mini=null;return}
   if(m.spin>0){m.spin-=dt;if(Math.random()<.4)sparks(t.x+t.face*14,t.y-12,1);return}
   m.cd-=dt;
   if(isCPU()&&AI.plan&&AI.plan.aim!==undefined){const d=AI.plan.aim-t.aim;t.aim+=Math.sign(d)*Math.min(Math.abs(d),.9*dt)}// the machine fights the climb too
-  while(m.cd<=0&&m.n>0){m.cd+=.05;m.n--;const fired=MINI.n-m.n,heat=Math.min(1,fired/MINI.n),
+  while(m.cd<=0&&m.n>0){m.cd+=MINI.gap;m.n--;const fired=MINI.n-m.n,heat=Math.min(1,fired/MINI.n),
     // the barrel climbs with every round once it gets going and the spread opens up as it heats; hold aim down to keep it on target
     sp=MINI.spread0+(MINI.spread1-MINI.spread0)*heat;if(fired>MINI.settle)t.aim=clamp(t.aim-MINI.climb-rnd(0,MINI.climb),-1.52,1.45);
     const[ox,oy,dx,dy]=origin(t),a=Math.atan2(dy,dx)+rnd(-sp,sp),ex=Math.cos(a),ey=Math.sin(a),r=ray(t,ox,oy,ex,ey,520);
     tracers.push({x0:ox,y0:oy,x1:r.x,y1:r.y,life:.08,max:.08,col:[255,215,130],w:1.1});flashes.push({x:ox,y:oy,r:60,c:FIRE,life:.05,max:.05,i:.8});if(m.n%2)sfx('bolt');
     if(r.barrel)ignite(r.barrel);if(r.sentry)hurtSentry(r.sentry,2);
-    if(r.victim){hurt(r.victim,WP.minigun.dmg);knock(r.victim,ex,ey,22);sparks(r.x,r.y,2)}else if(r.solid){carve(r.x,r.y,4);if(m.n%3===0)debris(r.x,r.y)}
+    if(r.victim){hurt(r.victim,MINI.dmg);knock(r.victim,ex,ey,MINI.knock);sparks(r.x,r.y,2)}else if(r.solid){carve(r.x,r.y,4);if(m.n%3===0)debris(r.x,r.y)}
     if(!t.air&&!isSolid(t.x-t.face*1.5,t.y-6)&&isSolid(t.x-t.face*1.5,t.y+1))t.x-=t.face*MINI.push;shake=Math.min(9,shake+.8)}
   if(m.n<=0){S.mini=null;finish()}}
 // the arming light blinks faster as the fuel runs out
@@ -1628,7 +1629,7 @@ function fizzle(p){const big=p.w.nuke||p.w.id==='sun';splash(p.x,sump);bubbles(p
   flashes.push({x:p.x,y:sump,r:big?160:80,c:p.w.id==='sun'?[150,220,255]:[255,170,90],life:.35,max:.35,i:.6})}
 function detonate(p){const w=p.w;
   if(w.nuke){explode(p.x,p.y,w.r,w.dmg,{big:true,col:[255,230,180]});for(let i=0;i<40;i++)parts.push({k:'smoke',x:p.x+rnd(-40,40),y:p.y-rnd(0,60),vx:rnd(-30,30),vy:rnd(-140,-40),life:rnd(2,4),max:4,s:rnd(14,30),c:rnd(28,60)|0});
-    zones.push({x:p.x,y:p.y,r0:w.r*.85,left:FALLOUT.turns});
+    zones.push({x:p.x,y:p.y,r0:w.r*1.02,left:FALLOUT.turns});
     sump-=26;flash=1.6;texts.push({x:p.x,y:p.y-60,txt:'The sump rises',life:2.4,col:BONE,small:true})}
   else if(w.id==='sun')explode(p.x,p.y,w.r,w.dmg,{col:[200,240,255],ring:[200,245,255],hot:true,v:[p.vx,p.vy]});
   else explode(p.x,p.y,w.r,w.dmg,{v:[p.vx,p.vy]})}
@@ -1658,12 +1659,18 @@ function updEffects(dt){
     if(t&&t.alive){const[dx,dy]=aimVec(t);c.dx=dx;c.dy=dy;
       // only bore when there's something in front of the torch; otherwise behave like a normal trooper
       let ahead=false;for(let k=8;k<=22&&!ahead;k+=3)for(const o of[-7,0,7])if(isSolid(t.x+dx*k-dy*o,t.y-12+dy*k+dx*o)){ahead=true;break}
-      if(ahead&&(c.dig||!t.air)){c.dig=true;t.x=clamp(t.x+dx*42*dt,6,W-6);t.y=clamp(t.y+dy*42*dt,30,H);t.vx=t.vy=0;t.air=false;
+      // the torch presses into anyone it's burning rather than passing through them
+      const pinned=troopers.some(o=>o.alive&&o!==t&&Math.hypot(o.x-(t.x+dx*16),o.y-12-(t.y-12+dy*16))<14&&meleeClear(t,o));
+      if(pinned){if(!t.air){t.vx=0}}
+      else if(ahead&&(c.dig||!t.air)){c.dig=true;t.x=clamp(t.x+dx*42*dt,6,W-6);t.y=clamp(t.y+dy*42*dt,30,H);t.vx=t.vy=0;t.air=false;
         const cx=t.x+dx*7,cy=t.y-12+dy*7;carve(cx,cy,14,false);
         tctx.globalCompositeOperation='source-atop';tctx.fillStyle='rgba(60,20,8,.25)';tctx.beginPath();tctx.arc(cx,cy,19,0,Math.PI*2);tctx.fill();tctx.globalCompositeOperation='source-over';
         if(Math.random()<.8)parts.push({k:'spark',x:cx+dx*14,y:cy+dy*14,vx:rnd(-160,160),vy:rnd(-200,40),life:rnd(.2,.5),max:.5,col:'#ffd9a0'});sfx('cut')}
       else{if(c.dig){c.dig=false;t.air=true}
         if(!t.air&&Math.abs(dx)>.3)walk(t,Math.sign(dx),dt,.8)}
+      // the torch burns anyone in front of it: chainblade bites at 30%, so about 13 over a full cut
+      c.bite=(c.bite||0)-dt;if(c.bite<=0){c.bite=.25;c.n=(c.n||0)+1;const hx=t.x+dx*16,hy=t.y-12+dy*16;
+        for(const o of troopers)if(o.alive&&o!==t&&Math.hypot(o.x-hx,o.y-12-hy)<14&&meleeClear(t,o)){hurt(o,c.n%4===0?2:1,true);if(!o.air)o.x+=Math.sign(o.x-t.x)*1;sparks(o.x,o.y-12,4)}}
       if(t.y>sump-2){enterWater(t);S.cut=null}}
     if(S.cut&&(c.t<=0||!t||!t.alive)){S.cut=null;if(t&&t.alive)t.air=true}}
   // orbital lance
@@ -1790,16 +1797,16 @@ function* planGen(t,quick){
         consider({w:'rail',face:A.face,aim:A.aim,target:e,s:scoreAcc(acc,false)},P,extra)}
       if(A.d<280&&hasAmmo(WP.scatter)){const acc=newAcc();for(let k=0;k<2;k++)for(let i=0;i<7;i++){const an=Math.atan2(dy,dx)+(i-3)*.04,ex=Math.cos(an),ey=Math.sin(an),r=ray(t,ox,oy,ex,ey,250);if(r.victim)hitEst(acc,r.victim,t,6,ex*80)}
         consider({w:'scatter',face:A.face,aim:A.aim,target:e,s:scoreAcc(acc,false)},P,extra)}
-      if(A.d<460&&hasAmmo(WP.bolter)){const acc=newAcc();for(let i=0;i<14;i++){const an=Math.atan2(dy,dx)+(i-6.5)*.013,ex=Math.cos(an),ey=Math.sin(an),r=ray(t,ox,oy,ex,ey,460);if(r.victim)hitEst(acc,r.victim,t,6,ex*45)}
+      if(A.d<460&&hasAmmo(WP.bolter)){const acc=newAcc();for(let i=0;i<14;i++){const an=Math.atan2(dy,dx)+(i-6.5)*.013,ex=Math.cos(an),ey=Math.sin(an),r=ray(t,ox,oy,ex,ey,460);if(r.victim)hitEst(acc,r.victim,t,BOLT.dmg,ex*45)}
         consider({w:'bolter',face:A.face,aim:A.aim,target:e,s:scoreAcc(acc,false)},P,extra)}
       if(A.d<540&&hasAmmo(WP.las)){const acc=newAcc();for(const o of troopers){if(!o.alive||o===t)continue;const px=o.x-ox,py=(o.y-11)-oy,along=px*dx+py*dy;if(along<0||along>540)continue;if(Math.abs(px*dy-py*dx)<8)hitEst(acc,o,t,22,dx*140)}
         consider({w:'las',face:A.face,aim:A.aim,target:e,s:scoreAcc(acc,false)},P,extra)}
-      if(hasAmmo(WP.flamer)&&Math.abs(e.x-t.x)<150&&Math.abs(e.y-t.y)<40&&los(ox,oy,e.x,e.y-11)){const acc=newAcc();hitEst(acc,e,t,32,0);consider({w:'flamer',face:A.face,aim:clamp(A.aim-.12,-1.5,1.4),target:e,s:scoreAcc(acc,false)+4},P,extra)}
+      if(hasAmmo(WP.flamer)&&Math.abs(e.x-t.x)<200&&Math.abs(e.y-t.y)<70&&los(ox,oy,e.x,e.y-11)){const acc=newAcc();for(const o of troopers)if(o.alive&&o!==t&&Math.abs(o.x-e.x)<45&&Math.abs(o.y-e.y)<40)hitEst(acc,o,t,26,0);consider({w:'flamer',face:A.face,aim:clamp(A.aim-.12,-1.5,1.4),target:e,s:scoreAcc(acc,false)+4},P,extra)}
       const rx=(e.x-t.x)*A.face;if(rx>-4&&rx<30&&Math.abs(e.y-t.y)<24&&meleeClear(t,e)){
         let acc=newAcc();hitEst(acc,e,t,38,A.face*150);consider({w:'chain',face:A.face,aim:-.3,s:scoreAcc(acc,false)},P,extra);
         acc=newAcc();hitEst(acc,e,t,20,A.face*FIST.side);consider({w:'fist',face:A.face,aim:-.5,s:scoreAcc(acc,false)},P,extra)}}
     if(hasAmmo(WP.minigun))for(const e of foes){const A=aimAt(t,e);if(A.d>520)continue;const[ox,oy,dx,dy]=orig(t,A.face,A.aim),acc=newAcc();
-        for(let i=0;i<15;i++){const an=Math.atan2(dy,dx)+(i-7)*.008,r=ray(t,ox,oy,Math.cos(an),Math.sin(an),520);if(r.victim)hitEst(acc,r.victim,t,6,Math.cos(an)*30)}
+        for(let i=0;i<16;i++){const an=Math.atan2(dy,dx)+(i-7.5)*.011,r=ray(t,ox,oy,Math.cos(an),Math.sin(an),520);if(r.victim)hitEst(acc,r.victim,t,MINI.n*MINI.dmg/16,Math.cos(an)*10)}
         consider({w:'minigun',face:A.face,aim:A.aim,target:e,s:scoreAcc(acc,true)},P,extra)}
     if(hasAmmo(WP.sentry))for(const face of[-1,1]){const sx=P.x+face*14,acc=newAcc();for(const e of foes)if(Math.hypot(e.x-sx,e.y-P.y)<300&&los(sx,P.y-11,e.x,e.y-11))hitEst(acc,e,t,15,0);
         if(acc.en>0)consider({w:'sentry',face,aim:t.aim,s:scoreAcc(acc,true)-8},P,extra)}
@@ -1983,7 +1990,7 @@ function dbgBuild(){if(!DBG.on||$('#dbg'))return;const d=document.createElement(
     <p id="dbWho"></p>
     <div class="dr">${TEAM.map((T,f)=>`<button type="button" data-fac="${f}" style="color:${T.col}">${T.name.replace('The ','')}</button>`).join('')}</div>
     <div class="dr"><button id="dbPlace" type="button">Add trooper</button><button id="dbCpu" type="button">Toggle CPU</button></div>
-    <div class="dr"><select id="dbW">${ARS.map(w=>`<option value="${w.id}">${w.name}</option>`).join('')}</select><button id="dbGive" type="button">+1</button><button id="dbAll" type="button">All ×9</button></div>
+    <div class="dr"><select id="dbW">${ARS.filter(w=>!w.off).map(w=>`<option value="${w.id}">${w.name}</option>`).join('')}</select><button id="dbGive" type="button">+1</button><button id="dbAll" type="button">All ×9</button></div>
     <div class="dr"><input id="dbHp" type="number" min="1" max="999" value="100" aria-label="Health"><button id="dbSetHp" type="button">Set HP</button><button id="dbKill" type="button">Kill</button></div>
     <div class="dr"><button id="dbSkip" type="button">End turn</button><button id="dbInf" type="button">Timer ∞</button></div>
     <div class="dr"><select id="dbC"><option value="heavy">Heavy</option><option value="arms">Arms</option><option value="tool">Tool</option><option value="med">Health</option></select><button id="dbDrop" type="button">Drop crate</button></div>
@@ -1994,7 +2001,7 @@ function dbgBuild(){if(!DBG.on||$('#dbg'))return;const d=document.createElement(
   on('#dbPlace',()=>{DBG.placing=!DBG.placing});
   on('#dbCpu',()=>{S.ctl[S.team]=S.ctl[S.team]==='c'?'h':'c';AI.stage=0;AI.t=0});
   on('#dbGive',()=>{const id=$('#dbW').value;if(WP[id].ammo>=0)S.ammo[S.team][id]=(S.ammo[S.team][id]||0)+1;updWeapUI()});
-  on('#dbAll',()=>{for(const w of ARS)if(w.ammo>=0)S.ammo[S.team][w.id]=9;updWeapUI()});
+  on('#dbAll',()=>{for(const w of ARS)if(w.ammo>=0&&!w.off)S.ammo[S.team][w.id]=9;updWeapUI()});
   on('#dbSetHp',()=>{if(S.active)S.active.hp=clamp(+$('#dbHp').value||1,1,999)});
   on('#dbKill',()=>{if(S.active){S.active.hp=0;S.phase='end'}});
   on('#dbSkip',()=>{S.phase='end';S.charging=false;S.jet=null});
@@ -2056,13 +2063,14 @@ const CRATE={arms:{col:'#8fb3dc',rgb:[143,179,220]},heavy:{col:'#ffb21e',rgb:[25
 function collect(c,t){
   let txt;
   if(c.type==='med'){t.hp+=35;txt='+35 health'}
-  else{const pool=c.type==='heavy'?[['sun',35],['mine',35],['lance',20],['nuke',10],['minigun',20],['sentry',15],['drone',15],['pod',10]]:c.type==='arms'?[['scatter',1],['bolter',1],['las',1],['flamer',1]]:[['jet',35],['cutter',35],['fab',30],['warp',20]];
+  else{const pool=c.type==='heavy'?[['sun',35],['mine',35],['lance',20],['nuke',10],['minigun',25],['drone',20],['pod',15]]:c.type==='arms'?[['scatter',1],['bolter',1],['las',1],['flamer',1]]:[['jet',35],['cutter',35],['fab',30],['warp',20]];
     let r=Math.random()*pool.reduce((a,p)=>a+p[1],0),id=pool[0][0];for(const[k,wt]of pool){if(r<wt){id=k;break}r-=wt}const n=id==='cutter'?2:1;
     S.ammo[t.team][id]=(S.ammo[t.team][id]||0)+n;txt='+'+WP[id].name+(n>1?' ×'+n:'')}
   texts.push({x:c.x,y:c.y-30,txt,life:2.2,col:CRATE[c.type].col,small:true});sparks(c.x,c.y-8,10);sfx('pickup');updWeapUI();
 }
 const DROP={chance:.4,superChance:.3,superN:4};
-const crateType=()=>{const r=Math.random();return r<.35?'med':r<.6?'heavy':r<.85?'arms':'tool'};
+const CRATEMIX={med:20,heavy:30,arms:35,tool:15};// % from the balance sheet
+const crateType=()=>{let r=Math.random()*100;for(const k of['med','heavy','arms','tool']){if(r<CRATEMIX[k])return k;r-=CRATEMIX[k]}return'tool'};
 function dropSpot(avoid){for(let i=0;i<40;i++){const c=rnd(140,W-140),y=surf(c);if(y>80&&y<sump-70&&!isSolid(c,y-30)&&!avoid.some(a=>Math.abs(a-c)<160))return c}return null}
 function startEvent(k){
   if(k==='rise'){S.ev={k,t:0,from:sump,to:sump-13*S.order.length};banner('The sump rises','Sudden death','#9fb4d8');sfx('rise')}
@@ -2176,13 +2184,13 @@ function updWard(dt){
     if(b.fuse>=0){b.fuse-=dt;if(Math.random()<.5)sparks(b.x,b.y-14,1);if(b.fuse<0)blowBarrel(b)}}
   // flamer stream
   if(S.flame){const f=S.flame;f.t-=dt;const t=f.owner;
-    if(t&&t.alive){const[ox,oy,dx,dy]=origin(t);for(let i=0;i<4;i++){const a=Math.atan2(dy,dx)+rnd(-.13,.13),sp=rnd(300,390);
-      flames.push({x:ox+dx*4,y:oy+dy*4,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,life:rnd(.7,1),age:0,owner:t})}}
+    if(t&&t.alive){const[ox,oy,dx,dy]=origin(t);for(let i=0;i<FLAMER.per;i++){const a=Math.atan2(dy,dx)+rnd(-FLAMER.cone,FLAMER.cone),sp=rnd(FLAMER.sp0,FLAMER.sp1);
+      flames.push({x:ox+dx*4,y:oy+dy*4,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,life:rnd(.65,.95),age:0,owner:t,big:Math.random()<.35})}}
     if(f.t<=0||!t||!t.alive)S.flame=null}
   for(let i=flames.length-1;i>=0;i--){const f=flames[i];f.age+=dt;f.life-=dt;f.vy+=260*dt;f.vx*=Math.pow(.5,dt);
     const nx=f.x+f.vx*dt,ny=f.y+f.vy*dt;let gone=f.life<=0;
     if(!gone&&isSolid(nx,ny)){addFire(f.x,f.y+2);if(Math.random()<.45)addFire(f.x+Math.sign(f.vx||1)*rnd(10,30),f.y-8);gone=true}
-    if(!gone){const v=troopers.find(o=>o.alive&&o!==f.owner&&Math.abs(o.x-nx)<7&&ny>o.y-BH&&ny<o.y+2);if(v){burnTrooper(v,3);gone=true}}
+    if(!gone){const w=7+f.age*FLAMER.grow;for(const v of troopers)if(v.alive&&v!==f.owner&&Math.abs(v.x-nx)<w&&ny>v.y-BH-w*.4&&ny<v.y+2)burnTrooper(v,FLAMER.dmg)}
     if(!gone){const bb=barrelAt(nx,ny);if(bb){ignite(bb);gone=true}}
     if(!gone&&ny>sump){steam(nx,sump,1);gone=true}
     if(gone){flames.splice(i,1);continue}f.x=nx;f.y=ny}
@@ -2243,15 +2251,18 @@ function drawWard(lights){
     if(!sh.dropped){ctx.fillStyle=INK;ctx.strokeStyle=CRATE[sh.type].col;ctx.beginPath();ctx.rect(-2,13,12,9);ctx.fill();ctx.stroke()}
     ctx.restore()}
 }
+const FLAMER={per:7,cone:.36,sp0:230,sp1:380,grow:22,dmg:5};// a wide hose: ~41° cone, flames swell as they fly and burn everyone they wash over
 function drawFlames(){
-  for(const f of flames){const a=Math.min(1,f.life),s=2+f.age*9;ctx.fillStyle=f.age<.12?`rgba(255,245,210,${a})`:f.age<.35?`rgba(255,170,40,${a*.9})`:`rgba(255,70,25,${a*.6})`;ctx.beginPath();ctx.arc(f.x,f.y,s,0,Math.PI*2);ctx.fill()}
+  for(const f of flames){const a=Math.min(1,f.life)*.42,s=(2+f.age*14)*(f.big?1.4:1);ctx.fillStyle=f.age<.08?`rgba(255,235,190,${a})`:f.age<.3?`rgba(255,150,35,${a*.95})`:`rgba(230,55,20,${a*.75})`;ctx.beginPath();ctx.arc(f.x,f.y,s,0,Math.PI*2);ctx.fill()}
 }
 function wardLights(L){
-  for(const f of fires)L.push({x:f.x,y:f.y-6,r:95,c:[255,130,40],i:.55+Math.sin(time*13+f.x)*.15,h:.06});
-  for(let i=0;i<flames.length;i+=4){const f=flames[i];L.push({x:f.x,y:f.y,r:90,c:[255,150,50],i:.7,h:.08})}
+  // lots of fire shouldn't blow the scene out to white: share the brightness as the count grows
+  const fk=Math.min(1,3/Math.sqrt(Math.max(1,fires.length)));
+  for(const f of fires)L.push({x:f.x,y:f.y-6,r:95,c:[255,130,40],i:(.55+Math.sin(time*13+f.x)*.15)*fk,h:.06*fk});
+  const fs=Math.max(4,Math.ceil(flames.length/12));for(let i=0;i<flames.length;i+=fs){const f=flames[i];L.push({x:f.x,y:f.y,r:90,c:[255,150,50],i:.55,h:.06})}
   for(const b of barrels)if(b.alive)L.push({x:b.x,y:b.y-16,r:b.fuse>=0?90:45,c:[255,138,30],i:b.fuse>=0?.9:.35,h:b.fuse>=0?.1:0});
   for(const c of crates)L.push({x:c.x,y:c.y-6,r:85,c:CRATE[c.type].rgb,i:.7+Math.sin(time*3+c.x)*.15,h:.06});
-  for(const z of zones)L.push({x:z.x,y:z.y,r:zoneR(z)*1.5,c:RAD,i:.45+Math.sin(time*2.3+z.x)*.08,h:.05});
+  for(const z of zones)L.push({x:z.x,y:z.y,r:zoneR(z)*1.5,c:RAD,i:(.45+Math.sin(time*2.3+z.x)*.08)*zoneK(z),h:.05*zoneK(z)});
   for(const sh of ships){L.push({x:sh.x+Math.sign(sh.vx)*30,y:sh.y,r:70,c:[255,46,136],i:.6,h:.06});L.push({x:sh.x,y:sh.y+120,r:170,c:[190,210,240],i:.35,h:.05})}
 }
 
@@ -2564,7 +2575,7 @@ function render(dt){
   ctx.setTransform(...WT);
   ctx.globalAlpha=.8;ctx.drawImage(rim,0,0);ctx.globalAlpha=.55;ctx.drawImage(graf,0,0);ctx.globalCompositeOperation='lighter';ctx.globalAlpha=.22;ctx.drawImage(graf,0,0);ctx.globalCompositeOperation='source-over';ctx.globalAlpha=1;
   for(const f of fixtures)if(f.alive)drawFixture(f);
-  for(const z of zones){const R=zoneR(z),g=ctx.createRadialGradient(z.x,z.y,0,z.x,z.y,R);g.addColorStop(0,'rgba(150,255,60,.16)');g.addColorStop(.7,'rgba(150,255,60,.07)');g.addColorStop(1,'rgba(150,255,60,0)');ctx.fillStyle=g;ctx.beginPath();ctx.arc(z.x,z.y,R,0,Math.PI*2);ctx.fill()}
+  for(const z of zones){const R=zoneR(z),g=ctx.createRadialGradient(z.x,z.y,0,z.x,z.y,R);const zk=zoneK(z);g.addColorStop(0,`rgba(150,255,60,${.16*zk})`);g.addColorStop(.7,`rgba(150,255,60,${.07*zk})`);g.addColorStop(1,'rgba(150,255,60,0)');ctx.fillStyle=g;ctx.beginPath();ctx.arc(z.x,z.y,R,0,Math.PI*2);ctx.fill()}
   for(const g of graves)drawGrave(g);
   for(const c of corpses)drawTrooper(c);
   drawWard(lights);
@@ -2850,7 +2861,7 @@ function netCatchUp(){if(S.mode!=='online'||NET.role!=='watch')return;const behi
   if(behind>300&&!NET.skip)for(let i=0;i<Math.min(6,behind-240);i++)tick()}
 function netGameOver(){if(NET.role!=='act')clearNet()}
 function netLeave(){document.title=TITLE0;chatStop();if(NET.unC)NET.unC();if(NET.unM)NET.unM();NET.unC=NET.unM=null;NET.role=null;NET.started=false;S.mode='hot';$('#netBar').hidden=true}
-const GV=14;// bump on every release that changes the sim
+const GV=15;// bump on every release that changes the sim
 function startOnline(code,me,d){BE.update(code,{['vers.'+me]:GV}).catch(()=>{});NET.code=code;NET.me=me;NET.round=d.round||0;NET.snapK=-1;NET.snap=null;NET.matchAtt=d.att||'';NET.started=true;NET.leaving=false;saveNet();
   $('#net').hidden=true;if(!CHAT.un)chatStart();const cfg=Object.assign(mkCfg('online',d.seats,d.mode==='teams'),{mode:'online'});newGame('online',d.seed,cfg);S.genOK=true;
   const base=NET.round*1e5,has=d.snapK!=null&&d.snapK>=base&&d.snap;
@@ -2952,7 +2963,7 @@ function frame(now){const real=Math.min(.1,(now-last)/1000);last=now;chargeSound
   render(Math.min(.033,real));for(let i=0;i<sw.length;i+=3){sw[i].x=sw[i+1];sw[i].y=sw[i+2]}}if(S.phase!=='title')updHud();requestAnimationFrame(frame)}
 requestAnimationFrame(frame);
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(resize);
-window.__G={S,NET,stateHash,dress:()=>({tags,scan:(c,x,y,r)=>{const g=c==="g"?gfx:c==="t"?tctx:c==="b"?bctx:mctx;const d=g.getImageData(x-r|0,y-r|0,2*r,2*r).data;let m=0,n=0;for(let j=0;j<2*r;j++)for(let i=0;i<2*r;i++){if((i-r)**2+(j-r)**2>(r-2)**2)continue;const a=d[(j*2*r+i)*4+3];if(a>m)m=a;if(a>40)n++}return [m,n]},px:(c,x,y)=>{const g=c==="g"?gfx:c==="t"?tctx:c==="b"?bctx:mctx;return [...g.getImageData(x|0,y|0,1,1).data]}}),simStep:f=>simStep(f),DROP,OW,kill:t=>killTrooper(t),get corpses(){return corpses},get graves(){return graves},AI,mines:()=>mines,blds:()=>genTerrain.blds||[],maskURL:()=>{const c=mk(W/2,H/2),x=c.getContext("2d");x.fillStyle="#123";x.fillRect(0,0,W/2,H/2);x.drawImage(back,0,0,W/2,H/2);x.drawImage(terr,0,0,W/2,H/2);x.fillStyle="rgba(60,120,255,.5)";x.fillRect(0,sump/2,W/2,H);return c.toDataURL()},bus:()=>bus(),camSet:(x,y)=>{cam.x=x;cam.y=y},scr:(x,y)=>[(x-cam.x)*scale,(y-cam.y)*scale],base:()=>baseScale,setSump:v=>{sump=v},spawnShell:(x,y)=>projs.push({w:WP.mortar,x,y,vx:0,vy:200,owner:null,age:1,fuse:0,rest:false}),MUS,get AC(){return AC},initAudio,setMusicMode,ammo:(tm,id)=>S.ammo[tm][id],surfY:surf,press:k=>{press.add(k);held.add(k)},release:k=>held.delete(k),dropRopeT:t=>dropRope(t),isSolid,explode,shove,switchTo,addFire,hurtT:(t,d)=>hurt(t,d),jumpT:t=>jump(t),get projs(){return projs},get troopers(){return troopers},get barrels(){return barrels},get crates(){return crates},get fires(){return fires},get puddles(){return puddles},sump:()=>sump,newGame,update,render,tryFire,launch,selectWeapon,WP,blowBarrel,sky,mkCfg,get order(){return S.order},testWall:(x,y0,y1)=>{for(let yy=y0;yy<y1;yy++)for(let xx=x;xx<x+4;xx++)solid[yy*W+xx]=1},testFlat:(x0,x1,y)=>{for(let yy=y-140;yy<y+30;yy++)for(let x=x0;x<x1;x++)solid[yy*W+x]=yy>=y?1:0},get sentries(){return sentries},get zones(){return zones},get texts(){return texts},cutChutes,nextTurn};
+window.__G={S,NET,stateHash,dress:()=>({tags,scan:(c,x,y,r)=>{const g=c==="g"?gfx:c==="t"?tctx:c==="b"?bctx:mctx;const d=g.getImageData(x-r|0,y-r|0,2*r,2*r).data;let m=0,n=0;for(let j=0;j<2*r;j++)for(let i=0;i<2*r;i++){if((i-r)**2+(j-r)**2>(r-2)**2)continue;const a=d[(j*2*r+i)*4+3];if(a>m)m=a;if(a>40)n++}return [m,n]},px:(c,x,y)=>{const g=c==="g"?gfx:c==="t"?tctx:c==="b"?bctx:mctx;return [...g.getImageData(x|0,y|0,1,1).data]}}),simStep:f=>simStep(f),DROP,OW,MINI,kill:t=>killTrooper(t),get corpses(){return corpses},get graves(){return graves},AI,mines:()=>mines,blds:()=>genTerrain.blds||[],maskURL:()=>{const c=mk(W/2,H/2),x=c.getContext("2d");x.fillStyle="#123";x.fillRect(0,0,W/2,H/2);x.drawImage(back,0,0,W/2,H/2);x.drawImage(terr,0,0,W/2,H/2);x.fillStyle="rgba(60,120,255,.5)";x.fillRect(0,sump/2,W/2,H);return c.toDataURL()},bus:()=>bus(),camSet:(x,y)=>{cam.x=x;cam.y=y},scr:(x,y)=>[(x-cam.x)*scale,(y-cam.y)*scale],base:()=>baseScale,setSump:v=>{sump=v},spawnShell:(x,y)=>projs.push({w:WP.mortar,x,y,vx:0,vy:200,owner:null,age:1,fuse:0,rest:false}),MUS,get AC(){return AC},initAudio,setMusicMode,ammo:(tm,id)=>S.ammo[tm][id],surfY:surf,press:k=>{press.add(k);held.add(k)},release:k=>held.delete(k),dropRopeT:t=>dropRope(t),isSolid,explode,shove,switchTo,addFire,hurtT:(t,d)=>hurt(t,d),jumpT:t=>jump(t),get projs(){return projs},get troopers(){return troopers},get barrels(){return barrels},get crates(){return crates},get fires(){return fires},get puddles(){return puddles},sump:()=>sump,newGame,update,render,tryFire,launch,selectWeapon,WP,blowBarrel,sky,mkCfg,get order(){return S.order},testWall:(x,y0,y1)=>{for(let yy=y0;yy<y1;yy++)for(let xx=x;xx<x+4;xx++)solid[yy*W+xx]=1},testFlat:(x0,x1,y)=>{for(let yy=y-140;yy<y+30;yy++)for(let x=x0;x<x1;x++)solid[yy*W+x]=yy>=y?1:0},get sentries(){return sentries},get zones(){return zones},get texts(){return texts},cutChutes,nextTurn};
 })();
 </script>
 
