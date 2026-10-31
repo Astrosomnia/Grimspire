@@ -1,0 +1,47 @@
+{
+  "code": "T01",
+  "name": "Trooper Walk",
+  "id": "T01_trooper_walk",
+  "source": "Grimspire Forge",
+  "pixel_scale": 12,
+  "native_frame": [
+    41,
+    58
+  ],
+  "frame_px": [
+    492,
+    696
+  ],
+  "frames": 4,
+  "fps": 6,
+  "units": "points in x12 PNG pixels, top-left origin; points_native in art px",
+  "files": {
+    "body": "T01_trooper_walk_body.png",
+    "emissive": "T01_trooper_walk_emissive.png",
+    "trim": "T01_trooper_walk_trim.png"
+  },
+  "native_dir": "native/",
+  "points": {
+    "shoulder": [
+      288,
+      312
+    ]
+  },
+  "points_native": {
+    "shoulder": [
+      24,
+      26
+    ]
+  },
+  "feet_row_native": 54,
+  "slot": null,
+  "ready": false,
+  "notes": "Trooper walk, 4 frames: left contact, passing, right contact, passing. In game the legs are now a code rig swinging from the hip; the upper body comes from here. Shoulder marks the aim arm pivot. Imported by Claude.",
+  "frame_notes": [
+    "",
+    "",
+    "",
+    ""
+  ],
+  "updated": 1793414677698
+}

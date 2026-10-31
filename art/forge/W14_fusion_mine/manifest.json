@@ -1,0 +1,33 @@
+{
+  "code": "W14",
+  "name": "Fusion Mine",
+  "id": "W14_fusion_mine",
+  "source": "Grimspire Forge",
+  "pixel_scale": 12,
+  "native_frame": [
+    42,
+    20
+  ],
+  "frame_px": [
+    504,
+    240
+  ],
+  "frames": 1,
+  "fps": 8,
+  "units": "points in x12 PNG pixels, top-left origin; points_native in art px",
+  "files": {
+    "body": "W14_fusion_mine_body.png",
+    "emissive": "W14_fusion_mine_emissive.png"
+  },
+  "native_dir": "native/",
+  "points": {},
+  "points_native": {},
+  "feet_row_native": null,
+  "slot": "mine",
+  "ready": false,
+  "notes": "Live in game (pixelkit-v2, dropped). Imported by Claude for the redraw.",
+  "frame_notes": [
+    ""
+  ],
+  "updated": 1793414677527
+}

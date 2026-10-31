@@ -1,0 +1,51 @@
+{
+  "code": "W08",
+  "name": "Thunder Fist",
+  "id": "W08_thunder_fist",
+  "source": "Grimspire Forge",
+  "pixel_scale": 12,
+  "native_frame": [
+    42,
+    20
+  ],
+  "frame_px": [
+    504,
+    240
+  ],
+  "frames": 1,
+  "fps": 8,
+  "units": "points in x12 PNG pixels, top-left origin; points_native in art px",
+  "files": {
+    "body": "W08_thunder_fist_body.png",
+    "emissive": "W08_thunder_fist_emissive.png"
+  },
+  "native_dir": "native/",
+  "points": {
+    "grip": [
+      72,
+      144
+    ],
+    "muzzle": [
+      288,
+      120
+    ]
+  },
+  "points_native": {
+    "grip": [
+      6,
+      12
+    ],
+    "muzzle": [
+      24,
+      10
+    ]
+  },
+  "feet_row_native": null,
+  "slot": "fist",
+  "ready": false,
+  "notes": "Live in game (pixelkit-v2, gauntlet). Imported by Claude for the redraw.",
+  "frame_notes": [
+    ""
+  ],
+  "updated": 1793414677511
+}

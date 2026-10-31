@@ -1,0 +1,96 @@
+{
+ "frames": [
+  {
+   "filename": "G01_godfall_pod 0",
+   "frame": {
+    "x": 0,
+    "y": 0,
+    "w": 22,
+    "h": 34
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 22,
+    "h": 34
+   },
+   "sourceSize": {
+    "w": 22,
+    "h": 34
+   },
+   "duration": 125
+  },
+  {
+   "filename": "G01_godfall_pod 1",
+   "frame": {
+    "x": 22,
+    "y": 0,
+    "w": 22,
+    "h": 34
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 22,
+    "h": 34
+   },
+   "sourceSize": {
+    "w": 22,
+    "h": 34
+   },
+   "duration": 125
+  }
+ ],
+ "meta": {
+  "app": "Grimspire Forge",
+  "version": "1",
+  "image": "native/G01_godfall_pod_body.png",
+  "format": "RGBA8888",
+  "size": {
+   "w": 44,
+   "h": 34
+  },
+  "scale": "1",
+  "frameTags": [
+   {
+    "name": "G01_godfall_pod",
+    "from": 0,
+    "to": 1,
+    "direction": "forward"
+   }
+  ],
+  "layers": [
+   {
+    "name": "body",
+    "opacity": 255,
+    "blendMode": "normal"
+   },
+   {
+    "name": "emissive",
+    "opacity": 255,
+    "blendMode": "normal"
+   }
+  ],
+  "slices": [
+   {
+    "name": "pivot",
+    "color": "#ffd84aff",
+    "keys": [
+     {
+      "frame": 0,
+      "bounds": {
+       "x": 19,
+       "y": 15,
+       "w": 1,
+       "h": 1
+      }
+     }
+    ]
+   }
+  ]
+ }
+}

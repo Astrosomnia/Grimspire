@@ -1,0 +1,54 @@
+{
+  "code": "W07",
+  "name": "Chainblade Rework",
+  "id": "W07_chainblade_rework",
+  "source": "Grimspire Forge",
+  "pixel_scale": 12,
+  "native_frame": [
+    36,
+    15
+  ],
+  "frame_px": [
+    432,
+    180
+  ],
+  "frames": 4,
+  "fps": 8,
+  "units": "points in x12 PNG pixels, top-left origin; points_native in art px",
+  "files": {
+    "body": "W07_chainblade_rework_body.png",
+    "emissive": "W07_chainblade_rework_emissive.png"
+  },
+  "native_dir": "native/",
+  "points": {
+    "grip": [
+      96,
+      120
+    ],
+    "muzzle": [
+      420,
+      96
+    ]
+  },
+  "points_native": {
+    "grip": [
+      8,
+      10
+    ],
+    "muzzle": [
+      35,
+      8
+    ]
+  },
+  "feet_row_native": null,
+  "slot": "chain",
+  "ready": false,
+  "notes": "Chainblade (expansion rework). Frames 2-4 are the chain cycle. Imported by Claude.",
+  "frame_notes": [
+    "",
+    "chain phase 0",
+    "chain phase 1",
+    "chain phase 2"
+  ],
+  "updated": 1793414677594
+}

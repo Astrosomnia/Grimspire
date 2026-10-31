@@ -1,0 +1,89 @@
+{
+ "frames": [
+  {
+   "filename": "C03_dropship 0",
+   "frame": {
+    "x": 0,
+    "y": 0,
+    "w": 150,
+    "h": 52
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 150,
+    "h": 52
+   },
+   "sourceSize": {
+    "w": 150,
+    "h": 52
+   },
+   "duration": 125
+  }
+ ],
+ "meta": {
+  "app": "Grimspire Forge",
+  "version": "1",
+  "image": "native/C03_dropship_body.png",
+  "format": "RGBA8888",
+  "size": {
+   "w": 150,
+   "h": 52
+  },
+  "scale": "1",
+  "frameTags": [
+   {
+    "name": "C03_dropship",
+    "from": 0,
+    "to": 0,
+    "direction": "forward"
+   }
+  ],
+  "layers": [
+   {
+    "name": "body",
+    "opacity": 255,
+    "blendMode": "normal"
+   },
+   {
+    "name": "emissive",
+    "opacity": 255,
+    "blendMode": "normal"
+   }
+  ],
+  "slices": [
+   {
+    "name": "muzzle",
+    "color": "#3dff8bff",
+    "keys": [
+     {
+      "frame": 0,
+      "bounds": {
+       "x": 8,
+       "y": 24,
+       "w": 1,
+       "h": 1
+      }
+     }
+    ]
+   },
+   {
+    "name": "pivot",
+    "color": "#ffd84aff",
+    "keys": [
+     {
+      "frame": 0,
+      "bounds": {
+       "x": 73,
+       "y": 38,
+       "w": 1,
+       "h": 1
+      }
+     }
+    ]
+   }
+  ]
+ }
+}

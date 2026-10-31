@@ -1,0 +1,51 @@
+{
+  "code": "W04",
+  "name": "Dakka Bolter",
+  "id": "W04_dakka_bolter",
+  "source": "Grimspire Forge",
+  "pixel_scale": 12,
+  "native_frame": [
+    42,
+    20
+  ],
+  "frame_px": [
+    504,
+    240
+  ],
+  "frames": 1,
+  "fps": 8,
+  "units": "points in x12 PNG pixels, top-left origin; points_native in art px",
+  "files": {
+    "body": "W04_dakka_bolter_body.png",
+    "emissive": "W04_dakka_bolter_emissive.png"
+  },
+  "native_dir": "native/",
+  "points": {
+    "grip": [
+      120,
+      144
+    ],
+    "muzzle": [
+      396,
+      120
+    ]
+  },
+  "points_native": {
+    "grip": [
+      10,
+      12
+    ],
+    "muzzle": [
+      33,
+      10
+    ]
+  },
+  "feet_row_native": null,
+  "slot": "bolter",
+  "ready": false,
+  "notes": "W04 Dakka Bolter, the live in-game version from pixelkit-v2. Reference for the redraw.",
+  "frame_notes": [
+    ""
+  ],
+  "updated": 1793411642440
+}

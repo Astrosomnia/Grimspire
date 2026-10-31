@@ -1,0 +1,52 @@
+{
+  "code": "W19",
+  "name": "Sentry Turret",
+  "id": "W19_sentry_turret",
+  "source": "Grimspire Forge",
+  "pixel_scale": 12,
+  "native_frame": [
+    26,
+    24
+  ],
+  "frame_px": [
+    312,
+    288
+  ],
+  "frames": 2,
+  "fps": 8,
+  "units": "points in x12 PNG pixels, top-left origin; points_native in art px",
+  "files": {
+    "body": "W19_sentry_turret_body.png",
+    "emissive": "W19_sentry_turret_emissive.png"
+  },
+  "native_dir": "native/",
+  "points": {
+    "muzzle": [
+      300,
+      108
+    ],
+    "pivot": [
+      156,
+      156
+    ]
+  },
+  "points_native": {
+    "muzzle": [
+      25,
+      9
+    ],
+    "pivot": [
+      13,
+      13
+    ]
+  },
+  "feet_row_native": null,
+  "slot": "sentry",
+  "ready": false,
+  "notes": "Sentry turret (switched off in the game for now). Frame 2 is the tracking head; pivot is its turn point. Imported by Claude.",
+  "frame_notes": [
+    "",
+    "tracking head"
+  ],
+  "updated": 1793414677585
+}

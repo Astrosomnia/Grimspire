@@ -1,0 +1,42 @@
+{
+  "code": "C02",
+  "name": "Parachute",
+  "id": "C02_parachute",
+  "source": "Grimspire Forge",
+  "pixel_scale": 12,
+  "native_frame": [
+    60,
+    43
+  ],
+  "frame_px": [
+    720,
+    516
+  ],
+  "frames": 1,
+  "fps": 8,
+  "units": "points in x12 PNG pixels, top-left origin; points_native in art px",
+  "files": {
+    "body": "C02_parachute_body.png"
+  },
+  "native_dir": "native/",
+  "points": {
+    "pivot": [
+      360,
+      480
+    ]
+  },
+  "points_native": {
+    "pivot": [
+      30,
+      40
+    ]
+  },
+  "feet_row_native": null,
+  "slot": "chute",
+  "ready": false,
+  "notes": "Parachute. Pivot = where the crate hangs. Players can cut it. Imported by Claude.",
+  "frame_notes": [
+    ""
+  ],
+  "updated": 1793414677606
+}

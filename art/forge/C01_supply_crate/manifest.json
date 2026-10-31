@@ -1,0 +1,47 @@
+{
+  "code": "C01",
+  "name": "Supply Crate",
+  "id": "C01_supply_crate",
+  "source": "Grimspire Forge",
+  "pixel_scale": 12,
+  "native_frame": [
+    34,
+    26
+  ],
+  "frame_px": [
+    408,
+    312
+  ],
+  "frames": 5,
+  "fps": 8,
+  "units": "points in x12 PNG pixels, top-left origin; points_native in art px",
+  "files": {
+    "body": "C01_supply_crate_body.png",
+    "emissive": "C01_supply_crate_emissive.png"
+  },
+  "native_dir": "native/",
+  "points": {
+    "pivot": [
+      204,
+      156
+    ]
+  },
+  "points_native": {
+    "pivot": [
+      17,
+      13
+    ]
+  },
+  "feet_row_native": null,
+  "slot": "crate",
+  "ready": false,
+  "notes": "Supply crate. Frames 2-5 show each type symbol on the emissive layer, drawn white and tinted by the game (medical green, heavy amber, arms steel blue, tool cyan). Pivot = symbol anchor. Imported by Claude.",
+  "frame_notes": [
+    "plain",
+    "medical symbol",
+    "heavy symbol",
+    "arms symbol",
+    "tool symbol"
+  ],
+  "updated": 1793414677601
+}

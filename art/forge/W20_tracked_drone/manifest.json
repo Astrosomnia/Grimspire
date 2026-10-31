@@ -1,0 +1,33 @@
+{
+  "code": "W20",
+  "name": "Tracked Drone",
+  "id": "W20_tracked_drone",
+  "source": "Grimspire Forge",
+  "pixel_scale": 12,
+  "native_frame": [
+    22,
+    14
+  ],
+  "frame_px": [
+    264,
+    168
+  ],
+  "frames": 1,
+  "fps": 8,
+  "units": "points in x12 PNG pixels, top-left origin; points_native in art px",
+  "files": {
+    "body": "W20_tracked_drone_body.png",
+    "emissive": "W20_tracked_drone_emissive.png"
+  },
+  "native_dir": "native/",
+  "points": {},
+  "points_native": {},
+  "feet_row_native": null,
+  "slot": "drone",
+  "ready": false,
+  "notes": "Tracked drone. Imported by Claude.",
+  "frame_notes": [
+    ""
+  ],
+  "updated": 1793414677586
+}

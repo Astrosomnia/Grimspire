@@ -1,0 +1,111 @@
+{
+ "frames": [
+  {
+   "filename": "W19_sentry_turret 0",
+   "frame": {
+    "x": 0,
+    "y": 0,
+    "w": 26,
+    "h": 24
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 26,
+    "h": 24
+   },
+   "sourceSize": {
+    "w": 26,
+    "h": 24
+   },
+   "duration": 125
+  },
+  {
+   "filename": "W19_sentry_turret 1",
+   "frame": {
+    "x": 26,
+    "y": 0,
+    "w": 26,
+    "h": 24
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 26,
+    "h": 24
+   },
+   "sourceSize": {
+    "w": 26,
+    "h": 24
+   },
+   "duration": 125
+  }
+ ],
+ "meta": {
+  "app": "Grimspire Forge",
+  "version": "1",
+  "image": "native/W19_sentry_turret_body.png",
+  "format": "RGBA8888",
+  "size": {
+   "w": 52,
+   "h": 24
+  },
+  "scale": "1",
+  "frameTags": [
+   {
+    "name": "W19_sentry_turret",
+    "from": 0,
+    "to": 1,
+    "direction": "forward"
+   }
+  ],
+  "layers": [
+   {
+    "name": "body",
+    "opacity": 255,
+    "blendMode": "normal"
+   },
+   {
+    "name": "emissive",
+    "opacity": 255,
+    "blendMode": "normal"
+   }
+  ],
+  "slices": [
+   {
+    "name": "muzzle",
+    "color": "#3dff8bff",
+    "keys": [
+     {
+      "frame": 0,
+      "bounds": {
+       "x": 25,
+       "y": 9,
+       "w": 1,
+       "h": 1
+      }
+     }
+    ]
+   },
+   {
+    "name": "pivot",
+    "color": "#ffd84aff",
+    "keys": [
+     {
+      "frame": 0,
+      "bounds": {
+       "x": 13,
+       "y": 13,
+       "w": 1,
+       "h": 1
+      }
+     }
+    ]
+   }
+  ]
+ }
+}

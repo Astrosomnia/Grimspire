@@ -1,0 +1,45 @@
+{
+  "code": "T02",
+  "name": "Trooper Idle",
+  "id": "T02_trooper_idle",
+  "source": "Grimspire Forge",
+  "pixel_scale": 12,
+  "native_frame": [
+    41,
+    58
+  ],
+  "frame_px": [
+    492,
+    696
+  ],
+  "frames": 3,
+  "fps": 4,
+  "units": "points in x12 PNG pixels, top-left origin; points_native in art px",
+  "files": {
+    "body": "T02_trooper_idle_body.png",
+    "emissive": "T02_trooper_idle_emissive.png"
+  },
+  "native_dir": "native/",
+  "points": {
+    "shoulder": [
+      288,
+      312
+    ]
+  },
+  "points_native": {
+    "shoulder": [
+      24,
+      26
+    ]
+  },
+  "feet_row_native": 54,
+  "slot": null,
+  "ready": false,
+  "notes": "Trooper idle, 3 frame(s) at 250 ms. Same registration as the walk. Imported by Claude.",
+  "frame_notes": [
+    "",
+    "",
+    ""
+  ],
+  "updated": 1793414677758
+}

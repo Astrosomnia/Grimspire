@@ -1,0 +1,62 @@
+{
+  "code": "W18",
+  "name": "Minigun",
+  "id": "W18_minigun",
+  "source": "Grimspire Forge",
+  "pixel_scale": 12,
+  "native_frame": [
+    38,
+    17
+  ],
+  "frame_px": [
+    456,
+    204
+  ],
+  "frames": 4,
+  "fps": 8,
+  "units": "points in x12 PNG pixels, top-left origin; points_native in art px",
+  "files": {
+    "body": "W18_minigun_body.png",
+    "emissive": "W18_minigun_emissive.png"
+  },
+  "native_dir": "native/",
+  "points": {
+    "grip": [
+      144,
+      144
+    ],
+    "hand": [
+      240,
+      144
+    ],
+    "muzzle": [
+      444,
+      108
+    ]
+  },
+  "points_native": {
+    "grip": [
+      12,
+      12
+    ],
+    "hand": [
+      20,
+      12
+    ],
+    "muzzle": [
+      37,
+      9
+    ]
+  },
+  "feet_row_native": null,
+  "slot": "minigun",
+  "ready": false,
+  "notes": "Minigun. Hand marks the support grip for the off hand. Frames 2-4 are the barrel spin phases. Imported by Claude.",
+  "frame_notes": [
+    "",
+    "barrel phase 0",
+    "barrel phase 1",
+    "barrel phase 2"
+  ],
+  "updated": 1793414677582
+}

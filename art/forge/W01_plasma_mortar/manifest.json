@@ -1,0 +1,51 @@
+{
+  "code": "W01",
+  "name": "Plasma Mortar",
+  "id": "W01_plasma_mortar",
+  "source": "Grimspire Forge",
+  "pixel_scale": 12,
+  "native_frame": [
+    42,
+    20
+  ],
+  "frame_px": [
+    504,
+    240
+  ],
+  "frames": 1,
+  "fps": 8,
+  "units": "points in x12 PNG pixels, top-left origin; points_native in art px",
+  "files": {
+    "body": "W01_plasma_mortar_body.png",
+    "emissive": "W01_plasma_mortar_emissive.png"
+  },
+  "native_dir": "native/",
+  "points": {
+    "grip": [
+      132,
+      144
+    ],
+    "muzzle": [
+      396,
+      120
+    ]
+  },
+  "points_native": {
+    "grip": [
+      11,
+      12
+    ],
+    "muzzle": [
+      33,
+      10
+    ]
+  },
+  "feet_row_native": null,
+  "slot": "mortar",
+  "ready": false,
+  "notes": "Live in game (pixelkit-v2, held). Held: grip goes in the hand, the barrel line runs through the muzzle. Imported by Claude for the redraw.",
+  "frame_notes": [
+    ""
+  ],
+  "updated": 1793414677497
+}

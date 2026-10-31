@@ -1,0 +1,44 @@
+{
+  "code": "T05",
+  "name": "Trooper Swim",
+  "id": "T05_trooper_swim",
+  "source": "Grimspire Forge",
+  "pixel_scale": 12,
+  "native_frame": [
+    41,
+    58
+  ],
+  "frame_px": [
+    492,
+    696
+  ],
+  "frames": 2,
+  "fps": 7,
+  "units": "points in x12 PNG pixels, top-left origin; points_native in art px",
+  "files": {
+    "body": "T05_trooper_swim_body.png",
+    "emissive": "T05_trooper_swim_emissive.png"
+  },
+  "native_dir": "native/",
+  "points": {
+    "shoulder": [
+      288,
+      312
+    ]
+  },
+  "points_native": {
+    "shoulder": [
+      24,
+      26
+    ]
+  },
+  "feet_row_native": 54,
+  "slot": null,
+  "ready": false,
+  "notes": "Trooper swim, 2 frame(s) at 140 ms. Same registration as the walk. Imported by Claude.",
+  "frame_notes": [
+    "",
+    ""
+  ],
+  "updated": 1793414677962
+}

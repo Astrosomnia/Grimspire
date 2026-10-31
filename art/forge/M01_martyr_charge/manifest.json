@@ -1,0 +1,33 @@
+{
+  "code": "M01",
+  "name": "Martyr Charge",
+  "id": "M01_martyr_charge",
+  "source": "Grimspire Forge",
+  "pixel_scale": 12,
+  "native_frame": [
+    10,
+    10
+  ],
+  "frame_px": [
+    120,
+    120
+  ],
+  "frames": 1,
+  "fps": 8,
+  "units": "points in x12 PNG pixels, top-left origin; points_native in art px",
+  "files": {
+    "body": "M01_martyr_charge_body.png",
+    "emissive": "M01_martyr_charge_emissive.png"
+  },
+  "native_dir": "native/",
+  "points": {},
+  "points_native": {},
+  "feet_row_native": null,
+  "slot": "martyr",
+  "ready": false,
+  "notes": "Martyr charge, held up in the martyr death and thrown. Red light blinks in code. Imported by Claude.",
+  "frame_notes": [
+    ""
+  ],
+  "updated": 1793414677537
+}

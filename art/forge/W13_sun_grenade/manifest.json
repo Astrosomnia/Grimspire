@@ -1,0 +1,33 @@
+{
+  "code": "W13",
+  "name": "Sun Grenade",
+  "id": "W13_sun_grenade",
+  "source": "Grimspire Forge",
+  "pixel_scale": 12,
+  "native_frame": [
+    42,
+    20
+  ],
+  "frame_px": [
+    504,
+    240
+  ],
+  "frames": 1,
+  "fps": 8,
+  "units": "points in x12 PNG pixels, top-left origin; points_native in art px",
+  "files": {
+    "body": "W13_sun_grenade_body.png",
+    "emissive": "W13_sun_grenade_emissive.png"
+  },
+  "native_dir": "native/",
+  "points": {},
+  "points_native": {},
+  "feet_row_native": null,
+  "slot": "sun",
+  "ready": false,
+  "notes": "Live in game (pixelkit-v2, thrown). Imported by Claude for the redraw.",
+  "frame_notes": [
+    ""
+  ],
+  "updated": 1793414677525
+}

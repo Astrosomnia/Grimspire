@@ -1,0 +1,96 @@
+{
+ "frames": [
+  {
+   "filename": "T05_trooper_swim 0",
+   "frame": {
+    "x": 0,
+    "y": 0,
+    "w": 41,
+    "h": 58
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 41,
+    "h": 58
+   },
+   "sourceSize": {
+    "w": 41,
+    "h": 58
+   },
+   "duration": 143
+  },
+  {
+   "filename": "T05_trooper_swim 1",
+   "frame": {
+    "x": 41,
+    "y": 0,
+    "w": 41,
+    "h": 58
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 41,
+    "h": 58
+   },
+   "sourceSize": {
+    "w": 41,
+    "h": 58
+   },
+   "duration": 143
+  }
+ ],
+ "meta": {
+  "app": "Grimspire Forge",
+  "version": "1",
+  "image": "native/T05_trooper_swim_body.png",
+  "format": "RGBA8888",
+  "size": {
+   "w": 82,
+   "h": 58
+  },
+  "scale": "1",
+  "frameTags": [
+   {
+    "name": "T05_trooper_swim",
+    "from": 0,
+    "to": 1,
+    "direction": "forward"
+   }
+  ],
+  "layers": [
+   {
+    "name": "body",
+    "opacity": 255,
+    "blendMode": "normal"
+   },
+   {
+    "name": "emissive",
+    "opacity": 255,
+    "blendMode": "normal"
+   }
+  ],
+  "slices": [
+   {
+    "name": "shoulder",
+    "color": "#3ff3ffff",
+    "keys": [
+     {
+      "frame": 0,
+      "bounds": {
+       "x": 24,
+       "y": 26,
+       "w": 1,
+       "h": 1
+      }
+     }
+    ]
+   }
+  ]
+ }
+}

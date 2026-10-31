@@ -1,0 +1,34 @@
+{
+  "code": "C04",
+  "name": "Promethium Tank",
+  "id": "C04_promethium_tank",
+  "source": "Grimspire Forge",
+  "pixel_scale": 12,
+  "native_frame": [
+    24,
+    32
+  ],
+  "frame_px": [
+    288,
+    384
+  ],
+  "frames": 2,
+  "fps": 8,
+  "units": "points in x12 PNG pixels, top-left origin; points_native in art px",
+  "files": {
+    "body": "C04_promethium_tank_body.png",
+    "emissive": "C04_promethium_tank_emissive.png"
+  },
+  "native_dir": "native/",
+  "points": {},
+  "points_native": {},
+  "feet_row_native": null,
+  "slot": "tank",
+  "ready": false,
+  "notes": "Promethium tank. Frame 2 is the critical glow before it explodes. Imported by Claude.",
+  "frame_notes": [
+    "",
+    "about to blow"
+  ],
+  "updated": 1793414677542
+}

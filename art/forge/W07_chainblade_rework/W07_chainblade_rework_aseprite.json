@@ -1,0 +1,155 @@
+{
+ "frames": [
+  {
+   "filename": "W07_chainblade_rework 0",
+   "frame": {
+    "x": 0,
+    "y": 0,
+    "w": 36,
+    "h": 15
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 36,
+    "h": 15
+   },
+   "sourceSize": {
+    "w": 36,
+    "h": 15
+   },
+   "duration": 125
+  },
+  {
+   "filename": "W07_chainblade_rework 1",
+   "frame": {
+    "x": 36,
+    "y": 0,
+    "w": 36,
+    "h": 15
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 36,
+    "h": 15
+   },
+   "sourceSize": {
+    "w": 36,
+    "h": 15
+   },
+   "duration": 125
+  },
+  {
+   "filename": "W07_chainblade_rework 2",
+   "frame": {
+    "x": 72,
+    "y": 0,
+    "w": 36,
+    "h": 15
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 36,
+    "h": 15
+   },
+   "sourceSize": {
+    "w": 36,
+    "h": 15
+   },
+   "duration": 125
+  },
+  {
+   "filename": "W07_chainblade_rework 3",
+   "frame": {
+    "x": 108,
+    "y": 0,
+    "w": 36,
+    "h": 15
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 36,
+    "h": 15
+   },
+   "sourceSize": {
+    "w": 36,
+    "h": 15
+   },
+   "duration": 125
+  }
+ ],
+ "meta": {
+  "app": "Grimspire Forge",
+  "version": "1",
+  "image": "native/W07_chainblade_rework_body.png",
+  "format": "RGBA8888",
+  "size": {
+   "w": 144,
+   "h": 15
+  },
+  "scale": "1",
+  "frameTags": [
+   {
+    "name": "W07_chainblade_rework",
+    "from": 0,
+    "to": 3,
+    "direction": "forward"
+   }
+  ],
+  "layers": [
+   {
+    "name": "body",
+    "opacity": 255,
+    "blendMode": "normal"
+   },
+   {
+    "name": "emissive",
+    "opacity": 255,
+    "blendMode": "normal"
+   }
+  ],
+  "slices": [
+   {
+    "name": "grip",
+    "color": "#ff3b3bff",
+    "keys": [
+     {
+      "frame": 0,
+      "bounds": {
+       "x": 8,
+       "y": 10,
+       "w": 1,
+       "h": 1
+      }
+     }
+    ]
+   },
+   {
+    "name": "muzzle",
+    "color": "#3dff8bff",
+    "keys": [
+     {
+      "frame": 0,
+      "bounds": {
+       "x": 35,
+       "y": 8,
+       "w": 1,
+       "h": 1
+      }
+     }
+    ]
+   }
+  ]
+ }
+}

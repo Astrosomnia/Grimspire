@@ -1,0 +1,84 @@
+{
+ "frames": [
+  {
+   "filename": "A01_aim_arm 0",
+   "frame": {
+    "x": 0,
+    "y": 0,
+    "w": 41,
+    "h": 58
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 41,
+    "h": 58
+   },
+   "sourceSize": {
+    "w": 41,
+    "h": 58
+   },
+   "duration": 125
+  }
+ ],
+ "meta": {
+  "app": "Grimspire Forge",
+  "version": "1",
+  "image": "native/A01_aim_arm_body.png",
+  "format": "RGBA8888",
+  "size": {
+   "w": 41,
+   "h": 58
+  },
+  "scale": "1",
+  "frameTags": [
+   {
+    "name": "A01_aim_arm",
+    "from": 0,
+    "to": 0,
+    "direction": "forward"
+   }
+  ],
+  "layers": [
+   {
+    "name": "body",
+    "opacity": 255,
+    "blendMode": "normal"
+   }
+  ],
+  "slices": [
+   {
+    "name": "hand",
+    "color": "#ffb21eff",
+    "keys": [
+     {
+      "frame": 0,
+      "bounds": {
+       "x": 32,
+       "y": 27,
+       "w": 1,
+       "h": 1
+      }
+     }
+    ]
+   },
+   {
+    "name": "shoulder",
+    "color": "#3ff3ffff",
+    "keys": [
+     {
+      "frame": 0,
+      "bounds": {
+       "x": 24,
+       "y": 26,
+       "w": 1,
+       "h": 1
+      }
+     }
+    ]
+   }
+  ]
+ }
+}

@@ -1,0 +1,33 @@
+{
+  "code": "W12",
+  "name": "Frag Charge",
+  "id": "W12_frag_charge",
+  "source": "Grimspire Forge",
+  "pixel_scale": 12,
+  "native_frame": [
+    42,
+    20
+  ],
+  "frame_px": [
+    504,
+    240
+  ],
+  "frames": 1,
+  "fps": 8,
+  "units": "points in x12 PNG pixels, top-left origin; points_native in art px",
+  "files": {
+    "body": "W12_frag_charge_body.png",
+    "emissive": "W12_frag_charge_emissive.png"
+  },
+  "native_dir": "native/",
+  "points": {},
+  "points_native": {},
+  "feet_row_native": null,
+  "slot": "frag",
+  "ready": false,
+  "notes": "Live in game (pixelkit-v2, thrown). Imported by Claude for the redraw.",
+  "frame_notes": [
+    ""
+  ],
+  "updated": 1793414677522
+}

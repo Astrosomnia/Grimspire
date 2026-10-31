@@ -1,0 +1,44 @@
+{
+  "code": "G01",
+  "name": "Godfall Pod",
+  "id": "G01_godfall_pod",
+  "source": "Grimspire Forge",
+  "pixel_scale": 12,
+  "native_frame": [
+    22,
+    34
+  ],
+  "frame_px": [
+    264,
+    408
+  ],
+  "frames": 2,
+  "fps": 8,
+  "units": "points in x12 PNG pixels, top-left origin; points_native in art px",
+  "files": {
+    "body": "G01_godfall_pod_body.png",
+    "emissive": "G01_godfall_pod_emissive.png"
+  },
+  "native_dir": "native/",
+  "points": {
+    "pivot": [
+      228,
+      180
+    ]
+  },
+  "points_native": {
+    "pivot": [
+      19,
+      15
+    ]
+  },
+  "feet_row_native": null,
+  "slot": null,
+  "ready": false,
+  "notes": "Godfall pod (the game now draws the pod in code). Pivot marks the nose; the game rotates it to the flight path. Imported by Claude.",
+  "frame_notes": [
+    "",
+    "opened wreck"
+  ],
+  "updated": 1793414677575
+}

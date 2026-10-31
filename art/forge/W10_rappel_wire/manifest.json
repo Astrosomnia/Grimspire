@@ -1,0 +1,51 @@
+{
+  "code": "W10",
+  "name": "Rappel Wire",
+  "id": "W10_rappel_wire",
+  "source": "Grimspire Forge",
+  "pixel_scale": 12,
+  "native_frame": [
+    42,
+    20
+  ],
+  "frame_px": [
+    504,
+    240
+  ],
+  "frames": 1,
+  "fps": 8,
+  "units": "points in x12 PNG pixels, top-left origin; points_native in art px",
+  "files": {
+    "body": "W10_rappel_wire_body.png",
+    "emissive": "W10_rappel_wire_emissive.png"
+  },
+  "native_dir": "native/",
+  "points": {
+    "grip": [
+      96,
+      144
+    ],
+    "muzzle": [
+      276,
+      120
+    ]
+  },
+  "points_native": {
+    "grip": [
+      8,
+      12
+    ],
+    "muzzle": [
+      23,
+      10
+    ]
+  },
+  "feet_row_native": null,
+  "slot": "rope",
+  "ready": false,
+  "notes": "Live in game (pixelkit-v2, held). Held: grip goes in the hand, the barrel line runs through the muzzle. Imported by Claude for the redraw.",
+  "frame_notes": [
+    ""
+  ],
+  "updated": 1793414677516
+}

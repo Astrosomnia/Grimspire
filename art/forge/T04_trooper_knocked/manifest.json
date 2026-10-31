@@ -1,0 +1,46 @@
+{
+  "code": "T04",
+  "name": "Trooper Knocked",
+  "id": "T04_trooper_knocked",
+  "source": "Grimspire Forge",
+  "pixel_scale": 12,
+  "native_frame": [
+    41,
+    58
+  ],
+  "frame_px": [
+    492,
+    696
+  ],
+  "frames": 3,
+  "fps": 6,
+  "units": "points in x12 PNG pixels, top-left origin; points_native in art px",
+  "files": {
+    "body": "T04_trooper_knocked_body.png",
+    "emissive": "T04_trooper_knocked_emissive.png",
+    "trim": "T04_trooper_knocked_trim.png"
+  },
+  "native_dir": "native/",
+  "points": {
+    "shoulder": [
+      288,
+      312
+    ]
+  },
+  "points_native": {
+    "shoulder": [
+      24,
+      26
+    ]
+  },
+  "feet_row_native": 54,
+  "slot": null,
+  "ready": false,
+  "notes": "Trooper knocked, 3 frame(s) at 160 ms. Same registration as the walk. Imported by Claude.",
+  "frame_notes": [
+    "",
+    "",
+    ""
+  ],
+  "updated": 1793414677920
+}

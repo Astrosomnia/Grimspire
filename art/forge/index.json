@@ -1,0 +1,434 @@
+[
+ {
+  "id": "A01_aim_arm",
+  "code": "A01",
+  "name": "Aim Arm",
+  "slot": null,
+  "ready": false,
+  "frames": 1,
+  "size": [
+   41,
+   58
+  ]
+ },
+ {
+  "id": "A02_throw_arm",
+  "code": "A02",
+  "name": "Throw Arm",
+  "slot": null,
+  "ready": false,
+  "frames": 1,
+  "size": [
+   41,
+   58
+  ]
+ },
+ {
+  "id": "C01_supply_crate",
+  "code": "C01",
+  "name": "Supply Crate",
+  "slot": "crate",
+  "ready": false,
+  "frames": 5,
+  "size": [
+   34,
+   26
+  ]
+ },
+ {
+  "id": "C02_parachute",
+  "code": "C02",
+  "name": "Parachute",
+  "slot": "chute",
+  "ready": false,
+  "frames": 1,
+  "size": [
+   60,
+   43
+  ]
+ },
+ {
+  "id": "C03_dropship",
+  "code": "C03",
+  "name": "Dropship",
+  "slot": "ship",
+  "ready": false,
+  "frames": 1,
+  "size": [
+   150,
+   52
+  ]
+ },
+ {
+  "id": "C04_promethium_tank",
+  "code": "C04",
+  "name": "Promethium Tank",
+  "slot": "tank",
+  "ready": false,
+  "frames": 2,
+  "size": [
+   24,
+   32
+  ]
+ },
+ {
+  "id": "G01_godfall_pod",
+  "code": "G01",
+  "name": "Godfall Pod",
+  "slot": null,
+  "ready": false,
+  "frames": 2,
+  "size": [
+   22,
+   34
+  ]
+ },
+ {
+  "id": "M01_martyr_charge",
+  "code": "M01",
+  "name": "Martyr Charge",
+  "slot": "martyr",
+  "ready": false,
+  "frames": 1,
+  "size": [
+   10,
+   10
+  ]
+ },
+ {
+  "id": "P01_mortar_shell",
+  "code": "P01",
+  "name": "Mortar Shell",
+  "slot": "shell",
+  "ready": false,
+  "frames": 1,
+  "size": [
+   42,
+   20
+  ]
+ },
+ {
+  "id": "T01_trooper_walk",
+  "code": "T01",
+  "name": "Trooper Walk",
+  "slot": null,
+  "ready": false,
+  "frames": 4,
+  "size": [
+   41,
+   58
+  ]
+ },
+ {
+  "id": "T02_trooper_idle",
+  "code": "T02",
+  "name": "Trooper Idle",
+  "slot": null,
+  "ready": false,
+  "frames": 3,
+  "size": [
+   41,
+   58
+  ]
+ },
+ {
+  "id": "T03_trooper_jump",
+  "code": "T03",
+  "name": "Trooper Jump",
+  "slot": null,
+  "ready": false,
+  "frames": 3,
+  "size": [
+   41,
+   58
+  ]
+ },
+ {
+  "id": "T04_trooper_knocked",
+  "code": "T04",
+  "name": "Trooper Knocked",
+  "slot": null,
+  "ready": false,
+  "frames": 3,
+  "size": [
+   41,
+   58
+  ]
+ },
+ {
+  "id": "T05_trooper_swim",
+  "code": "T05",
+  "name": "Trooper Swim",
+  "slot": null,
+  "ready": false,
+  "frames": 2,
+  "size": [
+   41,
+   58
+  ]
+ },
+ {
+  "id": "T06_trooper_death",
+  "code": "T06",
+  "name": "Trooper Death",
+  "slot": null,
+  "ready": false,
+  "frames": 1,
+  "size": [
+   41,
+   58
+  ]
+ },
+ {
+  "id": "T07_trooper_throw",
+  "code": "T07",
+  "name": "Trooper Throw",
+  "slot": null,
+  "ready": false,
+  "frames": 1,
+  "size": [
+   41,
+   58
+  ]
+ },
+ {
+  "id": "W01_plasma_mortar",
+  "code": "W01",
+  "name": "Plasma Mortar",
+  "slot": "mortar",
+  "ready": false,
+  "frames": 1,
+  "size": [
+   42,
+   20
+  ]
+ },
+ {
+  "id": "W02_rail_carbine",
+  "code": "W02",
+  "name": "Rail Carbine",
+  "slot": "rail",
+  "ready": false,
+  "frames": 1,
+  "size": [
+   42,
+   20
+  ]
+ },
+ {
+  "id": "W03_scatter_gun",
+  "code": "W03",
+  "name": "Scatter Gun",
+  "slot": "scatter",
+  "ready": false,
+  "frames": 1,
+  "size": [
+   42,
+   20
+  ]
+ },
+ {
+  "id": "W04_dakka_bolter",
+  "code": "W04",
+  "name": "Dakka Bolter",
+  "slot": "bolter",
+  "ready": false,
+  "frames": 1,
+  "size": [
+   42,
+   20
+  ]
+ },
+ {
+  "id": "W05_las_burner",
+  "code": "W05",
+  "name": "Las Burner",
+  "slot": "las",
+  "ready": false,
+  "frames": 1,
+  "size": [
+   42,
+   20
+  ]
+ },
+ {
+  "id": "W06_promethium_flamer",
+  "code": "W06",
+  "name": "Promethium Flamer",
+  "slot": "flamer",
+  "ready": false,
+  "frames": 1,
+  "size": [
+   42,
+   20
+  ]
+ },
+ {
+  "id": "W07_chainblade_rework",
+  "code": "W07",
+  "name": "Chainblade Rework",
+  "slot": "chain",
+  "ready": false,
+  "frames": 4,
+  "size": [
+   36,
+   15
+  ]
+ },
+ {
+  "id": "W08_thunder_fist",
+  "code": "W08",
+  "name": "Thunder Fist",
+  "slot": "fist",
+  "ready": false,
+  "frames": 1,
+  "size": [
+   42,
+   20
+  ]
+ },
+ {
+  "id": "W09_orbital_lance",
+  "code": "W09",
+  "name": "Orbital Lance",
+  "slot": "lance",
+  "ready": false,
+  "frames": 1,
+  "size": [
+   42,
+   20
+  ]
+ },
+ {
+  "id": "W10_rappel_wire",
+  "code": "W10",
+  "name": "Rappel Wire",
+  "slot": "rope",
+  "ready": false,
+  "frames": 1,
+  "size": [
+   42,
+   20
+  ]
+ },
+ {
+  "id": "W11_plasma_cutter",
+  "code": "W11",
+  "name": "Plasma Cutter",
+  "slot": "cutter",
+  "ready": false,
+  "frames": 1,
+  "size": [
+   42,
+   20
+  ]
+ },
+ {
+  "id": "W12_frag_charge",
+  "code": "W12",
+  "name": "Frag Charge",
+  "slot": "frag",
+  "ready": false,
+  "frames": 1,
+  "size": [
+   42,
+   20
+  ]
+ },
+ {
+  "id": "W13_sun_grenade",
+  "code": "W13",
+  "name": "Sun Grenade",
+  "slot": "sun",
+  "ready": false,
+  "frames": 1,
+  "size": [
+   42,
+   20
+  ]
+ },
+ {
+  "id": "W14_fusion_mine",
+  "code": "W14",
+  "name": "Fusion Mine",
+  "slot": "mine",
+  "ready": false,
+  "frames": 1,
+  "size": [
+   42,
+   20
+  ]
+ },
+ {
+  "id": "W15_doomsday_shell",
+  "code": "W15",
+  "name": "Doomsday Shell",
+  "slot": "nuke",
+  "ready": false,
+  "frames": 1,
+  "size": [
+   42,
+   20
+  ]
+ },
+ {
+  "id": "W16_fabricator",
+  "code": "W16",
+  "name": "Fabricator",
+  "slot": "fab",
+  "ready": false,
+  "frames": 1,
+  "size": [
+   42,
+   20
+  ]
+ },
+ {
+  "id": "W18_minigun",
+  "code": "W18",
+  "name": "Minigun",
+  "slot": "minigun",
+  "ready": false,
+  "frames": 4,
+  "size": [
+   38,
+   17
+  ]
+ },
+ {
+  "id": "W19_sentry_turret",
+  "code": "W19",
+  "name": "Sentry Turret",
+  "slot": "sentry",
+  "ready": false,
+  "frames": 2,
+  "size": [
+   26,
+   24
+  ]
+ },
+ {
+  "id": "W20_tracked_drone",
+  "code": "W20",
+  "name": "Tracked Drone",
+  "slot": "drone",
+  "ready": false,
+  "frames": 1,
+  "size": [
+   22,
+   14
+  ]
+ },
+ {
+  "id": "W21_teleporter",
+  "code": "W21",
+  "name": "Teleporter",
+  "slot": "teleport",
+  "ready": false,
+  "frames": 1,
+  "size": [
+   25,
+   15
+  ]
+ }
+]

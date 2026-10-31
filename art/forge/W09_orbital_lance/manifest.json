@@ -1,0 +1,51 @@
+{
+  "code": "W09",
+  "name": "Orbital Lance",
+  "id": "W09_orbital_lance",
+  "source": "Grimspire Forge",
+  "pixel_scale": 12,
+  "native_frame": [
+    42,
+    20
+  ],
+  "frame_px": [
+    504,
+    240
+  ],
+  "frames": 1,
+  "fps": 8,
+  "units": "points in x12 PNG pixels, top-left origin; points_native in art px",
+  "files": {
+    "body": "W09_orbital_lance_body.png",
+    "emissive": "W09_orbital_lance_emissive.png"
+  },
+  "native_dir": "native/",
+  "points": {
+    "grip": [
+      144,
+      144
+    ],
+    "muzzle": [
+      264,
+      120
+    ]
+  },
+  "points_native": {
+    "grip": [
+      12,
+      12
+    ],
+    "muzzle": [
+      22,
+      10
+    ]
+  },
+  "feet_row_native": null,
+  "slot": "lance",
+  "ready": false,
+  "notes": "Live in game (pixelkit-v2, held). Held: grip goes in the hand, the barrel line runs through the muzzle. Imported by Claude for the redraw.",
+  "frame_notes": [
+    ""
+  ],
+  "updated": 1793414677514
+}

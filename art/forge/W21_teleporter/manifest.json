@@ -1,0 +1,51 @@
+{
+  "code": "W21",
+  "name": "Teleporter",
+  "id": "W21_teleporter",
+  "source": "Grimspire Forge",
+  "pixel_scale": 12,
+  "native_frame": [
+    25,
+    15
+  ],
+  "frame_px": [
+    300,
+    180
+  ],
+  "frames": 1,
+  "fps": 8,
+  "units": "points in x12 PNG pixels, top-left origin; points_native in art px",
+  "files": {
+    "body": "W21_teleporter_body.png",
+    "emissive": "W21_teleporter_emissive.png"
+  },
+  "native_dir": "native/",
+  "points": {
+    "grip": [
+      156,
+      132
+    ],
+    "muzzle": [
+      288,
+      96
+    ]
+  },
+  "points_native": {
+    "grip": [
+      13,
+      11
+    ],
+    "muzzle": [
+      24,
+      8
+    ]
+  },
+  "feet_row_native": null,
+  "slot": "teleport",
+  "ready": false,
+  "notes": "Teleporter. Imported by Claude.",
+  "frame_notes": [
+    ""
+  ],
+  "updated": 1793414677588
+}

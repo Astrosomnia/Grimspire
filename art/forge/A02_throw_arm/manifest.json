@@ -1,0 +1,42 @@
+{
+  "code": "A02",
+  "name": "Throw Arm",
+  "id": "A02_throw_arm",
+  "source": "Grimspire Forge",
+  "pixel_scale": 12,
+  "native_frame": [
+    41,
+    58
+  ],
+  "frame_px": [
+    492,
+    696
+  ],
+  "frames": 1,
+  "fps": 8,
+  "units": "points in x12 PNG pixels, top-left origin; points_native in art px",
+  "files": {
+    "body": "A02_throw_arm_body.png"
+  },
+  "native_dir": "native/",
+  "points": {
+    "shoulder": [
+      288,
+      312
+    ]
+  },
+  "points_native": {
+    "shoulder": [
+      24,
+      26
+    ]
+  },
+  "feet_row_native": 54,
+  "slot": null,
+  "ready": false,
+  "notes": "Throwing arm, same registration. Imported by Claude.",
+  "frame_notes": [
+    ""
+  ],
+  "updated": 1793414678014
+}

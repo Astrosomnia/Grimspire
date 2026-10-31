@@ -1,0 +1,50 @@
+{
+  "code": "A01",
+  "name": "Aim Arm",
+  "id": "A01_aim_arm",
+  "source": "Grimspire Forge",
+  "pixel_scale": 12,
+  "native_frame": [
+    41,
+    58
+  ],
+  "frame_px": [
+    492,
+    696
+  ],
+  "frames": 1,
+  "fps": 8,
+  "units": "points in x12 PNG pixels, top-left origin; points_native in art px",
+  "files": {
+    "body": "A01_aim_arm_body.png"
+  },
+  "native_dir": "native/",
+  "points": {
+    "hand": [
+      384,
+      324
+    ],
+    "shoulder": [
+      288,
+      312
+    ]
+  },
+  "points_native": {
+    "hand": [
+      32,
+      27
+    ],
+    "shoulder": [
+      24,
+      26
+    ]
+  },
+  "feet_row_native": 54,
+  "slot": null,
+  "ready": false,
+  "notes": "The current one-piece aim arm. It rotates around the shoulder with the aim, and the weapon attaches at the hand. To be replaced by an upper arm and forearm (elbowed). Imported by Claude.",
+  "frame_notes": [
+    ""
+  ],
+  "updated": 1793414678010
+}

@@ -1,0 +1,33 @@
+{
+  "code": "P01",
+  "name": "Mortar Shell",
+  "id": "P01_mortar_shell",
+  "source": "Grimspire Forge",
+  "pixel_scale": 12,
+  "native_frame": [
+    42,
+    20
+  ],
+  "frame_px": [
+    504,
+    240
+  ],
+  "frames": 1,
+  "fps": 8,
+  "units": "points in x12 PNG pixels, top-left origin; points_native in art px",
+  "files": {
+    "body": "P01_mortar_shell_body.png",
+    "emissive": "P01_mortar_shell_emissive.png"
+  },
+  "native_dir": "native/",
+  "points": {},
+  "points_native": {},
+  "feet_row_native": null,
+  "slot": "shell",
+  "ready": false,
+  "notes": "Live in game (pixelkit-v2, projectile). Imported by Claude for the redraw.",
+  "frame_notes": [
+    ""
+  ],
+  "updated": 1793414677536
+}

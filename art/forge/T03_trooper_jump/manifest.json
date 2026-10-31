@@ -1,0 +1,46 @@
+{
+  "code": "T03",
+  "name": "Trooper Jump",
+  "id": "T03_trooper_jump",
+  "source": "Grimspire Forge",
+  "pixel_scale": 12,
+  "native_frame": [
+    41,
+    58
+  ],
+  "frame_px": [
+    492,
+    696
+  ],
+  "frames": 3,
+  "fps": 6,
+  "units": "points in x12 PNG pixels, top-left origin; points_native in art px",
+  "files": {
+    "body": "T03_trooper_jump_body.png",
+    "emissive": "T03_trooper_jump_emissive.png",
+    "trim": "T03_trooper_jump_trim.png"
+  },
+  "native_dir": "native/",
+  "points": {
+    "shoulder": [
+      288,
+      312
+    ]
+  },
+  "points_native": {
+    "shoulder": [
+      24,
+      26
+    ]
+  },
+  "feet_row_native": 54,
+  "slot": null,
+  "ready": false,
+  "notes": "Trooper jump, 3 frame(s) at 160 ms. Same registration as the walk. Imported by Claude.",
+  "frame_notes": [
+    "",
+    "",
+    ""
+  ],
+  "updated": 1793414677826
+}

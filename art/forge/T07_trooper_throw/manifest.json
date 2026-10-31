@@ -1,0 +1,43 @@
+{
+  "code": "T07",
+  "name": "Trooper Throw",
+  "id": "T07_trooper_throw",
+  "source": "Grimspire Forge",
+  "pixel_scale": 12,
+  "native_frame": [
+    41,
+    58
+  ],
+  "frame_px": [
+    492,
+    696
+  ],
+  "frames": 1,
+  "fps": 6,
+  "units": "points in x12 PNG pixels, top-left origin; points_native in art px",
+  "files": {
+    "body": "T07_trooper_throw_body.png",
+    "emissive": "T07_trooper_throw_emissive.png"
+  },
+  "native_dir": "native/",
+  "points": {
+    "shoulder": [
+      288,
+      312
+    ]
+  },
+  "points_native": {
+    "shoulder": [
+      24,
+      26
+    ]
+  },
+  "feet_row_native": 54,
+  "slot": null,
+  "ready": false,
+  "notes": "Trooper throw, 1 frame(s) at 160 ms. Same registration as the walk. Imported by Claude.",
+  "frame_notes": [
+    ""
+  ],
+  "updated": 1793414678006
+}
