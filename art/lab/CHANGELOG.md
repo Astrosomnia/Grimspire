@@ -38,3 +38,5 @@ It was inspected for compatibility and left untouched. See the workflow README.
   loading/render/fallback checks; source syntax and original 16-variant validation.
 - Browser interaction remains unverified: no browser executable is installed.
 - Main, live assets, deployment configuration and forge-pipeline remain unchanged.
+
+Baseline refreshed to `2974b27b8d230ed6d22042fe6e91f37e3cdbf9d4` after a concurrent README-only main update. Game source is byte-identical to the checked baseline; no runtime conflict.
