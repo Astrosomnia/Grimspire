@@ -30,6 +30,7 @@ export class GitHub{
 }
 export async function save(g,body,user){check(SLOTS[body.slot],'Choose a test target');const d=sprite(body.sprite,body.slot),opts=options(body.settings);check(typeof body.notes==='string'&&body.notes.trim().length>0&&body.notes.length<=4000,'Add a short update note');check(['grid','detail','custom'].includes(body.variant),'Choose a sprite variant');const head=await g.head(LAB);check(head===body.expected_head,'Another revision or code update arrived. Refresh the shared library before saving your draft.');const main=await g.head('main'),state=await g.state(head);let payload={assets:{}};
   if(state.current){const prior=await g.snapshot(state.current,head);payload.assets=JSON.parse(prior['payload.json']).assets}
+  if(body.weapon_only===true&&/^W0[1-8]$/.test(body.slot))payload.assets=Object.fromEntries(Object.entries(payload.assets).filter(([k])=>/^W0[1-8]$/.test(k)));
   const id=new Date().toISOString().replace(/[-:.]/g,'').slice(0,15)+'Z-'+crypto.randomUUID().slice(0,8);
   payload={...payload,revision:id,selected_slot:body.slot,assets:{...payload.assets,[body.slot]:d},settings:opts};
   let source=await g.file('index.html',main);const [pinned,custom,runtime]=await Promise.all([g.file('art/lab/sandbox/base.json',head),g.file('art/lab/sandbox/game.html',head),g.file('art/lab/sandbox/runtime.js',head)]);

@@ -87,4 +87,6 @@ Targets: W01–W08 weapons, PROP (ground prop/set piece), TROOPER (static frame/
 
 These category dummies test visual placement only. Props have no collision/destruction; trooper replacements are static frames with facing and position, without articulated rig; background is a static world placement, without parallax integration. Release preparation blocks snapshots containing category dummies until Claude implements their real game integration. Existing weapon release protections and immutable snapshots remain active.
 
-Validation: 23 hosted tests including blank notes, popup fallback, visible save errors, category persistence and release guards; Native Canvas weapon regression plus category harness covering automatic local launch, prop pixels/baseline, map placement and trooper fallback. Authenticated hosted browser acceptance remains outstanding. Main unchanged.
+Validation: 24 hosted tests including blank notes, popup fallback, visible save errors, category persistence and release guards; Native Canvas weapon regression plus category harness covering automatic local launch, prop pixels/baseline, map placement and trooper fallback. Authenticated hosted browser acceptance remains outstanding. Main unchanged.
+
+Weapon saves include a checked “exclude category dummies” option, so prior prop experiments do not permanently block weapon releases. Older category revisions remain immutable and accessible through history.
