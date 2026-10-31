@@ -24,6 +24,30 @@
   ]
  },
  {
+  "id": "A03_thigh",
+  "code": "A03",
+  "name": "Thigh",
+  "slot": null,
+  "ready": false,
+  "frames": 2,
+  "size": [
+   20,
+   11
+  ]
+ },
+ {
+  "id": "A04_shin",
+  "code": "A04",
+  "name": "Shin",
+  "slot": null,
+  "ready": false,
+  "frames": 2,
+  "size": [
+   20,
+   13
+  ]
+ },
+ {
   "id": "C01_supply_crate",
   "code": "C01",
   "name": "Supply Crate",
@@ -183,6 +207,18 @@
   "id": "T07_trooper_throw",
   "code": "T07",
   "name": "Trooper Throw",
+  "slot": null,
+  "ready": false,
+  "frames": 1,
+  "size": [
+   41,
+   58
+  ]
+ },
+ {
+  "id": "T08_trooper_torso",
+  "code": "T08",
+  "name": "Trooper Torso",
   "slot": null,
   "ready": false,
   "frames": 1,

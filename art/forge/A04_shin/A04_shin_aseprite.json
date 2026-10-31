@@ -1,0 +1,91 @@
+{
+ "frames": [
+  {
+   "filename": "A04_shin 0",
+   "frame": {
+    "x": 0,
+    "y": 0,
+    "w": 20,
+    "h": 13
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 20,
+    "h": 13
+   },
+   "sourceSize": {
+    "w": 20,
+    "h": 13
+   },
+   "duration": 125
+  },
+  {
+   "filename": "A04_shin 1",
+   "frame": {
+    "x": 20,
+    "y": 0,
+    "w": 20,
+    "h": 13
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 20,
+    "h": 13
+   },
+   "sourceSize": {
+    "w": 20,
+    "h": 13
+   },
+   "duration": 125
+  }
+ ],
+ "meta": {
+  "app": "Grimspire Forge",
+  "version": "1",
+  "image": "native/A04_shin_body.png",
+  "format": "RGBA8888",
+  "size": {
+   "w": 40,
+   "h": 13
+  },
+  "scale": "1",
+  "frameTags": [
+   {
+    "name": "A04_shin",
+    "from": 0,
+    "to": 1,
+    "direction": "forward"
+   }
+  ],
+  "layers": [
+   {
+    "name": "body",
+    "opacity": 255,
+    "blendMode": "normal"
+   }
+  ],
+  "slices": [
+   {
+    "name": "knee",
+    "color": "#9fb4d8ff",
+    "keys": [
+     {
+      "frame": 0,
+      "bounds": {
+       "x": 9,
+       "y": 0,
+       "w": 1,
+       "h": 1
+      }
+     }
+    ]
+   }
+  ]
+ }
+}

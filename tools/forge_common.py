@@ -26,6 +26,14 @@ POINTS = {
 }
 LAYERS = [('body', 'body'), ('emis', 'emissive'), ('trim', 'trim'), ('guts', 'guts')]
 
+# Trooper sheet: Forge code -> (row of frames in SPR.T, frame count). Rows: 0 body, 1 trim, 2 emissive.
+# The game draws only the torso (T08) now; the others are kept in step so the sheet matches the Forge.
+TROOP = {'T01': ('walk', 4), 'T02': ('idle', 3), 'T03': ('jump', 3), 'T04': ('knocked', 3), 'T05': ('swim', 2), 'T08': ('torso', 1)}
+# A Forge trooper art pixel (fx, fy) covers trooper-sheet pixels (3fx-11, 3fy-9) to +3 inside its frame
+TROOP_SCALE, TROOP_OFF = 3, (-11, -9)
+# Leg pieces in the legs sheet, swung in code from RIG. Frame 1 near leg, frame 2 far leg.
+LEGS = {'A03': 'thigh', 'A04': 'shin'}
+
 
 def slug(s):
     return re.sub(r'[^a-z0-9]+', '_', (s or 'sprite').lower()).strip('_') or 'sprite'

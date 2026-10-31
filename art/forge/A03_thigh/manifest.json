@@ -1,0 +1,51 @@
+{
+  "code": "A03",
+  "name": "Thigh",
+  "id": "A03_thigh",
+  "source": "Grimspire Forge",
+  "pixel_scale": 12,
+  "native_frame": [
+    20,
+    11
+  ],
+  "frame_px": [
+    240,
+    132
+  ],
+  "frames": 2,
+  "fps": 8,
+  "units": "points in x12 PNG pixels, top-left origin; points_native in art px",
+  "files": {
+    "body": "A03_thigh_body.png"
+  },
+  "native_dir": "native/",
+  "points": {
+    "hip": [
+      108,
+      0
+    ],
+    "knee": [
+      108,
+      120
+    ]
+  },
+  "points_native": {
+    "hip": [
+      9,
+      0
+    ],
+    "knee": [
+      9,
+      10
+    ]
+  },
+  "feet_row_native": null,
+  "slot": null,
+  "ready": false,
+  "notes": "Trooper thigh, swung from the Hip in code. Frame 1 is the near leg, frame 2 the far leg (drawn behind). Hip goes at the top centre, Knee at the bottom centre; the packer keeps those as the joints.",
+  "frame_notes": [
+    "near leg",
+    "far leg"
+  ],
+  "updated": 1793419143847
+}

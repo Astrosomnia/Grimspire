@@ -1,0 +1,43 @@
+{
+  "code": "A04",
+  "name": "Shin",
+  "id": "A04_shin",
+  "source": "Grimspire Forge",
+  "pixel_scale": 12,
+  "native_frame": [
+    20,
+    13
+  ],
+  "frame_px": [
+    240,
+    156
+  ],
+  "frames": 2,
+  "fps": 8,
+  "units": "points in x12 PNG pixels, top-left origin; points_native in art px",
+  "files": {
+    "body": "A04_shin_body.png"
+  },
+  "native_dir": "native/",
+  "points": {
+    "knee": [
+      108,
+      0
+    ]
+  },
+  "points_native": {
+    "knee": [
+      9,
+      0
+    ]
+  },
+  "feet_row_native": null,
+  "slot": null,
+  "ready": false,
+  "notes": "Trooper shin and boot, hung from the Knee in code. Frame 1 near leg, frame 2 far leg. Knee goes at the top centre.",
+  "frame_notes": [
+    "near leg",
+    "far leg"
+  ],
+  "updated": 1793419143848
+}

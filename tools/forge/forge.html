@@ -802,7 +802,7 @@ async function copyJson(){const t=JSON.stringify(serialise());try{await navigato
 // One convention for every file: CODE_name_layer.png, e.g. W04_dakka_bolter_emissive.png. Variants go after the name.
 const CODES={W:'Weapons, held and thrown',P:'Projectiles',M:'Martyr and other charges',A:'Arm and rig parts',T:'Trooper animations',G:'Godfall pod',C:'Props: crates, chutes, tanks, dropship, markers',S:'Set pieces: statues, sunk saints, wreckage',E:'Terrain: fill, rubble, edges',F:'Faction marks: graffiti, banners, sigils',B:'Background: skyline, sky traffic',U:'UI and icons'};
 // codes already used by the repo's kits, so new work doesn't clash
-const REPO_CODES='W01 W02 W03 W04 W05 W06 W07 W08 W09 W10 W11 W12 W13 W14 W15 W16 W17 W18 W19 W20 W21 P01 M01 C01 C02 C03 C04 C05 G01 B01 A01 A02 T01 T02 T03 T04 T05 T06 T07'.split(' ');
+const REPO_CODES='W01 W02 W03 W04 W05 W06 W07 W08 W09 W10 W11 W12 W13 W14 W15 W16 W17 W18 W19 W20 W21 P01 M01 C01 C02 C03 C04 C05 G01 B01 A01 A02 A03 A04 T01 T02 T03 T04 T05 T06 T07 T08'.split(' ');
 const validCode=c=>/^[A-Z]\d{2}$/.test(c||'');
 function splitCode(code,name){name=(name||'').trim();const m=name.match(/^([A-Za-z]\d{2})[\s_-]+(.+)$/);if(m&&!validCode(code))return[m[1].toUpperCase(),m[2]];if(m&&m[1].toUpperCase()===code)return[code,m[2]];return[validCode(code)?code:'',name]}
 const fileBase=()=>(validCode(doc.code)?doc.code+'_':'')+slug(doc.name);

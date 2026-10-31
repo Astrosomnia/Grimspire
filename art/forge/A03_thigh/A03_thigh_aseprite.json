@@ -1,0 +1,106 @@
+{
+ "frames": [
+  {
+   "filename": "A03_thigh 0",
+   "frame": {
+    "x": 0,
+    "y": 0,
+    "w": 20,
+    "h": 11
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 20,
+    "h": 11
+   },
+   "sourceSize": {
+    "w": 20,
+    "h": 11
+   },
+   "duration": 125
+  },
+  {
+   "filename": "A03_thigh 1",
+   "frame": {
+    "x": 20,
+    "y": 0,
+    "w": 20,
+    "h": 11
+   },
+   "rotated": false,
+   "trimmed": false,
+   "spriteSourceSize": {
+    "x": 0,
+    "y": 0,
+    "w": 20,
+    "h": 11
+   },
+   "sourceSize": {
+    "w": 20,
+    "h": 11
+   },
+   "duration": 125
+  }
+ ],
+ "meta": {
+  "app": "Grimspire Forge",
+  "version": "1",
+  "image": "native/A03_thigh_body.png",
+  "format": "RGBA8888",
+  "size": {
+   "w": 40,
+   "h": 11
+  },
+  "scale": "1",
+  "frameTags": [
+   {
+    "name": "A03_thigh",
+    "from": 0,
+    "to": 1,
+    "direction": "forward"
+   }
+  ],
+  "layers": [
+   {
+    "name": "body",
+    "opacity": 255,
+    "blendMode": "normal"
+   }
+  ],
+  "slices": [
+   {
+    "name": "hip",
+    "color": "#a0ff46ff",
+    "keys": [
+     {
+      "frame": 0,
+      "bounds": {
+       "x": 9,
+       "y": 0,
+       "w": 1,
+       "h": 1
+      }
+     }
+    ]
+   },
+   {
+    "name": "knee",
+    "color": "#9fb4d8ff",
+    "keys": [
+     {
+      "frame": 0,
+      "bounds": {
+       "x": 9,
+       "y": 10,
+       "w": 1,
+       "h": 1
+      }
+     }
+    ]
+   }
+  ]
+ }
+}
