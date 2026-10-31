@@ -1,0 +1,48 @@
+{
+  "assets": {
+    "PROP": {
+      "forge": 1,
+      "code": "C06",
+      "name": "Grave Marker_1",
+      "w": 85,
+      "h": 85,
+      "fps": 8,
+      "base": null,
+      "pixel_scale": 12,
+      "markers": {
+        "grip": null,
+        "muzzle": null,
+        "pivot": null,
+        "shoulder": null,
+        "elbow": null,
+        "hand": null,
+        "hip": null,
+        "knee": null
+      },
+      "ready": false,
+      "notes": "A new grave marker that appears on player death.",
+      "review": null,
+      "ghostOff": null,
+      "frames": [
+        {
+          "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFUAAABVCAYAAAA49ahaAAAEJklEQVR4Aeza30sUURTA8bsh+aOwKBQq+2XRL+gHkWSIBWH0qBRkL0H/QBH0ED5FT/4BQe9RT0Ghj0IvJlKUmBFmlr8yS1MENTEFYfI7eG131bTw7JxlT3T2zr1z98zOZ87OzO66ztm/NRcw1DUndc5QDVVAQCClVaqhCggIpLRKNVQBAYGUVqmGKiAgkNIq1VAFBARSUqkCaTM7paEKHH9DNVQBAYGUVqmGKiAgkNIq1VAFBARSWqUaqoCAQEqrVEMVEBBI6StVIHXmpjRUgWNvqIYqICCQ0irVUAUEBFJapRqqgIBASqtUQxUQEEhplWqoAgICKeMrVSB9ZqY0VIHjbqiGKiAgkNIq1VAFBARSWqUaqoCAQEqrVEMVEBBIaZVqqAICAimTK1VgE5mX0lAFjrlq1IuV1cHh46VhVJafCugLGKx5SrWoYPb3fXEH8mfDnf40keXoFx88EWwp2BGEg0of1KLiBSiYLPs4WpjlsrLW+67KVi3q5MRPlwyKIGPDg70xlrWGWtSvve0xKjUZbmZ6OnlIXV8tKlJUJa0PQCcnxn1Xbasa9ULFuYULFYLZOTkuOyePxUWh6eIVOSpXc26XiMJte8MruwdaN9qZgMfpoKS0JBxjjg+eV35om6MNV0b8EDkq1eff5mf2b3XgEGA3vB1K4GFex4ePjnXM8cHzWLcxf1PC/Kg6kaLu2X8s4DzJzoMSH2D7cdr4YF38XJZZz+2WhmpdCpXXl5LI3ZDngEjJxlK4kUhRR4d/JNyLcs6M33f6xFJjjMcHc6hYDfewkaJ6AI/TOvArvNpXVVU6YiyvaBH6++FZV9/UEqNlPgEoOfjAwHLUESkqOw8EQAByww9Y7b2aGLF1y2amLBk9nW0x5hMvu0ZDfJaXnJziwchRgQCosaFu0UfPXdljYeWuZELFd7x7tej5Kz1Pan3kqP+yY5wz0+HCllaoHIC9+4poVIdq1N7ugQQ87mmfNn5OGNPYUY0KGG95Wh8z01N+UW2rHjVZbrkvVJLnRdlPK1Q+np4syo3Sa1XbTivUVe2RgknLoSp4aen7EgxV4NgZqqEKCAiktErNJFR+MuHbK4F9Fk+pqlL5Ux9+AKy5WxtUX61e9leBW9ergscPHwTMExf6jw2oQT1bcSk4eqzEHTl/ednd4Ito1ufuPr0wRyOsGtQFpfmF5uY3jrc/X6IQ/BIA6Pxq194z7rp7vvuuqlYN6ovnz8IvmcGsq6t3IyN/wDgVeDXWE8xhrLWtzV25dkPVXwGqQb15+84CTEHBdkfwWZ8AkAATSB8tr5vcpvxCt694uypYFahU2tDwlBsa/BZ6lZWVOALYcGDuwS9TwQT9op3FIejcalX//4aashcKJuE3yLnSVyV4fpyW36IIThf9fV2OecSTR/fD0wdzoo7fAAAA//8V2pQHAAAABklEQVQDAKezWeqKYOfgAAAAAElFTkSuQmCC",
+          "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFUAAABVCAYAAAA49ahaAAABe0lEQVR4AezWQUrDQABG4ejWO3gA738WD+AdXCtZTBFpu2jywdB5QrFQ8tJ88y/6uvV3ukCop5NuW6ihAgGQbKmhAgGQbKmhAgGQbKmhAgGQbKmhAgGQ3JcKsmsnQwXnH2qoQAAkW2qoQAAkW2qoQAAkW2qoQAAkW2qoQAAkx1JBet1kqODsQw0VCIBkSw0VCIBkSw0VCIBkSw0VCIBkSw0VCIDk36WC/JrJUMG5hxoqEADJlhoqEADJlhoqEADJlhoqEADJlhoqEADJ/0sFt1gvGSo481BDBQIgOf1SP7++f8YLPD9JTo/68f72Ml5EAESnRwXPzJOhAuJQQwUCINlSnxV1/8l09NnOaBz9DuP6a0sdn/X/QYEpUPffoQ9+/8tlZzQusYNvpkA9+AzTXR4qOJJQQwUCINlSQwUCINlSQwUCINlSQwUCIHlrqeBW6yRDBWcdaqhAACRbaqhAACRbaqhAACRbaqhAACRbaqhAACTvLRXcbo3kLwAAAP//CXYeXAAAAAZJREFUAwAVmBSrTQ+IvgAAAABJRU5ErkJggg==",
+          "trim": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFUAAABVCAYAAAA49ahaAAABjklEQVR4AezSMaqDQBRG4UnA0saluhCXamNpkaCQcAlJCr1nEOY8EKbJGd43/734ly4gajppKaKKCggASZcqKiAAJF2qqIAAkHSpogICQNKligoIAMltqUC27aSowPuLKiogACRdqqiAAJB0qaICAkDSpYoKCABJlyoqIAAkX0sF0u0mRQXeXlRRAQEg6VJFBQSApEsVFRAAki5VVEAASLpUUQEBIBmXCuTbTIoKvLuoogICQNKligoIAEmXKiogACRdqqiAAJB0qaICAkDyc6nAFe0lRQXeXFRRAQEg6VJFBQSApEsVFRAAki5VVEAASLrUFlGHYXh0Xff+AIP05Lelpl9yJrgsSxnHcf/OdGr+9vKofd+XaZr2bzvXxDl61+VR53m+reu6f9v56D9a83eXR62JkXWXqFmSoSNqwMg6ipolGTqiBoyso6hZkqEjasDIOoqaJRk6ogaMrOMv1Kx+kx1RgWcXVVRAAEi6VFEBASDpUkUFBICkSxUVEACSLlVUQABI/lsqcF0byScAAAD//5QHTr4AAAAGSURBVAMAOnMZq6VHdtoAAAAASUVORK5CYII=",
+          "guts": null,
+          "note": ""
+        }
+      ],
+      "updated": 1793481074930,
+      "by": "jarred"
+    }
+  },
+  "revision": "20261031T211116Z-fe56526d",
+  "selected_slot": "PROP",
+  "settings": {
+    "darkness": 0,
+    "emissive": 1,
+    "bloom": 10,
+    "scale": 1.5,
+    "glowColor": "#bbff00"
+  }
+}
