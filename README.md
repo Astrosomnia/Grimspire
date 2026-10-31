@@ -1,6 +1,6 @@
 # Grimspire
 
-A Worms-style artillery game in a single HTML file. Two squads of cyber troopers fight over a ruined, neon-lit hive ward. Blow the ground out from under them; the sump below takes anyone who falls in.
+A gothic artillery game in a single HTML file. Two squads of cyber troopers fight over a ruined, neon-lit hive ward. Blow the ground out from under them; the sump below takes anyone who falls in.
 
 **Play:** open `index.html` in a browser, or use the GitHub Pages link once it's switched on.
 
