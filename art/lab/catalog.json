@@ -7,6 +7,12 @@
       "manifest": "releases/weapons-v001/manifest.json",
       "status": "draft",
       "live": false
+    },
+    {
+      "id": "pulse-v001",
+      "manifest": "releases/pulse-v001/manifest.json",
+      "status": "draft",
+      "live": false
     }
   ]
 }

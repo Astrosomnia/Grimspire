@@ -1,4 +1,15 @@
 {
   "schema": 1,
-  "entries": []
+  "entries": [
+    {
+      "id": "W01_slow_pulse_v001",
+      "path": "art/lab/hosted/library/W01_slow_pulse_v001.forge.json",
+      "sha256": "a9b7f5ee25f33222335d0337d40b48120d6ff363815af5e6ecf0dd461ba16d5a"
+    },
+    {
+      "id": "W05_quick_pulse_v001",
+      "path": "art/lab/hosted/library/W05_quick_pulse_v001.forge.json",
+      "sha256": "fbafdca304352eb8499cb20cf237f067242afe495126adc286f3ae701de6b109"
+    }
+  ]
 }

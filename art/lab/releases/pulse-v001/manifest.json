@@ -1,0 +1,42 @@
+{
+  "schema": 1,
+  "release": "pulse-v001",
+  "status": "draft",
+  "live": false,
+  "source_lab_commit": "ea4a6e4197732c8f490f1f985eff2346d3e44696",
+  "assets": [
+    {
+      "code": "W01",
+      "name": "Plasma Mortar \u2014 slow pulse",
+      "path": "hosted/library/W01_slow_pulse_v001.forge.json",
+      "sha256": "a9b7f5ee25f33222335d0337d40b48120d6ff363815af5e6ecf0dd461ba16d5a",
+      "source_sha256": "8c0614bfb7b95fa7d13ca4d0e81780ba31166c1f2baa9c0a178995cf0de8232c",
+      "frames": 40,
+      "fps": 20,
+      "period_seconds": 2.0,
+      "status": "draft",
+      "approval": null
+    },
+    {
+      "code": "W05",
+      "name": "Las Burner \u2014 quick pulse",
+      "path": "hosted/library/W05_quick_pulse_v001.forge.json",
+      "sha256": "fbafdca304352eb8499cb20cf237f067242afe495126adc286f3ae701de6b109",
+      "source_sha256": "8ad727942af80ad45850b6e0aeefe3a69cd43fd17a2d3cf00b9809ddd8d967ac",
+      "frames": 20,
+      "fps": 20,
+      "period_seconds": 1.0,
+      "status": "draft",
+      "approval": null
+    }
+  ],
+  "checks": {
+    "body_unchanged": true,
+    "anchors_unchanged": true,
+    "dimensions_unchanged": true,
+    "emissive_rgb_unchanged": true,
+    "smooth_loop": true,
+    "in_game_review": false
+  },
+  "approval": null
+}
