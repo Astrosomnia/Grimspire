@@ -1,0 +1,42 @@
+{
+  "schema": 1,
+  "release": "laser-sequence-v001",
+  "status": "draft",
+  "live": false,
+  "asset": {
+    "code": "W05",
+    "path": "hosted/library/W05_red_sequence_v001.forge.json",
+    "sha256": "afde0f8615ad8e10a3af03c0303d200d905ef5298d7b844f34fb9dde1489a0d7",
+    "source": "releases/weapons-v001/W05_grid.forge.json",
+    "frames": 32,
+    "fps": 20,
+    "period_seconds": 1.6,
+    "lights": [
+      [
+        26,
+        9
+      ],
+      [
+        29,
+        9
+      ],
+      [
+        32,
+        9
+      ],
+      [
+        35,
+        9
+      ]
+    ],
+    "body_pixels_changed": 8
+  },
+  "checks": {
+    "silhouette_preserved": true,
+    "anchors_preserved": true,
+    "ordered_peaks": true,
+    "loop_continuity": true,
+    "in_game_review": false
+  },
+  "approval": null
+}

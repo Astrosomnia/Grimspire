@@ -10,6 +10,11 @@
       "id": "W05_quick_pulse_v001",
       "path": "art/lab/hosted/library/W05_quick_pulse_v001.forge.json",
       "sha256": "fbafdca304352eb8499cb20cf237f067242afe495126adc286f3ae701de6b109"
+    },
+    {
+      "id": "W05_red_sequence_v001",
+      "path": "art/lab/hosted/library/W05_red_sequence_v001.forge.json",
+      "sha256": "afde0f8615ad8e10a3af03c0303d200d905ef5298d7b844f34fb9dde1489a0d7"
     }
   ]
 }

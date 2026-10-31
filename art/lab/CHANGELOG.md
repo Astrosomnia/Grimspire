@@ -106,3 +106,11 @@ Added W01 slow pulse (40 frames at 20 fps, 2 s period) and W05 quick pulse (20 f
 Files: hosted/library/W01_slow_pulse_v001.forge.json and W05_quick_pulse_v001.forge.json; immutable release record and animated comparison at releases/pulse-v001/. Catalog records the alternative release; current_review stays weapons-v001. Hosted library index hashes the two documents. No existing saved revision or main file is edited.
 
 Checks: every body/trim/guts frame equals its source, anchor/dimension equality, unchanged emissive RGB, smooth symmetric wrap and exact zero/full intensity verified. Actual sandbox renderer under Native Canvas loads both animations and produces increasing dark/mid/peak pixel brightness. Model validation passes for both docs. Art/in-game readability approval pending. Open either named pulse alternative in shared Library, play, then Save & test using W01 or W05. The source-detail variants are unchanged.
+
+## Four-lamp las sequence — laser-sequence-v001 (2026-10-31)
+
+Added `Las Burner — red charge sequence`, W05, as a new shared-library alternative. Four two-pixel red lamps along the barrel at (26,9), (29,9), (32,9), (35,9) brighten rear to muzzle, with smooth overlapping cosine-cubed envelopes. 32 frames at 20 fps, 1.6-second loop, peak frames 0/8/16/24. Eight underlying body pixels form dark red lamp seats. Body alpha/silhouette, dimensions, anchors, trim/guts and all other body pixels remain unchanged. Existing cyan emissive still pulses smoothly. No firing-trigger or gameplay behaviour changes; no 2x-density work. Previous pulse alternatives and saved art remain immutable.
+
+Multi-weapon testing already accumulates saved slots: save W01 with Save revision, open/save W05, then launch Save & test once. A new regression verifies both animated documents are present unchanged in that final snapshot. Saving to the same slot replaces that slot only in the new snapshot. Props still have one shared dummy slot; several distinct prop documents are not yet supported together. Added concise batching guidance in the Shared Forge dialog.
+
+Checks: source pixel bounds and unchanged alpha/anchors verified; four peak times and smooth wrap verified; model validation and multi-slot snapshot tests pass. Preview GIF and manifest are in releases/laser-sequence-v001/. In-game visual approval pending; nothing published to main.

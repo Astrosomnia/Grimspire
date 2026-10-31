@@ -13,6 +13,12 @@
       "manifest": "releases/pulse-v001/manifest.json",
       "status": "draft",
       "live": false
+    },
+    {
+      "id": "laser-sequence-v001",
+      "manifest": "releases/laser-sequence-v001/manifest.json",
+      "status": "draft",
+      "live": false
     }
   ]
 }
