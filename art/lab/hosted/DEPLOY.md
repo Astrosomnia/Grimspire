@@ -79,3 +79,11 @@ read-only permission. If there is no discoverable Pages site, or the game uses a
 host, it reports deployment unverified. Do not claim public release on that basis.
 
 No Pages configuration or production game host has been changed by this work.
+
+## First-build trigger
+
+Jarred verified the repository connection, branch, root directory and commands in
+Cloudflare. Build history was empty. This documentation commit is the first new
+push after that connection and is intended to trigger its initial Git build.
+The active Worker still served Hello World at this checkpoint. Watch build history
+for the result; do not treat this commit as proof of a successful deployment.
