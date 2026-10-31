@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "current": "20261031T210936Z-6c67f2da",
+  "revisions": [
+    {
+      "id": "20261031T210936Z-6c67f2da",
+      "created": "2026-10-31T21:09:37.365Z",
+      "notes": "Test Grave Marker_1 as Ground prop / set piece",
+      "slot": "PROP",
+      "variant": "custom",
+      "author": "Astrosomnia"
+    }
+  ],
+  "integrations": []
+}
