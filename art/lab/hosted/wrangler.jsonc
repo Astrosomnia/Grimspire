@@ -1,0 +1,17 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "grimspire-forge",
+  "main": "worker.mjs",
+  "compatibility_date": "2026-10-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": true,
+  "keep_vars": true,
+  "assets": {"directory": "./generated/public", "binding": "ASSETS", "run_worker_first": true},
+  "vars": {
+    "GITHUB_APP_ID": "5558397",
+    "GITHUB_CLIENT_ID": "Iv23liLKlHD9cghoqijI",
+    "GITHUB_INSTALLATION_ID": "177300737",
+    "ALLOWED_GITHUB_USER_ID": "144634800",
+    "APP_ORIGIN": "https://grimspire-forge.jarredpowell88.workers.dev"
+  }
+}

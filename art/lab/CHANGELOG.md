@@ -40,3 +40,22 @@ It was inspected for compatibility and left untouched. See the workflow README.
 - Main, live assets, deployment configuration and forge-pipeline remain unchanged.
 
 Baseline refreshed to `2974b27b8d230ed6d22042fe6e91f37e3cdbf9d4` after a concurrent README-only main update. Game source is byte-identical to the checked baseline; no runtime conflict.
+
+## Hosted Forge v1 — 2026-10-31 — code prepared, deployment awaiting verification
+
+- Added owner-only GitHub sign-in and a Cloudflare Worker backend using the existing
+  GitHub App; private credentials remain in Cloudflare's encrypted runtime secrets.
+- Added GitHub-backed Library, immutable save/test revisions and indexed alternatives
+  Claude can add directly. Stale editor saves are rejected; unsaved canvas is retained.
+- Snapshots bind game source, renderer, art/settings, notes and hashes in one commit.
+- Added focused PR preparation, explicit exact-build approval, full-tree checks,
+  non-force atomic publication and integration/deployment receipts.
+- Added public deployment verification by matching actual served game bytes where
+  GitHub Pages can be discovered; main update alone is never labelled verified live.
+- Added deployment instructions and CLAUDE-HANDOFF.md with canonical paths and limits.
+- Offline hosted tests: 15 passing cases covering save/release concurrency, stale
+  bases, auth/CSRF/session checks, RSA signing, tampering and large-file blob reads.
+- Local Git/HTTP, original asset validation and native Canvas checks remain available.
+- Real Cloudflare runtime, credentials, browser UI and public deployment remain to
+  be verified after Jarred connects the existing Worker to this prepared source.
+- No main/game files, production hosting settings or forge-pipeline files changed.
