@@ -1,0 +1,25 @@
+{
+  "schema": 1,
+  "id": "20261031T211237Z-dc2ca543",
+  "created": "2026-10-31T21:12:37.584Z",
+  "author": {
+    "id": 144634800,
+    "login": "Astrosomnia"
+  },
+  "base_main": "2974b27b8d230ed6d22042fe6e91f37e3cdbf9d4",
+  "source_lab_commit": "90a63d97d076c213d15676be3780a4814035ca52",
+  "notes": "Test Grave Marker_1 as Ground prop / set piece",
+  "selected_slot": "PROP",
+  "original_code": "C06",
+  "variant": "custom",
+  "slots": [
+    "PROP"
+  ],
+  "files": {
+    "game.html": "eb4670603825350bd298460f8db23675c19edfdafe09f5f8689801ae5bbee7f9",
+    "source.html": "a56bf436c01e95c5b9646c35a3f311d7518aaea22836e9b5a23555755cb82f73",
+    "runtime.js": "91426c83441a072c47662f588828f00055b27141096f74d4c92a1069729c2d0d",
+    "payload.json": "7b0180d5188fffb86664c08caa2df8f44a99112e6003cb51914f85d94760f22c"
+  },
+  "status": "draft"
+}
