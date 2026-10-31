@@ -1,0 +1,57 @@
+{
+  "assets": {
+    "W01": {
+      "forge": 1,
+      "code": "W01",
+      "name": "Plasma Mortar — grid study",
+      "w": 42,
+      "h": 20,
+      "fps": 8,
+      "base": null,
+      "pixel_scale": 12,
+      "markers": {
+        "grip": [
+          13,
+          15
+        ],
+        "muzzle": [
+          39,
+          9
+        ],
+        "pivot": [
+          13,
+          15
+        ],
+        "shoulder": null,
+        "elbow": null,
+        "hand": null,
+        "hip": null,
+        "knee": null
+      },
+      "ready": false,
+      "notes": "Derived from the revised AI-generated sheet, matching the supplied reference with requested edits. Automatically reduced grid interpretation; small details differ from the reference. Grip/pivot/muzzle are initial estimates requiring rig checks. Preview slot W01 confirmed from repository pixelkit-v2 manifest at ae7247a9b94aeb834342cd40e8aea2eb82308bb8. This does not add firing behaviours.\nRevision: weapons-v001. Status: draft. Pixel cleanup and anchor/scale review outstanding. Stored in isolated art/weapon-lab branch.",
+      "review": null,
+      "ghostOff": null,
+      "frames": [
+        {
+          "body": "data:image/png;base64,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",
+          "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACoAAAAUCAYAAAD7s6+GAAAAlUlEQVR4AeySPQqEMBBGM5PFXRY8qldQsRTP4BktRDEhjhYWClNYjBJl0uSHSfLyvqB5SFNQ6aDU6OuNdm0auEdGF/1v8ByniQ4ULNwHSjUGV0FwzZeNkSXZFoOnbXTsLjHqRwI0q5neHW87M4MbQZOC8JPPNinJnmHb1/yzid2D+6KYxwoqnY4aVaPSBqTP0z8qbXQBAAD//9/NiCwAAAAGSURBVAMAShUbKbOi4VoAAAAASUVORK5CYII=",
+          "trim": null,
+          "guts": null,
+          "note": "Resting pose only."
+        }
+      ],
+      "updated": 1793481779543,
+      "by": "jarred"
+    }
+  },
+  "revision": "20261031T212301Z-6110878b",
+  "selected_slot": "W01",
+  "settings": {
+    "darkness": 1,
+    "emissive": 1,
+    "bloom": 0,
+    "scale": 1.8,
+    "glowColor": "#bbff00"
+  }
+}

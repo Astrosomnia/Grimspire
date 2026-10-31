@@ -1,0 +1,25 @@
+{
+  "schema": 1,
+  "id": "20261031T212301Z-6110878b",
+  "created": "2026-10-31T21:23:01.908Z",
+  "author": {
+    "id": 144634800,
+    "login": "Astrosomnia"
+  },
+  "base_main": "2974b27b8d230ed6d22042fe6e91f37e3cdbf9d4",
+  "source_lab_commit": "3c6b33184ffc7da77f21dc899e41b1f1f1c40bed",
+  "notes": "Test Plasma Mortar — grid study as W01 · Launcher",
+  "selected_slot": "W01",
+  "original_code": "W01",
+  "variant": "grid",
+  "slots": [
+    "W01"
+  ],
+  "files": {
+    "game.html": "d0f0ac3222a1430bcf9f0bc2355905824202c6608729c7bbd51d92b5073e8427",
+    "source.html": "a56bf436c01e95c5b9646c35a3f311d7518aaea22836e9b5a23555755cb82f73",
+    "runtime.js": "91426c83441a072c47662f588828f00055b27141096f74d4c92a1069729c2d0d",
+    "payload.json": "aa63f2d37a9cc597085346a8b3469f38212b05544671a4e5ee81b8853cf899b1"
+  },
+  "status": "draft"
+}
