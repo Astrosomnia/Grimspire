@@ -82,6 +82,9 @@ def main():
         except Exception as e:
             print('skip', e, file=sys.stderr)
             continue
+        if doc.get('unfiled') or not code_of(doc)[0]:
+            print(f"skip {os.path.basename(p)}: no code yet (file it in the Forge first)", file=sys.stderr)
+            continue
         base, man = write_kit(doc, a.out)
         if base in seen:
             print(f'warning: two sprites share the name {base}; the later one won', file=sys.stderr)

@@ -148,7 +148,7 @@ dialog.wide{max-width:min(1180px,96vw);width:96vw}
 <div id="app">
   <header id="top">
     <div class="mark">Forge<small>Grimspire</small></div>
-    <input id="docCode" type="text" aria-label="Asset code" spellcheck="false" maxlength="4" placeholder="W00" title="Asset code: a type letter and two digits, e.g. W04"><input id="docName" type="text" aria-label="Sprite name" spellcheck="false">
+    <input id="docCode" type="text" aria-label="Asset code" spellcheck="false" maxlength="4" placeholder="auto" title="Asset code: a type letter and two digits, e.g. W04. Leave it empty and Claude will file it"><input id="docName" type="text" aria-label="Sprite name" spellcheck="false">
     <span class="num" id="fileBase" title="File names start with this"></span>
     <span class="num" id="docSize"></span>
     <div class="grp">
@@ -753,15 +753,15 @@ async function initDb(){try{db=window.claude?await window.claude.use("db"):null}
     if(me){if(JSON.stringify(me.review||null)!==JSON.stringify(doc.review||null)){doc.review=me.review||null;updNotes();if(doc.review)status('Claude left a note on this sprite')}
       if(me.by==='claude'&&(me.updated||0)>(doc.savedAt||0)){showRemote(me)}}if($('#dLib').open)buildLib()},e=>{clearTimeout(t);$('#libNote').textContent='The library couldn’t load ('+(e.code||'error')+'). Sprites still save in this browser.'})}
 function localLib(){try{return JSON.parse(store.get('forge.lib')||'[]')}catch(e){return[]}}
-async function saveToLib(){commitFloat();const s=serialise();if(!validCode(doc.code)){status('Give it a code first, like W18 (type letter + two digits)');$('#docCode').focus();return}
-  const want=fileBase().toLowerCase();if(doc.id!==want){const clash=(db?libDocs:localLib()).find(x=>x.id===want);if(clash){status(`${doc.code} ${clash.name} already uses that name. Open it, or change the code`);return}}const old=doc.id&&doc.id!==want?doc.id:null;const id=want;
-  if(db){try{await db.collection('sprites').doc(id).set(s);if(old)await db.collection('sprites').doc(old).delete().catch(()=>{});doc.id=id;doc.savedAt=s.updated;status('Saved to the library');draftSave();return}catch(e){status(e.code==='invalid_argument'?'Too big for the library (256 KB). Export it instead.':'Library save failed: '+(e.message||e.code))}}
+async function saveToLib(){commitFloat();const s=serialise();const unfiled=!validCode(doc.code);
+  const want=(unfiled?'unfiled_':'')+fileBase().toLowerCase();if(doc.id!==want){const clash=(db?libDocs:localLib()).find(x=>x.id===want);if(clash){status(`${doc.code} ${clash.name} already uses that name. Open it, or change the code`);return}}const old=doc.id&&doc.id!==want?doc.id:null;const id=want;s.unfiled=unfiled;
+  if(db){try{await db.collection('sprites').doc(id).set(s);if(old)await db.collection('sprites').doc(old).delete().catch(()=>{});doc.id=id;doc.savedAt=s.updated;status(unfiled?'Saved. No code yet: Claude will file it on the next check':'Saved to the library');draftSave();return}catch(e){status(e.code==='invalid_argument'?'Too big for the library (256 KB). Export it instead.':'Library save failed: '+(e.message||e.code))}}
   const L=localLib().filter(x=>x.id!==id&&x.id!==old);L.unshift({id,...s});if(store.set('forge.lib',JSON.stringify(L))){doc.id=id;status('Saved in this browser')}else status('Browser storage is full or blocked')}
 async function buildLib(){const box=$('#libList');box.textContent='';const items=(db?libDocs:localLib()).slice().sort((a,b)=>splitCode(a.code,a.name)[0].localeCompare(splitCode(b.code,b.name)[0])||(b.updated||0)-(a.updated||0));
   if(!items.length){const p=document.createElement('p');p.className='note';p.textContent='Nothing saved yet. Press Save to put the current sprite here.';box.append(p);return}
   for(const it of items){const d=document.createElement('div');d.className='libItem';const c=mkc(Math.max(1,it.w),Math.max(1,it.h));
     const f0=it.frames&&it.frames[0];if(f0){for(const k of['body','trim','emis'])if(f0[k])loadImg(f0[k]).then(i=>c.getContext('2d').drawImage(i,0,0))}
-    const pc=splitCode(it.code,it.name);const b=document.createElement('b');b.textContent=(pc[0]?pc[0]+' ':'')+pc[1];const s=document.createElement('small');s.textContent=`${it.w}×${it.h} · ${it.frames.length} fr${it.ready?' · ready':''}${it.review&&it.review.text?' · note from Claude':''}${it.by==='claude'?' · edited by Claude':''}`;
+    const pc=splitCode(it.code,it.name);const b=document.createElement('b');b.textContent=(pc[0]?pc[0]+' ':'')+pc[1];const s=document.createElement('small');s.textContent=`${it.w}×${it.h} · ${it.frames.length} fr${it.unfiled?' · unfiled':''}${it.ready?' · ready':''}${it.review&&it.review.text?' · note from Claude':''}${it.by==='claude'?' · edited by Claude':''}`;
     const r=document.createElement('div');r.className='row';const o=document.createElement('button');o.textContent='Open';o.onclick=async()=>{await deserialise(it,it.id);$('#dLib').close();status('Opened '+it.name)};
     const x=document.createElement('button');x.textContent='Delete';x.className='danger';x.onclick=()=>confirmIt('Delete '+it.name+'?','This removes it from the library for good.',async()=>{if(db)await db.collection('sprites').doc(it.id).delete();else store.set('forge.lib',JSON.stringify(localLib().filter(y=>y.id!==it.id)));if(doc.id===it.id)doc.id=null;buildLib()});
     r.append(o,x);d.append(c,b,s,r);box.append(d)}}
@@ -807,7 +807,7 @@ const validCode=c=>/^[A-Z]\d{2}$/.test(c||'');
 function splitCode(code,name){name=(name||'').trim();const m=name.match(/^([A-Za-z]\d{2})[\s_-]+(.+)$/);if(m&&!validCode(code))return[m[1].toUpperCase(),m[2]];if(m&&m[1].toUpperCase()===code)return[code,m[2]];return[validCode(code)?code:'',name]}
 const fileBase=()=>(validCode(doc.code)?doc.code+'_':'')+slug(doc.name);
 function nextCode(p){const used=new Set([...REPO_CODES,...(db?libDocs:localLib()).map(x=>splitCode(x.code,x.name)[0])]);for(let i=1;i<100;i++){const c=p+String(i).padStart(2,'0');if(!used.has(c))return c}return p+'99'}
-function updCode(){const ok=validCode(doc.code);$('#docCode').classList.toggle('bad',!ok);$('#fileBase').textContent=fileBase()+'_body.png';
+function updCode(){const ok=validCode(doc.code);$('#docCode').classList.toggle('bad',!ok&&!!doc.code);$('#fileBase').textContent=fileBase()+'_body.png';
   const known=ok&&CODES[doc.code[0]];$('#docCode').title=ok?(known?doc.code[0]+': '+CODES[doc.code[0]]:'Unknown type letter. See New, then Naming'):'Asset code: a type letter and two digits, e.g. W04'}
 
 // ---------- tabs ----------
@@ -1045,7 +1045,7 @@ function wire(){
   $('#snapTake').onclick=takeSnap;$('#askGo').onclick=askClaude;
   $('#bRig').onclick=openRig;tog('#rigSweep',()=>rigOpt.sweep,v=>rigOpt.sweep=v);tog('#rigWalk',()=>rigOpt.walk,v=>rigOpt.walk=v);tog('#rigFace',()=>rigOpt.left,v=>rigOpt.left=v);tog('#rigJoints',()=>rigOpt.joints,v=>rigOpt.joints=v);
   $('#rigAim').oninput=()=>{rigOpt.sweep=false;$('#rigSweep').classList.remove('on')};
-  $('#bGame').addEventListener('click',e=>{commitFloat();if(!validCode(doc.code)){e.preventDefault();status('Give it a code first. The game finds its slot by code, e.g. W04 for the bolter');$('#docCode').focus();return}
+  $('#bGame').addEventListener('click',e=>{commitFloat();if(!validCode(doc.code)){e.preventDefault();status('The game finds its slot by code. Add one (W04 for the bolter), or save it and ask Claude to file it');$('#docCode').focus();return}
     const t=JSON.stringify(serialise());navigator.clipboard.writeText(t).then(()=>status(`Copied ${doc.code}. In the Proving ground, press Ctrl+V or use Load Forge art`)).catch(()=>{$('#xPaste').hidden=false;$('#xPaste').value=t;$('#dExport').showModal();$('#xPaste').select();status('Copy the text box, then paste it in the Proving ground')})});
   $('#bUndo').onclick=undo;$('#bRedo').onclick=redo;$('#bSave').onclick=saveToLib;
   $('#fAdd').onclick=()=>addFrame(false);$('#fDup').onclick=()=>addFrame(true);$('#fDel').onclick=delFrame;$('#fLeft').onclick=()=>moveFrame(-1);$('#fRight').onclick=()=>moveFrame(1);$('#fPlay').onclick=togglePlay;
