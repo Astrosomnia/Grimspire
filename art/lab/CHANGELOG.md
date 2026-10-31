@@ -20,3 +20,21 @@ deployment have actually been verified.
 
 Existing-work note: `forge-pipeline` already contains Claude's sync/packing work.
 It was inspected for compatibility and left untouched. See the workflow README.
+
+## Git-linked sandbox v1 — 2026-10-31 — implementation, not deployed
+
+- Added a local Git companion and Forge controls for save, game test, refresh,
+  focused release review and explicit Go live approval.
+- Pinned a sandbox copy of main at ae7247a9b94aeb834342cd40e8aea2eb82308bb8.
+- Added weapon sprite/frame rendering and darkness, emissive, bloom, scale and
+  glow-colour controls. New art can preview using an existing W01–W08 behaviour.
+- Saves capture source, adapter, art/settings payload, notes and file hashes in
+  immutable revisions; failed pushes report local-only persistence.
+- Release preparation creates a focused branch/PR. Publication uses an atomic
+  fast-forward lease and records the exact approved build and integration commit.
+- Refuses stale main, tampered snapshots, unrelated dirty work and changed release
+  branches. Repeat-release refresh removes the previous injected adapter.
+- Validation: seven Git/HTTP flow tests; HTTP origin/path checks; native Canvas
+  loading/render/fallback checks; source syntax and original 16-variant validation.
+- Browser interaction remains unverified: no browser executable is installed.
+- Main, live assets, deployment configuration and forge-pipeline remain unchanged.

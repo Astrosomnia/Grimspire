@@ -16,3 +16,19 @@
 - To promote, create an integration branch from latest main and a focused PR.
   Do not merge a stale full Lab tree or deploy the long-lived art branch to production.
 - Keep live status tied to an integration commit and verified deployment; do not guess.
+
+## Git-linked sandbox
+
+- User-authorized rendering/game-source experiments belong under sandbox/. The
+  pinned game copy is intentional; it must never be wholesale merged from the lab.
+- Read README.md for the local companion's launch, release and refresh workflow.
+- Snapshot source, adapter, art inputs, settings, notes and hashes in one Git commit.
+- Source edits are allowed in sandbox/game.html; renderer experiments are allowed
+  in sandbox/runtime.js. Do not modify main's game files during experimentation.
+- Promotion uses a focused PR and a candidate with tested main as its only parent.
+  The Forge's explicit Go live confirmation authorizes only that exact candidate.
+- Its atomic force-with-lease push is permitted only after asserting the candidate
+  is a direct child of expected main; it must be a fast-forward, never a history reset.
+- Never bypass branch protection. Never call a main update a verified deployment.
+- Keep immutable sandbox revisions unchanged. New art, code or lighting needs a
+  new saved revision and testing. Do not edit packed/generated assets by hand.
