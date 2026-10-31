@@ -192,3 +192,13 @@ unexpected backend errors include operation/type instead of the old catch-all.
 
 19 backend tests pass. The receiver fix needs confirmation in the user's live
 repository session after deployment; key parsing itself was verified live.
+
+## Category testing and launch repair — 2026-10-31
+
+Hosted Save & test supplies a default update note, keeps save errors visible in the reserved tab, and leaves an exact-revision link even when a popup is blocked. Library refresh failure no longer hides a successful save. Test URLs use `grounds=1` to start a local hotseat battle automatically with unlimited timer and Forge placement controls.
+
+Targets: W01–W08 weapons, PROP (ground prop/set piece), TROOPER (static frame/part), BACKGROUND (static background/skyline). C/S/E codes default to PROP, T/A to TROOPER, B to BACKGROUND; users can override the target. Nonweapons do not require grip/pivot. Props anchor at `[w/2,base+1]`, or bottom centre `[w/2,h]` without a baseline. Place on a terrain surface by tapping, add nearby or clear props. Payload records selected_slot; no weapon slot is overwritten by a prop.
+
+These category dummies test visual placement only. Props have no collision/destruction; trooper replacements are static frames with facing and position, without articulated rig; background is a static world placement, without parallax integration. Release preparation blocks snapshots containing category dummies until Claude implements their real game integration. Existing weapon release protections and immutable snapshots remain active.
+
+Validation: 23 hosted tests including blank notes, popup fallback, visible save errors, category persistence and release guards; Native Canvas weapon regression plus category harness covering automatic local launch, prop pixels/baseline, map placement and trooper fallback. Authenticated hosted browser acceptance remains outstanding. Main unchanged.
