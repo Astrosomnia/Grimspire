@@ -158,3 +158,20 @@ Next: connect existing Worker to the configured branch/root, deploy, verify sign
 shared library, one draft save and its game preview. Confirm main is untouched.
 Keep actual game art approval separate from infrastructure acceptance. Only then
 exercise publishing on an exact revision Jarred actually wants in the game.
+
+## Hosted deployment checkpoint — 2026-10-31
+
+Cloudflare successfully deployed commit ca76a598f1c7a1a35e638213cf49b119cdf0320f
+(version 85046993-4252-48d1-87f5-1a11a586114a). Jarred reached the signed-in
+editor. Repository access then failed at the private-key parse/sign step.
+
+The follow-up key-loading change uses native Web Crypto RSA signing, wrapping
+GitHub PKCS#1 keys in PKCS#8 when required and accepting literal escaped newlines
+as well as normal/CRLF PEM text. /health reports only private_key.readable, format
+or a fixed reason code; it never emits key contents or a key fingerprint. The
+user's actual secret has not been read by ChatGPT. Do not assume the paste was
+wrong based on the original catch-all error. Verify the new deployed health result
+and repository connection before calling authentication resolved.
+
+Hosted tests now cover both RSA formats, newline/quoted clipboard variants and
+non-disclosure in diagnostics (17 passing tests at this checkpoint).

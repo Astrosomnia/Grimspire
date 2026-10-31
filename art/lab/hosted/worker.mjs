@@ -1,4 +1,4 @@
-import {createPrivateKey,sign} from 'node:crypto';
+import {signAppJwt,privateKeyStatus} from './github-key.mjs';
 import {Buffer} from 'node:buffer';
 import {BUILD_SHA} from './generated/build-info.mjs';
 import {REPO,LAB,ROOT,DEFAULTS,SLOTS,Problem,check,utf,json,sha,options,sprite,clean,build,revision} from './model.mjs';
@@ -16,7 +16,7 @@ async function session(req,env){const raw=cookies(req).forge_session;check(raw,'
 export class GitHub{
   constructor(env,fetcher=fetch){this.env=env;this.fetch=fetcher;this.token=null}
   async auth(){if(!this.pending)this.pending=this.authenticate();return this.pending}
-  async authenticate(){if(this.token)return this.token;const env=this.env;check(env.GITHUB_PRIVATE_KEY&&env.GITHUB_APP_ID&&env.GITHUB_INSTALLATION_ID,'Missing GitHub App credentials in Cloudflare',503);let token;try{const a=b64(JSON.stringify({alg:'RS256',typ:'JWT'})),b=b64(JSON.stringify({iat:sec()-60,exp:sec()+540,iss:env.GITHUB_APP_ID}));const pem=env.GITHUB_PRIVATE_KEY.replace(/\\n/g,'\n').trim();const signature=sign('RSA-SHA256',Buffer.from(a+'.'+b),createPrivateKey(pem));token=a+'.'+b+'.'+b64(signature)}catch{throw new Problem('GITHUB_PRIVATE_KEY could not be read. Paste the complete PEM text into the Cloudflare Secret.',503)}const r=await this.fetch('https://api.github.com/app/installations/'+env.GITHUB_INSTALLATION_ID+'/access_tokens',{method:'POST',headers:{Authorization:'Bearer '+token,Accept:'application/vnd.github+json','User-Agent':'Grimspire-Forge','Content-Type':'application/json'},body:JSON.stringify({repositories:['Grimspire']})});check(r.ok,'GitHub App authentication failed. Check its key, App ID and installation.',503);this.token=(await r.json()).token;return this.token}
+  async authenticate(){if(this.token)return this.token;const env=this.env;check(env.GITHUB_PRIVATE_KEY&&env.GITHUB_APP_ID&&env.GITHUB_INSTALLATION_ID,'Missing GitHub App credentials in Cloudflare',503);const token=await signAppJwt(env);const r=await this.fetch('https://api.github.com/app/installations/'+env.GITHUB_INSTALLATION_ID+'/access_tokens',{method:'POST',headers:{Authorization:'Bearer '+token,Accept:'application/vnd.github+json','User-Agent':'Grimspire-Forge','Content-Type':'application/json'},body:JSON.stringify({repositories:['Grimspire']})});check(r.ok,'GitHub App authentication failed. Check its key, App ID and installation.',503);this.token=(await r.json()).token;return this.token}
   async call(path,method='GET',data,optional=false){const r=await this.fetch('https://api.github.com/repos/'+REPO+path,{method,headers:{Authorization:'Bearer '+await this.auth(),Accept:'application/vnd.github+json','User-Agent':'Grimspire-Forge','Content-Type':'application/json'},...(data===undefined?{}:{body:JSON.stringify(data)})});if(optional&&r.status===404)return null;if(!r.ok){let message='';try{message=(await r.json()).message||''}catch{}throw new Problem('GitHub rejected '+method+' '+path.split('?')[0]+': '+message+(r.status===422?' — another revision may have been saved; refresh before retrying.':''),r.status===401||r.status===403?503:409)}return r.status===204?null:r.json()}
   async head(branch){return(await this.call('/git/ref/heads/'+branch)).object.sha}
   commit(id){return this.call('/git/commits/'+id)}
@@ -58,7 +58,7 @@ export async function publish(g,body,user,env){const release=await unseal(env,bo
 }
 export async function handle(request,env,dependencies={}){const fetcher=dependencies.fetch||fetch,url=new URL(request.url);try{
   check(url.origin===env.APP_ORIGIN,'Use the configured Forge URL',400);
-  if(url.pathname==='/health')return response({service:'Grimspire Forge',build_sha:BUILD_SHA,configured:!!(env.GITHUB_APP_ID&&env.GITHUB_CLIENT_ID&&env.GITHUB_INSTALLATION_ID&&env.GITHUB_PRIVATE_KEY&&env.GITHUB_CLIENT_SECRET),deployment:'Hosted application code is running'});
+  if(url.pathname==='/health')return response({service:'Grimspire Forge',build_sha:BUILD_SHA,private_key:await privateKeyStatus(env.GITHUB_PRIVATE_KEY),configured:!!(env.GITHUB_APP_ID&&env.GITHUB_CLIENT_ID&&env.GITHUB_INSTALLATION_ID&&env.GITHUB_PRIVATE_KEY&&env.GITHUB_CLIENT_SECRET),deployment:'Hosted application code is running'});
   if(url.pathname==='/auth/github'){
     check(request.method==='GET','Method not allowed',405);const nonce=crypto.randomUUID(),state=await seal(env,{kind:'oauth',nonce,exp:sec()+600});return redirect('https://github.com/login/oauth/authorize?'+new URLSearchParams({client_id:env.GITHUB_CLIENT_ID,redirect_uri:env.APP_ORIGIN+'/auth/github/callback',state:nonce}),[cookie('forge_oauth',state,600)])}
   if(url.pathname==='/auth/github/callback'){

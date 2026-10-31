@@ -59,3 +59,14 @@ Baseline refreshed to `2974b27b8d230ed6d22042fe6e91f37e3cdbf9d4` after a concurr
 - Real Cloudflare runtime, credentials, browser UI and public deployment remain to
   be verified after Jarred connects the existing Worker to this prepared source.
 - No main/game files, production hosting settings or forge-pipeline files changed.
+
+## Hosted key-loading follow-up — 2026-10-31
+
+- First Cloudflare build succeeded and Jarred reached the editor after GitHub sign-in.
+- Repository authentication failed in the previous combined PEM parse/sign catch.
+- Replaced node:crypto PEM/signing with native Web Crypto; support GitHub PKCS#1
+  and PKCS#8 plus CRLF, escaped-newline and JSON-quoted clipboard text.
+- Added fixed, non-secret key-readability diagnostics to /health and specific errors.
+- Editor now labels the failed connection explicitly instead of staying Connecting.
+- 17 hosted tests pass. Actual key readability/connection still needs post-deploy
+  verification; no private secret was accessed and main is untouched.
