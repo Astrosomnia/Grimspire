@@ -1,0 +1,45 @@
+{
+  "forge": 1,
+  "code": "W05",
+  "name": "Las Burner — grid study",
+  "w": 42,
+  "h": 20,
+  "fps": 8,
+  "base": null,
+  "pixel_scale": 12,
+  "markers": {
+    "grip": [
+      13,
+      15
+    ],
+    "muzzle": [
+      39,
+      9
+    ],
+    "pivot": [
+      13,
+      15
+    ],
+    "shoulder": null,
+    "elbow": null,
+    "hand": null,
+    "hip": null,
+    "knee": null
+  },
+  "ready": false,
+  "notes": "Derived from the revised AI-generated sheet, matching the supplied reference with requested edits. Automatically reduced grid interpretation; small details differ from the reference. Grip/pivot/muzzle are initial estimates requiring rig checks. Preview slot W05 confirmed from repository pixelkit-v2 manifest at ae7247a9b94aeb834342cd40e8aea2eb82308bb8. This does not add firing behaviours.\nRevision: weapons-v001. Status: draft. Pixel cleanup and anchor/scale review outstanding. Stored in isolated art/weapon-lab branch.",
+  "review": null,
+  "ghostOff": null,
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACoAAAAUCAYAAAD7s6+GAAAABHNCSVQICAgIfAhkiAAAAAFzUkdCAK7OHOkAAAP3SURBVEiJ7ZVNbFVFFMd/58zc1/dx32vBIglKmyhNURQVTEyEhUEk8SsYSTFoNCwQQ1y6dWvcuHDhwmiMiSEGxQVbSApqEExcAI0RUD40VaECpWn7+l7fvTPHRZ+lYkyAgJrIfzP349z7/83MOXPgpv5DqlYXvutcLVet5M5V8oLrbN4oL7nWD0ulRYvve+D+02naRQi5DH35ORey39wAuJ0Qri8m+KuIFZ/U3sLEInnWzCYeunB+RM6cGcY5TyG2DGAn2PWGvCo5X5sGDUCAJEBHgGL7uhTSUmcGyakb5a8zwyNeXdpUTYO6riBazgvFbmunhnR2966waOp8ik+6cUmKOo9POnBJCfXCVMtEXalHtJw7V82d78xVy7n3XeNXkWICiGo63dfTdwfg5r5AXbUxMPBSsvG550URvFc2DDxmxVJlfX2isctiS3Z8ulsE48TJ03jnSApKs5GRJAk9vbcRMmhlOUkCWRaJMVIqFejvX2orVvZHQdQMEwGLJm1nIBpEERQwE3GYCYu8l3qemysnW89NnPtwJlzTsLR/OU+vH0CdEHLoW3Inr2zbzNq1j7N3cDdbtrwqMUYbOvINkQgGIjJnvgbtezMolopYFIzIE+ueYsGtC0nTMtGMmAeCtf+hQoyRtFqjNd1k8+Znef+9T/hs+8fs2vYitU0bw1RrrODbPoYiZsK+wT1UqlX2fzWIWIufh09hsYkRLUlUDLNZMGwWUhDMRNSJff3dKHbx4Oy27T/0Y1h510IkGqqXsiBaREXIQ6SjVCRrNsjzFoN79zDy0/f4DetcKelq8UfVS5v24sXzNKfrNJr1mWeiHD12xFQ6RIE8DwYzqGBgKhDNUJF2sWdZQEL9T6UvroOQGyFvEkJAVRERzCBaQEw4fOhgS8WriLofTnxPNjYKQIh5NsvoXJr3L10uq1av4eCBLzh6dAjMzCwS42Qyr/v2TeNj4x/NLJwHcswCIg7MiBYRARFn/f3LpFqdz9n6NNEUi8L8Evbt4QOIc4fUrG5inYp4sMxEKkQZy7KxVUB0rjoZYy5FTbxhZ5thYvHsjJ2rhruXPRxe3vp6cL4rdz49f1mlOuc7s3vuXR3eePOD4AsLQt+SB4NIOahLbU6sqKtMqatMikvr4jobuFpDNJ26dMJcmzyAK8gLx44NbT9+fAhV/SVrTfbO3blCYd5oV2e3PrrmSXyixHwq/Doy/E6hUByenh59m0uHvMVQL19ucj06gAdoNcZ3zDQVCH9tfxJiXunp7aVWS9m3dw+uUDhZnxh57ToxXDloW3/XnyOGVKo1OjqKZK2caOHcPwl5pRLVSqZazpxPM+erebl6yzP/NtRN/W/0OzH/vNOgsXlRAAAAAElFTkSuQmCC",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACoAAAAUCAYAAAD7s6+GAAAABHNCSVQICAgIfAhkiAAAAAFzUkdCAK7OHOkAAABiSURBVEiJY2AYBaOAcrBCRuIPrcxmoqZhPNwa/6hp3igYBaOAgYHBpW7jX8eGTX9tqzf9JdeM2z1dcL0sVHMZGjBwcWf885/p/8ffDIyHW8kzg+/g9dFSZBSMglEwCkYaAACcmBbivTuP+wAAAABJRU5ErkJggg==",
+      "trim": null,
+      "guts": null,
+      "note": "Resting pose only."
+    }
+  ],
+  "updated": 1793468845054,
+  "by": "jarred",
+  "id": "w05_grid_weapons_v001"
+}

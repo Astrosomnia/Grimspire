@@ -1,0 +1,45 @@
+{
+  "forge": 1,
+  "code": "W04",
+  "name": "Dakka Bolter — grid study",
+  "w": 42,
+  "h": 20,
+  "fps": 8,
+  "base": null,
+  "pixel_scale": 12,
+  "markers": {
+    "grip": [
+      13,
+      15
+    ],
+    "muzzle": [
+      39,
+      9
+    ],
+    "pivot": [
+      13,
+      15
+    ],
+    "shoulder": null,
+    "elbow": null,
+    "hand": null,
+    "hip": null,
+    "knee": null
+  },
+  "ready": false,
+  "notes": "Derived from the revised AI-generated sheet, matching the supplied reference with requested edits. Automatically reduced grid interpretation; small details differ from the reference. Grip/pivot/muzzle are initial estimates requiring rig checks. Preview slot W04 confirmed from repository pixelkit-v2 manifest at ae7247a9b94aeb834342cd40e8aea2eb82308bb8. This does not add firing behaviours.\nRevision: weapons-v001. Status: draft. Pixel cleanup and anchor/scale review outstanding. Stored in isolated art/weapon-lab branch.",
+  "review": null,
+  "ghostOff": null,
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACoAAAAUCAYAAAD7s6+GAAAABHNCSVQICAgIfAhkiAAAAAFzUkdCAK7OHOkAAAU+SURBVEiJ3ZZfjN1VEcc/M/P73bvs3nu7bWB3SxssUJVWQSopNSmaoihoYvuCfTEYE198kJAoJvqCIqERHkj8Q0ygi9jWPxEhpIlRE6pYs6vSFKXVNBBLMA3tdmmh++fu3nt/Z874sJWHbm2aLj7o93FyZs7nzMw5Z+B/RLJE/5ppYy4kBIhAkUCQnAnRnGcLIN4J0GIpzmaNmY9s+ZTklPDsRASqgprqxMljnH7rrQ+eOnH04Pl81RptyBJBRJ4bWArHf9RljeE9Zo3qmrU3JrNGKsvGT8ty+ffLsvWdZnP1b6Hfh4av9quuWn/LeQ9YtDpq/X7f/Y+6Wsv/K5AbNnzyCivr6elnfu9mLS+K5S7a1zNrJrVWMm0m1QE3a7oVTVdruGojmTWSWiNZ0XIrL/cv3f2A333PDldrXBTohXpUgXzu+qJYXt38oc3S7XTYsuUOZttnGN35EE/+8NcUpeAeRIRERKgKOQc5pwU7GUGwomRwcBlmyratn8BzFUIgYggR7jP1c/c+X4+KaqOLmEISUAhHtBYiIjlXjI/9BrMmf3lxTIRaiA3K2NjzUSVHVTEtIoeTI+h05vnna/9AUECx0lA1RES2bd0WubYcrCFIwa7HHuGVl4/Igw98bd7TVP2CoGrN6t57H5SNN32AZquf6ZkZYSE7sn37p9m9ey/NZr8gRK+b2b79Y5DncM8UhQGQvCIC3Lvseea5hcBWF1I7btt8AwEEmanpOWxgiPTGnywY8tePH+PbO+4LIhZVenFGRel124yOPsYrR49gqoEo7hWIsH//8xJEqChFoYjUCSJ2jj5KxDwqJaI1Bpet4F3XvpuR9Tdw4s+77d/hXzgYftON1xMRMTJ8Bbkzw7rP7/Qje+7n74cPE+ECFwMaWcb/+DtOnTpNUZZEZGpliVsBGPOdbvT11VFTAgsiI5K563NfpFYvSVWi0+3w9FM/odM+w8TxN9AVmzxSh+hNSXd+GlWJKiVm222YO8bLP/56qIqsXLmSqjcbRdG36IItIldtpI0bN8vxiePUyxpHjx5BJEK0T0Qk7vrsF6TZakhyJ3uOxx//HoAE3RDpExEj53YQhmjB7bdvY75bkd35w/5fkb2D2QABZD+D2TLcp0yKgb2G3hpQ8zRTP5frPKWXWHPNe+XExASvvvoaIkTO8wV5XtSavR/t+oFAhIiBCDkqTHN8+SvfYnx8P5OTp7nzzs/Iww99M4jEyMhKAJ4Y/S5lbYDVq69m4uTrrF27jlqt5PChFwMgUntrWgRzAVBB4+c/G42ILmb94T5XezvbUvKe697Hh2+5ldNvTvCLp3YhWhBS0J6dZ+jyYWbbc4wMjYSqEqE8MfoIEJgN4D7H5OQxQKnXaxx66YWIHBf1xeq5BvepWkS7BqnPffptSCtak+vWr+P692/gto9/lGeffTL6G8t2FFZ0BKjVTLqpR+RAVcnu5Jyir6/1MChXrl4FFPR6rlXV00N/PaCRsZzbrUsCPasMpLMDRQCI6GC9fpleu/Y6XvrbIURaNjd78hsp9YxwTITsHojQqyogEBEkRFVKrly1BsJz9mkNnxH3Gcl5VoD5pYAulhS6YsUwa9aswpNTVTMAYVZGoPRSjpQciQgrznZUEJlsOTLkQETzpU5TFz09Ze/Evn2/lH379kJkylqTqtuNHB4iUK+XUpRFILLQ6Wp4TtLtvvlVtcY9Bw6MaV74GuVSYJc6j2Ll4LRQDty8aRMqSs6O58zBA+MEZE9T5VL3eEdAAaxotAUtgoCzKY3IOfvsovfw/17/Aj8ukLoBQFS/AAAAAElFTkSuQmCC",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACoAAAAUCAYAAAD7s6+GAAAABHNCSVQICAgIfAhkiAAAAAFzUkdCAK7OHOkAAABASURBVEiJ7c6xDYAgAAXRE7dyIkYgzGZDh6FlHcAJjB3VvfqS/0GS9CW1Nf6aY8eReI95Buj1oeQr7NiUJEkAvMMSCkGIh+dKAAAAAElFTkSuQmCC",
+      "trim": null,
+      "guts": null,
+      "note": "Resting pose only."
+    }
+  ],
+  "updated": 1793468843263,
+  "by": "jarred",
+  "id": "w04_grid_weapons_v001"
+}

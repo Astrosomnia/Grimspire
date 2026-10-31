@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "current_review": "weapons-v001",
+  "releases": [
+    {
+      "id": "weapons-v001",
+      "manifest": "releases/weapons-v001/manifest.json",
+      "status": "draft",
+      "live": false
+    }
+  ]
+}

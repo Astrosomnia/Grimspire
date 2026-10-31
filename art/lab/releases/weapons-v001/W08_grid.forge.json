@@ -1,0 +1,45 @@
+{
+  "forge": 1,
+  "code": "W08",
+  "name": "Thunder Fist — grid study",
+  "w": 42,
+  "h": 20,
+  "fps": 8,
+  "base": null,
+  "pixel_scale": 12,
+  "markers": {
+    "grip": [
+      5,
+      11
+    ],
+    "muzzle": [
+      39,
+      9
+    ],
+    "pivot": [
+      5,
+      11
+    ],
+    "shoulder": null,
+    "elbow": null,
+    "hand": null,
+    "hip": null,
+    "knee": null
+  },
+  "ready": false,
+  "notes": "Derived from the revised AI-generated sheet, matching the supplied reference with requested edits. Automatically reduced grid interpretation; small details differ from the reference. Grip/pivot/muzzle are initial estimates requiring rig checks. Preview slot W08 confirmed from repository pixelkit-v2 manifest at ae7247a9b94aeb834342cd40e8aea2eb82308bb8. This does not add firing behaviours.\nRevision: weapons-v001. Status: draft. Pixel cleanup and anchor/scale review outstanding. Stored in isolated art/weapon-lab branch.",
+  "review": null,
+  "ghostOff": null,
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACoAAAAUCAYAAAD7s6+GAAAABHNCSVQICAgIfAhkiAAAAAFzUkdCAK7OHOkAAAUeSURBVEiJ5ZZdiJ5HFcd/58zM8+67n/laDO62Qruuuo2V2JoYSJS2FwpS0JRYwSpNwQ8SUOiNF94ZepdeCJpatKiR1FRog6hobCImBEoSDGpDk2zNmnbzpt1t2DS72X3f531m5njxbi/82t2yd/qHuRmYOb9zZs5/Bv5fNDIyUnO+/5b6/kq1u1LX3/ZhfUu0txwZuXtYff2CCwPNImwo1fWWzvWU6vrKsbGx4t3EkdVADg8P16emWrP7939XenoLyQm66gULCxVOYc+erxnc4vkXTklXl2Pm7QXzTuXkyeN24HtPmgk+VW+viMG/Cy6p1QdPDK4f/OzVq6/cAGg0pmfWrNnI8eN/EO896hRRIcXMto9vByq55977OPzcs7SaTXbufEj2fuOrzNy4LiIm5JydG7CUbi4LqysBBMS5gbKqym2NxsS0cwNRfX9U7Su277hffXA4J4BBhqIo2PfEt8lZqKo2YkZvbzezN+fI1kIVNm3azDPP/EKC80m0bstBLFdRVe2rDBezRXfkyDEsRaqY+Pyu+1BX4FQxM2KKOOeAzOGf/xDnFMHR090PAlUVERWcq6PaJsbImTNn7NCzR2TXw59pL0e6JKi6vqb3znKa9wcOvMDZM6eJlRFTReH7qJtw7te/JBg4ERLQyomB0MVHdzzAyRPHOHXqN/LwF76Od56yWbIwf93MhHq9B+cD7RhZSa8sCSqIG7lzTC6Nn+fS+AUwRZ3ivSemFrdpP+fjW+5f121yG1OMEbMS0W6eO/wjTDyHDv3YIII6ms1b3H7bEEWthopWeRnQJTNR7Y0f+ODdMn7pZRAByxggKMOhm9EYeDFO/hvoR/x70vpP7uDEH3/P1m07eHT3V7BKWbtugEd3P0Sr1UTQxT3NUpqrAWkpluXuqGAGJL74yF5qRQ0zJOdkz//kKRbkPy8XEZIZhuFVOHv6LCEE2bz5HnJKFkIPd419mMce+yYp35THH9/bTHF2SV9dBtQsmwkiFMGTYoWqApm2JeY18QndmFpmOBEKlIUcmbAWvbFCMEQUkU6+sapw3ku7rKzVbnJ54iJbt24BW+UdNSxOTl7x4OTo0V+hKlhHlJK4d/eXqco2IXicd4BRlhXnDv6A0y+9BAgTE69yx50f6pCYkXPsjBRplSU+CCLLu+RymUhRrP1WyvGJoaH3YWaICBg0Gn/nkS/tIedEzhnVTuWcUzZsGOTJ/d8BEaRzLggqSAK8GbYYXDCr8tjYx+44f/7k5GpAAcT5/mrovbdLtg6QIbxx7U1GR99PSgnDEIQQAjlntmzZzs8OPgUYRc346cHfEpzgXY3P7dwOVke8ImRyzpZTms95YWApiJW8TIYZCKguNrhlUlrg4oVziAixqoipIqVO44rIYs2M+x/YxfFjL/K7o0e5PjODWWDN2nV8+lMPsm/f9xkdvUtAe5eDWAko6v3eRuP13Lh2hcbV13nj2qT5EN7yof7nV8dfoQgFlhedUDqgsrh9u2ySUkJQsmUQQ1S58tprTL/ZoKgFVm3476gqbzwNPP1PkxEBaur75nJOGoousmU8nuADSADSYqMYVaqwDJjg1RGcEmr1zkdCdEkPXTHof5EBZY5ztct/u9jCOYclRBzj4xew3DQz8uWJcW+WbG52lli1EXFMTTdsevoaf/3LnyST4uCG3nVTU7NLBlvVf/Qd9fcPrxOpBkLoahVFrYpxfmh6uvEykNX1zIB0C6JmOSOKCDnFuZ7FZP+39A/BHGFVk1jBsQAAAABJRU5ErkJggg==",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACoAAAAUCAYAAAD7s6+GAAAABHNCSVQICAgIfAhkiAAAAAFzUkdCAK7OHOkAAABkSURBVEiJ7c6xEUBAEEbht3tuRiqS6kALCtCEorShG8Uw41YokZ1A8H8FvHkgIvJLVhvYhuVqk3EU6HIL2Zj2NX2z92hqA3M/4lYIwALOVJ185bUB88ByAncCI6J8cyYiIvJrNwaAD6aBaetnAAAAAElFTkSuQmCC",
+      "trim": null,
+      "guts": null,
+      "note": "Resting pose only."
+    }
+  ],
+  "updated": 1793468848623,
+  "by": "jarred",
+  "id": "w08_grid_weapons_v001"
+}

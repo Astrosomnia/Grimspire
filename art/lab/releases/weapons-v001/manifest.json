@@ -1,0 +1,340 @@
+{
+  "schema": 1,
+  "release": "weapons-v001",
+  "created": "2026-10-31",
+  "base_game_commit": "ae7247a9b94aeb834342cd40e8aea2eb82308bb8",
+  "workspace_branch": "art/weapon-lab",
+  "live": false,
+  "integrated_commit": null,
+  "supersedes": null,
+  "assets": [
+    {
+      "code": "W01",
+      "name": "Plasma Mortar",
+      "design_key": "launcher",
+      "revision": "weapons-v001",
+      "status": "draft",
+      "game_mapping_source": "art/kits/pixelkit-v2/manifest.json",
+      "variants": {
+        "detail": {
+          "path": "W01_detail.forge.json",
+          "sha256": "4ae40e4326b470d4eeb466dc567f331332149afe8463d0dd08bc789c43f26705",
+          "native_size": [
+            370,
+            192
+          ],
+          "status": "draft",
+          "checks": {
+            "pixel_cleanup": false,
+            "scale_review": false,
+            "anchors_reviewed": false,
+            "in_game_preview": false
+          }
+        },
+        "grid": {
+          "path": "W01_grid.forge.json",
+          "sha256": "06a94b1b1a39de291239b0ddaa65e901cbac68e17b32235a0043a6111c320248",
+          "native_size": [
+            42,
+            20
+          ],
+          "status": "draft",
+          "checks": {
+            "pixel_cleanup": false,
+            "scale_review": false,
+            "anchors_reviewed": false,
+            "in_game_preview": false
+          }
+        }
+      },
+      "notes": "AI-assisted source design; automatic grid reduction requires cleanup."
+    },
+    {
+      "code": "W02",
+      "name": "Rail Carbine",
+      "design_key": "carbine",
+      "revision": "weapons-v001",
+      "status": "draft",
+      "game_mapping_source": "art/kits/pixelkit-v2/manifest.json",
+      "variants": {
+        "detail": {
+          "path": "W02_detail.forge.json",
+          "sha256": "362b2d524bae2776f2ff8bd1c7098778480cef92b00605949a48e4286dc4de46",
+          "native_size": [
+            460,
+            149
+          ],
+          "status": "draft",
+          "checks": {
+            "pixel_cleanup": false,
+            "scale_review": false,
+            "anchors_reviewed": false,
+            "in_game_preview": false
+          }
+        },
+        "grid": {
+          "path": "W02_grid.forge.json",
+          "sha256": "a51aa8d712b8fae4d272fdbcfa82b075688cb78a3e7e7231c22d042c4785fb35",
+          "native_size": [
+            42,
+            20
+          ],
+          "status": "draft",
+          "checks": {
+            "pixel_cleanup": false,
+            "scale_review": false,
+            "anchors_reviewed": false,
+            "in_game_preview": false
+          }
+        }
+      },
+      "notes": "AI-assisted source design; automatic grid reduction requires cleanup."
+    },
+    {
+      "code": "W03",
+      "name": "Scatter Gun",
+      "design_key": "scatter",
+      "revision": "weapons-v001",
+      "status": "draft",
+      "game_mapping_source": "art/kits/pixelkit-v2/manifest.json",
+      "variants": {
+        "detail": {
+          "path": "W03_detail.forge.json",
+          "sha256": "901415069f09b23138aeb291f2d7e5e6863f94da3791b5cbfa8af63de7379e1a",
+          "native_size": [
+            355,
+            167
+          ],
+          "status": "draft",
+          "checks": {
+            "pixel_cleanup": false,
+            "scale_review": false,
+            "anchors_reviewed": false,
+            "in_game_preview": false
+          }
+        },
+        "grid": {
+          "path": "W03_grid.forge.json",
+          "sha256": "ff46a30b2336f12deddbb9347e0553dee1e016d82ca74cfdd6805e1320981ad4",
+          "native_size": [
+            42,
+            20
+          ],
+          "status": "draft",
+          "checks": {
+            "pixel_cleanup": false,
+            "scale_review": false,
+            "anchors_reviewed": false,
+            "in_game_preview": false
+          }
+        }
+      },
+      "notes": "AI-assisted source design; automatic grid reduction requires cleanup."
+    },
+    {
+      "code": "W04",
+      "name": "Dakka Bolter",
+      "design_key": "dakka",
+      "revision": "weapons-v001",
+      "status": "draft",
+      "game_mapping_source": "art/kits/pixelkit-v2/manifest.json",
+      "variants": {
+        "detail": {
+          "path": "W04_detail.forge.json",
+          "sha256": "cf1337420fd48f95d16e8d476dfad54a5aa554fe1bd643164383fde4b08ec1d0",
+          "native_size": [
+            384,
+            205
+          ],
+          "status": "draft",
+          "checks": {
+            "pixel_cleanup": false,
+            "scale_review": false,
+            "anchors_reviewed": false,
+            "in_game_preview": false
+          }
+        },
+        "grid": {
+          "path": "W04_grid.forge.json",
+          "sha256": "79be7a67b636fe0687a2ec672125e9a19656080a2b6ee574b5f9126c9630791d",
+          "native_size": [
+            42,
+            20
+          ],
+          "status": "draft",
+          "checks": {
+            "pixel_cleanup": false,
+            "scale_review": false,
+            "anchors_reviewed": false,
+            "in_game_preview": false
+          }
+        }
+      },
+      "notes": "AI-assisted source design; automatic grid reduction requires cleanup."
+    },
+    {
+      "code": "W05",
+      "name": "Las Burner",
+      "design_key": "las_gun",
+      "revision": "weapons-v001",
+      "status": "draft",
+      "game_mapping_source": "art/kits/pixelkit-v2/manifest.json",
+      "variants": {
+        "detail": {
+          "path": "W05_detail.forge.json",
+          "sha256": "6af73e0d7003fabfd6c97f9a73c97a6c96a1a474da5fe9093e78d9f5e1679c36",
+          "native_size": [
+            478,
+            174
+          ],
+          "status": "draft",
+          "checks": {
+            "pixel_cleanup": false,
+            "scale_review": false,
+            "anchors_reviewed": false,
+            "in_game_preview": false
+          }
+        },
+        "grid": {
+          "path": "W05_grid.forge.json",
+          "sha256": "5c4583d2a0ba1531d67093047458f07548c5b91b4a09a33c0488d9ce96211b1d",
+          "native_size": [
+            42,
+            20
+          ],
+          "status": "draft",
+          "checks": {
+            "pixel_cleanup": false,
+            "scale_review": false,
+            "anchors_reviewed": false,
+            "in_game_preview": false
+          }
+        }
+      },
+      "notes": "AI-assisted source design; automatic grid reduction requires cleanup."
+    },
+    {
+      "code": "W06",
+      "name": "Promethium Flamer",
+      "design_key": "flamer",
+      "revision": "weapons-v001",
+      "status": "draft",
+      "game_mapping_source": "art/kits/pixelkit-v2/manifest.json",
+      "variants": {
+        "detail": {
+          "path": "W06_detail.forge.json",
+          "sha256": "ce2bcbfb6b353d42f0e0bfde0b6e7fc889737c04f5ff92b0e86f043aa725a0d0",
+          "native_size": [
+            376,
+            160
+          ],
+          "status": "draft",
+          "checks": {
+            "pixel_cleanup": false,
+            "scale_review": false,
+            "anchors_reviewed": false,
+            "in_game_preview": false
+          }
+        },
+        "grid": {
+          "path": "W06_grid.forge.json",
+          "sha256": "456c0e2af167fee4f6583345fb9679ee7dd6b7d280021457de4310f6cf8c0960",
+          "native_size": [
+            47,
+            20
+          ],
+          "status": "draft",
+          "checks": {
+            "pixel_cleanup": false,
+            "scale_review": false,
+            "anchors_reviewed": false,
+            "in_game_preview": false
+          }
+        }
+      },
+      "notes": "Existing flamer retained."
+    },
+    {
+      "code": "W07",
+      "name": "Chainblade",
+      "design_key": "chainsword",
+      "revision": "weapons-v001",
+      "status": "draft",
+      "game_mapping_source": "art/kits/pixelkit-v2/manifest.json",
+      "variants": {
+        "detail": {
+          "path": "W07_detail.forge.json",
+          "sha256": "8db71b9af84a34c60dd161c30113150eb69b46e4f4b56ca7c355b20c13ff3d9e",
+          "native_size": [
+            435,
+            125
+          ],
+          "status": "draft",
+          "checks": {
+            "pixel_cleanup": false,
+            "scale_review": false,
+            "anchors_reviewed": false,
+            "in_game_preview": false
+          }
+        },
+        "grid": {
+          "path": "W07_grid.forge.json",
+          "sha256": "9e5bc914ad31ec7b56d223a3815e081f6d3253a54b0bfac742e43164103557f0",
+          "native_size": [
+            42,
+            20
+          ],
+          "status": "draft",
+          "checks": {
+            "pixel_cleanup": false,
+            "scale_review": false,
+            "anchors_reviewed": false,
+            "in_game_preview": false
+          }
+        }
+      },
+      "notes": "AI-assisted source design; automatic grid reduction requires cleanup."
+    },
+    {
+      "code": "W08",
+      "name": "Thunder Fist",
+      "design_key": "claw",
+      "revision": "weapons-v001",
+      "status": "draft",
+      "game_mapping_source": "art/kits/pixelkit-v2/manifest.json",
+      "variants": {
+        "detail": {
+          "path": "W08_detail.forge.json",
+          "sha256": "83303fd9cbf0f67f756d20e504d47ee1bbfaa75cb8065fb127eb42a0d9271929",
+          "native_size": [
+            281,
+            185
+          ],
+          "status": "draft",
+          "checks": {
+            "pixel_cleanup": false,
+            "scale_review": false,
+            "anchors_reviewed": false,
+            "in_game_preview": false
+          }
+        },
+        "grid": {
+          "path": "W08_grid.forge.json",
+          "sha256": "90ca1d59cf07e8804cdc7ec984404509bd169c0a3b6cb6fa628c29f430303480",
+          "native_size": [
+            42,
+            20
+          ],
+          "status": "draft",
+          "checks": {
+            "pixel_cleanup": false,
+            "scale_review": false,
+            "anchors_reviewed": false,
+            "in_game_preview": false
+          }
+        }
+      },
+      "notes": "AI-assisted source design; automatic grid reduction requires cleanup."
+    }
+  ]
+}

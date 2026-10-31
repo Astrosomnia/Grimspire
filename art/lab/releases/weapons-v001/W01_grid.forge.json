@@ -1,0 +1,45 @@
+{
+  "forge": 1,
+  "code": "W01",
+  "name": "Plasma Mortar — grid study",
+  "w": 42,
+  "h": 20,
+  "fps": 8,
+  "base": null,
+  "pixel_scale": 12,
+  "markers": {
+    "grip": [
+      13,
+      15
+    ],
+    "muzzle": [
+      39,
+      9
+    ],
+    "pivot": [
+      13,
+      15
+    ],
+    "shoulder": null,
+    "elbow": null,
+    "hand": null,
+    "hip": null,
+    "knee": null
+  },
+  "ready": false,
+  "notes": "Derived from the revised AI-generated sheet, matching the supplied reference with requested edits. Automatically reduced grid interpretation; small details differ from the reference. Grip/pivot/muzzle are initial estimates requiring rig checks. Preview slot W01 confirmed from repository pixelkit-v2 manifest at ae7247a9b94aeb834342cd40e8aea2eb82308bb8. This does not add firing behaviours.\nRevision: weapons-v001. Status: draft. Pixel cleanup and anchor/scale review outstanding. Stored in isolated art/weapon-lab branch.",
+  "review": null,
+  "ghostOff": null,
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACoAAAAUCAYAAAD7s6+GAAAABHNCSVQICAgIfAhkiAAAAAFzUkdCAK7OHOkAAAWfSURBVEiJ7ZZdbFxHFYC/c+7s7t31ep3GFo6Dk7gpJk0FpEJIFCIhELwglAhBVSSKgAAPoBaokJAqKkRFiVAFoqU8RaIiUvOSIHhB5U+qWtG0lIDb0KZJnVrKT+v8uI6deL3evffOzOHBdurYxtAgxAvn6d7RnHO+mfMzB/4v/7709/d3JVr3qvXin+2R67QtznUXETEBDBCzLIRmfQ0dl7jGnFlQUEQUzBsiiJQ49KvHlRjsjtt3Re8vl1cov1XAvr5t9UtTr18+eOhxIBEATYzbP707Xb/+/Y0NG5qdarVqiwojI902NHRh8OzZM2O1roY89thBiiwQolHrKsuBA/v5/W9/SSwiFoIkanpTX1/36ORk83pBpbu7/9eXpl7b/Y277+PwM39BFYIPDA5uwawjM80Xp2dmKiAK5PMOXGT8XNXKlYZ85Ut38cc/PEGSKKpKUXgunD8viava2NgoP9/7Vd69zmS8U5kEKtcFWqncsG+u3d4lkuBKjpITOnmGc47Xx08h0sWBAwfJs4BZxDnFgMJ70kpZ7vzsJ8jynHJZxUwseE8lLTE727QQcurVlJ7U+NuET7b3auf8Mv+rgSrcv/B5P0AEUE0aschFRPjJQ99HJBHRklnoICKIJDzy0x/TVUpIyQmWU8SIJyELJUqlKkePHiFaNBW5Wh4XJy5SFAXPP3+EWmk+YwRbAXUNaKMx+LnZuSv7sYcEEhPp5p3Dt2yv1fzpV06+1rAMKqUKj/zsUSnyQOEL7vnmnajrAoy/HnmKrfWMfglSGOZKkInSrg5hCCEEVIRoBmIIgqKYCc45fBFhoTjXBG21rjx6220fkru+dg8+muzZs5uxsVdfiTHDAOcqdDot9u79nnXVu8WHgCv3EEOBUfDFL3+Ll37zI/50PuiizY8MxGCNHuL4G7Q7c4jMAwtCuVKh8BmqgsVIaZFGVnYjXfpjmFyanODpZ5/lC5/fRQwdfrH/EPv2HeIdN28n+DaJK5OmKd4XFoqcgYG3k5ZTRKq8MHKYLF5jkrkolMt1Q4SLF8YZHz/L5BsXmJ6aJOu08T4nWgSFmWKezwdZAboiR0UVMVuo2hoPP/wgANMT06jOt7cN/YNLjmhs2bSVPz/3JEf//iKD9Qo7+kIoiWEiTGaOalZIoo6BjZu5YV3f1eAmiZLlGZ32nJTTHruSO3qruZ/OXVzsGqveKEA0I3Ei8z3SI6qk1QpZ3jYzv7DHE4oCCxFQonkwz45b30vvTe/Dbd6JDe5ENu2kPPAejp84hi9yjr98DFHwPhCDUeSevN1GVawoPLv23Es7VJlszVWWc624URWdT3YCoIyMHMEsNxWNIGpW8MzhJ0RUsZhjZog4RKuIOnzhBdRUlanLlzhz6qTFONcFEAtrPvXk7xIRMTMzERWzICD0b+yn1WzR8Qmr1dMyUDERJQYMhMRVEAvBh1Ya3lTWxDXywcEh++AHPizD24b5wQPfxeIcL4w8jZkzREyIBkKMb+uG0zlgKqpmZmYkMc7qm0DrG3sfuPccpsQ4u+ozvCz00YRgSSKAYhbxYbC+YNAAc27dRE+jl603DstHP/ZxHvzht4FoW27cxqbNwyBYDDPVEGbLITQrcDoDUK29JKJy99fvEyML1/qemom+1R3XmBWuudGuWs+to6Mnjo2efJnE1VCJl2M4fjWr03Tj5iy70nPzLe/ik5/6DOcunpEQqkElnjhz6tXtoIJYXHqwq7FK3KxqiTzPUK0RYr48vKu1z9VBm81zo0vXwrLNaVrWvEikKHKSRPHBzAgEP7NjySQWV5vKLJD6kNFodGO23PK/luVVv+apiqLVMQsMbdnK+nU9qAKExUkvLj63q9kxfD1xJWrVFJlvk2v6+o9Fk1pLtZ4nridPXE/+FmZaSZJGW5N6nqa93/mvQv4v5R+vUbd2RJXpvwAAAABJRU5ErkJggg==",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACoAAAAUCAYAAAD7s6+GAAAABHNCSVQICAgIfAhkiAAAAAFzUkdCAK7OHOkAAABiSURBVEiJ7dBLCoAwDATQSStFBG/rKTyEZ3Qh/kKJFwhCF5Ui85YDQ4YARPRP6zJmLw/fT3nX7+rmzQ2VKG7e1Thmc8h6GjAkpOmKJd2s5uZVPqqHSYAA211eFn8oERFRWx4bvRR7e3jXAwAAAABJRU5ErkJggg==",
+      "trim": null,
+      "guts": null,
+      "note": "Resting pose only."
+    }
+  ],
+  "updated": 1793468838806,
+  "by": "jarred",
+  "id": "w01_grid_weapons_v001"
+}

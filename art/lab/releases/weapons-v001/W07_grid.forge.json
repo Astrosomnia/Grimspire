@@ -1,0 +1,45 @@
+{
+  "forge": 1,
+  "code": "W07",
+  "name": "Chainblade — grid study",
+  "w": 42,
+  "h": 20,
+  "fps": 8,
+  "base": null,
+  "pixel_scale": 12,
+  "markers": {
+    "grip": [
+      6,
+      11
+    ],
+    "muzzle": [
+      39,
+      10
+    ],
+    "pivot": [
+      6,
+      11
+    ],
+    "shoulder": null,
+    "elbow": null,
+    "hand": null,
+    "hip": null,
+    "knee": null
+  },
+  "ready": false,
+  "notes": "Derived from the revised AI-generated sheet, matching the supplied reference with requested edits. Automatically reduced grid interpretation; small details differ from the reference. Grip/pivot/muzzle are initial estimates requiring rig checks. Preview slot W07 confirmed from repository pixelkit-v2 manifest at ae7247a9b94aeb834342cd40e8aea2eb82308bb8. This does not add firing behaviours.\nRevision: weapons-v001. Status: draft. Pixel cleanup and anchor/scale review outstanding. Stored in isolated art/weapon-lab branch.",
+  "review": null,
+  "ghostOff": null,
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACoAAAAUCAYAAAD7s6+GAAAABHNCSVQICAgIfAhkiAAAAAFzUkdCAK7OHOkAAASdSURBVEiJ7ZRbiJ1XFcd/a+99zved+5ycM53O5WTamcwkmUzalIo2CNZnIWgpSrGibyKCwkARavBB8VIELwWtigbfNJF6eVSxVENr0diQWJM2tiYzyUQ7cTqTODPn8n177+XDxGKDQl6V+T3uvR5+e/3X2rDDDv9HODe0Zmxl4Aq7BsaUM+uafcAAkhaHjhWLzS8CUi6PHEuS+lMAabn1feeqRwGpVUa/0mhMPAyYcrn5s3K5+XFASqXW15Ok8TGAanXsyVLaeuK/OYiqCsCRI0fK/6kgrbR+DpXw4Y98yv/kp8+H48d/HURKXiTJxDT800+fDNYYD8Z/7rPf8q7QCJDqyZNnQrVa81Dq/faFVzy4AAV97vkL3rqWt67tz/7xkrc28WD8L3512ltX9tPT+x8C5E1BgKGh4fs2NvNTwXfBCM6m4vMbDlBAbGFoUzVP9s7My8zsHN1ulyzzaP8fXD91FkF1ib60p8bAONCIdQneZ+R5n6nZe8j7GX9dvkih4AgRQsgY9LuA4AoJlUqVodY4g6111tZXuLJ4NVpbjt6vlYHgADY2s1OHDt0v73vvB/nusSe5uryEdY1cNd9ONm7J57/wPT5z9KMQPJuvXaKhRZpYXtJrFuBBMx7c5H261dsUZy0iBmMNIeQ8+sijnDjxYyY6++j3uohYnCuQJilIJHqlm3V56htfZWHhKJXaMMtLfzPn/nRODszfO/D+mnMAaJTcBxYX/0ytWufw4QexxolxDmsNzz7zDGfP/AGRIqXXlng5rtkrt4zGNe1xh/dSStO3BGZMkeM/+BFBFWsslWodI3KzIup2aEq5WGLhk58GAgKICHP3HIidiXp9cREcgKpqDFGyPNDtbnLhwitA3J4M9aj29Ny5s2KkQEDflHtY7gx/V+W6BHTfXpwzRBQ0ghgiUDCGGLl5Jtubh4AR1Ri376zcfJZCMAiK6oCY9WTpcv9F4IAAGFvvW2sL7fYYKytLKrARwmYbCIBxrrmlmhejKsO2yFhMyDQnQylO3U10RQb9Hp3dd5GkZYL35FlGoZzS2tXm8qWLpGkZUJxzqEbJsxwlaqGY4oPH5xlpWiLL+jz2+GN84KH3q8YuIarRuGX+FZKUSsOfwGgRuNrbWv3hW4N9txPzu96hQ4flgQfeJd/59hMYkxJCF3FViFsYkwiUVHUTkQzYFrOSEamJaqZCD8UhYkCdIImq9jHSQ6micQMoIKaiMeQ+hOvlm9HeHsZW16en7/cLC18KxlZCvd56+/j47OOd3XuyRmPsNyPtziN3Tx3Mk6Tx0sTE/pm5g+/0rlDrj3Sm5/fuf4cHWa8M3XHvvgOH82az82ytdde+2b1vC83W2DdHJ/Z8qDM55ycm5788MjLztcnJubxab71wq4O7TdeYJIlUak1Q1YmJkTPnz58/3W6M/tLawasrq2ubbeLp4eHx1eXl89dH8smZ6nhrfWXxLxtm1B/sdGZvXLly4fXVcnOeZuH1jYu7twp68eBUOrr44p5a1n718u9XrzYvMRdl1xs3ThRs42V447YbeUtXawNja4N68873/PtHvMMOO/yP8U/QtPj4XQUfgQAAAABJRU5ErkJggg==",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACoAAAAUCAYAAAD7s6+GAAAABHNCSVQICAgIfAhkiAAAAAFzUkdCAK7OHOkAAABaSURBVEiJY2AYBaNgFFAfrFr1n3mg3TAKvpv1/f1jP+0vre1hIUfTZ+Ouv0z//zOwMTMxMLEzMjCxk2UMSYAsG1gZGRmYWRgYWE+WjqbpUTAKRsEoGAUjFAAAl9UOCMhw6r0AAAAASUVORK5CYII=",
+      "trim": null,
+      "guts": null,
+      "note": "Resting pose only."
+    }
+  ],
+  "updated": 1793468847468,
+  "by": "jarred",
+  "id": "w07_grid_weapons_v001"
+}

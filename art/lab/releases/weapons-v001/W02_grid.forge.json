@@ -1,0 +1,45 @@
+{
+  "forge": 1,
+  "code": "W02",
+  "name": "Rail Carbine — grid study",
+  "w": 42,
+  "h": 20,
+  "fps": 8,
+  "base": null,
+  "pixel_scale": 12,
+  "markers": {
+    "grip": [
+      13,
+      15
+    ],
+    "muzzle": [
+      39,
+      9
+    ],
+    "pivot": [
+      13,
+      15
+    ],
+    "shoulder": null,
+    "elbow": null,
+    "hand": null,
+    "hip": null,
+    "knee": null
+  },
+  "ready": false,
+  "notes": "Derived from the revised AI-generated sheet, matching the supplied reference with requested edits. Automatically reduced grid interpretation; small details differ from the reference. Grip/pivot/muzzle are initial estimates requiring rig checks. Preview slot W02 confirmed from repository pixelkit-v2 manifest at ae7247a9b94aeb834342cd40e8aea2eb82308bb8. This does not add firing behaviours.\nRevision: weapons-v001. Status: draft. Pixel cleanup and anchor/scale review outstanding. Stored in isolated art/weapon-lab branch.",
+  "review": null,
+  "ghostOff": null,
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACoAAAAUCAYAAAD7s6+GAAAABHNCSVQICAgIfAhkiAAAAAFzUkdCAK7OHOkAAAOYSURBVEiJ7ZVNb1ZFFICfMzP33r4fLUKtCI00kDSgAiayUAi4oAYXLiTGjVDcaFwqblz4A/gP6soEF+6NRo0kGkOEGmhMwIQQ0Chv24VF+vF+zZ1zXLxtQypYqSExkSe5yb13ztecM+cMPOB/ityrQggD82qpIjjAzCyVqq3K/QnvNr/3qpBlfZVDz41Jp9tldHRUTn/0QR7LrJPSXAWwpeffIqvtrGTU+XoUgkGylOb7Vgvu3XukdunS2ZtI8KotRKpARHCodXCuYgCm0fdeQNAS5wKqqLX+afWc9/WbKS1s+Eugzte7H77/ia/Va5w4ccSGh3eOxZhuQWRqqjEhooKrihB5et+zvP3Wu7Q7EYcRMk8IGd57jh0/ilkHwWMrWUiARyQAipkCuuTeA4ZZQsSt/BMRVNuAIBRlWf5RLJXeybmJsyIOsqxfdu184oyqId4xNdXg5VdeI8sKnHMURR9ffvU5V65cRUiEEFBNqBpYyWeffkdR5JQp4bwQu0qRZyQ1suBFnIAJSdUAgndSltFSQrx3FvKACMROQrzx/OFDPTkAEWi12latVSTGLllRY3FxgXq1BuJoNBqcv7Yo8caZ5W0Thl9M+7bB2W++4MDBMXxwmAZef+NVsrzAVEVECC7YtetX2TaynZSiIYLgcM5hZoBZL3OYATG2mZmeAckocrsQ46aD8HsvUDMzxBAHZlhj6lcuXpjEUERLms1FYqtr8vALCb0FBuXcLMgmQNBkiAAoN367juFx4s0wBMMwfvn5Ws9eb1pgKLC876V2MAXxvbDpWLttTzk/PauJ2nLXO1VIyUxVmZz8AdPu1PDw8DPTM/LTj5MTNYeABMxlmCacdjj/vZoPGefPfds7ixJ069ahLc1mUQLk+WIRY387y+ZTf39/OT09v2FgwC80m3me51LEKO08r5eDg2VsNJrVXtJU5hdmZ7LgngwhzY2MLNy8fHn5+Pp6eWz8ZBo/8U5yrpa8ry33ggDeZw+Vux4/kF46+mYCSY9s3lGOjOwpna/H2+RYz1y+A3JXO3m+4T3naqW4alkUGy8u1UQAKYrNDaSvPD5+Mp3++OsUssGUZYMd7wfa65nD6yUAdLu3TgGnADqd5u3rrkztof37D8uO7aMMDW0ErBvj7H2/iVbj1hRwmTy65TF279lNSkbS7po6a3D30q6h9LfrztebgssBzBLgTXVuvSVf9md3uCbX+n7AA/7T/Anim6MiyyII0gAAAABJRU5ErkJggg==",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACoAAAAUCAYAAAD7s6+GAAAABHNCSVQICAgIfAhkiAAAAAFzUkdCAK7OHOkAAAA3SURBVEiJ7c7BDQAQFATR/Ui2H22pRVlKcpSoQXCbd57DSACAG3EStzFXJMku6tX53xYAAHhkAwLpBAJ4FgoDAAAAAElFTkSuQmCC",
+      "trim": null,
+      "guts": null,
+      "note": "Resting pose only."
+    }
+  ],
+  "updated": 1793468840242,
+  "by": "jarred",
+  "id": "w02_grid_weapons_v001"
+}

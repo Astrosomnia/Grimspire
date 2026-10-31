@@ -1,0 +1,45 @@
+{
+  "forge": 1,
+  "code": "W06",
+  "name": "Promethium Flamer — grid study",
+  "w": 47,
+  "h": 20,
+  "fps": 8,
+  "base": null,
+  "pixel_scale": 12,
+  "markers": {
+    "grip": [
+      14,
+      13
+    ],
+    "muzzle": [
+      45,
+      6
+    ],
+    "pivot": [
+      14,
+      13
+    ],
+    "shoulder": null,
+    "elbow": null,
+    "hand": null,
+    "hip": null,
+    "knee": null
+  },
+  "ready": false,
+  "notes": "Existing flamer retained from the earlier approved package. Automatically reduced grid interpretation; small details differ from the reference. Grip/pivot/muzzle are initial estimates requiring rig checks. Preview slot W06 confirmed from repository pixelkit-v2 manifest at ae7247a9b94aeb834342cd40e8aea2eb82308bb8. This does not add firing behaviours.\nRevision: weapons-v001. Status: draft. Pixel cleanup and anchor/scale review outstanding. Stored in isolated art/weapon-lab branch.",
+  "review": null,
+  "ghostOff": null,
+  "frames": [
+    {
+      "body": "data:image/png;base64,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",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAUCAYAAAAdmmTCAAAABHNCSVQICAgIfAhkiAAAAAFzUkdCAK7OHOkAAAA3SURBVEiJY2AYBaNgFIwCegBGahsYsfnXf2T+Cl82qtsBA0y0MngUjIJRMApGwSgYBaNgFJAGACzkBATkPbF7AAAAAElFTkSuQmCC",
+      "trim": null,
+      "guts": null,
+      "note": "Resting pose only."
+    }
+  ],
+  "updated": 1793468846331,
+  "by": "jarred",
+  "id": "w06_grid_weapons_v001"
+}
