@@ -188,6 +188,7 @@ dialog.wide{max-width:min(1180px,96vw);width:96vw}
     <div class="grp"><button id="oMirror" title="Mirror drawing across the vertical centre">Mirror</button><button id="oFillShape" title="Lines and boxes drawn solid">Solid boxes</button><button id="oAllLayers" title="Select, copy, move and fill affect all three layers">All layers</button></div>
     <div class="grp"><span class="lbl">Ghost</span><select id="oGhost" aria-label="Ghost trooper"><option value="off">Off</option><option value="beside">Beside</option><option value="behind">Behind</option></select><button id="oGhostMove" title="Drag the ghost trooper on the plate" hidden>Move</button><button id="oGhostReset" title="Put the ghost back on the feet line" hidden>Reset</button></div>
     <div class="grp"><button id="oLit" title="See it lit like the game">Lit</button><button id="oWrap" title="Seamless: drawing wraps at the edges, tiles shown around">Wrap</button><button id="bRig" title="Assemble parts and test the aim and walk">Rig</button></div>
+    <div class="grp" title="View only: never included in your exported artwork"><label for="boardBg">Board</label><select id="boardBg" aria-label="Drawing board background"><option value="check">Transparency grid</option><option value="solid">Solid colour</option></select><input id="boardColor" type="color" value="#88939f" aria-label="Board background colour" style="width:30px;height:25px;padding:0"><button id="boardLight">Light</button><button id="boardDark">Dark</button></div>
     <div class="grp" id="litCtl" hidden><span class="lbl">Lights</span><span id="litAdd" class="swrow"></span><span class="lbl">Reach</span><input id="litReach" type="range" min="20" max="240" value="90" style="width:80px" aria-label="Light reach"><button id="litSky" class="on">Sky</button><button id="litClear">Clear</button></div>
     <div class="grp" id="blastCtl" hidden><span class="lbl">Crater</span><input id="blastR" type="range" min="2" max="30" value="7" style="width:80px" aria-label="Crater size"><button id="blastReset">Fill craters</button></div>
     <div class="grp" id="cmpCtl" hidden><span class="lbl" id="cmpLbl">Comparing</span><button id="cmpDone">Done</button></div>
@@ -248,7 +249,7 @@ dialog.wide{max-width:min(1180px,96vw);width:96vw}
     <section class="pan" data-tab="sprite">
       <header><h2>Preview</h2><span class="note num" id="pvInfo"></span></header>
       <canvas id="pv" width="10" height="10"></canvas>
-      <div class="row"><span class="lbl">Backdrop</span><select id="pvBg" aria-label="Preview backdrop"><option value="stone">Stone</option><option value="sump">Sump</option><option value="clear">Clear</option></select><button id="pvGlow" class="on">Glow</button></div>
+      <div class="row"><span class="lbl">Backdrop</span><select id="pvBg" aria-label="Preview backdrop"><option value="stone">Stone wall</option><option value="sump">Sump water</option><option value="neutral">Neutral grey</option><option value="board">Board colour</option><option value="clear">Transparent</option></select><button id="pvGlow" class="on">Glow</button></div>
       <div class="row"><span class="lbl">In game</span><canvas id="pvGame" width="10" height="10"></canvas><span class="note" id="pvGameNote"></span></div>
       <div class="row"><span class="lbl">Silhouette</span><canvas id="pvSil" width="10" height="10" style="image-rendering:auto"></canvas><span class="note">Should still read as one solid shape</span></div>
       <div class="row"><span class="lbl">Factions</span><div id="pvFac" class="row" style="gap:4px"></div><button id="pvFacEm" title="Tint the emissive layer to each squad, as the game does for troopers">Tint glow</button></div>
@@ -592,6 +593,8 @@ let markType='grip';
 function setMarker(x,y){if(!inDoc(x,y))return;pushDoc();const m=doc.markers[markType];doc.markers[markType]=(m&&m[0]===x&&m[1]===y)?null:[x,y];buildMarkers();changed()}
 
 // ---------- render ----------
+let boardMode=store.get('grimspire.artlab.boardMode')==='solid'?'solid':'check';
+let boardColor=store.get('grimspire.artlab.boardColor')||'#88939f';if(!/^#[0-9a-f]{6}$/i.test(boardColor))boardColor='#88939f';
 let checker=null;
 function getChecker(){if(checker)return checker;const c=mkc(16,16),g=c.getContext('2d');g.fillStyle='#101217';g.fillRect(0,0,16,16);g.fillStyle='#0b0c10';g.fillRect(0,0,8,8);g.fillRect(8,8,8,8);checker=ctx.createPattern(c,'repeat');return checker}
 let ghostImg=null,ghostEImg=null,ghostDark=null;
@@ -600,7 +603,7 @@ const offPal=new Set();
 function render(){needs=false;ctx.setTransform(DPR,0,0,DPR,0,0);ctx.clearRect(0,0,SW,SH);ctx.fillStyle='#06070a';ctx.fillRect(0,0,SW,SH);
   const z=view.z,ox=view.ox,oy=view.oy,W=doc.w*z,H=doc.h*z;const f=doc.frames[fi];
   // plate
-  ctx.save();ctx.fillStyle=lit?'#07090e':getChecker();ctx.translate(ox,oy);ctx.fillRect(0,0,W,H);ctx.restore();
+  ctx.save();ctx.fillStyle=boardMode==='solid'?boardColor:lit?'#07090e':getChecker();ctx.translate(ox,oy);ctx.fillRect(0,0,W,H);ctx.restore();
   if(lit){ctx.save();ctx.globalCompositeOperation='lighter';for(const L of lights){const X=ox+L.x*z,Y=oy+L.y*z,R=litReach*z;const gr=ctx.createRadialGradient(X,Y,0,X,Y,R);gr.addColorStop(0,L.c+'40');gr.addColorStop(1,L.c+'00');ctx.fillStyle=gr;ctx.fillRect(X-R,Y-R,R*2,R*2)}ctx.restore()}
   if(trace&&trace.on&&!trace.above)drawTrace();
   // ghost trooper
@@ -670,7 +673,25 @@ function drawPreview(now){requestAnimationFrame(drawPreview);if(!doc)return;cons
     g2.drawImage(layerCanvas(f.body),0,0,w2,h2);g2.drawImage(tintCanvas(layerCanvas(f.trim),col2),0,0,w2,h2);const e=layerCanvas(f.emis);if(facEm){g2.drawImage(tintCanvas(e,col2),0,0,w2,h2)}else g2.drawImage(e,0,0,w2,h2)})}
 let pvKey='';
 let needsPv=true,pvGlow=true;
-function bg(g,W,H){const m=$('#pvBg').value;g.clearRect(0,0,W,H);if(m==='clear')return;if(m==='stone'){g.fillStyle='#0b0c11';g.fillRect(0,0,W,H)}else{const gr=g.createLinearGradient(0,0,0,H);gr.addColorStop(0,'#0b1220');gr.addColorStop(.7,'#06080d');gr.addColorStop(1,'#0d1a1c');g.fillStyle=gr;g.fillRect(0,0,W,H)}}
+// View backgrounds only: deterministic texture; never painted into sprite layers.
+function bg(g,W,H){
+  const m=$('#pvBg').value;g.clearRect(0,0,W,H);if(m==='clear')return;
+  if(m==='board'||m==='neutral'){g.fillStyle=m==='board'?boardColor:'#88939f';g.fillRect(0,0,W,H);return}
+  if(m==='stone'){
+    g.fillStyle='#56616a';g.fillRect(0,0,W,H);
+    const bw=44,bh=24;for(let row=0,y=0;y<H;y+=bh,row++)for(let x=-(row%2)*bw/2;x<W;x+=bw){
+      g.fillStyle=(row+Math.floor(x/bw))%3===0?'#69747c':'#5b666f';g.fillRect(x+2,y+2,bw-3,bh-3);
+      g.fillStyle='#303b44';g.fillRect(x,y,bw,2);g.fillRect(x,y,2,bh);
+      g.fillStyle='#849098';g.fillRect(x+3,y+3,bw-6,1);
+      g.fillStyle='#424e57';g.fillRect(x+10,y+12,8,1);g.fillRect(x+17,y+13,1,4);
+    }
+  }else{
+    const gr=g.createLinearGradient(0,0,0,H);gr.addColorStop(0,'#254850');gr.addColorStop(.55,'#173c40');gr.addColorStop(1,'#426359');g.fillStyle=gr;g.fillRect(0,0,W,H);
+    for(let y=7;y<H;y+=13)for(let x=(y%3)*9-20;x<W;x+=49){g.fillStyle='#67968a';g.fillRect(x,y,25,1);g.fillStyle='#2a5556';g.fillRect(x+10,y+3,30,2)}
+    g.strokeStyle='#88ad78';g.lineWidth=1;for(let i=0;i<4;i++){g.beginPath();g.ellipse(W*(i+.4)/4,H*(.2+(i%3)*.24),8+i*2,2,0,0,Math.PI*2);g.stroke()}
+  }
+}
+
 
 // ---------- frames strip ----------
 function buildStrip(){const s=$('#strip');s.textContent='';doc.frames.forEach((f,i)=>{const d=document.createElement('div');d.className='cel'+(i===fi?' cur':'')+(f.note?' noted':'');d.title=f.note||'';
@@ -1021,6 +1042,11 @@ async function seed(){newDoc('Dakka Bolter',42,20,null,'W04');doc.markers.grip=[
 // ---------- wire up ----------
 function wire(){
   buildRail();buildPal();buildLayers();
+  $('#boardBg').value=boardMode;$('#boardColor').value=boardColor;
+  const boardChange=()=>{boardMode=$('#boardBg').value;boardColor=$('#boardColor').value;store.set('grimspire.artlab.boardMode',boardMode);store.set('grimspire.artlab.boardColor',boardColor);need();needsPv=true};
+  $('#boardBg').onchange=boardChange;$('#boardColor').oninput=()=>{$('#boardBg').value='solid';boardChange()};
+  $('#boardLight').onclick=()=>{$('#boardColor').value='#c4cbd1';$('#boardBg').value='solid';boardChange()};
+  $('#boardDark').onclick=()=>{$('#boardColor').value='#303741';$('#boardBg').value='solid';boardChange()};
   $$('[data-bs]').forEach(b=>b.onclick=()=>setBsize(+b.dataset.bs));
   const tog=(id,get,set)=>{const b=$(id);b.onclick=()=>{set(!get());b.classList.toggle('on',get());need()}};
   tog('#oMirror',()=>mirror,v=>mirror=v);tog('#oFillShape',()=>solidShapes,v=>solidShapes=v);tog('#oAllLayers',()=>allLayers,v=>allLayers=v);tog('#oGrid',()=>showGrid,v=>showGrid=v);

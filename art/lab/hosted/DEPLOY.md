@@ -80,10 +80,6 @@ host, it reports deployment unverified. Do not claim public release on that basi
 
 No Pages configuration or production game host has been changed by this work.
 
-## First-build trigger
+### Inviting an artist
 
-Jarred verified the repository connection, branch, root directory and commands in
-Cloudflare. Build history was empty. This documentation commit is the first new
-push after that connection and is intended to trigger its initial Git build.
-The active Worker still served Hello World at this checkpoint. Watch build history
-for the result; do not treat this commit as proof of a successful deployment.
+In Cloudflare → grimspire-forge → Settings → Runtime variables and secrets, add `COLLABORATOR_GITHUB_IDS` as a regular variable containing comma-separated numeric GitHub account IDs. Confirm the intended usernames and resolve their IDs first. They then open the Forge and sign in with GitHub. Remove an ID to revoke access. Leave `ALLOWED_GITHUB_USER_ID` as Jarred’s owner ID: only that account may review or publish releases. Collaborators do not need a separate App installation, keys, local setup, repository write access or Cloudflare access.
