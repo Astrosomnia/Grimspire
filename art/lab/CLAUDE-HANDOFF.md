@@ -175,3 +175,20 @@ and repository connection before calling authentication resolved.
 
 Hosted tests now cover both RSA formats, newline/quoted clipboard variants and
 non-disclosure in diagnostics (17 passing tests at this checkpoint).
+
+## GitHub transport follow-up — 2026-10-31
+
+Live /health on deployed commit 6221f65ba51bbe0c24ca1829e468083bcea20030
+confirmed private_key.readable=true, format=pkcs1 and configured=true. The key
+material Jarred entered is readable; no credential replacement is indicated.
+
+Jarred then encountered the generic backend error during shared-library startup.
+The GitHub client's native fetch reference had been stored as an object method,
+which supplies the client instance as its receiver. Cloudflare workerd requires
+the native global receiver; the corrected transport explicitly preserves it.
+A regression test models that receiver requirement (Node's ordinary fetch mock
+did not enforce it). Transport errors now have fixed, non-secret categories;
+unexpected backend errors include operation/type instead of the old catch-all.
+
+19 backend tests pass. The receiver fix needs confirmation in the user's live
+repository session after deployment; key parsing itself was verified live.

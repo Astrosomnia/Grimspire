@@ -70,3 +70,11 @@ Baseline refreshed to `2974b27b8d230ed6d22042fe6e91f37e3cdbf9d4` after a concurr
 - Editor now labels the failed connection explicitly instead of staying Connecting.
 - 17 hosted tests pass. Actual key readability/connection still needs post-deploy
   verification; no private secret was accessed and main is untouched.
+
+## Hosted GitHub transport follow-up — 2026-10-31
+
+- Live key diagnostics confirmed that the configured PKCS#1 key is readable.
+- Fixed native fetch receiver preservation in the GitHub client for Cloudflare.
+- Added regression tests for receiver-sensitive fetch and safe transport errors.
+- Unexpected backend errors now identify operation/type without exposing secrets.
+- 19 hosted tests pass; full live repository connection still requires verification.
