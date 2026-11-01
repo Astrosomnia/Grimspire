@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "id": "20261101T033937Z-5663b7e1",
+  "created": "2026-11-01T03:39:38.470Z",
+  "author": {
+    "id": 144634800,
+    "login": "Astrosomnia"
+  },
+  "base_main": "eb12d9ff299b7deb773ead33c988d49f5b6eef97",
+  "source_lab_commit": "9cd50deb815b8bdede039785096f1c016799b2f0",
+  "notes": "Test Chainblade — grid study as W07 · Chainsword",
+  "selected_slot": "W07",
+  "original_code": "W07",
+  "variant": "grid",
+  "slots": [
+    "W01",
+    "W02",
+    "W03",
+    "W04",
+    "W05",
+    "W06",
+    "W07",
+    "W08"
+  ],
+  "files": {
+    "game.html": "c8aafef54ab7cf5a99c790f192448d29a82cdb14d5f03187b97fa777189b2e80",
+    "source.html": "18028ff31b5ea02bb440efdb1d3feec7704f2dba75ee45d73bc86908347d298b",
+    "runtime.js": "626b857db3804a82edf8c454935f6613433b1540887e35012c8e8b8f50a6822d",
+    "payload.json": "ef4e404391503144fcd6df32107557dd456635ee5aeadc32936297e486b9fff1"
+  },
+  "status": "draft"
+}
