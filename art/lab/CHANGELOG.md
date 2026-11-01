@@ -236,3 +236,14 @@ First playable review of the straight foreground gun arm and glove on all six gu
 - Native canvas checks pass across eight weapons, four scales, two facings, aim/pose combinations in both legacy and independent-scale modes; grip fixed, ranged muzzle exact, arm independent.
 - Local browser preview with simulated storage verified claw 0.8 save/reopen and rifle remaining at 1.2. Signed-in hosted save walkthrough remains unverified.
 - Application/UI and sandbox renderer only. No artwork or public-game main files changed; new sizes require the usual saved test and exact-release approval.
+
+## Shared shoulder pivot — 2026-11-01
+
+- Rotate all eight current held-weapon test slots and the straight arm around the trooper's shoulder, using the existing full-source shoulder/body-anchor coordinates.
+- Keep Grip as the hand attachment. Resolve the assembly pivot from the arm shoulder rather than overwriting weapon art's standalone markers.
+- Keep shoulder, glove, grip, scaled weapon and muzzle transforms consistent through aim, facing, pose and arm/weapon scales. Trace firing obstruction from the shoulder so an extended hand cannot bypass a nearby wall.
+- Keep the arm over gun/blade grips; put it behind the claw's replacement gauntlet. Thrown and unregistered tools retain their separate path.
+- A01 shoulder-v002 changes only Pivot metadata to Shoulder; pixels unchanged. Register a new immutable source version under the same asset family and retain the previous version.
+- Fix Rig Reach to extend from a fixed shoulder; apply each chosen part's scale and keep its hand/grip connected.
+- Checks: 36 hosted tests, category checks, native renderer alignment/shoulder/contact tests across all eight held assets, and native Rig tests at multiple aim/reach/weapon scales pass. Inspected a 24-pose render using the actual trooper/leg atlases.
+- No saved snapshots or public-game main files changed. Artwork remains for exact saved-build visual review; throwing-arm art/animation is a separate next step.

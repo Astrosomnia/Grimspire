@@ -1368,14 +1368,20 @@
       "category": "Arms",
       "archived": false,
       "current": {
-        "": "single-gun-arm-v001"
+        "": "single-gun-arm-shoulder-v002"
       },
       "members": [
         {
           "id": "single-gun-arm-v001",
           "state": "",
-          "role": "current",
+          "role": "history",
           "legacy_hash": "c500c30423660afc927576a11bf125b05c77bd730e760d2a4c1644916677c4f4"
+        },
+        {
+          "id": "single-gun-arm-shoulder-v002",
+          "state": "",
+          "role": "current",
+          "legacy_hash": "f0aaa413ecaf10126719357fb34f8705e22b0551602a71beb8e60837ca0e0672"
         }
       ]
     },

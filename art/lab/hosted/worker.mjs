@@ -82,7 +82,7 @@ export async function save(g,body,user){check(SLOTS[body.slot],'Choose a test ta
   d.game_scale=opts.scale;
   const retained={},identity=await retainAsset(g,d,head,retained);Object.assign(d,{asset_id:identity.asset_id,state_key:identity.state_key,source_version:identity.id});
   payload={...payload,revision:id,selected_slot:body.slot,assets:{...payload.assets,[body.slot]:d},settings:{...opts,scale:1}};
-  if(!payload.assets.ARM){const arm=await g.file(ROOT+'/catalog/single-gun-arm-v001.forge.json',head,true);if(arm)payload.assets.ARM={...JSON.parse(arm),game_scale:1}}
+  if(!payload.assets.ARM){const arm=await g.file(ROOT+'/catalog/single-gun-arm-shoulder-v002.forge.json',head,true)||await g.file(ROOT+'/catalog/single-gun-arm-v001.forge.json',head,true);if(arm)payload.assets.ARM={...JSON.parse(arm),game_scale:1}}
   let source=await g.file('index.html',main);const [pinned,custom,runtime]=await Promise.all([g.file('art/lab/sandbox/base.json',head),g.file('art/lab/sandbox/game.html',head),g.file('art/lab/sandbox/runtime.js',head)]);
   const base=JSON.parse(pinned);if(base.commit===main)source=custom;else{const original=await g.file('index.html',base.commit);check(clean(original).trimEnd()===clean(custom).trimEnd(),'Sandbox game source has custom edits based on older main. Claude must reconcile those edits and update sandbox/base.json before saving.')}
   const game=build(source,runtime,payload),raw={'game.html':game,'source.html':source,'runtime.js':runtime,'payload.json':json(payload)};const files={};for(const[n,v]of Object.entries(raw))files[n]=await sha(v);

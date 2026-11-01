@@ -36,19 +36,36 @@ prop = function(k,ax,ay,s,glow,dark){
   ctx.save();ctx.translate((oldGrip[0]-ax)*PX*(s||1),(oldY-ay)*PX*(s||1));
   labDraw(a,grip,s||1,glow);ctx.restore();
 };
-// One rig for drawing and firing: scale around the sprite grip, keeping the
-// original hand position fixed. PNG load timing must never affect simulation.
+// The shoulder is the assembly pivot. Grip remains the attachment point at the hand.
+// Read anchors before PNG loading so drawing and simulation share one deterministic rig.
+const labHeldSlots=new Set(Object.values(labSlots));
+// Full trooper source: shoulder [300,324], body anchor [250,661], 12px art grid.
+const labBodyShoulder=[(300-250)/12*PX,(324-661)/12*PX];
+let labDrawingTrooper=null;
+if(typeof drawTrooper==='function'){
+  const drawBody=drawTrooper;
+  drawTrooper=function(t){const prior=labDrawingTrooper;labDrawingTrooper=t;try{return drawBody(t)}finally{labDrawingTrooper=prior}};
+}
+function labArmHand(k){
+  if(!labHeldSlots.has(k)||!labDocs.has(k))return null;
+  const arm=labDocs.get('ARM'),shoulder=arm?.markers.shoulder||arm?.markers.pivot||[0,3],hand=arm?.markers.hand||[14,3];
+  const z=PX*(arm?labAssetScale(arm):1);
+  return [(hand[0]-shoulder[0])*z,(hand[1]-shoulder[1])*z];
+}
 function labWeaponPoint(k,point){
   const d=labDocs.get(k),old=SPR.P[k],grip=d?.markers.grip||d?.markers.pivot;
   if(!d||!old||!grip||!point)return null;
   const g=old.g||[old.r[2]/SPR.up*.3,old.r[3]/SPR.up/2];
-  const handY=(g[1]-(old.m?old.m[1]:g[1]))*PX,z=PX*labAssetScale(d);
-  return [(point[0]-grip[0])*z,handY+(point[1]-grip[1])*z];
+  const hand=labArmHand(k)||[0,(g[1]-(old.m?old.m[1]:g[1]))*PX],z=PX*labAssetScale(d);
+  return [hand[0]+(point[0]-grip[0])*z,hand[1]+(point[1]-grip[1])*z];
 }
 function labWeaponWorldPoint(t,k,point){
   const local=labWeaponPoint(k,point);if(!local)return null;
+  return labAimWorldPoint(t,local);
+}
+function labAimWorldPoint(t,local){
   const a=t.aim||0,c=Math.cos(a),s=Math.sin(a);
-  let x=1.5+local[0]*c-local[1]*s,y=-12+local[0]*s+local[1]*c;
+  let x=labBodyShoulder[0]+local[0]*c-local[1]*s,y=labBodyShoulder[1]+local[0]*s+local[1]*c;
   // Match drawTrooper's leg drop, squash, facing, tilt and water bob exactly.
   if(typeof legPose==='function'&&typeof RIG!=='undefined'){
     const[an,af,bn,bf]=legPose(t),R=RIG,K=typeof TROOP_H==='number'?TROOP_H/((SPR.M.feet-50)*SPR.M.sc):SPR.k;
@@ -68,7 +85,7 @@ if(typeof origin==='function'){
     const doc=labDocs.get(k),muzzle=doc?.markers.muzzle;
     if(!muzzle)return labOriginalOrigin(t);
     const point=labWeaponWorldPoint(t,k,muzzle);if(!point)return labOriginalOrigin(t);
-    const grip=doc.markers.grip||doc.markers.pivot,hand=labWeaponWorldPoint(t,k,grip);
+    const grip=doc.markers.grip||doc.markers.pivot,hand=labArmHand(k)?labAimWorldPoint(t,[0,0]):labWeaponWorldPoint(t,k,grip);
     // A longer barrel must not allow shooting through a nearby wall.
     if(hand&&typeof isSolid==='function'){
       const dx=point[0]-hand[0],dy=point[1]-hand[1],n=Math.max(1,Math.ceil(Math.hypot(dx,dy)*2));
@@ -77,20 +94,16 @@ if(typeof origin==='function'){
     const[dx,dy]=aimVec(t);return[point[0],point[1],dx,dy];
   };
 }
-// A single straight forearm and glove, drawn over the weapon grip. It uses
-// trooper pixel scale, independent of weapon enlargement; no shoulder/elbow rig.
+// One straight shoulder-anchored arm. Weapon scale cannot stretch the sleeve.
+// Thrown tools are excluded; their arm and motion belong to a separate rig.
 function labDrawGunHand(k){
-  if(!['mortar','rail','scatter','bolter','las','flamer'].includes(k))return;
-  const m=SPR.P[k];if(!m?.g)return;
-  const handY=(m.g[1]-(m.m?m.m[1]:m.g[1]))*PX;
+  const hand=labArmHand(k);if(!hand)return;
   const art=labArt.get('ARM');
   if(art){
-    const d=art.doc,anchor=d.markers.hand||d.markers.pivot||[d.w-1,d.h/2];
-    ctx.save();ctx.translate(0,handY);
-    // Cancel weapon scale: the arm retains the trooper's pixel size.
-    labDraw(art,anchor,1,false);ctx.restore();return;
+    const d=art.doc,anchor=d.markers.shoulder||d.markers.pivot||[0,3];
+    labDraw(art,anchor,1,false);return;
   }
-  ctx.save();ctx.translate(0,handY);ctx.scale(PX,PX);
+  ctx.save();ctx.translate(hand[0],hand[1]);ctx.scale(PX,PX);
   ctx.globalCompositeOperation='source-over';ctx.globalAlpha=1;
   ctx.shadowColor='transparent';ctx.shadowBlur=0;ctx.shadowOffsetX=0;ctx.shadowOffsetY=0;
   ctx.imageSmoothingEnabled=false;
@@ -112,10 +125,24 @@ function labDrawGunHand(k){
 // Existing chain animation belongs to the old blade silhouette.
 const labOriginalWeapon=drawWeapSpr;
 drawWeapSpr=function(k,rimOnly){
+  const hand=labArmHand(k),m=SPR.P[k];
+  ctx.save();
+  if(hand){
+    // The game enters at its former hand pivot; translate back through aim space
+    // to the calibrated body shoulder without changing the body's own renderer.
+    const a=labDrawingTrooper?.aim||0,dx=labBodyShoulder[0]-1.5,dy=labBodyShoulder[1]+12;
+    ctx.translate(dx*Math.cos(a)+dy*Math.sin(a),-dx*Math.sin(a)+dy*Math.cos(a));
+  }
+  // A gauntlet replaces the glove, so its arm goes underneath it.
+  if(hand&&!rimOnly&&k==='fist')labDrawGunHand(k);
+  ctx.save();
+  if(hand&&m){const gp=m.g||[0,0],oldY=(gp[1]-(m.m?m.m[1]:gp[1]))*PX;ctx.translate(hand[0],hand[1]-oldY)}
   let drawn;
   if(k==='chain'&&labArt.has(k)){const m=SPR.P[k];prop(k,m.g[0],m.m?m.m[1]:m.g[1],1,!rimOnly,true);drawn=true}
   else drawn=labOriginalWeapon(k,rimOnly);
-  if(drawn&&!rimOnly)labDrawGunHand(k);
+  ctx.restore();
+  if(drawn&&!rimOnly&&k!=='fist')labDrawGunHand(k);
+  ctx.restore();
   return drawn;
 };
 

@@ -1,0 +1,32 @@
+{
+  "forge": 1,
+  "code": "A01",
+  "name": "Gun arm · shared shoulder pivot",
+  "w": 18,
+  "h": 8,
+  "fps": 6,
+  "base": null,
+  "markers": {
+    "hand": [
+      14,
+      3
+    ],
+    "shoulder": [
+      0,
+      3
+    ],
+    "pivot": [
+      0,
+      3
+    ]
+  },
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAAICAYAAAD0g6+qAAAAqElEQVR4nGNk5xb6z0AAcPGJwNnfPr3BkP/59R0jCwMDA4OemQODnKIqToP2bV/PEB2fyDB7cjdDU9dEhvv3HzJYmBowMDAwMKQnxTEwMDAwsMAUP7p/m5DDUMCJ0xdQ+Ewk6WZgYKgry2c4f+4sw/lzZ+GuQnHR21fPCRqSmlvKMHtyN4OhkTGGqxjJCWwDc3sGBgYGhsz0ZIb0pDiGn1/fMRL2C70BALV6MZu5KuIRAAAAAElFTkSuQmCC"
+    }
+  ],
+  "notes": "One sprite. Hand anchors to weapon grip; drawn in front of gun. No elbow required.\nShoulder-pivot revision: one rigid arm/weapon assembly rotates at the shoulder; the hand attaches to the weapon Grip. Artwork pixels unchanged. Thrown weapons use a separate future rig.",
+  "ready": false,
+  "pixel_scale": 12,
+  "updated": 1793517582822
+}

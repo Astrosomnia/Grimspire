@@ -97,3 +97,21 @@ those inherited sizes per asset, then applies the chosen scale only to the selec
 asset. The foreground arm keeps its previous human-scale size unless edited itself.
 Weapon grips stay fixed; muzzle effects and firing origins use the same per-asset
 transform as the drawn weapon. Lighting settings remain shared across the build.
+
+## Shoulder-pivot held arm
+
+The eight held weapon test slots now rotate with the straight arm around the
+calibrated trooper shoulder. **Grip** is the contact point for the glove, not the
+assembly's rotation centre. A weapon's standalone Pivot marker remains available
+for unattached art; it does not override the shared shoulder when a held arm is used.
+Weapon scale can change without moving the glove off the grip or stretching the arm.
+
+A01's catalog default is `single-gun-arm-shoulder-v002`: identical pixels to v001,
+with Pivot and Shoulder at the same point. The old source and all user saves remain
+available under Versions & sources. In Rig, Single arm uses Shoulder (or Pivot as a
+fallback) and Hand; Reach extends the straight sprite from its planted shoulder.
+The claw draws over the sleeve/glove; the other held weapons keep the foreground arm.
+
+Thrown items do not use this arm. A separate throwing arm, release point and motion
+are a future art/animation task. New tests use this renderer; already-saved test
+builds retain their original renderer. Save & test again to review the new assembly.
