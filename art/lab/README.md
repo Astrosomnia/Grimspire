@@ -84,3 +84,16 @@ The arm inherits gun aim/facing and stays at trooper scale when weapons enlarge.
 These Forge changes do not promote the arm to the public game's main branch.
 
 The agreed next art steps are recorded in [ROADMAP.md](ROADMAP.md).
+
+## Per-asset game scale
+
+Open an asset, then Test in game / Shared Forge. **This asset’s scale** affects
+only that open asset. Save asset remembers it with the sprite version; Save
+revision / Save & test also carries it into the test build and exact release.
+Opening another asset restores its own scale. New assets start at 1.
+
+Older builds retain their original shared sizing. The first new test save freezes
+those inherited sizes per asset, then applies the chosen scale only to the selected
+asset. The foreground arm keeps its previous human-scale size unless edited itself.
+Weapon grips stay fixed; muzzle effects and firing origins use the same per-asset
+transform as the drawn weapon. Lighting settings remain shared across the build.

@@ -84,3 +84,17 @@ test('Single arm saves beside weapons and survives the next weapon-only build',a
 });
 
 await import('./catalog.test.mjs');
+
+test('Selected asset scale is independent; legacy shared sizing and human-scale arm migrate without modifying history',async()=>{
+ const g=new Repository(),legacy={assets:{W01:structuredClone(doc),W08:structuredClone(doc),ARM:structuredClone(doc)},settings:{...DEFAULTS,scale:1.2}},before=structuredClone(legacy);
+ const oldSnapshot=g.snapshot.bind(g),legacyId='20261101T000000Z-12345678';
+ g.snapshot=async(id,ref)=>id===legacyId?{'payload.json':json(legacy)}:oldSnapshot(id,ref);
+ g.refs[LAB]=await g.treeCommit(g.refs[LAB],{[ROOT+'/state.json']:json({current:legacyId,revisions:[],integrations:[]})},'legacy fixture');
+ const claw=body(g);claw.slot='W08';claw.settings.scale=.8;const first=await save(g,claw,user);
+ const one=JSON.parse((await g.snapshot(first.revision,first.commit))['payload.json']);
+ assert.equal(one.assets.W08.game_scale,.8);assert.equal(one.assets.W01.game_scale,1.2);assert.equal(one.assets.ARM.game_scale,1);assert.equal(one.settings.scale,1);assert.deepEqual(legacy,before,'Old snapshot remains unchanged');
+ const rifle=body(g);rifle.slot='W01';rifle.settings.scale=1.5;const second=await save(g,rifle,user);
+ const two=JSON.parse((await g.snapshot(second.revision,second.commit))['payload.json']);assert.equal(two.assets.W01.game_scale,1.5);assert.equal(two.assets.W08.game_scale,.8);assert.equal(two.assets.ARM.game_scale,1);
+ const {openAsset}=await import('./worker.mjs');const saved=await openAsset(g,second.commit,second.id);assert.equal(saved.game_scale,1.5);
+ for(const invalid of [0,-1,4.1,NaN,Infinity,'1.2',null])assert.throws(()=>sprite({...doc,game_scale:invalid},'ASSET'),/asset scale/);
+});

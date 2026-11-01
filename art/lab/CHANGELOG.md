@@ -225,3 +225,14 @@ First playable review of the straight foreground gun arm and glove on all six gu
 - Browser checked 60-frame artwork at 900px, 1363px and 1800px: the strip fills available space, clips a partial next frame and keeps the sidebar inside its viewport.
 - UI only; all existing artwork and saved builds retained unchanged.
 - Correct the migration test fixture to use original mapped registrations, independent of newer user drafts. New draft saves must not invalidate initial-default assertions or block application deployment.
+
+## Per-asset game scale — 2026-11-01
+
+- Replace the shared scale control with This asset’s scale, persisted on sprite versions, recovery/export, test payloads and exact releases.
+- Keep unedited assets at their effective sizes when migrating an older shared-scale build; preserve the arm's previous human-scale treatment. Old immutable snapshots are unchanged.
+- Use each asset's scale in artwork drawing and the weapon grip/muzzle transform, including origins before PNGs finish loading and wall blocking.
+- Restore the opened asset's scale in Forge, including historical revisions and older registered art. New assets start at 1. Lighting remains shared.
+- 36 hosted tests pass, including legacy migration, independent scale retention, sprite validation and version round trips.
+- Native canvas checks pass across eight weapons, four scales, two facings, aim/pose combinations in both legacy and independent-scale modes; grip fixed, ranged muzzle exact, arm independent.
+- Local browser preview with simulated storage verified claw 0.8 save/reopen and rifle remaining at 1.2. Signed-in hosted save walkthrough remains unverified.
+- Application/UI and sandbox renderer only. No artwork or public-game main files changed; new sizes require the usual saved test and exact-release approval.

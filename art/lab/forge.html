@@ -434,7 +434,7 @@ let doc=null;      // {id,name,w,h,fps,base,markers:{grip:[x,y]|null,...},frames
 let fi=0, layer='body';
 const emptyPx=()=>new Uint8ClampedArray(doc.w*doc.h*4);
 const newFrame=()=>({body:emptyPx(),emis:emptyPx(),trim:emptyPx(),guts:emptyPx(),note:''});
-function newDoc(name,w,h,base,code){doc={id:null,code:code||'',name,w,h,fps:8,base:base??null,markers:noMarks(),notes:'',review:null,frames:[]};doc.frames.push(newFrame());fi=0;cache.clear();undoS=[];redoS=[];float=null;sel=null;}
+function newDoc(name,w,h,base,code){doc={id:null,game_scale:1,code:code||'',name,w,h,fps:8,base:base??null,markers:noMarks(),notes:'',review:null,frames:[]};doc.frames.push(newFrame());fi=0;cache.clear();undoS=[];redoS=[];float=null;sel=null;}
 // canvases for each frame layer, rebuilt when dirty
 const cache=new Map(); // key: pixel array -> {c, dirty}
 function layerCanvas(px){let e=cache.get(px);if(!e){e={c:mkc(doc.w,doc.h),dirty:true};cache.set(px,e)}
@@ -774,11 +774,11 @@ function saveTraceMeta(withImg){if(!trace)return;const m={x:trace.x,y:trace.y,s:
 
 // ---------- serialise ----------
 function pxToURL(px){let any=false;for(let i=3;i<px.length;i+=4)if(px[i]){any=true;break}if(!any)return null;const c=mkc(doc.w,doc.h);c.getContext('2d').putImageData(new ImageData(cp(px),doc.w,doc.h),0,0);return c.toDataURL('image/png')}
-function serialise(){return{forge:1,asset_id:doc.asset_id||null,state_key:doc.state_key||'',source_version:doc.source_version||doc.id||null,legacy_hash:doc.legacy_hash||null,code:doc.code||'',name:doc.name,w:doc.w,h:doc.h,fps:doc.fps,base:doc.base,pixel_scale:ART,markers:doc.markers,ready:!!doc.ready,notes:doc.notes||'',review:doc.review||null,ghostOff:doc.ghostOff||null,frames:doc.frames.map(f=>({body:pxToURL(f.body),emis:pxToURL(f.emis),trim:pxToURL(f.trim),guts:pxToURL(f.guts),note:f.note||''})),updated:Date.now(),by:'jarred'}}
+function serialise(){return{forge:1,...(doc.game_scale==null?{}:{game_scale:doc.game_scale}),asset_id:doc.asset_id||null,state_key:doc.state_key||'',source_version:doc.source_version||doc.id||null,legacy_hash:doc.legacy_hash||null,code:doc.code||'',name:doc.name,w:doc.w,h:doc.h,fps:doc.fps,base:doc.base,pixel_scale:ART,markers:doc.markers,ready:!!doc.ready,notes:doc.notes||'',review:doc.review||null,ghostOff:doc.ghostOff||null,frames:doc.frames.map(f=>({body:pxToURL(f.body),emis:pxToURL(f.emis),trim:pxToURL(f.trim),guts:pxToURL(f.guts),note:f.note||''})),updated:Date.now(),by:'jarred'}}
 async function urlToPx(u,w,h){const a=new Uint8ClampedArray(w*h*4);if(!u)return a;const img=await loadImg(u);const c=mkc(w,h),g=c.getContext('2d');g.drawImage(img,0,0);a.set(g.getImageData(0,0,w,h).data);return a}
 async function deserialise(o,id){if(!o||!o.w||!o.h||!Array.isArray(o.frames))throw new Error('That isn’t Forge sprite data');
   const frames=[];for(const f of o.frames)frames.push({body:await urlToPx(f.body,o.w,o.h),emis:await urlToPx(f.emis,o.w,o.h),trim:await urlToPx(f.trim,o.w,o.h),guts:await urlToPx(f.guts,o.w,o.h)});
-  doc={id:id||null,asset_id:o.asset_id||null,state_key:o.state_key||'',source_version:o.source_version||id||null,legacy_hash:o.legacy_hash||null,name:o.name||'Untitled',w:o.w,h:o.h,fps:o.fps||8,base:o.base??null,markers:Object.assign(noMarks(),o.markers||{}),ready:!!o.ready,notes:o.notes||'',review:o.review||null,ghostOff:o.ghostOff||null,savedAt:o.updated||0,frames};
+  doc={id:id||null,game_scale:o.game_scale??null,asset_id:o.asset_id||null,state_key:o.state_key||'',source_version:o.source_version||id||null,legacy_hash:o.legacy_hash||null,name:o.name||'Untitled',w:o.w,h:o.h,fps:o.fps||8,base:o.base??null,markers:Object.assign(noMarks(),o.markers||{}),ready:!!o.ready,notes:o.notes||'',review:o.review||null,ghostOff:o.ghostOff||null,savedAt:o.updated||0,frames};
   frames.forEach((f,i)=>{f.note=(o.frames[i]&&o.frames[i].note)||''});
   {const pc=splitCode(o.code,o.name);doc.code=pc[0];doc.name=pc[1]}
   fi=0;cache.clear();undoS=[];redoS=[];sel=null;float=null;updDocUI();buildStrip();fit();updZoom();palCheck();need()}

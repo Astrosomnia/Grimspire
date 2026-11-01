@@ -12,9 +12,11 @@ const labReady = Promise.all(Object.entries(LAB_PAYLOAD.assets).map(async ([slot
   const frames=await Promise.all(doc.frames.map(async f=>({body:await labImage(f.body),trim:await labImage(f.trim),emis:await labImage(f.emis)})));
   const k=labSlots[slot]||slot;labArt.set(k,{doc,frames});
 })).then(()=>{window.GRIMSPIRE_ART_READY=true}).catch(e=>{window.GRIMSPIRE_ART_ERROR=e.message;console.error(e)});
+// Old payloads retain their shared scale; the foreground arm was always human-sized.
+const labAssetScale=d=>d.game_scale??(d===labDocs.get('ARM')?1:labSettings.scale);
 function labDraw(a,anchor,size=1,glow=true){
   const {doc,frames}=a,f=frames[Math.floor(time*Math.max(1,doc.fps||8))%frames.length];
-  ctx.save();ctx.imageSmoothingEnabled=false;ctx.scale(PX*size*labSettings.scale,PX*size*labSettings.scale);
+  ctx.save();ctx.imageSmoothingEnabled=false;ctx.scale(PX*size*labAssetScale(doc),PX*size*labAssetScale(doc));
   const x=-anchor[0],y=-anchor[1];
   if(f.body){
     // Isolate the darkening mask on a cached canvas, so it cannot tint scenery.
@@ -40,7 +42,7 @@ function labWeaponPoint(k,point){
   const d=labDocs.get(k),old=SPR.P[k],grip=d?.markers.grip||d?.markers.pivot;
   if(!d||!old||!grip||!point)return null;
   const g=old.g||[old.r[2]/SPR.up*.3,old.r[3]/SPR.up/2];
-  const handY=(g[1]-(old.m?old.m[1]:g[1]))*PX,z=PX*labSettings.scale;
+  const handY=(g[1]-(old.m?old.m[1]:g[1]))*PX,z=PX*labAssetScale(d);
   return [(point[0]-grip[0])*z,handY+(point[1]-grip[1])*z];
 }
 function labWeaponWorldPoint(t,k,point){
@@ -86,7 +88,7 @@ function labDrawGunHand(k){
     const d=art.doc,anchor=d.markers.hand||d.markers.pivot||[d.w-1,d.h/2];
     ctx.save();ctx.translate(0,handY);
     // Cancel weapon scale: the arm retains the trooper's pixel size.
-    labDraw(art,anchor,1/labSettings.scale,false);ctx.restore();return;
+    labDraw(art,anchor,1,false);ctx.restore();return;
   }
   ctx.save();ctx.translate(0,handY);ctx.scale(PX,PX);
   ctx.globalCompositeOperation='source-over';ctx.globalAlpha=1;
