@@ -269,6 +269,20 @@
       "h": 20,
       "frame_count": 60,
       "category": "Weapons"
+    },
+    {
+      "id": "asset-6fac081d8afee5aca617d171",
+      "path": "art/lab/hosted/library/asset-6fac081d8afee5aca617d171.forge.json",
+      "sha256": "6fac081d8afee5aca617d171ea9022f0a9b9936928716ea98aea2f57b917d65a",
+      "asset_id": "asset-w02",
+      "state_key": "",
+      "asset_name": "Rail Carbine",
+      "code": "W02",
+      "name": "Rail Carbine — charge sweep",
+      "w": 42,
+      "h": 20,
+      "frame_count": 40,
+      "category": "Weapons"
     }
   ]
 }
