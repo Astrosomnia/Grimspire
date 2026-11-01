@@ -1,0 +1,106 @@
+{
+  "schema": 1,
+  "id": "20261101T014956Z-14b37379",
+  "created": "2026-11-01T01:49:56.490Z",
+  "author": {
+    "id": 144634800,
+    "login": "Astrosomnia"
+  },
+  "base_main": "2974b27b8d230ed6d22042fe6e91f37e3cdbf9d4",
+  "source_lab_commit": "f4e774c52a4b0ccd30fc3ea54641f97a5a160e2e",
+  "notes": "Promote the eight user-approved animated weapon alternatives: mortar pulse, rail sweep, twin scatter chambers, Dakka stagger, four-lamp red las sequence, furnace flamer, chainblade edge chase and fist knuckle surge. Preserve current game source and the latest saved render settings.",
+  "selected_slot": "W01",
+  "original_code": "W01",
+  "variant": "custom",
+  "slots": [
+    "W01",
+    "W02",
+    "W03",
+    "W04",
+    "W05",
+    "W06",
+    "W07",
+    "W08"
+  ],
+  "files": {
+    "game.html": "8345a7a139d137b7bb21e29f603155e988c799c1398f10e82f8e6f47ab3c0b82",
+    "source.html": "a56bf436c01e95c5b9646c35a3f311d7518aaea22836e9b5a23555755cb82f73",
+    "runtime.js": "91426c83441a072c47662f588828f00055b27141096f74d4c92a1069729c2d0d",
+    "payload.json": "adc9c2118b8565000d33c13445c8d47307d5afa052f4807ade54da1a9311daa6"
+  },
+  "status": "art approved; integration pending",
+  "approval": {
+    "by": "Astrosomnia",
+    "github_user_id": 144634800,
+    "approved_at": "2026-11-01T01:49:56.490Z",
+    "method": "explicit instruction in ChatGPT",
+    "instruction": "These are for sure good enough to push to the main game.",
+    "scope": "eight named animated weapon alternatives"
+  },
+  "assets": [
+    {
+      "slot": "W01",
+      "name": "Plasma Mortar — slow pulse",
+      "path": "art/lab/hosted/library/W01_slow_pulse_v001.forge.json",
+      "sha256": "a9b7f5ee25f33222335d0337d40b48120d6ff363815af5e6ecf0dd461ba16d5a",
+      "frames": 40,
+      "fps": 20
+    },
+    {
+      "slot": "W02",
+      "name": "Rail Carbine — charge sweep",
+      "path": "art/lab/hosted/library/W02_rail_sweep_v001.forge.json",
+      "sha256": "0e94eaa8f7d10ac3d9231a61ef64e3b6bbaf880d32e736459d10a3131889ab99",
+      "frames": 40,
+      "fps": 20
+    },
+    {
+      "slot": "W03",
+      "name": "Scatter Gun — twin chamber pulse",
+      "path": "art/lab/hosted/library/W03_twin_chamber_v001.forge.json",
+      "sha256": "0bbf65154775a990ccc6e3eb62fab1b2b6039507307c55ae78e35bda332ad2db",
+      "frames": 40,
+      "fps": 20
+    },
+    {
+      "slot": "W04",
+      "name": "Dakka Bolter — staggered charge",
+      "path": "art/lab/hosted/library/W04_staggered_charge_v001.forge.json",
+      "sha256": "e22763d12361c01c256855b16eed460c7e3b372ad20aaaf29d94090df3a644df",
+      "frames": 20,
+      "fps": 20
+    },
+    {
+      "slot": "W05",
+      "name": "Las Burner — red charge sequence",
+      "path": "art/lab/hosted/library/W05_red_sequence_v001.forge.json",
+      "sha256": "afde0f8615ad8e10a3af03c0303d200d905ef5298d7b844f34fb9dde1489a0d7",
+      "frames": 32,
+      "fps": 20
+    },
+    {
+      "slot": "W06",
+      "name": "Promethium Flamer — furnace shimmer",
+      "path": "art/lab/hosted/library/W06_furnace_shimmer_v001.forge.json",
+      "sha256": "ce3d8c9ac85f465e671643688f836c3a6c089489253bf6889dddc0bb79d4d04f",
+      "frames": 40,
+      "fps": 20
+    },
+    {
+      "slot": "W07",
+      "name": "Chainblade — edge chase",
+      "path": "art/lab/hosted/library/W07_edge_chase_v001.forge.json",
+      "sha256": "bc63fd96cf7fff1f251bbba38af4d62da9cb52b9437f095969b9ea5b9711723b",
+      "frames": 40,
+      "fps": 20
+    },
+    {
+      "slot": "W08",
+      "name": "Thunder Fist — knuckle surge",
+      "path": "art/lab/hosted/library/W08_knuckle_surge_v001.forge.json",
+      "sha256": "0446455e98d1b9e1708a2c56956e4a880a5fdf530b969391b1a3a4557661180d",
+      "frames": 60,
+      "fps": 20
+    }
+  ]
+}
