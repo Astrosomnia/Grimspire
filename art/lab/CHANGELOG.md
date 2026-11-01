@@ -255,3 +255,10 @@ First playable review of the straight foreground gun arm and glove on all six gu
 - Preserved original native pixels, anchors, separate glow and false approval/test flags. Short mantle and pack are static; body has one idle frame.
 - Recorded exact document hashes and reduction limitations in releases/ash-legion-jumppack-v001/manifest.json, with an assembled preview.
 - Verified current sprite validation, new entry visibility and preservation of every previous asset family/current selection. No runtime, main game, saved revision or test-slot changes. In-game fit and motion remain untested.
+
+## Claude handoff refresh — 2026-11-01
+
+- Replace stale opening overview with current shared Forge workflow and observed repository/test checkpoints; preserve dated implementation journal.
+- Consolidate library families, responsive animation strip, independent scale, shoulder pivot, release evidence and remaining verification limits.
+- Add user-authored faction foundations, optional lore proposals, character direction and experimental Ash Legion asset IDs/status.
+- Record that further art exploration continues in ChatGPT. Documentation only; no runtime, art, saved tests or main changes.

@@ -1,163 +1,259 @@
-# Grimspire Forge: handoff to Claude
+# GRIMSPIRE — handoff to Claude
 
-Updated 2026-10-31. Read this on the current art/weapon-lab branch, then read
-AGENTS.md and CHANGELOG.md. Repository files are authoritative; chat recollections
-and browser drafts may be older. No private credentials are in this document.
+Updated 1 November 2026 (Vancouver). This overview supersedes the historical entries
+below where they conflict. It consolidates available Forge, weapon, character and
+worldbuilding context from the recent work; it is not a complete transcript of
+every gameplay discussion. Read `AGENTS.md`, `CHANGELOG.md` and current source before
+editing. GitHub is authoritative for shared assets, code and revisions.
 
-## What Jarred wants
+## Working arrangement and immediate direction
 
-A shared browser Forge for Jarred, ChatGPT and Claude to riff on weapon art,
-create alternatives, adjust anchors/lighting, test in the actual game, save exact
-revisions and deliberately promote approved changes to main. Claude primarily
-maintains gameplay/code; ChatGPT and Jarred primarily explore art. Renderer code
-experiments are allowed inside the isolated sandbox. Ignore the old Claude
-Artifact store for now: it is not synchronised and must not become a second source
-of truth. GitHub is the authoritative shared source.
+Jarred and ChatGPT primarily develop art and visual direction; Claude primarily
+maintains gameplay/runtime code. Jarred explicitly wants further art jamming in
+the ChatGPT conversation, outside the other Codex chat, while selected assets are
+supplied to the shared test Forge. Preserve this split and the established upload
+route. The old Claude Artifact and disconnected local Forge copies are not shared
+sources of truth.
 
-## Current state — distinguish implementation from deployment
+Immediate creative goal: continue the Ash Legion trooper, retaining the imposing
+knight-priest silhouette while adding gothic/macabre character and visibly
+illuminated technology. Account for existing jump packs and animation. The latest
+body/arm are experimental fit-tests, not an approved replacement or a completed
+animation system.
 
-- art/weapon-lab contains the original art lab, local companion and new hosted app.
-- Hosted app implementation and offline tests are present under art/lab/hosted/.
-- Jarred created a Cloudflare Worker and installed/configured a GitHub App.
-- Account-side Git/build connection and first real hosted sign-in/save are still
-  awaiting deployment/verification. A workers.dev address alone does not prove the
-  application is deployed; it was initially created as Hello World.
-- No art revision has been approved or promoted by ChatGPT. No main game, live
-  atlas, Pages setup or existing forge-pipeline branch was changed by this work.
-- Offline checks include hosted auth/RSA gateway, save/release/race/tamper tests,
-  local real-Git flow tests, native Canvas rendering and the original release validator.
-- No browser executable is installed in the build environment. Full interactive
-  browser/real Cloudflare acceptance remains outstanding.
+## Current repository and service checkpoints
 
-Deployment instructions and exact dashboard fields: hosted/DEPLOY.md.
-Target URL: https://grimspire-forge.jarredpowell88.workers.dev/
-
-## Branches and files
-
-| Location | Role |
+| Item | Location / observed state |
 | --- | --- |
-| main:index.html | Current game, with embedded atlases |
-| main:debug/index.html | Game debug build |
-| art/weapon-lab:art/lab/forge.html | Existing editable Forge UI; shared hosted controls are added at build |
-| art/lab/releases/weapons-v001/ | Immutable first eight weapon studies, detail + grid, with hashes |
-| art/lab/catalog.json | Current source-art review manifest |
-| art/lab/hosted/worker.mjs | Hosted authentication, GitHub API, revision and release backend |
-| art/lab/hosted/model.mjs | Validation, fingerprints and game generation |
-| art/lab/hosted/bridge.js | Shared library/save/test/release controls |
-| art/lab/hosted/library.json | Index for alternatives added directly by Claude/ChatGPT |
-| art/lab/hosted/library/ | Individual added alternative Forge documents |
-| art/lab/hosted/state.json | Runtime-created current revision, revision history and integrations |
-| art/lab/hosted/revisions/<id>/ | Runtime-created immutable snapshots |
-| art/lab/hosted/events/ | Runtime-created approval/deployment receipts |
-| art/lab/sandbox/game.html | Editable pinned game-source experiment |
-| art/lab/sandbox/base.json | Main commit that pinned source was based on |
-| art/lab/sandbox/runtime.js | Weapon renderer adapter read at save time |
-| art/lab/sandbox/serve.py | Earlier local-only companion; optional, not the hosted workflow |
-| forge-pipeline branch | Your earlier sync/atlas tools; inspected previously and left untouched |
+| Repository | https://github.com/Astrosomnia/Grimspire |
+| Public game | https://astrosomnia.github.io/Grimspire/ |
+| Shared test Forge | https://grimspire-forge.jarredpowell88.workers.dev/forge.html |
+| Forge health | https://grimspire-forge.jarredpowell88.workers.dev/health |
+| Forge branch | `art/weapon-lab` |
+| Lab head inspected before this documentation update | `84114d095b0976fb519e1bcc012455abed5e2f7d` |
+| Main head observed during this update | `f603f22795f41603584ccd784d27e0b6d6787083` |
+| Latest saved test in inspected state | `20261101T094357Z-78228871`, ARM, “Test Gun arm · shared shoulder pivot as Single foreground arm” |
+| Today's Ash Legion asset addition | `84114d095b0976fb519e1bcc012455abed5e2f7d` |
 
-Do not merge the long-lived lab branch into main. Promotion creates a narrow
-candidate from current tested main, changing only index.html, debug/index.html and
-art/integrations/<revision>.json. The production game remains a single HTML file.
-This v1 inserts an art renderer adapter rather than repacking the atlas. Reconcile
-that deliberately with forge-pipeline later; do not stack competing overrides.
+These are observed checkpoints, not fixed future heads. Refresh current refs before
+writing. Browser saves advance the lab branch separately from the deployed Worker
+code; those SHAs need not match. The hosted service has been deployed and used for
+shared saves: do not restart its setup based on older “awaiting deployment” notes.
+This documentation session did not perform a fresh hosted browser or public-game
+walkthrough.
 
-## Artwork and known limitations
+## Implemented Forge and weapon work
 
-W01 launcher/mortar; W02 carbine; W03 scatter; W04 dakka; W05 las gun;
-W06 flamer; W07 chainsword; W08 claw/thunder fist. Existing game behaviours are reused.
-Source-detail art is not native game-scale pixel art. Grid variants are automatic
-reductions and still need pixel cleanup/rig review. W05 has a red-dot sight; W07
-is horizontal with brighter blade edges; the previous flamer was retained.
+- Eight animated weapon alternatives were approved and integrated through focused
+  releases. W01 slow pulse; W02 rail sweep; W03 twin chamber pulse; W04 staggered
+  charge; W05 four red lamps sequencing rear-to-muzzle; W06 furnace shimmer;
+  W07 edge chase; W08 knuckle surge. These are looping emissive animations, not new
+  combat timings. Existing source/detail/grid variants remain distinct.
+- The 1.2 weapon enlargement was retained and corrected: grip alignment, visible
+  barrel-tip muzzle markers, ranged projectile/effect origins and reticles use the
+  same transforms. Nearby cover blocks the extended weapon path. Historical
+  alignment release incremented simulation protocol to 17; consult current game
+  source before making any new protocol claim.
+- Library cleanup is implemented. One card per asset, versions/sources inside it,
+  trooper animation/component states grouped, references in Archive. Stable asset
+  identity is separate from display code, document/version ID and test slot.
+  Save adds a version; New creates an asset. Existing artwork/history is retained.
+  Today's two additions bring the organised collection from 36 to 38 families.
+- Animation frame strip is responsive, scrolls horizontally and peeks the next
+  frame when more remain. The earlier five-frame cap was superseded.
+- “This asset's scale” is implemented and persists with versions, exports and saved
+  tests. Changing one asset preserves the others' effective scales. Grip/muzzle
+  transforms follow the selected scale; the arm has independent scale. Lighting
+  settings remain shared. Jarred's motivating example was reducing the claw
+  without shrinking the larger guns.
+- A01 is one editable foreground arm, not a mandatory upper-arm/forearm pair.
+  Single arm plus Reach remain available. All eight current held-weapon test slots
+  rotate with the arm around the trooper shoulder; Grip remains the hand
+  attachment. The renderer resolves the assembly pivot from the arm shoulder
+  rather than rewriting every weapon's standalone marker.
+- Shoulder, arm/glove, weapon grip and muzzle stay connected through aim, facing,
+  pose and scale. Reach extends from a fixed shoulder. Arm is drawn over gun/blade
+  grips and behind the claw replacement gauntlet. Thrown/unregistered tools keep
+  their separate path. Jarred wants thrown weapons to have a different arm and
+  throwing motion, potentially animation; that is not delivered by the held rig.
+- Existing rig/reach functionality must remain. Do not expand this into mandatory
+  full elbow articulation before it is wanted.
 
-The renderer supports frame animation, body, trim, emissive, grip/pivot, darkness,
-emissive strength, glow, bloom and scale. Lighting controls apply to the saved
-weapon set. It does not yet move firing/projectile origins to the Forge muzzle
-marker; existing game effect origins/behaviour remain in force. Environment/trooper
-lighting is still in game source. Do not claim anchors/effects are validated from
-an import test. Old editor Ready is not release approval.
+Source detail: `CHANGELOG.md` records the implementation and verification for
+library families, responsive frame strip, per-asset scale and shared shoulder
+pivot. Historical test counts reached 36 hosted tests plus native alignment,
+category and rig checks; these were not rerun for this documentation-only update.
+Signed-in hosted saving was not verified in every earlier implementation session;
+repository state now contains actual owner-attributed shared saves.
 
-## How to supply alternatives directly to the shared Forge
+## Live game versus saved experiments
 
-1. Fetch/pull current art/weapon-lab. Keep an existing user's work; never force-push.
-2. Read the current source document or hosted revision's payload/manifest. Name the
-   revision and variant you are changing. Ask Jarred if the intended source is unclear.
-3. Create a NEW native Forge JSON under
-   art/lab/hosted/library/flamer-alt-01.forge.json (unique immutable descriptive filename).
-   Schema: forge:1, code, name, w, h, fps, markers, frames. Each frame has body/emis/
-   trim/guts as embedded PNG data URLs or null; layer dimensions equal w/h. Set a
-   grip or pivot and in-bounds anchors. Keep ready:false and explain the change in notes.
-4. Append to hosted/library.json:
+Do not infer public integration from lab implementation or a Library card.
+Recorded integrations include:
 
-```json
-{
-  "id": "flamer-alt-01",
-  "path": "art/lab/hosted/library/flamer-alt-01.forge.json",
-  "sha256": "SHA256_OF_THE_EXACT_UTF8_FILE_BYTES"
-}
-```
+- PR #1 / `db0b85b263bff04befb5c7755793478bc3b54f3b`: eight animated weapons.
+- PR #2 / `eb12d9ff299b7deb773ead33c988d49f5b6eef97`: corrected 1.2-scale
+  alignment. Historical verification included Pages deployment, live payload and
+  a local battle/firing smoke test; full HTTP response hash was not checked.
+- PR #5 / `fe079ec310813ed4439c4102bf054c3ded5734c1`: saved revision
+  `20261101T073211Z-d4aec61a`, selected W08, carrying W01–W08 and ARM.
+  Inspected state includes a deployment record with matching game SHA-256
+  `939f17e7058d070318399a4dbe347e5de2e011a2769c8e0c8e69a0420e073af4`
+  and verification time, although its status text still says “deployment
+  unverified.” Treat this as recorded evidence, not a fresh check of today's page.
 
-5. Commit the new document, index and CHANGELOG entry together. Push a normal
-   fast-forward. If another save arrived, reconcile with it; never replace state.json
-   or old snapshots to make a push succeed.
-6. Jarred clicks Refresh shared library. The new document appears in Library. His
-   unsaved canvas is retained. He chooses an existing W01–W08 behaviour to preview it,
-   adds a note, saves a revision and tests it.
+Main has advanced beyond those historical integration commits. Inspect current
+main and payload before asserting which later rig/scale changes it includes.
+The latest ARM test is not by itself a new main release.
 
-The library loads the source-art catalog, current saved set and indexed alternatives
-from one pinned Git commit. It verifies their hashes. Do not assume adding arbitrary
-files anywhere in the repo will make them appear. Keep IDs unique and preserve old
-alternatives; add another ID/path for another version. Desktop browser drafts and
-exports alone do not constitute shared persistence.
+## Art direction and faction foundations
 
-## Revision and publication guarantees
+Original brief: “Worms meets Warhammer.” Dark gothic artillery warfare among
+armoured cyber troopers in drowned, neon-lit ruins. Warhammer is an acknowledged
+influence; preserve the strongest silhouette while developing specific identity.
+The world remains cyberpunk: weird, frightening and decaying, almost adjacent to
+hell without becoming literal hell. “God in the Machine,” almost literally.
 
-Save compares the editor's loaded lab head to current GitHub head. Stale clients
-are rejected and told to refresh. It snapshots current main source (or an explicitly
-rebased custom source), renderer, art/lighting payload, built game, notes and hashes
-in one commit. Existing snapshots must remain immutable.
+Environmental anchors: monumental spires, broken arches, statues, faction
+banners/graffiti, layered distant silhouettes, dark water, magenta moon and
+cyan/magenta illumination. Crisp pixel art with readable masses and selective
+emissives; dark material layers and engine lighting rather than uniformly bright,
+studio-lit bevels. Character density should become finer/less blocky than the old
+troopers and sit convincingly with the existing guns. Enlarging an old sprite does
+not supply that detail.
 
-If custom sandbox game edits are on an older base, save stops for reconciliation;
-it does not discard those edits. Otherwise it automatically uses latest main.
-A main change after saving invalidates the release candidate and requires a new
-save/test. Each test URL names an immutable revision rather than “whatever is latest”.
+| Faction | User-authored foundation | Demand |
+| --- | --- | --- |
+| Ash Legion | Inquisitors/arbiters devoted to the one true Divine, an unforgiving God. No heresy tolerated. Half knight, half priest; futuristic templars distorted by zeal. Modern protective armour retaining sword-era construction ancestry. | Obedience |
+| Neon Choir | Devoted to Central and supreme technological perfection. Divinity through becoming one with the Machine; calls others to join. | Assimilation |
+| The Hollow | Flagellants and doomsayers who believe destroying the world makes way for an unimaginable dark power. | Destruction |
+| Halo Guard | Cold, detached praetors/centurions guarding an unimaginably wealthy few for thousands of years; their light must be kept from others. | Exclusion |
 
-Review creates an art/release-<id> branch and focused PR. Go live requires explicit
-approval of its fingerprint. The backend checks source main, lab head, candidate
-head, full candidate tree and commit checks. Candidate's sole parent must be tested
-main. The final reference update is force:false, so a concurrent main push rejects
-it instead of overwriting Claude's newer work. Branch protection is not bypassed.
-Integration receipts record approval and the exact main commit. Public deployment
-is only verified when served game bytes match the expected fingerprint.
+All are cults to some degree. Differentiate shapes, materials, behaviour and cloth
+construction, not just colours. All factions currently share equipment. Establish
+Ash Legion first; faction-specific weapons are a longer-term possibility.
 
-## Connection details (public identifiers only)
+### Lore proposals — not settled canon
 
-GitHub App name: Grimspire Forge. App ID: 5558397.
-Client ID: Iv23liLKlHD9cghoqijI. Installation ID: 177300737.
-Repository: Astrosomnia/Grimspire. Allowed owner user ID: 144634800.
-Callback: https://grimspire-forge.jarredpowell88.workers.dev/auth/github/callback
+Jarred proposed Grimspire as a last bastion in a plague-ridden cyber dark age,
+containing something each faction believes is the key to its emergence. Perhaps
+the Forge is there. The dying world may once have held 80 billion people, with
+survivors turning to religion.
 
-GITHUB_PRIVATE_KEY and GITHUB_CLIENT_SECRET were entered by Jarred as encrypted
-Cloudflare runtime secrets. Values were never supplied to ChatGPT. Never request,
-commit or log them. The configuration preserves dashboard variables and secrets.
-GitHub sign-in proves the user's identity; installation tokens perform repository
-operations. Only the configured owner ID is admitted. Cloudflare's own Git build
-integration is separate from this runtime app.
+Optional discussion ideas: other settlements could still exist; the Forge should
+have a specific capability and constraint; ancient systems might work flawlessly
+while basic necessities fail; rituals may preserve real technical procedures;
+each faction may hold a partial demonstrable truth; something beneath Grimspire
+might actually answer. These remain suggestions. Do not silently canonise them
+or equate the in-world Forge with the editor's established technical capabilities.
 
-## Checks and next actions
+### Ash Legion character: what landed
 
-```sh
-cd art/lab/hosted
-node build.mjs
-node --test test.mjs
-```
+Preferred anchor in the supplied ZIP: `references/04-preferred-character.png`.
+Enclosed helmet, layered dark armour, imposing human proportions, burgundy cloak
+and priestly cloth: anonymous institutional authority, a soldier of an order.
 
-Additional local checks: python3 art/lab/validate.py;
-python3 art/lab/sandbox/test_companion.py; optional native Canvas test_render.js.
+- Pale ceramic and orderly ceremonial relic equipment drifted toward Halo Guard.
+- Lean/ragged or hooded figures became “some dude” or a rogue/hero.
+- Desired balance: “a little more tech and a little less blacksmith.”
+- Darker oxblood cloth, duller armour, recessed face, elongated faceplate, ribbed
+  throat and raised collar moved closer. More gothic character and brighter
+  selective machine illumination are still wanted.
+- Avoid shiny silver bevels, continuous neon outlines and cloth competing with the
+  magenta sky. Selective magenta upper/back light and cyan reflected light should
+  support readable torso values.
+- Crosses, gold devotional jewellery, greathelms and tabards reinforce the
+  medieval/Warhammer association. Machine-derived devotional marks are an
+  unresolved exploration, not a completed symbol system.
+- Judge the result at game scale. Concept atmosphere and detail have not survived
+  automatic reduction sufficiently; refine actual pixel clusters and silhouette.
 
-Next: connect existing Worker to the configured branch/root, deploy, verify sign-in,
-shared library, one draft save and its game preview. Confirm main is untouched.
-Keep actual game art approval separate from infrastructure acceptance. Only then
-exercise publishing on an exact revision Jarred actually wants in the game.
+A short oxblood mantle, shortened front vestment and exposed compact dual-thruster
+pack were proposed to clear jump-pack inlets/exhaust. This is a fit-test solution,
+not an approved replacement for the preferred long-cloak concept. Pack and cloth
+are static pixels; no cloth simulation or jump animation was supplied.
+
+## Ash Legion assets now in shared test Forge
+
+The supplied `GRIMSPIRE-art-direction-handoff.zip` originally recorded local-only
+T09/A05 saves. That limitation is now superseded: both were added to the shared
+Git-backed Library in commit `84114d095b0976fb519e1bcc012455abed5e2f7d`.
+Refresh shared Library and search “Ash Legion.”
+
+| Part | Code / stable identity | Immutable Forge document |
+| --- | --- | --- |
+| Body, jump-pack study v1 | T09 / `custom-ash-legion-jumppack-body` | `hosted/library/asset-227d2b092253c04d4ef0382a.forge.json` |
+| Single near-side arm v1 | A05 / `custom-ash-legion-jumppack-arm` | `hosted/library/asset-b298f7879633c641a7fed93b.forge.json` |
+
+Both are 41×58, baseline 54, shoulder [18,19]. Arm elbow [21,27], hand [32,30],
+pivot [18,19]. Body has head, torso, legs, cloth and pack, without a weapon or
+near-side arm. Material and glow are separate; no faction trim mask. Native pixels
+and anchors were preserved. Body and arm each have one frame. Source was generated,
+cropped, automatically reduced and palette-limited, not hand-cleaned final art.
+
+Exact hashes, limitations, README and assembled preview are recorded under
+`releases/ash-legion-jumppack-v001/`. Validation used the current sprite model and
+family organisation, checked unique codes/identities and preservation of all prior
+families/current selections, then read back both documents and index byte-for-byte.
+No saved test slots or game snapshots were changed by the upload. No hosted
+browser walkthrough, gameplay alignment, walk/aim/jump motion or game-feel test
+was performed. Ready and visual/test flags remain false; upload is not approval.
+
+The original six concept/environment references remain in Jarred's supplied ZIP;
+they were inspected in this conversation but were not uploaded with the two
+shared Forge documents. Obtain the ZIP for exact visual comparison rather than
+assuming the small assembled preview preserves the concept quality.
+
+## Shared asset workflow and safeguards
+
+1. Read current `art/weapon-lab` head, `AGENTS.md`, existing asset identity/state
+   and current Library. Preserve other users' newer work.
+2. Add new immutable Forge documents under `hosted/library/`, with `forge:1`,
+   code/name, dimensions, fps, markers and PNG layers. Validate through current
+   `hosted/model.mjs`. Maintain appropriate anchors and false approval flags.
+3. Register exact UTF-8 SHA-256 hashes in `hosted/library.json`. For genuinely new
+   assets, assign unique `custom-...` asset identities and metadata (name/category,
+   state key, code, dimensions, frame count). For versions of existing assets,
+   retain their family/state. Display code alone is not identity.
+4. Commit the documents, index, release notes/preview/hash record and CHANGELOG
+   together. Fast-forward with an expected-head check. If a save arrives,
+   reconcile; never overwrite `state.json` or immutable revisions to force success.
+5. Refresh shared Library. Body visual test target is TROOPER; single foreground
+   arm is ARM; W01–W08 are weapon behaviours. Save/test an exact revision with
+   settings/notes when requested. TROOPER is a static visual placement test,
+   not a full replacement animation/rig integration.
+6. Promotion requires approval of the exact saved candidate. Use a focused
+   integration from current tested main, not a wholesale merge of the lab branch.
+   Preserve session/origin/CSRF checks, branch protection and stale-save refusal.
+   Never commit credentials.
+
+Key files: `hosted/worker.mjs` (API/persistence), `hosted/model.mjs` (validation),
+`hosted/families.json` and `families.mjs` (identity/grouping), `hosted/bridge.js`
+(shared UI), `forge.html` (editor/rig), `sandbox/runtime.js` (test renderer),
+`sandbox/base.json` and `game.html` (pinned source), `hosted/state.json` and
+`revisions/` (saved builds/history). Source registry is `hosted/assets.json`;
+do not blindly regenerate it or alter old documents.
+
+Useful code checks when code actually changes: `node --test art/lab/hosted/test.mjs`,
+`node art/lab/sandbox/test_alignment.cjs`,
+`node art/lab/sandbox/test_single_rig.cjs`,
+`node art/lab/sandbox/test_categories.js`, and the hosted build. Discover runtime
+dependency paths rather than copying paths from another machine.
+
+## Recommended continuation
+
+Continue visual exploration with Jarred in ChatGPT. Before character integration,
+inspect current main's rig/scale/jump-pack behaviour. Refine native pixels against
+the preferred knight-priest concept; then evaluate idle, aiming, both facings,
+movement, jump ignition, flight and landing in the real environment. Keep thrown
+arm work separate. Report creation, shared save, saved test, main integration and
+deployment as separate states with evidence.
+
+## Historical implementation journal
+
+The entries below are preserved from the earlier handoff. Their “pending,”
+“not live” and test-count statements describe those dated checkpoints, not the
+current overview above.
 
 ## Hosted deployment checkpoint — 2026-10-31
 
