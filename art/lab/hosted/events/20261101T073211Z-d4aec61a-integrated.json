@@ -1,0 +1,9 @@
+{
+  "revision": "20261101T073211Z-d4aec61a",
+  "main_commit": "fe079ec310813ed4439c4102bf054c3ded5734c1",
+  "game_sha256": "939f17e7058d070318399a4dbe347e5de2e011a2769c8e0c8e69a0420e073af4",
+  "approved_by": "Astrosomnia",
+  "approved_at": "2026-11-01T07:33:38.168Z",
+  "pr": "https://github.com/Astrosomnia/Grimspire/pull/5",
+  "status": "main updated; deployment unverified"
+}
