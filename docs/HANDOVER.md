@@ -43,11 +43,11 @@ Branches: `main` (game, docs, tools) and `art/weapon-lab` (Forge app and art dat
 
 Assets made outside the Forge (by ChatGPT, say) go into the Library as new files under `art/lab/hosted/library/`, registered in `library.json` with their hash. See [`FORGE.md`](FORGE.md).
 
-**Art reaching the game:** the Forge writes art into the game's `LAB_PAYLOAD` block (between `// BEGIN/END GRIMSPIRE_ART_ADAPTER`). Everything else in the file, including the art renderer (`// BEGIN/END GRIMSPIRE_ART_RUNTIME`), is game code that Claude maintains. Weapons W01–W08 and the arm go live this way today. Props, trooper frames and backgrounds can be tested in the Forge but need code before they can go live.
+**Art reaching the game:** the Forge writes art into the game's `LAB_PAYLOAD` block (between `// BEGIN/END GRIMSPIRE_ART_ADAPTER`). Everything else in the file, including the art renderer (`// BEGIN/END GRIMSPIRE_ART_RUNTIME`), is game code that Claude maintains. Weapons W01–W08, the arm and the torso go live this way today. Props, whole-body trooper frames and backgrounds can be tested in the Forge but need code before they can go live.
 
 ## Rules
 - **The sim is deterministic.** Online play replays inputs, so every device must compute the same result. Map generation and sim steps use the seeded generator; cosmetics use `RR` or their own hash. No `Math.pow` and friends in the sim (use lookup tables). Snapshots are plain JSON. Check with `tools/test/dsim*.py`.
-- **Bump `GV` on any sim change.** Grip and muzzle points feed firing origins, so moving them in art is a sim change too. Mismatched online players are told to refresh.
+- **Bump `GV` on any sim change.** Mismatched online players are told to refresh. Art points that feed firing (grips, muzzles, arm and torso sockets) are covered by an art fingerprint the game compares online, so Forge releases don't need a GV bump.
 - **Restricted palette.** Black stone, one sky colour, faction neon. Nothing gets colour just for being an object. (Under discussion for the faction cloth; see `ART-DIRECTION.md`.)
 - **Crisp over soft.** Pixel edges stay sharp; glow comes from separate light layers.
 - **Materialise, don't pop.** Things that appear or vanish build from or break into the squad's neon motes.

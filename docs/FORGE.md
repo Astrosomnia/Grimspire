@@ -14,12 +14,14 @@ Grimspire's shared pixel art editor and the art pipeline into the game.
 5. **Save & test:** both at once.
 6. **Review saved release → Go live** (Jarred only): makes a pull request with the exact tested build and, once approved, puts it on `main` as a fast-forward. It refuses if `main` or the lab moved since the test (save and test again). The release adds an entry to `docs/LOG.md`.
 
-Test targets: W01–W08 (the held weapons), ARM (the foreground arm), PROP, TROOPER, BACKGROUND. Only W01–W08 and ARM can go live today; the others are visual placement tests until the game has code for them (props have no collision, troopers no rig, backgrounds no parallax).
+Test targets: W01–W08 (the held weapons), ARM (the foreground arm), TORSO, PROP, TROOPER, BACKGROUND. W01–W08, ARM and TORSO can go live; the others are visual placement tests until the game has code for them (props have no collision, TROOPER is a static whole-body frame with no rig, backgrounds no parallax).
+
+**TORSO** replaces the trooper's torso. Its **Hip** point sits on the legs' hip and its **Shoulder** point is where the arm and weapon attach (so moving it moves where shots leave). The Library's Trooper → torso state has the live torso with its sockets set to match today's game; move the points and Test with the Torso slot. Legs are still the game's own; Forge legs (thigh and shin) are a later step.
 
 ## Technical rules for art
 - **Pixel density is fixed:** 12 source px per art pixel; about 1.85 art px per world px. A trooper is drawn about 27 world px tall; trooper frames are 41×58 art px with feet on row 54.
 - **Layers:** transparent background, no baked glow or drop shadow. Glow goes on the emissive layer; anything team-coloured is drawn neutral grey on the trim mask.
-- **Anchors** (art px): weapons need **grip** (where the hand holds) and **muzzle** (where shots leave). The arm needs **shoulder** and **hand**. Trooper parts use **hip**, **knee**, **shoulder**. Grip and muzzle feed the game's firing origins, so moving them is a sim change (Claude bumps `GV` when it ships).
+- **Points** (art px): weapons need **grip** (where the hand holds) and **muzzle** (where shots leave). The arm needs **shoulder** (its joint) and **hand** (where the grip attaches). A torso's **shoulder** and **hip** are sockets: where the arm attaches and where it sits on the legs. A thigh's **hip** is its joint and its **knee** is where the shin hangs. Hover a point's button in the Forge for its meaning. Points that feed firing (grip, muzzle, arm and torso sockets) change the sim; the game fingerprints them, so online players with different art are told to refresh.
 - **Scale:** each asset has its own game scale (weapons currently 1.2×; the arm 1×).
 - **Weapons:** muzzle facing right, barrel level.
 - **Codes:** a type letter and two digits. **W** weapons, **P** projectiles, **M** charges, **A** arm and rig parts, **T** trooper animations, **G** Godfall pod, **C** props, **S** set pieces, **E** terrain, **F** faction marks, **B** background, **U** UI. The code is a display label; each asset also has a stable identity (`asset_id`).
