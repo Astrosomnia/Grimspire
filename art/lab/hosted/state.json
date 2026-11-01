@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "current": "20261101T073211Z-d4aec61a",
+  "current": "20261101T093732Z-f711eff3",
   "revisions": [
     {
       "id": "20261031T210936Z-6c67f2da",
@@ -207,6 +207,14 @@
       "created": "2026-11-01T07:32:12.771Z",
       "notes": "Test Thunder Fist — knuckle surge as W08 · Claw",
       "slot": "W08",
+      "variant": "custom",
+      "author": "Astrosomnia"
+    },
+    {
+      "id": "20261101T093732Z-f711eff3",
+      "created": "2026-11-01T09:37:35.246Z",
+      "notes": "Test Gun arm · shared shoulder pivot as Single foreground arm",
+      "slot": "ARM",
       "variant": "custom",
       "author": "Astrosomnia"
     }

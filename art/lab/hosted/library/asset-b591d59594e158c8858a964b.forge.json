@@ -1,0 +1,51 @@
+{
+  "forge": 1,
+  "game_scale": 1,
+  "asset_id": "asset-a01",
+  "state_key": "",
+  "source_version": "asset-4349ed397c5ae582b817d4f2",
+  "code": "A01",
+  "name": "Gun arm · shared shoulder pivot",
+  "w": 24,
+  "h": 20,
+  "fps": 6,
+  "base": null,
+  "pixel_scale": 12,
+  "markers": {
+    "grip": [
+      19,
+      14
+    ],
+    "muzzle": null,
+    "pivot": [
+      2,
+      8
+    ],
+    "shoulder": [
+      2,
+      8
+    ],
+    "elbow": null,
+    "hand": [
+      19,
+      13
+    ],
+    "hip": null,
+    "knee": null
+  },
+  "ready": false,
+  "notes": "One sprite. Hand anchors to weapon grip; drawn in front of gun. No elbow required.\nShoulder-pivot revision: one rigid arm/weapon assembly rotates at the shoulder; the hand attaches to the weapon Grip. Artwork pixels unchanged. Thrown weapons use a separate future rig.",
+  "review": null,
+  "ghostOff": null,
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAUCAYAAACXtf2DAAABm0lEQVR4AeySPUsDQRCGJ9cIBoQkGg0WikVEAoIKip1Y21ilEOz8C/6AgK0KIihCioBFam3sBAtF8QMhiBFUBAkISSoLqzPP4MhxJEbu0Cohz+zu7O777uyeI3/86xi0veD/u6KuaNz10/Z4v1igFSDM2t18QQzGlqcfFMdExqfnZCgZle2dvGphpJ2QQStAHJ3V3BaNmhwcnchCdkXsADoRIDgm7t/78vSgqbAmWoEqNQlm0mRKU7FU2oWRzKw7M7/oatIXnNvzY6m+VRTfnA4Pi3vaclVeENaJRqjXqlK+K4k310jrXyt4fb7XgQUzxJzc4PCovgfXxeMD+Vg8IdmlZWVjc12AaoB5cD7eaxE6gDAtYIowMOa6gK8sl1sjpRT3CwLkzi5uhH068RW0Avo2gQn97p5e0pJIphQdNAlUAVzT9dWl2IFsqRpYFQgD4mxiEYZ+yBscwPoTk1OtK8DEYANGP8EaTu1EXOnrH5D0WEZaVsBiL/VKOWJmrVrWsIevxwu5x9Lp97vqFZEMAiZ+vOJohjJAoB2fAAAA//82ouBgAAAABklEQVQDABhE+ynhppEYAAAAAElFTkSuQmCC",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAUCAYAAACXtf2DAAAAlklEQVR4AeyRsQmAMBBFE0vBLVzBWlzAQgcQHExwAC1cQKxdwS0E28gPXCDVETyLQAKfJMfdf+EnUz+vBGADThGFRVTfxlRNZ9ipgAb3BzC/5knl2xIwzrdaAJmjHRDccZaQBRyF1uUwen5SUVkAnAlCoHNfNepf5QAwetpeQYDhLiEPgFdDEsbk4QGoKLknAJtm/BG9AAAA//8RFJqOAAAABklEQVQDAN+AJymxF/MoAAAAAElFTkSuQmCC",
+      "trim": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAUCAYAAACXtf2DAAAAgUlEQVR4AeyR3QnAIAyEtVO4jmM4oWNkHbewXqEhQsGGpg9CxPiD8T5zHuHn5oClwW6RziIi6jRieUuRwH+QUuqlFMXVd6kMQHqtFVOwrIIBEJcVWEEYkHOOrbV4lTAG7Mf0uTMASverrcShOQEgjMCBVUwAK1Gp4wDpxuN6f4tOAAAA//8EsY1LAAAABklEQVQDAAt3HimmLjUJAAAAAElFTkSuQmCC",
+      "guts": null,
+      "note": ""
+    }
+  ],
+  "updated": 1793525850291,
+  "by": "jarred"
+}
