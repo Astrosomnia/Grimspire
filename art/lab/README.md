@@ -56,22 +56,25 @@ Claude Artifact library is not synchronised with this repository workflow.
 
 ## Full asset Library and single arm
 
-Hosted Forge's Library lists source kits, registered trooper animations, exact game
-atlas crops, original weapon studies, alternatives and artwork from prior saved
-builds. Search or filter by category, then Open to load the complete document.
+Hosted Forge's Library defaults to one card per actual asset. Search or filter by
+category, then Open its latest draft or initial catalog default. Versions & sources
+contains the historical/source artwork; animation states and component overlays
+stay inside their asset. Archive holds reference sheets. All art is retained.
 Source images retain their original raster resolution; importing is not a redraw.
 `hosted/assets.json` indexes immutable documents and SHA-256 values. Rebuild the
 source catalog with `python art/lab/tools/catalog.py` from the repository root.
-The worker fetches selected documents lazily, rather than issuing a request for
-every asset during Library loading.
+The worker fetches selected documents lazily. `hosted/families.json` maps exact
+source IDs and provenance to asset families; update that mapping intentionally
+when adding catalog art. Unmapped imports stay recoverable in Archive.
 
-New creates a blank asset using the existing editor controls. Save asset writes
-an independent version to GitHub. Save revision / Save & test also retain that
+New creates a separate asset using the existing editor controls, even if its code
+matches another asset. Save asset writes a draft version under the opened asset
+and animation state. Catalog defaults remain accessible; saving is not approval. Save revision / Save & test also retain that
 sprite in the Library, in addition to preparing an immutable test build. Earlier
 versions remain accessible after a different sprite replaces their test slot.
 Concurrent saves are rejected without overwriting another editor's work.
 
-Open **A01 Gun arm · single foreground sprite** under Arms. Edit its pixels or
+Open **A01 · Gun Arm** under Arms. Edit its pixels or
 hand marker. In Rig, choose it in **Single arm**, and choose a weapon. The hand
 point sits at the weapon's grip; Reach moves the assembly forward. Upper arm and
 Forearm remain optional alternatives and are ignored when Single arm is selected.
@@ -79,3 +82,5 @@ To see edited arm art in a local game test, choose **Single foreground arm** as
 the shared test target, then Save & test. Weapon-only saves retain the arm.
 The arm inherits gun aim/facing and stays at trooper scale when weapons enlarge.
 These Forge changes do not promote the arm to the public game's main branch.
+
+The agreed next art steps are recorded in [ROADMAP.md](ROADMAP.md).

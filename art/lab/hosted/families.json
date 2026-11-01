@@ -1,0 +1,1455 @@
+{
+  "schema": 1,
+  "assets": [
+    {
+      "id": "asset-w01",
+      "name": "Plasma Mortar",
+      "code": "W01",
+      "category": "Weapons",
+      "archived": false,
+      "current": {
+        "": "alt-W01_aligned_v001.forge"
+      },
+      "members": [
+        {
+          "id": "study-W01_detail.forge",
+          "state": "",
+          "role": "source",
+          "legacy_hash": "673411eea33e90b9437a5758ae25c41d3d5a3d7245df744f7761535d9c4c251d"
+        },
+        {
+          "id": "study-W01_grid.forge",
+          "state": "",
+          "role": "source",
+          "legacy_hash": "0e743ed40628fa84f071bdc35355e1782efaa92e9a5995e4f13c80c90d5e3fe4"
+        },
+        {
+          "id": "alt-W01_aligned_v001.forge",
+          "state": "",
+          "role": "history",
+          "legacy_hash": "0a1e9069a67e0f34d37a466720831ddd9ad4486b9998f4956d9d587e09c25ab4"
+        },
+        {
+          "id": "alt-W01_slow_pulse_v001.forge",
+          "state": "",
+          "role": "history",
+          "legacy_hash": "0af6f9b8e3b187f1e63433c58207b46166efe16e2969f9e7cfec626fe3ef07cd"
+        },
+        {
+          "id": "saved-73fa9c0437b359c80305",
+          "state": "",
+          "role": "history",
+          "legacy_hash": "8fce3c9c933574b8c22454ecd6b29a2fa8b104dcbf382a3008994cb3b71d2af0"
+        },
+        {
+          "id": "saved-8c0614bfb7b95fa7d13c",
+          "state": "",
+          "role": "history",
+          "legacy_hash": "c8d886e8921c07fe9185545564fd626bb304a4290c17211f828f4f103dbd1b1d"
+        },
+        {
+          "id": "saved-b915644502eac9699af2",
+          "state": "",
+          "role": "history",
+          "legacy_hash": "f0c5879fd8824e4ceb052702418a6b4a66924457cd269bdcfb4899d7dbf0b766"
+        },
+        {
+          "id": "saved-3a44c648b2da430bba7a",
+          "state": "",
+          "role": "history",
+          "legacy_hash": "752837eeabac272f59188c2d85ba08f143878f415ede8e78363959276cbd2349"
+        },
+        {
+          "id": "saved-2f974cc1e468c285d26b",
+          "state": "",
+          "role": "history",
+          "legacy_hash": "0af6f9b8e3b187f1e63433c58207b46166efe16e2969f9e7cfec626fe3ef07cd"
+        },
+        {
+          "id": "saved-a902ca3fb62645cafdda",
+          "state": "",
+          "role": "history",
+          "legacy_hash": "0a1e9069a67e0f34d37a466720831ddd9ad4486b9998f4956d9d587e09c25ab4"
+        },
+        {
+          "id": "pixelkit-v2-W01_plasma_mortar",
+          "state": "",
+          "role": "source",
+          "legacy_hash": "397de504aedaf8493adaa6c587d257eb5975833f2c3101f98a969d86b5703623"
+        },
+        {
+          "id": "weapons-labelled-v1-W01_plasma_mortar",
+          "state": "",
+          "role": "source",
+          "legacy_hash": "167805b02fc6edb3cc7d09e0b236d5853e75ffaf3d871a222b335e968f0a4947"
+        },
+        {
+          "id": "game-mortar",
+          "state": "",
+          "role": "history",
+          "legacy_hash": "eb5ecc61bd6983a299010f1e0a80b49c340a4f899579f181881fb7f382b3e099"
+        },
+        {
+          "id": "W01_slow_pulse_v001",
+          "state": "",
+          "role": "history"
+        }
+      ]
+    },
+    {
+      "id": "asset-w02",
+      "name": "Rail Carbine",
+      "code": "W02",
+      "category": "Weapons",
+      "archived": false,
+      "current": {
+        "": "alt-W02_aligned_v001.forge"
+      },
+      "members": [
+        {
+          "id": "study-W02_detail.forge",
+          "state": "",
+          "role": "source",
+          "legacy_hash": "665df278bc1cc705f3f2645d3c1fa239638a797a7c9dc5cfdf82217769bb3e09"
+        },
+        {
+          "id": "study-W02_grid.forge",
+          "state": "",
+          "role": "source",
+          "legacy_hash": "564a8dadf04b6d27d4844950f752ca44b07b79984e3c2bf906003e202862d64e"
+        },
+        {
+          "id": "alt-W02_aligned_v001.forge",
+          "state": "",
+          "role": "history",
+          "legacy_hash": "0e1e055adee83c06a87f420124678dc54333e9d68bc36d50e9b21acc3e07843e"
+        },
+        {
+          "id": "alt-W02_rail_sweep_v001.forge",
+          "state": "",
+          "role": "history",
+          "legacy_hash": "07653ffab050f3512993552e24ae427c079d509ea926da4baee7bc1d3f4b5e11"
+        },
+        {
+          "id": "saved-fd4e6ee2847d777c37a9",
+          "state": "",
+          "role": "history",
+          "legacy_hash": "07653ffab050f3512993552e24ae427c079d509ea926da4baee7bc1d3f4b5e11"
+        },
+        {
+          "id": "saved-54bc9a59188abebd1b39",
+          "state": "",
+          "role": "history",
+          "legacy_hash": "0e1e055adee83c06a87f420124678dc54333e9d68bc36d50e9b21acc3e07843e"
+        },
+        {
+          "id": "pixelkit-v2-W02_rail_carbine",
+          "state": "",
+          "role": "source",
+          "legacy_hash": "d6564bf485f587bbb73de5c536fbc9f5f4f623a5936a30388d2eb81a606b5a3b"
+        },
+        {
+          "id": "weapons-labelled-v1-W02_rail_carbine",
+          "state": "",
+          "role": "source",
+          "legacy_hash": "4312acf017861d1a0a4f3ba2bd9caa972afe010fecceeed481e035295dbfa0a5"
+        },
+        {
+          "id": "game-rail",
+          "state": "",
+          "role": "history",
+          "legacy_hash": "494a66743f0ea7d039c4f2da648b28e01d6cec01d53f1cad479f1b7f24764780"
+        },
+        {
+          "id": "W02_rail_sweep_v001",
+          "state": "",
+          "role": "history"
+        }
+      ]
+    },
+    {
+      "id": "asset-w03",
+      "name": "Scatter Gun",
+      "code": "W03",
+      "category": "Weapons",
+      "archived": false,
+      "current": {
+        "": "alt-W03_aligned_v001.forge"
+      },
+      "members": [
+        {
+          "id": "study-W03_detail.forge",
+          "state": "",
+          "role": "source",
+          "legacy_hash": "12ec7c68ca074ece9b38b1ab099ecf2558e7ae4c883da400bd4d3b62ac1814c8"
+        },
+        {
+          "id": "study-W03_grid.forge",
+          "state": "",
+          "role": "source",
+          "legacy_hash": "cec80ccbf15e8e110a6b83806bcae4b9116e10c78733c64696ca010edb356882"
+        },
+        {
+          "id": "alt-W03_aligned_v001.forge",
+          "state": "",
+          "role": "history",
+          "legacy_hash": "7345c4fb823f51e9d75e89da08e565ae2a7f7731e3c03ed38c69322049193181"
+        },
+        {
+          "id": "alt-W03_twin_chamber_v001.forge",
+          "state": "",
+          "role": "history",
+          "legacy_hash": "d22fb1217d3cf3f2cf006a4f4924b2a4aa670a35faa9fad92fcfa8b5f2155839"
+        },
+        {
+          "id": "saved-9e73ef5cdbf573fcc7f6",
+          "state": "",
+          "role": "history",
+          "legacy_hash": "d22fb1217d3cf3f2cf006a4f4924b2a4aa670a35faa9fad92fcfa8b5f2155839"
+        },
+        {
+          "id": "saved-970a5b9f30f04313994c",
+          "state": "",
+          "role": "history",
+          "legacy_hash": "7345c4fb823f51e9d75e89da08e565ae2a7f7731e3c03ed38c69322049193181"
+        },
+        {
+          "id": "pixelkit-v2-W03_scatter_gun",
+          "state": "",
+          "role": "source",
+          "legacy_hash": "cac9344867165c3ab5e021915c87e70b5e4f73082d416a7dae44515e9ea26a01"
+        },
+        {
+          "id": "weapons-labelled-v1-W03_scatter_gun",
+          "state": "",
+          "role": "source",
+          "legacy_hash": "70e02cfd164df48c2204d16f0960b4e56b5997759f2d2f7322f465faf3debdb0"
+        },
+        {
+          "id": "game-scatter",
+          "state": "",
+          "role": "history",
+          "legacy_hash": "e721399b3c0048ccd5ee1c2200afc29282411babf6e4ff739778557b86091d4b"
+        },
+        {
+          "id": "W03_twin_chamber_v001",
+          "state": "",
+          "role": "history"
+        }
+      ]
+    },
+    {
+      "id": "asset-w04",
+      "name": "Dakka Bolter",
+      "code": "W04",
+      "category": "Weapons",
+      "archived": false,
+      "current": {
+        "": "alt-W04_aligned_v001.forge"
+      },
+      "members": [
+        {
+          "id": "study-W04_detail.forge",
+          "state": "",
+          "role": "source",
+          "legacy_hash": "95575d5faffaf219b48871e20a05a1005e27e2df09ccd34fcc190d3af8318278"
+        },
+        {
+          "id": "study-W04_grid.forge",
+          "state": "",
+          "role": "source",
+          "legacy_hash": "90f313feb93b30ffc060dffca8b4b3fce8bc60c824fa7e6c24c27e466ef836c4"
+        },
+        {
+          "id": "alt-W04_aligned_v001.forge",
+          "state": "",
+          "role": "history",
+          "legacy_hash": "7519001ad534e9b3789c3466a1030a6d0ed1f8d29345eaee50d5fc8052ad45a0"
+        },
+        {
+          "id": "alt-W04_staggered_charge_v001.forge",
+          "state": "",
+          "role": "history",
+          "legacy_hash": "0fa09b62e9db4aadc9397164407b7c8f738c0d4d7594f4b1ccf1a27c039c8d74"
+        },
+        {
+          "id": "saved-c6c414b4e943ec1af55f",
+          "state": "",
+          "role": "history",
+          "legacy_hash": "0fa09b62e9db4aadc9397164407b7c8f738c0d4d7594f4b1ccf1a27c039c8d74"
+        },
+        {
+          "id": "saved-b79554f5e1e443a645de",
+          "state": "",
+          "role": "history",
+          "legacy_hash": "7519001ad534e9b3789c3466a1030a6d0ed1f8d29345eaee50d5fc8052ad45a0"
+        },
+        {
+          "id": "pixelkit-v2-W04_dakka_bolter",
+          "state": "",
+          "role": "source",
+          "legacy_hash": "95e9b33bfd4621df7b4cedfc01b50a7b58e2da8d506c1287c7122418ac6b55a3"
+        },
+        {
+          "id": "weapons-labelled-v1-W04_dakka_bolter",
+          "state": "",
+          "role": "source",
+          "legacy_hash": "ea569686001a36c01d5859aadac2a561d131cb2a1d0d902174f32324b5f67629"
+        },
+        {
+          "id": "game-bolter",
+          "state": "",
+          "role": "history",
+          "legacy_hash": "bf179e543527a3419f53e532b738c8a49cea589ace6b09bbff446ba6951c1b62"
+        },
+        {
+          "id": "W04_staggered_charge_v001",
+          "state": "",
+          "role": "history"
+        }
+      ]
+    },
+    {
+      "id": "asset-w05",
+      "name": "Las Burner",
+      "code": "W05",
+      "category": "Weapons",
+      "archived": false,
+      "current": {
+        "": "alt-W05_aligned_v001.forge"
+      },
+      "members": [
+        {
+          "id": "study-W05_detail.forge",
+          "state": "",
+          "role": "source",
+          "legacy_hash": "0867c9faafce8c303b5ad7c39d08fd91eecca69509ea7388891b015307309076"
+        },
+        {
+          "id": "study-W05_grid.forge",
+          "state": "",
+          "role": "source",
+          "legacy_hash": "9e1d4a54e8a51fcb2828c4de492b360ccdf03034810ce2b7134b2e7e9b566d43"
+        },
+        {
+          "id": "alt-W05_aligned_v001.forge",
+          "state": "",
+          "role": "history",
+          "legacy_hash": "933425ae5a53d2091de35b3ebb1f4b217f7f2f32bde419841f4c9b320a14ee5f"
+        },
+        {
+          "id": "alt-W05_quick_pulse_v001.forge",
+          "state": "",
+          "role": "history",
+          "legacy_hash": "65eb5be7fb646bdcae918e45277921cc3a59c60246a48607024b3c7bab808f09"
+        },
+        {
+          "id": "alt-W05_red_sequence_v001.forge",
+          "state": "",
+          "role": "history",
+          "legacy_hash": "10fcb603118901a66500c26040212fd38561000e3dbe900c3d0be4fcd9690e0a"
+        },
+        {
+          "id": "saved-1b9c11b2e4597df3c696",
+          "state": "",
+          "role": "history",
+          "legacy_hash": "6be85ffb7b2a8bbc7da12ae153f9e1e608811b6e3a3b64cbf3c6e0d6f9dfa444"
+        },
+        {
+          "id": "saved-680dbca1c49f7612710b",
+          "state": "",
+          "role": "history",
+          "legacy_hash": "5f3bd54fe8ed62ede5e661209e26fc35f2e412ca26dbc30b05fdede239eed8a6"
+        },
+        {
+          "id": "saved-ef505e50872e6424f51f",
+          "state": "",
+          "role": "history",
+          "legacy_hash": "10fcb603118901a66500c26040212fd38561000e3dbe900c3d0be4fcd9690e0a"
+        },
+        {
+          "id": "saved-2dc2552c5949729dca3f",
+          "state": "",
+          "role": "history",
+          "legacy_hash": "933425ae5a53d2091de35b3ebb1f4b217f7f2f32bde419841f4c9b320a14ee5f"
+        },
+        {
+          "id": "pixelkit-v2-W05_las_burner",
+          "state": "",
+          "role": "source",
+          "legacy_hash": "f0a36c6e56bebc8b44455cbd859aecfab10ea114661706f37fd6766c63b47b62"
+        },
+        {
+          "id": "weapons-labelled-v1-W05_las_burner",
+          "state": "",
+          "role": "source",
+          "legacy_hash": "ac54edc7cf3e841c2a45b2f5ca9de8f1c54d48f3dcf8fb6304f45f60349b0b04"
+        },
+        {
+          "id": "game-las",
+          "state": "",
+          "role": "history",
+          "legacy_hash": "3912ef44aebb882bb1528f012aaed4a3d9dd93f5c2ccfc9e0701e180e2455229"
+        },
+        {
+          "id": "W05_quick_pulse_v001",
+          "state": "",
+          "role": "history"
+        },
+        {
+          "id": "W05_red_sequence_v001",
+          "state": "",
+          "role": "history"
+        }
+      ]
+    },
+    {
+      "id": "asset-w06",
+      "name": "Promethium Flamer",
+      "code": "W06",
+      "category": "Weapons",
+      "archived": false,
+      "current": {
+        "": "alt-W06_aligned_v001.forge"
+      },
+      "members": [
+        {
+          "id": "study-W06_detail.forge",
+          "state": "",
+          "role": "source",
+          "legacy_hash": "ed24e9934df8e7cd411decd35fa93d48b86c410f035af34eafb1180dd185879c"
+        },
+        {
+          "id": "study-W06_grid.forge",
+          "state": "",
+          "role": "source",
+          "legacy_hash": "30cc125c55413a7e863b24363982bb4747e421df220b3977fb5cb695ac25b754"
+        },
+        {
+          "id": "alt-W06_aligned_v001.forge",
+          "state": "",
+          "role": "history",
+          "legacy_hash": "00a67be8eecd1055ea12a4bf7fc7291153aad4857244e7073d46f420612ee7e9"
+        },
+        {
+          "id": "alt-W06_furnace_shimmer_v001.forge",
+          "state": "",
+          "role": "history",
+          "legacy_hash": "24bed25b1055be5002c1126c6ea21bf248a5b47644807b99dee27b4017660d18"
+        },
+        {
+          "id": "saved-6bea0bf45141dada048d",
+          "state": "",
+          "role": "history",
+          "legacy_hash": "24bed25b1055be5002c1126c6ea21bf248a5b47644807b99dee27b4017660d18"
+        },
+        {
+          "id": "saved-bb6c7b885456dfb1019c",
+          "state": "",
+          "role": "history",
+          "legacy_hash": "00a67be8eecd1055ea12a4bf7fc7291153aad4857244e7073d46f420612ee7e9"
+        },
+        {
+          "id": "pixelkit-v2-W06_promethium_flamer",
+          "state": "",
+          "role": "source",
+          "legacy_hash": "c0921aea4bdcb6e33cb81674dd189de9b09ecd41c9090e2b3a092d5e4cecd639"
+        },
+        {
+          "id": "weapons-labelled-v1-W06_promethium_flamer",
+          "state": "",
+          "role": "source",
+          "legacy_hash": "b8f8a8d005956b1cd091b1d0b6304ce1575b3b4158159ae832e1a30fe03a55a1"
+        },
+        {
+          "id": "game-flamer",
+          "state": "",
+          "role": "history",
+          "legacy_hash": "58929a85374d6f78591fe75d5faba8939f94e4750ff8e50116d72ecfe6a48be5"
+        },
+        {
+          "id": "W06_furnace_shimmer_v001",
+          "state": "",
+          "role": "history"
+        }
+      ]
+    },
+    {
+      "id": "asset-w07",
+      "name": "Chainblade",
+      "code": "W07",
+      "category": "Weapons",
+      "archived": false,
+      "current": {
+        "": "alt-W07_aligned_v001.forge"
+      },
+      "members": [
+        {
+          "id": "study-W07_detail.forge",
+          "state": "",
+          "role": "source",
+          "legacy_hash": "e75ade445145430cd5a5dc186b6bcdcf194a10a2173e07f1bfb7ae9954a2160c"
+        },
+        {
+          "id": "study-W07_grid.forge",
+          "state": "",
+          "role": "source",
+          "legacy_hash": "14cfdc9c1b11554c2df684fd22fd2adade3defafa1a4ebcd185fa6c51ec882b7"
+        },
+        {
+          "id": "alt-W07_aligned_v001.forge",
+          "state": "",
+          "role": "history",
+          "legacy_hash": "9fc12a9adf60b3f5d959cbdac01ca4f3ff84587cb8f82744f5e884bbb5577490"
+        },
+        {
+          "id": "alt-W07_edge_chase_v001.forge",
+          "state": "",
+          "role": "history",
+          "legacy_hash": "2fd279a4b00d2dfa98e776933f0769f427e96adc816c7abde5d8ddccf10ee28a"
+        },
+        {
+          "id": "saved-67954c2ae95b39088a50",
+          "state": "",
+          "role": "history",
+          "legacy_hash": "2fd279a4b00d2dfa98e776933f0769f427e96adc816c7abde5d8ddccf10ee28a"
+        },
+        {
+          "id": "saved-555882d2de1227592678",
+          "state": "",
+          "role": "history",
+          "legacy_hash": "9fc12a9adf60b3f5d959cbdac01ca4f3ff84587cb8f82744f5e884bbb5577490"
+        },
+        {
+          "id": "saved-0fc9e9e850fe180c82d1",
+          "state": "",
+          "role": "history",
+          "legacy_hash": "b1b75501d937f35b8f6fd81b3fc865f1a18d3b38bc53383392eaca9c4e5e44e0"
+        },
+        {
+          "id": "expansion-v1-W07_base",
+          "state": "",
+          "role": "source",
+          "legacy_hash": "7ace406254148f39147af51e9471efb29481ea7ba14f221c00334dc113fc2606"
+        },
+        {
+          "id": "expansion-v1-W07_chain_phase_0",
+          "state": "chain_phase_0",
+          "role": "component",
+          "legacy_hash": "98fd5748187c921de6732268f47c11975a6b3a23b894811bce0b9255879d96c0"
+        },
+        {
+          "id": "expansion-v1-W07_chain_phase_1",
+          "state": "chain_phase_1",
+          "role": "component",
+          "legacy_hash": "5c8dc26afa26fe2470dc2ddd1667bf4ffa9ae64af64d9b8781bae2406af8b87e"
+        },
+        {
+          "id": "expansion-v1-W07_chain_phase_2",
+          "state": "chain_phase_2",
+          "role": "component",
+          "legacy_hash": "7539e35282b813ec19d5d65e46e8af839c31f6b9af10bea22cb9cc8646b24aa3"
+        },
+        {
+          "id": "pixelkit-v2-W07_chainblade",
+          "state": "",
+          "role": "source",
+          "legacy_hash": "228064d7e9cb9bcc689f06c146f594d1c76485745150fbe61eba29df46310ce7"
+        },
+        {
+          "id": "weapons-labelled-v1-W07_chainblade",
+          "state": "",
+          "role": "source",
+          "legacy_hash": "a716bee7b86102aae4dc7521abe5fa4ccc5d1ae84b912e551bbc526fc261195d"
+        },
+        {
+          "id": "game-chain_old",
+          "state": "",
+          "role": "history",
+          "legacy_hash": "dafc3ad412b429fdc46a2a9cf961239e541ebe37d1b3499f40ef071e4dd5cd0a"
+        },
+        {
+          "id": "game-chain",
+          "state": "",
+          "role": "history",
+          "legacy_hash": "9bc308135e965c12226c1ba24d1ec9534ab25bc95cbaec08952480e4d0d804e6"
+        },
+        {
+          "id": "W07_edge_chase_v001",
+          "state": "",
+          "role": "history"
+        }
+      ]
+    },
+    {
+      "id": "asset-w08",
+      "name": "Thunder Fist",
+      "code": "W08",
+      "category": "Weapons",
+      "archived": false,
+      "current": {
+        "": "alt-W08_aligned_v001.forge"
+      },
+      "members": [
+        {
+          "id": "study-W08_detail.forge",
+          "state": "",
+          "role": "source",
+          "legacy_hash": "5915f3c03a0427922bf73d0d310f53438333f97b03eb8969690da5c2ec254c51"
+        },
+        {
+          "id": "study-W08_grid.forge",
+          "state": "",
+          "role": "source",
+          "legacy_hash": "d8c707f80c31f07809e5047bc43b90bf720d5f20448314cee063d38ffa8d04ae"
+        },
+        {
+          "id": "alt-W08_aligned_v001.forge",
+          "state": "",
+          "role": "history",
+          "legacy_hash": "0bf8913f20776f7050bd3de4a444e4e73ec8f97ea4decd55afa0f87780aa4f63"
+        },
+        {
+          "id": "alt-W08_knuckle_surge_v001.forge",
+          "state": "",
+          "role": "history",
+          "legacy_hash": "841ea3c46a92a9d74eecde528fc1b24d599a55a6ed5d3dc666ad66c5ab2e5781"
+        },
+        {
+          "id": "saved-11c48d43ccf655ea5a4a",
+          "state": "",
+          "role": "history",
+          "legacy_hash": "841ea3c46a92a9d74eecde528fc1b24d599a55a6ed5d3dc666ad66c5ab2e5781"
+        },
+        {
+          "id": "saved-08af5f0a2fa6de8de264",
+          "state": "",
+          "role": "history",
+          "legacy_hash": "0bf8913f20776f7050bd3de4a444e4e73ec8f97ea4decd55afa0f87780aa4f63"
+        },
+        {
+          "id": "pixelkit-v2-W08_thunder_fist",
+          "state": "",
+          "role": "source",
+          "legacy_hash": "7ecec5113469f294868600a52de8ede150acec2167b8f27d3a21299a1047525b"
+        },
+        {
+          "id": "weapons-labelled-v1-W08_thunder_fist",
+          "state": "",
+          "role": "source",
+          "legacy_hash": "07354116394f1f1483ccd2f1a5d03230d1d587409fbd0b03b38019b4581d348f"
+        },
+        {
+          "id": "game-fist",
+          "state": "",
+          "role": "history",
+          "legacy_hash": "31fec12f4d5dfb27fa3b246fb435f655bda979757f9dc55e8f8e08c2364b56a4"
+        },
+        {
+          "id": "W08_knuckle_surge_v001",
+          "state": "",
+          "role": "history"
+        }
+      ]
+    },
+    {
+      "id": "asset-c06",
+      "name": "Grave Marker",
+      "code": "C06",
+      "category": "Other art",
+      "archived": false,
+      "current": {
+        "": "saved-23fe3bf59158e8f58a63"
+      },
+      "members": [
+        {
+          "id": "saved-23fe3bf59158e8f58a63",
+          "state": "",
+          "role": "history",
+          "legacy_hash": "da07fb259c894ba5af2bbfce3a0c8d6c9fd1366099c2ac6328a1a464c1f44dc2"
+        },
+        {
+          "id": "saved-ee5146d16d54ec88cc40",
+          "state": "",
+          "role": "history",
+          "legacy_hash": "bfa277f4a3f5cf9aba947bf7c0a67d99160af740830ce85e0e4a2cb171ef3e9a"
+        },
+        {
+          "id": "saved-d54128144845d97e24a2",
+          "state": "",
+          "role": "history",
+          "legacy_hash": "21acc8e01a1a67dd9ac1f4060cfd820653c0b59ae9d5adfae95f42e7a7f2df51"
+        }
+      ]
+    },
+    {
+      "id": "asset-c04",
+      "name": "Promethium Tank",
+      "code": "C04",
+      "category": "Other art",
+      "archived": false,
+      "current": {
+        "": "game-tank"
+      },
+      "members": [
+        {
+          "id": "expansion-v1-C04_base",
+          "state": "",
+          "role": "source",
+          "legacy_hash": "6100591ef9bc3be63a67e98051b3a1b9b688299f1fa521e9867aa8cf0b417cbe"
+        },
+        {
+          "id": "game-tank",
+          "state": "",
+          "role": "history",
+          "legacy_hash": "b897578988a3d04349028a981c991130c514b37eb691164cda55b694b3dce07a"
+        }
+      ]
+    },
+    {
+      "id": "asset-g01",
+      "name": "Godfall Pod",
+      "code": "G01",
+      "category": "Other art",
+      "archived": false,
+      "current": {
+        "": "game-pod"
+      },
+      "members": [
+        {
+          "id": "expansion-v1-G01_base",
+          "state": "",
+          "role": "source",
+          "legacy_hash": "9dc66116055141061a9e09973a0d8c2b9cf65c28f01463d5529ab7047d52d0ce"
+        },
+        {
+          "id": "expansion-v1-G01_opened_wreck",
+          "state": "opened_wreck",
+          "role": "component",
+          "legacy_hash": "fe6dfbcfc91ce666c80aac2406cc2d552dafb3b6e41a20a95cec3e610e7cc9e9"
+        },
+        {
+          "id": "game-pod",
+          "state": "",
+          "role": "history",
+          "legacy_hash": "6641fe8a6b4b886038fb4f63979661e1158dbb425690328aaa9cf46e16f3857b"
+        }
+      ]
+    },
+    {
+      "id": "asset-m01",
+      "name": "Martyr Charge",
+      "code": "M01",
+      "category": "Other art",
+      "archived": false,
+      "current": {
+        "": "game-martyr"
+      },
+      "members": [
+        {
+          "id": "expansion-v1-M01_base",
+          "state": "",
+          "role": "source",
+          "legacy_hash": "38598855615238f6b06113251d744b6f526993219fb756a1b22b475adfa7c685"
+        },
+        {
+          "id": "game-martyr",
+          "state": "",
+          "role": "history",
+          "legacy_hash": "544012b34a937e681b58bf1b43a7ecec1743e970d8c7a4c35b378f377b52b343"
+        }
+      ]
+    },
+    {
+      "id": "asset-p01",
+      "name": "Mortar Shell",
+      "code": "P01",
+      "category": "Other art",
+      "archived": false,
+      "current": {
+        "": "game-shell"
+      },
+      "members": [
+        {
+          "id": "expansion-v1-P01_mortar_shell",
+          "state": "",
+          "role": "source",
+          "legacy_hash": "4b7611728be985b5226dce1f26e0d4b7dcbeded0653305b094c2bb3dfb9e0ae0"
+        },
+        {
+          "id": "pixelkit-v2-P01_mortar_shell",
+          "state": "",
+          "role": "source",
+          "legacy_hash": "da789b9a6493c6c78e8f55cfbb7b850c32f4471b3a8db47475afccba855d12cc"
+        },
+        {
+          "id": "game-shell",
+          "state": "",
+          "role": "history",
+          "legacy_hash": "405afff35994c3207e7bb01a7019e10b0b3dccbf90c362d9f353919d32c65e0f"
+        }
+      ]
+    },
+    {
+      "id": "asset-w12",
+      "name": "Frag Charge",
+      "code": "W12",
+      "category": "Weapons",
+      "archived": false,
+      "current": {
+        "": "game-frag"
+      },
+      "members": [
+        {
+          "id": "expansion-v1-W12_frag_charge",
+          "state": "",
+          "role": "source",
+          "legacy_hash": "cf5188798b202448e443ec9932843644efe9eba81538b58e0d43cc067b44cda9"
+        },
+        {
+          "id": "pixelkit-v2-W12_frag_charge",
+          "state": "",
+          "role": "source",
+          "legacy_hash": "c69a913a94ebd2104c215a53b9c74c5966fdc12342e3368ce9bda7b7c7cb4e09"
+        },
+        {
+          "id": "game-frag",
+          "state": "",
+          "role": "history",
+          "legacy_hash": "97faebddf896f523658579e786f1859af7f8aafb3e0b9cc26b7dbfd92ec8c4bf"
+        }
+      ]
+    },
+    {
+      "id": "asset-w13",
+      "name": "Sun Grenade",
+      "code": "W13",
+      "category": "Weapons",
+      "archived": false,
+      "current": {
+        "": "game-sun"
+      },
+      "members": [
+        {
+          "id": "expansion-v1-W13_sun_grenade",
+          "state": "",
+          "role": "source",
+          "legacy_hash": "41439ac7b15a4456f8518be575d31466a30114a719b734c6d010172c2331b7a1"
+        },
+        {
+          "id": "pixelkit-v2-W13_sun_grenade",
+          "state": "",
+          "role": "source",
+          "legacy_hash": "2df8f83bdc03253a7f809d472b19bcf55a52d63fcc1c2ca62ecb8e334538c89d"
+        },
+        {
+          "id": "game-sun",
+          "state": "",
+          "role": "history",
+          "legacy_hash": "79b3e22600bc63f9e490d4597a280d76f2678d713d01dc0372d0164ae30ad800"
+        }
+      ]
+    },
+    {
+      "id": "asset-w14",
+      "name": "Fusion Mine",
+      "code": "W14",
+      "category": "Weapons",
+      "archived": false,
+      "current": {
+        "": "game-mine"
+      },
+      "members": [
+        {
+          "id": "expansion-v1-W14_fusion_mine",
+          "state": "",
+          "role": "source",
+          "legacy_hash": "d5c2abf21ff151b143f0705f0e69775900dde35795d68c562b990604e2811e85"
+        },
+        {
+          "id": "pixelkit-v2-W14_fusion_mine",
+          "state": "",
+          "role": "source",
+          "legacy_hash": "46284cf31d9d97998f175022e92af181ad702e6b7e9744b5c92ae17e85ca279b"
+        },
+        {
+          "id": "game-mine",
+          "state": "",
+          "role": "history",
+          "legacy_hash": "2697be936436b3c86bdfee0ff046a5526f87bdde9608aab939b12c1806e7a842"
+        }
+      ]
+    },
+    {
+      "id": "asset-w18",
+      "name": "Minigun",
+      "code": "W18",
+      "category": "Weapons",
+      "archived": false,
+      "current": {
+        "": "game-minigun"
+      },
+      "members": [
+        {
+          "id": "expansion-v1-W18_barrel_phase_0",
+          "state": "barrel_phase_0",
+          "role": "component",
+          "legacy_hash": "2057b07ffd886fc0d53f9a662f60354e5c8112a557e3ad806b77e8ae1ab4ad53"
+        },
+        {
+          "id": "expansion-v1-W18_barrel_phase_1",
+          "state": "barrel_phase_1",
+          "role": "component",
+          "legacy_hash": "b9b3990e2e5521bfe3d82844dde2f66db0d4203a67a29bc0f7d8e19f6abcdc97"
+        },
+        {
+          "id": "expansion-v1-W18_barrel_phase_2",
+          "state": "barrel_phase_2",
+          "role": "component",
+          "legacy_hash": "57498c46380adab004d12b609cf2f05b390f67b881f0da2f6c556259266e56c2"
+        },
+        {
+          "id": "expansion-v1-W18_base",
+          "state": "",
+          "role": "source",
+          "legacy_hash": "d7fa24116977367040d7d7f67aaa659590da3c898fd9c2c4bef7c0ce5b4a4c16"
+        },
+        {
+          "id": "game-minigun",
+          "state": "",
+          "role": "history",
+          "legacy_hash": "f2df588dde4cb7dc669a96da6511a6534ea3a61f5341281945c3684bc8ff1920"
+        }
+      ]
+    },
+    {
+      "id": "asset-w19",
+      "name": "Sentry Turret",
+      "code": "W19",
+      "category": "Weapons",
+      "archived": false,
+      "current": {
+        "": "game-sentry"
+      },
+      "members": [
+        {
+          "id": "expansion-v1-W19_base",
+          "state": "",
+          "role": "source",
+          "legacy_hash": "a4ad21136142bc0efac757e57001611546112c0725d238a1229c8f7e45bae120"
+        },
+        {
+          "id": "expansion-v1-W19_tracking_head",
+          "state": "tracking_head",
+          "role": "component",
+          "legacy_hash": "e00f42913e7109474ab4900125f2777f36461967315967409ca9bac80e82da10"
+        },
+        {
+          "id": "game-sentry",
+          "state": "",
+          "role": "history",
+          "legacy_hash": "ef552a4458e963e7e954a079f5624e1495413eb379f42d87d72f8e28cef8c841"
+        }
+      ]
+    },
+    {
+      "id": "asset-w20",
+      "name": "Tracked Drone",
+      "code": "W20",
+      "category": "Weapons",
+      "archived": false,
+      "current": {
+        "": "game-drone"
+      },
+      "members": [
+        {
+          "id": "expansion-v1-W20_base",
+          "state": "",
+          "role": "source",
+          "legacy_hash": "effec3512aa04d5d66bda25ef7b374a2e7989cc093c5171bede2071a6ba922b8"
+        },
+        {
+          "id": "game-drone",
+          "state": "",
+          "role": "history",
+          "legacy_hash": "e02c573d3b7629554f720ed3b8679ad8a904bc44b0f52e2a5942d4d94c156791"
+        }
+      ]
+    },
+    {
+      "id": "asset-w21",
+      "name": "Teleporter",
+      "code": "W21",
+      "category": "Weapons",
+      "archived": false,
+      "current": {
+        "": "game-teleport"
+      },
+      "members": [
+        {
+          "id": "expansion-v1-W21_base",
+          "state": "",
+          "role": "source",
+          "legacy_hash": "9a3cea8d28d8e869f4c25d110e411f72c06853311593c9d05d3f65bbd64c58fe"
+        },
+        {
+          "id": "game-teleport",
+          "state": "",
+          "role": "history",
+          "legacy_hash": "9ec46a113d980ba8a6ea097e4df46c6dbfe339c2160228b5f1f1049a5daf78b2"
+        }
+      ]
+    },
+    {
+      "id": "asset-w09",
+      "name": "Orbital Lance",
+      "code": "W09",
+      "category": "Weapons",
+      "archived": false,
+      "current": {
+        "": "game-lance"
+      },
+      "members": [
+        {
+          "id": "pixelkit-v2-W09_orbital_lance",
+          "state": "",
+          "role": "source",
+          "legacy_hash": "55d79a2f29dae04f12be7f4a7ddec29cdf8a05d9a67f1a8f05360ce7bc764bb7"
+        },
+        {
+          "id": "weapons-labelled-v1-W09_orbital_lance",
+          "state": "",
+          "role": "source",
+          "legacy_hash": "e1c230f5718cdd93f8ec8188adf82feaff1e6c2988936db1dbbd898769f58b09"
+        },
+        {
+          "id": "game-lance",
+          "state": "",
+          "role": "history",
+          "legacy_hash": "1734144e21bc7d12dfcc5cc1e60ec13ee1142ad0b90133983374b76cb33273a3"
+        }
+      ]
+    },
+    {
+      "id": "asset-w10",
+      "name": "Rappel Wire",
+      "code": "W10",
+      "category": "Weapons",
+      "archived": false,
+      "current": {
+        "": "game-rope"
+      },
+      "members": [
+        {
+          "id": "pixelkit-v2-W10_rappel_wire",
+          "state": "",
+          "role": "source",
+          "legacy_hash": "20fc7c929dc6c6618424e3829640b7e854ad14f17bb74b21c456564dd65075ea"
+        },
+        {
+          "id": "weapons-labelled-v1-W10_rappel_wire",
+          "state": "",
+          "role": "source",
+          "legacy_hash": "313d3509dd1f183948c3da0726accf161e74a02540ea3341000d2d471876a357"
+        },
+        {
+          "id": "game-rope",
+          "state": "",
+          "role": "history",
+          "legacy_hash": "bec474fc9e52e085dc94d7619811223e6d233e78133621904d5e6293f69da92a"
+        }
+      ]
+    },
+    {
+      "id": "asset-w11",
+      "name": "Plasma Cutter",
+      "code": "W11",
+      "category": "Weapons",
+      "archived": false,
+      "current": {
+        "": "game-cutter"
+      },
+      "members": [
+        {
+          "id": "pixelkit-v2-W11_plasma_cutter",
+          "state": "",
+          "role": "source",
+          "legacy_hash": "6744ce41ba6cf2f68e815e3318dc867649ca560493343202b9ac19099c3d2c58"
+        },
+        {
+          "id": "weapons-labelled-v1-W11_plasma_cutter",
+          "state": "",
+          "role": "source",
+          "legacy_hash": "a281d18dc97eabf27c1427b340f8ca77254566b3a8e02f4b9730fce22d58e63f"
+        },
+        {
+          "id": "game-cutter",
+          "state": "",
+          "role": "history",
+          "legacy_hash": "0eab11eb1b5d9798486b3475f7a15e2d03f6076245804a809b6a982531bd75f0"
+        }
+      ]
+    },
+    {
+      "id": "asset-w15",
+      "name": "Doomsday Shell",
+      "code": "W15",
+      "category": "Weapons",
+      "archived": false,
+      "current": {
+        "": "game-nuke"
+      },
+      "members": [
+        {
+          "id": "pixelkit-v2-W15_doomsday_shell",
+          "state": "",
+          "role": "source",
+          "legacy_hash": "76bcc675c54dd42d2417913f3807c1274ec0cf73b693aad4bf08fc17e2ee18d8"
+        },
+        {
+          "id": "game-nuke",
+          "state": "",
+          "role": "history",
+          "legacy_hash": "84d134c70374064bbbf124f9e6e1bcbd36116e7c8cfc062d75b0759ad20f11f8"
+        }
+      ]
+    },
+    {
+      "id": "asset-w16",
+      "name": "Fabricator",
+      "code": "W16",
+      "category": "Weapons",
+      "archived": false,
+      "current": {
+        "": "game-fab"
+      },
+      "members": [
+        {
+          "id": "pixelkit-v2-W16_fabricator",
+          "state": "",
+          "role": "source",
+          "legacy_hash": "52afa843d0d5ac11f243813811184b1a9313ff19ca84dea3f53edfc2ae0ca4aa"
+        },
+        {
+          "id": "game-fab",
+          "state": "",
+          "role": "history",
+          "legacy_hash": "410a80824d881dc1a4c19d44e4198b72413177c3c09640bc8b69e82e0f93df38"
+        }
+      ]
+    },
+    {
+      "id": "asset-a02",
+      "name": "Aim Arm",
+      "code": "A02",
+      "category": "Arms",
+      "archived": false,
+      "current": {
+        "": "pixelkit-v2-trooper_aim_arm"
+      },
+      "members": [
+        {
+          "id": "pixelkit-v2-trooper_aim_arm",
+          "state": "",
+          "role": "source",
+          "legacy_hash": "091a9d8ee5084b61f379f08e2054bc7a65a0d9a7766de8a1d96ecb56a4231da8"
+        }
+      ]
+    },
+    {
+      "id": "asset-c01",
+      "name": "Supply Crate",
+      "code": "C01",
+      "category": "Other art",
+      "archived": false,
+      "current": {
+        "": "props-v1-C01_supply_crate"
+      },
+      "members": [
+        {
+          "id": "props-v1-C01_supply_crate",
+          "state": "",
+          "role": "source",
+          "legacy_hash": "b446d14d265653d2b4fdb7125e1b84bb6a87fa2a0267f3481116341a6b80500f"
+        },
+        {
+          "id": "props-v1-C01_symbol_arms_mask",
+          "state": "symbol_arms_mask",
+          "role": "component",
+          "legacy_hash": "a2fe1c44acc621286035a0101fb0b0ed650d11f81baac0af71a836f65b45ce0b"
+        },
+        {
+          "id": "props-v1-C01_symbol_heavy_mask",
+          "state": "symbol_heavy_mask",
+          "role": "component",
+          "legacy_hash": "e0b87ed23718b6089decf2d1ee9c2da7aa75ebbb0a60bee6652055eeabff0e22"
+        },
+        {
+          "id": "props-v1-C01_symbol_medical_mask",
+          "state": "symbol_medical_mask",
+          "role": "component",
+          "legacy_hash": "7ecb5bd1667cd5250810b0671747d72381906df460aa3ffae4850e742437ccd9"
+        },
+        {
+          "id": "props-v1-C01_symbol_tool_mask",
+          "state": "symbol_tool_mask",
+          "role": "component",
+          "legacy_hash": "e3ab675c9b3ccc19ac324cce71da6b9cf2b11cb6010e3375679286a94d785852"
+        }
+      ]
+    },
+    {
+      "id": "asset-c02",
+      "name": "Parachute",
+      "code": "C02",
+      "category": "Other art",
+      "archived": false,
+      "current": {
+        "": "props-v1-C02_parachute"
+      },
+      "members": [
+        {
+          "id": "props-v1-C02_parachute",
+          "state": "",
+          "role": "source",
+          "legacy_hash": "44830f2bb239a845db771033398c68c0ba9578c5fbd171d566c287b2b626a149"
+        }
+      ]
+    },
+    {
+      "id": "props-v1-props_review",
+      "name": "Props V1 · Props Review",
+      "code": "",
+      "category": "Other art",
+      "archived": true,
+      "current": {
+        "": "props-v1-props_review"
+      },
+      "members": [
+        {
+          "id": "props-v1-props_review",
+          "state": "",
+          "role": "source",
+          "legacy_hash": "ff1a657ac470d127da509932425ea604adfa28d0d62a93848fc482fcc56316d6"
+        }
+      ]
+    },
+    {
+      "id": "asset-t01",
+      "name": "Trooper",
+      "code": "T01",
+      "category": "Troopers",
+      "archived": false,
+      "current": {
+        "idle": "game-trooper-idle",
+        "walk": "game-trooper-walk",
+        "jump": "game-trooper-jump",
+        "knocked": "game-trooper-knocked",
+        "swim": "game-trooper-swim",
+        "torso": "game-trooper-torso",
+        "death": "trooper-animations-v1-death",
+        "throw": "trooper-animations-v1-throw"
+      },
+      "members": [
+        {
+          "id": "trooper-animations-v1-idle",
+          "state": "idle",
+          "role": "source",
+          "legacy_hash": "da2a5f5f547d6a67da6cca812f5fda51000934c10b9ed27d8a55581f9e8049a2"
+        },
+        {
+          "id": "trooper-animations-v1-jump",
+          "state": "jump",
+          "role": "source",
+          "legacy_hash": "42f394fbb0a544d02d949cbb9a826667437e39d0c4a7c2fd438f31bacd614d47"
+        },
+        {
+          "id": "trooper-animations-v1-knocked",
+          "state": "knocked",
+          "role": "source",
+          "legacy_hash": "c82d90fe2d01ef97bdbe49d910d590a948aa10eaa7ab940b0b8d14b35071ade1"
+        },
+        {
+          "id": "trooper-animations-v1-swim",
+          "state": "swim",
+          "role": "source",
+          "legacy_hash": "838a774b21349bf6c7fcd9c27bf07203ccb2fcd046c4dc262b2d93c7d4bf12e0"
+        },
+        {
+          "id": "trooper-animations-v1-death",
+          "state": "death",
+          "role": "source",
+          "legacy_hash": "1bf70da94fa186c424e569b2122e0177a40aa91e6007f32751dd4e29773991b3"
+        },
+        {
+          "id": "trooper-animations-v1-throw",
+          "state": "throw",
+          "role": "source",
+          "legacy_hash": "3bf40fdd00d68d810095c5217d3b4eb2e7bca1699442af4ecc457d88cf15b373"
+        },
+        {
+          "id": "walk-redrawn-v2-walk",
+          "state": "walk",
+          "role": "source",
+          "legacy_hash": "ece69bd80a9016cc77e53e95e0ba923a4900b8a37fd50f6d37a32067d5f7cbcb"
+        },
+        {
+          "id": "walk-redrawn-v3-walk",
+          "state": "walk",
+          "role": "source",
+          "legacy_hash": "235494265c9819efd0bd6501faf56ad86ce925b8531c3faeca865ae7a3c4eb1a"
+        },
+        {
+          "id": "walk-redrawn-v4-walk",
+          "state": "walk",
+          "role": "source",
+          "legacy_hash": "f4c0dd574562848c206feebcab585bec720daac66b1501031ad8b4d26e2a259c"
+        },
+        {
+          "id": "game-trooper-walk",
+          "state": "walk",
+          "role": "state",
+          "legacy_hash": "4b3febbfc87dd532084eda6a649dbf5986eea7738b3ecab5b2e0a6f6f4581821"
+        },
+        {
+          "id": "game-trooper-idle",
+          "state": "idle",
+          "role": "state",
+          "legacy_hash": "a18b3d8e4657598595a5646ce0ed3dde676d1ea2f6aff3c3f80b525052b89056"
+        },
+        {
+          "id": "game-trooper-jump",
+          "state": "jump",
+          "role": "state",
+          "legacy_hash": "6136e51fd76d786ba367ace9eff3269eaec51207ec9057a1ff1fb4d45e77ab3f"
+        },
+        {
+          "id": "game-trooper-knocked",
+          "state": "knocked",
+          "role": "state",
+          "legacy_hash": "8e2aad0bdab406344258adb6d955ca6cb729365c088e4540304078a4964c0b9c"
+        },
+        {
+          "id": "game-trooper-swim",
+          "state": "swim",
+          "role": "state",
+          "legacy_hash": "e49fa63fd563c79223310929ca08010cf72fc69c104fc3e358a88619bb231654"
+        },
+        {
+          "id": "game-trooper-torso",
+          "state": "torso",
+          "role": "state",
+          "legacy_hash": "9c6dc63338007df8fd2e8d1501faad59e174f644a2774eecc1ddd45afdd570a2"
+        }
+      ]
+    },
+    {
+      "id": "asset-a03",
+      "name": "Throw Arm",
+      "code": "A03",
+      "category": "Arms",
+      "archived": false,
+      "current": {
+        "": "trooper-animations-v1-throw_arm"
+      },
+      "members": [
+        {
+          "id": "trooper-animations-v1-throw_arm",
+          "state": "",
+          "role": "source",
+          "legacy_hash": "644c3df3cad5b8d3050f21bd7d5839db82f660020239509f3dab013b7f5e2fbf"
+        }
+      ]
+    },
+    {
+      "id": "asset-a01",
+      "name": "Gun Arm",
+      "code": "A01",
+      "category": "Arms",
+      "archived": false,
+      "current": {
+        "": "single-gun-arm-v001"
+      },
+      "members": [
+        {
+          "id": "single-gun-arm-v001",
+          "state": "",
+          "role": "current",
+          "legacy_hash": "c500c30423660afc927576a11bf125b05c77bd730e760d2a4c1644916677c4f4"
+        }
+      ]
+    },
+    {
+      "id": "asset-c03",
+      "name": "Dropship",
+      "code": "C03",
+      "category": "Other art",
+      "archived": false,
+      "current": {
+        "": "game-ship"
+      },
+      "members": [
+        {
+          "id": "game-ship",
+          "state": "",
+          "role": "history",
+          "legacy_hash": "1b316f30c74c3057c55f2d98f357e8305bc9e4b65e7f812f887a310b763cacc5"
+        }
+      ]
+    },
+    {
+      "id": "reference-aim-arm",
+      "name": "Aim Arm",
+      "code": "",
+      "category": "Other art",
+      "archived": true,
+      "current": {
+        "": "reference-aim-arm"
+      },
+      "members": [
+        {
+          "id": "reference-aim-arm",
+          "state": "",
+          "role": "source",
+          "legacy_hash": "283d8ccbdf1b223271a5500f55ea571e76a8af119f81e26d02210b0fd85889ec"
+        }
+      ]
+    },
+    {
+      "id": "reference-trooper-concept",
+      "name": "Trooper Concept",
+      "code": "",
+      "category": "Other art",
+      "archived": true,
+      "current": {
+        "": "reference-trooper-concept"
+      },
+      "members": [
+        {
+          "id": "reference-trooper-concept",
+          "state": "",
+          "role": "source",
+          "legacy_hash": "ece038b7e4b96f6b55e1ee49c860394de84ea87749796ff735dbfa00c68eecaa"
+        }
+      ]
+    },
+    {
+      "id": "reference-weapons-sheet",
+      "name": "Weapons Sheet",
+      "code": "",
+      "category": "Other art",
+      "archived": true,
+      "current": {
+        "": "reference-weapons-sheet"
+      },
+      "members": [
+        {
+          "id": "reference-weapons-sheet",
+          "state": "",
+          "role": "source",
+          "legacy_hash": "d1b02ac8a61c4f2dd4c3a19a3c366a7d27556955d0dc0e403289b0a7b4f97e83"
+        }
+      ]
+    }
+  ]
+}

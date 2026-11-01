@@ -197,3 +197,14 @@ First playable review of the straight foreground gun arm and glove on all six gu
   alignment cases with sprite arm plus game category tests. Game main unchanged.
 - App update authorized by Jarred; artwork remains draft. Authenticated hosted UI
   verification pending deployment and an available signed-in browser.
+
+## Library families — 2026-10-31
+
+- Replace top-level duplicate browsing with 32 current asset families and four archived references. All 161 catalog documents and nine original registrations are retained unchanged.
+- Explicitly map provenance and defaults in hosted/families.json; weapon defaults use the aligned W01–W08 catalog versions. No approval records changed.
+- Keep trooper animation states and component overlays inside their asset; preserve complete layers, frames, source resolution and historical document IDs.
+- Carry stable asset/state identity through open, browser recovery/export and both shared save paths. Save adds a draft version; New creates a separate asset regardless of display code.
+- Keep original catalog defaults accessible alongside drafts. Recover legacy saved-build identity from exact content fingerprints.
+- Preserve the single foreground arm, Reach, independent saves, stale-write protection and focused game-release rules. No public-game source or art was changed.
+- Checks: hosted save/release tests plus migration completeness, new-versus-version identity, trooper state retention and legacy provenance; local browser verified grouped browsing and four-frame Walk opening. Signed-in hosted saving remains unverified.
+- Next: the ordered art plan is recorded in ROADMAP.md.
