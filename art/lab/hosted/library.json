@@ -311,6 +311,20 @@
       "h": 20,
       "frame_count": 40,
       "category": "Weapons"
+    },
+    {
+      "id": "asset-e965158953c353a046c05485",
+      "path": "art/lab/hosted/library/asset-e965158953c353a046c05485.forge.json",
+      "sha256": "e965158953c353a046c05485b8f4670014e5b5e41615e573f3d1ae015726b635",
+      "asset_id": "asset-w05",
+      "state_key": "",
+      "asset_name": "Las Burner",
+      "code": "W05",
+      "name": "Las Burner — red charge sequence",
+      "w": 42,
+      "h": 20,
+      "frame_count": 32,
+      "category": "Weapons"
     }
   ]
 }
