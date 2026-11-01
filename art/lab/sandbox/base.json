@@ -1,5 +1,5 @@
 {
-  "commit": "db0b85b263bff04befb5c7755793478bc3b54f3b",
+  "commit": "eb12d9ff299b7deb773ead33c988d49f5b6eef97",
   "source": "index.html",
-  "note": "Alignment correction based on current main; canonical sandbox source increments simulation protocol to 17 and aligns ranged reticles. Update this pin to the integration commit after deployment."
+  "note": "Pinned after the approved 1.2-scale grip/muzzle correction. Sandbox game source is the clean protocol-17 game with the same ranged reticle fix; animation payload and renderer are snapshotted separately."
 }

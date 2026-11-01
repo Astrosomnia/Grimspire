@@ -118,6 +118,23 @@
         ],
         "full_http_body_hash_checked": false
       }
+    },
+    {
+      "revision": "20261101T021713Z-61d0807f",
+      "main_commit": "eb12d9ff299b7deb773ead33c988d49f5b6eef97",
+      "game_sha256": "97f3d7a8473d060c72ad30791ce471b4afbfe2eef48a6062d2e0d7c1d363bcc1",
+      "approved_by": "Astrosomnia",
+      "approved_at": "2026-11-01T02:17:13.326Z",
+      "pr": "https://github.com/Astrosomnia/Grimspire/pull/2",
+      "status": "main updated; corrected 1.2-scale rig deployed",
+      "deployment": {
+        "revision": "20261101T021713Z-61d0807f",
+        "observed_main_commit": "eb12d9ff299b7deb773ead33c988d49f5b6eef97",
+        "url": "https://astrosomnia.github.io/Grimspire/",
+        "verified_at": "2026-11-01T02:22:44.872Z",
+        "method": "GitHub Pages deploy success; live DOM confirms corrected revision, scale 1.2, all eight calibrated anchors, unchanged frame counts and protocol 17; local las gun fired (ammo 9 to 8) with no game-origin console errors",
+        "full_http_body_hash_checked": false
+      }
     }
   ]
 }
