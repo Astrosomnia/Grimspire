@@ -5,10 +5,11 @@ const draw=source.slice(source.indexOf('function drawTrooper(t)'),source.indexOf
 const legs=source.slice(source.indexOf('function legPose(t)'),source.indexOf('let FRAME_L='));
 const ids={W01:'mortar',W02:'rail',W03:'scatter',W04:'bolter',W05:'las',W06:'flamer',W07:'chain',W08:'fist'};
 const assets={};for(const slot of Object.keys(ids))assets[slot]=JSON.parse(fs.readFileSync(root+'hosted/library/'+slot+'_aligned_v001.forge.json'));
+assets.ARM=JSON.parse(fs.readFileSync(root+'hosted/catalog/single-gun-arm-v001.forge.json'));
 (async()=>{const canvas=createCanvas(350,250),ctx=canvas.getContext('2d'),blank=createCanvas(1,1),payload={revision:'alignment-test',assets,settings:{darkness:.6,emissive:1,bloom:2,scale:1.2,glowColor:'#ffff00'}};let selected='mortar',captured=null,wall=false;
 const sprite={ready:true,M:{frame:[114,158],crop:[56,44],sc:.25,feet:661},T:{torso:[15,1]},P:props,up:4,k:27/(611*.25),ax:48.5,ay:154.25,team:[blank],lit:[blank],emis:[blank],legsD:blank};
 const box={window:{},location:{pathname:'/test'},Image,console,document:{createElement:()=>createCanvas(1,1)},LAB_PAYLOAD:payload,ctx,SPR:sprite,RIG:rig,TROOP_H:27,PX:27/(611/12),time:0,S:{weapon:['mortar'],active:null},HELD:Object.fromEntries(Object.values(ids).map(k=>[k,k])),TEAM:[{col:'#fff'}],DPR:1,scale:1,lightOn:()=>({rims:[{w:0},{w:0}],blast:0}),curW:()=>({id:selected}),key:()=>false,prop:()=>{},drawWeapSpr:()=>false,drawTrooperProc:()=>{},origin:t=>[t.x+13*t.face,t.y-12,Math.cos(t.aim)*t.face,Math.sin(t.aim)],aimVec:t=>[Math.cos(t.aim)*t.face,Math.sin(t.aim)],isSolid:(x,y)=>wall&&x>=108};
-box.__capture=(a,anchor)=>{const m=ctx.getTransform(),point=p=>({x:m.a*(p[0]-anchor[0])+m.c*(p[1]-anchor[1])+m.e,y:m.b*(p[0]-anchor[0])+m.d*(p[1]-anchor[1])+m.f});captured={grip:point(a.doc.markers.grip),muzzle:point(a.doc.markers.muzzle)}};
+box.__capture=(a,anchor)=>{if(a.doc.code==='A01')return;const m=ctx.getTransform(),point=p=>({x:m.a*(p[0]-anchor[0])+m.c*(p[1]-anchor[1])+m.e,y:m.b*(p[0]-anchor[0])+m.d*(p[1]-anchor[1])+m.f});captured={grip:point(a.doc.markers.grip),muzzle:point(a.doc.markers.muzzle)}};
 vm.createContext(box);vm.runInContext(legs+draw,box);
 vm.runInContext("drawWeapSpr=function(k,rim){const m=SPR.P[k];prop(k,m.g[0],m.m?m.m[1]:m.g[1],1,!rim,true);return true}",box);
 let runtime=fs.readFileSync(__dirname+'/runtime.js','utf8').replace('  const x=-anchor[0],y=-anchor[1];','  globalThis.__capture(a,anchor);const x=-anchor[0],y=-anchor[1];');

@@ -81,6 +81,13 @@ function labDrawGunHand(k){
   if(!['mortar','rail','scatter','bolter','las','flamer'].includes(k))return;
   const m=SPR.P[k];if(!m?.g)return;
   const handY=(m.g[1]-(m.m?m.m[1]:m.g[1]))*PX;
+  const art=labArt.get('ARM');
+  if(art){
+    const d=art.doc,anchor=d.markers.hand||d.markers.pivot||[d.w-1,d.h/2];
+    ctx.save();ctx.translate(0,handY);
+    // Cancel weapon scale: the arm retains the trooper's pixel size.
+    labDraw(art,anchor,1/labSettings.scale,false);ctx.restore();return;
+  }
   ctx.save();ctx.translate(0,handY);ctx.scale(PX,PX);
   ctx.globalCompositeOperation='source-over';ctx.globalAlpha=1;
   ctx.shadowColor='transparent';ctx.shadowBlur=0;ctx.shadowOffsetX=0;ctx.shadowOffsetY=0;

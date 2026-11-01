@@ -32,3 +32,12 @@
 - Never bypass branch protection. Never call a main update a verified deployment.
 - Keep immutable sandbox revisions unchanged. New art, code or lighting needs a
   new saved revision and testing. Do not edit packed/generated assets by hand.
+
+## Asset catalog
+
+- `hosted/assets.json` is the lazy source registry; existing generated catalog
+  documents are immutable. Use new IDs for revisions to source art.
+- `hosted/library.json` also indexes independent user saves, including versions
+  that no longer occupy a game test slot. Do not replace it with only current slots.
+- ARM is one foreground sprite, anchored by hand/pivot. It does not require an
+  upper-arm/forearm pair; preserve Single arm plus Reach in the rig preview.

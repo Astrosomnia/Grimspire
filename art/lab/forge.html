@@ -335,7 +335,7 @@ dialog.wide{max-width:min(1180px,96vw);width:96vw}
   <div class="rigwrap">
     <canvas id="rigCv"></canvas>
     <div class="palgrp" id="rigCtl">
-      <p class="note" style="margin:0">Pick parts from the Library. Each part is placed by its points: torso by shoulder and hip, arms by shoulder, elbow and hand, the weapon by its grip, legs by hip and knee.</p>
+      <p class="note" style="margin:0">Use Single arm for one sprite drawn over the weapon, with a hand point at its grip. Reach moves the hand forward. Optional articulated parts: each part is placed by its points: torso by shoulder and hip, arms by shoulder, elbow and hand, the weapon by its grip, legs by hip and knee.</p>
       <div id="rigSlots" class="palgrp"></div>
       <div class="row"><span class="lbl">Aim</span><input id="rigAim" type="range" min="-85" max="85" value="0" style="flex:1" aria-label="Aim angle"><span class="num" id="rigAimLbl"></span></div>
       <div class="row"><span class="lbl">Reach</span><input id="rigReach" type="range" min="50" max="100" value="88" style="flex:1" aria-label="Arm reach"></div>
@@ -977,7 +977,7 @@ Answer briefly and concretely, refer to pixel coordinates (x right, y down, from
   $('#askGo').disabled=false}
 
 // ---------- rig ----------
-const RIGSLOTS=[['torso','Torso','shoulder + hip'],['upper','Upper arm','shoulder → elbow'],['fore','Forearm','elbow → hand'],['weapon','Weapon','grip'],['thigh','Thigh','hip → knee'],['shin','Shin','knee']];
+const RIGSLOTS=[['arm','Single arm','hand (over weapon grip)'],['torso','Torso','shoulder + hip'],['upper','Upper arm','shoulder → elbow'],['fore','Forearm','elbow → hand'],['weapon','Weapon','grip'],['thigh','Thigh','hip → knee'],['shin','Shin','knee']];
 let rig={pick:{},parts:{},t0:0,on:false};
 function compositeOf(frames,w,h,mk){const f=frames[0],c=mkc(w,h),g=c.getContext('2d');for(const k of['body','trim','emis']){if(!f[k])continue;const pc=pxCanvas(f[k],w,h);g.drawImage(k==='trim'&&trimCol?tintCanvas(pc,trimCol):pc,0,0)}return{c,w,h,m:Object.assign(noMarks(),mk||{})}}
 async function rigLoad(){rig.parts={};for(const[k]of RIGSLOTS){const v=rig.pick[k];if(!v)continue;
@@ -1011,20 +1011,21 @@ function rigFrame(now){if(!$('#dRig').open){rig.on=false;return}requestAnimation
   leg(far[0],far[1],.55);
   const tAt=[H0[0],H0[1]];draw(T,hip,0,tAt);leg(near[0],near[1],1);
   const S=[tAt[0]+sh[0]-hip[0],tAt[1]+sh[1]-hip[1]];const ar=aimDeg*Math.PI/180,dir=[Math.cos(ar),Math.sin(ar)];
-  const U=P.upper,F=P.fore,Wp=P.weapon;let L1=0,L2=0,uv,fv;
+  const A=P.arm,U=A?null:P.upper,F=A?null:P.fore,Wp=P.weapon;let L1=0,L2=0,uv,fv;
   if(U&&U.m.shoulder&&U.m.elbow){uv=[U.m.elbow[0]-U.m.shoulder[0],U.m.elbow[1]-U.m.shoulder[1]];L1=Math.hypot(...uv)}
   if(F&&F.m.elbow&&F.m.hand){fv=[F.m.hand[0]-F.m.elbow[0],F.m.hand[1]-F.m.elbow[1]];L2=Math.hypot(...fv)}
-  const reach=(L1+L2||10)*(+$('#rigReach').value/100);const Tg=[S[0]+dir[0]*reach,S[1]+dir[1]*reach];let E=null;
+  const reach=(A?Math.hypot((A.m.hand||[A.w-1,A.h/2])[0]-(A.m.shoulder||[0,A.h/2])[0],(A.m.hand||[A.w-1,A.h/2])[1]-(A.m.shoulder||[0,A.h/2])[1]):L1+L2||10)*(+$('#rigReach').value/100);const Tg=[S[0]+dir[0]*reach,S[1]+dir[1]*reach];let E=null;
   if(L1&&L2){const d=clamp(Math.hypot(Tg[0]-S[0],Tg[1]-S[1]),Math.abs(L1-L2)+.01,L1+L2-.01),th=Math.atan2(Tg[1]-S[1],Tg[0]-S[0]),a=Math.acos(clamp((L1*L1+d*d-L2*L2)/(2*L1*d),-1,1));E=[S[0]+Math.cos(th+a)*L1,S[1]+Math.sin(th+a)*L1]}
   const hand=E&&L2?[E[0]+(Tg[0]-E[0])/Math.hypot(Tg[0]-E[0],Tg[1]-E[1])*L2,E[1]+(Tg[1]-E[1])/Math.hypot(Tg[0]-E[0],Tg[1]-E[1])*L2]:Tg;
   if(Wp){const gp=Wp.m.grip||[Math.floor(Wp.w*.3),Math.floor(Wp.h/2)];draw(Wp,gp,ar,hand)}
+  if(A)draw(A,A.m.hand||A.m.pivot||[A.w-1,A.h/2],ar,hand);
   if(F&&E&&fv)draw(F,F.m.elbow,Math.atan2(hand[1]-E[1],hand[0]-E[0])-Math.atan2(fv[1],fv[0]),E);
   if(U&&E&&uv)draw(U,U.m.shoulder,Math.atan2(E[1]-S[1],E[0]-S[0])-Math.atan2(uv[1],uv[0]),S);
   let mz=null;if(Wp&&Wp.m.muzzle){const gp=Wp.m.grip||[0,0],v=[Wp.m.muzzle[0]-gp[0],Wp.m.muzzle[1]-gp[1]];mz=[hand[0]+v[0]*Math.cos(ar)-v[1]*Math.sin(ar),hand[1]+v[0]*Math.sin(ar)+v[1]*Math.cos(ar)]}
   if(rigOpt.joints){const dot=(p,c)=>{if(!p)return;g.fillStyle=c;g.beginPath();g.arc(p[0],p[1],1.6,0,7);g.fill()};dot(S,'#3ff3ff');dot(E,'#ff2e88');dot(hand,'#ffb21e');dot(H0,'#a0ff46');dot(mz,'#3dff8b');
     g.strokeStyle='rgba(255,216,74,.35)';g.setLineDash([2,2]);g.lineWidth=1/k;g.beginPath();g.moveTo(-60,S[1]);g.lineTo(60,S[1]);g.stroke();g.setLineDash([])}
   g.restore();
-  const shY=-S[1],mzY=mz?-mz[1]:null;info.textContent=`Shoulder ${shY.toFixed(0)} art px above the feet (${(shY/WORLD).toFixed(1)} world px).`+(mzY!=null?` Muzzle ${mzY.toFixed(0)} art px (${(mzY/WORLD).toFixed(1)} world px). The game fires from 12 world px.`:'')+(!U||!F?' Add an upper arm and forearm with shoulder, elbow and hand points to see the elbow work.':'')}
+  const shY=-S[1],mzY=mz?-mz[1]:null;info.textContent=`Shoulder ${shY.toFixed(0)} art px above the feet (${(shY/WORLD).toFixed(1)} world px).`+(mzY!=null?` Muzzle ${mzY.toFixed(0)} art px (${(mzY/WORLD).toFixed(1)} world px). The game fires from 12 world px.`:'')+(!A&&(!U||!F)?' Add an upper arm and forearm with shoulder, elbow and hand points to see the elbow work.':'')}
 
 // ---------- notes ----------
 function updNotes(){$('#readyBtn').classList.toggle('on',!!doc.ready);$('#readyBtn').textContent=doc.ready?'Ready for the game ✓':'Ready for the game';if(document.activeElement!==$('#notesIn'))$('#notesIn').value=doc.notes||'';const r=doc.review;$('#reviewBox').hidden=!(r&&r.text);$('#tabDot').hidden=!(r&&r.text);

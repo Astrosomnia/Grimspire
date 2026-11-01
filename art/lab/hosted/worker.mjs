@@ -35,18 +35,41 @@ export class GitHub{
   async append(state,files,parent,message){const id=await this.treeCommit(parent,{...files,[ROOT+'/state.json']:json(state)},message);await this.update(LAB,id);return id}
   async snapshot(id,ref){const prefix=revision(id),m=JSON.parse(await this.file(prefix+'/manifest.json',ref));check(m.id===id,'Revision ID mismatch');const result={manifest:m};for(const name of['game.html','source.html','runtime.js','payload.json']){const raw=await this.file(prefix+'/'+name,ref);check(await sha(raw)===m.files[name],'Saved revision hash mismatch: '+name);result[name]=raw}return result}
 }
+// Catalog entries contain small thumbnails; pixel data is fetched only when opened.
+export async function assetIndex(g,ref){
+ const source=JSON.parse(await g.file(ROOT+'/assets.json',ref,true)||'{"entries":[]}');
+ const saved=JSON.parse(await g.file(ROOT+'/library.json',ref,true)||'{"entries":[]}');
+ return [...source.entries,...saved.entries.filter(e=>e.w)];
+}
+export async function openAsset(g,ref,id){
+ const entry=(await assetIndex(g,ref)).find(e=>e.id===id);check(entry,'Asset no longer exists; refresh the Library');
+ check(/^art\/lab\/hosted\/(catalog|library)\/[a-zA-Z0-9_.-]+\.forge\.json$/.test(entry.path),'Invalid asset path');
+ const raw=await g.file(entry.path,ref);check(await sha(raw)===entry.sha256,'Asset hash mismatch');return sprite(JSON.parse(raw),'ASSET');
+}
+export async function retainAsset(g,d,head,paths){
+ const raw=json(d),hash=await sha(raw),id='asset-'+hash.slice(0,24),path=ROOT+'/library/'+id+'.forge.json';
+ const index=JSON.parse(await g.file(ROOT+'/library.json',head,true)||'{"schema":1,"entries":[]}');
+ if(!index.entries.some(e=>e.id===id))index.entries.push({id,path,sha256:hash,code:d.code||'',name:d.name||'Untitled',w:d.w,h:d.h,frame_count:d.frames.length,category:/^A/.test(d.code)?'Arms':/^T/.test(d.code)?'Troopers':/^W/.test(d.code)?'Weapons':'Other art'});
+ paths[path]=raw;paths[ROOT+'/library.json']=json(index);return id;
+}
+export async function saveAsset(g,body,user){
+ const d=sprite(body.sprite,'ASSET'),head=await g.head(LAB);check(head===body.expected_head,'Another update arrived. Refresh the shared library before saving.');
+ const paths={},id=await retainAsset(g,d,head,paths),state=await g.state(head);
+ const commit=await g.append(state,paths,head,'Save Forge asset '+(d.code||'')+' '+d.name);return{id,commit};
+}
 export async function save(g,body,user){check(SLOTS[body.slot],'Choose a test target');const d=sprite(body.sprite,body.slot),opts=options(body.settings);check(typeof body.notes==='string'&&body.notes.trim().length>0&&body.notes.length<=4000,'Add a short update note');check(['grid','detail','custom'].includes(body.variant),'Choose a sprite variant');const head=await g.head(LAB);check(head===body.expected_head,'Another revision or code update arrived. Refresh the shared library before saving your draft.');const main=await g.head('main'),state=await g.state(head);let payload={assets:{}};
   if(state.current){const prior=await g.snapshot(state.current,head);payload.assets=JSON.parse(prior['payload.json']).assets}
-  if(body.weapon_only===true&&/^W0[1-8]$/.test(body.slot))payload.assets=Object.fromEntries(Object.entries(payload.assets).filter(([k])=>/^W0[1-8]$/.test(k)));
+  if(body.weapon_only===true&&/^W0[1-8]$/.test(body.slot))payload.assets=Object.fromEntries(Object.entries(payload.assets).filter(([k])=>/^W0[1-8]$/.test(k)||k==='ARM'));
   const id=new Date().toISOString().replace(/[-:.]/g,'').slice(0,15)+'Z-'+crypto.randomUUID().slice(0,8);
   payload={...payload,revision:id,selected_slot:body.slot,assets:{...payload.assets,[body.slot]:d},settings:opts};
+  if(!payload.assets.ARM){const arm=await g.file(ROOT+'/catalog/single-gun-arm-v001.forge.json',head,true);if(arm)payload.assets.ARM=JSON.parse(arm)}
   let source=await g.file('index.html',main);const [pinned,custom,runtime]=await Promise.all([g.file('art/lab/sandbox/base.json',head),g.file('art/lab/sandbox/game.html',head),g.file('art/lab/sandbox/runtime.js',head)]);
   const base=JSON.parse(pinned);if(base.commit===main)source=custom;else{const original=await g.file('index.html',base.commit);check(clean(original).trimEnd()===clean(custom).trimEnd(),'Sandbox game source has custom edits based on older main. Claude must reconcile those edits and update sandbox/base.json before saving.')}
   const game=build(source,runtime,payload),raw={'game.html':game,'source.html':source,'runtime.js':runtime,'payload.json':json(payload)};const files={};for(const[n,v]of Object.entries(raw))files[n]=await sha(v);
   const manifest={schema:1,id,created:new Date().toISOString(),author:{id:user.id,login:user.login},base_main:main,source_lab_commit:head,notes:body.notes.trim(),selected_slot:body.slot,original_code:d.code||'',variant:body.variant,slots:Object.keys(payload.assets),files,status:'draft'};
-  const paths=Object.fromEntries(Object.entries({...raw,'manifest.json':json(manifest)}).map(([n,v])=>[revision(id)+'/'+n,v]));state.current=id;state.revisions.push({id,created:manifest.created,notes:manifest.notes,slot:body.slot,variant:body.variant,author:user.login});const commit=await g.append(state,paths,head,'Forge revision '+id+'\n\n'+manifest.notes);return{revision:id,commit,manifest}
+  const paths=Object.fromEntries(Object.entries({...raw,'manifest.json':json(manifest)}).map(([n,v])=>[revision(id)+'/'+n,v]));await retainAsset(g,d,head,paths);state.current=id;state.revisions.push({id,created:manifest.created,notes:manifest.notes,slot:body.slot,variant:body.variant,author:user.login});const commit=await g.append(state,paths,head,'Forge revision '+id+'\n\n'+manifest.notes);return{revision:id,commit,manifest}
 }
-export async function prepare(g,body,user,env){ownerOnly(user,env);const head=await g.head(LAB),state=await g.state(head);check(state.current===body.revision,'A newer saved revision exists. Review that revision or save the desired art again.');const snap=await g.snapshot(body.revision,head),m=snap.manifest;check(Object.keys(JSON.parse(snap['payload.json']).assets).every(k=>/^W0[1-8]$/.test(k)),'This revision contains category test dummies. Props, trooper frames and backgrounds need a game integration before Go live; their visual test does not define collision, spawning or animation rules.');const main=await g.head('main');check(main===m.base_main,'Claude updated main after this revision was saved. Save a new revision against current main and test it again.');
+export async function prepare(g,body,user,env){ownerOnly(user,env);const head=await g.head(LAB),state=await g.state(head);check(state.current===body.revision,'A newer saved revision exists. Review that revision or save the desired art again.');const snap=await g.snapshot(body.revision,head),m=snap.manifest;check(Object.keys(JSON.parse(snap['payload.json']).assets).every(k=>/^W0[1-8]$/.test(k)||k==='ARM'),'This revision contains category test dummies. Props, trooper frames and backgrounds need a game integration before Go live; their visual test does not define collision, spawning or animation rules.');const main=await g.head('main');check(main===m.base_main,'Claude updated main after this revision was saved. Save a new revision against current main and test it again.');
   const receipt={revision:m.id,base_main:main,game_sha256:m.files['game.html'],notes:m.notes,source_lab_commit:m.source_lab_commit,status:'prepared; deployment unverified'};const branch='art/release-'+m.id;let candidate;const existing=await g.call('/git/ref/heads/'+branch,'GET',undefined,true);
   if(existing){candidate=existing.object.sha;const c=await g.commit(candidate);check(c.parents.length===1&&c.parents[0].sha===main,'Release branch has changed');check(await sha(await g.file('index.html',candidate))===m.files['game.html'],'Release artwork changed');}
   else{candidate=await g.treeCommit(main,{'index.html':snap['game.html'],'debug/index.html':snap['game.html'].replace('<head>','<head><script>window.GS_DEBUG=true;</script>'),['art/integrations/'+m.id+'.json']:json(receipt)},'Promote Forge '+m.id+'\n\n'+m.notes+'\n\nGame SHA-256: '+m.files['game.html']);await g.call('/git/refs','POST',{ref:'refs/heads/'+branch,sha:candidate})}
@@ -77,19 +100,21 @@ export async function handle(request,env,dependencies={}){const fetcher=dependen
   if(request.method==='GET'&&url.pathname==='/api/status'){const[lab,main]=await Promise.all([g.head(LAB),g.head('main')]);return response({user:{login:user.login,id:user.id,role:user.role},permissions:{release:user.role==='owner'},csrf:user.csrf,build_sha:BUILD_SHA,head:lab,main,state:await g.state(lab),defaults:DEFAULTS})}
   if(request.method==='GET'&&url.pathname==='/api/library'){
     const ref=url.searchParams.get('ref');check(/^[a-f0-9]{40}$/.test(ref||''),'Refresh the workspace before loading the library');
-    const catalog=JSON.parse(await g.file('art/lab/catalog.json',ref)),release=catalog.releases.find(r=>r.id===catalog.current_review);check(release&&/^releases\/[a-zA-Z0-9_-]+\/manifest\.json$/.test(release.manifest),'Invalid source-art catalog');
-    const manifestPath='art/lab/'+release.manifest,manifest=JSON.parse(await g.file(manifestPath,ref)),folder=manifestPath.slice(0,manifestPath.lastIndexOf('/')+1),entries=[];
-    for(const a of manifest.assets)for(const[variant,v]of Object.entries(a.variants)){check(/^[a-zA-Z0-9_.-]+\.forge\.json$/.test(v.path),'Invalid library path');entries.push({id:a.code+'-'+variant,path:folder+v.path,sha256:v.sha256})}
-    const extra=JSON.parse(await g.file(ROOT+'/library.json',ref,true)||'{"entries":[]}');check(Array.isArray(extra.entries)&&extra.entries.length<=64,'Too many additional library entries');
-    for(const e of extra.entries){check(/^art\/lab\/hosted\/library\/[a-zA-Z0-9_-]+\.forge\.json$/.test(e.path)&&/^[a-zA-Z0-9_-]+$/.test(e.id),'Invalid alternate-art path');entries.push(e)}
-    const docs=await Promise.all(entries.map(async e=>{const raw=await g.file(e.path,ref);check(/^[0-9a-f]{64}$/.test(e.sha256)&&await sha(raw)===e.sha256,'Library hash mismatch: '+e.id);const d=JSON.parse(raw);sprite(d);return{...d,id:'repo-'+e.id,ready:false}}));
-    const state=await g.state(ref);if(state.current){const data=await g.snapshot(state.current,ref),payload=JSON.parse(data['payload.json']);for(const[slot,d]of Object.entries(payload.assets))docs.unshift({...d,id:'saved-'+slot,code:d.code||'',name:d.name+' — saved '+state.current,ready:false})}
-    return response({head:ref,docs})
+    return response({head:ref,docs:await assetIndex(g,ref)})
+  }
+  if(request.method==='GET'&&url.pathname==='/api/thumbnail'){
+    const ref=url.searchParams.get('ref');check(/^[a-f0-9]{40}$/.test(ref||''),'Refresh the Library first');
+    const d=await openAsset(g,ref,url.searchParams.get('id'));return new Response(Buffer.from(d.frames[0].body.slice(22),'base64'),{headers:{...headers,'Content-Type':'image/png'}});
+  }
+  if(request.method==='GET'&&url.pathname==='/api/asset'){
+    const ref=url.searchParams.get('ref');check(/^[a-f0-9]{40}$/.test(ref||''),'Refresh the Library first');
+    return response({sprite:await openAsset(g,ref,url.searchParams.get('id'))});
   }
   if(request.method==='GET'&&url.pathname==='/api/revision'){const id=url.searchParams.get('id'),head=await g.head(LAB),s=await g.snapshot(id,head);return response({manifest:s.manifest,payload:JSON.parse(s['payload.json'])})}
   if(request.method==='GET'&&url.pathname==='/api/game'){const id=url.searchParams.get('revision'),head=await g.head(LAB),s=await g.snapshot(id,head);return html(s['game.html'],200,{'Content-Security-Policy':"connect-src 'none'; frame-src 'none'; form-action 'none'; base-uri 'none'; object-src 'none'"})}
   if(url.pathname.startsWith('/api/')){
     check(request.method==='POST','Method not allowed',405);check(request.headers.get('Origin')===env.APP_ORIGIN&&request.headers.get('X-Forge-CSRF')===user.csrf,'Request origin or session did not match',403);check(request.headers.get('Content-Type')?.startsWith('application/json'),'Expected JSON',415);check(+(request.headers.get('Content-Length')||0)<=12_000_000,'Save is too large',413);const raw=await request.text();check(utf(raw).length<=12_000_000,'Save is too large',413);const body=JSON.parse(raw);
+    if(url.pathname==='/api/save-asset')return response(await saveAsset(g,body,user));
     if(url.pathname==='/api/save')return response(await save(g,body,user));
     if(url.pathname==='/api/prepare')return response(await prepare(g,body,user,env));
     if(url.pathname==='/api/publish')return response(await publish(g,body,user,env));

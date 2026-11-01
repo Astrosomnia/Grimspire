@@ -53,3 +53,29 @@ Weapon lighting controls currently apply to the saved weapon set.
 The previous local companion remains available for development; its optional
 [local instructions](sandbox/LOCAL.md) are not required for hosted use. The old
 Claude Artifact library is not synchronised with this repository workflow.
+
+## Full asset Library and single arm
+
+Hosted Forge's Library lists source kits, registered trooper animations, exact game
+atlas crops, original weapon studies, alternatives and artwork from prior saved
+builds. Search or filter by category, then Open to load the complete document.
+Source images retain their original raster resolution; importing is not a redraw.
+`hosted/assets.json` indexes immutable documents and SHA-256 values. Rebuild the
+source catalog with `python art/lab/tools/catalog.py` from the repository root.
+The worker fetches selected documents lazily, rather than issuing a request for
+every asset during Library loading.
+
+New creates a blank asset using the existing editor controls. Save asset writes
+an independent version to GitHub. Save revision / Save & test also retain that
+sprite in the Library, in addition to preparing an immutable test build. Earlier
+versions remain accessible after a different sprite replaces their test slot.
+Concurrent saves are rejected without overwriting another editor's work.
+
+Open **A01 Gun arm · single foreground sprite** under Arms. Edit its pixels or
+hand marker. In Rig, choose it in **Single arm**, and choose a weapon. The hand
+point sits at the weapon's grip; Reach moves the assembly forward. Upper arm and
+Forearm remain optional alternatives and are ignored when Single arm is selected.
+To see edited arm art in a local game test, choose **Single foreground arm** as
+the shared test target, then Save & test. Weapon-only saves retain the arm.
+The arm inherits gun aim/facing and stays at trooper scale when weapons enlarge.
+These Forge changes do not promote the arm to the public game's main branch.

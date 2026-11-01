@@ -182,3 +182,18 @@ First playable review of the straight foreground gun arm and glove on all six gu
 - Source: 64824886956299daac0ecfca9fdaa1c3f9dccba4; baseline main: eb12d9ff299b7deb773ead33c988d49f5b6eef97.
 - Draft, awaiting Jarred's visual review. No approval or main integration.
 - Validation: 768 actual drawTrooper alignment cases and all 28 hosted tests pass; saved game scripts compile. Snapshot pins source, renderer, full eight-slot payload and SHA-256 hashes.
+
+### Forge catalog and single-arm assets · 2026-10-31
+
+- Index 161 existing source/study/archive assets with SHA-256, thumbnails and
+  registered animation frames; preserve originals and game atlas crops.
+- Add lazy open, search and category filters to the hosted Library.
+- Save every sprite independently in GitHub, including each test revision's art.
+- Add A01 single-gun-arm-v001, matching the existing procedural sleeve/glove pixels.
+  Single arm in Rig uses a hand point and existing Reach, over the gun. Saved ARM
+  sprites drive the game preview and survive subsequent weapon-only saves.
+- Checks: all indexed hashes and PNG dimensions/anchors; independent-save retention
+  and stale-save refusal; 31 hosted tests; single-arm rig layering/reach; 768 native
+  alignment cases with sprite arm plus game category tests. Game main unchanged.
+- App update authorized by Jarred; artwork remains draft. Authenticated hosted UI
+  verification pending deployment and an available signed-in browser.
