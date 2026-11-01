@@ -1,0 +1,33 @@
+{
+  "schema": 1,
+  "id": "20261101T073211Z-d4aec61a",
+  "created": "2026-11-01T07:32:12.771Z",
+  "author": {
+    "id": 144634800,
+    "login": "Astrosomnia"
+  },
+  "base_main": "eb12d9ff299b7deb773ead33c988d49f5b6eef97",
+  "source_lab_commit": "148b756c3e148cc0909c5f9193f0e5bf98ae776c",
+  "notes": "Test Thunder Fist — knuckle surge as W08 · Claw",
+  "selected_slot": "W08",
+  "original_code": "W08",
+  "variant": "custom",
+  "slots": [
+    "W01",
+    "W02",
+    "W03",
+    "W04",
+    "W05",
+    "W06",
+    "W07",
+    "W08",
+    "ARM"
+  ],
+  "files": {
+    "game.html": "939f17e7058d070318399a4dbe347e5de2e011a2769c8e0c8e69a0420e073af4",
+    "source.html": "18028ff31b5ea02bb440efdb1d3feec7704f2dba75ee45d73bc86908347d298b",
+    "runtime.js": "799db54b4d0aca0fbf4236eaf76ff3ecb51d18e2d27a2119e7391457d914927b",
+    "payload.json": "ee4bc5f6c71c141886a5790c7201be975db021b6fd73fb831fb98b22ccb43451"
+  },
+  "status": "draft"
+}

@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "current": "20261101T072926Z-f07b4d5f",
+  "current": "20261101T073211Z-d4aec61a",
   "revisions": [
     {
       "id": "20261031T210936Z-6c67f2da",
@@ -197,6 +197,14 @@
     {
       "id": "20261101T072926Z-f07b4d5f",
       "created": "2026-11-01T07:29:27.792Z",
+      "notes": "Test Thunder Fist — knuckle surge as W08 · Claw",
+      "slot": "W08",
+      "variant": "custom",
+      "author": "Astrosomnia"
+    },
+    {
+      "id": "20261101T073211Z-d4aec61a",
+      "created": "2026-11-01T07:32:12.771Z",
       "notes": "Test Thunder Fist — knuckle surge as W08 · Claw",
       "slot": "W08",
       "variant": "custom",
