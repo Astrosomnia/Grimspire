@@ -101,6 +101,20 @@
       "h": 36,
       "frame_count": 1,
       "category": "Other art"
+    },
+    {
+      "id": "asset-d1d36d21c38b234b209991fa",
+      "path": "art/lab/hosted/library/asset-d1d36d21c38b234b209991fa.forge.json",
+      "sha256": "d1d36d21c38b234b209991fa1adeffc6694a1eee18cb24aa2793128478d4cf70",
+      "asset_id": "asset-c06",
+      "state_key": "",
+      "asset_name": "Grave Marker",
+      "code": "C06",
+      "name": "Grave Marker_1",
+      "w": 32,
+      "h": 36,
+      "frame_count": 1,
+      "category": "Other art"
     }
   ]
 }
