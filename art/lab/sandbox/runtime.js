@@ -75,9 +75,40 @@ if(typeof origin==='function'){
     const[dx,dy]=aimVec(t);return[point[0],point[1],dx,dy];
   };
 }
+// A single straight forearm and glove, drawn over the weapon grip. It uses
+// trooper pixel scale, independent of weapon enlargement; no shoulder/elbow rig.
+function labDrawGunHand(k){
+  if(!['mortar','rail','scatter','bolter','las','flamer'].includes(k))return;
+  const m=SPR.P[k];if(!m?.g)return;
+  const handY=(m.g[1]-(m.m?m.m[1]:m.g[1]))*PX;
+  ctx.save();ctx.translate(0,handY);ctx.scale(PX,PX);
+  ctx.globalCompositeOperation='source-over';ctx.globalAlpha=1;
+  ctx.shadowColor='transparent';ctx.shadowBlur=0;ctx.shadowOffsetX=0;ctx.shadowOffsetY=0;
+  ctx.imageSmoothingEnabled=false;
+  // Blocked-out sleeve, cuff and fingers share the game's art-pixel grid.
+  ctx.fillStyle='#070b12';ctx.fillRect(-14,-3,12,6);
+  ctx.fillStyle='#354152';ctx.fillRect(-13,-2,10,4);
+  ctx.fillStyle='#536277';ctx.fillRect(-12,-2,7,1);
+  ctx.fillStyle='#222b39';ctx.fillRect(-12,1,8,1);
+  ctx.fillStyle='#111926';ctx.fillRect(-5,-3,3,6);
+  ctx.fillStyle='#6c7887';ctx.fillRect(-4,-2,2,4);
+  ctx.fillStyle='#070b12';ctx.fillRect(-2,-3,5,6);ctx.fillRect(-3,-2,2,3);
+  ctx.fillStyle='#687484';ctx.fillRect(-1,-2,3,4);
+  ctx.fillStyle='#a0a9b4';ctx.fillRect(0,-2,2,1);ctx.fillRect(1,0,1,1);ctx.fillRect(1,2,1,1);
+  ctx.fillStyle='#374251';ctx.fillRect(-1,0,2,1);ctx.fillRect(-1,2,2,1);
+  // Thumb wraps around the rear/top of the handle.
+  ctx.fillStyle='#8995a3';ctx.fillRect(-2,-2,1,2);
+  ctx.restore();
+}
 // Existing chain animation belongs to the old blade silhouette.
 const labOriginalWeapon=drawWeapSpr;
-drawWeapSpr=function(k,rimOnly){if(k!=='chain'||!labArt.has(k))return labOriginalWeapon(k,rimOnly);const m=SPR.P[k];prop(k,m.g[0],m.m?m.m[1]:m.g[1],1,!rimOnly,true);return true};
+drawWeapSpr=function(k,rimOnly){
+  let drawn;
+  if(k==='chain'&&labArt.has(k)){const m=SPR.P[k];prop(k,m.g[0],m.m?m.m[1]:m.g[1],1,!rimOnly,true);drawn=true}
+  else drawn=labOriginalWeapon(k,rimOnly);
+  if(drawn&&!rimOnly)labDrawGunHand(k);
+  return drawn;
+};
 
 if(location.pathname==='/api/game'){
   // Preview uses local play only. Do not send sandbox matches or reports to live services.

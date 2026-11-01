@@ -164,3 +164,13 @@ Merged focused PR #2: https://github.com/Astrosomnia/Grimspire/pull/2. Main comm
 GitHub Pages deployment passed. Browser verification found the exact corrected revision, scale 1.2, all eight calibrated anchors/frame counts and protocol 17 on the public page. A local Commanders battle rendered; selected Las Burner and fired successfully (ammo 9 -> 8), with no game-origin console errors. Full HTTP response bytes were not hash-checked. The native alignment harness verifies the firing/visual projection across 768 cases. Both lab code and snapshot commits passed Forge CI. The unrelated Forge Worker build on the focused game branch still fails because that tree omits the Forge application; no check was rewritten or branch protection bypassed.
 
 Re-pinned sandbox/base.json to eb12d9ff299b7deb773ead33c988d49f5b6eef97. The clean sandbox source matches the new main source after removing its adapter. Future saves retain corrected rig behaviour and no longer treat the protocol/reticle correction as an unfinished stale experiment. Preserve old releases and journal entries. Old multiplayer clients must refresh for protocol 17.
+
+## Straight gun forearm and glove — gun-hand-v001 (2026-10-31 Vancouver)
+
+Jarred requested a simple arm and gun hand, without an articulated shoulder/elbow. Added a code-native pixel-art sleeve, cuff, glove, thumb and finger marks to the sandbox renderer. It follows the existing weapon aim/facing/pose transform, attaches at the corrected grip position and draws once after the normal weapon pass. Rim passes do not duplicate it. It uses trooper pixel scale rather than the weapon's 1.2 multiplier, keeping human proportions stable as weapon size changes.
+
+Applies to the six guns (mortar, rail, scatter, Dakka, las and flamer). Chainblade/fist/tools and the underlying sprite files are unchanged. Anchors, firing origins, animation frames, lighting settings, physics and multiplayer protocol 17 are unchanged. No new full limb rig or IK.
+
+Preview: releases/gun-hand-v001/gun-hand-preview.gif, rendered with the actual embedded trooper atlas/legs, baked team materials and actual drawTrooper function, showing right/left facings and the enlarged weapons. Manifest records draft status. This is a first pass for visual review in the shared Forge; it has not been promoted to main.
+
+Validation: 768 actual draw transforms still pass, plus normal/rim pass layering, single arm per gun pass, stable hand size across weapon scales, non-gun exclusion and canvas transform restoration. Native weapon/category checks and all 28 hosted tests pass. The alignment harness now preserves the actual renderer wrapper rather than replacing it after initialization, so these checks exercise the foreground hand path too.

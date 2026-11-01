@@ -1,0 +1,28 @@
+{
+  "schema": 1,
+  "release": "gun-hand-v001",
+  "type": "renderer feature",
+  "status": "draft for visual review",
+  "live": false,
+  "source_main": "eb12d9ff299b7deb773ead33c988d49f5b6eef97",
+  "guns": [
+    "W01",
+    "W02",
+    "W03",
+    "W04",
+    "W05",
+    "W06"
+  ],
+  "description": "One straight pixel-art forearm, cuff and glove follows the aim and draws in front of the calibrated gun grip. Human proportions stay independent of weapon scale. No articulated shoulder or elbow.",
+  "renderer_sha256": "626b857db3804a82edf8c454935f6613433b1540887e35012c8e8b8f50a6822d",
+  "preview": "gun-hand-preview.gif",
+  "checks": {
+    "actual_baked_trooper_preview": true,
+    "alignment_combinations": 768,
+    "foreground_normal_pass_only": true,
+    "human_scale_invariant": true,
+    "non_gun_assets_unchanged": true,
+    "hosted_tests": 28
+  },
+  "approval": null
+}

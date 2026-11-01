@@ -31,6 +31,12 @@
       "manifest": "releases/anchor-alignment-v001/manifest.json",
       "status": "alignment correction",
       "live": false
+    },
+    {
+      "id": "gun-hand-v001",
+      "manifest": "releases/gun-hand-v001/manifest.json",
+      "status": "draft for visual review",
+      "live": false
     }
   ]
 }
