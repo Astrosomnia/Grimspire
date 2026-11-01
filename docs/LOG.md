@@ -6,6 +6,11 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-01 · Claude · Ash Legion is magenta, Neon Choir cyan
+- **Decision (Jarred), for now:** palette option C. Ash Legion and Neon Choir swap colours (Ash Legion magenta, Neon Choir cyan; fits the lore), and faction cloth keeps its colour as drawn. Recorded in `ART-DIRECTION.md`; the restricted palette now allows dark faction cloth.
+- Live in the game: faction table and faction picker descriptions. HUD, troopers, graffiti and chat all follow. Cosmetic only, no sim change (GV 17).
+- **ChatGPT:** Ash Legion art can continue in magenta with the oxblood cloth.
+
 ## 2026-11-01 · Claude · Torso sockets, faction palette mock-up
 - **Torso slot (TORSO)** in the Forge and the game. A torso's **Shoulder** point is where the arm and weapon attach; its **Hip** point sits on the legs. Test it with Test in game → Torso; it can go live like weapons. The Library's Trooper → torso state now has the live torso with sockets matching today's game (within a fraction of a pixel). Forge legs (thigh, shin) in game are a later step.
 - Point buttons in the Forge explain what each point means for each part.

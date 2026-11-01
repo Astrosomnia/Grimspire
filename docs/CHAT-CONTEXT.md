@@ -32,8 +32,6 @@ Test in game does not save. Save keeps a version; Save & test makes a shared tes
 
 Report these states separately, with evidence: drawn, saved, tested, approved, on main, deployed. Do not turn proposed lore into canon or an attractive concept into approved game art. Show look decisions at game scale; present comparisons for Jarred to choose.
 
-## Decision pending as of 1 November 2026
+## Faction colours (decided 1 November 2026)
 
-Read `docs/ART-DIRECTION.md` for the current status before faction work. Ash Legion is cyan in the game; Neon Choir is magenta. Recent Ash Legion concepts used magenta light and oxblood/bone cloth. Coloured cloth conflicts with the current “colour comes from light” rule. Jarred must settle the palette and cloth treatment before more faction art. The experimental T09 body and A05 arm are not approved production sprites.
-
-This dated note is a reminder, not a decision. Update or remove it when the decision is recorded in the art direction and log.
+Jarred chose option C, for now: Ash Legion is magenta and Neon Choir is cyan (swapped, live in the game), and faction cloth keeps its colour as drawn. See `docs/ART-DIRECTION.md`. The experimental T09 body and A05 arm are still not approved production sprites. Ash Legion work can continue.

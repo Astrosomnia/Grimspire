@@ -14,7 +14,7 @@ Prototype in HTML/canvas to nail the loop, weapons and feel, then rebuild in **G
 6. Expand the asset set and world art direction, agreeing the reference and brief with Jarred first
 
 ## Next up
-- **Art direction:** settle faction colour and cloth against the restricted palette, then continue the Ash Legion trooper by hand at game scale (idle, aim, both facings, walk, jump-pack ignition, flight, landing)
+- **Art direction:** continue the Ash Legion trooper (magenta, cloth as drawn) by hand at game scale (idle, aim, both facings, walk, jump-pack ignition, flight, landing)
 - **Throwing arm:** separate arm and throw motion for grenades and other thrown items
 - **Trooper art in game:** the renderer can show test trooper frames; real integration needs code (rig, animation, jump pack)
 - **Payload weight:** the art payload is embedded PNG data (about 685 KB, doubling the game). Pack it into sprite sheets once the art settles
@@ -61,7 +61,6 @@ Prototype in HTML/canvas to nail the loop, weapons and feel, then rebuild in **G
 **Bigger swings (likely Godot):** real 2D lighting with normal maps, falling debris and crumbling structures, AI-painted map library, the roguelike run structure, per-zone map personalities (Sump, Manufactorum, Cathedral, Spire).
 
 ## Open questions
-- Faction colour and cloth vs the restricted palette (see `ART-DIRECTION.md`)
 - Crimson sky: done as the sudden-death bleed; also a per-map mood?
 - Promethium tanks: code version until redrawn
 - Sounds: still procedural

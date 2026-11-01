@@ -48,7 +48,7 @@ Assets made outside the Forge (by ChatGPT, say) go into the Library as new files
 ## Rules
 - **The sim is deterministic.** Online play replays inputs, so every device must compute the same result. Map generation and sim steps use the seeded generator; cosmetics use `RR` or their own hash. No `Math.pow` and friends in the sim (use lookup tables). Snapshots are plain JSON. Check with `tools/test/dsim*.py`.
 - **Bump `GV` on any sim change.** Mismatched online players are told to refresh. Art points that feed firing (grips, muzzles, arm and torso sockets) are covered by an art fingerprint the game compares online, so Forge releases don't need a GV bump.
-- **Restricted palette.** Black stone, one sky colour, faction neon. Nothing gets colour just for being an object. (Under discussion for the faction cloth; see `ART-DIRECTION.md`.)
+- **Restricted palette.** Black stone, one sky colour, faction neon. Nothing gets colour just for being an object, except faction cloth in its faction's dark colour. Ash Legion is magenta, Neon Choir cyan, The Hollow green, Halo Guard gold.
 - **Crisp over soft.** Pixel edges stay sharp; glow comes from separate light layers.
 - **Materialise, don't pop.** Things that appear or vanish build from or break into the squad's neon motes.
 - **Lo-fi on purpose.** Fun and fast iteration over polish. Don't over-engineer the HTML; Godot is for the rebuild.

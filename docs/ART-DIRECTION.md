@@ -10,7 +10,7 @@ A drowned gothic city at night. Ruined cathedral arches, bridges and spires stan
 Tone: Dead Cells, Blasphemous. Grim, painterly pixel art, readable silhouettes, colour from light. "Worms meets Warhammer": dark gothic artillery warfare among armoured cyber troopers in drowned, neon-lit ruins. Cyberpunk underneath: weird, frightening and decaying, almost adjacent to hell without becoming literal hell. God in the Machine, almost literally.
 
 ## Rules
-- **Restricted palette.** A scene uses very few colours: black stone, one sky colour, and the neon of the factions present. Nothing gets a colour just for being an object.
+- **Restricted palette.** A scene uses very few colours: black stone, one sky colour, and the neon of the factions present. Nothing gets a colour just for being an object. **Exception (1 Nov):** faction cloth may carry its faction's own dark colour (Ash Legion oxblood, say), kept dark enough that neon and fire still lead.
 - **Colour comes from light.** Stone is near-black. Neon, fire and explosions supply the colour, and the water reflects it.
 - **Silhouettes against a lit sky.** Gargoyles, saints and spires read even when small.
 - **Backlit troopers.** Near-black silhouettes painted dark and fairly flat; the engine adds rim light from nearby lights and the sky and lights them up near blasts. Visor and squad lights stay emissive.
@@ -22,19 +22,15 @@ All are cults to some degree. Differentiate shape, material, behaviour and cloth
 
 | Faction | Game colour | Foundation (Jarred) | Demand |
 |---|---|---|---|
-| **Ash Legion** | cyan | Inquisitors and arbiters devoted to the one true Divine, an unforgiving God. No heresy tolerated. Half knight, half priest; futuristic templars distorted by zeal. Modern armour with sword-era ancestry | Obedience |
-| **Neon Choir** | magenta | Devoted to Central and technological perfection. Divinity through becoming one with the Machine; calls others to join | Assimilation |
+| **Ash Legion** | magenta | Inquisitors and arbiters devoted to the one true Divine, an unforgiving God. No heresy tolerated. Half knight, half priest; futuristic templars distorted by zeal. Modern armour with sword-era ancestry | Obedience |
+| **Neon Choir** | cyan | Devoted to Central and technological perfection. Divinity through becoming one with the Machine; calls others to join | Assimilation |
 | **The Hollow** | green | Flagellants and doomsayers who believe destroying the world makes way for an unimaginable dark power. Chant backwards; Goetic names | Destruction |
 | **Halo Guard** | gold | Cold, detached praetors guarding an unimaginably wealthy few for thousands of years; their light must be kept from others. Ascendant names | Exclusion |
 
 Original names only, Warhammer-flavoured. 12-name rosters each.
 
-### Open: faction colour and cloth
-The 1 Nov concept sheets (`art/reference/ash-legion-variants.png`, `faction-lineup.png`) are strong, but they:
-- light Ash Legion magenta, while in the game Ash Legion is cyan and magenta is Neon Choir
-- give the factions coloured cloth (oxblood, bone, gold), which breaks "nothing gets colour just for being an object"
-
-Options: keep the rule and make cloth near-black with faction colour only in emissive trim and reflected light; relax it for cloth only, kept very dark and desaturated so light still leads; or swap the faction colours to match the concepts. **Jarred decides** before more faction art.
+### Decided: faction colour and cloth (Jarred, 1 Nov 2026, "for now")
+Option C from the side-by-side: **Ash Legion is magenta and Neon Choir is cyan** (swapped from before; it fits the lore better), and faction cloth keeps its colour as drawn in the concepts (`art/reference/ash-legion-variants.png`, `faction-lineup.png`). Live in the game from 1 Nov. Revisit if cloth starts competing with the light at game scale.
 
 ### Ash Legion: what landed (from ChatGPT sessions)
 Preferred anchor: the enclosed-helmet knight-priest (layered dark armour, imposing human proportions, cloak and priestly cloth; anonymous institutional authority).
