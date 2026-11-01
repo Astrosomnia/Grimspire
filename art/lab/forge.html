@@ -75,8 +75,8 @@ input[type=range]{accent-color:var(--cyan);width:100%}
 #cels{grid-area:cels;min-width:0;border-top:1px solid var(--edge);background:var(--stone);display:flex;gap:10px;align-items:stretch;padding:8px 12px;min-height:92px}
 #celCtl{flex:0 0 auto;display:flex;flex-direction:column;gap:5px;justify-content:center}
 #celCtl .grp{display:flex;gap:4px;align-items:center}
-#strip{flex:0 1 514px;max-width:514px;display:flex;gap:6px;overflow-x:auto;align-items:center;padding-bottom:2px;min-width:0}
-.cel{box-sizing:border-box;flex:0 0 98px;width:98px;border:1px solid var(--edge);background:#08090c;border-radius:2px;padding:3px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px}
+#strip{flex:1;display:flex;gap:6px;overflow-x:auto;align-items:center;padding-bottom:2px;min-width:0}
+.cel{box-sizing:border-box;flex:0 0 var(--cel-width,98px);width:var(--cel-width,98px);border:1px solid var(--edge);background:#08090c;border-radius:2px;padding:3px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px}
 .cel.cur{border-color:var(--cyan);box-shadow:0 0 0 1px rgba(63,243,255,.25)}
 .cel canvas{image-rendering:pixelated;display:block;background:repeating-conic-gradient(#121419 0 25%,#0c0d11 0 50%) 0 0/8px 8px}
 .cel span{font:10px var(--f-num);color:var(--dim)}
@@ -694,6 +694,13 @@ function bg(g,W,H){
 
 
 // ---------- frames strip ----------
+// Fill the bench, leaving a glimpse of the next frame at each thumbnail boundary.
+const stripResize=new ResizeObserver(([entry])=>{
+  const width=entry.contentRect.width;if(width<=0)return;
+  const full=Math.max(1,Math.floor((width-24)/104));
+  entry.target.style.setProperty('--cel-width',Math.max(98,(width-24)/full-6)+'px');
+});
+stripResize.observe($('#strip'));
 function buildStrip(){const s=$('#strip');s.textContent='';doc.frames.forEach((f,i)=>{const d=document.createElement('div');d.className='cel'+(i===fi?' cur':'')+(f.note?' noted':'');d.title=f.note||'';
   const sc=Math.max(.5,Math.min(4,56/doc.h,90/doc.w));const c=mkc(Math.max(1,Math.round(doc.w*sc)),Math.max(1,Math.round(doc.h*sc)));const g=c.getContext('2d');drawFrame(g,f,sc,{});
   const sp=document.createElement('span');sp.textContent=i+1;d.append(c,sp);d.onclick=()=>goFrame(i);s.append(d)});}

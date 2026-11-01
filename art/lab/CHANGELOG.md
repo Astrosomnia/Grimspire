@@ -216,3 +216,11 @@ First playable review of the straight foreground gun arm and glove on all six gu
 - Preserve existing frame selection and automatic scrolling to the selected frame.
 - Browser checked a 60-frame animation at 1363px: five fully visible thumbnails, no page overflow, sidebar inside viewport, and scrolling reaches frames 56–60.
 - UI layout only; no artwork, saved revisions, runtime or public game changes.
+
+## Responsive frame strip — 2026-10-31
+
+- Replace the five-frame cap with a strip that fills the available width up to the sidebar and scrolls horizontally.
+- Size thumbnail cells responsively to leave a 24px glimpse of the next frame when more frames remain.
+- Preserve the constrained grid column so long animations cannot push the sidebar outside the viewport.
+- Browser checked 60-frame artwork at 900px, 1363px and 1800px: the strip fills available space, clips a partial next frame and keeps the sidebar inside its viewport.
+- UI only; all existing artwork and saved builds retained unchanged.
