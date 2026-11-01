@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "current": "20261101T060930Z-78a61bf1",
+  "current": "20261101T061045Z-9db988f9",
   "revisions": [
     {
       "id": "20261031T210936Z-6c67f2da",
@@ -133,6 +133,14 @@
     {
       "id": "20261101T060930Z-78a61bf1",
       "created": "2026-11-01T06:09:32.138Z",
+      "notes": "Test Grave Marker_1 as Ground prop / set piece",
+      "slot": "PROP",
+      "variant": "custom",
+      "author": "Astrosomnia"
+    },
+    {
+      "id": "20261101T061045Z-9db988f9",
+      "created": "2026-11-01T06:10:47.138Z",
       "notes": "Test Grave Marker_1 as Ground prop / set piece",
       "slot": "PROP",
       "variant": "custom",
