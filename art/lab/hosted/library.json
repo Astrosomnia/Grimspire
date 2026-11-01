@@ -325,6 +325,20 @@
       "h": 20,
       "frame_count": 32,
       "category": "Weapons"
+    },
+    {
+      "id": "asset-139a80757a5bbcbfa1b8642a",
+      "path": "art/lab/hosted/library/asset-139a80757a5bbcbfa1b8642a.forge.json",
+      "sha256": "139a80757a5bbcbfa1b8642a8455aabcd8e72a25930ec3f106f3f4419a067909",
+      "asset_id": "asset-w08",
+      "state_key": "",
+      "asset_name": "Thunder Fist",
+      "code": "W08",
+      "name": "Thunder Fist — knuckle surge",
+      "w": 42,
+      "h": 20,
+      "frame_count": 60,
+      "category": "Weapons"
     }
   ]
 }
