@@ -1,0 +1,8 @@
+{
+  "revision": "20261101T033715Z-a104eab1",
+  "base_main": "eb12d9ff299b7deb773ead33c988d49f5b6eef97",
+  "game_sha256": "de8a86c87a331e620c5f67c2e576598e0a525a62d60ff4d10f5b877571ae4840",
+  "notes": "First playable review of the straight foreground gun arm and glove on all six guns. Preserve all eight approved animated weapons, calibrated grips/muzzles and saved 1.2 scale/lighting. No main promotion.",
+  "source_lab_commit": "64824886956299daac0ecfca9fdaa1c3f9dccba4",
+  "status": "prepared; deployment unverified"
+}
