@@ -409,6 +409,20 @@
       "h": 20,
       "frame_count": 1,
       "category": "Arms"
+    },
+    {
+      "id": "asset-e52d3f04ccaebd298608569b",
+      "path": "art/lab/hosted/library/asset-e52d3f04ccaebd298608569b.forge.json",
+      "sha256": "e52d3f04ccaebd298608569ba9d27ca6ed3dfddb343d3b6f91acc4c9a843fd17",
+      "asset_id": "asset-a01",
+      "state_key": "",
+      "asset_name": "Gun Arm",
+      "code": "A01",
+      "name": "Gun arm · shared shoulder pivot",
+      "w": 22,
+      "h": 18,
+      "frame_count": 1,
+      "category": "Arms"
     }
   ]
 }
