@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "current": "20261101T014956Z-14b37379",
+  "current": "20261101T021713Z-61d0807f",
   "revisions": [
     {
       "id": "20261031T210936Z-6c67f2da",
@@ -78,6 +78,14 @@
       "id": "20261101T014956Z-14b37379",
       "created": "2026-11-01T01:49:56.490Z",
       "notes": "Promote the eight user-approved animated weapon alternatives: mortar pulse, rail sweep, twin scatter chambers, Dakka stagger, four-lamp red las sequence, furnace flamer, chainblade edge chase and fist knuckle surge. Preserve current game source and the latest saved render settings.",
+      "slot": "W01–W08",
+      "variant": "custom",
+      "author": "Astrosomnia"
+    },
+    {
+      "id": "20261101T021713Z-61d0807f",
+      "created": "2026-11-01T02:17:13.326Z",
+      "notes": "Correct grip and muzzle alignment for the eight approved animated weapon alternatives: mortar pulse, rail sweep, twin scatter chambers, Dakka stagger, four-lamp red las sequence, furnace flamer, chainblade edge chase and fist knuckle surge. Keep scale 1.2 and all animation frames; preserve game code except ranged reticle alignment and the required simulation protocol bump to 17.",
       "slot": "W01–W08",
       "variant": "custom",
       "author": "Astrosomnia"
