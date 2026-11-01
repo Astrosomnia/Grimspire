@@ -734,8 +734,11 @@ function buildLayers(){const L=$('#layers');L.textContent='';LAYERS.forEach((l,i
   const t=document.createElement('div');t.innerHTML=`<b>${l.n}</b><br><small>${l.d}</small>`;const k=document.createElement('span');k.className='num';k.style.color='var(--faint)';k.textContent=i+1;
   d.append(e,t,k);d.onclick=()=>setLayer(l.k);L.append(d)})}
 function setLayer(k){layer=k;buildLayers();updCol()}
-function buildMarkers(){const M=$('#markers');M.textContent='';MARKS.forEach(m=>{const d=document.createElement('div');d.className='mk';const p=doc.markers[m.k];
-  const i=document.createElement('i');i.style.background=m.c;const b=document.createElement('button');b.textContent=m.n;b.className=markType===m.k&&tool==='marker'?'on':'';b.onclick=()=>{markType=m.k;setTool('marker');buildMarkers()};
+// What each point means depends on the part. On a torso, Shoulder and Hip are sockets: where the arm and the legs attach.
+const MARK_HINT={grip:'Weapon: where the hand holds it',muzzle:'Weapon: where shots leave',pivot:'What it rotates around (older assets)',shoulder:'Arm: its shoulder joint. Torso: where the arm attaches',elbow:'Arm: the elbow',hand:'Arm: where the weapon grip attaches',hip:'Thigh: its hip joint. Torso: where it sits on the legs',knee:'Thigh: where the shin hangs. Shin: its knee joint'};
+const isTorso=()=>/torso/i.test(doc.name||'')||/torso/i.test(doc.state_key||'');
+function buildMarkers(){const M=$('#markers');M.textContent='';if(isTorso()){const n=document.createElement('p');n.className='note';n.style.margin='0 0 4px';n.textContent='Torso: Shoulder is where the arm attaches, Hip is where it sits on the legs. Test with the Torso slot.';M.append(n)}MARKS.forEach(m=>{const d=document.createElement('div');d.className='mk';const p=doc.markers[m.k];
+  const i=document.createElement('i');i.style.background=m.c;const b=document.createElement('button');b.textContent=m.n;b.title=MARK_HINT[m.k]||'';b.className=markType===m.k&&tool==='marker'?'on':'';b.onclick=()=>{markType=m.k;setTool('marker');buildMarkers()};
   const v=document.createElement('span');v.className='num';v.textContent=p?`${p[0]}, ${p[1]}  (${p[0]*ART}, ${p[1]*ART})`:'not set';
   const x=document.createElement('button');x.textContent='×';x.title='Clear';x.disabled=!p;x.onclick=()=>{pushDoc();doc.markers[m.k]=null;buildMarkers();changed()};d.append(i,b,v,x);M.append(d)})}
 

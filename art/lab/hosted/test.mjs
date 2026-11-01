@@ -111,3 +111,8 @@ test('Releases add one entry to the shared log and still publish exactly',async(
 test('Unsaved test route needs the same origin and session token',async()=>{const g=new Repository();const cookie='forge_session='+await seal(env,{kind:'session',...user,exp:Math.floor(Date.now()/1000)+600});const form=b=>new URLSearchParams({csrf:'test-csrf',body:JSON.stringify(b)});const deps={fetch:async()=>{throw Error('no network in tests')}};
   let r=await handle(new Request(env.APP_ORIGIN+'/api/game?debug=1&grounds=1',{method:'POST',headers:{cookie,Origin:'https://evil.example'},body:form(body(g))}),env,deps);assert.equal(r.status,403);
   r=await handle(new Request(env.APP_ORIGIN+'/api/game?debug=1&grounds=1',{method:'POST',headers:{cookie,Origin:env.APP_ORIGIN},body:new URLSearchParams({csrf:'wrong',body:'{}'})}),env,deps);assert.equal(r.status,403)});
+
+test('A torso needs both sockets, carries into weapon builds and can go live',async()=>{const g=new Repository(),t=body(g);t.slot='TORSO';t.sprite.markers={...t.sprite.markers,shoulder:null,hip:null};await assert.rejects(save(g,t,user),/Shoulder .*Hip/);
+  const ok=body(g);ok.slot='TORSO';ok.sprite.name='Torso test';ok.sprite.markers={...ok.sprite.markers,shoulder:[10,5],hip:[12,10]};const r=await save(g,ok,user);
+  const w=body(g);w.expected_head=g.refs[LAB];w.weapon_only=true;const r2=await save(g,w,user);const payload=JSON.parse(g.files(r2.commit)[ROOT+'/revisions/'+r2.revision+'/payload.json']);assert(payload.assets.TORSO,'torso kept in weapon-only build');
+  const p=await prepare(g,{revision:r2.revision},user,env);await publish(g,{ticket:p.ticket,approve:true,game_hash:p.game_hash},user,env);assert.equal(g.refs.main,p.candidate);assert(r.revision)});

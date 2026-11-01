@@ -507,6 +507,20 @@
       "h": 15,
       "frame_count": 3,
       "category": "Weapons"
+    },
+    {
+      "id": "asset-896da65125a04259143f6505",
+      "path": "art/lab/hosted/library/asset-896da65125a04259143f6505.forge.json",
+      "sha256": "896da65125a04259143f650596f98406ff85a9d85055757416fbfd0b47962821",
+      "asset_id": "asset-t01",
+      "state_key": "torso",
+      "asset_name": "Trooper",
+      "code": "T08",
+      "name": "Torso · arm and leg sockets",
+      "w": 41,
+      "h": 58,
+      "frame_count": 1,
+      "category": "Troopers"
     }
   ]
 }

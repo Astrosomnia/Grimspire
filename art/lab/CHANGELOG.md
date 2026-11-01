@@ -273,3 +273,11 @@ First playable review of the straight foreground gun arm and glove on all six gu
 - `tools/add_asset.mjs` adds outside art to the library. Used it to move three of Jarred's sprites from Claude's retired artifact Forge (Aim Arm edit, Aim Arm Lower, Chainblade rework).
 - Removed from this branch: stale copies of the game, tools and art folders (they live on main), the local companion (`sandbox/`, landing page, catalog scripts) and the broken `validate.py`. Renderer tests moved to `tools/test/art/` on main; the editor rig test is `tests/rig.cjs`.
 - Checks: 40 hosted tests and 6 catalog tests pass; renderer tests pass on main; an unsaved test build opened the testing grounds in a browser.
+
+## Torso sockets — 2026-11-01 (Claude)
+
+- New TORSO test slot, releasable. Validation requires Shoulder and Hip. Carried into weapon-only builds like ARM.
+- The game (main) draws a TORSO asset in place of the atlas torso, positioned by its Hip on the legs; its Shoulder places the arm and sets firing origins. Online matches compare an art fingerprint.
+- Point buttons have hints; torsos show a note explaining sockets.
+- Seeded the live torso (from the old T08 sheet frame) as a Trooper → torso version with Hip [23,31] and Shoulder [24,26], within a fraction of a pixel of today's geometry.
+- Checks: 41 hosted tests (new torso test) and 6 catalog tests pass; editor scripts compile; a seeded-torso game is deterministic and renders.
