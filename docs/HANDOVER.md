@@ -4,6 +4,8 @@ Start here. This is for everyone working on Grimspire: Jarred, Claude and ChatGP
 
 **Every session:** read this file, then the top of [`LOG.md`](LOG.md). **When you finish:** add an entry to `LOG.md`, and update this file if how we work or where things live has changed.
 
+For new ChatGPT project chats, [`CHAT-CONTEXT.md`](CHAT-CONTEXT.md) provides paste-ready project instructions pointing back to these current docs.
+
 ## The game
 *A dark fable of war and woe.* A Worms-style artillery game: squads of cyber troopers fighting over a drowned, neon-lit hive ward. One HTML file, played at https://astrosomnia.github.io/Grimspire/. Longer term it becomes an artillery roguelike and moves to Godot as a rebuild, not a port. See [`VISION.md`](VISION.md).
 
