@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "id": "20261101T004157Z-17d7b17a",
+  "created": "2026-11-01T00:41:58.243Z",
+  "author": {
+    "id": 144634800,
+    "login": "Astrosomnia"
+  },
+  "base_main": "2974b27b8d230ed6d22042fe6e91f37e3cdbf9d4",
+  "source_lab_commit": "81af29239727c494478c377f8dc38ec58356479b",
+  "notes": "Test Las Burner — red charge sequence as W05 · Las gun",
+  "selected_slot": "W05",
+  "original_code": "W05",
+  "variant": "custom",
+  "slots": [
+    "W01",
+    "W05"
+  ],
+  "files": {
+    "game.html": "6f3964c5cd7640c78a82a1986cd938679e402bc385a3fa0d5d558d4498838207",
+    "source.html": "a56bf436c01e95c5b9646c35a3f311d7518aaea22836e9b5a23555755cb82f73",
+    "runtime.js": "91426c83441a072c47662f588828f00055b27141096f74d4c92a1069729c2d0d",
+    "payload.json": "8a2b0813730eec8640217621f2bfe58eba688b8f5ad2e6d0d9eaf8c286f7a7c2"
+  },
+  "status": "draft"
+}
