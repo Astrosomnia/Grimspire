@@ -1,0 +1,49 @@
+{
+  "forge": 1,
+  "code": "A05",
+  "name": "Ash Legion — jump-pack arm v1",
+  "w": 41,
+  "h": 58,
+  "fps": 8,
+  "base": 54,
+  "pixel_scale": 12,
+  "uid": "ash-jumppack-v1-arm",
+  "profile": "other",
+  "markers": {
+    "shoulder": [
+      18,
+      19
+    ],
+    "elbow": [
+      21,
+      27
+    ],
+    "hand": [
+      32,
+      30
+    ],
+    "pivot": [
+      18,
+      19
+    ]
+  },
+  "ready": false,
+  "checks": {
+    "visual": false,
+    "tested": false
+  },
+  "notes": "Experimental Ash Legion variation: short mantle, integrated idle jump pack, exposed exhausts, thigh-length front vestment. Body and arm share 41x58 frame and shoulder [18,19]. Feet row 54. Separate glow. Not gameplay-tested or approved. Cloth and pack are static body artwork; no cloth physics added.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACkAAAA6CAYAAAAtInDDAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAA+ElEQVRoge2VsQrCQAyGM9ZBODoVSscOHZyddHB2cHJwE0dXcXD1DXR28UUr/9EcoRRxuwj/ByWhHfqRS3IihBBCCCGEOKBbLPvVZtsjijdCWUUxCO4Px/79esRcPFE3bRJEvFxvMcd78VLF026dJFFRyOEpZnM/khDrhuNWWVTTVW+iYnXTJlntS4iKJ0JZpclGfN7PPqvZmWN3NzxT/RnMWkIuniiG/kQVddrt5IsXydUgpcetuZXO3ga1mXTNdT3ZvtVLADFLS4Syij8er6exoG6AbKIWyEJCbyNdWVkr+evKcneFfmuLyY+EEEIIIYQQQgghf8UHktXHdmikmt0AAAAASUVORK5CYII=",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACkAAAA6CAYAAAAtInDDAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAALElEQVRoge3OMQ0AIAADsClCJ67Hi4UlrYImAAAAAHx6brOQ7EIUAAAAAOY9aM0IHdLGLUIAAAAASUVORK5CYII=",
+      "trim": null,
+      "guts": null,
+      "note": "Idle fit-test variation. No engine flame baked into artwork."
+    }
+  ],
+  "updated": 1793525170322,
+  "by": "codex",
+  "asset_id": "custom-ash-legion-jumppack-arm",
+  "state_key": ""
+}

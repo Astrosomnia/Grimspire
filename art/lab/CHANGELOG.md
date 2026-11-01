@@ -247,3 +247,11 @@ First playable review of the straight foreground gun arm and glove on all six gu
 - Fix Rig Reach to extend from a fixed shoulder; apply each chosen part's scale and keep its hand/grip connected.
 - Checks: 36 hosted tests, category checks, native renderer alignment/shoulder/contact tests across all eight held assets, and native Rig tests at multiple aim/reach/weapon scales pass. Inspected a 24-pose render using the actual trooper/leg atlases.
 - No saved snapshots or public-game main files changed. Artwork remains for exact saved-build visual review; throwing-arm art/animation is a separate next step.
+
+
+## ash-legion-jumppack-v001 — 2026-11-01 — experimental
+
+- Added T09 Ash Legion jump-pack body and A05 single foreground arm from the art-direction handoff as separate Current assets with stable unique identities.
+- Preserved original native pixels, anchors, separate glow and false approval/test flags. Short mantle and pack are static; body has one idle frame.
+- Recorded exact document hashes and reduction limitations in releases/ash-legion-jumppack-v001/manifest.json, with an assembled preview.
+- Verified current sprite validation, new entry visibility and preservation of every previous asset family/current selection. No runtime, main game, saved revision or test-slot changes. In-game fit and motion remain untested.

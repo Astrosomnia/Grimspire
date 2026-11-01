@@ -1,0 +1,42 @@
+{
+  "revision": "ash-legion-jumppack-v001",
+  "status": "experimental",
+  "source": "GRIMSPIRE-art-direction-handoff.zip",
+  "assets": [
+    {
+      "part": "body",
+      "code": "T09",
+      "id": "asset-227d2b092253c04d4ef0382a",
+      "asset_id": "custom-ash-legion-jumppack-body",
+      "path": "art/lab/hosted/library/asset-227d2b092253c04d4ef0382a.forge.json",
+      "sha256": "227d2b092253c04d4ef0382abeccea63232cb580b3cb2da6bc8e5eabf81a7dff",
+      "variant": "automatic native reduction; experimental fit-test",
+      "approved": false,
+      "gameplay_tested": false
+    },
+    {
+      "part": "arm",
+      "code": "A05",
+      "id": "asset-b298f7879633c641a7fed93b",
+      "asset_id": "custom-ash-legion-jumppack-arm",
+      "path": "art/lab/hosted/library/asset-b298f7879633c641a7fed93b.forge.json",
+      "sha256": "b298f7879633c641a7fed93b3d01160986042dcccbddba46a650e4493b57a1d2",
+      "variant": "automatic native reduction; experimental fit-test",
+      "approved": false,
+      "gameplay_tested": false
+    }
+  ],
+  "checks": [
+    "current Forge sprite validator",
+    "unique codes and asset identities",
+    "both entries visible in Current assets",
+    "all existing families and selections preserved"
+  ],
+  "limitations": [
+    "single idle body frame",
+    "static pack and cloth",
+    "no trim mask",
+    "no gameplay, walk, aim or jump validation",
+    "concept detail lost during automatic reduction"
+  ]
+}

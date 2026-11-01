@@ -1,0 +1,49 @@
+{
+  "forge": 1,
+  "code": "T09",
+  "name": "Ash Legion — jump-pack study v1",
+  "w": 41,
+  "h": 58,
+  "fps": 8,
+  "base": 54,
+  "pixel_scale": 12,
+  "uid": "ash-jumppack-v1-body",
+  "profile": "character",
+  "markers": {
+    "shoulder": [
+      18,
+      19
+    ],
+    "hip": [
+      23,
+      30
+    ],
+    "knee": [
+      20,
+      40
+    ],
+    "pivot": [
+      23,
+      54
+    ]
+  },
+  "ready": false,
+  "checks": {
+    "visual": false,
+    "tested": false
+  },
+  "notes": "Experimental Ash Legion variation: short mantle, integrated idle jump pack, exposed exhausts, thigh-length front vestment. Body and arm share 41x58 frame and shoulder [18,19]. Feet row 54. Separate glow. Not gameplay-tested or approved. Cloth and pack are static body artwork; no cloth physics added.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACkAAAA6CAYAAAAtInDDAAAACXBIWXMAAAPoAAAD6AG1e1JrAAADaElEQVRoge2ZPWvbUBSGNbpDQSSLiUimBqPBUwdDwRk0lgyZPHQrGrtkKB26lq4d2rlLf0T/nsqrnke83CqxKdK1B184SLIlzuPzreuiOK/zOq/jrcWLl111fdvV600vq8ubrjilVa833ba5H+Tjp8+96Lw4FQvWAbl7975rH+76I6AnYdHyYjlA6ihA3K7z5mp9GpDV9e0A6W4nPrNDAaQj7i4vlr0AheuzQborBaQY07mgdN6+etOL3KprwUuyQ0qkGEhB6ygwINsQfU4I6PvZy5GU9SAPd/3RXfoUZBtW5Ydh8dkSiPIiSBTqWgpTwCY+QwgLPKB7ZoGUAupeGodfX7/tJQVdXd78vSesjxU5nxwSK0pwsWB+fPnQ/f72+A9ka6A855CzuJz4w924WHACdbDyYtm7lbBw63l4TA4KINnsbsaKUrqI2HUhy9MyVUy9XLlb0SG95NSRKLiZa39+clAg3W1p0viIVkb2E8NYNE26ySGpk8TckL3m6oW1RgBVEbx/c+8sLsc63nEkwDlkExZPezcW5fnJIb3mAeSgnJdhSQYQhhD/gZPDOaQUepkhzsasWcWAQRPA5fpuNkjP8DQEsM4qrIm4273zFHMuXJZCct1Gd/EOM3Y82quEt8A2qsBQrgLa5SiQwLThVs9mRDWVxDsKJJZbRYYrWXhrpGdT+I/yvpOWqHq96V9jB/dHzx46VLg/O6RP7tvmvvv18/uQ1VjQIbNvGNDmmqt1n/0a3yTUydSSdKKskIDW5ma6zJglgczucp96KpuGxiD95SwrJEqr6Nm+zYK7FQKC5HOG6GyQzJO7KD24fRjzwpLMnh4a2QD9FWMXAwUZDCQdSBb3MS4LJBNOZa7mM30PnE9Jvm2TBdL3fra2k+aJwdzps2W2mMTVWK+0CT69l+9IqmzZzbazx9hqxDrpj+E4O6APEi71SJyRLL4TnAUy3Sff2V7R2L1eH7NmdlpO6mcUp8U+25DhSttoi4dCZrMkSg/9v6Y6BiRJcKjSKjeklxVZsj4Q0n/YrIDe2kiCaqSAjwE65KwF3SF9fiwOeCadO2eD9B00t2b5DCj9nWc9lvd54b+WDwqpC6snFGL5dLPVR7tJBw6H8/8SdwGaKkv/ZvHnaZWTv0XiatqdK97ucft5nVexf/0BdPGD3nV9VE4AAAAASUVORK5CYII=",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACkAAAA6CAYAAAAtInDDAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAAU0lEQVRoge3YwQnAMAwDQE/UObu1Shboq5SI3IH/ShwMzgwAvMl1Z9XsLEJ+KLu3myppeE9pGSFzijQcNkKedJMAAABtsvuylYbvmKUiJAAwf3gACQozXQHMYyoAAAAASUVORK5CYII=",
+      "trim": null,
+      "guts": null,
+      "note": "Idle fit-test variation. No engine flame baked into artwork."
+    }
+  ],
+  "updated": 1793525170308,
+  "by": "codex",
+  "asset_id": "custom-ash-legion-jumppack-body",
+  "state_key": ""
+}
