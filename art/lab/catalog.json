@@ -25,6 +25,12 @@
       "manifest": "releases/weapon-lighting-v001/manifest.json",
       "status": "draft",
       "live": false
+    },
+    {
+      "id": "anchor-alignment-v001",
+      "manifest": "releases/anchor-alignment-v001/manifest.json",
+      "status": "alignment correction",
+      "live": false
     }
   ]
 }

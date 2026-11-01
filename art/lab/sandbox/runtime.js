@@ -1,9 +1,11 @@
 // Runs INSIDE the game's closure. Payload and renderer are embedded in releases.
-// Category art hooks; firing and collision rules remain the game's rules.
+// Category art hooks. Ranged origins share the scaled art rig; other combat rules are unchanged.
 window.GRIMSPIRE_ART_REVISION=LAB_PAYLOAD.revision;
 const labArt = new Map();
 const labSlots = {W01:'mortar',W02:'rail',W03:'scatter',W04:'bolter',W05:'las',W06:'flamer',W07:'chain',W08:'fist'};
 const labSettings = LAB_PAYLOAD.settings;
+// Simulation geometry exists before asynchronous PNG loading (including online replay).
+const labDocs=new Map(Object.entries(LAB_PAYLOAD.assets).map(([slot,doc])=>[labSlots[slot]||slot,doc]));
 const labOriginalProp = prop;
 const labImage = src => src ? new Promise((resolve,reject)=>{const i=new Image();i.onload=()=>resolve(i);i.onerror=()=>reject(new Error('Weapon image failed to load'));i.src=src}) : Promise.resolve(null);
 const labReady = Promise.all(Object.entries(LAB_PAYLOAD.assets).map(async ([slot,doc])=>{
@@ -28,10 +30,51 @@ prop = function(k,ax,ay,s,glow,dark){
   // Keep the hand at the existing grip. Art has an explicit preview scale.
   const old=SPR.P[k],grip=doc.markers.grip||doc.markers.pivot||[doc.w*.3,doc.h/2];
   const oldGrip=old.g||[old.r[2]/SPR.up*.3,old.r[3]/SPR.up/2];
-  const oldY=old.m?old.m[1]:oldGrip[1];
+  const oldY=oldGrip[1];
   ctx.save();ctx.translate((oldGrip[0]-ax)*PX*(s||1),(oldY-ay)*PX*(s||1));
   labDraw(a,grip,s||1,glow);ctx.restore();
 };
+// One rig for drawing and firing: scale around the sprite grip, keeping the
+// original hand position fixed. PNG load timing must never affect simulation.
+function labWeaponPoint(k,point){
+  const d=labDocs.get(k),old=SPR.P[k],grip=d?.markers.grip||d?.markers.pivot;
+  if(!d||!old||!grip||!point)return null;
+  const g=old.g||[old.r[2]/SPR.up*.3,old.r[3]/SPR.up/2];
+  const handY=(g[1]-(old.m?old.m[1]:g[1]))*PX,z=PX*labSettings.scale;
+  return [(point[0]-grip[0])*z,handY+(point[1]-grip[1])*z];
+}
+function labWeaponWorldPoint(t,k,point){
+  const local=labWeaponPoint(k,point);if(!local)return null;
+  const a=t.aim||0,c=Math.cos(a),s=Math.sin(a);
+  let x=1.5+local[0]*c-local[1]*s,y=-12+local[0]*s+local[1]*c;
+  // Match drawTrooper's leg drop, squash, facing, tilt and water bob exactly.
+  if(typeof legPose==='function'&&typeof RIG!=='undefined'){
+    const[an,af,bn,bf]=legPose(t),R=RIG,K=typeof TROOP_H==='number'?TROOP_H/((SPR.M.feet-50)*SPR.M.sc):SPR.k;
+    const ext=(a,b)=>R.thH*Math.cos(a)+(R.shH-R.ov)*Math.cos(a-b);
+    y+=(R.thH+R.shH-R.ov-Math.max(ext(an,bn),ext(af,bf)))*K;
+  }
+  const sq=t.sq||0;x*=t.face*(1+sq*.22);y*=1-sq*.3;
+  const tilt=t.tilt||0,ct=Math.cos(tilt),st=Math.sin(tilt),lay=Math.min(1,Math.abs(tilt)/1.45);
+  const bob=t.wet?Math.sin(time*2.4+t.x)*1.2:0;
+  return[t.x+x*ct-y*st,t.y+bob-lay*3+x*st+y*ct];
+}
+if(typeof origin==='function'){
+  const labOriginalOrigin=origin;
+  origin=function(t){
+    const id=S.weapon?.[t.team],k=typeof HELD!=='undefined'?HELD[id]:id;
+    if(!['mortar','rail','scatter','bolter','las','flamer'].includes(k))return labOriginalOrigin(t);
+    const doc=labDocs.get(k),muzzle=doc?.markers.muzzle;
+    if(!muzzle)return labOriginalOrigin(t);
+    const point=labWeaponWorldPoint(t,k,muzzle);if(!point)return labOriginalOrigin(t);
+    const grip=doc.markers.grip||doc.markers.pivot,hand=labWeaponWorldPoint(t,k,grip);
+    // A longer barrel must not allow shooting through a nearby wall.
+    if(hand&&typeof isSolid==='function'){
+      const dx=point[0]-hand[0],dy=point[1]-hand[1],n=Math.max(1,Math.ceil(Math.hypot(dx,dy)*2));
+      for(let i=0;i<=n;i++){const x=hand[0]+dx*i/n,y=hand[1]+dy*i/n;if(isSolid(x,y)){point[0]=x;point[1]=y;break}}
+    }
+    const[dx,dy]=aimVec(t);return[point[0],point[1],dx,dy];
+  };
+}
 // Existing chain animation belongs to the old blade silhouette.
 const labOriginalWeapon=drawWeapSpr;
 drawWeapSpr=function(k,rimOnly){if(k!=='chain'||!labArt.has(k))return labOriginalWeapon(k,rimOnly);const m=SPR.P[k];prop(k,m.g[0],m.m?m.m[1]:m.g[1],1,!rimOnly,true);return true};

@@ -1,0 +1,129 @@
+{
+  "schema": 1,
+  "release": "anchor-alignment-v001",
+  "assets": [
+    {
+      "slot": "W01",
+      "path": "hosted/library/W01_aligned_v001.forge.json",
+      "sha256": "7e91849f082449f2418d15dc23eb40230eea275e53e78d02ff4bb46b54085b85",
+      "source_asset_id": "W01_slow_pulse_v001",
+      "grip": [
+        14,
+        16
+      ],
+      "muzzle": [
+        38,
+        9
+      ],
+      "animation_frames_unchanged": true
+    },
+    {
+      "slot": "W02",
+      "path": "hosted/library/W02_aligned_v001.forge.json",
+      "sha256": "be85e4b75297022613e1608b1780b2f017919506427247ff866781bc8e55b7cb",
+      "source_asset_id": "W02_rail_sweep_v001",
+      "grip": [
+        13,
+        14
+      ],
+      "muzzle": [
+        40,
+        8
+      ],
+      "animation_frames_unchanged": true
+    },
+    {
+      "slot": "W03",
+      "path": "hosted/library/W03_aligned_v001.forge.json",
+      "sha256": "5af2f110f7f9448eedd4948a8495390af20457a9e1fa80c5ca2ed044c64c3931",
+      "source_asset_id": "W03_twin_chamber_v001",
+      "grip": [
+        13,
+        14
+      ],
+      "muzzle": [
+        40,
+        9
+      ],
+      "animation_frames_unchanged": true
+    },
+    {
+      "slot": "W04",
+      "path": "hosted/library/W04_aligned_v001.forge.json",
+      "sha256": "8a745e9f091d005477be9a373a661cf9c43d8120133a0fa6aefd878c9fcb1fc2",
+      "source_asset_id": "W04_staggered_charge_v001",
+      "grip": [
+        13,
+        14
+      ],
+      "muzzle": [
+        37,
+        7
+      ],
+      "animation_frames_unchanged": true
+    },
+    {
+      "slot": "W05",
+      "path": "hosted/library/W05_aligned_v001.forge.json",
+      "sha256": "0d368bbf1b53bcfed6d24107e2e877b862119b4dc1bf7a8a1f13adda4015f59b",
+      "source_asset_id": "W05_red_sequence_v001",
+      "grip": [
+        12,
+        14
+      ],
+      "muzzle": [
+        40,
+        9
+      ],
+      "animation_frames_unchanged": true
+    },
+    {
+      "slot": "W06",
+      "path": "hosted/library/W06_aligned_v001.forge.json",
+      "sha256": "aea84c01453ddcc97c6995ee9ac38d04e0fa2ce43c85cd517aa12698b1a1cb0d",
+      "source_asset_id": "W06_furnace_shimmer_v001",
+      "grip": [
+        17,
+        13
+      ],
+      "muzzle": [
+        46,
+        6
+      ],
+      "animation_frames_unchanged": true
+    },
+    {
+      "slot": "W07",
+      "path": "hosted/library/W07_aligned_v001.forge.json",
+      "sha256": "175691a25d98cab9df1975f335512bc49dbaf284f266913a135ff4ce51b1e639",
+      "source_asset_id": "W07_edge_chase_v001",
+      "grip": [
+        7,
+        9
+      ],
+      "muzzle": [
+        40,
+        8
+      ],
+      "animation_frames_unchanged": true
+    },
+    {
+      "slot": "W08",
+      "path": "hosted/library/W08_aligned_v001.forge.json",
+      "sha256": "e2a83effb812d0b36086a426709bdfbc454a387a03adae22828af2092fb91192",
+      "source_asset_id": "W08_knuckle_surge_v001",
+      "grip": [
+        12,
+        10
+      ],
+      "muzzle": [
+        33,
+        9
+      ],
+      "animation_frames_unchanged": true
+    }
+  ],
+  "status": "alignment correction",
+  "live": false,
+  "scale": 1.2
+}
