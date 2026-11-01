@@ -224,3 +224,4 @@ First playable review of the straight foreground gun arm and glove on all six gu
 - Preserve the constrained grid column so long animations cannot push the sidebar outside the viewport.
 - Browser checked 60-frame artwork at 900px, 1363px and 1800px: the strip fills available space, clips a partial next frame and keeps the sidebar inside its viewport.
 - UI only; all existing artwork and saved builds retained unchanged.
+- Correct the migration test fixture to use original mapped registrations, independent of newer user drafts. New draft saves must not invalidate initial-default assertions or block application deployment.

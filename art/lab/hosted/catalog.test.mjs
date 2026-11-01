@@ -1,6 +1,10 @@
 import test from 'node:test';import assert from 'node:assert/strict';import {readFile} from 'node:fs/promises';import {sprite,sha,ROOT,LAB} from './model.mjs';import {saveAsset,save,openAsset,assetIndex} from './worker.mjs';
 const root=new URL('../../../',import.meta.url),read=p=>readFile(new URL(p,root),'utf8');
 const catalog=JSON.parse(await read(ROOT+'/assets.json'));
+const migrationFixture=JSON.parse(await read(ROOT+'/families.json'));
+const migratedIds=new Set(migrationFixture.assets.flatMap(f=>f.members.map(m=>m.id)));
+// Baseline migration checks use the original registrations, independent of user drafts.
+const legacyLibrary={schema:1,entries:JSON.parse(await read(ROOT+'/library.json')).entries.filter(e=>migratedIds.has(e.id))};
 test('Every indexed source loads with matching hashes, layers, frame sizes and anchors',async()=>{for(const e of catalog.entries){const raw=await read(e.path);assert.equal(await sha(raw),e.sha256,e.id);sprite(JSON.parse(raw),'ASSET')}assert(catalog.entries.some(e=>e.id==='single-gun-arm-v001'));assert(catalog.entries.some(e=>e.id==='game-trooper-walk'&&e.frame_count===4))});
 class Store{
  constructor(){this.headValue='a'.repeat(40);this.files={};this.stateValue={current:null,revisions:[]}}
@@ -17,7 +21,7 @@ test('Independent saves retain different sprites and all versions; stale saves a
 });
 
 test('Provenance migration groups every source and old registration, with explicit defaults and archive',async()=>{
- const {organiseAssets}=await import('./families.mjs');const saved=JSON.parse(await read(ROOT+'/library.json')),migration=JSON.parse(await read(ROOT+'/families.json'));
+ const {organiseAssets}=await import('./families.mjs');const saved=legacyLibrary,migration=migrationFixture;
  const {docs,assets}=organiseAssets(catalog,saved,migration);
  assert.equal(docs.length,catalog.entries.length+saved.entries.length);assert.equal(assets.filter(f=>!f.archived).length,32);assert.equal(assets.filter(f=>f.archived).length,4);
  assert(docs.every(d=>!d.asset_id.startsWith('legacy-')));assert(docs.every(d=>d.w&&d.h&&d.frame_count));
@@ -27,7 +31,7 @@ test('Provenance migration groups every source and old registration, with explic
  const minigun=assets.find(f=>f.id==='asset-w18');assert.equal(minigun.current,'game-minigun');assert(minigun.states.some(s=>s.key==='barrel_phase_0'));
  for(const f of assets)for(const id of Object.values(f.defaults))assert(f.versions.some(d=>d.id===id),id);
 });
-class CatalogStore extends Store{async file(p,ref,optional){return this.files[p]??read(p).catch(e=>{if(optional&&e.code==='ENOENT')return null;throw e})}}
+class CatalogStore extends Store{constructor(){super();this.files[ROOT+'/library.json']=JSON.stringify(legacyLibrary)}async file(p,ref,optional){return this.files[p]??read(p).catch(e=>{if(optional&&e.code==='ENOENT')return null;throw e})}}
 test('Old-version edits keep asset identity; New with the same code creates another card; drafts do not approve art',async()=>{
  const {assetLibrary}=await import('./worker.mjs'),g=new CatalogStore();
  const old=await openAsset(g,g.headValue,'study-W01_grid.forge');old.name='My edited mortar';
