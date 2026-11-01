@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "current": "20261101T004157Z-17d7b17a",
+  "current": "20261101T004304Z-a1bcb9ba",
   "revisions": [
     {
       "id": "20261031T210936Z-6c67f2da",
@@ -61,6 +61,14 @@
     {
       "id": "20261101T004157Z-17d7b17a",
       "created": "2026-11-01T00:41:58.243Z",
+      "notes": "Test Las Burner — red charge sequence as W05 · Las gun",
+      "slot": "W05",
+      "variant": "custom",
+      "author": "Astrosomnia"
+    },
+    {
+      "id": "20261101T004304Z-a1bcb9ba",
+      "created": "2026-11-01T00:43:04.839Z",
       "notes": "Test Las Burner — red charge sequence as W05 · Las gun",
       "slot": "W05",
       "variant": "custom",
