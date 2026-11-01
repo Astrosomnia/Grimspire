@@ -13,7 +13,8 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 - **Leaner saves.** New revisions store the art payload plus the `main` commit they were tested against, not two full copies of the game (about 0.7 MB instead of 3.3 MB). The game is rebuilt from `main` when a revision is opened or released. Older revisions are unchanged.
 - **Releases are logged here** automatically by the Forge.
 - **Renderer tests moved to `main`:** `tools/test/art/` runs against the live game and its art. Added `tools/test/dsimart.py` (ranged weapons, determinism with and without art loaded).
-- **Cleanup:** merged `art/release-*` branches deleted; `vector-backup`, `sprites` and `forge-pipeline` kept as tags under `archive/`. Stale game copies and the old local Forge companion removed from `art/weapon-lab`. Reference images renamed; duplicate `og.jpg` removed.
+- **Cleanup:** stale game copies and the old local Forge companion removed from `art/weapon-lab`. Reference images renamed; duplicate `og.jpg` removed.
+- **Ask (Jarred):** Claude can't delete branches from its session. In GitHub → Branches, delete the five `art/release-*` branches (three are merged; deleting the other two closes stale PRs #3 and #4, whose art is kept in the Forge history) and `forge-pipeline`. Keep `vector-backup` and `sprites` as backups, or delete them if you don't need them.
 - **Moved Jarred's three sprites** from the old Forge into the Library: aim arm (edited), lower aim arm, chainblade rework.
 - **Ask (ChatGPT):** concepts give Ash Legion magenta, oxblood and bone cloth. In the game Ash Legion is cyan, magenta is Neon Choir, and coloured cloth breaks the restricted palette. Settle with Jarred before more Ash Legion art.
 

@@ -30,4 +30,4 @@ Jarred edits numbers or leaves requests in Notes; a value that differs from live
 On "check reports": `tools/reports.py --since <last pulled at>` (last pull 29 Oct, `at` = 1793334741409), merge new items into the board's `reports/game` document, and create `triage/game__<firestore id>` docs with status `new` and a one-line note (agree or disagree, likely cause, size). Build only Go items, reply in each item's `log` (`by:'claude'`), mark Done once pushed. Never act on friend feedback without Jarred's Go.
 
 ## Retired (1 Nov 2026)
-Claude's artifact Forge, the Grimspire / Grimspire Test artifacts as build sources, the `forge-pipeline` tools (tag `archive/forge-pipeline`), Forge hot-load and the artifact-only Proving ground (still to port; see the roadmap).
+Claude's artifact Forge, the Grimspire / Grimspire Test artifacts as build sources, the `forge-pipeline` tools, Forge hot-load and the artifact-only Proving ground (still to port; see the roadmap).

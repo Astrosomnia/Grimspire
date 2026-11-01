@@ -27,7 +27,7 @@ Start here. This is for everyone working on Grimspire: Jarred, Claude and ChatGP
 | Balance sheet, field reports board | Claude artifacts on claude.ai (Claude keeps them in sync and reports changes in `LOG.md`) |
 | Online backend | Firebase project `grimspire-9cf6a` (free tier): anonymous auth, Firestore `matches` and `reports` |
 
-Branches: `main` (game, docs, tools) and `art/weapon-lab` (Forge app and art data). Release branches the Forge makes (`art/release-*`) are deleted once merged. Old builds are tags: `archive/vector-troopers`, `archive/sprites-branch`.
+Branches: `main` (game, docs, tools) and `art/weapon-lab` (Forge app and art data). Release branches the Forge makes (`art/release-*`) can be deleted once merged. Backups: `vector-backup` (the original drawn troopers) and `sprites`.
 
 ## How work flows
 **Code (Claude):** edit `index.html` on `main`, run `python3 tools/build.py debug`, test, bump `const GV` if the sim changed, commit, push. GitHub Pages deploys `main`. Log it.
