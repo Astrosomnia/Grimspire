@@ -83,5 +83,33 @@
       "author": "Astrosomnia"
     }
   ],
-  "integrations": []
+  "integrations": [
+    {
+      "revision": "20261101T014956Z-14b37379",
+      "main_commit": "db0b85b263bff04befb5c7755793478bc3b54f3b",
+      "game_sha256": "8345a7a139d137b7bb21e29f603155e988c799c1398f10e82f8e6f47ab3c0b82",
+      "approved_by": "Astrosomnia",
+      "approved_at": "2026-11-01T01:49:56.490Z",
+      "pr": "https://github.com/Astrosomnia/Grimspire/pull/1",
+      "status": "main updated; public deployment verified",
+      "deployment": {
+        "revision": "20261101T014956Z-14b37379",
+        "observed_main_commit": "db0b85b263bff04befb5c7755793478bc3b54f3b",
+        "url": "https://astrosomnia.github.io/Grimspire/",
+        "verified_at": "2026-11-01T01:58:20.578Z",
+        "method": "GitHub Pages deploy check success, live embedded revision and all eight asset names/frame counts, rendered local battle smoke test",
+        "observed_slots": [
+          "W01",
+          "W02",
+          "W03",
+          "W04",
+          "W05",
+          "W06",
+          "W07",
+          "W08"
+        ],
+        "full_http_body_hash_checked": false
+      }
+    }
+  ]
 }
