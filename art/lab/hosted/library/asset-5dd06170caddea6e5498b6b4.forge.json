@@ -1,0 +1,38 @@
+{
+  "forge": 1,
+  "asset_id": "asset-c06",
+  "state_key": "",
+  "source_version": "asset-13e1bc54e2b4a543fd51b2a1",
+  "code": "C06",
+  "name": "Grave Marker_1",
+  "w": 32,
+  "h": 36,
+  "fps": 8,
+  "base": null,
+  "pixel_scale": 12,
+  "markers": {
+    "grip": null,
+    "muzzle": null,
+    "pivot": null,
+    "shoulder": null,
+    "elbow": null,
+    "hand": null,
+    "hip": null,
+    "knee": null
+  },
+  "ready": false,
+  "notes": "A new grave marker that appears on player death.",
+  "review": null,
+  "ghostOff": null,
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAkCAYAAADo6zjiAAADSUlEQVR4AeyXz0tUURTH74Q/JosxDM1Mw8yKoCwQYUBIF1ZQkOIiW1jQqkXUpkW4ilb+AVEUBBFJCxdhRUHhQgtB+oURZoGNZpg20kITURBefq6c6b03897ceQ5EkPh9995zzj3f7z33vud1nfrLP4EFHG1us/YeiGqcPXfeYhxkLYEEQDwx/lVFo7Wac3DwrWJcteegVVS8zdJGw0cgAeSGHGL6gobGepWTkydDozaQgPm5X8pNDhu2+NRYiL4pAgn4NjYcogJukqXFRbcp7TiQALKyWloB5PNzszI0bgMLONzUkDiEsOWHwyo/XEA3CX4H01cAp5pXDJRs3aFPuCTbUhRxELElddE6bSNGwLzm1hZFq52uh68AViWlPn7imCIRQFhX92NHKuJGPn5S+IgRMA/fxkihI14GngIqq2ss9pVAEtiBMHzY8NuBD7sd+HlFU1XBU8D6DQWKSUx2A3K3jbGXHZ8XPAX8jP9wvOvssSRhlfR3R5ZpHCDODQKoSKpvhKcACZZkvc/79KlvaWlWoKKyUn2ILytWLYDozq3rof6+AUU8wEYOPl703fAUQCCTSBYbn1R8fEjeebUjBDYXbVp57cKEadi3K/Z5KEQ8ePLoqa4kfR3oevgKYBLJ+p/1JH1ea/ft0hWR7XDlTQyp5Mj7waT5EuArQILStYhgj+1VSDdH/FkRwBkgYfX2MpqMEFjA6MR3BxEibt6+77CZDAILIDllpxUsLS5I17hdkwDeEpg4A6tt6j9G+LywJgH2pIhoOtJoNxn1syZAqmHEagvKigAOoC1nRt2sCMiI0RX8X8C/WQGuXa6tDDw0rgD/joGOK51W26k2T0Jiuu7esIjzDLI5jAQcamq19tes3nhtc5O6paXl+rIiDhMRRgIkITch+gMDrxUXldy8XH0joiLtZ9pxaQzHZtWX2OofK23weRgJeNH7QF8oIO7peahmZv4kh1zy4wfEYHs3NKROnr7g+9+ykYCLly4nkhQXlynAtx9ABiCGVPDm1UtVGClRO6vKfEWkFcAKpuMLanpqUueur69TABHasPKQPpUBjMsrqjT5itv3N60AiIFkYW9ltRCJ3d4iYmJ8VBEHuu9d01toj5H+bwAAAP//Xcuk0QAAAAZJREFUAwDe0Ws1LBiMjAAAAABJRU5ErkJggg==",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAkCAYAAADo6zjiAAAAcklEQVR4AezWsQnAIBCF4SRtdsgA2X+WDJAdrBWL1yrcQ7ziF8TK8/mp4HVsbgSwBb6/1N6jJ2kHeJ/77H1bgOjCmmcLqFB0JEB+AeeJ6V6MauQXcN64BEY18gtoF6tGBBBAAAEEEEAAgeUCs48MARBoAAAA///7Xp97AAAABklEQVQDAFElEEm+l2zHAAAAAElFTkSuQmCC",
+      "trim": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAkCAYAAADo6zjiAAAAeElEQVR4AezWOwrAIBBFUROwtHGpLsSl2kw5RcJMkTboEIJwhQcWfh6nEM/086AAAgggsLdArfXKOT9ZeVRDAiKSWmuelcttT6hAKSX13j02twNnEyowxjhU1WPz2cttfaiAHRANBRBAAAEEEEAAgc8F3j4sFEDgBgAA//8NpG18AAAABklEQVQDAOgmGUkNaWjHAAAAAElFTkSuQmCC",
+      "guts": null,
+      "note": ""
+    }
+  ],
+  "updated": 1793513098427,
+  "by": "jarred"
+}
