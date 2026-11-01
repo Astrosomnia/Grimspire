@@ -44,7 +44,7 @@ input[type=range]{accent-color:var(--cyan);width:100%}
 .num{font-family:var(--f-num);font-size:12px;font-variant-numeric:tabular-nums}
 .lbl{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--dim)}
 
-#app{height:100%;display:grid;grid-template-columns:52px 1fr 300px;grid-template-rows:auto auto 1fr auto;
+#app{height:100%;display:grid;grid-template-columns:52px minmax(0,1fr) 300px;grid-template-rows:auto auto 1fr auto;
   grid-template-areas:"top top top" "rail opts side" "rail stage side" "rail cels side";
   padding-left:env(safe-area-inset-left,0px);padding-right:env(safe-area-inset-right,0px)}
 #top{grid-area:top;display:flex;align-items:center;gap:10px;padding:6px 12px;border-bottom:1px solid var(--edge);background:var(--stone);flex-wrap:wrap}
@@ -72,11 +72,11 @@ input[type=range]{accent-color:var(--cyan);width:100%}
 #hud{position:absolute;left:10px;bottom:8px;pointer-events:none;color:var(--dim);background:rgba(4,5,7,.75);padding:2px 6px;border-radius:2px}
 #drop{position:absolute;inset:0;display:grid;place-items:center;background:rgba(63,243,255,.06);border:2px dashed var(--cyan);color:var(--cyan);font-size:18px;pointer-events:none}
 
-#cels{grid-area:cels;border-top:1px solid var(--edge);background:var(--stone);display:flex;gap:10px;align-items:stretch;padding:8px 12px;min-height:92px}
-#celCtl{display:flex;flex-direction:column;gap:5px;justify-content:center}
+#cels{grid-area:cels;min-width:0;border-top:1px solid var(--edge);background:var(--stone);display:flex;gap:10px;align-items:stretch;padding:8px 12px;min-height:92px}
+#celCtl{flex:0 0 auto;display:flex;flex-direction:column;gap:5px;justify-content:center}
 #celCtl .grp{display:flex;gap:4px;align-items:center}
-#strip{flex:1;display:flex;gap:6px;overflow-x:auto;align-items:center;padding-bottom:2px;min-width:0}
-.cel{flex:0 0 auto;border:1px solid var(--edge);background:#08090c;border-radius:2px;padding:3px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px}
+#strip{flex:0 1 514px;max-width:514px;display:flex;gap:6px;overflow-x:auto;align-items:center;padding-bottom:2px;min-width:0}
+.cel{box-sizing:border-box;flex:0 0 98px;width:98px;border:1px solid var(--edge);background:#08090c;border-radius:2px;padding:3px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px}
 .cel.cur{border-color:var(--cyan);box-shadow:0 0 0 1px rgba(63,243,255,.25)}
 .cel canvas{image-rendering:pixelated;display:block;background:repeating-conic-gradient(#121419 0 25%,#0c0d11 0 50%) 0 0/8px 8px}
 .cel span{font:10px var(--f-num);color:var(--dim)}
@@ -145,7 +145,7 @@ dialog.wide{max-width:min(1180px,96vw);width:96vw}
 .snap small{color:var(--dim);font-family:var(--f-num);font-size:11px}
 #pvFac canvas{image-rendering:pixelated;border:1px solid var(--edge);background:#0b0c11}
 @media (max-width:860px){.rigwrap{grid-template-columns:1fr}}
-@media (max-width:1100px){#app{grid-template-columns:52px 1fr 262px}}
+@media (max-width:1100px){#app{grid-template-columns:52px minmax(0,1fr) 262px}}
 @media (max-width:700px){
   body{overflow:auto}
   #app{height:auto;min-height:100%;grid-template-columns:1fr;grid-template-rows:auto auto auto 62vh auto auto;
@@ -209,7 +209,7 @@ dialog.wide{max-width:min(1180px,96vw);width:96vw}
       <div class="grp"><input id="frameNote" type="text" placeholder="Frame note, e.g. contact pose" aria-label="Note for this frame" style="width:15em"></div>
       <div class="grp"><span class="lbl">Onion</span><button id="onPrev" title="Show previous frame (O)">Prev</button><button id="onNext">Next</button></div>
     </div>
-    <div id="strip"></div>
+    <div id="strip" tabindex="0" role="group" aria-label="Animation frames — scroll for more"></div>
   </section>
 
   <aside id="side">

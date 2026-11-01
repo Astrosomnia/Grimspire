@@ -208,3 +208,11 @@ First playable review of the straight foreground gun arm and glove on all six gu
 - Preserve the single foreground arm, Reach, independent saves, stale-write protection and focused game-release rules. No public-game source or art was changed.
 - Checks: hosted save/release tests plus migration completeness, new-versus-version identity, trooper state retention and legacy provenance; local browser verified grouped browsing and four-frame Walk opening. Signed-in hosted saving remains unverified.
 - Next: the ordered art plan is recorded in ROADMAP.md.
+
+## Scrollable frame strip — 2026-10-31
+
+- Prevent long animations from expanding the editor's centre grid column and pushing the sidebar off screen.
+- Cap the strip at five fixed-width frame thumbnails; overflow scrolls horizontally, with fewer visible on narrow layouts.
+- Preserve existing frame selection and automatic scrolling to the selected frame.
+- Browser checked a 60-frame animation at 1363px: five fully visible thumbnails, no page overflow, sidebar inside viewport, and scrolling reaches frames 56–60.
+- UI layout only; no artwork, saved revisions, runtime or public game changes.
