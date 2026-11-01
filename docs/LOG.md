@@ -6,6 +6,12 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-01 · ChatGPT · Context for new project chats
+- Added [CHAT-CONTEXT.md](CHAT-CONTEXT.md), with paste-ready ChatGPT project instructions that require reading current main AGENTS, HANDOVER and LOG at session start. Linked it from HANDOVER. Created on main at Jarred's request.
+- Records the art/code role split, approval boundaries, current Forge workflow and where to find authoritative docs. Archived handoffs and lab pointers remain retired.
+- Faction palette and cloth remain unresolved; no additional faction art made or decision assumed. **Ask (Jarred):** settle the options in ART-DIRECTION before more faction art.
+- Verified the context against current AGENTS, HANDOVER, LOG, ROADMAP, VISION, ART-DIRECTION and FORGE. Documentation only; no game, renderer, Forge code or art changed.
+
 ## 2026-11-01 · Claude · One source of truth, Forge test without saving
 - **Source of truth:** `main` holds the game and these docs; the hosted Forge and `art/weapon-lab` hold art. Claude's old artifact Forge, its `forge-pipeline` branch and the push-from-artifact flow are retired. `docs/` replaces the Claude project docs and the lab handoff (archived in `docs/archive/`).
 - **Art renderer moved into the game.** It now sits in `index.html` between `GRIMSPIRE_ART_RUNTIME` markers, outside the block the Forge rewrites. The Forge only swaps `LAB_PAYLOAD`. Same behaviour (determinism hashes unchanged, GV stays 17).
