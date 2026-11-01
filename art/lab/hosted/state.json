@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "current": "20261031T234442Z-a04afee8",
+  "current": "20261101T004116Z-749f093f",
   "revisions": [
     {
       "id": "20261031T210936Z-6c67f2da",
@@ -45,6 +45,14 @@
     {
       "id": "20261031T234442Z-a04afee8",
       "created": "2026-10-31T23:44:43.326Z",
+      "notes": "Test Plasma Mortar — slow pulse as W01 · Launcher",
+      "slot": "W01",
+      "variant": "custom",
+      "author": "Astrosomnia"
+    },
+    {
+      "id": "20261101T004116Z-749f093f",
+      "created": "2026-11-01T00:41:17.526Z",
       "notes": "Test Plasma Mortar — slow pulse as W01 · Launcher",
       "slot": "W01",
       "variant": "custom",

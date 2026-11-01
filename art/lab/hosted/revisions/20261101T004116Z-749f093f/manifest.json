@@ -1,0 +1,25 @@
+{
+  "schema": 1,
+  "id": "20261101T004116Z-749f093f",
+  "created": "2026-11-01T00:41:17.526Z",
+  "author": {
+    "id": 144634800,
+    "login": "Astrosomnia"
+  },
+  "base_main": "2974b27b8d230ed6d22042fe6e91f37e3cdbf9d4",
+  "source_lab_commit": "7ab0aa56a4fd9bcee4de710d3cfb2caecbd5274b",
+  "notes": "Test Plasma Mortar — slow pulse as W01 · Launcher",
+  "selected_slot": "W01",
+  "original_code": "W01",
+  "variant": "custom",
+  "slots": [
+    "W01"
+  ],
+  "files": {
+    "game.html": "7b41a621e0a925d4d05417db50b712dc3283058dabd18a0d49df321bb34854dc",
+    "source.html": "a56bf436c01e95c5b9646c35a3f311d7518aaea22836e9b5a23555755cb82f73",
+    "runtime.js": "91426c83441a072c47662f588828f00055b27141096f74d4c92a1069729c2d0d",
+    "payload.json": "ae3a868906fe49b9de79e42a66f572a63eabf407308aeccaa6edc05091c91189"
+  },
+  "status": "draft"
+}
