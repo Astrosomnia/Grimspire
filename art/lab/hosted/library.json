@@ -45,6 +45,20 @@
       "id": "W08_knuckle_surge_v001",
       "path": "art/lab/hosted/library/W08_aligned_v001.forge.json",
       "sha256": "e2a83effb812d0b36086a426709bdfbc454a387a03adae22828af2092fb91192"
+    },
+    {
+      "id": "asset-3548afb5c9f162d60eb04aef",
+      "path": "art/lab/hosted/library/asset-3548afb5c9f162d60eb04aef.forge.json",
+      "sha256": "3548afb5c9f162d60eb04aefcbfb0a77cc71ead576cfefcee188686928d6afd7",
+      "asset_id": "asset-c06",
+      "state_key": "",
+      "asset_name": "Grave Marker",
+      "code": "C06",
+      "name": "Grave Marker_1",
+      "w": 32,
+      "h": 36,
+      "frame_count": 1,
+      "category": "Other art"
     }
   ]
 }
