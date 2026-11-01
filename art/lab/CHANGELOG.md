@@ -262,3 +262,14 @@ First playable review of the straight foreground gun arm and glove on all six gu
 - Consolidate library families, responsive animation strip, independent scale, shoulder pivot, release evidence and remaining verification limits.
 - Add user-authored faction foundations, optional lore proposals, character direction and experimental Ash Legion asset IDs/status.
 - Record that further art exploration continues in ChatGPT. Documentation only; no runtime, art, saved tests or main changes.
+
+## Consolidation — 2026-11-01 (Claude)
+
+- Docs moved to `docs/` on main (HANDOVER, LOG, FORGE, ART-DIRECTION, ROADMAP, VISION). The lab handoff is archived there; lab README, AGENTS and art roadmap are now pointers.
+- Art renderer moved into `index.html` on main between `GRIMSPIRE_ART_RUNTIME` markers. Builds insert only the payload; the sandbox game/renderer pin is gone (`hosted/fixtures/` keeps the old pair for tests).
+- **Test in game** without saving: `POST /api/game` builds the current canvas into the current shared build on main and commits nothing.
+- Revisions are schema 2: `manifest.json` + `payload.json` with `base_main`; the game is rebuilt from that commit and checked against `files['game.html']`. Schema 1 revisions load as before.
+- Releases add an entry to `docs/LOG.md` on main in the release commit; the debug build now matches `tools/build.py` (noindex, TEST panel, "Grimspire Test").
+- `tools/add_asset.mjs` adds outside art to the library. Used it to move three of Jarred's sprites from Claude's retired artifact Forge (Aim Arm edit, Aim Arm Lower, Chainblade rework).
+- Removed from this branch: stale copies of the game, tools and art folders (they live on main), the local companion (`sandbox/`, landing page, catalog scripts) and the broken `validate.py`. Renderer tests moved to `tools/test/art/` on main; the editor rig test is `tests/rig.cjs`.
+- Checks: 40 hosted tests and 6 catalog tests pass; renderer tests pass on main; an unsaved test build opened the testing grounds in a browser.

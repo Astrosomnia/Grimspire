@@ -1,0 +1,52 @@
+{
+  "forge": 1,
+  "code": "W07",
+  "name": "Chainblade rework · Jarred edit (old Forge, 30 Oct)",
+  "w": 36,
+  "h": 15,
+  "fps": 22,
+  "base": null,
+  "pixel_scale": 12,
+  "markers": {
+    "elbow": null,
+    "grip": [
+      2,
+      7
+    ],
+    "hand": null,
+    "hip": null,
+    "knee": null,
+    "muzzle": [
+      34,
+      7
+    ],
+    "pivot": [
+      18,
+      7
+    ],
+    "shoulder": null
+  },
+  "notes": "Chainblade (expansion rework). Frames 2-4 are the chain cycle. Imported by Claude. Moved from Claude's retired artifact Forge on 1 Nov 2026.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAPCAYAAACMa21tAAACpklEQVR4AcyUbUhTURzGnzu1otSmTSnFTM3KDF8ISr8oXpToQ9C3+hBEFBFhVOQn68OCEgShLAkqJKIXTKKCiBBi0aCYYr60llky14u1sonMprU5b3sOnLXWXH1Y0mW/e55zzv//P8+599zp8J9dUQ2lL8vRJHPlO6qhUBM0Ftr/V/qvDM1fsFCsT1Mmk0kTncAtVjpQKviLaujzx2FFRq4pLBWyb9de0dJMLDSLsRZbokvWp2tZOYVaalqmgJpPQtJ2rRXfv03i/dthxuOi3oAVK4u0xubz6ChZL3S98RQsFZtRVrFFO954Bnfyi4SuO3oCt/PXoqC4TDtYZ8TVjOVC79l3BO3ZBaIezaiqGty4Lj4hATl5q7GueCNu3riCy61nQRMSY0OLSJS3Kc+kkIO2ARB2nB/eYGjIBq/Pgwm3G1894+DY2OgXvHM4MBXImXCPg33qmRm/mM9dVart3H2AJYLo4uPnBTtcPBxOTk974fN5KSOSmmYQi23ftgOS/bWHEA2/3y9qxsXFgU+JsLguMUnPNiqLEn/GsJBEJnHn1OdaTsP2ov8XOBYJGmFOODr7q17FWF8LYn5wSwnneX8nEpOTkJmVC176lCVgMbWmGpVq1W88Mj1EKMyZDdbh5niGCOOCX5kc4KCEBzszKw811ZUwpC0GX11KqgFJyXp0dXbC+cmJnu5eDL60w+VywWq1YmlGduA8FolWar5S5nADUm8orxR1eGblemyFoUhmOEmqqsphd4yg68ljdrH19TM0Nxkx0G9RNvU9Fdpivquo3RY0nTwGqRuMh4Oa49Yes1LccU/EUJeZ74tcNfCFyfPDBYQhitlou94uzPA/aWx0RCm5dAEswvhYaVmPNf9oiEE0w5aEJsdKs64kqiEaITJ4LtofAAAA///7u7wFAAAABklEQVQDAKxTlS4PxS6qAAAAAElFTkSuQmCC",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAPCAYAAACMa21tAAAA2UlEQVR4AdSTsQoCMQyGWxcnFwd9BCcF0SdydXESH0HEQRBXFzefRRHcnBzFW52cTr6Dk4CFBDyCHvyXkCbpR9rWwo99/wd0r29yzyGqE2p1HsETSgWK51lkQl5QKhAw3eYS4yITECQcHXax2uZVip5SJqDsdi2OTRZ+6x+Op2QLE1CqkoYotZaKkYtSazJmAsp784+nPxz0A2ITi8hF5ebSL2NYExCJ2aWBCdPJKErtd+tokayRftFU/FQgpgNM+zmu/B4JjrerAnnCQKUCeU0GGKQCkeSpFwAAAP//haywKAAAAAZJREFUAwAcs5sfdAidJAAAAABJRU5ErkJggg==",
+      "trim": null,
+      "guts": null
+    },
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAPCAYAAACMa21tAAACp0lEQVR4AcyUXUiTURzGn/dV+zC1aVMqEVGhD+xLLypvHA7Fq7Cr9CIIgwpSqCQILGgXIQRBmhJ9IBJSmERddBuLhD6U0GQtM8Y+smyVizGb1uZ823PorLdlK9Ckl/3Oec55z///f855D1Pxnz0JDeWsKdAki+U7oSG9CRrTj/+V/itDS5elivrSlNVq1cREtFkoHU0lfgkNfXjnUsSqaLOhuCTaAjTwrP7ggmqR7HujZhhytLyCYi0rO1dAzZOQ9FzvxNcvU3jz2iVCGo4140JKKqprarWzbZeF3lm+S7vUdQe9+Rthqt6tWVo6hC4tM2unW1px1WDE5tJy7fjJM0IXrivRmi3n0eRxxDbMjbKAmpySgoKi9di0dQdu3ezGtc520ISEyblQMh2cEnLUPgLCgXfcA4fDjlA4iMlAAJ+DfnDu08cJjLndmI7GTAb84Jh6djYi3tMYD4BmzGazMKcmJy9hTgGLx8MXMzMhhMMhyjnJyjaKYnW1eyE53HgUiYhEIiJnUlISpBkmV9PSDewTsiLtxxomksgg7pz6Ykcr7C+Gf4Jzc0EjjCE8IUKtOl8NKZbmRpC+e7eVeJ4P9yMtIx25eYXgY8hcBSYzV1XCZK74hQfW+9DDmN/BPNyc/r0qB/pjk3O82Ll5RaiqNMGYvRL8dJlZRqRnGDDQ3w/vey8Gnw5h9KUTPp8PNpsNq9fmR+/jFtFLzU/KGG5A6u1lJpFnzGVXWJuwrjAkB5yIp6KiDE73Www8eohTqcvFSdoG+5QD/gmcOHII1Hs8I2hq2I/Bx1ZF6id9d2Oa8/W+ceyrqxFr2s5Z0NvdrjA2vp4wFD+pH/fc6BVm+J+0retK7ALOR/MA5J3R16L+oyEuohn2TMSezEfHx3MsSWiIRohcvBj9NwAAAP//Bm1tDwAAAAZJREFUAwAhwpguWYnsxgAAAABJRU5ErkJggg==",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAPCAYAAACMa21tAAAA2UlEQVR4AdSTsQoCMQyGWxcnFwd9BCcF0SdydXESH0HEQRBXFzefRRHcnBzFW52cTr6Dk4CFBDyCHvyXkCbpR9rWwo99/wd0r29yzyGqE2p1HsETSgWK51lkQl5QKhAw3eYS4yITECQcHXax2uZVip5SJqDsdi2OTRZ+6x+Op2QLE1CqkoYotZaKkYtSazJmAsp784+nPxz0A2ITi8hF5ebSL2NYExCJ2aWBCdPJKErtd+tokayRftFU/FQgpgNM+zmu/B4JjrerAnnCQKUCeU0GGKQCkeSpFwAAAP//haywKAAAAAZJREFUAwAcs5sfdAidJAAAAABJRU5ErkJggg==",
+      "trim": null,
+      "guts": null
+    },
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAPCAYAAACMa21tAAACmUlEQVR4AcyUX0hTURzHv/eqWels/qUUMxUqSdIKSh9SHPOxHnqwHuzBHnwoA+3Rpz35FJhoPQgiooWKBkIvQizqzYhM1jJjqEtaK5vIbFqb87bvybOua65gMbrwued7f+f3+53fOee3qfjPnpgF5R0q1iSJqjtmQYkqQr/OXxWUune/PkZoq9WqCRF6/SsdSoWYBX3+uKDQKRIW8KqpGTXmS5rU9IlHM56oGcY8rbD4hJaVWyCgln3Dcfh+H75/W0fJ0VOin8oqqrRrza2YrDyDfWkpoB4tKkPD1Ztau6UTE8fLRaHUQ/mHcd58UbvR1o7+7HycrjYJ3ZNqQFXNBc1kMim3nA6FG8H2oyanpKC49BjKK85hbGQQA33dYBESS0fPtuvPYcO3LsScfRaEH26XEw6HHf6AD2teL776VkHbyvIXLC0uYiMUs+ZdBb+pt7aCYp6b5AEwh0RNTt4jNbh4JJzc3PQjEPBTRiUrN0csduVyIyTXW1oRi2AwKHImJSWBJyUTq+kGo9S7jmnpv3yYSCIDuHPqez13YH8zswPaosFCGEN4ZYRanX83rVjaW0CePX6oRPJ6ZgrpGQYUFJaAjzEzG0xmqjej1lT3G0+tT6CHMbvBPNwcT4jQT+WLSAO1hE1dUFiKenMtcnIPgFeXmZUDQ4YRz6em4P7kxssX05h7Ow+PxwObzYaD+UWhfjwpRql5pYzhBqQ+W10r8iwt2Hc2NRePVgztpK6uGkfGxvFofEhZWf4gTrDJ48Ldzg5MTowo1B2WNjHf6HoPqRucs2FNe9dtCwZ6uxSpRwe7Fdq4hp7wCemNej38YBT8aeptlf294UaMR/Mg2DscZf4/FiQd9aM+QTyaOfXx/I5ZEP+pCR0TxQ8AAAD//3DJR7QAAAAGSURBVAMAjq2RLt7I0sEAAAAASUVORK5CYII=",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAPCAYAAACMa21tAAAA2UlEQVR4AdSTsQoCMQyGWxcnFwd9BCcF0SdydXESH0HEQRBXFzefRRHcnBzFW52cTr6Dk4CFBDyCHvyXkCbpR9rWwo99/wd0r29yzyGqE2p1HsETSgWK51lkQl5QKhAw3eYS4yITECQcHXax2uZVip5SJqDsdi2OTRZ+6x+Op2QLE1CqkoYotZaKkYtSazJmAsp784+nPxz0A2ITi8hF5ebSL2NYExCJ2aWBCdPJKErtd+tokayRftFU/FQgpgNM+zmu/B4JjrerAnnCQKUCeU0GGKQCkeSpFwAAAP//haywKAAAAAZJREFUAwAcs5sfdAidJAAAAABJRU5ErkJggg==",
+      "trim": null,
+      "guts": null
+    }
+  ],
+  "asset_id": "asset-w07",
+  "state_key": ""
+}

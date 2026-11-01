@@ -11,8 +11,8 @@ const panel=document.createElement('dialog');panel.className='wide';panel.innerH
 <div class="row"><label>This asset’s scale <input id="sharedScale" type="number" min="0.05" max="4" step="0.01" value="1"></label><label>Glow colour <input id="sharedColor" type="color" value="#59edff"></label></div>
 <p class="note">Scale applies only to the asset open in the editor and is remembered with its saved version. Other assets keep their own sizes. Lighting applies to the saved asset set. Ground props use their baseline or bottom centre; trooper frames are static art tests, without an articulated rig. Category dummies are for testing; Go live requires their game integration first. Source-detail sprites need a smaller scale than grid sprites. Weapons scale around their grip; ranged shots, flashes and aiming guides follow the muzzle marker. Damage, ammunition and weapon behaviour stay the same.</p>
 <label>Update note<textarea id="sharedNotes" rows="3" placeholder="What changed and why?"></textarea></label>
-<p class="note">Testing several weapons? Save revision for each weapon slot, then Save &amp; test in game once. The saved build includes all those weapon changes. Saving another sprite to the same slot replaces that slot in the new build; earlier revisions stay in history.</p>
-<div class="row"><button id="sharedSave">Save revision</button><button id="sharedTest">Save & test in game</button><button id="sharedRefresh">Refresh shared library</button></div>
+<p class="note"><b>Test in game</b> tries your current canvas in a battle with the rest of the current shared build. Nothing is saved, so test as often as you like. <b>Save revision</b> keeps this version and adds it to the shared build (identical art isn't stored twice). Testing several weapons together? Save each one, then Test or Save &amp; test.</p>
+<div class="row"><button id="sharedTry">Test in game</button><button id="sharedSave">Save revision</button><button id="sharedTest">Save & test</button><button id="sharedRefresh">Refresh shared library</button></div>
 <div class="row"><button id="sharedPrepare">Review saved release…</button><button id="sharedClose">Close</button></div>
 <p class="note">Test builds open a local battle automatically. Use the Forge test controls to place your prop on the map. TEST provides weapons and extra troopers. Saved revisions include artwork, lighting settings, game source and renderer code. “Ready” in the old editor does not publish anything.</p>
 <p id="sharedResult" style="white-space:pre-wrap;overflow-wrap:anywhere"></p>
@@ -92,6 +92,13 @@ saveToLib=async()=>{try{await saveCurrentAsset()}catch(e){status('Save failed: '
 document.querySelector('#bSave').onclick=saveToLib;document.querySelector('#bSave').textContent='Save asset';
 const gameButton=document.querySelector('#bGame');gameButton.href='#shared-forge';gameButton.textContent='Test in game';gameButton.addEventListener('click',e=>{e.preventDefault();e.stopImmediatePropagation();open()},true);badge.onclick=open;
 q('#sharedClose').onclick=()=>panel.close();q('#sharedSave').onclick=()=>run(save);
+// Test without saving: post the current canvas into the test window. The game is built on the server
+// from main plus the current shared build, and nothing is committed. Runs inside the click, so popups are allowed.
+q('#sharedTry').onclick=()=>{try{if(!state)throw Error('The GitHub connection is not ready. Wait a moment and try again.');commitFloat();doc.game_scale=+q('#sharedScale').value;
+  const f=document.createElement('form');f.method='POST';f.action='/api/game?debug=1&grounds=1';f.target='grimspire-shared-test';f.style.display='none';
+  const add=(n,v)=>{const i=document.createElement('input');i.type='hidden';i.name=n;i.value=v;f.append(i)};
+  add('csrf',state.csrf);add('body',JSON.stringify({sprite:serialise(),slot:q('#sharedSlot').value,weapon_only:q('#sharedWeaponsOnly').checked,settings:opts()}));
+  document.body.append(f);f.submit();f.remove();message('Testing your current canvas as '+q('#sharedSlot').selectedOptions[0].textContent+'. Nothing was saved.')}catch(e){showError(e)}};
 q('#sharedTest').onclick=()=>run(async()=>{
   // Open during the click gesture; always leave failures visible in the Forge.
   const tab=window.open('about:blank','grimspire-shared-test');

@@ -1,0 +1,40 @@
+{
+  "forge": 1,
+  "code": "A06",
+  "name": "Aim Arm Lower · Jarred (old Forge, 30 Oct)",
+  "w": 41,
+  "h": 58,
+  "fps": 8,
+  "base": 54,
+  "pixel_scale": 12,
+  "markers": {
+    "elbow": [
+      10,
+      30
+    ],
+    "grip": null,
+    "hand": [
+      20,
+      15
+    ],
+    "hip": null,
+    "knee": null,
+    "muzzle": null,
+    "pivot": [
+      9,
+      29
+    ],
+    "shoulder": null
+  },
+  "notes": " Moved from Claude's retired artifact Forge on 1 Nov 2026.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACkAAAA6CAYAAAAtInDDAAACJElEQVR4AeyUu0oDQRSGxwsi3ghBY1DECxZWPoOFQgptLLTyEXw7OxutBDsF0UK8IEgMIiExMV3Mt2SyYZPZZDKzQeEIf3Zydnbm85vNGVX/4E8gfR2SmBSTvgz4WkfeSTHpy4CvdeSd/HMmM9n1+lwqUz86Oa37gtPreDluwHb29lXu4FhdnJ8pgInexPXqBfL66lKR+7sbtbi0EgSwtc3twC5jlzhDthsrl4qKADQ1M8vFS5whC/nnkSiJBq1+l6O3BvruDGnatVppAHbgm2bH150h+UV/febV7FyqY6faT0WVigVn1IEg0wvLddL+Pr4+PQSQHDEWAQwKHj4GgmTf8bEJLkHbWd3YCsYYrdUqSjU6JQZJcMPxwxoSgwDSFwltBwZA0/NZht5jBQkgBBpOA1LTmZyc1kNv174hAcTgbu6wtTmthrQKzUG3ttS8ZbrE1vuGBBCDrNbNIHXiG5A1+4LkVxwFbDfI+OP9Tb083jq3G6Ci6QmpAbFHWAAo+iKh5QCXhEH2Ij0hmaThGBPgMAds0HIoJphYSCx22xs46vRFX72Q9UyJhYweIXCEI2bBYQCyTywkEwhHS4Aj1KL/ALWk0hMSmPYkBRK3bk/I6MMaOFpP8rs1ZJIwprUF0mTGti4mbY2Z5otJkxnbupi0NWaaLyZNZmzrYtLWmGm+mDSZsa0P0aQtWjhfIEMXbiMx6eYvfFpMhi7cRmLSzV/49C8AAAD//0qG2PsAAAAGSURBVAMAY0fRdVJo2SsAAAAASUVORK5CYII=",
+      "emis": null,
+      "trim": null,
+      "guts": null
+    }
+  ],
+  "asset_id": "custom-db8341f5-c8e4-4f6f-9197-47e2c1c45d00",
+  "state_key": ""
+}

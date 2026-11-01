@@ -1,0 +1,40 @@
+{
+  "forge": 1,
+  "code": "A01",
+  "name": "Aim Arm · Jarred edit (old Forge, 30 Oct)",
+  "w": 41,
+  "h": 58,
+  "fps": 8,
+  "base": 54,
+  "pixel_scale": 12,
+  "markers": {
+    "elbow": [
+      21,
+      29
+    ],
+    "grip": null,
+    "hand": [
+      35,
+      29
+    ],
+    "hip": null,
+    "knee": null,
+    "muzzle": null,
+    "pivot": null,
+    "shoulder": [
+      14,
+      22
+    ]
+  },
+  "notes": "The current one-piece aim arm. It rotates around the shoulder with the aim, and the weapon attaches at the hand. To be replaced by an upper arm and forearm (elbowed). Imported by Claude. Moved from Claude's retired artifact Forge on 1 Nov 2026.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACkAAAA6CAYAAAAtInDDAAABk0lEQVR4AeySMUsDQRBGN/aKiqgIFnYWNv4DGzv/vIXYCBFFE4OoGLHVvIO5W4S93GRHQfiEz93Mzt28vOxa+gd/goz6kWRSJqMMRL1Hd1ImowxEvUd3UiajDES9R3dSJvsM7O4fff1MX3/EmetOAsfQs/OLlIe6hfPoDIYEguHAXV9dpjzUCOfWxz4qgyEZuHdw2MCxt8zf39J08tDUDdTOolYXJEO3tndYehNt0w35+vLcAmJxfWMzWY0r0B4GbtyQpdlPj/eJHJ+cJuK0WXptU3dBYo40Ty7+YXGxNHCs3Nm725vWLLWIDIacTcejz495IjmoQQBI3cCpR9kcDMlQQFkJQKx5csC8Xrt3QTIMUGyyB5R7aHs+E6vRy1lt3JA2EFACCGFvoYcaa0RWggTAYhD2mTWNrBqzrgS5bPRsMg7F/BXIZV/Cey5Ir7FSv0yWzHjrMuk1VuqXyZIZb10mvcZK/TJZMuOty6TXWKlfJktmvPU/NOlF6/oF2bmo28lknb/uaZnsXNTtZLLOX/f0NwAAAP//SeUF4QAAAAZJREFUAwBssKR16MghmwAAAABJRU5ErkJggg==",
+      "emis": null,
+      "trim": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACkAAAA6CAYAAAAtInDDAAAA1klEQVR4AeySwQnEMBADk6vFHbkY1+Bi3JF7yaHHPfZxAS9KQmACwmxgZTHWZ3vBR0jXI0ESki4CLh86CUkXAZcPnYSki4DLh05C0kXA5UMnHydZSjl+coX557P83K21Q6q1bpKMNeu8Ssshxxghi4L23vfw0zwsh5xz7goqGbOcWi2HlJuC6pSupqg7UiG1qKB3BNRd6ZBavkuEdJGGJCRdBFw+dBKSLgIuHzoJSRcBlw+dhKSLgMuHTkLSRSD65Cc6mWcXNyEZeeQnSObZxU1IRh756QsAAP//yXWyqgAAAAZJREFUAwBebSF1cU/b3AAAAABJRU5ErkJggg==",
+      "guts": null
+    }
+  ],
+  "asset_id": "asset-a02",
+  "state_key": ""
+}

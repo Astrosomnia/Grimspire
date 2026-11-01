@@ -465,6 +465,48 @@
       "h": 58,
       "frame_count": 1,
       "category": "Arms"
+    },
+    {
+      "id": "asset-02ebee16946175b383e0e1d4",
+      "path": "art/lab/hosted/library/asset-02ebee16946175b383e0e1d4.forge.json",
+      "sha256": "02ebee16946175b383e0e1d467d5341c3d22a43a7eb09d83455f674620fa8ff6",
+      "asset_id": "asset-a02",
+      "state_key": "",
+      "asset_name": "Aim Arm",
+      "code": "A01",
+      "name": "Aim Arm · Jarred edit (old Forge, 30 Oct)",
+      "w": 41,
+      "h": 58,
+      "frame_count": 1,
+      "category": "Arms"
+    },
+    {
+      "id": "asset-a9e1ae2a2e790e3d68b86b3f",
+      "path": "art/lab/hosted/library/asset-a9e1ae2a2e790e3d68b86b3f.forge.json",
+      "sha256": "a9e1ae2a2e790e3d68b86b3f6470aa2389de468cda31d5e7b152898d318f9c21",
+      "asset_id": "custom-db8341f5-c8e4-4f6f-9197-47e2c1c45d00",
+      "state_key": "",
+      "asset_name": "Aim Arm Lower · Jarred (old Forge, 30 Oct)",
+      "code": "A06",
+      "name": "Aim Arm Lower · Jarred (old Forge, 30 Oct)",
+      "w": 41,
+      "h": 58,
+      "frame_count": 1,
+      "category": "Arms"
+    },
+    {
+      "id": "asset-767af088e5a3148a9904ac20",
+      "path": "art/lab/hosted/library/asset-767af088e5a3148a9904ac20.forge.json",
+      "sha256": "767af088e5a3148a9904ac2015d623f602f735a3a0575d97f791a5a61754f6e5",
+      "asset_id": "asset-w07",
+      "state_key": "",
+      "asset_name": "Chainblade",
+      "code": "W07",
+      "name": "Chainblade rework · Jarred edit (old Forge, 30 Oct)",
+      "w": 36,
+      "h": 15,
+      "frame_count": 3,
+      "category": "Weapons"
     }
   ]
 }
