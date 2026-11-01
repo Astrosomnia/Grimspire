@@ -1,0 +1,8 @@
+{
+  "revision": "20261101T033937Z-5663b7e1",
+  "base_main": "eb12d9ff299b7deb773ead33c988d49f5b6eef97",
+  "game_sha256": "c8aafef54ab7cf5a99c790f192448d29a82cdb14d5f03187b97fa777189b2e80",
+  "notes": "Test Chainblade — grid study as W07 · Chainsword",
+  "source_lab_commit": "9cd50deb815b8bdede039785096f1c016799b2f0",
+  "status": "prepared; deployment unverified"
+}
