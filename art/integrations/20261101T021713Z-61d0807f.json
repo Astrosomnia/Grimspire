@@ -1,0 +1,96 @@
+{
+  "revision": "20261101T021713Z-61d0807f",
+  "base_main": "db0b85b263bff04befb5c7755793478bc3b54f3b",
+  "source_lab_commit": "37a210fc232cccbf8d067b9e2367c6f6f08fa324",
+  "game_sha256": "97f3d7a8473d060c72ad30791ce471b4afbfe2eef48a6062d2e0d7c1d363bcc1",
+  "debug_sha256": "5df8143a5c2440aaac38132614e7fe320e31ced9eddc17a67839f155ec123d6d",
+  "settings": {
+    "darkness": 0.6,
+    "emissive": 1,
+    "bloom": 2,
+    "scale": 1.2,
+    "glowColor": "#ffff00"
+  },
+  "assets": [
+    {
+      "slot": "W01",
+      "name": "Plasma Mortar — slow pulse",
+      "path": "art/lab/hosted/library/W01_aligned_v001.forge.json",
+      "sha256": "7e91849f082449f2418d15dc23eb40230eea275e53e78d02ff4bb46b54085b85",
+      "frames": 40,
+      "fps": 20
+    },
+    {
+      "slot": "W02",
+      "name": "Rail Carbine — charge sweep",
+      "path": "art/lab/hosted/library/W02_aligned_v001.forge.json",
+      "sha256": "be85e4b75297022613e1608b1780b2f017919506427247ff866781bc8e55b7cb",
+      "frames": 40,
+      "fps": 20
+    },
+    {
+      "slot": "W03",
+      "name": "Scatter Gun — twin chamber pulse",
+      "path": "art/lab/hosted/library/W03_aligned_v001.forge.json",
+      "sha256": "5af2f110f7f9448eedd4948a8495390af20457a9e1fa80c5ca2ed044c64c3931",
+      "frames": 40,
+      "fps": 20
+    },
+    {
+      "slot": "W04",
+      "name": "Dakka Bolter — staggered charge",
+      "path": "art/lab/hosted/library/W04_aligned_v001.forge.json",
+      "sha256": "8a745e9f091d005477be9a373a661cf9c43d8120133a0fa6aefd878c9fcb1fc2",
+      "frames": 20,
+      "fps": 20
+    },
+    {
+      "slot": "W05",
+      "name": "Las Burner — red charge sequence",
+      "path": "art/lab/hosted/library/W05_aligned_v001.forge.json",
+      "sha256": "0d368bbf1b53bcfed6d24107e2e877b862119b4dc1bf7a8a1f13adda4015f59b",
+      "frames": 32,
+      "fps": 20
+    },
+    {
+      "slot": "W06",
+      "name": "Promethium Flamer — furnace shimmer",
+      "path": "art/lab/hosted/library/W06_aligned_v001.forge.json",
+      "sha256": "aea84c01453ddcc97c6995ee9ac38d04e0fa2ce43c85cd517aa12698b1a1cb0d",
+      "frames": 40,
+      "fps": 20
+    },
+    {
+      "slot": "W07",
+      "name": "Chainblade — edge chase",
+      "path": "art/lab/hosted/library/W07_aligned_v001.forge.json",
+      "sha256": "175691a25d98cab9df1975f335512bc49dbaf284f266913a135ff4ce51b1e639",
+      "frames": 40,
+      "fps": 20
+    },
+    {
+      "slot": "W08",
+      "name": "Thunder Fist — knuckle surge",
+      "path": "art/lab/hosted/library/W08_aligned_v001.forge.json",
+      "sha256": "e2a83effb812d0b36086a426709bdfbc454a387a03adae22828af2092fb91192",
+      "frames": 60,
+      "fps": 20
+    }
+  ],
+  "approval": {
+    "by": "Astrosomnia",
+    "github_user_id": 144634800,
+    "approved_at": "2026-11-01T02:17:13.326Z",
+    "method": "explicit instruction in ChatGPT",
+    "instruction": "Keep 1.2 scale, rectify the handle and muzzle placements, and push the correction.",
+    "scope": "grip/muzzle correction to the eight approved weapons at scale 1.2"
+  },
+  "checks": {
+    "model_and_hashes": true,
+    "source_preserved_except_reticle_and_protocol": true,
+    "main_and_debug_scripts_compile": true,
+    "native_animation_playback": true
+  },
+  "status": "approved integration; public deployment unverified",
+  "notes": "Correct grip and muzzle alignment for the eight approved animated weapon alternatives: mortar pulse, rail sweep, twin scatter chambers, Dakka stagger, four-lamp red las sequence, furnace flamer, chainblade edge chase and fist knuckle surge. Keep scale 1.2 and all animation frames; preserve game code except ranged reticle alignment and the required simulation protocol bump to 17."
+}
