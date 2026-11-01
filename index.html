@@ -2488,13 +2488,15 @@ function drawTrooper(t){if(!SPR.ready)return drawTrooperProc(t);
     ctx.save();ctx.translate(0,(R.thH-R.ov)*K);ctx.rotate(b);ctx.drawImage(SPR.legsD,sx*R.res,R.shY*R.res,R.shW*R.res,R.shH*R.res,-R.shW/2*K,0,R.shW*K,R.shH*K);ctx.restore();
     ctx.drawImage(SPR.legsD,sx*R.res,0,R.thW*R.res,R.thH*R.res,-R.thW/2*K,0,R.thW*K,R.thH*K);ctx.restore()};
   for(const i of[0,1])if(rimSet(i)){leg(af,bf,R.dF,true);leg(an,bn,R.dN,false)}ctx.shadowColor='transparent';leg(af,bf,R.dF,true);leg(an,bn,R.dN,false);
+  // the torso: Forge art when a TORSO asset is live (pixel-crisp), otherwise the atlas frame
+  const TT=typeof labTorsoFor==='function'?labTorsoFor(t):null,torso=k=>{if(!TT)return ctx.drawImage(SPR[k][t.team],fr*fw,0,fw,fh,dx,dy,fw*K,fh*K);if(!TT[k])return;const sm=ctx.imageSmoothingEnabled;ctx.imageSmoothingEnabled=false;ctx.drawImage(TT[k],TT.x,TT.y,TT.w,TT.h);ctx.imageSmoothingEnabled=sm};
   ctx.save();if(t.moving)ctx.transform(1,0,-.04,1,0,0);
   // cold sky light catches the top edge; the nearest neon or fire rims the side facing it
-  ctx.shadowColor='rgba(150,180,235,.5)';ctx.shadowOffsetX=0;ctx.shadowOffsetY=-off;ctx.shadowBlur=rb;ctx.drawImage(SPR.team[t.team],fr*fw,0,fw,fh,dx,dy,fw*K,fh*K);
-  for(const i of[0,1])if(rimSet(i))ctx.drawImage(SPR.team[t.team],fr*fw,0,fw,fh,dx,dy,fw*K,fh*K);ctx.shadowColor='transparent';ctx.shadowOffsetX=ctx.shadowOffsetY=0;
+  ctx.shadowColor='rgba(150,180,235,.5)';ctx.shadowOffsetX=0;ctx.shadowOffsetY=-off;ctx.shadowBlur=rb;torso('team');
+  for(const i of[0,1])if(rimSet(i))torso('team');ctx.shadowColor='transparent';ctx.shadowOffsetX=ctx.shadowOffsetY=0;
   // a blast nearby lights them up properly
-  if(LT.blast>.02){ctx.globalAlpha=LT.blast;ctx.drawImage(SPR.lit[t.team],fr*fw,0,fw,fh,dx,dy,fw*K,fh*K);ctx.globalAlpha=1}
-  ctx.save();ctx.shadowColor=col;ctx.shadowBlur=9;ctx.drawImage(SPR.emis[t.team],fr*fw,0,fw,fh,dx,dy,fw*K,fh*K);ctx.globalCompositeOperation='lighter';ctx.globalAlpha=.35;ctx.shadowBlur=0;ctx.drawImage(SPR.emis[t.team],fr*fw,0,fw,fh,dx,dy,fw*K,fh*K);ctx.restore();
+  if(LT.blast>.02){ctx.globalAlpha=LT.blast;torso('lit');ctx.globalAlpha=1}
+  ctx.save();ctx.shadowColor=col;ctx.shadowBlur=9;torso('emis');ctx.globalCompositeOperation='lighter';ctx.globalAlpha=.35;ctx.shadowBlur=0;torso('emis');ctx.restore();
   ctx.restore();
   if(act&&S.jet&&S.jet.fuel>0&&(key('fire')||axY()<-.3)){ctx.fillStyle='#ffd27a';ctx.beginPath();ctx.moveTo(-8.6,-9.5);ctx.lineTo(-5,-9.5);ctx.lineTo(-6.8,-2+Math.random()*4);ctx.fill()}
   if(posed||t.wet){ctx.restore();return}
@@ -2868,7 +2870,7 @@ function netCatchUp(){if(S.mode!=='online'||NET.role!=='watch')return;const behi
 function netGameOver(){if(NET.role!=='act')clearNet()}
 function netLeave(){document.title=TITLE0;chatStop();if(NET.unC)NET.unC();if(NET.unM)NET.unM();NET.unC=NET.unM=null;NET.role=null;NET.started=false;S.mode='hot';$('#netBar').hidden=true}
 const GV=17;// bump on every release that changes the sim
-function startOnline(code,me,d){BE.update(code,{['vers.'+me]:GV}).catch(()=>{});NET.code=code;NET.me=me;NET.round=d.round||0;NET.snapK=-1;NET.snap=null;NET.matchAtt=d.att||'';NET.started=true;NET.leaving=false;saveNet();
+function startOnline(code,me,d){BE.update(code,{['vers.'+me]:GV,['arts.'+me]:window.GRIMSPIRE_ART_SIM||''}).catch(()=>{});NET.code=code;NET.me=me;NET.round=d.round||0;NET.snapK=-1;NET.snap=null;NET.matchAtt=d.att||'';NET.started=true;NET.leaving=false;saveNet();
   $('#net').hidden=true;if(!CHAT.un)chatStart();const cfg=Object.assign(mkCfg('online',d.seats,d.mode==='teams'),{mode:'online'});newGame('online',d.seed,cfg);S.genOK=true;
   const base=NET.round*1e5,has=d.snapK!=null&&d.snapK>=base&&d.snap;
   if(has){NET.snap=d.snap;NET.snapK=d.snapK;loadState(d.snap)}else NET.snapK=base-1;
@@ -2878,6 +2880,7 @@ function startOnline(code,me,d){BE.update(code,{['vers.'+me]:GV}).catch(()=>{});
 function netHud(){if(S.mode!=='online'||!NET.started)return;let t='';
   const m=NET.match,vv=Object.values((m&&m.vers)||{}),top=Math.max(0,...vv),vs=vv.length>1&&vv.some(v=>v!==top);
   if(vs)t=((m.vers||{})[NET.me]<top)?'<b>New version out</b> · refresh this page':'<b>A player needs to refresh</b> · they\u2019re on an old version';
+  else if(new Set(Object.values((m&&m.arts)||{}).filter(Boolean)).size>1)t='<b>Art versions differ</b> · everyone refresh this page';
   else if(NET.role==='watch'){const behind=NET.avail-NET.step;t=NET.avail===0?`<b>Waiting for ${TEAM[S.team]?TEAM[S.team].name:'your opponent'}</b>`:behind>300?'<b>Catching up</b>':''}
   const el=$('#netTxt');if(el.innerHTML!==t){el.innerHTML=t;el.hidden=!t}const sk=$('#netSkip'),show=!vs&&NET.role==='watch'&&NET.avail-NET.step>120;if(sk.hidden===show)sk.hidden=!show}
 // ---- lobby ----
@@ -3017,7 +3020,14 @@ prop = function(k,ax,ay,s,glow,dark){
 // Read anchors before PNG loading so drawing and simulation share one deterministic rig.
 const labHeldSlots=new Set(Object.values(labSlots));
 // Full trooper source: shoulder [300,324], body anchor [250,661], 12px art grid.
-const labBodyShoulder=[(300-250)/12*PX,(324-661)/12*PX];
+// Torso sockets. A TORSO asset's Hip point sits on the legs' hip and its Shoulder point is where the arm
+// attaches (both at pixel centres, as the Forge draws them). Without one, the original trooper geometry.
+// Read from synchronous payload metadata so firing origins stay deterministic.
+const labTorsoDoc=labDocs.get('TORSO')||null;
+function labTorsoHip(){const M=SPR.M,K=TROOP_H/((M.feet-50)*M.sc);return[((M.crop[0]-250)*M.sc+RIG.hip[0])*K,((M.crop[1]-M.feet)*M.sc+RIG.hip[1])*K]}
+const labTorsoScale=d=>PX*(d.game_scale??1);
+const labBodyShoulder=(()=>{const m=labTorsoDoc?.markers;if(!m?.shoulder||!m?.hip)return[(300-250)/12*PX,(324-661)/12*PX];
+  const h=labTorsoHip(),z=labTorsoScale(labTorsoDoc);return[h[0]+(m.shoulder[0]-m.hip[0])*z,h[1]+(m.shoulder[1]-m.hip[1])*z]})();
 let labDrawingTrooper=null;
 if(typeof drawTrooper==='function'){
   const drawBody=drawTrooper;
@@ -3167,6 +3177,22 @@ if(location.pathname==='/api/game'&&new URLSearchParams(location.search).get('gr
     window.GRIMSPIRE_FORGE_TEST={get props(){return labProps},category:LAB_PAYLOAD.selected_slot};
   }).catch(e=>{const p=document.createElement('p');p.textContent='Testing grounds failed: '+e.message;p.style.cssText='position:fixed;top:0;z-index:10001;background:#300;color:white';document.body.append(p)});
 }
+// Torso art drawn in place of the atlas torso, baked per squad like the atlas: lit (trim at 28%),
+// team (darkened, a whisper of trim) and emissive tinted to the squad colour.
+const labTorsoBake=new Map();
+function labTorsoFor(t){const a=labArt.get('TORSO');if(!a)return null;const{doc,frames}=a,fi=Math.floor(time*Math.max(1,doc.fps||8))%frames.length,f=frames[fi];if(!f.body)return null;
+  const key=fi+':'+t.team;let b=labTorsoBake.get(key);
+  if(!b){const w=doc.w,h=doc.h,tint=img=>{const c=mk(w,h),g=c.getContext('2d');g.drawImage(img,0,0);g.globalCompositeOperation='source-in';g.fillStyle=TEAM[t.team].col;g.fillRect(0,0,w,h);return c};
+    const lit=mk(w,h),g=lit.getContext('2d');g.drawImage(f.body,0,0);if(f.trim){g.globalCompositeOperation='source-atop';g.globalAlpha=.28;g.drawImage(tint(f.trim),0,0);g.globalAlpha=1}
+    const team=darken(lit,.86);if(f.trim){const tg=team.getContext('2d');tg.globalCompositeOperation='source-atop';tg.globalAlpha=.16;tg.drawImage(tint(f.trim),0,0)}
+    b={lit,team,emis:f.emis?tint(f.emis):null};labTorsoBake.set(key,b)}
+  const m=doc.markers,hip=m.hip||[doc.w/2-.5,doc.h*.55],z=labTorsoScale(doc),H=labTorsoHip();
+  return{...b,x:H[0]-(hip[0]+.5)*z,y:H[1]-(hip[1]+.5)*z,w:doc.w*z,h:doc.h*z}}
+// Fingerprint of the art that feeds the sim (points and scales). Online players compare it with GV,
+// so a Forge release that moves a grip, muzzle or socket can't silently desync a match.
+const labSimKey=(()=>{let s=JSON.stringify(LAB_PAYLOAD.settings?.scale??1);for(const k of Object.keys(LAB_PAYLOAD.assets).sort()){const d=LAB_PAYLOAD.assets[k];s+=k+JSON.stringify([d.markers,d.game_scale??null])}
+  let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}return(h>>>0).toString(36)})();
+window.GRIMSPIRE_ART_SIM=labSimKey;
 // END GRIMSPIRE_ART_RUNTIME
 requestAnimationFrame(frame);
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(resize);

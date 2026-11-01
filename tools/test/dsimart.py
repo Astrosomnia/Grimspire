@@ -18,7 +18,7 @@ async def run(path,seed,wait):
         ready=await pg.evaluate("[!!window.GRIMSPIRE_ART_READY,window.GRIMSPIRE_ART_ERROR||'']")
         r=await pg.evaluate(SCRIPT,[seed,wait]);await b.close();return r,errs,ready
 async def main():
-    path=sys.argv[1]
+    import os;path=os.path.abspath(sys.argv[1])
     for seed in [1234,9001]:
         a,ea,ra=await run(path,seed,50);b,eb,rb=await run(path,seed,1500)
         print(seed,'IDENTICAL' if a==b else 'DIFFERENT','art ready',ra,rb,ea[:2],eb[:2])
