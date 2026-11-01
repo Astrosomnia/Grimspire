@@ -19,6 +19,12 @@
       "manifest": "releases/laser-sequence-v001/manifest.json",
       "status": "draft",
       "live": false
+    },
+    {
+      "id": "weapon-lighting-v001",
+      "manifest": "releases/weapon-lighting-v001/manifest.json",
+      "status": "draft",
+      "live": false
     }
   ]
 }

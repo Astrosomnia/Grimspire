@@ -1,0 +1,212 @@
+{
+  "schema": 1,
+  "release": "weapon-lighting-v001",
+  "status": "draft",
+  "live": false,
+  "assets": [
+    {
+      "code": "W02",
+      "name": "Rail Carbine \u2014 charge sweep",
+      "path": "hosted/library/W02_rail_sweep_v001.forge.json",
+      "sha256": "0e94eaa8f7d10ac3d9231a61ef64e3b6bbaf880d32e736459d10a3131889ab99",
+      "source": "releases/weapons-v001/W02_grid.forge.json",
+      "frames": 40,
+      "fps": 20,
+      "period_seconds": 2.0,
+      "body_pixels_changed": 8,
+      "lamp_positions": [
+        [
+          22,
+          8
+        ],
+        [
+          27,
+          8
+        ],
+        [
+          32,
+          8
+        ],
+        [
+          37,
+          8
+        ]
+      ],
+      "status": "draft",
+      "approval": null
+    },
+    {
+      "code": "W03",
+      "name": "Scatter Gun \u2014 twin chamber pulse",
+      "path": "hosted/library/W03_twin_chamber_v001.forge.json",
+      "sha256": "0bbf65154775a990ccc6e3eb62fab1b2b6039507307c55ae78e35bda332ad2db",
+      "source": "releases/weapons-v001/W03_grid.forge.json",
+      "frames": 40,
+      "fps": 20,
+      "period_seconds": 2.0,
+      "body_pixels_changed": 4,
+      "lamp_positions": [
+        [
+          26,
+          7
+        ],
+        [
+          26,
+          11
+        ]
+      ],
+      "status": "draft",
+      "approval": null
+    },
+    {
+      "code": "W04",
+      "name": "Dakka Bolter \u2014 staggered charge",
+      "path": "hosted/library/W04_staggered_charge_v001.forge.json",
+      "sha256": "e22763d12361c01c256855b16eed460c7e3b372ad20aaaf29d94090df3a644df",
+      "source": "releases/weapons-v001/W04_grid.forge.json",
+      "frames": 20,
+      "fps": 20,
+      "period_seconds": 1.0,
+      "body_pixels_changed": 3,
+      "lamp_positions": [
+        [
+          20,
+          5
+        ],
+        [
+          23,
+          5
+        ],
+        [
+          26,
+          5
+        ]
+      ],
+      "status": "draft",
+      "approval": null
+    },
+    {
+      "code": "W06",
+      "name": "Promethium Flamer \u2014 furnace shimmer",
+      "path": "hosted/library/W06_furnace_shimmer_v001.forge.json",
+      "sha256": "ce3d8c9ac85f465e671643688f836c3a6c089489253bf6889dddc0bb79d4d04f",
+      "source": "releases/weapons-v001/W06_grid.forge.json",
+      "frames": 40,
+      "fps": 20,
+      "period_seconds": 2.0,
+      "body_pixels_changed": 12,
+      "lamp_positions": [
+        [
+          41,
+          5
+        ],
+        [
+          43,
+          5
+        ],
+        [
+          41,
+          7
+        ],
+        [
+          43,
+          7
+        ]
+      ],
+      "status": "draft",
+      "approval": null
+    },
+    {
+      "code": "W07",
+      "name": "Chainblade \u2014 edge chase",
+      "path": "hosted/library/W07_edge_chase_v001.forge.json",
+      "sha256": "bc63fd96cf7fff1f251bbba38af4d62da9cb52b9437f095969b9ea5b9711723b",
+      "source": "releases/weapons-v001/W07_grid.forge.json",
+      "frames": 40,
+      "fps": 20,
+      "period_seconds": 2.0,
+      "body_pixels_changed": 10,
+      "lamp_positions": [
+        [
+          21,
+          5
+        ],
+        [
+          21,
+          10
+        ],
+        [
+          25,
+          5
+        ],
+        [
+          25,
+          10
+        ],
+        [
+          29,
+          5
+        ],
+        [
+          29,
+          10
+        ],
+        [
+          33,
+          5
+        ],
+        [
+          33,
+          10
+        ],
+        [
+          37,
+          5
+        ],
+        [
+          37,
+          10
+        ]
+      ],
+      "status": "draft",
+      "approval": null
+    },
+    {
+      "code": "W08",
+      "name": "Thunder Fist \u2014 knuckle surge",
+      "path": "hosted/library/W08_knuckle_surge_v001.forge.json",
+      "sha256": "0446455e98d1b9e1708a2c56956e4a880a5fdf530b969391b1a3a4557661180d",
+      "source": "releases/weapons-v001/W08_grid.forge.json",
+      "frames": 60,
+      "fps": 20,
+      "period_seconds": 3.0,
+      "body_pixels_changed": 6,
+      "lamp_positions": [
+        [
+          30,
+          5
+        ],
+        [
+          30,
+          9
+        ],
+        [
+          30,
+          13
+        ]
+      ],
+      "status": "draft",
+      "approval": null
+    }
+  ],
+  "checks": {
+    "anchors_preserved": true,
+    "silhouette_preserved": true,
+    "bounded_body_edits": true,
+    "trim_guts_preserved": true,
+    "in_game_review": false,
+    "native_renderer_playback": true
+  },
+  "approval": null,
+  "source_lab_commit": "bee00df63b6948475b13a32ed0102960f8598e4d"
+}

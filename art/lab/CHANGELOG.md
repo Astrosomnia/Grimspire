@@ -114,3 +114,19 @@ Added `Las Burner — red charge sequence`, W05, as a new shared-library alterna
 Multi-weapon testing already accumulates saved slots: save W01 with Save revision, open/save W05, then launch Save & test once. A new regression verifies both animated documents are present unchanged in that final snapshot. Saving to the same slot replaces that slot only in the new snapshot. Props still have one shared dummy slot; several distinct prop documents are not yet supported together. Added concise batching guidance in the Shared Forge dialog.
 
 Checks: source pixel bounds and unchanged alpha/anchors verified; four peak times and smooth wrap verified; model validation and multi-slot snapshot tests pass. Preview GIF and manifest are in releases/laser-sequence-v001/. In-game visual approval pending; nothing published to main.
+
+## Remaining six animated weapons — weapon-lighting-v001 (2026-10-31)
+
+Added six separate alternatives to the hashed shared Library; original assets and prior alternatives are unchanged:
+- W02 Rail Carbine — charge sweep: four cyan rail capacitor lamps, 40 frames / 2 s.
+- W03 Scatter Gun — twin chamber pulse: alternating upper/lower amber chamber lights, 40 frames / 2 s.
+- W04 Dakka Bolter — staggered charge: three rolling amber charge pips plus staggered original cyan indicators, 20 frames / 1 s.
+- W06 Promethium Flamer — furnace shimmer: warm orange chamber and four vent lights, smooth combined heat waves, 40 frames / 2 s. This alternative recolours the original blue emissive to orange.
+- W07 Chainblade — edge chase: magenta energy wave along both blade edges and breathing drive core, 40 frames / 2 s. Teeth geometry does not move.
+- W08 Thunder Fist — knuckle surge: slow magenta core feeds three knuckle lights, 60 frames / 3 s.
+
+All run at 20 fps and loop with smooth overlapping light envelopes. New lamps sit within existing opaque body areas, with bounded dark lamp-seat pixel edits (8/4/3/12/10/6 respectively); alpha/silhouette, dimensions, anchors, scale, trim/guts and all other body pixels remain unchanged. No gameplay timing, firing rules, geometry or 2x-density migration. Sources are weapons-v001 grid documents; current saved set contained only W01 and W05 and was preserved.
+
+Manifest and six-second animated comparison: releases/weapon-lighting-v001/. Documents: hosted/library/W0X_<effect>_v001.forge.json. Library index/catalog register the additions; current_review stays weapons-v001. Each remains draft; in-game visual approval outstanding. No live release.
+
+Validation: all nine alternative documents match their index hashes and pass Forge model validation. Native Canvas loads all frames through the actual sandbox runtime and renders 40/40/20/40/40/60 distinct frames. Source silhouette/anchor/bounded edit invariants checked. 27 hosted tests pass, including accumulation of all eight animated weapon slots into one immutable test build without dropping any frames or changing main.

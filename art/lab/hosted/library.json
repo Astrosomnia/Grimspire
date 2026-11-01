@@ -15,6 +15,36 @@
       "id": "W05_red_sequence_v001",
       "path": "art/lab/hosted/library/W05_red_sequence_v001.forge.json",
       "sha256": "afde0f8615ad8e10a3af03c0303d200d905ef5298d7b844f34fb9dde1489a0d7"
+    },
+    {
+      "id": "W02_rail_sweep_v001",
+      "path": "art/lab/hosted/library/W02_rail_sweep_v001.forge.json",
+      "sha256": "0e94eaa8f7d10ac3d9231a61ef64e3b6bbaf880d32e736459d10a3131889ab99"
+    },
+    {
+      "id": "W03_twin_chamber_v001",
+      "path": "art/lab/hosted/library/W03_twin_chamber_v001.forge.json",
+      "sha256": "0bbf65154775a990ccc6e3eb62fab1b2b6039507307c55ae78e35bda332ad2db"
+    },
+    {
+      "id": "W04_staggered_charge_v001",
+      "path": "art/lab/hosted/library/W04_staggered_charge_v001.forge.json",
+      "sha256": "e22763d12361c01c256855b16eed460c7e3b372ad20aaaf29d94090df3a644df"
+    },
+    {
+      "id": "W06_furnace_shimmer_v001",
+      "path": "art/lab/hosted/library/W06_furnace_shimmer_v001.forge.json",
+      "sha256": "ce3d8c9ac85f465e671643688f836c3a6c089489253bf6889dddc0bb79d4d04f"
+    },
+    {
+      "id": "W07_edge_chase_v001",
+      "path": "art/lab/hosted/library/W07_edge_chase_v001.forge.json",
+      "sha256": "bc63fd96cf7fff1f251bbba38af4d62da9cb52b9437f095969b9ea5b9711723b"
+    },
+    {
+      "id": "W08_knuckle_surge_v001",
+      "path": "art/lab/hosted/library/W08_knuckle_surge_v001.forge.json",
+      "sha256": "0446455e98d1b9e1708a2c56956e4a880a5fdf530b969391b1a3a4557661180d"
     }
   ]
 }
