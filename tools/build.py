@@ -1,16 +1,19 @@
 #!/usr/bin/env python3
 """Grimspire build helper.
 
-The game lives in one HTML file. The Grimspire artifact holds the source (a page that starts
-at <title>). The repo serves that source wrapped with a proper <head>:
+The game lives in one HTML file, and index.html on main is the source of truth: edit it directly.
+The source is the page from <title> on; this tool wraps it with the <head> and writes:
 
   index.html        - the live game, with OpenGraph tags
   debug/index.html  - the test build: noindex, GS_DEBUG=1 (TEST panel), title "Grimspire Test"
 
+The Forge also writes both files when it releases art; it only replaces the LAB_PAYLOAD block.
+
 Usage
-  python3 tools/build.py extract <artifact-read.html> src.html   # strip claude.ai's wrapper from an Artifact read
-  python3 tools/build.py build src.html                          # write index.html and debug/index.html
-  python3 tools/build.py src > src.html                          # recover the source from the current index.html
+  python3 tools/build.py debug                                   # rebuild index.html and debug/ from index.html (run after every edit)
+  python3 tools/build.py build src.html                          # write index.html and debug/index.html from a bare source
+  python3 tools/build.py src > src.html                          # print the bare source of the current index.html
+  python3 tools/build.py extract <artifact-read.html> src.html   # legacy: strip claude.ai's wrapper from an Artifact read
 """
 import re, sys, pathlib
 
@@ -72,6 +75,8 @@ if __name__ == "__main__":
         pathlib.Path(a[2]).write_text(extract(pathlib.Path(a[1]).read_text()))
     elif a[:1] == ["build"] and len(a) == 2:
         build(pathlib.Path(a[1]).read_text())
+    elif a[:1] == ["debug"]:
+        build(from_index((ROOT / "index.html").read_text()))
     elif a[:1] == ["src"]:
         sys.stdout.write(from_index((ROOT / "index.html").read_text()))
     else:

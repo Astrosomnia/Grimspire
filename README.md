@@ -1,50 +1,30 @@
 # Grimspire
 
-A gothic artillery game in a single HTML file. Two squads of cyber troopers fight over a ruined, neon-lit hive ward. Blow the ground out from under them; the sump below takes anyone who falls in.
+*A dark fable of war and woe.* A gothic artillery game in a single HTML file. Squads of cyber troopers fight over a drowned, neon-lit hive ward. Blow the ground out from under them; the sump below takes anyone who falls in.
 
-**Play:** open `index.html` in a browser, or use the GitHub Pages link once it's switched on.
+**Play:** https://astrosomnia.github.io/Grimspire/ (test build with the TEST panel: `/debug/`)
 
 ## Modes
-- **Fight the machine:** you lead the Ash Legion against a CPU squad that walks to better positions, picks from its whole arsenal, times grenades, sets traps, grabs crates and backs off to cover.
-- **Two commanders:** pass the device each turn.
+- **Fight the machine:** your squad against 1–3 CPU squads
+- **Commanders:** 2–4 squads, pass and play
+- **Online:** 2–4 players with a share code, asynchronous turns that replay live
+- Four factions: Ash Legion, Neon Choir, The Hollow, Halo Guard. Free-for-all or 2v2 with four squads
 
 ## Controls
 | | Desktop | Touch |
 |---|---|---|
-| Move | ← → / A D | Stick, sideways |
-| Aim | ↑ ↓ / W S | Stick, up/down |
+| Move | ← → / A D | Move lever |
+| Aim | ↑ ↓ / W S | Aim lever |
 | Fire | Hold Space to charge, release to fire | Hold FIRE |
 | Jump | Enter | JUMP |
 | Arsenal | Tab, then arrow keys and Enter | Weapon button |
-| Switch trooper (before moving) | X or click a trooper | SWAP or tap a trooper |
+| Swap trooper (once per turn) | X | Swap button |
 | Grenade fuse | 1–5 | Fuse button |
+| Chat (online) | T | Chat button |
 | Pan / zoom | Mouse to the screen edge / scroll | Drag / pinch |
-| Recenter | C | Recenter button |
 | Pause | Esc | II |
 
-Orbital Lance and Fabricator are placed with a click or tap. Rotate girders with Q/E or the aim stick.
+## Working on it
+Start with [`AGENTS.md`](AGENTS.md) and [`docs/HANDOVER.md`](docs/HANDOVER.md). Changes are logged in [`docs/LOG.md`](docs/LOG.md). Art is made in the [Forge](docs/FORGE.md).
 
-## Arsenal
-- **Artillery:** Plasma Mortar, Frag Charge
-- **Guns:** Rail Carbine, Scatter Gun, Dakka Bolter, Las Burner, Promethium Flamer
-- **Melee:** Chainblade, Thunder Fist
-- **Heavy:** Sun Grenade ×2, Fusion Mine ×2, Orbital Lance, Doomsday Shell
-- **Tools:** Rappel Wire ×5, Jump Pack ×2, Plasma Cutter ×5, Fabricator ×3
-
-## Rules of the ward
-- Taking damage ends your turn. Two-shot weapons let you move between shots, and you can move while a thrown grenade's fuse burns.
-- Blasts throw a shockwave that shoves anyone nearby. Thrown troopers skid, get knocked flat, then get up.
-- Knock someone past the edge of the map and they're gone.
-- The sump is bottomless. Wade where there is footing (5 HP a second), drown where there is not. Ordnance fizzles in it.
-- Troopers step out of fire on their own, so fire herds people, ledges included.
-
-## Maps
-Four layouts: Spires, Islands, Canyon and Ruins. Ruins uses simplex noise for the natural rock on top of a rolling ground line, with chasms down to the sump, then builds a ruined city on it: twin towers joined by arched bridges, hollow tenements you can hide inside, and lit facades in the background.
-
-## The ward fights back
-- **Rising sump:** from turn 10 the water climbs before every turn.
-- **Supply drops:** a gunship parachutes in crates holding heavy weapons, health or tool charges. Walk into one to grab it.
-- **Promethium tanks:** shoot, burn or blast them and they explode, chain, and leave fire behind.
-- **Kill cam:** killing blows and chain reactions drop into slow motion.
-
-Prototype. Built with Claude.
+Prototype. Built by Jarred with Claude and ChatGPT.
