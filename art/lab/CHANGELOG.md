@@ -174,3 +174,11 @@ Applies to the six guns (mortar, rail, scatter, Dakka, las and flamer). Chainbla
 Preview: releases/gun-hand-v001/gun-hand-preview.gif, rendered with the actual embedded trooper atlas/legs, baked team materials and actual drawTrooper function, showing right/left facings and the enlarged weapons. Manifest records draft status. This is a first pass for visual review in the shared Forge; it has not been promoted to main.
 
 Validation: 768 actual draw transforms still pass, plus normal/rim pass layering, single arm per gun pass, stable hand size across weapon scales, non-gun exclusion and canvas transform restoration. Native weapon/category checks and all 28 hosted tests pass. The alignment harness now preserves the actual renderer wrapper rather than replacing it after initialization, so these checks exercise the foreground hand path too.
+
+## 20261101T033715Z-a104eab1 — Saved gun arm review build
+
+First playable review of the straight foreground gun arm and glove on all six guns. Preserve all eight approved animated weapons, calibrated grips/muzzles and saved 1.2 scale/lighting. No main promotion.
+
+- Source: 64824886956299daac0ecfca9fdaa1c3f9dccba4; baseline main: eb12d9ff299b7deb773ead33c988d49f5b6eef97.
+- Draft, awaiting Jarred's visual review. No approval or main integration.
+- Validation: 768 actual drawTrooper alignment cases and all 28 hosted tests pass; saved game scripts compile. Snapshot pins source, renderer, full eight-slot payload and SHA-256 hashes.

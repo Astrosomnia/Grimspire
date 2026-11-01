@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "current": "20261101T021713Z-61d0807f",
+  "current": "20261101T033715Z-a104eab1",
   "revisions": [
     {
       "id": "20261031T210936Z-6c67f2da",
@@ -86,6 +86,14 @@
       "id": "20261101T021713Z-61d0807f",
       "created": "2026-11-01T02:17:13.326Z",
       "notes": "Correct grip and muzzle alignment for the eight approved animated weapon alternatives: mortar pulse, rail sweep, twin scatter chambers, Dakka stagger, four-lamp red las sequence, furnace flamer, chainblade edge chase and fist knuckle surge. Keep scale 1.2 and all animation frames; preserve game code except ranged reticle alignment and the required simulation protocol bump to 17.",
+      "slot": "W01–W08",
+      "variant": "custom",
+      "author": "Astrosomnia"
+    },
+    {
+      "id": "20261101T033715Z-a104eab1",
+      "created": "2026-11-01T03:37:15.299Z",
+      "notes": "First playable review of the straight foreground gun arm and glove on all six guns. Preserve all eight approved animated weapons, calibrated grips/muzzles and saved 1.2 scale/lighting. No main promotion.",
       "slot": "W01–W08",
       "variant": "custom",
       "author": "Astrosomnia"
