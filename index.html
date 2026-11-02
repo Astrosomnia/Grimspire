@@ -524,7 +524,7 @@ let mines=[],troopers=[],projs=[],parts=[],texts=[],tracers=[],graves=[],builds=
 const SD_ROUND=8;
 const S={phase:'title',mode:'cpu',team:0,ptr:[-1,-1],active:null,timer:30,retreat:0,wait:0,deathCd:0,
   weapon:['mortar','mortar'],lastAtk:['mortar','mortar'],ammo:[{},{}],shots:1,charge:0,charging:false,wind:0,locked:false,fired:false,
-  jet:null,usedJet:false,cut:null,burst:null,strike:null,swing:null,flame:null,target:null,rot:0,paused:false,zoom:1,camFree:false,layout:'',
+  jet:null,usedJet:false,cut:null,burst:null,strike:null,swing:null,flame:null,target:null,rot:0,paused:false,zoom:coarse?1.5:1,camFree:false,layout:'',
   turnN:0,events:[],ev:null,slow:null,cine:0,lastBarrel:-9,fuse:3,moved:false,second:false,ticked:false,camSnap:true};
 const ROPE_MAX=240,SUMP_DPS=5;
 const AI={stage:0,t:0,plan:null};
@@ -2016,7 +2016,8 @@ function dbgBuild(){if(!DBG.on||$('#dbg'))return;const d=document.createElement(
   on('#dbUp',()=>{sump=Math.max(80,sump-20)});on('#dbDn',()=>{sump=Math.min(H-10,sump+20)});
   on('#dbWind',()=>{S.wind=Math.round((S.wind<=-.95?1:S.wind-.5)*10)/10})}
 setInterval(()=>{if(DBG.on){if(DBG.inf&&S.phase==='aim')S.timer=40;if($('#dbP')&&!$('#dbP').hidden)dbgDraw()}},500);
-function setZoom(z,sx,sy){z=clamp(z,.55,2.4);if(sx!==undefined){const w=toWorld(sx,sy);S.zoom=z;scale=baseScale*z;cam.x=w.x-sx/scale;cam.y=w.y-sy/scale;S.camFree=true}else{S.zoom=z;scale=baseScale*z}}
+// Phones start closer in and can pinch in much further, to see the art.
+function setZoom(z,sx,sy){z=clamp(z,.55,coarse?4:2.4);if(sx!==undefined){const w=toWorld(sx,sy);S.zoom=z;scale=baseScale*z;cam.x=w.x-sx/scale;cam.y=w.y-sy/scale;S.camFree=true}else{S.zoom=z;scale=baseScale*z}}
 function targetAt(sx,sy){const w=curW();if(S.phase!=='aim'||isCPU()||!localTurn()||(w.kind!=='target'&&w.kind!=='build'&&w.kind!=='warp'))return false;const p=toWorld(sx,sy);act('t',[Math.round(clamp(p.x,10,W-10)),Math.round(p.y)]);return true}
 function tapAt(sx,sy){if(DBG.placing){dbgPlace(sx,sy);return}if(crates.some(c=>c.para&&!c.landed)&&localTurn()){act('k',1);return}if(targetAt(sx,sy))return}// swapping is the swap button or X only
 addEventListener('pointermove',e=>{if(e.pointerType==='mouse'){mouse.x=e.clientX;mouse.y=e.clientY;mouse.in=true}});

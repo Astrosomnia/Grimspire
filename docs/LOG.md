@@ -6,6 +6,9 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-02 · Claude · Closer camera on phones
+- On touch devices the battle starts at 1.5× zoom (was 1×) and pinch zoom reaches 4× (was 2.4×). Desktop unchanged. View only.
+
 ## 2026-11-02 · Claude · Death marker replaces the flag
 - New Forge slot **C06 death marker**. The latest Grave Marker (`asset-501ddda0…`, red family study) is live: the pole-and-flag is gone, troopers still fall, dissolve or explode as before, then the marker punches up out of the ground in about a quarter second (slight overshoot, a puff of grit). Its lights take the squad's colour. Forge revision `20261102T073613Z-302d2824` is the current build.
 - Render only; graves in the sim are unchanged.
