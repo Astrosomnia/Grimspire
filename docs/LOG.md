@@ -6,6 +6,21 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-01 · ChatGPT · Dark Dakka accent and yellow tank glow check
+- Saved two review versions on `art/weapon-lab`, [f46a6cf](https://github.com/Astrosomnia/Grimspire/commit/f46a6cf7981ba799fd5474361bde799532c51f67). W04 is dark V2 gunmetal again with only eight oxblood magazine-edge pixels (2% of opaque material); the piercing pale-pink rail and all 20 emissive PNGs are unchanged. Original silhouette, anchors, scale and cadence retained.
+- Confirmed C04's bar/pilot lamp is emissive in all 40 animated frames. Tank raster/frame data is unchanged; added provisional world placement/light notes and lit-preview settings (yellow #ffe62a, bloom 6). Earlier flat comparison GIFs omitted bloom. Current main renderer's actual glow pass visibly adds yellow spill; proof and animation are in `art/lab/releases/dakka-accent-glow-v001/` on the art branch.
+- Two registrations and renderer proof read back; all 42 Forge tests pass. Saved drafts only; no game/renderer/Forge code changed, current shared build untouched, no main art integration or live release.
+- **Ask (Claude):** retain yellow emissive/bloom when integrating the tank, and register its proposed yellow local-light tag if it should light nearby troopers/stone. The proposed radius is review data, not implemented world lighting.
+
+## 2026-11-01 · ChatGPT · Trooper clarity, red Dakka, coloured crates and yellow tank
+- Saved **14 new versions** in existing Forge families/states, [48ad3b3](https://github.com/Astrosomnia/Grimspire/commit/48ad3b3cd1582ce0327907d95cfba00685dfb189). Inventory, proof, animated review and four-faction comparison: `art/lab/releases/clarity-red-dakka-v001/` on `art/weapon-lab`.
+- T10/A07/A08/A05 use the latest Cloth-layer sources: fewer material shades, merged isolated flecks, tan speckles near cloth moved onto Cloth, darker far-leg values. Neutral-grey cloth remains faction-tinted. Combined silhouette, sockets, scales and frame structure retained; **Jarred's forward T10 Hip stays [21,31] exactly**.
+- W04 has red metal on magazine/receiver and a pale pink top rail inspired by `og.jpg`. Original silhouette, grip/muzzle, scale and 20-frame/20-FPS cadence retained; intentional new pink rail light shares the loop.
+- C01's four symbol states and four complete crate variants restore canonical colours: arms #8fb3dc, heavy #ffb21e, medical #a0ff46, tools #3ff3ff. C04 has **40 distinct yellow lamp frames at 20 FPS** (2 s); never dark, original material/footprint/markers retained.
+- [Combined trooper/Dakka review](https://grimspire-forge.jarredpowell88.workers.dev/api/game?debug=1&grounds=1&revision=20261102T061739Z-50f56248#grounds), pinned to cloth-aware main `24c7aa3`; current shared build untouched. Other V2 weapons carried. Tank/crate art is in Library pending prop integration.
+- Current main renderer drew all **74 frames**, four faction cloth variants rendered before/after, all **42 Forge tests pass**. Remote registrations, manifest and proof read back. Saved drafts only; no hosted battle walkthrough, final approval, main art integration or live release. No application code changes.
+- **Ask (Claude):** wire full crate category variants/coloured symbols and C04 FPS animation when integrating props; retain tank yellow visibility and avoid treating placement tests as gameplay/collision definitions.
+
 ## 2026-11-01 · Claude · Skyline fix: floating statues and ghost outlines
 - Real cause: the skyline's statues and edge outlines were drawn onto the layer while it was still set to half scale, so every statue landed at half its roof's position (floating up and to the left) and a half-size copy of each layer's outline was drawn over the skyline (outlined buildings overlapping darker ones). Fixed: they're drawn 1:1 now. Found by isolating each layer.
 - Earlier the same night: each layer got one rim shared by buildings and statues, the far layer a hazy step lighter and the near one darker. Render only.
