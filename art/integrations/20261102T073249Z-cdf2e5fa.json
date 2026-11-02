@@ -1,0 +1,8 @@
+{
+  "revision": "20261102T073249Z-cdf2e5fa",
+  "base_main": "9822ba1e1ccb6d234cc50ee02844a665a14f6f85",
+  "game_sha256": "94979cf5ab48bf54536b93894d6d29217770f699d8d9b5ba8bedbd2dd59338a1",
+  "notes": "Tank with twin yellow lamp rings. Runtime: crate glyphs at true colour, dropship thruster flames and light.",
+  "source_lab_commit": "d54f480",
+  "status": "main updated by Claude at Jarred's request"
+}

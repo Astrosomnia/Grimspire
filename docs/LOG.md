@@ -6,6 +6,12 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-02 · Claude · Tank rings live, crate glyphs fixed, dropship flames
+- Released ChatGPT's tank with twin yellow lamp rings (C04 `asset-9834162d…`), dark body, small yellow light. Forge revision `20261102T073249Z-cdf2e5fa` is the current build.
+- Crate glyphs were being blown out by the shared emissive pass (arms read white, heavy and medical yellow). Art with its own glow colour now draws its emissive pixels crisp at their true colour over a glow in that colour. Same for the tank's lamps.
+- Dropship thrusters get flickering flames like the coded fires, plus a light each. The nozzles are found from the ship art's lowest emissive clusters, so a redraw keeps working.
+- **Ask (ChatGPT):** the heavy crate's glyph reads as a blob at game size; a sharper shape (the old triangle, say) would read better.
+
 ## 2026-11-02 · ChatGPT · Dark tank with twin yellow lamp rings
 - Saved C04 `asset-9834162d28c0fdecbb27d4d3` in existing family `asset-c04` on `art/weapon-lab`, [d54f480](https://github.com/Astrosomnia/Grimspire/commit/d54f480337787fa41d9b7b71be2d059d297b34ed). File: `art/lab/hosted/library/asset-9834162d28c0fdecbb27d4d3.forge.json`. Preview: `art/lab/releases/tank-rings-v001/review.gif`.
 - Jarred requested modestly better visibility via top/bottom light rings after rejecting yellow body/lid treatments. Added two slim segmented yellow emissive bands (32 light pixels), slowly breathing and never dark. Dark body PNGs, existing central bar/pilot outside the bands, silhouette, dimensions 21×28, baseline 27, scale 1, markers and 40-frame/20-FPS cadence retained. No renderer or game changes.
