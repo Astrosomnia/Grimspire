@@ -2053,7 +2053,8 @@ cv.addEventListener('contextmenu',e=>e.preventDefault());
 
 
 /* ================= the ward fights back ================= */
-function barrelAt(x,y){return barrels.find(b=>b.alive&&Math.abs(b.x-x)<5.5&&y>b.y-15&&y<b.y+1)}
+// The promethium brazier's iron (bowl and legs, about 15 x 14 world px). Shots through the flames above it don't count.
+function barrelAt(x,y){return barrels.find(b=>b.alive&&Math.abs(b.x-x)<7.5&&y>b.y-14&&y<b.y+1)}
 function ignite(b){if(!b.alive||b.fuse>=0)return;b.fuse=rnd(.12,.35);sparks(b.x,b.y-10,6)}
 function withdraw(f){if(S.gone.includes(f))return;S.gone.push(f);for(const t of troopers)if(t.alive&&t.team===f){t.alive=false;t.hp=0;t.rope=null;warpFx(t.x,t.y-12,TEAM[f].col)}
   texts.push({x:cam.x+(cw/scale)/2,y:cam.y+80/scale,txt:`${TEAM[f].name} withdraws`,life:2.6,col:TEAM[f].col});if(S.team===f){S.phase='end';S.charging=false}}
@@ -2910,7 +2911,7 @@ function netCatchUp(){if(S.mode!=='online'||NET.role!=='watch')return;const behi
   if(behind>300&&!NET.skip)for(let i=0;i<Math.min(6,behind-240);i++)tick()}
 function netGameOver(){if(NET.role!=='act')clearNet()}
 function netLeave(){document.title=TITLE0;chatStop();if(NET.unC)NET.unC();if(NET.unM)NET.unM();NET.unC=NET.unM=null;NET.role=null;NET.started=false;S.mode='hot';$('#netBar').hidden=true}
-const GV=17;// bump on every release that changes the sim
+const GV=18;// bump on every release that changes the sim
 function startOnline(code,me,d){BE.update(code,{['vers.'+me]:GV,['arts.'+me]:window.GRIMSPIRE_ART_SIM||''}).catch(()=>{});NET.code=code;NET.me=me;NET.round=d.round||0;NET.snapK=-1;NET.snap=null;NET.matchAtt=d.att||'';NET.started=true;NET.leaving=false;saveNet();
   $('#net').hidden=true;if(!CHAT.un)chatStart();const cfg=Object.assign(mkCfg('online',d.seats,d.mode==='teams'),{mode:'online'});newGame('online',d.seed,cfg);S.genOK=true;
   const base=NET.round*1e5,has=d.snapK!=null&&d.snapK>=base&&d.snap;
