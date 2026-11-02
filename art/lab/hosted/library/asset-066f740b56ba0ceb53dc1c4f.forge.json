@@ -1,0 +1,43 @@
+{
+  "forge": 1,
+  "code": "T10",
+  "name": "Ash Legion torso · option C · 1.2 scale review",
+  "w": 41,
+  "h": 58,
+  "fps": 8,
+  "base": 54,
+  "pixel_scale": 12,
+  "markers": {
+    "grip": null,
+    "muzzle": null,
+    "pivot": null,
+    "shoulder": [
+      18,
+      19
+    ],
+    "elbow": null,
+    "hand": null,
+    "hip": [
+      18,
+      31
+    ],
+    "knee": null
+  },
+  "notes": "Split from the T09 Ash Legion jump-pack fit-test (auto-reduced, not hand-cleaned) on 1 Nov 2026. Option C palette: magenta glow, oxblood cloth. Torso, head, pack and front tabard. Shoulder is where the arm attaches, Hip is where it sits on the legs. The legs are separate (A07 thigh, A08 shin). Test with the Torso slot.\nJarred 1 Nov: needs native-pixel cleanup to match the equipment family. Palette noise, block grouping and near/far distinction remain outstanding. This candidate changes ONLY game_scale to 1.2 and review notes; original pixels, frames and sockets retained. All four body parts must use the same scale. Rendered at 1 and 1.2 with current main game rig; not battle/play tested or approved. Do not treat the render comparison as final art.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACkAAAA6CAYAAAAtInDDAAAEO0lEQVR4Xu2XS08TYRSGT1EobWmh1ioFkRZUIrEqxkiC4EITExMX7k104c/w35i4NHHhZSULQRKNEmMNigq0SJmaQltaO1CNjnlP+cYp6ExnpjUxmSdppunte+dc3nNK5ODgYBqX6W/8hXaPXwnt76ZA1z7+xM9ViebXlxvy+3sbIfJ4fFTZHw6rPzV69iQ/P/DyjTI1+cC20Ba7IhFB8RuR7jAdCxRpeUXilyB2KHRYfd8qDRDpU89OJOao5B2kZ1PT9PDxExbb6+60qk3FtkhQLOTUH5QyWRo4OkRIP0RLIe+/F9nbd1SZuHhVwRWnb22WqVwuUeL1Sxazls3yFalvFIaNI5oChy99mqMOucLPIQz1Nh48xFqW5BKlVyX66nVzZBspsq50Q5Q2pUjlQVdbTb3FvH6CYNwEbgB1GVmX+QbsNo+uyK593QoOGht009CPdmr3+KilJ6Km9E9A6Jn2MPvl/J4tktIp/tjFnrjlLtdNN+pN6u2nGBEfqFoNIuTu5OgJkG4tMPNAT4RfSq1lWLxVdCOJCYIowla0kwTiLkX6aKCzSz1XCE5XNvgxPhHldCP9Y8Eo34TVtOuKFML88gKLQR0iIqdvjtDI9WO7AgOhWl+MnQvWfMaqZxo2zsxChQ9C44hDiveXaKH8nRY3Cmpn38st0t10gsvii/KNll7k+aEFN2GlNg0tCOn+UAxQh5ykWDCsphhChfXM5JMUOzKs6kEGYEcQi+iLUkDKJ1cTpme5biThi4gkLOhvqUL9oeuFReGKGwOR3n72zRnPDxZoNZKG6ebD1mUWg4NEigUpOU8+n5+jB7sRdQyrAmgcMLuVpen8So0j1IthuiEQDTD7NEupfJLSlSAfhgYStrO+lmEDB4gioh+PD/McX9tWAu9EWVhpHgOfLLlmPVlFWvBytOCbAjTJTiBkeipJB05V90kxxwEyob2awTDdKHwxcQDSC/q9VXvBVTxHSlGDAFHU1im+t7VZclnZ1g1FAnQ3QIMIRM3h8KqA31Fe/DjPy+/5iXGe86hT7XfNYliTENCC9SvkpUIiw/bxxeNTqm2BVa3kqpkkcoXrrpr2AIttfS/TT1cbVV3VPIYiIYKIFO0WJNh+j0egAOIEre9TNF3ZUJsFN2Ml3YYiwbvE8xoDLuQyrkIuw+/tnMcwcNoWBldIT1VnuR3qqkk9tJaCMQgDR71CmIjqjegJ/pxoOrPUFUk90NGIFteq8o0ux6/wc/+gu2Z2Y9pIoWFkxaxG+5HkzWgiypFCFA8fiqhbE4SJuY21jq3Mwl9c08O+Xm5du6AMfO7gMSr2ztuvHlk6z3ZN6rFzzlulqSK1m7sdmiqyUTRNJDYhke7ANfyVs07TRGJhFqsctng79dk0kWJkgjvJt7v+8prBtpnrIcah2JSs0rRIAiwTQij+wzs4ODg4ODg4ODg4/M/8AsBr/a6+YinNAAAAAElFTkSuQmCC",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACkAAAA6CAYAAAAtInDDAAAAUklEQVR4Xu3TMQrAIAwFUPFAnrO3Vhw6tg6xJcJ7kDV8k1gKALzp7eqzolOq0QZ/OCLk53asG25Z7mn5u7MEfZQ+4E7Rxy7XnYGQAAAAAABwkAF3JhL5IgSrBgAAAABJRU5ErkJggg==",
+      "trim": null,
+      "guts": null
+    }
+  ],
+  "game_scale": 1.2,
+  "ready": false,
+  "checks": {
+    "visual": false,
+    "tested": false
+  },
+  "asset_id": "custom-48c145bc-fb86-4386-8dca-e6fa57025d62",
+  "state_key": ""
+}

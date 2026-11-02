@@ -1,0 +1,41 @@
+{
+  "forge": 1,
+  "code": "W19",
+  "name": "Sentry Turret · red family study",
+  "w": 52,
+  "h": 30,
+  "fps": 8,
+  "base": 29,
+  "pixel_scale": 12,
+  "game_scale": 1.2,
+  "markers": {
+    "grip": [
+      16,
+      22
+    ],
+    "muzzle": [
+      51,
+      14
+    ],
+    "pivot": [
+      16,
+      22
+    ]
+  },
+  "ready": false,
+  "checks": {
+    "visual": false,
+    "tested": false
+  },
+  "notes": "Category review import, 1 Nov 2026. Substantially larger heavy emplacement; scale and collision need a real game check. Generated sheet extracted to a 12-source-pixel art grid, 24-colour native interpretation; source and small details may differ after reduction. Separate material/emissive layers; no baked bloom. Native pixel cleanup and game-scale, anchor and animation review pending. Red is the dominant equipment light; neutral charcoal materials, amber heat. Draft saved for review only, not approved or integrated. Placement role: equipment.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,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",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADQAAAAeCAYAAABjTz27AAAAaUlEQVR4nO3VwQnAIAyF4dgRBOdwnY7oIi7QNQquoLcipRdNQLD/Bx6NDwOJyN8lH+rqDACAbbiVj/c77Sy3SZZDWyD5UPszej/m66mjzSJi0KGvIFa/DQBqptPoPfG2mHaz+wgAAADDGs4xHDzdQOcWAAAAAElFTkSuQmCC",
+      "trim": null,
+      "guts": null
+    }
+  ],
+  "asset_id": "asset-w19",
+  "state_key": ""
+}

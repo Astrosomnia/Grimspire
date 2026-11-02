@@ -1,0 +1,41 @@
+{
+  "forge": 1,
+  "code": "W12",
+  "name": "Frag Charge · red family study",
+  "w": 19,
+  "h": 21,
+  "fps": 8,
+  "base": 20,
+  "pixel_scale": 12,
+  "game_scale": 1.2,
+  "markers": {
+    "grip": [
+      6,
+      15
+    ],
+    "muzzle": [
+      18,
+      9
+    ],
+    "pivot": [
+      6,
+      15
+    ]
+  },
+  "ready": false,
+  "checks": {
+    "visual": false,
+    "tested": false
+  },
+  "notes": "Category review import, 1 Nov 2026.  Generated sheet extracted to a 12-source-pixel art grid, 24-colour native interpretation; source and small details may differ after reduction. Separate material/emissive layers; no baked bloom. Native pixel cleanup and game-scale, anchor and animation review pending. Red is the dominant equipment light; neutral charcoal materials, amber heat. Draft saved for review only, not approved or integrated. Placement role: equipment.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAAVCAYAAACkCdXRAAADLklEQVR4nHWVXWhbZRjHf8+bk+Qka6qI4tSEdMrYinRDvJCilo1dKLtQBgqCjoFXGwhm4oXivBDpRlFYL7zwxuHNcIz5QcUPmCDUQVfIWrs2ZG23tTFdP5y4Ubs0aU7O48X5WLJm/5vznvec93f+z8f7HuG+shQAcUEVQQBQQARUXdm0oh1GxOiLL+xj4ER/OFcqLQJwKX+Jzwc/bf/5dpOq2gIIVClNE9prZ6IdK2JiuK5DOtPFJ0eOULy5RmFqgl9+GwJtZrWGei9MRy7kQ1dvvPkKmcyTJMSwNfsUAyf6+e7bH5mZnWbop7Nt8+ZRxejIhbwCGrXi6oM1YmLhXMTE/GeiXrASjAEwbaAk7ARgURz+HWOEiInhOHWMEepOjagVQzBErVjL2pYClEqLqLrcqVQAh+6+vbiu0nA3OHX8M34dKwBwpTjJzu4evv/hm8CCgkoIM2Jx8NDrnDk9FML79jzPS/v2E43bdPftbXGxvLJEb+8eAIb/OA+oVwARo1/1DzB4+gyXC2NETBRXHdLpLnqf66NWrVKvVVlYLIewW6u3wvFCeR7F9Zy9n/uYZHYHxekpAN5790O6H+kgmd1B7q0DvJ15FIDXDh/l6pcnOVVe4WDuGKP5i3TYCXp27uLn80NqBKOlcqkpAK84xZtr99bmvlqrrnsFUJSjuXc4OfgFjlNHxDAz63X6zOw0nZltnANWy3Pw0QcAVLakKExNsPL3MitNUAuEUmmRiclxLCtK3am1fNVOPQDAq7ljBBFMTI4DELcsao4TvmuCFtb1Ox5IDHHbpl7zkv7gQw+3wGvV6t1xE8gP09O6uoChc0snZ899za6nn92Um1q1Sty2Abj211zo7nJhDL/PlGz2cRJiiBiL1bXbApYGjubmZwEYzV/k9r//eDmr/EcymWpyJ/h9Jhr0lRGLhrshERPToM8CLSzMk053sbx0g62PPUEymeL6tSt+jiV0Jg13A4CG+ld3Q8DS5aUb7H/5AADJZIrdPc8wMjrMtq7t/Dk+GuYY//TYtNHvyhGnUQ/v4pYVQjvshL9/rRAE7Q/HFokY9Q5E7z/gFcwAzqb1/wNQmVz85CXUOwAAAABJRU5ErkJggg==",
+      "emis": null,
+      "trim": null,
+      "guts": null
+    }
+  ],
+  "asset_id": "asset-w12",
+  "state_key": ""
+}

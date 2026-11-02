@@ -1,0 +1,32 @@
+{
+  "forge": 1,
+  "code": "G01",
+  "name": "Godfall Pod · opened wreck · red family study",
+  "w": 38,
+  "h": 35,
+  "fps": 8,
+  "base": 34,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "grip": null,
+    "muzzle": null,
+    "pivot": null
+  },
+  "ready": false,
+  "checks": {
+    "visual": false,
+    "tested": false
+  },
+  "notes": "Category review import, 1 Nov 2026.  Generated sheet extracted to a 12-source-pixel art grid, 24-colour native interpretation; source and small details may differ after reduction. Separate material/emissive layers; no baked bloom. Native pixel cleanup and game-scale, anchor and animation review pending. Red is the dominant equipment light; neutral charcoal materials, amber heat. Draft saved for review only, not approved or integrated. Placement role: ground.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,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",
+      "emis": null,
+      "trim": null,
+      "guts": null
+    }
+  ],
+  "asset_id": "asset-g01",
+  "state_key": "opened_wreck"
+}

@@ -1,0 +1,32 @@
+{
+  "forge": 1,
+  "code": "S05",
+  "name": "Reliquary · world study",
+  "w": 42,
+  "h": 20,
+  "fps": 8,
+  "base": 19,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "grip": null,
+    "muzzle": null,
+    "pivot": null
+  },
+  "ready": false,
+  "checks": {
+    "visual": false,
+    "tested": false
+  },
+  "notes": "Category review import, 1 Nov 2026. Decorative placement candidate. Need footprint, clearance, depth/occlusion, breakability and weighted placement rules from Claude; no collision or lore inferred. Generated sheet extracted to a 12-source-pixel art grid, 24-colour native interpretation; source and small details may differ after reduction. Separate material/emissive layers; no baked bloom. Native pixel cleanup and game-scale, anchor and animation review pending. Red is the dominant equipment light; neutral charcoal materials, amber heat. Draft saved for review only, not approved or integrated. Placement role: ground.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,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",
+      "emis": null,
+      "trim": null,
+      "guts": null
+    }
+  ],
+  "asset_id": "custom-54ee11e8-dae9-41e5-b9a3-c0fe80c1b3da",
+  "state_key": ""
+}

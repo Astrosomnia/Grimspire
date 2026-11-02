@@ -1,0 +1,32 @@
+{
+  "forge": 1,
+  "code": "C04",
+  "name": "Promethium Tank · red family study",
+  "w": 21,
+  "h": 28,
+  "fps": 8,
+  "base": 27,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "grip": null,
+    "muzzle": null,
+    "pivot": null
+  },
+  "ready": false,
+  "checks": {
+    "visual": false,
+    "tested": false
+  },
+  "notes": "Category review import, 1 Nov 2026.  Generated sheet extracted to a 12-source-pixel art grid, 24-colour native interpretation; source and small details may differ after reduction. Separate material/emissive layers; no baked bloom. Native pixel cleanup and game-scale, anchor and animation review pending. Red is the dominant equipment light; neutral charcoal materials, amber heat. Draft saved for review only, not approved or integrated. Placement role: ground.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABUAAAAcCAYAAACOGPReAAAE2klEQVR4nHWWXW9UZRDHf3P2OWcXaYvttsSS0lYgsiQiNFRvCgLyHi5qIqgYgi9AwG9AIl+AKLcaL7hTE4MxQmK4gEgDpQoSElITVygvWxYK7G5p95S223P2jBdn95S+MHfPzJx5/jPznzkPzC9qia0gKhgVjIIooCCR7SXfIvMpjXH088++oDQ5QU1NLZ7vA5DNZpmcLPEg+4ClLUu52HMB0DkxrJfdlsvluHbpNGNjLqdOneJyby/xeJyLPecZGEjzfPw5lhgANcaZgXreoEFZGR0tAlB0x9ixYweplSsplUoY4yASfqaU2btnHyeOHWR24HnTB5SotlblbClYFd10fTs63tYD+z+NEJv5gpbLPqnUmySTSdasXs2joSFy+TwPHz7EGINfqXEmc5dAPenvv6ltra2Uy6FeACyxNVAPQIxx9JOP91FTU8vyxjIAd/KxsM75AmNjLoXhYYrFsDzp9D8Y4wDg+1MAYhnj6NdfHaKrayPVgPHEggh1+rHyaGiIR0NDLEg4FIaHAairq2NycpL29hWR78njXyJiqSmXff5Kj1AoFCj7AT/8+BOtbW2sSqW4dx+2di5lZCREkr51G9u2GR8fx3VdXLdIofAUwaCEcQAs1YCmxiS+79Pd3c3RI0fIZO4CcHtgIErd86awbRvP87BtG4BC4Snvd3/AylQqYgSAscSODmfPnkUpE4sZmhqT/JtOR7a62hpy+TwLX1nIyOhIRWvx25lfEZnJfwMwNuYCIe82bdzCvfv3IgfP9+m/diZMf3Ccrq6Nlab4tLcvi1igGrAg4SDEMKoev587R6GQm3ujmck4mWWrUgtAxCJ96zaBelgK8tHeD0kmm5gts4Mq4NjOHD/VcJhu3LgOIBaI/nn1agVJjClvKnJ+EclsmWkTYjHDiWMHEbHUEmLs391Ja2sb9Q31PHnyBIB4YgHGGGwzd+iq3QfIZgcrpZiKmGIpAXfyMSYmJnhr9Ro61nYwmMnMG2y2ZLODbNu6nZaW1miqAIy8sKgu9pwnmVxMfUM9j4aG5qRf5aLneRhjaGlp5drf16ImV1lkKeXpg9jU1zdQW1s3LzLVYE76oa+iGkTjbUSEmppaAAL1ePZseEZQz/fZsP0ApckJXs8XKLounudF9vv370RjGl4MFjqd/t49+9iwfgPZ7CAw3eFcLkfRHaPouhFS3/fJZO7S1fUube3tVFksAgYJ+KOnh1zuKad/+ZlkshHfn8K2HVy3iG0MpVKJeDw+oxSJRIK2tmX09V1GFUSEy729qAbhQtmwfj1NTYtJJhtZvnwFmzdtw/Om2L1rF57v09SYZHS0iGM7OLaD53n4vo/rFmloaMQYQyxmeKdzHZbYIWYRS6tlWNvRgW3bLGluZklzM7l8gXw+TyIRj3ZpdUFX5b90GsVHxEI1CDmyaeMWvjl+mD179tLff3NGI8JUZ6b+ItUGBm6xc+dODh86SiwWcltA9OTxo1y4/oCi63LlyiUsMYS/F4uOjnUMDmYAGB0dwfensMQm0DIQYIzDihVv0PxaM6tSK/nu+2+xLDGkH4cLoa/vMiJCoJ6EFwbs393Je5u3kEqtYtGiVzHGqdgDAcT3PXK5pyFL8gWEGCIYVXwEAxKgGsx6cYgK4Uwr5Ypu9qvE0jBtC6XM/7WfPLynD869AAAAAElFTkSuQmCC",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABUAAAAcCAYAAACOGPReAAAAMUlEQVR4nGNgGBbg/gqD/+ToY6K2Q0bBKBgocH+FwX9SMgJNEv+ooSPZ0FEwCkYsAAAtFggzV2Ha7QAAAABJRU5ErkJggg==",
+      "trim": null,
+      "guts": null
+    }
+  ],
+  "asset_id": "asset-c04",
+  "state_key": ""
+}

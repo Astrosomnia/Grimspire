@@ -1,0 +1,41 @@
+{
+  "forge": 1,
+  "code": "W16",
+  "name": "Fabricator · red family study",
+  "w": 43,
+  "h": 24,
+  "fps": 8,
+  "base": 23,
+  "pixel_scale": 12,
+  "game_scale": 1.2,
+  "markers": {
+    "grip": [
+      13,
+      17
+    ],
+    "muzzle": [
+      42,
+      11
+    ],
+    "pivot": [
+      13,
+      17
+    ]
+  },
+  "ready": false,
+  "checks": {
+    "visual": false,
+    "tested": false
+  },
+  "notes": "Category review import, 1 Nov 2026.  Generated sheet extracted to a 12-source-pixel art grid, 24-colour native interpretation; source and small details may differ after reduction. Separate material/emissive layers; no baked bloom. Native pixel cleanup and game-scale, anchor and animation review pending. Red is the dominant equipment light; neutral charcoal materials, amber heat. Draft saved for review only, not approved or integrated. Placement role: equipment.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,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",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACsAAAAYCAYAAABjswTDAAAAdUlEQVR4nO3SsQ2AIBCF4V+HsLG0dzJHsGQEJqOntHEJLAyaGIzFQWLxvooC3h2XAxERAXDDmNwwpqYFYvCmIvltDP7Kqtl09yy27lv3dvlLqTFLHpwfB5jm5c7Jk7UEt1Tsremu1fL3yQL0+WDdLREREXlzAA2mMuQt9A0JAAAAAElFTkSuQmCC",
+      "trim": null,
+      "guts": null
+    }
+  ],
+  "asset_id": "asset-w16",
+  "state_key": ""
+}

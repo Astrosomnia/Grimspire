@@ -29,7 +29,7 @@
     {
       "id": "20261031T212301Z-6110878b",
       "created": "2026-10-31T21:23:01.908Z",
-      "notes": "Test Plasma Mortar — grid study as W01 · Launcher",
+      "notes": "Test Plasma Mortar \u2014 grid study as W01 \u00b7 Launcher",
       "slot": "W01",
       "variant": "grid",
       "author": "Astrosomnia"
@@ -37,7 +37,7 @@
     {
       "id": "20261031T224300Z-d1a36881",
       "created": "2026-10-31T22:43:01.189Z",
-      "notes": "Test Plasma Mortar — grid study as W01 · Launcher",
+      "notes": "Test Plasma Mortar \u2014 grid study as W01 \u00b7 Launcher",
       "slot": "W01",
       "variant": "grid",
       "author": "Astrosomnia"
@@ -45,7 +45,7 @@
     {
       "id": "20261031T234442Z-a04afee8",
       "created": "2026-10-31T23:44:43.326Z",
-      "notes": "Test Plasma Mortar — slow pulse as W01 · Launcher",
+      "notes": "Test Plasma Mortar \u2014 slow pulse as W01 \u00b7 Launcher",
       "slot": "W01",
       "variant": "custom",
       "author": "Astrosomnia"
@@ -53,7 +53,7 @@
     {
       "id": "20261101T004116Z-749f093f",
       "created": "2026-11-01T00:41:17.526Z",
-      "notes": "Test Plasma Mortar — slow pulse as W01 · Launcher",
+      "notes": "Test Plasma Mortar \u2014 slow pulse as W01 \u00b7 Launcher",
       "slot": "W01",
       "variant": "custom",
       "author": "Astrosomnia"
@@ -61,7 +61,7 @@
     {
       "id": "20261101T004157Z-17d7b17a",
       "created": "2026-11-01T00:41:58.243Z",
-      "notes": "Test Las Burner — red charge sequence as W05 · Las gun",
+      "notes": "Test Las Burner \u2014 red charge sequence as W05 \u00b7 Las gun",
       "slot": "W05",
       "variant": "custom",
       "author": "Astrosomnia"
@@ -69,7 +69,7 @@
     {
       "id": "20261101T004304Z-a1bcb9ba",
       "created": "2026-11-01T00:43:04.839Z",
-      "notes": "Test Las Burner — red charge sequence as W05 · Las gun",
+      "notes": "Test Las Burner \u2014 red charge sequence as W05 \u00b7 Las gun",
       "slot": "W05",
       "variant": "custom",
       "author": "Astrosomnia"
@@ -78,7 +78,7 @@
       "id": "20261101T014956Z-14b37379",
       "created": "2026-11-01T01:49:56.490Z",
       "notes": "Promote the eight user-approved animated weapon alternatives: mortar pulse, rail sweep, twin scatter chambers, Dakka stagger, four-lamp red las sequence, furnace flamer, chainblade edge chase and fist knuckle surge. Preserve current game source and the latest saved render settings.",
-      "slot": "W01–W08",
+      "slot": "W01\u2013W08",
       "variant": "custom",
       "author": "Astrosomnia"
     },
@@ -86,7 +86,7 @@
       "id": "20261101T021713Z-61d0807f",
       "created": "2026-11-01T02:17:13.326Z",
       "notes": "Correct grip and muzzle alignment for the eight approved animated weapon alternatives: mortar pulse, rail sweep, twin scatter chambers, Dakka stagger, four-lamp red las sequence, furnace flamer, chainblade edge chase and fist knuckle surge. Keep scale 1.2 and all animation frames; preserve game code except ranged reticle alignment and the required simulation protocol bump to 17.",
-      "slot": "W01–W08",
+      "slot": "W01\u2013W08",
       "variant": "custom",
       "author": "Astrosomnia"
     },
@@ -94,14 +94,14 @@
       "id": "20261101T033715Z-a104eab1",
       "created": "2026-11-01T03:37:15.299Z",
       "notes": "First playable review of the straight foreground gun arm and glove on all six guns. Preserve all eight approved animated weapons, calibrated grips/muzzles and saved 1.2 scale/lighting. No main promotion.",
-      "slot": "W01–W08",
+      "slot": "W01\u2013W08",
       "variant": "custom",
       "author": "Astrosomnia"
     },
     {
       "id": "20261101T033937Z-5663b7e1",
       "created": "2026-11-01T03:39:38.470Z",
-      "notes": "Test Chainblade — grid study as W07 · Chainsword",
+      "notes": "Test Chainblade \u2014 grid study as W07 \u00b7 Chainsword",
       "slot": "W07",
       "variant": "grid",
       "author": "Astrosomnia"
@@ -157,7 +157,7 @@
     {
       "id": "20261101T062923Z-ae50c4ba",
       "created": "2026-11-01T06:29:25.579Z",
-      "notes": "Test Thunder Fist — knuckle surge as W08 · Claw",
+      "notes": "Test Thunder Fist \u2014 knuckle surge as W08 \u00b7 Claw",
       "slot": "W08",
       "variant": "custom",
       "author": "Astrosomnia"
@@ -165,7 +165,7 @@
     {
       "id": "20261101T063735Z-35d395b3",
       "created": "2026-11-01T06:37:36.836Z",
-      "notes": "Test Thunder Fist — knuckle surge as W08 · Claw",
+      "notes": "Test Thunder Fist \u2014 knuckle surge as W08 \u00b7 Claw",
       "slot": "W08",
       "variant": "custom",
       "author": "Astrosomnia"
@@ -173,7 +173,7 @@
     {
       "id": "20261101T063940Z-ec4377be",
       "created": "2026-11-01T06:39:42.758Z",
-      "notes": "Test Thunder Fist — knuckle surge as W08 · Claw",
+      "notes": "Test Thunder Fist \u2014 knuckle surge as W08 \u00b7 Claw",
       "slot": "W08",
       "variant": "custom",
       "author": "Astrosomnia"
@@ -181,7 +181,7 @@
     {
       "id": "20261101T064614Z-0f76d4ca",
       "created": "2026-11-01T06:46:16.652Z",
-      "notes": "Test Thunder Fist — knuckle surge as W08 · Claw",
+      "notes": "Test Thunder Fist \u2014 knuckle surge as W08 \u00b7 Claw",
       "slot": "W08",
       "variant": "custom",
       "author": "Astrosomnia"
@@ -189,7 +189,7 @@
     {
       "id": "20261101T070229Z-44ee11f4",
       "created": "2026-11-01T07:02:31.745Z",
-      "notes": "Test Rail Carbine — charge sweep as W02 · Carbine",
+      "notes": "Test Rail Carbine \u2014 charge sweep as W02 \u00b7 Carbine",
       "slot": "W02",
       "variant": "custom",
       "author": "Astrosomnia"
@@ -197,7 +197,7 @@
     {
       "id": "20261101T072926Z-f07b4d5f",
       "created": "2026-11-01T07:29:27.792Z",
-      "notes": "Test Thunder Fist — knuckle surge as W08 · Claw",
+      "notes": "Test Thunder Fist \u2014 knuckle surge as W08 \u00b7 Claw",
       "slot": "W08",
       "variant": "custom",
       "author": "Astrosomnia"
@@ -205,7 +205,7 @@
     {
       "id": "20261101T073211Z-d4aec61a",
       "created": "2026-11-01T07:32:12.771Z",
-      "notes": "Test Thunder Fist — knuckle surge as W08 · Claw",
+      "notes": "Test Thunder Fist \u2014 knuckle surge as W08 \u00b7 Claw",
       "slot": "W08",
       "variant": "custom",
       "author": "Astrosomnia"
@@ -213,7 +213,7 @@
     {
       "id": "20261101T093732Z-f711eff3",
       "created": "2026-11-01T09:37:35.246Z",
-      "notes": "Test Gun arm · shared shoulder pivot as Single foreground arm",
+      "notes": "Test Gun arm \u00b7 shared shoulder pivot as Single foreground arm",
       "slot": "ARM",
       "variant": "custom",
       "author": "Astrosomnia"
@@ -221,7 +221,7 @@
     {
       "id": "20261101T094236Z-176d55c2",
       "created": "2026-11-01T09:42:39.253Z",
-      "notes": "Test Gun arm · shared shoulder pivot as Single foreground arm",
+      "notes": "Test Gun arm \u00b7 shared shoulder pivot as Single foreground arm",
       "slot": "ARM",
       "variant": "custom",
       "author": "Astrosomnia"
@@ -229,10 +229,18 @@
     {
       "id": "20261101T094357Z-78228871",
       "created": "2026-11-01T09:44:00.280Z",
-      "notes": "Test Gun arm · shared shoulder pivot as Single foreground arm",
+      "notes": "Test Gun arm \u00b7 shared shoulder pivot as Single foreground arm",
       "slot": "ARM",
       "variant": "custom",
       "author": "Astrosomnia"
+    },
+    {
+      "id": "20261102T050235Z-25011463",
+      "created": "2026-11-02T05:02:35.791Z",
+      "notes": "Ash Legion 1.2\u00d7 scale review: T10 torso, A07 thigh, A08 shin, A05 arm. Existing pixels/sockets retained; cleanup and shoulder/hand clearance pending. Equipment category imports are Library versions, not all wired into this build. Renderer checked; battle/playtest and approval outstanding.",
+      "slot": "TORSO",
+      "variant": "custom",
+      "author": "ChatGPT"
     }
   ],
   "integrations": [

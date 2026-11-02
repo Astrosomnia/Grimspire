@@ -1,0 +1,32 @@
+{
+  "forge": 1,
+  "code": "S03",
+  "name": "Broken Gargoyle · world study",
+  "w": 34,
+  "h": 31,
+  "fps": 8,
+  "base": 30,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "grip": null,
+    "muzzle": null,
+    "pivot": null
+  },
+  "ready": false,
+  "checks": {
+    "visual": false,
+    "tested": false
+  },
+  "notes": "Category review import, 1 Nov 2026. Decorative placement candidate. Need footprint, clearance, depth/occlusion, breakability and weighted placement rules from Claude; no collision or lore inferred. Generated sheet extracted to a 12-source-pixel art grid, 24-colour native interpretation; source and small details may differ after reduction. Separate material/emissive layers; no baked bloom. Native pixel cleanup and game-scale, anchor and animation review pending. Red is the dominant equipment light; neutral charcoal materials, amber heat. Draft saved for review only, not approved or integrated. Placement role: ledge.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,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",
+      "emis": null,
+      "trim": null,
+      "guts": null
+    }
+  ],
+  "asset_id": "custom-0b9c856f-d060-487e-a119-dd8c04efef15",
+  "state_key": ""
+}

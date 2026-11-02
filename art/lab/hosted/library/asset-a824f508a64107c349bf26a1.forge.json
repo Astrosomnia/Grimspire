@@ -1,0 +1,32 @@
+{
+  "forge": 1,
+  "code": "P01",
+  "name": "Mortar Shell · red family study",
+  "w": 32,
+  "h": 16,
+  "fps": 8,
+  "base": 15,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "grip": null,
+    "muzzle": null,
+    "pivot": null
+  },
+  "ready": false,
+  "checks": {
+    "visual": false,
+    "tested": false
+  },
+  "notes": "Category review import, 1 Nov 2026. Bright emissive silhouette is essential: the current in-game projectile reads as light. Generated sheet extracted to a 12-source-pixel art grid, 24-colour native interpretation; source and small details may differ after reduction. Separate material/emissive layers; no baked bloom. Native pixel cleanup and game-scale, anchor and animation review pending. Red is the dominant equipment light; neutral charcoal materials, amber heat. Draft saved for review only, not approved or integrated. Placement role: projectile.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAQCAYAAAB3AH1ZAAADJ0lEQVR4nL2VX2gUVxTGf2cyiTFuNsaKtpo0DkHo+i/64pPQ0vrWPvkgKIjtQh98aLABJQ2RPljiUmiLQciL5EVQKZQW2lKRpFRZaPHFWkiV0rANScQVzc6M0zVusnN8mD+bSTZ9Sz+4M/d+98493zn3njMiGAoKCFDrKX5ArDFMBa7kLjC9sCEmOxv/5UR/f03VGsIQDG7/9YhCYZJCYRKA6YUNfJg9jQT66kC01oj7Eo+hHUOjFvJ1YSp+3QnL6kZZRDBVWUxEQsRAtYpgoiwCiiDhE95D9UFLc+2D8jx2KEzR5F6herqtnWzduj2e2L1rHwCXRy9FQuJ3JrOHS2feX80pvsqe5kFLCwtNBgB7bY+WIydwPY8bN79LiFiiRjTwzA/8EEHVj5etN03OffoF9+7eoefAwfi46kF/+Jqxisvol5+R7RvkcFOa47mz7Ni7j6PHPuK1vyfIY1DCFwm2N/XokWNc+OQDrt+YAKBQmGRmZgqAX37+EYDXd3QwMtDLtfw/AEz8+ccK453bttOaH+d47iynhoYZGejlav/nPDv0DgCt+XHGKi6NFZ83ymUMkQYNznF1PF+sxP1s3yCu/fQ/1wOcGhpOjF3PA+CWZ7Nu8xaMba8CYABcyeXoOXAw9h6CS5hOpWLvAU6e/JjGik9rfpyZmSmKxVlsZw6AtnQbxeIs0w9nE4azfYMAOK6D63m8mdrIyEAvL548BkDASFxLjZ8SM4LQbJq89fa7OK5DsZg0shTtDSb73RJjFTfmDjel+T3dDsB+t8QtzwbgSXkeE3wBUzOZPXR1Wjiug+3MsbFtEwC//nYbxWe+WgVYYXxd83pezD9fIaSxUkvvov2Q8itbAPjm8aOYL+GLGQ0ig1FIbWeOrk4rzHNBFX66+W2YjlV2ZXoSIiKUQyObl9YB4P79eyAGoMvT0NCh8xfjW59OpXA9j46OLi6PDofpWF1WiBpU1UfEqJEaHZ7SjnBoSYGLUm5FmABTgnuIZXVjWd3xxMC53kDfMuOBrYBTrdbbkxLK9wmmfrUFMFYrxUID/A9/RBEMVXyiSIS6WF7/1wovAcbJT5O+kBk8AAAAAElFTkSuQmCC",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAQCAYAAAB3AH1ZAAAAkUlEQVR4nGNgGAUDDBhpZfAFIe7/MLbBu6847WGilQMYGBgYnntbMTz3tsKrhmYOeO5txeC5eDd1Q/je6X3/CasirH57rOt/WBSRHALbY12JcgQuyy8Icf9Xz6tk4Nu5mVSrEQYQ64B7p/f9x+VgmDgLqQ7Al6KRwc1J7TjlLghx/2fYeoyBgWG4Z8NRMAqIAQDAUTgSgueOqgAAAABJRU5ErkJggg==",
+      "trim": null,
+      "guts": null
+    }
+  ],
+  "asset_id": "asset-p01",
+  "state_key": ""
+}

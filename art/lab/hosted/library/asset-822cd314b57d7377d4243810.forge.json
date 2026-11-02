@@ -1,0 +1,41 @@
+{
+  "forge": 1,
+  "code": "W13",
+  "name": "Sun Grenade · red family study",
+  "w": 23,
+  "h": 22,
+  "fps": 8,
+  "base": 21,
+  "pixel_scale": 12,
+  "game_scale": 1.2,
+  "markers": {
+    "grip": [
+      7,
+      16
+    ],
+    "muzzle": [
+      22,
+      10
+    ],
+    "pivot": [
+      7,
+      16
+    ]
+  },
+  "ready": false,
+  "checks": {
+    "visual": false,
+    "tested": false
+  },
+  "notes": "Category review import, 1 Nov 2026. Bright emissive silhouette is essential: the current in-game projectile reads as light. Generated sheet extracted to a 12-source-pixel art grid, 24-colour native interpretation; source and small details may differ after reduction. Separate material/emissive layers; no baked bloom. Native pixel cleanup and game-scale, anchor and animation review pending. Red is the dominant equipment light; neutral charcoal materials, amber heat. Draft saved for review only, not approved or integrated. Placement role: projectile.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABcAAAAWCAYAAAArdgcFAAADlElEQVR4nI2V30ubVxjHP+f4g7wnNZqIMxKHvktgMOqgobOsSW+khY4Z77QM6d3+qLH7Mbq71W03Y1LBTLQlHVU2BuuM0yxaM7WxeU9ak/fs4sREY9U+cDjveTnP93me7/PjCC4XIxH4gITmDuBjxEWKne8AzpdTMyytPwPgU/djAL5++OBSvUvBJYJf5ufoDthzxelHb+ax0Zh38e2suJYOA5j7UpiYUiamlHHBuGBorBDnW3grZy6YtBQ4kzMALC8t4EfDgKVleWmBq26CYDSG/uE7vvcN5bdgnfnhglFKIRqueZ7HtaFh/ggcwuERyQ+S6M08T4tbvFGKPuAA6PY81tvw5MlDCExQKWR8BDMMn3uaO1P3CO4UkDtHSA9+W8uRKBa4OZ5moqqRoxCJj6CUwm2jSLY+hDFCsg9Q34AtKIynqGwXyAUc6mGa60fl8Ggth389xV7e3j84gdMGLoyP4YvMNKHBLj77XZO6nSEYjRFbySJHoSsSp6sXOoIg43EAgtEYN3oj7OUhpODO1L3jCjInOTez42nAhu15HgG3l+sbZZ4GHMRoe2bA5OFaVeNMzvDzwwcopfiwN4Lz/ijfrmTxMUICpkdI5lYWkU+yCGAawa2xuzRdAOiIt1ZDhny7p6VAAIligbmVxSY9skdIRpwAPUqRCzjUwvCNcgCYDzj4ilOAADXdRc1WJpXtAvMNvZ+UQz/wkXK4grGcm+EG81hOj5VmPW0P9eenwDudI8TrlhN92JzUlY2iFoZ+QB4aH7EFs57GAPWKvdxkw6PNQO0M/wdArfgc6cGib+jch5KQSIlgQ1f5CkOyqunch2RVE4zGKErL+dHLEwbqG/g1a3SiaiObqGo6PNsX/wH/eNYj6WNExRgy42mcyRm0tIkqPc7iTM6QrGrEa1sdALUX4O/BPvCrctCbeYZ80NL2hTsQ5RWCQ+OLZrtKhBkbGKRUKRMZhb083GiU1qO1HCHVokF6kLqdofQ4y58v95CN+40RcJy+Vof6GLG+u01fg4ZIPE6iWEBv5un2PDIlTdmDTEmTrGoq2wU7FuJx/NqpPIkzH8fSPriSVc2z/kH8aJjaq3+5NXaX5aUFyrvbvFGKMK0B1z64zh250wgK4ynW1v/i79IL3gva1+KKE2J1d4exgUGuugnkkyyLvjkDfC54k1uECQrB1Cc3ye2uAjQ9X93dOZ4jF2JcJkYimq9S236h/A/P839Ycr868AAAAABJRU5ErkJggg==",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABcAAAAWCAYAAAArdgcFAAABxklEQVR4nM1VPUvkUBQ972kyrpVsN0QCCgtTBcTptthiSrsF/QdWNtOIYOuP0CXt/okV7MbCwnqmHlbkMRsIMjJovO9axBfzkje7mYEFD1zCTe65HyfvJsBHAGWKKVO8CGe1SdCg1+E/x3vLddUEsRQcS7FQ542xjCxOpJ7gWehz6r13end5wKrftZLHUnDqLTDRLPSZMsXTYWQRUi9PVC4IADoJmDJVu+9ELAXrJLCCU0/w+KJbWOoJPl9f53K88f+Ku8uDWpBOAtZErJOAp8OINZElRSxFTTInTMemyCz0WSdBzWahX5Ptn8ldpKJzY47kVR8ApHlg3vzkNIIZOZaCn452gY2xRbq//YrJaVT4scx5poC5SgCgXx28rH1Cq+3h87fngnSoWeTth1by9u41WiMUTeyvAJuHN3j4nhcsFy4qmVNR1s/SnIgpU6yTgFW/y+UJVf+d55Jorubji671MqfDqLnmZdx+2bb8jYxFawQ87Uzykc/aePzh4+fvDINeh+fxnDBL4TrHxqoLVo2fi0IGolqwK4Em4ukwarb+pkD1w0WZ4ur2xrIetxQGvQ6XNW6CRn8iANg6eTu7V6PFuvpfeAUSyGHatmfnagAAAABJRU5ErkJggg==",
+      "trim": null,
+      "guts": null
+    }
+  ],
+  "asset_id": "asset-w13",
+  "state_key": ""
+}

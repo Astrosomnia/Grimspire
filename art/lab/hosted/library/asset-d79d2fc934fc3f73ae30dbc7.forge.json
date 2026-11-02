@@ -1,0 +1,41 @@
+{
+  "forge": 1,
+  "code": "W15",
+  "name": "Doomsday Shell · red family study",
+  "w": 42,
+  "h": 19,
+  "fps": 8,
+  "base": 18,
+  "pixel_scale": 12,
+  "game_scale": 1.2,
+  "markers": {
+    "grip": [
+      13,
+      14
+    ],
+    "muzzle": [
+      41,
+      9
+    ],
+    "pivot": [
+      13,
+      14
+    ]
+  },
+  "ready": false,
+  "checks": {
+    "visual": false,
+    "tested": false
+  },
+  "notes": "Category review import, 1 Nov 2026. Bright emissive silhouette is essential: the current in-game projectile reads as light. Generated sheet extracted to a 12-source-pixel art grid, 24-colour native interpretation; source and small details may differ after reduction. Separate material/emissive layers; no baked bloom. Native pixel cleanup and game-scale, anchor and animation review pending. Red is the dominant equipment light; neutral charcoal materials, amber heat. Draft saved for review only, not approved or integrated. Placement role: projectile.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACoAAAATCAYAAADmtp8+AAAEZklEQVR4nM2WX4hUdRTHP7+5d9dxfqzuuruhLiykpq6ZFlSgUFpba+Yfyo2WAlcIgkgDH4yFfAl6sn9UKiSEovXSQwURhObCIsWWgriztGP+WfHCqOXemXXXmR135s7p4Xfv3RlnVgR98LzM75zf+Z37PX/nKIUSVAQRAQRFBBQ+X1Q8IGSjIgz/8TMAfw+PhhePLqhnwerNIngPBFgFSpa1rWTRwiUATObz1NbUMJnPs2NrJ5u2diMyPVhb2eIhIIYXBKUUSBFB7puTkeCQTo0wmc+HYAOyuPO3dN0sLBSWUsZtNaW/fU6zbJ/TLPcDaGBVnlndjq6bXXZZW1NDU2MzR458ja6bxY2xVKgPYCsbgBc6NlcY/u/oT2RjMwGIZSeIK6tCx0OwUHgifl8UYZoslArlpXVbqnozf+58Dh3eT9B0torQ0vowADqm+Xj3++bD8TjWihV48TjHvjlIb4MGoD2dYf1XX+DF4xW2Oz/5DIDu7ncASr7jleELD7aypWA8QqkIIkX/tzRz5jx27WIo2dnzOQAj7nXAlE3jZI76gVP0Nmis2hms/TfF6MqnOPlXXwXQjqimPzVCn2/z9W27SJwdRMc0Q4k4weQpQWzJpo2vAdDU2Fxh8Pz5BE7SYTTt0vnqm6G8t+8o7WvXMeJeDxuxLjNO/cApjuUyAFQmvZzao5qJTV2hw19+0A3A2jd2knQuUZCCKTJb2ZK6eo4NW96m5923Kgxt3/0hOqZxnOFpm2tg8DQ6pvGyN3lyweLqiOY9VMbu6eyiZ9/eMlk6NcJHB34FTFmlrp5j9txHxA4UThzvx027/Phbf4X90bRbxgdpDujKtSsAZLIZooBz6xb1/t2nO96jZ99ePExkrdoZ4bueH77H88+3nGHc2ihO0gmbOpPNcOJ4P0IRG6AgBV7Zuo3FS5fz58nfK4C2tLSSyWZAini+17dTa0trhayUqqV/T2cXu0oi6jjDBuD4DVw/OCZwqjSPSpSK+IMazBmg6N9HEDxsZbN46fLQ49G0y5pnX2Rg8DQAUaaar3jdRLojqun16xUIoxtQLDuBXv08bto1AcGkPZl0aGlpZShxhjD1trJYtWqN8SzplHmuY5rE2UGQCAUp4GVvkkOhY5rRtFsW4RyKKIK+fJFxf44G4Eop4Duimv7shJFlb4JvN5PNMDZ+g7HEIICypx4KDXOamMzn0TFdZnTRwiUMJc5gUmDxz+ULLGt7PPR+Ogqi1p8a4enn1lfVOdB3jALCsrRLDoVzeRihdDSWjCdb2fLyhs6qhpoamzl0eD9iUuo/ssTnUSja2h4rAx1FuJZOMa+QA0Ca51e1nUORdC7hiYcprSLKlFjFaFGAbN7YNS3Ig4f3obCqPgZQyjKIBULwSmGhWDSzFoALE5M+mCkS8EFN/7d5G9CI/PLdt1UvzeZ0N4aUTO2xxbBDnwDiyqIghXveomy4w3Ij3AVIoyN4JaueodMAUrgngAEpiFRBahLzIG34/wN/KuQB23ZV6AAAAABJRU5ErkJggg==",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACoAAAATCAYAAADmtp8+AAAAs0lEQVR4nGNgGAWjYASDByK8/x+I8P6nhlks1DAEF/i/aQWEYeVNsVk0dSgDAwODsJImnH3JRg0jdPWO3GIkxhyiFJELYA7ju/EcrzqFN58JuoPmIYoM4EkBChStvBmJTcNMNHEREoBF7ScNSQYGBkhSgOH7x7b+h4kTAjR3KAxgi35FK2+ikx5d0qjekVsoUfxJQxLF4YMqjaJHMYxPbK6nKaBmgU+3NEopGDIOHQUjFgAAXU00pNHOQVMAAAAASUVORK5CYII=",
+      "trim": null,
+      "guts": null
+    }
+  ],
+  "asset_id": "asset-w15",
+  "state_key": ""
+}

@@ -1,0 +1,32 @@
+{
+  "forge": 1,
+  "code": "C02",
+  "name": "Parachute · red family study",
+  "w": 32,
+  "h": 29,
+  "fps": 8,
+  "base": 28,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "grip": null,
+    "muzzle": null,
+    "pivot": null
+  },
+  "ready": false,
+  "checks": {
+    "visual": false,
+    "tested": false
+  },
+  "notes": "Category review import, 1 Nov 2026.  Generated sheet extracted to a 12-source-pixel art grid, 24-colour native interpretation; source and small details may differ after reduction. Separate material/emissive layers; no baked bloom. Native pixel cleanup and game-scale, anchor and animation review pending. Red is the dominant equipment light; neutral charcoal materials, amber heat. Draft saved for review only, not approved or integrated. Placement role: canopy.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAdCAYAAADLnm6HAAAE3ElEQVR4nL2WTWgUZxjHf+/77qaZXQgt9lBvKllKbLUgRcFaI5UYEhspfkTENCSQQ4visbXXemhMYk9ieii0x6LSlmDIqdaIUmvsTRPKRnYOuskhU+tAdqZZd58eZnbc2U0wST8eGGbm/Xie//N/Pt5XsX4RY5JAmVKpVBlTa1Wi12Lw9Kkzksm0SGdHlxiTZGjwPB9/dAqjEvT3DZDJtMjpU2cEkNUqfRFiaW3dz6H3DwJw795vPHVdHMeh+9hRAO4/mObNN7Yydm2cVzdswPM8tmzZzOZNm7h85Sp3p35FpLSinRUZMMbIkcPd3Lx5PTL01HV5/Pgxfzx5Eo1VZOruHRYch+zsLM6CA0D3saPs3bsPY8yKjNQBMCYpF4a/lPYDnUxMjDMydIGcbeN7HpZl0djYSDY7U6fI/8sDINPczPTMTATu1q0btB/o5MTxk7IckBgApZQMDZ5n7No4juNw7vNz5GwbZ8Hhqeuy4Dj4vo8xSe4/mMZ1XXzPI2fbGJ0gn8+zWCjw8iuvAJCzbYYGh8nOzrJULDI0OEwy0SDLAjBGy8jQBc5+dhaAu1O/AER0AvieR8Hz0Ko+pDt2vI2de8ifYXhc143m7NxDHj16xCdnP2Xwi0G01hGICMDQ4Aj3H0zT1taO73kkTJKcbQNw+ep3LBYK+L5PNjtDW1t7pHypWMRZcGi0LMpSioB+/8MV5ubmo1D4vs+ePXvJ2TbD50fiDBhjpEKpE9Lc09PL3Nw8AOVyFWVaB2A8jwXHYcFxyM8H6yiryJiI0JBM4nsePT29FDwP3/MY/WqUnG1HLOjA+2Fc12Vs7Ed83wcgnU7RkEyGuSHk8/ngWwLS8vPzTE7+xOTkz6RTqRDd89BoXV9gvu/zUkMDc3PzEQvKGCO9H/bjex7TMzMUvCCbt2/bxsTEOAVvEaVMoEEElEJEUEoF/6FIwCRaKYrPlgCNUgqREv19A9y6fRuAlGXR3NzMxo2vcWn0YlTv0t83IEYlBLQoZeTE8ZNhR9NVD5LJtMTGlDLBGy1HDnfX7VFKCSBKmWgtIEcOdwdlqdDS2dFVpzBuLCJWVPjU8RuOB04EotBiTFKSiYZwT7jGJOWt7TtiLVtSVlqqa9SYpKSsdJ2xXTt3V7yKm9daamscoLV1f40ThIzU6AizslZByMKLASil6gCkrHRd99NaL7s/UrJr5+7YZC0AoJIfMenvG4gZU0pVaI4BqmU0Visioqbu3YkdHtnsjEpZ6eq4slQs1oH3PY9yVcOwGlNks7/H1Ht+Aak0i+UAAJTLZRUqiozu2/ceURyV4IWlWi2NloWEZZlMNEgm8zoFb1EBdHZ0idYaEVn9haU2J6pDY4yJxVEpFfsPEi+cY9ncWp3UJFZ1jMNyfb6uYkRrLVGb1XrZI3htIKo8qHgWgoqVVgVo2IwCkOv1fBmRKiMCUJ3hVeGRMGFra39FWe2lVGmtKT5bIpNpqbtUQMBKZ0cXxWIRYwzUZPs/BUC5HCi0cw/Z/c67bG1piea2bN5MT08vN25cp/hsiVJp5UvovyFRfycMS+V7PQmXWAcApZWSQ4c+oKmpKRr85tuv/3PPnyNQQbK1tu6XTKZFUlZaqu95a9K1nk0pKy0dHQdpamoinQ5uQ5dGL0Z58r9IeO5XGtK66/1v4B933QMIMUwAAAAASUVORK5CYII=",
+      "emis": null,
+      "trim": null,
+      "guts": null
+    }
+  ],
+  "asset_id": "asset-c02",
+  "state_key": ""
+}

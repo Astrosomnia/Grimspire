@@ -1,0 +1,32 @@
+{
+  "forge": 1,
+  "code": "M01",
+  "name": "Martyr Charge · red family study",
+  "w": 25,
+  "h": 17,
+  "fps": 8,
+  "base": 16,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "grip": null,
+    "muzzle": null,
+    "pivot": null
+  },
+  "ready": false,
+  "checks": {
+    "visual": false,
+    "tested": false
+  },
+  "notes": "Category review import, 1 Nov 2026.  Generated sheet extracted to a 12-source-pixel art grid, 24-colour native interpretation; source and small details may differ after reduction. Separate material/emissive layers; no baked bloom. Native pixel cleanup and game-scale, anchor and animation review pending. Red is the dominant equipment light; neutral charcoal materials, amber heat. Draft saved for review only, not approved or integrated. Placement role: equipment.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAARCAYAAAAougcOAAADRUlEQVR4nHWUTWhcVRTHf/fe9yZtiWWmDMQOaCxpio4JlVCsYKJdVEa7GFFcuJWKICLoRsSlhYJuXRQEsYKLLoTacVEVF4UsJCEV2mkkmFRLEieNBGbIpJ15L3PvcfE+Zl6bHnjce8/7n4//OedeeKRoUXii8ASQvRAqxgDJuqeodKO0aK0ByPlDhGFAtfo2QbfDL79ewbkIJzhUvBrjUXnldQCu/nwFbSKMtTaKG4uXbEQcP3z9bRr9rffOks8XgAJjR8b54rNPAajNLlCdOQHAx+fOM/J4CYCJySk+/+gDAN589x1E+sTSaMZ4kmQF8OfSLYr5QwAsLt1kevo0Bz2TKcPvN65TGimlmJMvvAzAtWtXiSusMkystQzt20/Q7bDb67F5d51i/hCBtYRhQPhbja0Har2pDaWREo3NBgC+57Pb28VoQ/nZKW7VF0RwKmoCWow2BN1ODPboBh0Wl26ysrzItLM0Dux/6Mvlhthut6hUqoRh0I+uoF6fZ2LyBApP9GBmvp9LV601hUKRQqGY/v/yqws8KGv/rtJqNXHiUp1zDqM9jo4dQ7BJuRzWOW7U/+hb7zGQn3z4fub8fPc+y4efZG5uFhFheWUpMhWHFRcPDngKT4QeCo+ciYiF1uHEURopMZwvMNfcAhc5TWR+3wH+1obqyRkAarVL5IwmtA6ldJqkQqEFx+VvvgPleHHmNM+Un+P45BRaa7bbLRpr/9Dp3uPMqUrai+Krb3DmVAXretR+usTOThsnkX356QlEHBJHEeLpqs0uANBqNdHGpHUtPXGEnVYThUfPH2L8pdcA6Az0b+ypce5ubgCwvr4KgDEe5fIUC9fnUEDKK7ntiWit8T2f4XwBwaKNwfdz6Zc4O/hYPsKrrP3RsWPU6/MITnlJEOdcBuSco7n1H4G1gMJZ22dpbYobzhcYhoem6/KP30ctiRvPxYsXMsOUONlut6JGotHGZJxrY7C2x507tyNF9jag0AhRYE/oKYUnSsFaYhAbhbaf3crtvzJOgvttshIxBxABFb2ipHTi3CTSC0pF6tHRccKgy8bGGjIAFgSFQehROjwKQGNjNcMDnBo8PUKUKFQ8ilmjFKH04GO7Jwbgf9eFa1o5d+CHAAAAAElFTkSuQmCC",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAARCAYAAAAougcOAAAAN0lEQVR4nGNgGAUjEjASq/CcnPh/dDGjRy+J0s9EiouINZQiS7D5ZmiCc3Li/4ePb0bBKCAaAAD9VgwKWxwUzAAAAABJRU5ErkJggg==",
+      "trim": null,
+      "guts": null
+    }
+  ],
+  "asset_id": "asset-m01",
+  "state_key": ""
+}

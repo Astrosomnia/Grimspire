@@ -1,0 +1,41 @@
+{
+  "forge": 1,
+  "code": "W21",
+  "name": "Teleporter · red family study",
+  "w": 15,
+  "h": 11,
+  "fps": 8,
+  "base": 10,
+  "pixel_scale": 12,
+  "game_scale": 1.2,
+  "markers": {
+    "grip": [
+      4,
+      8
+    ],
+    "muzzle": [
+      14,
+      5
+    ],
+    "pivot": [
+      4,
+      8
+    ]
+  },
+  "ready": false,
+  "checks": {
+    "visual": false,
+    "tested": false
+  },
+  "notes": "Category review import, 1 Nov 2026. Handheld tricorder-style controller, not a ground portal device. Generated sheet extracted to a 12-source-pixel art grid, 24-colour native interpretation; source and small details may differ after reduction. Separate material/emissive layers; no baked bloom. Native pixel cleanup and game-scale, anchor and animation review pending. Red is the dominant equipment light; neutral charcoal materials, amber heat. Draft saved for review only, not approved or integrated. Placement role: equipment.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAALCAYAAACgR9dcAAABgElEQVR4nG2QTW8SURSGnzsMFmmMtKSENHEGdAHu2qRxawJb0rVbo+nSbX9Ht278Ge7rR2LVYEwqNCS0NHXC1U5pROhwh+G4aJ3w0bs775vn3Pc9iltepVqTURAwGP6Z0b/VD9T0bM+DG5tPpKs1YftwRrfdxwACxAusOVaW72VpNeqkgL3Xb0jdGPp3l2lwAd7efsb3+gHlpTszG3NbT+n39EK9GFZKCUA+uorN3Z3nFDM5Puy/JYzGah6OO4uIarVaYnIO9t1lAIZXAz4ZsxB3GpYXL18BcHzcplh8GJvNxg9IJNFeO9Yq1Zp0taZx+AVVqdbE9y9wHYf3H9+Rz6+TtJMA/PTOKBSKfP28j+OWOO0cISIKwC2UxQYwoxEA/Z4mO+wR3fwySa9cx7MSBMZgWwnCaCxuoUznpKnsURCwupbD989Jpe+TflTi8vKCTGYVyztj0P9LGI3RXjvu3Tlp/j+yEsctERhDaK4TWFaCySSi53tk1x5w/uv01oP9AwowmJ0rIwK8AAAAAElFTkSuQmCC",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAALCAYAAACgR9dcAAAAUUlEQVR4nGNgoAAw4pI4x8j8H5lv9P8vTrUY4I+A8H8YjW4QDDDh00jIVgzNyLb8ERD+z/LhLfHOHRoAwz/nGJn/8/MLMjAwMDAof3gzSP0LAHWGGDIyPYAPAAAAAElFTkSuQmCC",
+      "trim": null,
+      "guts": null
+    }
+  ],
+  "asset_id": "asset-w21",
+  "state_key": ""
+}

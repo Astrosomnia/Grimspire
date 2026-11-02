@@ -1,0 +1,32 @@
+{
+  "forge": 1,
+  "code": "C06",
+  "name": "Grave Marker · red family study",
+  "w": 17,
+  "h": 27,
+  "fps": 8,
+  "base": 26,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "grip": null,
+    "muzzle": null,
+    "pivot": null
+  },
+  "ready": false,
+  "checks": {
+    "visual": false,
+    "tested": false
+  },
+  "notes": "Category review import, 1 Nov 2026. Helmet derived from T10 Ash Legion profile, elongated closed faceplate and vertical magenta visor; verify against final cleaned trooper. Generated sheet extracted to a 12-source-pixel art grid, 24-colour native interpretation; source and small details may differ after reduction. Separate material/emissive layers; no baked bloom. Native pixel cleanup and game-scale, anchor and animation review pending. Red is the dominant equipment light; neutral charcoal materials, amber heat. Draft saved for review only, not approved or integrated. Placement role: ground.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAbCAYAAACa9mScAAAC3ElEQVR4nI2VS2sTYRSGn/NNZrLItGhSKo1dGAVN0CLV6qaCO114o678B2rBH2CtLrwgiFDqwtZ/IIIX1J14ARXEC1iMQhK8UpNSatUhXdg0c1ykGVMyaT2LYc7He955z20+aGG27aiIKIiCUcvYCmgYNhJOIZpObybZlQSgrc0lk04DcO7CWQWVRrQJpWiAFEtFAK6OjXHn7l0OHhigpnBlJZTLc4FXmpoincngxlzePHyCqKANmYUqAfB+/+LR4we1d8/DjblEo9FQbJMSEaP96zezNbYqOLs+maNcnmP7tt5QkiYlElL/I92bAMjl8/9H4uM3gSbmfrHW1FJx1nQsqQeEF1ZYnIfx7AuqfoVdG3qC9CbMAl8CxDImiIoYHTx+QlOpjSoiajC6a0OPJuKdTeHh3RFhy5atALhubBEpfPf/kM5kmuChJKq+ZN+9JRGPk+xKEonYrF6V4NvXz3ieh4hZKZn6hyNq244m4p1qJKKJeKeKGO3v3609Pb168MDhgKjlsClVLl+6TF/fDhBl9ucMIoIbc0mtS62cjojR4aEzAESjUSzLQtUXwbBzRx/d3WtXJgHl5avXgbewsABA1a/wY3YWYAlR6AKqqjx6/EDh3xYDCML09HQTvsUWQ6UyT1ubS7kwh2htthTl5q0biBj27zvUKrTRjO7ds08BNcbS+lmgqqHN0hT7T7xapia06leWwS1roqMjV4L/6nIDFtod23bUiEUuX8C2HUREh4dOQ4u1a5I5OnJFZ2Z+cOHieQB8v8rg8RN8/PiJYqlINjuBqr8kbkl3jLE0ly8wOfmdUyeH6ehI8PTZc8avXQ26oerXFQVEwYtlbB0YOExpagrP80itS+E4duB/eJ9F8Tl2dJDx8TF8rVK/OmoPER0eOsPLV6/JFwoAJJNdABSLJbZv62V+voLj2OTyedrb20nEE9y7fxtVFQGjBvAXa2YWxYX7deGN14XwF+FUFlbhKJ50AAAAAElFTkSuQmCC",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAbCAYAAACa9mScAAAAI0lEQVR4nGNgGNlglmLmf3QxJmoYPHgMGQWjYBSMglFAOwAAkWMCKtA1nSAAAAAASUVORK5CYII=",
+      "trim": null,
+      "guts": null
+    }
+  ],
+  "asset_id": "asset-c06",
+  "state_key": ""
+}

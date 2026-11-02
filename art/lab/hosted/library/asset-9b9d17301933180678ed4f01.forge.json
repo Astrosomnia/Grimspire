@@ -1,0 +1,32 @@
+{
+  "forge": 1,
+  "code": "S02",
+  "name": "Toppled Saint · world study",
+  "w": 44,
+  "h": 18,
+  "fps": 8,
+  "base": 17,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "grip": null,
+    "muzzle": null,
+    "pivot": null
+  },
+  "ready": false,
+  "checks": {
+    "visual": false,
+    "tested": false
+  },
+  "notes": "Category review import, 1 Nov 2026. Decorative placement candidate. Need footprint, clearance, depth/occlusion, breakability and weighted placement rules from Claude; no collision or lore inferred. Generated sheet extracted to a 12-source-pixel art grid, 24-colour native interpretation; source and small details may differ after reduction. Separate material/emissive layers; no baked bloom. Native pixel cleanup and game-scale, anchor and animation review pending. Red is the dominant equipment light; neutral charcoal materials, amber heat. Draft saved for review only, not approved or integrated. Placement role: sump.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,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",
+      "emis": null,
+      "trim": null,
+      "guts": null
+    }
+  ],
+  "asset_id": "custom-a18c0cb6-3626-483a-9a4a-c2798026e19c",
+  "state_key": ""
+}

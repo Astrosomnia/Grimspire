@@ -1,0 +1,32 @@
+{
+  "forge": 1,
+  "code": "G01",
+  "name": "Godfall Pod · red family study",
+  "w": 22,
+  "h": 39,
+  "fps": 8,
+  "base": 38,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "grip": null,
+    "muzzle": null,
+    "pivot": null
+  },
+  "ready": false,
+  "checks": {
+    "visual": false,
+    "tested": false
+  },
+  "notes": "Category review import, 1 Nov 2026.  Generated sheet extracted to a 12-source-pixel art grid, 24-colour native interpretation; source and small details may differ after reduction. Separate material/emissive layers; no baked bloom. Native pixel cleanup and game-scale, anchor and animation review pending. Red is the dominant equipment light; neutral charcoal materials, amber heat. Draft saved for review only, not approved or integrated. Placement role: equipment.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,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",
+      "emis": null,
+      "trim": null,
+      "guts": null
+    }
+  ],
+  "asset_id": "asset-g01",
+  "state_key": ""
+}

@@ -1,0 +1,32 @@
+{
+  "forge": 1,
+  "code": "C01",
+  "name": "Tool symbol · red family study",
+  "w": 8,
+  "h": 9,
+  "fps": 8,
+  "base": 8,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "grip": null,
+    "muzzle": null,
+    "pivot": null
+  },
+  "ready": false,
+  "checks": {
+    "visual": false,
+    "tested": false
+  },
+  "notes": "Category review import, 1 Nov 2026.  Generated sheet extracted to a 12-source-pixel art grid, 24-colour native interpretation; source and small details may differ after reduction. Separate material/emissive layers; no baked bloom. Native pixel cleanup and game-scale, anchor and animation review pending. Red is the dominant equipment light; neutral charcoal materials, amber heat. Draft saved for review only, not approved or integrated. Placement role: mark.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAJCAYAAAAPU20uAAAAkUlEQVR4nF2NsQrCQBQEZ+8umKAgKIiIYO3/f4pgYyVYBYtE8BQx9yySYJKtFobZFZME70wkkkGTUBhC77DjPgfBufxA/BImNgCXWyQ1IGHq4Woh260LNBBO14jrum2WY4hAor2YzyDrzsoa6vhqLUMheGyWCQRlBfdHpEn/MQdw2BaYQfV8j2Af88LygE0BwA9A5S+0yZTUHAAAAABJRU5ErkJggg==",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAJCAYAAAAPU20uAAAAYUlEQVR4nGNgIBX82SD//9cm6f84FfxeJ4MiyYjM+bpO/D87EwcD478fDP8YWBlYg54wMsEk78+GSDL8/8fwj4GV4T8Lmi2/18n8/71R7n9rFD92+39tUcQtCbMfj+dwAwB3byXpRNHWYAAAAABJRU5ErkJggg==",
+      "trim": null,
+      "guts": null
+    }
+  ],
+  "asset_id": "asset-c01",
+  "state_key": "symbol_tool_mask"
+}

@@ -1,0 +1,41 @@
+{
+  "forge": 1,
+  "code": "W18",
+  "name": "Minigun · red family study",
+  "w": 71,
+  "h": 26,
+  "fps": 8,
+  "base": 25,
+  "pixel_scale": 12,
+  "game_scale": 1.2,
+  "markers": {
+    "grip": [
+      21,
+      19
+    ],
+    "muzzle": [
+      70,
+      12
+    ],
+    "pivot": [
+      21,
+      19
+    ]
+  },
+  "ready": false,
+  "checks": {
+    "visual": false,
+    "tested": false
+  },
+  "notes": "Category review import, 1 Nov 2026. Forward bipod, retained handheld grip. Generated sheet extracted to a 12-source-pixel art grid, 24-colour native interpretation; source and small details may differ after reduction. Separate material/emissive layers; no baked bloom. Native pixel cleanup and game-scale, anchor and animation review pending. Red is the dominant equipment light; neutral charcoal materials, amber heat. Draft saved for review only, not approved or integrated. Placement role: equipment.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,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",
+      "emis": null,
+      "trim": null,
+      "guts": null
+    }
+  ],
+  "asset_id": "asset-w18",
+  "state_key": ""
+}

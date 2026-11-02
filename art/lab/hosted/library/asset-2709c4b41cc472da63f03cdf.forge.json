@@ -1,0 +1,32 @@
+{
+  "forge": 1,
+  "code": "C01",
+  "name": "Arms glyph · red family study",
+  "w": 7,
+  "h": 12,
+  "fps": 8,
+  "base": 11,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "grip": null,
+    "muzzle": null,
+    "pivot": null
+  },
+  "ready": false,
+  "checks": {
+    "visual": false,
+    "tested": false
+  },
+  "notes": "Category review import, 1 Nov 2026.  Generated sheet extracted to a 12-source-pixel art grid, 24-colour native interpretation; source and small details may differ after reduction. Separate material/emissive layers; no baked bloom. Native pixel cleanup and game-scale, anchor and animation review pending. Red is the dominant equipment light; neutral charcoal materials, amber heat. Draft saved for review only, not approved or integrated. Placement role: mark.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAMCAYAAACulacQAAAAoUlEQVR4nGWQOw7CQAxEn71LsrHScACIBC33vw0dR6DIimBT5KNETGN7bI1HAzuYauxn3TVxK4U+a2QktuVZU9zNEODaFCYWgYzEwyyAv0qCOGk6kH3WUAjNwMe/JECW/+/JadafDfBdjalgqgSgFRjMaHU27h4MpcyHCShAdec1VhogAxVEAIpIXLqOssg/x5HqLlsIe4T7kTDVaOdktgh/4J04QDWKlrsAAAAASUVORK5CYII=",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAMCAYAAACulacQAAAAeUlEQVR4nGNgIBb8lNX7j8xngjEuq+r8Z+RmZ3irZYKigOGbruV/bDRxxjIwMDAwC3Ix4JT89+svpuRlVZ3/yEqfqBn8h3PVWTkZGBgYGNiunWZkYGBgEGNhZWBgYGBgRPaKOjMnw2em/wzC184wYtjJxMaM4QOcAADnCh+d2U7zRAAAAABJRU5ErkJggg==",
+      "trim": null,
+      "guts": null
+    }
+  ],
+  "asset_id": "asset-c01",
+  "state_key": "symbol_arms_mask"
+}

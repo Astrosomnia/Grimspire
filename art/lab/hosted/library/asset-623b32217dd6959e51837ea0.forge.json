@@ -1,0 +1,32 @@
+{
+  "forge": 1,
+  "code": "C03",
+  "name": "Dropship · red family study",
+  "w": 59,
+  "h": 26,
+  "fps": 8,
+  "base": 25,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "grip": null,
+    "muzzle": null,
+    "pivot": null
+  },
+  "ready": false,
+  "checks": {
+    "visual": false,
+    "tested": false
+  },
+  "notes": "Category review import, 1 Nov 2026. Original abstract devotional machine glyph replaces winged military decal. Glyph is a proposed shared equipment mark, not established faction lore. Generated sheet extracted to a 12-source-pixel art grid, 24-colour native interpretation; source and small details may differ after reduction. Separate material/emissive layers; no baked bloom. Native pixel cleanup and game-scale, anchor and animation review pending. Red is the dominant equipment light; neutral charcoal materials, amber heat. Draft saved for review only, not approved or integrated. Placement role: aircraft.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,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",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADsAAAAaCAYAAAAJ1SQgAAAAd0lEQVR4nO3WvQ6AIAxG0WriyML7P6OLIwNOJizGCoVgvWcmpB+UHxEAAACIpBCzduzas5BRrsBPwZcx5fRXBt2O3U2uPt6ch5mkEPNXa6/2y9C3ypXwtiounp4mXnudnYWC9eWm/QZq0cYtrC83y7mm31k+9ZVO41wtzkj7+RUAAAAASUVORK5CYII=",
+      "trim": null,
+      "guts": null
+    }
+  ],
+  "asset_id": "asset-c03",
+  "state_key": ""
+}

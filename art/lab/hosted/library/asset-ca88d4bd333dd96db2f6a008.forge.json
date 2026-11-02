@@ -1,0 +1,41 @@
+{
+  "forge": 1,
+  "code": "W20",
+  "name": "Tracked Drone · red family study",
+  "w": 25,
+  "h": 17,
+  "fps": 8,
+  "base": 16,
+  "pixel_scale": 12,
+  "game_scale": 1.2,
+  "markers": {
+    "grip": [
+      8,
+      12
+    ],
+    "muzzle": [
+      24,
+      8
+    ],
+    "pivot": [
+      8,
+      12
+    ]
+  },
+  "ready": false,
+  "checks": {
+    "visual": false,
+    "tested": false
+  },
+  "notes": "Category review import, 1 Nov 2026.  Generated sheet extracted to a 12-source-pixel art grid, 24-colour native interpretation; source and small details may differ after reduction. Separate material/emissive layers; no baked bloom. Native pixel cleanup and game-scale, anchor and animation review pending. Red is the dominant equipment light; neutral charcoal materials, amber heat. Draft saved for review only, not approved or integrated. Placement role: equipment.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAARCAYAAAAougcOAAADSUlEQVR4nLWVT2hcVRTGf/fe994MeUkmE2JnzIhptZAHtZE048I0tIMFkTQFEWnBTpaaaXdZ+6f4pysXqegiQuvGhTvbjRshC6W6kIRCaE0IMSWZpkbaptWkMZn357h4nZdOSQWhfvAW53Hu/e53znfPhUbIg++JQjdESvHmrsKT5mgkMVoztyv//5KEYUhPb/E/bWBblgBijHlsqa2HA8e2uVGtPvxLjg2dAKDwTCcXzn+OHwQKwGgtxhhqvo+TSlPb2sRJpZEwED8IsC0ryVWPkEomW+DPu8v0FQ8zfPRVvv7uewD2LM3T8cZxxsfHqFRGWb+/AcD0lUl6eos0u02s39+g2W0C4PyXn/H6U09z6dbv20q01nLo0Gt4XjdfXfiCl4oHuPTDT3Tm86R+uczAqdNMTE2z57l9/Hz5x+RUi8srwGRcunQz/uY67R05tGUYOHWaix+/HytxUmmRMKCpJUd7to3FxTl6e/tZXb3dIHP17j3as21cX7hGJlvg7407APi+j0Qhmey2M/+6dzNukEjc+MCv8em7H7L3+b0cPDiAVor53+YBaGlK0/VsFy1NaYLaGgCu2wpA/8uvUNvaVLt3e/S80Ed7to2uQp6uQh6tFIgoQMWNUUqGjh7n6q9XAViuzrH/xX4AOvOxpY/09TD60Xvs33eA9o4ci0uLXF+49mC5EhHBtuLqh1GEiCAxyXbjjTESCWgFIrETlWr0hdEaESGMIgAsY/CDAKUUURQ9aqIEiZKxDz5hYmqaTLaNG9UqnteNl+tgYmqaI309AMz+cRsv18HkwlLipnru+PhYw6EboLWWc2fOijFGKpVR0caWTLYgmWwhvmRaN8S2ZSWx67ZKpTIqgJw7c1a01jvPPWOMlEqDUh4eEa21lIdHxEmlhfgiyrGhEwKIY9tSKg1KX/GwaK3FdVulPDwiSikpD49IqTQoSqkdSTSA53Vz8dtveOvk28zMzBKFEdrY3FxZYW19DaUUNd9PjKCUYmtrk5mZWU6W32H6yiSe143WeieOGLZliYmlitJGnFRaLMupzyJx3VaxLEeUjudTXalj22KMqSt47BORNMqxbRERgjBM3OXYNkCiwrasBlX1nCAM/9Vd/wA5jlC6R+VR1gAAAABJRU5ErkJggg==",
+      "emis": null,
+      "trim": null,
+      "guts": null
+    }
+  ],
+  "asset_id": "asset-w20",
+  "state_key": ""
+}

@@ -1,0 +1,41 @@
+{
+  "forge": 1,
+  "code": "W11",
+  "name": "Plasma Cutter · red family study",
+  "w": 42,
+  "h": 24,
+  "fps": 8,
+  "base": 23,
+  "pixel_scale": 12,
+  "game_scale": 1.2,
+  "markers": {
+    "grip": [
+      13,
+      17
+    ],
+    "muzzle": [
+      41,
+      11
+    ],
+    "pivot": [
+      13,
+      17
+    ]
+  },
+  "ready": false,
+  "checks": {
+    "visual": false,
+    "tested": false
+  },
+  "notes": "Category review import, 1 Nov 2026. Heavy ore-mining cutter, reinforced cutting head, handles and heat shielding. Generated sheet extracted to a 12-source-pixel art grid, 24-colour native interpretation; source and small details may differ after reduction. Separate material/emissive layers; no baked bloom. Native pixel cleanup and game-scale, anchor and animation review pending. Red is the dominant equipment light; neutral charcoal materials, amber heat. Draft saved for review only, not approved or integrated. Placement role: equipment.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,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",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACoAAAAYCAYAAACMcW/9AAAA5UlEQVR4nO2WTQ7CIBBGp0UupIG4sCfwMG7duHLDlgVH8QR1YTR4pXE1VQs1VYhMk76kSX8SePkGpgDMfIc3Cr1RWNpjNJOSjVGVFojxmupqf6sAAOpyOsOQHMBTmqXoJNYpSTopysqOSctJgXTRO3alJ7n1cfn2nA3baMxRNtvoLklvVHefPdHUjbBrr0HLdFLgImXQYII212ghXaK20SxawlBFavq42SKL/nU+/fizpE3ijcJ/pR7bTCxxUmBfkl0fJS6He2mFz9Ay65ec5TEPIDzqsSx97Dw6MxZKj9Ymh16exAOjk3TNvEoHtgAAAABJRU5ErkJggg==",
+      "trim": null,
+      "guts": null
+    }
+  ],
+  "asset_id": "asset-w11",
+  "state_key": ""
+}

@@ -1,0 +1,32 @@
+{
+  "forge": 1,
+  "code": "C01",
+  "name": "Medical symbol · red family study",
+  "w": 8,
+  "h": 8,
+  "fps": 8,
+  "base": 7,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "grip": null,
+    "muzzle": null,
+    "pivot": null
+  },
+  "ready": false,
+  "checks": {
+    "visual": false,
+    "tested": false
+  },
+  "notes": "Category review import, 1 Nov 2026.  Generated sheet extracted to a 12-source-pixel art grid, 24-colour native interpretation; source and small details may differ after reduction. Separate material/emissive layers; no baked bloom. Native pixel cleanup and game-scale, anchor and animation review pending. Red is the dominant equipment light; neutral charcoal materials, amber heat. Draft saved for review only, not approved or integrated. Placement role: mark.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAf0lEQVR4nF3NUYrCUBSD4S+3HdC7EXvV/W/FWUmFoXp8KDpgnv6EhISUhCqzAhtiVh5awvl0MSVG70bvZoxloIR91nDpHfyud0nzVw/5kVr6ETjuBfcV3NZV862qDz6RJAVzYjkcPhdbUJNGM05Xz/+hZM/KRjIVqpnqzW+PegF3cCyJ1f/fSwAAAABJRU5ErkJggg==",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAY0lEQVR4nJWOuw2EQBQD5+1uI0gkG4BEDWRUfH1cfnWgA2MCAiAgYDJb8gfesDSdVQdfvXQVEcC83kIFQG1v/xdiGgHQJ+zNlN83CoBzInI5WiSk28qJ6mC1/fOHbV5xTrxiB87XInITWIAjAAAAAElFTkSuQmCC",
+      "trim": null,
+      "guts": null
+    }
+  ],
+  "asset_id": "asset-c01",
+  "state_key": "symbol_medical_mask"
+}

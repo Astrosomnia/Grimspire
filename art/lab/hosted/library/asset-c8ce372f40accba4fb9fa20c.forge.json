@@ -1,0 +1,49 @@
+{
+  "forge": 1,
+  "code": "A07",
+  "name": "Ash Legion thigh · option C · 1.2 scale review",
+  "w": 11,
+  "h": 13,
+  "fps": 8,
+  "base": null,
+  "pixel_scale": 12,
+  "markers": {
+    "grip": null,
+    "muzzle": null,
+    "pivot": null,
+    "shoulder": null,
+    "elbow": null,
+    "hand": null,
+    "hip": [
+      6,
+      1
+    ],
+    "knee": [
+      5,
+      12
+    ]
+  },
+  "notes": "Split from the T09 Ash Legion jump-pack fit-test (auto-reduced, not hand-cleaned) on 1 Nov 2026. Option C palette: magenta glow, oxblood cloth. Thigh with its tassets, hanging straight from the Hip; Knee is where the shin hangs. Frame 1 near leg, frame 2 far leg (same art; the far one is drawn darker).\nJarred 1 Nov: needs native-pixel cleanup to match the equipment family. Palette noise, block grouping and near/far distinction remain outstanding. This candidate changes ONLY game_scale to 1.2 and review notes; original pixels, frames and sockets retained. All four body parts must use the same scale. Rendered at 1 and 1.2 with current main game rig; not battle/play tested or approved. Do not treat the render comparison as final art.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAANCAYAAAB/9ZQ7AAABIklEQVR4XmNgIAEwoqt1ktL9r2gmyHD/1HuG3xryDKnRbgyzl+5iOLxvCyMTsmIOTt7/ID5I4U3mHwxhjvIMH5/dZLh3+yZYGYbJIA2KKloM3p7ODO9vHWHYcfY5A5+AEMP1yycZMRRr6pr/t1JmZzh29yfDpw/vwAqfP33I8OHdC0YWdDeDFKw99JmBm5uXQUlVnUFSQhQs9uHdCwYUN4PA2zcvwAqtbW3ACuVkJBk8jCXBcigmw9wLcsatF6/Bik+eucTAwMAHVoxisqmlPVgQ5Clk8Ob1a0yTX128xPCFix2u7vmL12CFIA+iOAPkBCYpSQZrXS2wossXzjBISsvDPAcONbibQU4wN9EDuxHk1jfS8gz/nj1nePr2EUbwEgUAJYZugbb22RAAAAAASUVORK5CYII=",
+      "emis": null,
+      "trim": null,
+      "guts": null
+    },
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAANCAYAAAB/9ZQ7AAABIklEQVR4XmNgIAEwoqt1ktL9r2gmyHD/1HuG3xryDKnRbgyzl+5iOLxvCyMTsmIOTt7/ID5I4U3mHwxhjvIMH5/dZLh3+yZYGYbJIA2KKloM3p7ODO9vHWHYcfY5A5+AEMP1yycZMRRr6pr/t1JmZzh29yfDpw/vwAqfP33I8OHdC0YWdDeDFKw99JmBm5uXQUlVnUFSQhQs9uHdCwYUN4PA2zcvwAqtbW3ACuVkJBk8jCXBcigmw9wLcsatF6/Bik+eucTAwMAHVoxisqmlPVgQ5Clk8Ob1a0yTX128xPCFix2u7vmL12CFIA+iOAPkBCYpSQZrXS2wossXzjBISsvDPAcONbibQU4wN9EDuxHk1jfS8gz/nj1nePr2EUbwEgUAJYZugbb22RAAAAAASUVORK5CYII=",
+      "emis": null,
+      "trim": null,
+      "guts": null
+    }
+  ],
+  "game_scale": 1.2,
+  "ready": false,
+  "checks": {
+    "visual": false,
+    "tested": false
+  },
+  "asset_id": "custom-115a49c4-8841-4fa9-b24f-b735da4fe993",
+  "state_key": ""
+}

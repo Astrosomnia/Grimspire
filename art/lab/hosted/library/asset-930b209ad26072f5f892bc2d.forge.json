@@ -1,0 +1,32 @@
+{
+  "forge": 1,
+  "code": "S04",
+  "name": "Shattered Arch · world study",
+  "w": 39,
+  "h": 30,
+  "fps": 8,
+  "base": 29,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "grip": null,
+    "muzzle": null,
+    "pivot": null
+  },
+  "ready": false,
+  "checks": {
+    "visual": false,
+    "tested": false
+  },
+  "notes": "Category review import, 1 Nov 2026. Decorative placement candidate. Need footprint, clearance, depth/occlusion, breakability and weighted placement rules from Claude; no collision or lore inferred. Generated sheet extracted to a 12-source-pixel art grid, 24-colour native interpretation; source and small details may differ after reduction. Separate material/emissive layers; no baked bloom. Native pixel cleanup and game-scale, anchor and animation review pending. Red is the dominant equipment light; neutral charcoal materials, amber heat. Draft saved for review only, not approved or integrated. Placement role: ground.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,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",
+      "emis": null,
+      "trim": null,
+      "guts": null
+    }
+  ],
+  "asset_id": "custom-2944f1e1-ad25-4739-8fe1-6faf99f0bc3e",
+  "state_key": ""
+}

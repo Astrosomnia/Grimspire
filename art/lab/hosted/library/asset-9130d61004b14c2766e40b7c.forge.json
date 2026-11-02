@@ -1,0 +1,32 @@
+{
+  "forge": 1,
+  "code": "S01",
+  "name": "Fallen Saint Head · world study",
+  "w": 39,
+  "h": 31,
+  "fps": 8,
+  "base": 30,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "grip": null,
+    "muzzle": null,
+    "pivot": null
+  },
+  "ready": false,
+  "checks": {
+    "visual": false,
+    "tested": false
+  },
+  "notes": "Category review import, 1 Nov 2026. Decorative placement candidate. Need footprint, clearance, depth/occlusion, breakability and weighted placement rules from Claude; no collision or lore inferred. Generated sheet extracted to a 12-source-pixel art grid, 24-colour native interpretation; source and small details may differ after reduction. Separate material/emissive layers; no baked bloom. Native pixel cleanup and game-scale, anchor and animation review pending. Red is the dominant equipment light; neutral charcoal materials, amber heat. Draft saved for review only, not approved or integrated. Placement role: sump.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,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",
+      "emis": null,
+      "trim": null,
+      "guts": null
+    }
+  ],
+  "asset_id": "custom-98e34866-4b73-497c-9766-bbc294a47f57",
+  "state_key": ""
+}

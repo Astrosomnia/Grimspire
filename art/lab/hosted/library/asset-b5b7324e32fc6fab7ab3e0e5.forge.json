@@ -1,0 +1,41 @@
+{
+  "forge": 1,
+  "code": "W10",
+  "name": "Rappel Wire · red family study",
+  "w": 31,
+  "h": 21,
+  "fps": 8,
+  "base": 20,
+  "pixel_scale": 12,
+  "game_scale": 1.2,
+  "markers": {
+    "grip": [
+      9,
+      15
+    ],
+    "muzzle": [
+      30,
+      9
+    ],
+    "pivot": [
+      9,
+      15
+    ]
+  },
+  "ready": false,
+  "checks": {
+    "visual": false,
+    "tested": false
+  },
+  "notes": "Category review import, 1 Nov 2026. Enclosed industrial winch/climbing tool. No exposed hook or hook-leaving animation required. Generated sheet extracted to a 12-source-pixel art grid, 24-colour native interpretation; source and small details may differ after reduction. Separate material/emissive layers; no baked bloom. Native pixel cleanup and game-scale, anchor and animation review pending. Red is the dominant equipment light; neutral charcoal materials, amber heat. Draft saved for review only, not approved or integrated. Placement role: equipment.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB8AAAAVCAYAAAC+NTVfAAAE0ElEQVR4nJWW709TZxTHP89zb4sUqLQwYbOCqPMnDtBpthmjmZtsSrJosmSLRl8sJls29MWy+TcsvjW+WxYXsix74StUUFF8gS5uc5owgyJ0aMF2QgulLUJ779mL0ksLOtlJntznnnuec873nHPPeRSLJ1FKISIAKBSCFAjk8dRiFC5KSGstO3e8R2NjE52dbQA0Nx929vOp78HwonX/t3dKyYnWk3Lk0DFxu0xRKFEo0Vo7S6HEMLS4XaYcOXRMTrSeFLfLlJfp1i8V0IpQKARAOmMhiBJE2bbtLEGUZdlqJp1RP//yA7FolIxlg8o6+X/AimFoUUqJUllEFb5KqateJlrrRSBSsnfPPnG7TFm/drkYxouNF+RFay2tX35DZ2cb27ftIxweZsPGzQAF+e0feIKh54Jm2TaG1s4znbZQWpHTdf/BCIIsqIEChlJK3n/3QzZs3Ex7+zlKS7yUFilMj5/GxiZHrr39HKtXvU6Z1wdAicdDMpViMh6j/6/fKfK6ANi0aTeBQIDOzrbnFqGZ27hdpsykM1zuusjAYD/BoQFMQ7MiUEfpdGHkHoeClIWC/APcSWdwuxw1pDMWxz/+FoC2tu/Zv+8Azc2H6XvwHQolOfMiokwAw9DyxedfO4VV4vHQ2LidyXiM6ZkMvb23F+RrvKKYo/t3ce/HDl6rKGZkbMp5xqJRfH4/AAN9f1Jds44TrSed1PUPPMGyBNMwtBz65DNOnzmFZdkA7Nj6pmMkMS1MJsYBiEWjAGwEkm6Ts+evs6quKssbmyLpNllekTUaCoWITUQpKd/O6OhTSjwempsPM3LvD6xnKQaHJ8S0bSGZSrFn9wdMz2SyqGJjqPt3Ga8odozlRyWfrGepgvelY1HC4eFsTg1NmddHGZBMpfD5/YyMj8/lXOtsErq6OxzkDfVbAVji9fIsHi9QnkyluJuxqJ11NJ/S83gZy+Zhf59TtADh6ITTXMzZVr0AOcCSYIQlwMRsKHPkMg0Aju7fxU+XexY4kaPaZZU0NGwBYOjREJPxGAAPH4+DgJkbFFeudaAUWJZNQ/1WZF0DpUWKxLQQH547WOb1MZOeQzgf7T1g2ew+Pm07/FAoSCBQRyBQx0CwH0CZSmXDfuCjTxkdfQpAb+9txuNRbFsQEXIyAJPxGI0uk3Hg7PnrDEUS1FaVciedYWWeE1eudbB2zavc+u0CAIHAJm7+epWZdMZRZoqIgypH5eU+6uu3UOQ2udx1scB4mdfHpXQGFU4gCG6Xyd/hSQxDMxRJICJEIhHebtpCdc06IFukPTe6CwwDmC7T4FLXBRQKv6/CMV5bUwuAIIiNUw/EY+zauReAyspXCpweHX1KJhUlHJ0gkYRw9BYtLQdpbz/H88jxxDC0vNWY9bbE48Hn93P6zClsO1sTq1aucQ7ZUxPo4qUFinI8e2oCAG/lCqqqqpzvA4P9DAT7n99ebVsKDAMYWrNn917KvD7Cj+6TmBbKfRXc/PUq296oYfX6JpKplBPacHiYSCRCIpn9PaurlwPQc6P7xciVUnL8q2w/zrXAwWAEy7ZZWbMagJaWgwUH8ztiPmmt8S31U17uY8c7ux1+z43uBchnPcjObmZn+ewMzp8muUtBds6jXnZBkPwzOb3zhf4FfQY1/mkzXF8AAAAASUVORK5CYII=",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB8AAAAVCAYAAAC+NTVfAAAAsklEQVR4nGNgGEDASKqGx9dn/WdgYGCQ1UxjhLHRgaxmGsnmjgKqAVzRQrKmx9dn/YdhmjuAEoDuSLo7gKZgc5vXf3Q2shg2QE60YQUXlyf839zmhZIOLi5PIMpgmDoWfIpgPvGt2oaz0Hh34RjxLkYDTPgkDQIDcMo9uv+KKDF8AK/PCRWTvlXbGIkNamSgH7mAkaDlxABSfYsM8AY7IbC5zes/vvRAbsE0CkYQGDEJBAC3Om/2mIYPigAAAABJRU5ErkJggg==",
+      "trim": null,
+      "guts": null
+    }
+  ],
+  "asset_id": "asset-w10",
+  "state_key": ""
+}

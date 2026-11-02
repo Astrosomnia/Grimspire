@@ -1,0 +1,32 @@
+{
+  "forge": 1,
+  "code": "C01",
+  "name": "Heavy symbol · red family study",
+  "w": 8,
+  "h": 8,
+  "fps": 8,
+  "base": 7,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "grip": null,
+    "muzzle": null,
+    "pivot": null
+  },
+  "ready": false,
+  "checks": {
+    "visual": false,
+    "tested": false
+  },
+  "notes": "Category review import, 1 Nov 2026.  Generated sheet extracted to a 12-source-pixel art grid, 24-colour native interpretation; source and small details may differ after reduction. Separate material/emissive layers; no baked bloom. Native pixel cleanup and game-scale, anchor and animation review pending. Red is the dominant equipment light; neutral charcoal materials, amber heat. Draft saved for review only, not approved or integrated. Placement role: mark.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAhElEQVR4nF2OQQrCUBBDX9JfyleLuHWhS/Ew3v8obtqJC4uogTAhCUwAaHIAxvfNt+fulns/MXlIEi67A0Bu/UiT42ctAKxVnHd7ZkYawog1wZMHQrDEkQkhHvOVAKOEKwGgI/J+/0EBbjICnn+hNpptdkc/hWw1adN2o2phkIlM1QIyL63GKtKK8Hd5AAAAAElFTkSuQmCC",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAdUlEQVR4nI2NMQ6CUBBEH/BJKGg8gAWVseUOhJorWHuxfztL5bs7FhujkJg41Stm3sA/Wcer3pyHSQC380UA9XcxD5Pm7ghA37YAJADdDYDlcMLXYFNsNwYVw6vtfQJokkdBQAluKv8Y7BkiL45SKB62U/3KCxKcJA9glSQWAAAAAElFTkSuQmCC",
+      "trim": null,
+      "guts": null
+    }
+  ],
+  "asset_id": "asset-c01",
+  "state_key": "symbol_heavy_mask"
+}

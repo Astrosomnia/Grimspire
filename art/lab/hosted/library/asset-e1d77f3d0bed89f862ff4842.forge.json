@@ -1,0 +1,41 @@
+{
+  "forge": 1,
+  "code": "W14",
+  "name": "Fusion Mine · safe · red family study",
+  "w": 19,
+  "h": 11,
+  "fps": 8,
+  "base": 10,
+  "pixel_scale": 12,
+  "game_scale": 1.2,
+  "markers": {
+    "grip": [
+      6,
+      8
+    ],
+    "muzzle": [
+      18,
+      5
+    ],
+    "pivot": [
+      6,
+      8
+    ]
+  },
+  "ready": false,
+  "checks": {
+    "visual": false,
+    "tested": false
+  },
+  "notes": "Category review import, 1 Nov 2026. Large armed-state lens; safe/armed state must be selected by game logic, not an ambient blinking loop. Generated sheet extracted to a 12-source-pixel art grid, 24-colour native interpretation; source and small details may differ after reduction. Separate material/emissive layers; no baked bloom. Native pixel cleanup and game-scale, anchor and animation review pending. Red is the dominant equipment light; neutral charcoal materials, amber heat. Draft saved for review only, not approved or integrated. Placement role: equipment.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABMAAAALCAYAAACd1bY6AAABzklEQVR4nH2RP2hTcRDHP/d76fNJCR1sJAQ6VFGeW2bnglCwizqJ4FAkTSGQoUgXh1AwGZwES8DgEnFplUARcUixCFLRoWjxD7SghtInBozCIzR5OYeXPiyJHhy/u+P3vft+74ThphbWQDEgwMIiIJBhIDOskWCoVarUKlVOjx1jYnyUifFRsldvEBAA6LBmRybYtqMzF69w0jnO2pMqzsjRz+0OnDs/xfrGcw4O2gPsDpmpZWIadLrDBg43MWrbjv7N0gCaTKQoFwsE2sVrfKP+9jVx36fdIfKRlk/c99naegNAbu4mmdk8tu1EsmPJRIr7xTvEJydx3TRLt4sArK7U6LaaxMZO0G01AaJ4x9tnz2twfXoayHN3uQSKSi67qHteg/fb79jd/cjj5Qc8ra+z4+0PKPvS+BrFP5vfOXPqbJS/3NwI92XbjooYFTGayy7qhakZtUxMLYkpSP8N9+q6aXXdtCYTKT3EWiamglGzVnlEZjaPwWBU+PR5G//3L4Jel/m5BV7UX1EuFbh86Ro97UWsvB8h83tLt5jPLKCAiJjwGgpKT4QwN2Iolwo82/wQSVlZfQgoIoJqT0KU9PP/XN4yoUQwfZe+/9v+ALAGwC22ZfVyAAAAAElFTkSuQmCC",
+      "emis": null,
+      "trim": null,
+      "guts": null
+    }
+  ],
+  "asset_id": "asset-w14",
+  "state_key": ""
+}

@@ -1,0 +1,41 @@
+{
+  "forge": 1,
+  "code": "W09",
+  "name": "Orbital Lance · red family study",
+  "w": 28,
+  "h": 23,
+  "fps": 8,
+  "base": 22,
+  "pixel_scale": 12,
+  "game_scale": 1.2,
+  "markers": {
+    "grip": [
+      8,
+      17
+    ],
+    "muzzle": [
+      27,
+      10
+    ],
+    "pivot": [
+      8,
+      17
+    ]
+  },
+  "ready": false,
+  "checks": {
+    "visual": false,
+    "tested": false
+  },
+  "notes": "Category review import, 1 Nov 2026.  Generated sheet extracted to a 12-source-pixel art grid, 24-colour native interpretation; source and small details may differ after reduction. Separate material/emissive layers; no baked bloom. Native pixel cleanup and game-scale, anchor and animation review pending. Red is the dominant equipment light; neutral charcoal materials, amber heat. Draft saved for review only, not approved or integrated. Placement role: equipment.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAXCAYAAAAYyi9XAAADMElEQVR4nLWVz2tUVxTHP/e+C+0zJpEupPMGGURKdRp/EFuw1kAV3AQVNBEX9Q8IjMTSglpauuqipbS0odKiLbXUnWbjwo0wbqoJCiJKQUEpiZn3kjCRzGQ0Cdw7t4v35nUmvie1Tr+b9865h/v9nnPPvUeQAAE2G/1PS4mu10VS3H+BSnJmgVdXrQqNpaV2cQEgk5wlYOnpUzLOK20ley6EEPbbr0/bdu+bmGFE2G6u5xNK+f8QJjYNgNaGiYmJ2BZg1+fewMuui3337v9JeW7mhZSlEVqlHPzAB7AAjnLwsuvY3vs2uVwOgE8/HwewUkrq9XqzOOw/vy1IU2d/PvM7AOfO/YpfesT+/QfZvGVzHFCtVOnq7gLg7p27nP7pG4aPnSSf30R+03p29u1K3F8B9vixEzhKMTLyJUiB1oZqpQpArbZAV/eamKQZzbbWpsWnlIPWxiop6enZzurVnVy7XkQp5XDkyAEARn74CuphMcbGxwgCn2plHrH4hFu/neXWCrW+62LdDrq61yCEoFi8wlRpko1vvoXWJiKts2fPXi6d+Y4sII2pc3H0MhdHL9OT72V4+BRKOc/UODDLBGaZQmGIQmGIwCwjavNkH5fDM7Ch0N3v740z7Mn38tGHn3Dzlx/5Yvh4XFKM1jhKMVWa5MaN8bg8Sfhs5PvUtYXpEtN/PSBwXbQ2TJUmKRav0NkU09Kl5bkZ/rg+E9u12kKo3u1IJSm5HVCZR0mJt7iIv/Y1vNnHPATmK2XKczNs2/JOLFQBOEphtEZKGZbG2vj8qrVqKlmoKlzX0bUQQQDRG6y1aboh4eSJHU13qbmV7eGBo3gZDz/wuTB6HiEE7727m2tjVxvn1oi3G9Z6dL4eDrbbd26u3CvOUAAtFzdejJonegBQUmKsJZPxEELEjdLAw1kfZsPYltRWEKZCa4OX8XBUGGasZfDQB1wYPd8Iac6gJZu0MZP6eAPWdcMhbLRmcKAfR4g0sn+N1AyllOzrPwSETbWzr49I90uNkbQMrZQCL+MBMDjQ3xhXLz2zEjOUUlIY+phcLseOHVtjZc+2VftgASuir5LSkt4HL4S/AaCmM/mIfPMRAAAAAElFTkSuQmCC",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAXCAYAAAAYyi9XAAAARklEQVR4nGNgGCzgjJDE/zNCEv8H2h2jYBSMgiEMSC5E0EsecksiFlI1DLri7tjhI1gdBHMoE7UtZPMPobaRo2AUjAIqAwDZ2BWZ65t8vQAAAABJRU5ErkJggg==",
+      "trim": null,
+      "guts": null
+    }
+  ],
+  "asset_id": "asset-w09",
+  "state_key": ""
+}

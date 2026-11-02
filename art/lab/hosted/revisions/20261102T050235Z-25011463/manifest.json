@@ -1,0 +1,37 @@
+{
+  "schema": 2,
+  "id": "20261102T050235Z-25011463",
+  "created": "2026-11-02T05:02:35.791Z",
+  "author": {
+    "id": null,
+    "login": "ChatGPT"
+  },
+  "base_main": "9e8ce7c746aa55e9a09acf1c29790fe41166132c",
+  "source_lab_commit": "a8edbc4ce5ffbc3c7e20703a19f3799eeaf66dbd",
+  "notes": "Ash Legion 1.2\u00d7 scale review: T10 torso, A07 thigh, A08 shin, A05 arm. Existing pixels/sockets retained; cleanup and shoulder/hand clearance pending. Equipment category imports are Library versions, not all wired into this build. Renderer checked; battle/playtest and approval outstanding.",
+  "selected_slot": "TORSO",
+  "original_code": "T10",
+  "variant": "custom",
+  "slots": [
+    "W01",
+    "W02",
+    "W03",
+    "W04",
+    "W05",
+    "W06",
+    "W07",
+    "W08",
+    "ARM",
+    "TORSO",
+    "THIGH",
+    "SHIN"
+  ],
+  "files": {
+    "game.html": "f4a4ab087c3b90611a6a7cc2dd8f96ec4164280d9a57c443d44deddf4cdd7fa2",
+    "payload.json": "f4f66f1dc55d693abdf39e1948c2c8beb63f5769556fb0ca075024f7b2112e14"
+  },
+  "stored": [
+    "payload.json"
+  ],
+  "status": "draft"
+}

@@ -1,0 +1,32 @@
+{
+  "forge": 1,
+  "code": "S06",
+  "name": "Ruined Pier · world study",
+  "w": 34,
+  "h": 29,
+  "fps": 8,
+  "base": 28,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "grip": null,
+    "muzzle": null,
+    "pivot": null
+  },
+  "ready": false,
+  "checks": {
+    "visual": false,
+    "tested": false
+  },
+  "notes": "Category review import, 1 Nov 2026. Decorative placement candidate. Need footprint, clearance, depth/occlusion, breakability and weighted placement rules from Claude; no collision or lore inferred. Generated sheet extracted to a 12-source-pixel art grid, 24-colour native interpretation; source and small details may differ after reduction. Separate material/emissive layers; no baked bloom. Native pixel cleanup and game-scale, anchor and animation review pending. Red is the dominant equipment light; neutral charcoal materials, amber heat. Draft saved for review only, not approved or integrated. Placement role: sump.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,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",
+      "emis": null,
+      "trim": null,
+      "guts": null
+    }
+  ],
+  "asset_id": "custom-dc39b521-ce1f-4443-9e47-0940efc768e2",
+  "state_key": ""
+}
