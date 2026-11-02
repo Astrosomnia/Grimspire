@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "current": "20261102T070504Z-604e66c3",
+  "current": "20261102T071533Z-06c99a08",
   "revisions": [
     {
       "id": "20261031T210936Z-6c67f2da",
@@ -265,6 +265,14 @@
       "slot": "W04",
       "variant": "custom",
       "author": "Claude"
+    },
+    {
+      "id": "20261102T071533Z-06c99a08",
+      "created": "2026-11-02T07:15:33.844Z",
+      "notes": "Dark Dakka (W04), full-size dropship (C03) and bright crate glyphs, all at 1x, on top of the 1x build 20261102T070504Z-604e66c3.",
+      "slot": "W04",
+      "variant": "custom",
+      "author": "Claude"
     }
   ],
   "integrations": [
@@ -345,6 +353,15 @@
       "approved_at": "2026-11-02T07:06:54.210Z",
       "pr": null,
       "status": "main updated by Claude at Jarred's request (everything at 1x)"
+    },
+    {
+      "revision": "20261102T071533Z-06c99a08",
+      "main_commit": "b3b6cadc62eb89b083958128400ce09ca165e044",
+      "game_sha256": "6e171514fe70c22073f341dce99acd1cbfed3524932910cb289dc11c158e0b3d",
+      "approved_by": "Astrosomnia",
+      "approved_at": "2026-11-02T07:17:43.297Z",
+      "pr": null,
+      "status": "main updated by Claude (ship, dark Dakka, crate glyphs)"
     }
   ]
 }

@@ -1,0 +1,57 @@
+{
+  "schema": 2,
+  "id": "20261102T071533Z-06c99a08",
+  "created": "2026-11-02T07:15:33.844Z",
+  "author": {
+    "id": null,
+    "login": "Claude"
+  },
+  "base_main": "6383a572c488c10acaebff97eed7df868a1c9c24",
+  "source_lab_commit": "a6eac065ac7c86bf2f5833747bf128838073a0e4",
+  "notes": "Dark Dakka (W04), full-size dropship (C03) and bright crate glyphs, all at 1x, on top of the 1x build 20261102T070504Z-604e66c3.",
+  "selected_slot": "W04",
+  "original_code": "W04",
+  "variant": "custom",
+  "slots": [
+    "W01",
+    "W02",
+    "W03",
+    "W04",
+    "W05",
+    "W06",
+    "W07",
+    "W08",
+    "ARM",
+    "TORSO",
+    "THIGH",
+    "SHIN",
+    "W09",
+    "W10",
+    "W11",
+    "W12",
+    "W13",
+    "W14",
+    "W15",
+    "W16",
+    "W18",
+    "W19",
+    "W20",
+    "W21",
+    "M01",
+    "C02",
+    "C04",
+    "CRATE_ARMS",
+    "CRATE_HEAVY",
+    "CRATE_MED",
+    "CRATE_TOOL",
+    "C03"
+  ],
+  "files": {
+    "game.html": "096dd28983d938f278386cd6d003d8ec15dfc91600a59a2109ec85ccd35d0a3b",
+    "payload.json": "72187f6c53e2ad12d68bb35846d233cf2da88ec9c273b470b2614da683fe62e5"
+  },
+  "stored": [
+    "payload.json"
+  ],
+  "status": "draft"
+}
