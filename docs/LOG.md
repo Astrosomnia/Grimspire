@@ -6,6 +6,31 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-02 · Claude · Water, horizon and decoration off the action plane (branch `phase3`)
+- **Water:** the scene reflection is taken at quarter resolution and drawn faint, so buildings only hint in the water; no more horizontal "blinds". Each strong light gets its own long reflection reaching as deep as the light is high, widest where the mirror image sits.
+- **Horizon:** each skyline band now stands on its own water, receding to a horizon above the play layer's waterline (farther bands higher, misted at the base), with its own faint reflection. Building heights are measured from that water, so the sky shows above the city. The horizon follows the sump on drowned maps and stays two-thirds down on generated ones.
+- **Depth decoration:** foreground wreckage (broken columns, fallen masonry, a half-sunk arch, mooring posts) stands in the water nearer the camera with faster parallax; up to three Forge set pieces stand hazed and half-sunk in the near background. Rocky outcrops and shores added to the drowned district.
+- Sky ships were frozen in the north look (layer loop bug); fixed.
+- Render only for generated maps (map hashes and dsim match).
+- **Ask (ChatGPT):** decoration and rock pieces in `PHASE3-BRIEF.md` Part 4 (D01–D06 foreground wreckage first, then R01–R04 rock, then B01–B03 background silhouettes).
+
+## 2026-11-02 · Claude · Drowned district spike: city in high water, gothic skyline, pixel background (branch `phase3`)
+- **Spike map** (`#drowned` in the URL, or the TEST panel's "Drowned map"): a fixed, hand-placed district with the water starting at 60% height. Towers, a nave, arched bridges, a cathedral front with a rose window and low piers rise out of it; troopers spawn on them; sump set pieces now sit at the waterline when the water is high. Normal maps are unchanged (same hashes).
+- **Gothic skyline** (north look, every map): three bands of recognisable silhouettes in groups with sky between them: cathedral fronts with lit rose windows, spired and crenellated towers with stacks of lancet windows (mostly magenta, some cyan, fewer and dimmer with distance), aqueduct arcades, buttresses; a colossal saint on a far rooftop.
+- **Pixel background**: sky, skyline and facades are redrawn on a coarse pixel grid (2–3 screen px), so the city reads as pixel art; the play layer keeps full resolution. Stone edges are drawn crisp.
+- **Ask (ChatGPT):** the district's buildings are code placeholders. Please draw the architecture kit in `PHASE3-BRIEF.md` Part 3 (K01–K09), K08 cathedral front and K01–K03 tower pieces first.
+
+## 2026-11-02 · Claude · North Star look, first pass (branch `phase3`, not live)
+- New render look aimed at `INTERIM-NORTH-STAR.md`, on `phase3` only. Colour comes from the atmosphere and real lights, not outlines:
+  - Sky and skyline: hazy blue-grey, three skyline bands (farther = lighter and softer) with mist rising off the water between them; facades lifted toward the haze.
+  - Stone: lit from above (bright top edge fading over ~14 px), undersides in shadow, replacing the old top rim. Caves and craters inside the rock show a dark interior instead of the sky.
+  - Neon kept to the lights: fixture and graffiti light on stone cut to about half; troopers keep their rims.
+  - Set pieces: sky light on their tops, nearby lights wash the whole face softly instead of outlining it.
+  - Water: the scene above reflected in broken, swaying horizontal bands, neon streaks under nearby lights, mist on the surface.
+  - Sudden death: the mist reddens with the sky.
+- Switch looks with **L** on desktop, the TEST panel's "Look" button, or `#classic` in the URL. Render only: map hashes match `main`, dsim/dsimart identical, art tests pass.
+- To check: frame rate on a real phone (the reflection and extra layers cost a little; headless timings were too noisy to trust).
+
 ## 2026-11-02 · Claude · Brazier live (GV 18); first set pieces loaded behind the switch
 - **Live:** the promethium brazier replaces the tank (C04 `asset-8d844e9f…`, no vents), with its amber flickering light and the iron-only hit area. GV 18: players on old builds are asked to refresh. Forge revision `20261102T194923Z-1df29329` is the current build.
 - **Loaded, not shown live:** S01 fallen head, S09 colossal head, S07 praying saint, S03 gargoyle. `SP_LIVE` stays false; they show in Forge tests, the debug build and with `#setpieces`.
