@@ -6,6 +6,14 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-02 · Claude · Water, horizon and decoration off the action plane (branch `phase3`)
+- **Water:** the scene reflection is taken at quarter resolution and drawn faint, so buildings only hint in the water; no more horizontal "blinds". Each strong light gets its own long reflection reaching as deep as the light is high, widest where the mirror image sits.
+- **Horizon:** each skyline band now stands on its own water, receding to a horizon above the play layer's waterline (farther bands higher, misted at the base), with its own faint reflection. Building heights are measured from that water, so the sky shows above the city. The horizon follows the sump on drowned maps and stays two-thirds down on generated ones.
+- **Depth decoration:** foreground wreckage (broken columns, fallen masonry, a half-sunk arch, mooring posts) stands in the water nearer the camera with faster parallax; up to three Forge set pieces stand hazed and half-sunk in the near background. Rocky outcrops and shores added to the drowned district.
+- Sky ships were frozen in the north look (layer loop bug); fixed.
+- Render only for generated maps (map hashes and dsim match).
+- **Ask (ChatGPT):** decoration and rock pieces in `PHASE3-BRIEF.md` Part 4 (D01–D06 foreground wreckage first, then R01–R04 rock, then B01–B03 background silhouettes).
+
 ## 2026-11-02 · Claude · Drowned district spike: city in high water, gothic skyline, pixel background (branch `phase3`)
 - **Spike map** (`#drowned` in the URL, or the TEST panel's "Drowned map"): a fixed, hand-placed district with the water starting at 60% height. Towers, a nave, arched bridges, a cathedral front with a rose window and low piers rise out of it; troopers spawn on them; sump set pieces now sit at the waterline when the water is high. Normal maps are unchanged (same hashes).
 - **Gothic skyline** (north look, every map): three bands of recognisable silhouettes in groups with sky between them: cathedral fronts with lit rose windows, spired and crenellated towers with stacks of lancet windows (mostly magenta, some cyan, fewer and dimmer with distance), aqueduct arcades, buttresses; a colossal saint on a far rooftop.

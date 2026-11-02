@@ -707,6 +707,9 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;
         gg.globalCompositeOperation='source-over';if(rose){const rx=(x0+x1)/2,ry=top+38;for(let a=0;a<8;a++){gg.save();gg.translate(rx,ry);gg.rotate(a*Math.PI/4);gg.fillRect(-1.5,-26,3,52);gg.restore()}gg.beginPath();gg.arc(rx,ry,6,0,Math.PI*2);gg.fill()}});
       hangs.push({cx:(x0+x1)/2,cy:top})};
     const pier=(x0,x1,y)=>{both(gg=>{gg.fillRect(x0,y,x1-x0,8);for(let k=x0+6;k<x1;k+=36)gg.fillRect(k,y,9,H-y)})};
+    // rocky ground: outcrops and shores of broken rock standing out of the water
+    const rock=(x0,x1,top)=>{const pts=[[x0,H]],n=Math.max(4,Math.round((x1-x0)/14));for(let i=0;i<=n;i++){const f=i/n,e=Math.sin(f*Math.PI);pts.push([x0+(x1-x0)*f,H-(H-top)*Math.pow(e,.55)+rnd(-7,7)])}pts.push([x1,H]);poly(g,pts)};// rock, not masonry
+    rock(-30,140,470);rock(540,720,505);rock(990,1100,500);rock(1390,1470,515);rock(1860,2030,455);rock(310,420,520);
     T(150,58,230,'spire');hall(180,430,400,false);bridge(430,762,432,4);T(790,52,300,'crenel');
     pier(860,1066,524);T(1112,48,262,'broken');bridge(1136,1330,382,3);T(1356,52,292,'spire');
     hall(1450,1722,362,true);T(1800,62,200,'spire');pier(1832,1968,500)}
@@ -814,12 +817,62 @@ const NS={on:!/(^#|&)classic\b/.test(location.hash),drowned:/(^#|&)drowned\b/.te
 function nsPixelate(){const k=Math.max(2,Math.round(2*DPR)),w=Math.ceil(cv.width/k),h=Math.ceil(cv.height/k);
   if(!NS.px||NS.px.width!==w||NS.px.height!==h){NS.px=mk(w,h)}const g=NS.px.getContext('2d');g.imageSmoothingEnabled=true;g.globalCompositeOperation='copy';g.drawImage(cv,0,0,w,h);
   ctx.save();ctx.setTransform(1,0,0,1,0,0);ctx.imageSmoothingEnabled=false;ctx.globalCompositeOperation='copy';ctx.drawImage(NS.px,0,0,w*k,h*k);ctx.restore()}
+// A skyline band stands on its own stretch of water, a little above the play layer's waterline (farther bands
+// higher), so the city recedes to a horizon behind the action. It moves sideways with parallax and up and down
+// with the world, so the horizon stays above the water the troopers fight over.
+function nsLayerDraw(Ly,shx,shy){const gy=Ly.ground,ty=((Math.min(sump,H*.66)-Ly.horizon-gy)-cam.y)*scale+shy;
+  ctx.setTransform(DPR*scale,0,0,DPR*scale,(-cam.x*Ly.par*scale+shx*Ly.par)*DPR,ty*DPR);
+  ctx.drawImage(Ly.c,0,0,W,H);
+  // its reflection, faint and soft, then the water darkening away from the horizon
+  ctx.save();ctx.beginPath();ctx.rect(-W,gy,W*3,H);ctx.clip();ctx.fillStyle=Ly.water;ctx.fillRect(-W,gy,W*3,H+1800);
+  ctx.globalAlpha=.16;ctx.translate(0,gy*2);ctx.scale(1,-1);ctx.drawImage(Ly.c,0,0,W,H);ctx.restore();
+  const hc=[1,3,5].map(i=>parseInt(Ly.haze.slice(i,i+2),16));
+  const hz=ctx.createLinearGradient(0,gy-260,0,gy+40);hz.addColorStop(0,mixa(hc,[120,32,40],BLEED,0));hz.addColorStop(.86,mixa(hc,[120,32,40],BLEED,Ly.ha));hz.addColorStop(1,mixa(hc,[120,32,40],BLEED,Ly.ha*.5));
+  ctx.fillStyle=hz;ctx.fillRect(-W,gy-260,W*3,300);
+  ctx.fillStyle=mixa(hc,[120,32,40],BLEED,.35);ctx.fillRect(-W,gy,W*3,1.5)}
+// Decoration off the action plane (north look). Foreground: dark wreckage standing in the water nearer the camera
+// (broken columns, fallen masonry, a sunk arch, chain posts), moving faster than the play layer. Background: the
+// Forge set pieces again, hazed and half-sunk at the near horizon, moving slower. Cosmetic only, built from the
+// plain random at load, never touching the play layer's space above the water.
+function nsForeground(){if(NS.fg)return NS.fg;const R=hrand(RR()*1e9|0),r=(a,b)=>a+R()*(b-a),out=[];
+  for(let x=-200;x<W*1.35+200;x+=r(140,320)){const k=R(),c=mk(1,1);let w,h,draw;
+    if(k<.3){w=r(18,30);h=r(40,90);draw=g=>{g.fillRect(0,8,w,h);poly(g,[[0,8],[w*.3,r(0,6)],[w*.55,r(4,10)],[w*.8,0],[w,8]]);g.fillRect(-3,h-4,w+6,4)}}         // broken column
+    else if(k<.55){w=r(60,110);h=r(18,34);draw=g=>{poly(g,[[0,h],[w*.1,r(2,10)],[w*.4,0],[w*.7,r(4,12)],[w,r(10,18)],[w,h]]);g.globalCompositeOperation='destination-out';g.fillRect(w*.3,h*.55,w*.25,2);g.globalCompositeOperation='source-over'}} // fallen masonry
+    else if(k<.75){w=r(70,120);h=r(50,80);draw=g=>{g.fillRect(0,h*.2,w*.18,h);g.fillRect(w*.82,h*.35,w*.18,h);g.lineWidth=w*.14;g.strokeStyle='#fff';g.beginPath();g.moveTo(w*.09,h*.25);g.quadraticCurveTo(w*.3,-h*.15,w*.62,h*.12);g.stroke()}} // sunk arch, half gone
+    else{w=r(10,16);h=r(50,80);draw=g=>{g.fillRect(w*.3,0,w*.4,h);g.fillRect(0,0,w,5);g.fillRect(w*.2,8,w*.6,3)}}                                              // mooring post
+    c.width=Math.ceil(w+8);c.height=Math.ceil(h+12);const g=c.getContext('2d');g.translate(4,4);g.fillStyle='#fff';draw(g);
+    // flat near-black body with a cold edge on top, made once
+    const b=mk(c.width,c.height),bg=b.getContext('2d');bg.drawImage(c,0,0);bg.globalCompositeOperation='source-in';bg.fillStyle='#05070b';bg.fillRect(0,0,c.width,c.height);
+    const rim=mk(c.width,c.height),rg=rim.getContext('2d');rg.drawImage(c,0,0);rg.globalCompositeOperation='destination-out';rg.drawImage(c,0,2);rg.globalCompositeOperation='source-in';rg.fillStyle='rgba(150,170,205,.45)';rg.fillRect(0,0,c.width,c.height);
+    bg.globalCompositeOperation='source-over';bg.drawImage(rim,0,0);
+    out.push({x,img:b,w:c.width,h:c.height,depth:r(30,90),sink:r(.2,.45)})}
+  return NS.fg=out}
+function nsDrawForeground(shx,shy){const par=1.3,list=nsForeground();
+  for(const f of list){const base=sump+f.depth,top=base-f.h*(1-f.sink);
+    // screen x with extra parallax; y follows the world so the pieces always stand in the water below the action
+    const sx=((f.x-cam.x*par)*scale+shx*par)*DPR,sy=((base-cam.y)*scale+shy)*DPR,s=scale*DPR*1.25;if(sx>cv.width+50||sx+f.w*s<-50)continue;
+    ctx.save();ctx.setTransform(s,0,0,s,sx,sy-f.h*(1-f.sink)*s);ctx.imageSmoothingEnabled=false;
+    ctx.save();ctx.beginPath();ctx.rect(-10,-10,f.w+20,f.h*(1-f.sink)+10);ctx.clip();ctx.drawImage(f.img,0,0);ctx.restore();
+    // its reflection, dark and short
+    ctx.globalAlpha=.35;ctx.translate(0,f.h*(1-f.sink)*2);ctx.scale(1,-1);ctx.beginPath();ctx.rect(-10,0,f.w+20,f.h*(1-f.sink));ctx.clip();ctx.drawImage(f.img,0,0);ctx.restore()}}
+// Background pieces: up to three Forge set pieces standing half-sunk in the near band's water, hazed like it.
+function nsBackPieces(){if(NS.bp!==undefined)return NS.bp;if(typeof labArt==='undefined'||!window.GRIMSPIRE_ART_READY)return null;
+  const slots=['S09','S01','S07','S03'].filter(k=>labArt.has(k)&&labArt.get(k).frames[0]?.body);if(!slots.length)return NS.bp=[];
+  const R=hrand(RR()*1e9|0),out=[];let x=W*(.1+R()*.15);
+  for(let i=0;i<3&&x<W;i++){const k=slots[(R()*slots.length)|0],a=labArt.get(k),d=a.doc,c=mk(d.w,d.h),g=c.getContext('2d');
+    g.drawImage(a.frames[0].body,0,0);g.globalCompositeOperation='source-atop';g.fillStyle='rgba(38,47,62,.78)';g.fillRect(0,0,d.w,d.h);
+    out.push({x,img:c,w:d.w,h:d.h,base:Number.isFinite(d.base)?d.base+1:d.h,sink:k==='S07'||k==='S03'?.1:.35,flip:R()<.5});x+=W*(.25+R()*.2)}
+  return NS.bp=out}
+function nsDrawBackPieces(shx,shy){const list=nsBackPieces();if(!list||!list.length)return;const par=.7,hy=Math.min(sump,H*.66)-40,z=PX;
+  for(const p of list){const sx=((p.x-cam.x*par)*scale+shx*par)*DPR,sy=((hy-cam.y)*scale+shy)*DPR,s=scale*DPR*z;
+    ctx.save();ctx.setTransform(p.flip?-s:s,0,0,s,sx,sy);ctx.imageSmoothingEnabled=false;
+    ctx.beginPath();ctx.rect(-1,-p.base,p.w+2,p.base);ctx.clip();ctx.drawImage(p.img,0,-p.base+p.h*p.sink);ctx.restore()}}
 function nsToggle(on){NS.on=on===undefined?!NS.on:on;rimDirty=true;toplAll=true}
 // Skyline in three hazy bands, built on first use with the same kit as the old two layers.
 function nsLayers(){if(NS.layers)return NS.layers;const sd=RR()*1e9|0;
-  const far=gothicLayer({seed:sd,par:.12,col:'#4a5870',dark:'#3e4b62',size:1.2,top:[.06,.28],ground:.8,lit:.05,winA:[.28,.45],glow:3,cyan:.15,cath:.24,gaps:.55,haze:'#62718b',ha:.66}),
-    mid=gothicLayer({seed:sd+1,par:.28,col:'#323d52',dark:'#27314a',size:1,top:[.18,.4],ground:.84,lit:.1,winA:[.45,.7],glow:5,cyan:.2,cath:.2,gaps:.5,haze:'#4d5a72',ha:.56}),
-    near=gothicLayer({seed:sd+2,par:.5,col:'#1e2636',dark:'#141a27',size:.9,top:[.3,.52],ground:.88,lit:.16,winA:[.6,.9],glow:7,cyan:.25,cath:.14,gaps:.55,haze:'#3a465b',ha:.48});
+  const far=gothicLayer({seed:sd,par:.12,col:'#4a5870',dark:'#3e4b62',size:1.2,top:[170,340],ground:.8,horizon:190,water:'#38445a',lit:.05,winA:[.28,.45],glow:3,cyan:.15,cath:.24,gaps:.55,haze:'#62718b',ha:.66}),
+    mid=gothicLayer({seed:sd+1,par:.28,col:'#323d52',dark:'#27314a',size:1,top:[130,270],ground:.84,horizon:130,water:'#283246',lit:.1,winA:[.45,.7],glow:5,cyan:.2,cath:.2,gaps:.5,haze:'#4d5a72',ha:.56}),
+    near=gothicLayer({seed:sd+2,par:.5,col:'#1e2636',dark:'#141a27',size:.9,top:[90,200],ground:.88,horizon:72,water:'#182030',lit:.16,winA:[.6,.9],glow:7,cyan:.25,cath:.14,gaps:.55,haze:'#3a465b',ha:.48});
   // a colossal saint stands on a far rooftop, as before
   {const r=far.roofs.sort((a,b)=>Math.abs(a.x-W*.3)-Math.abs(b.x-W*.3))[0];if(r)colossus(far.c.getContext('2d'),0,r.x,r.y+6,Math.min(260,r.w*2.6),far.col)}
   return NS.layers=[far,mid,near]}
@@ -859,14 +912,13 @@ function gothicLayer(o){
     g.globalCompositeOperation='source-over'};
   let x=-40;
   while(x<W+40){const k=R();let w;g.fillStyle=body;
-    if(k<o.cath){w=r(110,190)*o.size;cathedral(x,w,H*r(o.top[0]+.06,o.top[1]+.06))}
+    if(k<o.cath){w=r(110,190)*o.size;cathedral(x,w,ground-r(o.top[0],o.top[1])*.78)}
     else if(k<o.cath+.12&&x>40){// two towers joined by an arcade
-      const tw=r(30,50)*o.size,gap=r(70,140)*o.size,t1=H*r(o.top[0],o.top[1]),t2=H*r(o.top[0],o.top[1]);tower(x,tw,t1);tower(x+tw+gap,tw,t2);
+      const tw=r(30,50)*o.size,gap=r(70,140)*o.size,t1=ground-r(o.top[0],o.top[1]),t2=ground-r(o.top[0],o.top[1]);tower(x,tw,t1);tower(x+tw+gap,tw,t2);
       arcade(x+tw,x+tw+gap,Math.max(t1,t2)+r(40,90));w=tw*2+gap}
-    else{w=r(28,64)*o.size;tower(x,w,H*r(o.top[0],o.top[1]))}
+    else{w=r(28,64)*o.size;tower(x,w,ground-r(o.top[0],o.top[1]))}
     x+=w+(R()<o.gaps?r(30,110)*o.size:r(-8,6))}
-  g.fillStyle=body;g.fillRect(-60,ground,W+120,H-ground+2);
-  return{c,par:o.par,col:body,signs:[],roofs,haze:o.haze,ha:o.ha,full:true}}
+  return{c,par:o.par,col:body,signs:[],roofs,haze:o.haze,ha:o.ha,full:true,ground,horizon:o.horizon,water:o.water}}
 
 // Back walls and facades sit between the skyline and the play layer: lifted toward the haze. The rock's dark
 // interior (behind caves and craters) is baked in with them, so it costs one draw.
@@ -896,28 +948,31 @@ function rebuildTopLight(){
 // Black water: the scene above reflected in broken horizontal bands that sway and thin out with depth,
 // neon streaks under the lights near it, and mist where the water meets the air.
 function nsWater(lights,WT){
-  const sy=Math.round(sump*WT[0]+WT[5]),Wc=cv.width,Hc=cv.height,rh=Math.min(sy,Hc-sy,Math.round(320*WT[0]));
-  if(rh>6&&sy>0){if(!NS.reflect||NS.reflect.width<Wc||NS.reflect.height<rh)NS.reflect=mk(Wc,Math.max(rh,NS.reflect?NS.reflect.height:0));
-    const rg=NS.reflect.getContext('2d');rg.globalCompositeOperation='copy';rg.drawImage(cv,0,sy-rh,Wc,rh,0,0,Wc,rh)}
-  ctx.fillStyle='#080c14';ctx.fillRect(-600,sump,W+1200,H+1600);
-  if(rh>6&&sy>0){ctx.save();ctx.setTransform(1,0,0,1,0,0);const bh=Math.max(2,Math.round(2.2*DPR)),R=NS.reflect;
-    for(let y=0;y<rh;y+=bh){const f=y/rh,src=rh-y-bh;if(src<0)break;
-      const wob=(Math.sin(time*1.6+y*.13)*(.6+f*5)+Math.sin(time*.7+y*.041)*f*6)*DPR*Math.min(2,scale);
-      const a=.62*Math.pow(1-f,1.1)*(.6+.4*Math.sin(y*.29+time*2.1));if(a<.015)continue;
-      ctx.globalAlpha=a;ctx.drawImage(R,0,src,Wc,bh,wob,sy+y,Wc,bh)}
+  // The scene reflection is taken at a quarter resolution, so it comes back soft, and drawn faint: the buildings
+  // only hint in the water. The lights get their own long, bright reflections.
+  const sy=Math.round(sump*WT[0]+WT[5]),Wc=cv.width,Hc=cv.height,rh=Math.min(sy,Hc-sy,Math.round(320*WT[0])),q=4,rw=Math.ceil(Wc/q),rq=Math.ceil(rh/q);
+  if(rh>8&&sy>0){if(!NS.reflect||NS.reflect.width!==rw||NS.reflect.height<rq)NS.reflect=mk(rw,Math.max(rq,NS.reflect&&NS.reflect.width===rw?NS.reflect.height:0));
+    const rg=NS.reflect.getContext('2d');rg.imageSmoothingEnabled=true;rg.globalCompositeOperation='copy';rg.drawImage(cv,0,sy-rh,Wc,rh,0,0,rw,rq)}
+  ctx.fillStyle='#070b13';ctx.fillRect(-600,sump,W+1200,H+1600);
+  if(rh>8&&sy>0){ctx.save();ctx.setTransform(1,0,0,1,0,0);ctx.imageSmoothingEnabled=true;const R=NS.reflect;
+    for(let r=0;r<rq;r++){const y=r*q,f=y/rh,src=rq-1-r;
+      const wob=(Math.sin(time*1.4+r*.55)*(.5+f*4)+Math.sin(time*.6+r*.17)*f*5)*DPR*Math.min(2,scale);
+      const a=.3*Math.pow(1-f,1.3);if(a<.01)break;
+      ctx.globalAlpha=a;ctx.drawImage(R,0,src,rw,1,wob,sy+y,Wc,q+1)}
     ctx.globalAlpha=1;ctx.restore()}
-  const dk=ctx.createLinearGradient(0,sump,0,sump+260);dk.addColorStop(0,'rgba(5,8,14,.06)');dk.addColorStop(1,'rgba(5,8,14,.7)');ctx.fillStyle=dk;ctx.fillRect(-600,sump,W+1200,260);
-  ctx.fillStyle='#04060a';ctx.fillRect(-600,sump+260,W+1200,H+1600);
-  // neon under the lights: short broken streaks, brightest at the surface
+  const dk=ctx.createLinearGradient(0,sump,0,sump+280);dk.addColorStop(0,'rgba(5,8,14,0)');dk.addColorStop(1,'rgba(5,8,14,.6)');ctx.fillStyle=dk;ctx.fillRect(-600,sump,W+1200,280);
+  ctx.fillStyle='#04060b';ctx.fillRect(-600,sump+280,W+1200,H+1600);
+  // lights mirrored in the water: a long, broken column under each one, reaching as deep as the light is high,
+  // widest where the mirror image would be, flickering sideways with the swell
   ctx.save();ctx.globalCompositeOperation='lighter';
-  for(const L of lights){if(L.i<=0||L.y>sump+2||L.y<sump-320)continue;const near=1-(sump-L.y)/320,w0=Math.min(46,L.r*.32)*(.5+near*.6);
-    for(let k=0;k<9;k++){const y=sump+3+k*4.2+Math.sin(time*2.3+k+L.x*.01)*.8,w=w0*(1-k/12)*(.7+.3*Math.sin(time*3.1+k*1.7+L.x)),a=Math.min(.75,L.i*near*(1-k/10)*.7);
-      if(a<.02||w<2)continue;const x=L.x+Math.sin(time*1.3+k*.9)*3;ctx.fillStyle=rgba(L.c,a);
-      ctx.fillRect(x-w/2,y,w*.42,1.2);ctx.fillRect(x-w/2+w*.52,y,w*.48,1.2)}}
+  for(const L of lights){if(L.i<=.2||L.r<50||L.y>sump+2||L.y<sump-380)continue;const d=Math.max(14,sump-L.y),near=1-(sump-L.y)/380,len=d*1.15+24,w0=Math.max(3,Math.min(26,L.r*.14));
+    for(let y=2;y<len;y+=2.6){const f=y/len,m=1-Math.abs(y-d)/len,w=w0*(.45+m*.9)*(.75+.25*Math.sin(time*4.1+y*.7+L.x)),a=Math.min(.85,L.i*(.35+near*.5)*(1-f*.85)*(.55+.45*m));
+      if(a<.02)continue;const x=L.x+Math.sin(time*1.7+y*.21+L.x*.03)*(1.2+f*3);ctx.fillStyle=rgba(L.c,a);
+      if(Math.sin(y*1.9+time*3+L.x)>-.55)ctx.fillRect(x-w/2,sump+y,w,1.3)}}
   ctx.restore();
-  ctx.strokeStyle='rgba(170,190,225,.34)';ctx.lineWidth=1;ctx.beginPath();
+  ctx.strokeStyle='rgba(170,190,225,.3)';ctx.lineWidth=1;ctx.beginPath();
   for(let x=0;x<=W;x+=10){const y=sump+Math.sin(x*.03+time*2)*1.2+Math.sin(x*.011-time*1.3)*.8;x===0?ctx.moveTo(x,y):ctx.lineTo(x,y)}ctx.stroke();
-  const fog=ctx.createLinearGradient(0,sump-110,0,sump+4);fog.addColorStop(0,'rgba(110,128,160,0)');fog.addColorStop(1,'rgba(110,128,160,.16)');ctx.fillStyle=fog;ctx.fillRect(-600,sump-110,W+1200,114);
+  const fog=ctx.createLinearGradient(0,sump-110,0,sump+4);fog.addColorStop(0,'rgba(110,128,160,0)');fog.addColorStop(1,'rgba(110,128,160,.14)');ctx.fillStyle=fog;ctx.fillRect(-600,sump-110,W+1200,114);
 }
 
 function checkFixtures(){for(const f of fixtures)if(f.alive&&!isSolid(f.ax,f.ay)){f.alive=false;const c=NEON[f.c];
@@ -2746,14 +2801,16 @@ function render(dt){
     ctx.fillStyle=gr;ctx.beginPath();ctx.moveTo(bx,by);ctx.lineTo(bx+Math.cos(a-sp)*L,by+Math.sin(a-sp)*L);ctx.lineTo(bx+Math.cos(a+sp)*L,by+Math.sin(a+sp)*L);ctx.fill()}
   ctx.globalCompositeOperation='source-over';
   farWar(dt);
-  for(const Ly of NS.on?nsLayers():layers){
+  {const LS=NS.on?nsLayers():layers;for(let li=0;li<LS.length;li++){const Ly=LS[li];
     ctx.setTransform(DPR*scale,0,0,DPR*scale,(-cam.x*Ly.par*scale+shx*Ly.par)*DPR,(-cam.y*Ly.par*scale+shy*Ly.par)*DPR);
-    skyShips(Ly===layers[0]?dt:0,Ly===layers[0]?0:1);
+    skyShips(li===0?dt:0,li===0?0:1);
+    if(Ly.full){nsLayerDraw(Ly,shx,shy);continue}
     ctx.drawImage(Ly.c,0,0,W,H);ctx.fillStyle=Ly.col;ctx.fillRect(0,H-1,W,1800);
     for(const n of Ly.signs){if(Math.sin(time*19+n.ph*7)>.96)continue;ctx.shadowColor=n.col;ctx.shadowBlur=14;ctx.fillStyle=n.col;ctx.globalAlpha=Ly.par<.3?.5:.75;
       ctx.fillRect(n.x,n.y,n.w,n.h);ctx.globalAlpha=1;ctx.shadowBlur=0;ctx.fillStyle=Ly.col;for(let i=4;i<n.h-3;i+=7)ctx.fillRect(n.x+2,n.y+i,n.w-4,2)}
     // mist rising off the water separates each band from the next
-    if(Ly.haze){const hz=ctx.createLinearGradient(0,H*.42,0,H);const hc=[1,3,5].map(i=>parseInt(Ly.haze.slice(i,i+2),16));hz.addColorStop(0,mixa(hc,[120,32,40],BLEED,0));hz.addColorStop(1,mixa(hc,[120,32,40],BLEED,Ly.ha));ctx.fillStyle=hz;ctx.fillRect(-W,H*.42,W*3,H*.58+1800)}}
+    if(Ly.haze){const hz=ctx.createLinearGradient(0,H*.42,0,H);const hc=[1,3,5].map(i=>parseInt(Ly.haze.slice(i,i+2),16));hz.addColorStop(0,mixa(hc,[120,32,40],BLEED,0));hz.addColorStop(1,mixa(hc,[120,32,40],BLEED,Ly.ha));ctx.fillStyle=hz;ctx.fillRect(-W,H*.42,W*3,H*.58+1800)}}}
+  if(NS.on){ctx.setTransform(1,0,0,1,0,0);nsDrawBackPieces(shx,shy)}
   ctx.setTransform(...WT);ctx.drawImage(NS.on?nsBack():back,0,0);
   if(NS.on)nsPixelate();
   // ---- lit terrain ----
@@ -2833,7 +2890,7 @@ function render(dt){
   for(const L of lights){if(!L.h||L.i<=0)continue;const r=L.r*1.2,gr=ctx.createRadialGradient(L.x,L.y,0,L.x,L.y,r);gr.addColorStop(0,rgba(L.c,L.h*L.i));gr.addColorStop(1,rgba(L.c,0));ctx.fillStyle=gr;ctx.fillRect(L.x-r,L.y-r,r*2,r*2)}
   ctx.globalCompositeOperation='source-over';
   // sump
-  if(NS.on)nsWater(lights,WT);else{
+  if(NS.on){nsWater(lights,WT);ctx.save();nsDrawForeground(shx,shy);ctx.restore();ctx.setTransform(...WT)}else{
   ctx.fillStyle='#030406';ctx.fillRect(0,sump,W,H+1600);
   ctx.strokeStyle='rgba(150,180,235,.45)';ctx.lineWidth=1.3;ctx.beginPath();
   for(let x=0;x<=W;x+=10){const y=sump+Math.sin(x*.03+time*2)*1.8+Math.sin(x*.011-time*1.3)*1.2;x===0?ctx.moveTo(x,y):ctx.lineTo(x,y)}ctx.stroke();

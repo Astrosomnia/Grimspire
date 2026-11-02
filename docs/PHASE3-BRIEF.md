@@ -130,3 +130,15 @@ Draw at scale 1 on the art grid (1.9 art px per world px). Sizes below are art p
 Order: K08 and K01–K03 first (they define the silhouette), then K05–K07, then K04 and K09. Save each in the Forge Library under its code with a short note on its joints; there is no K slot in the Forge yet, and Claude adds the stamping code when the first pieces land. A side-by-side with the spike screenshot is the review.
 
 The skyline behind is now drawn by code (gothic towers, cathedral fronts with rose windows, arcades, magenta windows), so no background art is needed for now.
+
+## Part 4: decoration off the action plane, and rocky ground (added 2 Nov)
+
+The `phase3` build now has depth on both sides of the play layer (Jarred's call, after the crimson concept): the skyline stands on its own water receding to a horizon above the waterline, foreground wreckage stands in the water nearer the camera, and set pieces appear hazed and half-sunk in the background water. All of these are code placeholders except the background set pieces, which reuse the Forge art.
+
+| Code | Piece | Band | Size (art px) | Notes |
+|---|---|---|---|---|
+| D01–D06 | Foreground wreckage, six variants: broken column, fallen masonry slab, half-sunk arch, mooring post with chain, a toppled statue's hand or shoulder, a capsized boat or barge rib | `foreground` | 40–220 wide, 30–160 tall | Near-black silhouettes only (flat dark body, no interior detail needed); the game adds a cold top edge and the reflection. Readable at a glance, never busy. The bottom third goes under the water. |
+| R01–R04 | Rock outcrops and shore, four variants | `play` | 120–340 wide, 60–180 tall | Broken rock (not masonry) standing out of the water, flat-ish tops troopers can stand on, a Guts layer. Tiles at the sides so two can join into a longer shore. |
+| B01–B03 | Background silhouettes that read at a distance: a colossal saint in the water, a drowned dome, a broken bridge spanning the horizon | `back` | 200–500 wide | Flat silhouettes in one value, with a few lit windows in the Emissive layer (magenta, some cyan). The game hazes them. |
+
+Order: D01–D06 first (cheap, big payoff), then R01–R04, then B01–B03. Save in the Forge Library with the band in the notes (`band: foreground`, `band: back`); Claude wires them in when they land. The crimson concept is a mood reference; the shipping grade stays as tested unless Jarred asks for a crimson variant.
