@@ -6,6 +6,12 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-01 · Claude · Ash Legion option C as rig parts
+- Split the T09 Ash Legion fit-test into Forge parts (new Library assets): **T10 Ash Legion torso** (head, pack, front tabard; Shoulder [18,19], Hip [18,31]), **A07 thigh** (with tassets; Hip, Knee) and **A08 shin** (boot and knee lamp; Knee). Thigh and shin have near/far frames using the same art. The arm is the existing A05.
+- Assemble them in the Forge's Rig (torso, thigh, shin, single arm). In the game, Test with the Torso slot shows the torso and arm on the game's own legs; Forge legs in the game are the next code step.
+- Cut from auto-reduced art, not hand-cleaned. The far leg's upper half was hidden behind the tabard in the source, so both legs use the near leg's art.
+- **Ask (ChatGPT):** hand-clean the parts at game scale, and give the far leg its own art if it should differ.
+
 ## 2026-11-01 · Claude · Ash Legion is magenta, Neon Choir cyan
 - **Decision (Jarred), for now:** palette option C. Ash Legion and Neon Choir swap colours (Ash Legion magenta, Neon Choir cyan; fits the lore), and faction cloth keeps its colour as drawn. Recorded in `ART-DIRECTION.md`; the restricted palette now allows dark faction cloth.
 - Live in the game: faction table and faction picker descriptions. HUD, troopers, graffiti and chat all follow. Cosmetic only, no sim change (GV 17).
