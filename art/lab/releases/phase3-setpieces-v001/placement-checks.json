@@ -1,0 +1,68 @@
+{
+  "main": "dd6555a",
+  "actualPixelScale": 0.530278232405892,
+  "results": [
+    {
+      "slot": "S01",
+      "size": [
+        138,
+        104
+      ],
+      "base": 103,
+      "footprint": [
+        30,
+        108
+      ],
+      "place": "sump",
+      "fit": true
+    },
+    {
+      "slot": "S09",
+      "size": [
+        258,
+        200
+      ],
+      "base": 199,
+      "footprint": [
+        57,
+        201
+      ],
+      "place": "sump",
+      "fit": true
+    },
+    {
+      "slot": "S07",
+      "size": [
+        31,
+        96
+      ],
+      "base": 95,
+      "footprint": [
+        1,
+        28
+      ],
+      "place": "pinnacle",
+      "fit": true
+    },
+    {
+      "slot": "S03",
+      "size": [
+        74,
+        56
+      ],
+      "base": 53,
+      "footprint": [
+        30,
+        49
+      ],
+      "place": "ledge",
+      "fit": true
+    }
+  ],
+  "sockets": [
+    "ground",
+    "sump",
+    "pinnacle",
+    "ledge"
+  ]
+}

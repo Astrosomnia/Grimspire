@@ -1,0 +1,33 @@
+{
+  "forge": 1,
+  "code": "S07",
+  "name": "Praying saint · pedestal and broken halo",
+  "w": 31,
+  "h": 96,
+  "fps": 8,
+  "base": 95,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "grip": null,
+    "muzzle": null,
+    "pivot": null
+  },
+  "ready": false,
+  "checks": {
+    "visual": false,
+    "tested": false
+  },
+  "notes": "place: pinnacle\nband: play\nbase: 95\nfootprint: 1–28\nclear: 0\nsink: 0\nweight: 0.8\nlimit: 2\nzones: any\nfaction: none\nsolid: none\nflip: yes\nlight: none\n\n2 Nov 2026. 31×96 art px native-grid draft from a new built-in image-generation drawing using Jarred’s approved interim North Star sheet. Palette reduced to six shared neutral charcoal/stone values; disconnected dust and isolated material flecks cleaned. Body plus separate hollow masonry/iron-tie Guts. No water, ground, reflections, glow or faction colour painted in. Final scale 1; exact-version review and battle/phone test pending. Source illustration is reference, not a live-game render. Non-emissive broken iron halo; narrow centred pedestal support.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB8AAABgCAYAAADl2qktAAAABHNCSVQICAgIfAhkiAAAAAFzUkdCAK7OHOkAAAURSURBVGiB1VrNahtJEK5ZfJAyUsBC8awIwiYWxAjiQzC+5GTyAH7WPEDwKZew+BCDsWHWyAyLVrKxwKOJdFMuW0N1dfXfzFhhPzC2pVF/9ddV1V0CaBCfPp9vmlzPG7t7w83u3jCI/I+XE2dL5KEaI6LQDxyfnmlE2STVnlvMM+faTs0/fT4vfXl8erYpljkAABTLHLJJWpkYfDXn2kqEocRe5JKZAQB+fL9QPovWCSHfCSHOJmnQ4i4YfW4yddXIlmDVnGIxzyIkPhyfbP6+/kuzQK+fQK+fKMJJzyHEN7jW1L+H45PN0+NMMT9/vtt9raz37esXkce51XhgoSbUCg+zqfKZPH+GPH8u/zflfI3cx6eo9e7ecPOzWLoeNwqwYyPkWiPQ9BQPsym8SQZQLHOIO13lveurS0Ae6q7ocHyiEdMPS/u51Y4BAGC9KgD/BgB4FXe0Nbrd1yU536YRaiIRS1YwkVNiDrQSJ98Bth145GIu565ZrwojGSc1QdnnlICa2xaE61UBvX5S/v/n4C3cpbfwbvReIZcyo1c9X8yziH6Yak2JpfdNxN7ktkVMkY2/bfDO7RzDgxEMD0alAPjjI7BI7qpYrgRkq/NOciDR7QJ2MZQQLYFwKWM0ezZJy5ToaotfpIe7vrr0yvVcY18o5IP9Iy1nt9qxttUo4fjDx2BfI5QFB/tHm+n9jVIyMX1O72/KZgKJed2G/6wlmZzuHkxgSoZDYgmY098kgypKitaxBsVg/6iUlhYRFIBrfn11qVgKX6daoxCLeRZZA256fxOtV4WxiNBuhQpJn7clK2d6DWmVxx8+ln9jfGSTFIplLuYP78ICpGDQns0nh5vW8yKnDQQH3eNcENQet2+xzJUq6N23c2DPZgN1w7/TfwBY4xJMju2Sqd3ipAje60NTlwNS1IPFDY2SV0Vln/P+PM+fgwtMkOatdgz0hPIwm4r53RfBmq9XRRl0r+KO5m9MKK62Ger63BbxPqhFzlOmbwsWTE6LBTVpsczhYTYNJg4i5wL8LJbljwQp8islGamy8TL79DgrBfGNhcr7XBJgvSrg3eg9gCXrUQQHHK1urXYMpmrnA2/y0Ps3n+RT2excY6mSufD/KCymbsZ1Q2FrsxrXXIpyk0u2avatNxO2Gh9M7nML5UNciRwa2maVyU2C+KTURsldsGW6WoXFRUTvXSV4a95qx85gw1OJCS9yaEDEna7id9chslZJpQgNtkrkEu7SW+01n6NzrYAznVJ9z+xB3WudrkVqRippvl4VWurEix7pCtwE75uJEOF8D4yNZ7iQI1RQkjHBdP1JLSBZz+lzabDT6yfl8YifRqW5mgm1zO5zDH4RckqMEY6/pUpWebrE/S0RS0DXNDJdqoLKPZxpioiWCEkoweQ2Yoqqgeck502EbWBrgvfwHjHYP9KOR2hmPj/loB2N7brEmWRC+nRu/qfHmVVIbQvQwY40sEUCaVFOPjwYlU1kr59o3xwRzY7mNuVzkzb4Ot1eef4MvX4CT48zZWYDNs2lRVGzkDtWmu3u0ltl8KPN1cDSHoUQUdAAjDvdcq6mfTugTqsEAYL/+H6hj7ZCorsufv+dzPHp2cY2jMWLPRPwCxoUPoeICNjYsg6oABI5djnZJIVeP9EzXJ3+HE8upqCLO10l3Tbuc1PAUrdi3lBm5dvEYp5Fyj6vu8cRvOrRnD88GJXfpdzqVuNpeWvkUj34rT7/BSijyGSTP8JlAAAAAElFTkSuQmCC",
+      "emis": null,
+      "trim": null,
+      "cloth": null,
+      "guts": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB8AAABgCAYAAADl2qktAAAABHNCSVQICAgIfAhkiAAAAAFzUkdCAK7OHOkAAAKkSURBVGiB7VqxbuMwDKWLbncdUhQpMgQZugQdOhXd78tvP3S6ocjSIfAQ1Dicl6bt5ht6LhiGMkmZkh0kb3Mi6/FJ1BOlBMARk+m8sbQ/G4rYlfzy6hour67zk9/c3ptVAwAU1hdmi6WKaLNeiX2LDVqyzXpVeBKryMGg1kIMAHAeS0xJLAGqyLkOLcokBLM9pCRGYQhBFZSEJpx22LtGilXOEXd11DUaXd+xnWGrrKtyr037fV2VhdZWuX6CHXe9xLWLCaAAALh7+MF29PvXT5Y41F4D3GchdUQD8CKGVrlmY3h+etxp+/fPC8D/3QwA4G37KpLThN0bVu0O5UG+43CYuFVqCchCDNr9/PnpscDBeBCryXEQsQGYyD2GGiz2KinzCogl94a0/ars1cNKOYjKY4i1CK5zDOpuGtRVKbbZU86taWuicYk7mc6byXTe4L7OQy9Ru5wtlo3GQi0IznmfQpFWL/S5Vd+ZcB6ValcZJWZ7bACaKldlMp61OqDcUpHH1urSe0ntlQNeUVnJ2epVgqfF4gCyDzuGeEQGVCRi0AJSC+z541euQYzvD6r8RJ4FdI9Qn1hSBKPO9m/fL0zPHDbr1c7zoHNuGs6+Hk83lsNxOKuPY7R7AYZaufchESzKvWt2yD3nNGGPx15P5Cdy9Tr/eN/2JjtMb6e+HlO303uaw1AuYdR1e/SVdyqoyFPs5WryVMhGzt3PiOSphlxFnhJi3e51H8Pdv2dRHrr4Fx2uT62OyNnPO5WnTDaQlKeo1TGyzHnoDjaovM9P1Rzo2RxGt849/4qC8fG+HbaGG+9ZLfW6phxfc5DyZ0sOdVUW46herR4ee9/eoq7KzznPMdccBqvbZ4tlM56ldjTkm/Xqc6mlutKWcJzD/kU+1Dr/B3KjQHIRcpzcAAAAAElFTkSuQmCC"
+    }
+  ],
+  "asset_id": "custom-de76d228-834e-4026-89f0-3ce226ddc7df",
+  "state_key": ""
+}

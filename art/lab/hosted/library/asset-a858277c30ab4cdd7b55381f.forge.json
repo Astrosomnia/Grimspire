@@ -1,0 +1,33 @@
+{
+  "forge": 1,
+  "code": "S03",
+  "name": "Perched gargoyle · half-open wings",
+  "w": 74,
+  "h": 56,
+  "fps": 8,
+  "base": 53,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "grip": null,
+    "muzzle": null,
+    "pivot": null
+  },
+  "ready": false,
+  "checks": {
+    "visual": false,
+    "tested": false
+  },
+  "notes": "place: ledge\nband: play\nbase: 53\nfootprint: 30–49\nclear: 0\nsink: 0\nweight: 0.8\nlimit: 2\nzones: any\nfaction: none\nsolid: none\nflip: yes\nlight: none\n\n2 Nov 2026. 74×56 art px native-grid draft from a new built-in image-generation drawing using Jarred’s approved interim North Star sheet. Palette reduced to six shared neutral charcoal/stone values; disconnected dust and isolated material flecks cleaned. Body plus separate hollow masonry/iron-tie Guts. No water, ground, reflections, glow or faction colour painted in. Final scale 1; exact-version review and battle/phone test pending. Source illustration is reference, not a live-game render. Faces right; 20-column support under rear haunch (30–49 inclusive), baseline 53. Tail curls back across stone; forward claws overhang.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,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",
+      "emis": null,
+      "trim": null,
+      "cloth": null,
+      "guts": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEoAAAA4CAYAAABaOm67AAAABHNCSVQICAgIfAhkiAAAAAFzUkdCAK7OHOkAAANZSURBVHic3ZqxbtswEIbJoC9gw7DhwfDgxfCQycjeJ+9eeOpgaKiBGhqEqEU0NG6ysdMFDEWRd+SRovxPiU0fT5+O5B1JKSai2XKj4O+urWXu/rN3SJEOx6acwIoCtTscnWB0Xc6nrL6PDooCB5QbkhgTVAggMRIkMRaoqUESOUHBxDxfrIJ+PyYkIYT4krqD9XavhBDi/e2WuqukSgYKAHFo7GgSKUBxAipJD5zG7hWS4ASVChLnsFtv9yrUT5ahN1tuFHayfvnzzNElSmYJFLOgRL8tXz3GIUpNh/EnpEaMiqjHp69Z5qSurVHtsP5g7ekKjihOSD++f5M+m9Am1heXHZeCImp3OKr6108htEz73+01xNQn/X5uep+55hUohW6vf63fX84nGVoumSKvelwdx8rnB3eSyppHpZQOJhSS/jn1hZNApY6m5lo5o2B3OCqKD762FFvFRZQPFkacMEFoUCmjKUVWH+KvKwdDgcoxgeuwOKLKpqGhi5n/ihp6MbUYRTYYejTZvve+uRwlSokyy5yiIqokmQHizcxD97hNwa4Bl70c/cwXKwW5lzOiXJP45XySJWzR5pIzoobqN31VupxPsuSdzdgadL3dq+ZaSVJRnGrZnoIGh54ZJTGQmmslx7iBwinUqhcLCf6eMiwrKK4s+Z6GKksedU9AbFpv98oJ6t4BUJQsM7dBnnI5ZE0P3t9u5InXd2YGkHKd67n60Z8Ne7zFFlF65ybkkiLJ9K1ra2fqAt9ZIyp0GYf6yjw3i6m7OGs3V8nVtbWcLTfK7AeeJfnuQSmnNpi61AwQ/Tes135sdR/HeR+HdoejohTxZtteRHFGQGnFMubZhnZFPiKKCxCkBaVBitWDMCBx7DGNBQnje2hAsE/mJUOKkeSMphSQIJEdSg+GfOa+myD1KzOhV2JExrtSunz++nyiPK80jYXAKhESCOubz540ywtqVj5mecJ9ZdFluwcK60BJ9ZsgQKP4rduU8GPsZBm6vOY41+NOD3olTNfWcr5YWQ2UUqthRC1TKPrIzOG+Yym1WSqZILEpzaeEk/NtNNdKmrucXVvL0k6Ysdvdg41CksfQPfah4W0DaraFNvB5yEuAZ22ulYSTYaqNnrGh/8cQ5QKsS5hn+Q9rwu1GA+easwAAAABJRU5ErkJggg=="
+    }
+  ],
+  "asset_id": "custom-0b9c856f-d060-487e-a119-dd8c04efef15",
+  "state_key": ""
+}

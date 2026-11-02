@@ -1683,6 +1683,62 @@
       "h": 40,
       "frame_count": 10,
       "category": "Other art"
+    },
+    {
+      "id": "asset-30663904acde901ec8905590",
+      "path": "art/lab/hosted/library/asset-30663904acde901ec8905590.forge.json",
+      "sha256": "30663904acde901ec890559046f3c1cc1b479eefbc35dd8502c211ce89ffe340",
+      "asset_id": "custom-98e34866-4b73-497c-9766-bbc294a47f57",
+      "state_key": "",
+      "asset_name": "Fallen Saint Head · world study",
+      "code": "S01",
+      "name": "Fallen saint head · broken halo",
+      "w": 138,
+      "h": 104,
+      "frame_count": 1,
+      "category": "Other art"
+    },
+    {
+      "id": "asset-d0b4af1b0a7dd9235dcd6ac8",
+      "path": "art/lab/hosted/library/asset-d0b4af1b0a7dd9235dcd6ac8.forge.json",
+      "sha256": "d0b4af1b0a7dd9235dcd6ac8a8493e83fc854b9b0294903eb534ec5a3d60682e",
+      "asset_id": "custom-b1597c3e-35c2-40b7-822b-75e5dc366781",
+      "state_key": "",
+      "asset_name": "Colossal fallen head · shattered crown",
+      "code": "S09",
+      "name": "Colossal fallen head · shattered crown",
+      "w": 258,
+      "h": 200,
+      "frame_count": 1,
+      "category": "Other art"
+    },
+    {
+      "id": "asset-b4c513d2e6d153bc9159400c",
+      "path": "art/lab/hosted/library/asset-b4c513d2e6d153bc9159400c.forge.json",
+      "sha256": "b4c513d2e6d153bc9159400c83d7227f4e53b8ff049009b358ebc0262c43e11c",
+      "asset_id": "custom-de76d228-834e-4026-89f0-3ce226ddc7df",
+      "state_key": "",
+      "asset_name": "Praying saint · pedestal and broken halo",
+      "code": "S07",
+      "name": "Praying saint · pedestal and broken halo",
+      "w": 31,
+      "h": 96,
+      "frame_count": 1,
+      "category": "Other art"
+    },
+    {
+      "id": "asset-a858277c30ab4cdd7b55381f",
+      "path": "art/lab/hosted/library/asset-a858277c30ab4cdd7b55381f.forge.json",
+      "sha256": "a858277c30ab4cdd7b55381f1bba7316b6bd8a60d33435ea571b2c7f4eafb834",
+      "asset_id": "custom-0b9c856f-d060-487e-a119-dd8c04efef15",
+      "state_key": "",
+      "asset_name": "Broken Gargoyle · world study",
+      "code": "S03",
+      "name": "Perched gargoyle · half-open wings",
+      "w": 74,
+      "h": 56,
+      "frame_count": 1,
+      "category": "Other art"
     }
   ]
 }
