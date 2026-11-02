@@ -1263,6 +1263,62 @@
       "h": 58,
       "frame_count": 1,
       "category": "Troopers"
+    },
+    {
+      "id": "asset-db7c74119c265cd78f9e6bb7",
+      "path": "art/lab/hosted/library/asset-db7c74119c265cd78f9e6bb7.forge.json",
+      "sha256": "db7c74119c265cd78f9e6bb703c5d597ecc7b9af5eeb3f6c8776f738b1ba1c5f",
+      "asset_id": "custom-48c145bc-fb86-4386-8dca-e6fa57025d62",
+      "state_key": "",
+      "asset_name": "Ash Legion torso · option C",
+      "code": "T10",
+      "name": "Ash Legion torso · option C · 1.2 scale review · cloth layer",
+      "w": 41,
+      "h": 58,
+      "frame_count": 1,
+      "category": "Troopers"
+    },
+    {
+      "id": "asset-6df79b1fc4841d56c121c3a2",
+      "path": "art/lab/hosted/library/asset-6df79b1fc4841d56c121c3a2.forge.json",
+      "sha256": "6df79b1fc4841d56c121c3a2966e6965294b67756a23db1a5f3006d8468e62b9",
+      "asset_id": "custom-115a49c4-8841-4fa9-b24f-b735da4fe993",
+      "state_key": "",
+      "asset_name": "Ash Legion thigh · option C",
+      "code": "A07",
+      "name": "Ash Legion thigh · option C · 1.2 scale review · cloth layer",
+      "w": 11,
+      "h": 13,
+      "frame_count": 2,
+      "category": "Arms"
+    },
+    {
+      "id": "asset-1c341823399f9fd1358b13f3",
+      "path": "art/lab/hosted/library/asset-1c341823399f9fd1358b13f3.forge.json",
+      "sha256": "1c341823399f9fd1358b13f3ae905053b46b64be01085793731f3640653dd131",
+      "asset_id": "custom-4573ea5d-fd71-4c95-ac7b-dd5d943e26dd",
+      "state_key": "",
+      "asset_name": "Ash Legion shin · option C",
+      "code": "A08",
+      "name": "Ash Legion shin · option C · 1.2 scale review · cloth layer",
+      "w": 12,
+      "h": 13,
+      "frame_count": 2,
+      "category": "Arms"
+    },
+    {
+      "id": "asset-210f6d36cf0dcb4f50a78e06",
+      "path": "art/lab/hosted/library/asset-210f6d36cf0dcb4f50a78e06.forge.json",
+      "sha256": "210f6d36cf0dcb4f50a78e0656c606cbe37f18d608c1b291762ca9e88a78d321",
+      "asset_id": "custom-ash-legion-jumppack-arm",
+      "state_key": "",
+      "asset_name": "Ash Legion — jump-pack arm v1",
+      "code": "A05",
+      "name": "Ash Legion — jump-pack arm v1 · 1.2 scale review · cloth layer",
+      "w": 41,
+      "h": 58,
+      "frame_count": 1,
+      "category": "Arms"
     }
   ]
 }

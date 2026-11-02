@@ -1,0 +1,43 @@
+{
+  "forge": 1,
+  "code": "T10",
+  "name": "Ash Legion torso · option C · 1.2 scale review · cloth layer",
+  "w": 41,
+  "h": 58,
+  "fps": 8,
+  "base": 54,
+  "pixel_scale": 12,
+  "markers": {
+    "grip": null,
+    "muzzle": null,
+    "pivot": null,
+    "shoulder": [
+      18,
+      19
+    ],
+    "elbow": null,
+    "hand": null,
+    "hip": [
+      18,
+      31
+    ],
+    "knee": null
+  },
+  "notes": "Split from the T09 Ash Legion jump-pack fit-test (auto-reduced, not hand-cleaned) on 1 Nov 2026. Option C palette: magenta glow, oxblood cloth. Torso, head, pack and front tabard. Shoulder is where the arm attaches, Hip is where it sits on the legs. The legs are separate (A07 thigh, A08 shin). Test with the Torso slot.\nJarred 1 Nov: needs native-pixel cleanup to match the equipment family. Palette noise, block grouping and near/far distinction remain outstanding. This candidate changes ONLY game_scale to 1.2 and review notes; original pixels, frames and sockets retained. All four body parts must use the same scale. Rendered at 1 and 1.2 with current main game rig; not battle/play tested or approved. Do not treat the render comparison as final art. Cloth moved to the Cloth layer (greys; the game colours it per faction) on 1 Nov 2026.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACkAAAA6CAYAAAAtInDDAAAC/0lEQVR4Xu2XS2sTURTHb0SwNSSE2EBCfaC1ioW4KhTUunAhCi78Di7d+B3cu3Htd3AhLl0YFQpdiAOVWqv4KAm0hpAQ265Gfjc902vIvDLXoHh/EDIJM/f873ndM0o5HI7U5FI/EcLUdME/MVNVxVJZ3/HeW7G2tpWFLtWX/JlKJZC/tHhZX6+svlONF88y2ziS1ZN4UNaoVSvqQrGrvn5v6r9EbFaOZl1gajofLOF5a6peX1CvG6+UVyrraxtkDkWpXPXz+YI6N39R7WxvKzPs/LaRn6nDPXtq3l++ccfnGwF7u33V7/eU93ZVCxJhhN4WseGWosD4549rauvbRq5YKvsIG4js5fZ2B9eddktvottpWxWZyJMIxLBASDvt1shUYRNsgLy01YYiRZJvGLoyd0wbp0jwrIQ0DDZAv8Srza0vofclJVIk+YYoFpMcTFoIbA6hFJXZpsYhMic5QfBi7/icKpb2dYEkDeG9u9f9J09fZu4eEOlJOeIKPzelMLTRxw/v+88fPQiaeBgIHcdzqSDUfDBmhluEmouRv4SV+7hOZSiGyHAgkHB/6BYjz2DEnT3/++lCWiA2rAukITLc9MU3m/tBgw6DqpcWxTcbg9rsGV1wUnzjkqhPRhULXqSCyV/ajeSxCKN1IS5LCsSKRCA5KTk3yhs/dlpaIOBFvM9wQdMXsYR93FYU0yd7Oq8wirdMMDhsFCG0HRky4pp+UmI9iWE5cVhUhHFm8/vg7A5CKl2g2To8SslTnpNn0hIrEqjugcDD2VHCKB7ldBI+bazr4ffq8jUdcvLUfNY6iJB+KYuTAvwXl2OMdDYaeuyodhAiPX4NI+EzhZhHIe83DQtuSxRuKlxaCZCnYW3JbDU2vAiJRCYFL9LAJV+HB4y49Agj85RiHn1c37x1W9tiKBkWifikU5RJZk8SegkrXjx9shZMTcPIcfnXYCsfrefknyJzuCfB/y2SoUTgdWMSHk/NuD3REcWo2TMNEysc3uEdDofD4XA4HA7Hv8wvM49ynkMs3E8AAAAASUVORK5CYII=",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACkAAAA6CAYAAAAtInDDAAAAUklEQVR4Xu3TMQrAIAwFUPFAnrO3Vhw6tg6xJcJ7kDV8k1gKALzp7eqzolOq0QZ/OCLk53asG25Z7mn5u7MEfZQ+4E7Rxy7XnYGQAAAAAABwkAF3JhL5IgSrBgAAAABJRU5ErkJggg==",
+      "trim": null,
+      "guts": null,
+      "cloth": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACkAAAA6CAYAAAAtInDDAAACA0lEQVR4Xu2XwW3CQBBFnShdUAFX7i6BOxINuAKKoAIasOS7S+DOlQqog+hb+dGwrL27s7uRFc2TLIixM3//zM7YTWMYxnrY7/fP9aj5D5Rw9LO2EdvttnYII5qP6Ct/QI2N4zjdh+/H43H65Xa7Nff7veFvJVHXJATKetvtdg0Ey41yOp2mNpS7eYIiGYifIacglNeez+ffTPGchuR0AwaEewTplripH4bheTgcVPGSb2Idtm07abpery9CIQ7AcSwGf7MstDUbTLeEAuHIZrN5WyCclXUq0w20PfMrpUYY5PF4PCGSLiLVriCWBJ0FWATOu9eGiHYSLiII0wyhbD2+oBDH87gPh28xMUSLnEuVdMoHahPlAYF0MkaYJEokNwACyY3CDTInDufZI+Fq3/cvHaEYbn9DUBxoKSm9z+23VaFIXxAImZsuPJ87fbzwn0rXpNAl0aVIakESjsfQmCxB8sTx4aYQnUBOF2487YKKiJTw6YjjUH4udYMlolrQEq6LcIvC2MxDvTREtkjZ5OXjHIRxAZfLZbpOm+4izO1wiMaBEYq+qg2W7SRfJ3xjkzMbcOZX6ZM50EF88oFEQ7aTS7hzXktVkUxxLlVFlqKqSKbb96qRQlWRfIPEpsmpT/UDRgpd16lfwkBVkfL1dhzHlHX9Latr3oZhGIZhGIZhKPkG7xk9USehQq4AAAAASUVORK5CYII="
+    }
+  ],
+  "game_scale": 1.2,
+  "checks": {
+    "visual": false,
+    "tested": false
+  },
+  "asset_id": "custom-48c145bc-fb86-4386-8dca-e6fa57025d62",
+  "state_key": ""
+}

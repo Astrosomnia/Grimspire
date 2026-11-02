@@ -287,3 +287,10 @@ First playable review of the straight foreground gun arm and glove on all six gu
 - THIGH (Hip, Knee) and SHIN (Knee) test slots, releasable, carried into weapon-only builds. Frame 1 near leg, frame 2 far.
 - The game on main draws them on its walk rig; they work as a pair.
 - Checks: 42 hosted tests (new legs test) and 6 catalog tests pass.
+
+## Cloth layer — 2026-11-01 (Claude)
+
+- Editor: new Cloth layer (paints grey), previewed in the selected faction's cloth colour in the canvas, strip, readability, lit view, Rig, thumbnails and kit export. "Trim tint" is now "Faction"; faction colours updated (Ash Legion magenta, Neon Choir cyan).
+- Validation accepts the cloth layer. Saves and tests carry it to the game.
+- New versions of the Ash Legion torso, thigh, shin and arm with their red cloth moved to the Cloth layer.
+- Checks: 42 hosted + 6 catalog tests, rig test and editor script compile pass.

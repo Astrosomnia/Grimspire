@@ -1,0 +1,47 @@
+{
+  "forge": 1,
+  "code": "A08",
+  "name": "Ash Legion shin · option C · 1.2 scale review · cloth layer",
+  "w": 12,
+  "h": 13,
+  "fps": 8,
+  "base": null,
+  "pixel_scale": 12,
+  "markers": {
+    "grip": null,
+    "muzzle": null,
+    "pivot": null,
+    "shoulder": null,
+    "elbow": null,
+    "hand": null,
+    "hip": null,
+    "knee": [
+      6,
+      0
+    ]
+  },
+  "notes": "Split from the T09 Ash Legion jump-pack fit-test (auto-reduced, not hand-cleaned) on 1 Nov 2026. Option C palette: magenta glow, oxblood cloth. Shin and boot (with the knee lamp), hung from the Knee. Frame 1 near leg, frame 2 far leg.\nJarred 1 Nov: needs native-pixel cleanup to match the equipment family. Palette noise, block grouping and near/far distinction remain outstanding. This candidate changes ONLY game_scale to 1.2 and review notes; original pixels, frames and sockets retained. All four body parts must use the same scale. Rendered at 1 and 1.2 with current main game rig; not battle/play tested or approved. Do not treat the render comparison as final art. Cloth moved to the Cloth layer (greys; the game colours it per faction) on 1 Nov 2026.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAANCAYAAACdKY9CAAAA+UlEQVR4XnVSTQuCQBRcI6iQQixB6esQXYKgQ6c+rlG/uzoEHSKhoE59oWCEFFI3Yx7ttrI1IKvum7cz81ZjHximHY/GE/4p4LobtnUXGv+R4i+vZ0Sbnh8kir3LIdFEIjw0eRNkILz5ojsgCICu50W3XiOjyFMIHLWKw3b3QkK74gEoGCZzbIsdzx67Bl8vMoSkbC4fyyf8QxobiNQp11nJsqhusVyze3j7ySGCjPl0RtKi6PGTQJFBTjanU0G70yUfmIe7WiqxEqFcbcboChlYidhu0YoTL6e9OmmeEgAvfOL94SAhjTxALx5cj2LJFoYRLcgIhU/8DXImYpQ9IkBUAAAAAElFTkSuQmCC",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAANCAYAAACdKY9CAAAAIElEQVR4XmNgoCb4r9fxH908JlwWYFNMEJClaRQMTgAALYoIH+BGxNsAAAAASUVORK5CYII=",
+      "trim": null,
+      "guts": null,
+      "cloth": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAANCAYAAACdKY9CAAAAFUlEQVR4XmNgGAWjgHzg6+v7n2zdAHJnAecMBmmOAAAAAElFTkSuQmCC"
+    },
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAANCAYAAACdKY9CAAAA+UlEQVR4XnVSTQuCQBRcI6iQQixB6esQXYKgQ6c+rlG/uzoEHSKhoE59oWCEFFI3Yx7ttrI1IKvum7cz81ZjHximHY/GE/4p4LobtnUXGv+R4i+vZ0Sbnh8kir3LIdFEIjw0eRNkILz5ojsgCICu50W3XiOjyFMIHLWKw3b3QkK74gEoGCZzbIsdzx67Bl8vMoSkbC4fyyf8QxobiNQp11nJsqhusVyze3j7ySGCjPl0RtKi6PGTQJFBTjanU0G70yUfmIe7WiqxEqFcbcboChlYidhu0YoTL6e9OmmeEgAvfOL94SAhjTxALx5cj2LJFoYRLcgIhU/8DXImYpQ9IkBUAAAAAElFTkSuQmCC",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAANCAYAAACdKY9CAAAAIElEQVR4XmNgoCb4r9fxH908JlwWYFNMEJClaRQMTgAALYoIH+BGxNsAAAAASUVORK5CYII=",
+      "trim": null,
+      "guts": null,
+      "cloth": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAANCAYAAACdKY9CAAAAFUlEQVR4XmNgGAWjgHzg6+v7n2zdAHJnAecMBmmOAAAAAElFTkSuQmCC"
+    }
+  ],
+  "game_scale": 1.2,
+  "checks": {
+    "visual": false,
+    "tested": false
+  },
+  "asset_id": "custom-4573ea5d-fd71-4c95-ac7b-dd5d943e26dd",
+  "state_key": ""
+}
