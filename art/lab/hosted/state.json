@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "current": "20261102T073249Z-cdf2e5fa",
+  "current": "20261102T073613Z-302d2824",
   "revisions": [
     {
       "id": "20261031T210936Z-6c67f2da",
@@ -278,6 +278,14 @@
       "id": "20261102T073249Z-cdf2e5fa",
       "created": "2026-11-02T07:32:49.492Z",
       "notes": "Tank with twin yellow lamp rings (C04 asset-9834162d) on top of 20261102T071533Z-06c99a08.",
+      "slot": "W04",
+      "variant": "custom",
+      "author": "Claude"
+    },
+    {
+      "id": "20261102T073613Z-302d2824",
+      "created": "2026-11-02T07:36:13.363Z",
+      "notes": "Death marker C06 (asset-501ddda0) on top of 20261102T073249Z-cdf2e5fa.",
       "slot": "W04",
       "variant": "custom",
       "author": "Claude"

@@ -1,0 +1,58 @@
+{
+  "schema": 2,
+  "id": "20261102T073613Z-302d2824",
+  "created": "2026-11-02T07:36:13.363Z",
+  "author": {
+    "id": null,
+    "login": "Claude"
+  },
+  "base_main": "0b7d117df69882e48d2b49b5de8c85c17228a5b5",
+  "source_lab_commit": "dcc2f85cf6e21d7472d6fd58a3fa9bb49753054a",
+  "notes": "Death marker C06 (asset-501ddda0) on top of 20261102T073249Z-cdf2e5fa.",
+  "selected_slot": "W04",
+  "original_code": "W04",
+  "variant": "custom",
+  "slots": [
+    "W01",
+    "W02",
+    "W03",
+    "W04",
+    "W05",
+    "W06",
+    "W07",
+    "W08",
+    "ARM",
+    "TORSO",
+    "THIGH",
+    "SHIN",
+    "W09",
+    "W10",
+    "W11",
+    "W12",
+    "W13",
+    "W14",
+    "W15",
+    "W16",
+    "W18",
+    "W19",
+    "W20",
+    "W21",
+    "M01",
+    "C02",
+    "C04",
+    "CRATE_ARMS",
+    "CRATE_HEAVY",
+    "CRATE_MED",
+    "CRATE_TOOL",
+    "C03",
+    "C06"
+  ],
+  "files": {
+    "game.html": "4658161419855bc0db7cf00ff99a4d94eefa4fab9e52c466840bef2c25b04246",
+    "payload.json": "f5bf781ced78bba1aa587a838027b5ffc233243337a29775f582eded9a39c5dd"
+  },
+  "stored": [
+    "payload.json"
+  ],
+  "status": "draft"
+}
