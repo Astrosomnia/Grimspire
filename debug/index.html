@@ -525,7 +525,7 @@ function scarTags(cx,cy,r){for(const q of tags){if(cx+r+14<q.x||cx-r-14>q.x+q.w|
     gfx.fillStyle=g;gfx.fillRect(cx-r-16,cy-r-16,r*2+32,r*2+32);gfx.globalCompositeOperation='source-over';
     const was=q.left;q.left=paintLeft(q)/q.a0;
     const n=Math.round((was-q.left)*40);for(let i=0;i<n;i++){const a=RR()*6.283,sp=60+RR()*200;parts.push({k:'spark',x:clamp(cx+Math.cos(a)*r,q.x,q.x+q.w),y:clamp(cy+Math.sin(a)*r,q.y,q.y+q.h),vx:Math.cos(a)*sp,vy:Math.sin(a)*sp-60,life:.3+RR()*.4,max:.7,col:rgba(q.c,1)})}}}
-function tagLights(L){for(const q of tags){const k=Math.max(0,(q.left??1)-.08)/.92;if(k<=0)continue;L.push({x:q.x+q.w/2,y:q.y+q.h/2,r:(q.w>40?120:80)*(.6+.4*k),c:q.c,i:.32*k,h:.03*k})}}
+function tagLights(L){for(const q of tags){const k=Math.max(0,(q.left??1)-.08)/.92*(NS.on?.6:1);if(k<=0)continue;L.push({x:q.x+q.w/2,y:q.y+q.h/2,r:(q.w>40?120:80)*(.6+.4*k),c:q.c,i:.32*k,h:.03*k})}}
 
 /* ================= state ================= */
 let mines=[],troopers=[],projs=[],parts=[],texts=[],tracers=[],graves=[],builds=[],beams=[],flashes=[],fixtures=[],barrels=[],puddles=[],fires=[],flames=[],crates=[],ships=[];
@@ -585,7 +585,7 @@ function ruinRock(g,hs){
   g.putImageData(img,0,0);
   for(let x=0;x<=W;x++){let y=0;const cx=Math.min(W-1,x);while(y<H&&!m[y*W+cx])y++;hs[x]=y}
 }
-function genTerrain(){
+function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;
   struct.width=W;struct.height=H;carv.width=W;carv.height=H;eyes=[];
   const g=mctx;g.globalCompositeOperation='source-over';g.clearRect(0,0,W,H);sctx.clearRect(0,0,W,H);
   g.fillStyle='#fff';sctx.fillStyle='#fff';bctx.clearRect(0,0,W,H);
@@ -603,6 +603,8 @@ function genTerrain(){
     hs[x]=h;if(x%2===0)g.lineTo(x,h)}
   g.lineTo(W,H);g.closePath();g.fill()}
   const hAt=x=>hs[clamp(Math.round(x),0,W)];
+  // the rock's interior: caves and craters below the ground line show darkness, not the sky (north look)
+  {const hg=hollow.getContext('2d');hg.clearRect(0,0,W,H);hg.fillStyle='#090c12';hg.beginPath();hg.moveTo(0,H);for(let x=0;x<=W;x+=2)hg.lineTo(x,hs[x]+6);hg.lineTo(W,H);hg.closePath();hg.fill()}
   const used=[],spires=[],hangs=[];
   const freeX=(gap,lo=220,hi=W-220)=>{let x,k=0;do{x=rnd(lo,hi);k++}while(k<80&&used.some(u=>Math.abs(u-x)<gap));used.push(x);return x};
   const both=fn=>{fn(g);fn(sctx)};
@@ -775,7 +777,74 @@ function rebuildRim(){
   rctx.globalCompositeOperation='destination-out';rctx.drawImage(mask,0,3);
   rctx.globalCompositeOperation='source-in';rctx.fillStyle='rgba(150,180,235,.6)';rctx.fillRect(0,0,W,H);
   rctx.globalCompositeOperation='source-over';rimDirty=false;
+  if(NS.on)rebuildTopLight();
 }
+// ---- North Star look (Phase 3, interim target: art/reference/phase3-interim-north-star-20261102.png) ----
+// Colour comes from the atmosphere and from real lights, not from outlines: a hazy blue-grey sky and skyline
+// stacked in depth (farther = lighter and softer), stone lit from above with shadowed undersides, neon kept
+// to the lights themselves, and black water that reflects the scene in broken horizontal bands.
+// Render only: nothing here touches the sim or its random numbers. #classic in the URL (or L, or the TEST
+// panel) switches back to the previous look for side-by-side checks.
+const NS={on:!/(^#|&)classic\b/.test(location.hash),layers:null,backN:null,backGen:-1,reflect:null};
+function nsToggle(on){NS.on=on===undefined?!NS.on:on;rimDirty=true;toplAll=true}
+// Skyline in three hazy bands, built on first use with the same kit as the old two layers.
+function nsLayers(){if(NS.layers)return NS.layers;
+  const L=(par,col,a,b,haze,ha,list)=>Object.assign(statues(Object.assign(mkLayer(par,col,a,b),{rim:0}),list),{haze,ha});
+  return NS.layers=[L(.12,'#46536b',.14,.38,'#62718b',.62,[[0,RR()*.25+.1,.5,250]]),
+    L(.28,'#333e52',.22,.48,'#4d5a72',.52,[[1,RR()*.2+.45,.62,200]]),
+    L(.5,'#202838',.34,.6,'#3a465b',.5,[[2,RR()*.15+.75,.6,160]])]}
+// Back walls and facades sit between the skyline and the play layer: lifted toward the haze. The rock's dark
+// interior (behind caves and craters) is baked in with them, so it costs one draw.
+function nsBack(){if(NS.backGen===genTerrain.n&&NS.backN)return NS.backN;NS.backGen=genTerrain.n;
+  const c=NS.backN||mk(W,H),g=c.getContext('2d');g.globalCompositeOperation='copy';g.drawImage(back,0,0);
+  g.globalCompositeOperation='source-atop';g.fillStyle='rgba(34,42,56,.7)';g.fillRect(0,0,W,H);g.globalCompositeOperation='source-over';g.drawImage(hollow,0,0);return NS.backN=c}
+// Light from above: the top few pixels of every surface catch the sky, undersides fall into shadow. Built per
+// column from the terrain mask, only for columns a blast or build has touched since the last frame.
+const topl=mk(W,H),tlctx=topl.getContext('2d'),hollow=mk(W,H);let toplImg=null,toplAll=true,toplX0=W,toplX1=-1;
+function toplMark(x0,x1){toplX0=Math.min(toplX0,Math.max(0,Math.floor(x0)));toplX1=Math.max(toplX1,Math.min(W-1,Math.ceil(x1)))}
+function rebuildTopLight(){
+  if(!toplImg)toplImg=tlctx.createImageData(W,H);const d=toplImg.data;
+  let x0=toplX0,x1=toplX1;if(toplAll){x0=0;x1=W-1}if(x1<x0)return;
+  for(let x=x0;x<=x1;x++){
+    let run=99;
+    for(let y=0;y<H;y++){const i=y*W+x,o=i*4;
+      if(solid[i]){run=(y>0&&solid[i-W])?run+1:0;
+        if(run<14){const k=run===0?.85:run===1?.5:(1-run/14)*(1-run/14)*.3;d[o]=176;d[o+1]=190;d[o+2]=214;d[o+3]=k*255|0}else d[o+3]=0}
+      else{run=99;d[o+3]=0}}
+    // undersides: the few pixels above an opening below are in shadow
+    let below=99;
+    for(let y=H-1;y>=0;y--){const i=y*W+x,o=i*4;
+      if(solid[i]){below=(y<H-1&&!solid[i+W])?0:below+1;
+        if(below<7&&d[o+3]<60){const k=(1-below/7)*.5;d[o]=3;d[o+1]=5;d[o+2]=9;d[o+3]=k*255|0}}
+      else below=99}}
+  tlctx.putImageData(toplImg,0,0,x0,0,x1-x0+1,H);toplAll=false;toplX0=W;toplX1=-1}
+// Black water: the scene above reflected in broken horizontal bands that sway and thin out with depth,
+// neon streaks under the lights near it, and mist where the water meets the air.
+function nsWater(lights,WT){
+  const sy=Math.round(sump*WT[0]+WT[5]),Wc=cv.width,Hc=cv.height,rh=Math.min(sy,Hc-sy,Math.round(320*WT[0]));
+  if(rh>6&&sy>0){if(!NS.reflect||NS.reflect.width<Wc||NS.reflect.height<rh)NS.reflect=mk(Wc,Math.max(rh,NS.reflect?NS.reflect.height:0));
+    const rg=NS.reflect.getContext('2d');rg.globalCompositeOperation='copy';rg.drawImage(cv,0,sy-rh,Wc,rh,0,0,Wc,rh)}
+  ctx.fillStyle='#080c14';ctx.fillRect(-600,sump,W+1200,H+1600);
+  if(rh>6&&sy>0){ctx.save();ctx.setTransform(1,0,0,1,0,0);const bh=Math.max(2,Math.round(2.2*DPR)),R=NS.reflect;
+    for(let y=0;y<rh;y+=bh){const f=y/rh,src=rh-y-bh;if(src<0)break;
+      const wob=(Math.sin(time*1.6+y*.13)*(.6+f*5)+Math.sin(time*.7+y*.041)*f*6)*DPR*Math.min(2,scale);
+      const a=.62*Math.pow(1-f,1.1)*(.6+.4*Math.sin(y*.29+time*2.1));if(a<.015)continue;
+      ctx.globalAlpha=a;ctx.drawImage(R,0,src,Wc,bh,wob,sy+y,Wc,bh)}
+    ctx.globalAlpha=1;ctx.restore()}
+  const dk=ctx.createLinearGradient(0,sump,0,sump+260);dk.addColorStop(0,'rgba(5,8,14,.06)');dk.addColorStop(1,'rgba(5,8,14,.7)');ctx.fillStyle=dk;ctx.fillRect(-600,sump,W+1200,260);
+  ctx.fillStyle='#04060a';ctx.fillRect(-600,sump+260,W+1200,H+1600);
+  // neon under the lights: short broken streaks, brightest at the surface
+  ctx.save();ctx.globalCompositeOperation='lighter';
+  for(const L of lights){if(L.i<=0||L.y>sump+2||L.y<sump-320)continue;const near=1-(sump-L.y)/320,w0=Math.min(46,L.r*.32)*(.5+near*.6);
+    for(let k=0;k<9;k++){const y=sump+3+k*4.2+Math.sin(time*2.3+k+L.x*.01)*.8,w=w0*(1-k/12)*(.7+.3*Math.sin(time*3.1+k*1.7+L.x)),a=Math.min(.75,L.i*near*(1-k/10)*.7);
+      if(a<.02||w<2)continue;const x=L.x+Math.sin(time*1.3+k*.9)*3;ctx.fillStyle=rgba(L.c,a);
+      ctx.fillRect(x-w/2,y,w*.42,1.2);ctx.fillRect(x-w/2+w*.52,y,w*.48,1.2)}}
+  ctx.restore();
+  ctx.strokeStyle='rgba(170,190,225,.34)';ctx.lineWidth=1;ctx.beginPath();
+  for(let x=0;x<=W;x+=10){const y=sump+Math.sin(x*.03+time*2)*1.2+Math.sin(x*.011-time*1.3)*.8;x===0?ctx.moveTo(x,y):ctx.lineTo(x,y)}ctx.stroke();
+  const fog=ctx.createLinearGradient(0,sump-110,0,sump+4);fog.addColorStop(0,'rgba(110,128,160,0)');fog.addColorStop(1,'rgba(110,128,160,.16)');ctx.fillStyle=fog;ctx.fillRect(-600,sump-110,W+1200,114);
+}
+
 function checkFixtures(){for(const f of fixtures)if(f.alive&&!isSolid(f.ax,f.ay)){f.alive=false;const c=NEON[f.c];
   for(let i=0;i<14;i++){const a=rnd(0,6.283),s=rnd(40,200);parts.push({k:'spark',x:f.x,y:f.y,vx:Math.cos(a)*s,vy:Math.sin(a)*s-40,life:rnd(.3,.8),max:.8,col:rgba(c,1)})}
   flashes.push({x:f.x,y:f.y,r:120,c,life:.35,max:.35,i:1});sfx('fizz')}}
@@ -786,7 +855,7 @@ function carve(cx,cy,r,scorch=true){
     const rg=tctx.createRadialGradient(cx,cy,r*.7,cx,cy,r+12);rg.addColorStop(0,'rgba(8,6,6,.95)');rg.addColorStop(.6,'rgba(30,14,8,.6)');rg.addColorStop(1,'rgba(0,0,0,0)');
     tctx.fillStyle=rg;tctx.fillRect(cx-r-14,cy-r-14,r*2+28,r*2+28)}
   for(const g of[tctx,mctx,gfx]){g.globalCompositeOperation='destination-out';g.fillStyle='#000';g.beginPath();g.arc(cx,cy,r,0,Math.PI*2);g.fill();g.globalCompositeOperation='source-over'}
-  rimDirty=true;checkFixtures();scarTags(cx,cy,r);
+  rimDirty=true;toplMark(cx-r-2,cx+r+2);checkFixtures();scarTags(cx,cy,r);
   if(window.GRIMSPIRE_SET_PIECES)setPiecesHit(cx,cy,r);
 }
 function carveLine(x0,y0,x1,y1,r,col){
@@ -796,7 +865,7 @@ function carveLine(x0,y0,x1,y1,r,col){
   tctx.globalCompositeOperation='source-atop';tctx.strokeStyle=col||'rgba(10,6,6,.9)';tctx.lineWidth=r*2+10;tctx.lineCap='round';
   tctx.beginPath();tctx.moveTo(x0,y0);tctx.lineTo(x1,y1);tctx.stroke();
   for(const g of[tctx,mctx,gfx]){g.globalCompositeOperation='destination-out';g.strokeStyle='#000';g.lineWidth=r*2;g.lineCap='round';g.beginPath();g.moveTo(x0,y0);g.lineTo(x1,y1);g.stroke();g.globalCompositeOperation='source-over'}
-  rimDirty=true;checkFixtures();for(const q of tags)if(q.left>0){const was=q.left;q.left=paintLeft(q)/q.a0}
+  rimDirty=true;toplMark(Math.min(x0,x1)-r-2,Math.max(x0,x1)+r+2);checkFixtures();for(const q of tags)if(q.left>0){const was=q.left;q.left=paintLeft(q)/q.a0}
   if(window.GRIMSPIRE_SET_PIECES)setPiecesHitLine(x0,y0,x1,y1,r);
 }
 let girders=[];
@@ -808,7 +877,7 @@ function stampGirder(b){girders.push({x:b.x,y:b.y,rot:b.rot});
     if(g===tctx){g.strokeStyle='rgba(0,0,0,.6)';g.lineWidth=1;g.beginPath();for(let k=-L/2+6;k<L/2-6;k+=12){g.moveTo(k,-T/2+2);g.lineTo(k+6,T/2-2);g.lineTo(k+12,-T/2+2)}g.stroke();
       g.strokeRect(-L/2+.5,-T/2+.5,L-1,T-1);g.fillStyle='rgba(0,0,0,.6)';for(let k=-L/2+4;k<L/2;k+=12)g.fillRect(k,-1,2,2)}
     g.restore()}
-  rimDirty=true;
+  rimDirty=true;toplMark(b.x-60,b.x+60);
 }
 function surf(x){for(let y=0;y<H;y++)if(isSolid(x,y))return y-1;return H}
 function normalAt(x,y){let nx=0,ny=0;for(let dy=-4;dy<=4;dy++)for(let dx=-4;dx<=4;dx++)if(isSolid(x+dx,y+dy)){nx-=dx;ny-=dy}const l=Math.hypot(nx,ny)||1;return[nx/l,ny/l]}
@@ -1918,6 +1987,7 @@ addEventListener('keydown',e=>{
   if(e.code==='Tab'||e.code==='KeyI'){e.preventDefault();$('#arsenal').hidden?openArsenal():closeArsenal();return}
   if(!$('#arsenal').hidden&&/^Arrow/.test(e.code)){e.preventDefault();navArsenal(e.code);return}
   if(e.code==='KeyC'){S.camFree=false;S.camSnap=true;return}
+  if(e.code==='KeyL'){nsToggle();return}
   if(e.code==='KeyX'){e.preventDefault();act('s',-1);return}
   if(/^Digit[1-5]$/.test(e.code)&&curW().kind==='grenade'&&!S.charging){act('f',+e.code.slice(5));return}
   if(e.code==='Equal'||e.code==='NumpadAdd'){setZoom(S.zoom*1.15);return}
@@ -2013,7 +2083,8 @@ function dbgBuild(){if(!DBG.on||$('#dbg'))return;const d=document.createElement(
     <div class="dr"><input id="dbHp" type="number" min="1" max="999" value="100" aria-label="Health"><button id="dbSetHp" type="button">Set HP</button><button id="dbKill" type="button">Kill</button></div>
     <div class="dr"><button id="dbSkip" type="button">End turn</button><button id="dbInf" type="button">Timer ∞</button></div>
     <div class="dr"><select id="dbC"><option value="heavy">Heavy</option><option value="arms">Arms</option><option value="tool">Tool</option><option value="med">Health</option></select><button id="dbDrop" type="button">Drop crate</button></div>
-    <div class="dr"><button id="dbUp" type="button">Sump +20</button><button id="dbDn" type="button">Sump −20</button><button id="dbWind" type="button">Wind</button></div></div>`;
+    <div class="dr"><button id="dbUp" type="button">Sump +20</button><button id="dbDn" type="button">Sump −20</button><button id="dbWind" type="button">Wind</button></div>
+    <div class="dr"><button id="dbLook" type="button">Look: ${NS.on?'north star':'classic'}</button><button id="dbSD" type="button">Sky bleed</button></div></div>`;
   document.body.append(d);const on=(id,f)=>$(id).addEventListener('click',()=>{if(S.phase==='title'||S.mode==='online')return;f();dbgDraw()});
   $('#dbT').addEventListener('click',()=>{$('#dbP').hidden=!$('#dbP').hidden;dbgDraw()});
   d.querySelectorAll('[data-fac]').forEach(b=>b.addEventListener('click',()=>{DBG.fac=+b.dataset.fac;dbgDraw()}));
@@ -2026,6 +2097,7 @@ function dbgBuild(){if(!DBG.on||$('#dbg'))return;const d=document.createElement(
   on('#dbSkip',()=>{S.phase='end';S.charging=false;S.jet=null});
   on('#dbInf',()=>{DBG.inf=!DBG.inf});
   on('#dbDrop',()=>{const c=$('#dbC').value,x=clamp(cam.x+cw/scale/2,60,W-60);crates.push({x,y:Math.max(20,cam.y+20),vy:0,type:c,landed:false,para:true})});
+  on('#dbLook',()=>{nsToggle();$('#dbLook').textContent='Look: '+(NS.on?'north star':'classic')});on('#dbSD',()=>{S.rnd=(S.rnd||0)>=SD_ROUND?0:SD_ROUND});
   on('#dbUp',()=>{sump=Math.max(80,sump-20)});on('#dbDn',()=>{sump=Math.min(H-10,sump+20)});
   on('#dbWind',()=>{S.wind=Math.round((S.wind<=-.95?1:S.wind-.5)*10)/10})}
 setInterval(()=>{if(DBG.on){if(DBG.inf&&S.phase==='aim')S.timer=40;if($('#dbP')&&!$('#dbP').hidden)dbgDraw()}},500);
@@ -2401,7 +2473,7 @@ function updCamera(dt){
 function gatherLights(){
   const L=[];
   for(const f of fixtures){if(!f.alive)continue;let i=.95;if(f.faulty&&Math.sin(time*31+f.ph)+Math.sin(time*7.3+f.ph)>1.3)i=.15;else if(Math.sin(time*19+f.ph)>.985)i=.3;
-    f.i=i;L.push({x:f.x,y:f.y,r:f.k==='eye'?42:f.k==='post'||f.k==='lamp'?150:175,c:NEON[f.c],i:f.k==='eye'?i*.8:i,h:f.k==='eye'?.05:.09})}
+    f.i=i;const nk=NS.on&&f.k!=='eye'?.45:1;L.push({x:f.x,y:f.y,r:(f.k==='eye'?42:f.k==='post'||f.k==='lamp'?150:175)*(NS.on&&f.k!=='eye'?.55:1),c:NEON[f.c],i:(f.k==='eye'?i*.8:i)*nk,h:(f.k==='eye'?.05:.09)*(NS.on?.8:1)})}
   for(const t of troopers)if(t.alive)L.push({x:t.x+t.face*3,y:t.y-21,r:46,c:TEAM[t.team].rgb,i:.45,h:0});
   wardLights(L);tagLights(L);
   for(const m of mines){const hot=m.trig>=0;L.push({x:m.x,y:m.y-8,r:hot?90:40,c:hot||m.armed?[255,60,60]:[255,178,30],i:hot?.9:.5,h:hot?.08:0})}
@@ -2583,7 +2655,8 @@ function render(dt){
   const s=1/scale,shx=(Math.random()-.5)*shake,shy=(Math.random()-.5)*shake;
   const WT=[DPR*scale,0,0,DPR*scale,(-cam.x*scale+shx)*DPR,(-cam.y*scale+shy)*DPR];
   ctx.setTransform(DPR,0,0,DPR,0,0);ctx.globalCompositeOperation='source-over';ctx.globalAlpha=1;
-  const sky=ctx.createLinearGradient(0,0,0,ch);sky.addColorStop(0,mixc([2,3,6],[14,2,5],BLEED));sky.addColorStop(.7,mixc([10,11,18],[46,6,14],BLEED));sky.addColorStop(1,mixc([26,12,22],[96,12,22],BLEED));ctx.fillStyle=sky;ctx.fillRect(0,0,cw,ch);
+  const sky=ctx.createLinearGradient(0,0,0,ch);if(NS.on){sky.addColorStop(0,mixc([10,13,20],[18,4,8],BLEED));sky.addColorStop(.55,mixc([24,30,42],[54,12,20],BLEED));sky.addColorStop(1,mixc([44,53,70],[104,22,30],BLEED))}
+  else{sky.addColorStop(0,mixc([2,3,6],[14,2,5],BLEED));sky.addColorStop(.7,mixc([10,11,18],[46,6,14],BLEED));sky.addColorStop(1,mixc([26,12,22],[96,12,22],BLEED))}ctx.fillStyle=sky;ctx.fillRect(0,0,cw,ch);
   // moon behind smog
   const mr=Math.min(cw,ch)*.11,mx=cw*.74-cam.x*.03*scale,my=ch*.22-cam.y*.03*scale;
   const mg=ctx.createRadialGradient(mx,my,mr,mx,my,mr*3.2);mg.addColorStop(0,mixa([170,190,230],[230,40,40],BLEED,.1+BLEED*.08));mg.addColorStop(1,mixa([170,190,230],[230,40,40],BLEED,0));ctx.fillStyle=mg;ctx.fillRect(mx-mr*3.2,my-mr*3.2,mr*6.4,mr*6.4);
@@ -2598,19 +2671,21 @@ function render(dt){
     ctx.fillStyle=gr;ctx.beginPath();ctx.moveTo(bx,by);ctx.lineTo(bx+Math.cos(a-sp)*L,by+Math.sin(a-sp)*L);ctx.lineTo(bx+Math.cos(a+sp)*L,by+Math.sin(a+sp)*L);ctx.fill()}
   ctx.globalCompositeOperation='source-over';
   farWar(dt);
-  for(const Ly of layers){
+  for(const Ly of NS.on?nsLayers():layers){
     ctx.setTransform(DPR*scale,0,0,DPR*scale,(-cam.x*Ly.par*scale+shx*Ly.par)*DPR,(-cam.y*Ly.par*scale+shy*Ly.par)*DPR);
     skyShips(Ly===layers[0]?dt:0,Ly===layers[0]?0:1);
     ctx.drawImage(Ly.c,0,0,W,H);ctx.fillStyle=Ly.col;ctx.fillRect(0,H-1,W,1800);
     for(const n of Ly.signs){if(Math.sin(time*19+n.ph*7)>.96)continue;ctx.shadowColor=n.col;ctx.shadowBlur=14;ctx.fillStyle=n.col;ctx.globalAlpha=Ly.par<.3?.5:.75;
-      ctx.fillRect(n.x,n.y,n.w,n.h);ctx.globalAlpha=1;ctx.shadowBlur=0;ctx.fillStyle=Ly.col;for(let i=4;i<n.h-3;i+=7)ctx.fillRect(n.x+2,n.y+i,n.w-4,2)}}
-  ctx.setTransform(...WT);ctx.drawImage(back,0,0);
+      ctx.fillRect(n.x,n.y,n.w,n.h);ctx.globalAlpha=1;ctx.shadowBlur=0;ctx.fillStyle=Ly.col;for(let i=4;i<n.h-3;i+=7)ctx.fillRect(n.x+2,n.y+i,n.w-4,2)}
+    // mist rising off the water separates each band from the next
+    if(Ly.haze){const hz=ctx.createLinearGradient(0,H*.42,0,H);const hc=[1,3,5].map(i=>parseInt(Ly.haze.slice(i,i+2),16));hz.addColorStop(0,mixa(hc,[120,32,40],BLEED,0));hz.addColorStop(1,mixa(hc,[120,32,40],BLEED,Ly.ha));ctx.fillStyle=hz;ctx.fillRect(-W,H*.42,W*3,H*.58+1800)}}
+  ctx.setTransform(...WT);ctx.drawImage(NS.on?nsBack():back,0,0);
   // ---- lit terrain ----
   const lights=gatherLights();FRAME_L=lights;FRAME_DT=dt;
   lctx.setTransform(1,0,0,1,0,0);lctx.globalCompositeOperation='source-over';lctx.clearRect(0,0,lit.width,lit.height);
   lctx.setTransform(...WT);lctx.drawImage(terr,0,0);
   lg.setTransform(1,0,0,1,0,0);lg.globalCompositeOperation='source-over';
-  const amb=lg.createLinearGradient(0,0,0,lmap.height);amb.addColorStop(0,mixc([34,38,54],[62,24,30],BLEED));amb.addColorStop(1,mixc([9,10,15],[16,6,8],BLEED));lg.fillStyle=amb;lg.fillRect(0,0,lmap.width,lmap.height);
+  const amb=lg.createLinearGradient(0,0,0,lmap.height);if(NS.on){amb.addColorStop(0,mixc([52,59,77],[80,30,36],BLEED));amb.addColorStop(1,mixc([24,28,38],[28,10,12],BLEED))}else{amb.addColorStop(0,mixc([34,38,54],[62,24,30],BLEED));amb.addColorStop(1,mixc([9,10,15],[16,6,8],BLEED))}lg.fillStyle=amb;lg.fillRect(0,0,lmap.width,lmap.height);
   lg.setTransform(scale/3,0,0,scale/3,(-cam.x*scale+shx)/3,(-cam.y*scale+shy)/3);lg.globalCompositeOperation='lighter';
   for(const L of lights){if(L.i<=0)continue;const gr=lg.createRadialGradient(L.x,L.y,0,L.x,L.y,L.r);gr.addColorStop(0,rgba(L.c,Math.min(1,L.i)));gr.addColorStop(.35,rgba(L.c,Math.min(1,L.i)*.45));gr.addColorStop(1,rgba(L.c,0));
     lg.fillStyle=gr;lg.fillRect(L.x-L.r,L.y-L.r,L.r*2,L.r*2)}
@@ -2619,7 +2694,7 @@ function render(dt){
   ctx.setTransform(1,0,0,1,0,0);ctx.drawImage(lit,0,0);
   // ---- world ----
   ctx.setTransform(...WT);
-  ctx.globalAlpha=.8;ctx.drawImage(rim,0,0);ctx.globalAlpha=.55;ctx.drawImage(graf,0,0);ctx.globalCompositeOperation='lighter';ctx.globalAlpha=.22;ctx.drawImage(graf,0,0);ctx.globalCompositeOperation='source-over';ctx.globalAlpha=1;
+  if(NS.on){const sm=ctx.imageSmoothingEnabled;ctx.imageSmoothingEnabled=false;ctx.drawImage(topl,0,0);ctx.imageSmoothingEnabled=sm}else{ctx.globalAlpha=.8;ctx.drawImage(rim,0,0)}ctx.globalAlpha=.55;ctx.drawImage(graf,0,0);ctx.globalCompositeOperation='lighter';ctx.globalAlpha=.22;ctx.drawImage(graf,0,0);ctx.globalCompositeOperation='source-over';ctx.globalAlpha=1;
   for(const f of fixtures)if(f.alive)drawFixture(f);
   for(const z of zones){const R=zoneR(z),g=ctx.createRadialGradient(z.x,z.y,0,z.x,z.y,R);const zk=zoneK(z);g.addColorStop(0,`rgba(150,255,60,${.16*zk})`);g.addColorStop(.7,`rgba(150,255,60,${.07*zk})`);g.addColorStop(1,'rgba(150,255,60,0)');ctx.fillStyle=g;ctx.beginPath();ctx.arc(z.x,z.y,R,0,Math.PI*2);ctx.fill()}
   if(window.GRIMSPIRE_SET_PIECES)setPiecesDraw(lights);
@@ -2681,6 +2756,7 @@ function render(dt){
   for(const L of lights){if(!L.h||L.i<=0)continue;const r=L.r*1.2,gr=ctx.createRadialGradient(L.x,L.y,0,L.x,L.y,r);gr.addColorStop(0,rgba(L.c,L.h*L.i));gr.addColorStop(1,rgba(L.c,0));ctx.fillStyle=gr;ctx.fillRect(L.x-r,L.y-r,r*2,r*2)}
   ctx.globalCompositeOperation='source-over';
   // sump
+  if(NS.on)nsWater(lights,WT);else{
   ctx.fillStyle='#030406';ctx.fillRect(0,sump,W,H+1600);
   ctx.strokeStyle='rgba(150,180,235,.45)';ctx.lineWidth=1.3;ctx.beginPath();
   for(let x=0;x<=W;x+=10){const y=sump+Math.sin(x*.03+time*2)*1.8+Math.sin(x*.011-time*1.3)*1.2;x===0?ctx.moveTo(x,y):ctx.lineTo(x,y)}ctx.stroke();
@@ -2688,6 +2764,7 @@ function render(dt){
     const g=ctx.createLinearGradient(ex,0,ex+d*60,0);g.addColorStop(0,'rgba(2,3,5,.9)');g.addColorStop(1,'rgba(2,3,5,0)');ctx.fillStyle=g;ctx.fillRect(Math.min(ex,ex+d*60),sump-4,60,H+1600)}
   for(const L of lights){if(L.y<sump-260||L.y>sump||L.i<=0)continue;ctx.fillStyle=rgba(L.c,.22*Math.min(1,L.i));for(let k=0;k<4;k++)ctx.fillRect(L.x-14+Math.sin(time*2+k)*6,sump+5+k*7,28-k*5,1.4)}
   const fog=ctx.createLinearGradient(0,sump-80,0,sump);fog.addColorStop(0,'rgba(120,140,180,0)');fog.addColorStop(1,'rgba(120,140,180,.08)');ctx.fillStyle=fog;ctx.fillRect(-600,sump-80,W+1200,80);
+  }
   // ---- UI in world ----
   if(S.phase!=='title'&&S.phase!=='over'){
     ctx.textAlign='center';
@@ -2802,7 +2879,7 @@ function loadState(str){const d=JSON.parse(str);
   for(const g of d.girders)if(!girders.some(q=>q.x===g.x&&q.y===g.y&&q.rot===g.rot))stampGirder(g);
   rleDec(d.terr,solid);
   const img=mctx.createImageData(W,H),px=img.data;for(let i=0;i<W*H;i++)if(solid[i])px[i*4+3]=255;mctx.putImageData(img,0,0);
-  tctx.globalCompositeOperation='destination-in';tctx.drawImage(mask,0,0);tctx.globalCompositeOperation='source-over';rimDirty=true;
+  tctx.globalCompositeOperation='destination-in';tctx.drawImage(mask,0,0);tctx.globalCompositeOperation='source-over';rimDirty=true;toplAll=true;
   zones=d.zones||[];sentries=d.sentries||[];troopers=d.troopers;mines=d.mines;barrels=d.barrels;crates=d.crates;fires=d.fires;puddles=d.puddles;graves=d.graves;corpses=d.corpses;girders=d.girders;
   fixtures.forEach((f,i)=>{f.alive=d.fx[i]==='1'});dressWard();if(window.GRIMSPIRE_SET_PIECES)setPiecesPlace();gfx.globalCompositeOperation='destination-in';gfx.drawImage(mask,0,0);gfx.globalCompositeOperation='source-over';
   projs=[];flames=[];builds=[];beams=[];tracers=[];ships=[];
@@ -3430,14 +3507,14 @@ function setPiecesPlace(force){
 }
 // Bakes per animation frame and squad: darkened body (cloth tinted), crisp emissive, and the edge masks rims draw from.
 function spBake(p){const a=labArt.get(p.slot);if(!a||!a.frames.length)return null;const d=a.doc,fi=Math.floor(time*Math.max(1,d.fps||8))%a.frames.length,f=a.frames[fi];if(!f.body)return null;
-  p.bk=p.bk||{};const key=fi+':'+p.team;if(p.bk[key])return p.bk[key];
+  p.bk=p.bk||{};const ns=typeof NS!=='undefined'&&NS.on,key=fi+':'+p.team+(ns?':n':'');if(p.bk[key])return p.bk[key];
   const w=d.w,h=d.h,base=mk(w,h),g=base.getContext('2d');g.drawImage(f.body,0,0);
   if(f.cloth){const c=p.team>=0?labCloth(f.cloth,p.team):(()=>{const cv=mk(w,h),cg=cv.getContext('2d');cg.drawImage(f.cloth,0,0);const id=cg.getImageData(0,0,w,h),q=id.data;
       for(let i=0;i<q.length;i+=4){if(!q[i+3])continue;const l=(.299*q[i]+.587*q[i+1]+.114*q[i+2])/128;q[i]=Math.min(255,62*l);q[i+1]=Math.min(255,64*l);q[i+2]=Math.min(255,72*l)}cg.putImageData(id,0,0);return cv})();g.drawImage(c,0,0)}
-  const dark=darken(base,labSettings.darkness);if(f.trim)dark.getContext('2d').drawImage(f.trim,0,0);
+  const dark=darken(base,ns?labSettings.darkness*.45:labSettings.darkness);if(f.trim)dark.getContext('2d').drawImage(f.trim,0,0);
   const px=g.getImageData(0,0,w,h).data,A=(x,y)=>x>=0&&y>=0&&x<w&&y<h&&px[(y*w+x)*4+3]>40;
   const mask=fn=>{const c=mk(w,h),cg=c.getContext('2d');cg.fillStyle='#fff';for(let y=0;y<h;y++)for(let x=0;x<w;x++)if(A(x,y)&&fn(x,y))cg.fillRect(x,y,1,1);return c};
-  const b={dark,base,emis:f.emis||null,top:mask((x,y)=>!A(x,y-1)),left:mask((x,y)=>!A(x-1,y)),right:mask((x,y)=>!A(x+1,y)),px,w,h};
+  const b={dark,base,emis:f.emis||null,full:mask(()=>true),top:mask((x,y)=>!A(x,y-1)),left:mask((x,y)=>!A(x-1,y)),right:mask((x,y)=>!A(x+1,y)),px,w,h};
   p.bk[key]=b;return b}
 const spTint=(()=>{let c=null;return(m,col,a)=>{if(!c||c.width<m.width||c.height<m.height)c=mk(Math.max(m.width,c?c.width:0),Math.max(m.height,c?c.height:0));
   const g=c.getContext('2d');g.globalCompositeOperation='source-over';g.clearRect(0,0,c.width,c.height);g.drawImage(m,0,0);g.globalCompositeOperation='source-in';g.fillStyle=rgba(col,a);g.fillRect(0,0,c.width,c.height);return c}})();
@@ -3454,10 +3531,13 @@ function setPiecesDraw(lights){
     const ox=-p.ax,oy=-p.ay,draw=c=>ctx.drawImage(c,0,0,b.w,b.h,ox,oy,b.w,b.h);
     draw(b.dark);
     // rims in the colour of the light: cold sky from above, then the two strongest nearby lights from their side
-    draw(spTint(b.top,sky,.32));
+    const ns=typeof NS!=='undefined'&&NS.on;
+    // north look: sky light on the tops in the same pale as the stone, nearby lights wash the whole face softly
+    draw(ns?spTint(b.top,[176,190,214],.5):spTint(b.top,sky,.32));
     const near=[];for(const L of lights){if(L.i<=0)continue;const d=Math.hypot(L.x-cx,L.y-cy),reach=L.r*1.15+(p.x1-p.x0)/2;if(d<reach)near.push({L,k:Math.min(1,L.i)*(1-d/reach)})}
     near.sort((a,b)=>b.k-a.k);
     for(const{L,k}of near.slice(0,2)){const side=Math.sign(L.x-cx)*p.face,a=Math.min(.9,k*1.4);if(a<.04)continue;
+      if(ns){ctx.globalCompositeOperation='lighter';draw(spTint(b.full,L.c,Math.min(.3,k*.4)));ctx.globalCompositeOperation='source-over';draw(spTint(side>=0?b.right:b.left,L.c,a*.4));continue}
       draw(spTint(side>=0?b.right:b.left,L.c,a));if(L.y<p.y0+(p.y1-p.y0)*.4)draw(spTint(b.top,L.c,a*.8))}
     if(b.emis){const col=p.R.light?rgba(p.R.light.c,1):labSettings.glowColor;ctx.shadowColor=col;ctx.shadowBlur=8;draw(b.emis);ctx.shadowBlur=0;draw(b.emis)}
     ctx.restore()}

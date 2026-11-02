@@ -6,6 +6,17 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-02 · Claude · North Star look, first pass (branch `phase3`, not live)
+- New render look aimed at `INTERIM-NORTH-STAR.md`, on `phase3` only. Colour comes from the atmosphere and real lights, not outlines:
+  - Sky and skyline: hazy blue-grey, three skyline bands (farther = lighter and softer) with mist rising off the water between them; facades lifted toward the haze.
+  - Stone: lit from above (bright top edge fading over ~14 px), undersides in shadow, replacing the old top rim. Caves and craters inside the rock show a dark interior instead of the sky.
+  - Neon kept to the lights: fixture and graffiti light on stone cut to about half; troopers keep their rims.
+  - Set pieces: sky light on their tops, nearby lights wash the whole face softly instead of outlining it.
+  - Water: the scene above reflected in broken, swaying horizontal bands, neon streaks under nearby lights, mist on the surface.
+  - Sudden death: the mist reddens with the sky.
+- Switch looks with **L** on desktop, the TEST panel's "Look" button, or `#classic` in the URL. Render only: map hashes match `main`, dsim/dsimart identical, art tests pass.
+- To check: frame rate on a real phone (the reflection and extra layers cost a little; headless timings were too noisy to trust).
+
 ## 2026-11-02 · Claude · Brazier live (GV 18); first set pieces loaded behind the switch
 - **Live:** the promethium brazier replaces the tank (C04 `asset-8d844e9f…`, no vents), with its amber flickering light and the iron-only hit area. GV 18: players on old builds are asked to refresh. Forge revision `20261102T194923Z-1df29329` is the current build.
 - **Loaded, not shown live:** S01 fallen head, S09 colossal head, S07 praying saint, S03 gargoyle. `SP_LIVE` stays false; they show in Forge tests, the debug build and with `#setpieces`.
