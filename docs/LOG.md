@@ -6,6 +6,14 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-01 · ChatGPT · Art Pass V2: weapon materials, animation retained
+- Saved **nine V2 versions** in existing W01–W08 Forge families: eight current weapons plus the historical 40-frame Chainblade edge-chase alternative. Art commit [ac4f9d5](https://github.com/Astrosomnia/Grimspire/commit/ac4f9d5262127ddb1615eeeb97ca7b372e7d602a); comparison, inventory and preservation proof in `art/lab/releases/art-pass-v2-v001/` on the art branch.
+- Shared eight-step neutral charcoal/gunmetal material palette reduces blue-purple metal bias and scattered shades. Jarred allowed blue/magenta light; all original emissive PNGs remain byte-identical, retaining cyan, magenta, red and amber. This is a material pass, with existing geometry retained.
+- Verified **313 frames**: original body alpha/silhouettes, frame count/order/FPS, grips/muzzles, effective scales (including 0.9× fist), trim/guts and emissive animation layers unchanged. Current main renderer loaded/drew every frame; all 42 Forge tests pass. Saved snapshot reconstructs with matching fingerprint.
+- Current/shared Chainblade is static; it remains the V2 default and in the combined review. The historical 40-frame edge chase is also saved as a V2 version, retaining its own geometry/anchors/timing. No earlier edits removed.
+- [Combined V2 review build](https://grimspire-forge.jarredpowell88.workers.dev/api/game?debug=1&grounds=1&revision=20261102T053403Z-e018ed93#grounds) is pinned to main `94521fd` and carries the newer shared arm/rig captured during preparation. Link opens the saved candidate directly; the current build pointer is untouched. Concurrent ARM saves and Library additions preserved; no force update.
+- Read back the nine registrations, manifest and proof; comparison GIF blob matches local bytes. Saved drafts only: no hosted battle playtest, final approval, main art integration or live release. Existing game/renderer/Forge code unchanged.
+
 ## 2026-11-01 · ChatGPT · Equipment/world art imported; Ash Legion 1.2 review
 - Added **36 draft Forge documents** on `art/weapon-lab` in [0b4a80a](https://github.com/Astrosomnia/Grimspire/commit/0b4a80ae3da6c1e34f0278d0e68642e2750216c1): latest equipment/props, crate marks, mine safe/armed versions, six environmental pieces and four 1.2× trooper candidates. Existing asset identities/states and all 46 prior Library registrations retained; current shared build pointer preserved.
 - Red equipment lights; hook-free W10 winch, heavy mining W11, W18 bipod, larger W19, handheld W21 tricorder. P01/W13/W15 have strong separate emissive layers. C01/C03 use a proposed religious machine glyph; C06 follows T10's helmet. Godfall shapes retained. These are automatically reduced editing drafts, not hand-cleaned final sprites.
@@ -23,6 +31,9 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 - Generated five separate labelled concept sheets for Jarred in the GRIMSPIRE ChatGPT project: Handheld Tools & Heavy Weapons; Explosives & Projectiles; Deployables & Godfall; Supply Props & Vehicles; Drowned Ruins — Set Pieces. Delivered as images in that conversation; generated outputs are automatically retained there.
 - Used the current W02 charge-sweep Forge document as the visual reference: coarse pixel clusters, charcoal metal and selective emissive panels. Review sheets are static concepts, not animation frames or packed production atlases. Larger supply/world objects still need density and material refinement; the ruined-world sheet includes proposed additional pieces.
 - Status: drawn for individual review. Not imported into Forge, tested, approved, on main or deployed. Existing assets and game unchanged. Next: Jarred identifies individual pieces to refine, then chosen art gets native-pixel cleanup, separated layers and Forge import.
+
+## 2026-11-01 · Jarred · Branch cleanup
+- Deleted the five `art/release-*` branches (closing stale PRs #3 and #4), `forge-pipeline`, `sprites` and `vector-backup`. Remaining: `main`, `art/weapon-lab`, and ChatGPT's in-progress `art/category-review-sheets-20261101`.
 
 ## 2026-11-01 · Claude · Forge legs walk in the game
 - **THIGH and SHIN slots** in the Forge and the game. Forge legs replace the game's legs on the same walk, jump and knockdown rig: the thigh swings from the torso's Hip, the shin bends at the thigh's Knee. Frame 1 near leg, frame 2 far. They work as a pair, and their lengths set the hip height (an atlas torso rides up or down to match).
