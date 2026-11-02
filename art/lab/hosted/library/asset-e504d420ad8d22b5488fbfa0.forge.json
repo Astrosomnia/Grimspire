@@ -1,0 +1,322 @@
+{
+  "forge": 1,
+  "code": "W06",
+  "name": "Promethium Flamer — furnace shimmer · Art Pass V2",
+  "w": 47,
+  "h": 20,
+  "fps": 20,
+  "base": null,
+  "pixel_scale": 12,
+  "markers": {
+    "grip": [
+      17,
+      13
+    ],
+    "muzzle": [
+      46,
+      6
+    ],
+    "pivot": [
+      17,
+      13
+    ],
+    "shoulder": null,
+    "elbow": null,
+    "hand": null,
+    "hip": null,
+    "knee": null
+  },
+  "ready": false,
+  "notes": "Existing flamer retained from the earlier approved package. Automatically reduced grid interpretation; small details differ from the reference. Grip/pivot/muzzle are initial estimates requiring rig checks. Preview slot W06 confirmed from repository pixelkit-v2 manifest at ae7247a9b94aeb834342cd40e8aea2eb82308bb8. This does not add firing behaviours.\nRevision: weapons-v001. Status: draft. Pixel cleanup and anchor/scale review outstanding. Stored in isolated art/weapon-lab branch.\n\nWeapon-lighting-v001: Orange heat chamber and muzzle vents shimmer with smooth overlapping furnace waves. 40 frames at 20 fps; 2s loop. Anchors, dimensions, body silhouette, scale, trim/guts unchanged. New lamp seats affect 12 body pixels inside the existing silhouette. Existing blue emissive chamber is recoloured to furnace orange. Draft: in-game visibility and exact art approval pending. No geometry, articulated motion, firing trigger or 2x density changes.\n\nAnchor-alignment-v001: calibrated handle grip and muzzle for the enlarged weapon rig. Body and all animation layers unchanged. Runtime scales around the grip; ranged shots use the transformed muzzle. Scale remains 1.2. Pending alignment verification.\n\nArt Pass V2: material-family harmonisation. Eight-step neutral charcoal/gunmetal ramp derived from the generated V2 material reference. Original pixel geometry, alpha, markers, scale, dimensions, fps, frame count, emissive PNGs, trim and guts are unchanged. Every frame uses the same RGB material mapping. Existing cyan, magenta, red and amber light identities and all original loops retained. Source is the current shared build 20261101T094357Z-78228871. Saved draft; renderer comparison only; battle playtest and art approval pending.",
+  "review": null,
+  "ghostOff": null,
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAUCAYAAAAdmmTCAAAC00lEQVR4nOVXv2vbQBT+HDJo0BkhrJoYxxhBaAuFUgpxvRRK93bof2Hw4CmkQ0IyNGTqUOhaunRPU0oo/QFdYgdMMQSSEDBBMRKygxCWB2/q4NzlJJ1kO66nfiD04+ne+97T3XdPKcwALaP5oufewAORCXpXvdQs/sdh8bYDtYzmK2kFqqpGbNk7Gk5OzwDAn2cCzDFfxXGVo+/qRR2t4xaGw2Hie/NKIMUHefXyBTOYlo3Do0YksGiq8OMKhTwAwDA6AT/AqChxiYahZTS/Vq0Iba83t1IAsEDJKGkFhUKeHU9KjyNkRcTLq6XAvWF0GHGKWrWCWrUCIhNoGc1/s7UpXCtxcd6+ex84Uzub827fDQQ1LZtdS5LkE5kAuKkyb//TOobjOEl8IpAkyd9YX2P3Hz5+wqV5iY31NdQbTRweNbC3f8Ds9Hpv/wBKWgEAP3bBfvv5HQDAB9je2YVp2bC7PTiOA7fvMtu1QyGuFy8DLVK90Qw8JzJBvdGE3e3F+gLA4iaqDZFJIHsikwCRJMIiKGkFbt+FadkRX5QQLcwkiCVPp0n7oj0VwSRQgrmlbOCeR/uiDW/gTeQvlrw38LCcW8Z5+zwgp6KAYYS/CB1DJfjHr9/MRhe83e2xQvGF04s69KIOAOwMjOQ3IJV8APpCmFjcrkpJT5IcD14APn/9MtV+sEhJUlJJxHmSAPD82VMUCnls7+yycSJ4A48t/LCMzoLItJm0eqqqsg0JGCXbuxqpBN86TCuh02Cq3oaSAoBHDx8AuNk4RKBy6g08GEYHpmXj5PTsnyW1MLOHMVDSCohMYFo2cktZIXFRczcJGHk6x92+i/JqKXZhqqoamTIiuH2XHVT6TMsWVvy2XyFWTcId44q+4vNEiEwCehxuuMLJK2kF9+/djey2FG7fnbr7TGxly6sltlWP2zySukVJkhIbsXHj4zA2IC+B8/4z+q/wF3P3fP1xtVq3AAAAAElFTkSuQmCC",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAUCAYAAAAdmmTCAAAAVUlEQVR4nGNgGAWjYBSMAmqC/xlS/6H0OmRxRqpbtEDmLcNvhvcMfxg+M/xn+MuY9cSE2nbAABOtDKYm+J8h5QulGwbYKaNgFIyCUTAKRsEoGAU0AwDW9hKCtXgJuwAAAABJRU5ErkJggg==",
+      "trim": null,
+      "guts": null,
+      "note": "Orange heat chamber and muzzle vents shimmer with smooth overlapping furnace waves. Frame 1/40. Ambient loop, not firing timing."
+    },
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAUCAYAAAAdmmTCAAAC00lEQVR4nOVXv2vbQBT+HDJo0BkhrJoYxxhBaAuFUgpxvRRK93bof2Hw4CmkQ0IyNGTqUOhaunRPU0oo/QFdYgdMMQSSEDBBMRKygxCWB2/q4NzlJJ1kO66nfiD04+ne+97T3XdPKcwALaP5oufewAORCXpXvdQs/sdh8bYDtYzmK2kFqqpGbNk7Gk5OzwDAn2cCzDFfxXGVo+/qRR2t4xaGw2Hie/NKIMUHefXyBTOYlo3Do0YksGiq8OMKhTwAwDA6AT/AqChxiYahZTS/Vq0Iba83t1IAsEDJKGkFhUKeHU9KjyNkRcTLq6XAvWF0GHGKWrWCWrUCIhNoGc1/s7UpXCtxcd6+ex84Uzub827fDQQ1LZtdS5LkE5kAuKkyb//TOobjOEl8IpAkyd9YX2P3Hz5+wqV5iY31NdQbTRweNbC3f8Ds9Hpv/wBKWgEAP3bBfvv5HQDAB9je2YVp2bC7PTiOA7fvMtu1QyGuFy8DLVK90Qw8JzJBvdGE3e3F+gLA4iaqDZFJIHsikwCRJMIiKGkFbt+FadkRX5QQLcwkiCVPp0n7oj0VwSRQgrmlbOCeR/uiDW/gTeQvlrw38LCcW8Z5+zwgp6KAYYS/CB1DJfjHr9/MRhe83e2xQvGF04s69KIOAOwMjOQ3IJV8APpCmFjcrkpJT5IcD14APn/9MtV+sEhJUlJJxHmSAPD82VMUCnls7+yycSJ4A48t/LCMzoLItJm0eqqqsg0JGCXbuxqpBN86TCuh02Cq3oaSAoBHDx8AuNk4RKBy6g08GEYHpmXj5PTsnyW1MLOHMVDSCohMYFo2cktZIXFRczcJGHk6x92+i/JqKXZhqqoamTIiuH2XHVT6TMsWVvy2XyFWTcId44q+4vNEiEwCehxuuMLJK2kF9+/djey2FG7fnbr7TGxly6sltlWP2zySukVJkhIbsXHj4zA2IC+B8/4z+q/wF3P3fP1xtVq3AAAAAElFTkSuQmCC",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAUCAYAAAAdmmTCAAAAVUlEQVR4nGNgGAWjYBSMAmqC/xlSv6H0YWRxRqpbtFjmO8Mfhg8Mvxg+MPxl+MqY9cSE2nbAABOtDKYm+J8hFQ2lywfaLaNgFIyCUTAKRsEoGAW0AgC1DRKYb+438gAAAABJRU5ErkJggg==",
+      "trim": null,
+      "guts": null,
+      "note": "Orange heat chamber and muzzle vents shimmer with smooth overlapping furnace waves. Frame 2/40. Ambient loop, not firing timing."
+    },
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAUCAYAAAAdmmTCAAAC00lEQVR4nOVXv2vbQBT+HDJo0BkhrJoYxxhBaAuFUgpxvRRK93bof2Hw4CmkQ0IyNGTqUOhaunRPU0oo/QFdYgdMMQSSEDBBMRKygxCWB2/q4NzlJJ1kO66nfiD04+ne+97T3XdPKcwALaP5oufewAORCXpXvdQs/sdh8bYDtYzmK2kFqqpGbNk7Gk5OzwDAn2cCzDFfxXGVo+/qRR2t4xaGw2Hie/NKIMUHefXyBTOYlo3Do0YksGiq8OMKhTwAwDA6AT/AqChxiYahZTS/Vq0Iba83t1IAsEDJKGkFhUKeHU9KjyNkRcTLq6XAvWF0GHGKWrWCWrUCIhNoGc1/s7UpXCtxcd6+ex84Uzub827fDQQ1LZtdS5LkE5kAuKkyb//TOobjOEl8IpAkyd9YX2P3Hz5+wqV5iY31NdQbTRweNbC3f8Ds9Hpv/wBKWgEAP3bBfvv5HQDAB9je2YVp2bC7PTiOA7fvMtu1QyGuFy8DLVK90Qw8JzJBvdGE3e3F+gLA4iaqDZFJIHsikwCRJMIiKGkFbt+FadkRX5QQLcwkiCVPp0n7oj0VwSRQgrmlbOCeR/uiDW/gTeQvlrw38LCcW8Z5+zwgp6KAYYS/CB1DJfjHr9/MRhe83e2xQvGF04s69KIOAOwMjOQ3IJV8APpCmFjcrkpJT5IcD14APn/9MtV+sEhJUlJJxHmSAPD82VMUCnls7+yycSJ4A48t/LCMzoLItJm0eqqqsg0JGCXbuxqpBN86TCuh02Cq3oaSAoBHDx8AuNk4RKBy6g08GEYHpmXj5PTsnyW1MLOHMVDSCohMYFo2cktZIXFRczcJGHk6x92+i/JqKXZhqqoamTIiuH2XHVT6TMsWVvy2XyFWTcId44q+4vNEiEwCehxuuMLJK2kF9+/djey2FG7fnbr7TGxly6sltlWP2zySukVJkhIbsXHj4zA2IC+B8/4z+q/wF3P3fP1xtVq3AAAAAElFTkSuQmCC",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAUCAYAAAAdmmTCAAAAVUlEQVR4nGNgGAWjYBSMAmqC/xlS76H0ZWRxRqpbtFTmN8Nfhm8MvxjeM/xm+MCY+cSA2nbAABOtDKYm+J8hlQulSwfaLaNgFIyCUTAKRsEoGAW0AgBt+BKsa2sH2AAAAABJRU5ErkJggg==",
+      "trim": null,
+      "guts": null,
+      "note": "Orange heat chamber and muzzle vents shimmer with smooth overlapping furnace waves. Frame 3/40. Ambient loop, not firing timing."
+    },
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAUCAYAAAAdmmTCAAAC00lEQVR4nOVXv2vbQBT+HDJo0BkhrJoYxxhBaAuFUgpxvRRK93bof2Hw4CmkQ0IyNGTqUOhaunRPU0oo/QFdYgdMMQSSEDBBMRKygxCWB2/q4NzlJJ1kO66nfiD04+ne+97T3XdPKcwALaP5oufewAORCXpXvdQs/sdh8bYDtYzmK2kFqqpGbNk7Gk5OzwDAn2cCzDFfxXGVo+/qRR2t4xaGw2Hie/NKIMUHefXyBTOYlo3Do0YksGiq8OMKhTwAwDA6AT/AqChxiYahZTS/Vq0Iba83t1IAsEDJKGkFhUKeHU9KjyNkRcTLq6XAvWF0GHGKWrWCWrUCIhNoGc1/s7UpXCtxcd6+ex84Uzub827fDQQ1LZtdS5LkE5kAuKkyb//TOobjOEl8IpAkyd9YX2P3Hz5+wqV5iY31NdQbTRweNbC3f8Ds9Hpv/wBKWgEAP3bBfvv5HQDAB9je2YVp2bC7PTiOA7fvMtu1QyGuFy8DLVK90Qw8JzJBvdGE3e3F+gLA4iaqDZFJIHsikwCRJMIiKGkFbt+FadkRX5QQLcwkiCVPp0n7oj0VwSRQgrmlbOCeR/uiDW/gTeQvlrw38LCcW8Z5+zwgp6KAYYS/CB1DJfjHr9/MRhe83e2xQvGF04s69KIOAOwMjOQ3IJV8APpCmFjcrkpJT5IcD14APn/9MtV+sEhJUlJJxHmSAPD82VMUCnls7+yycSJ4A48t/LCMzoLItJm0eqqqsg0JGCXbuxqpBN86TCuh02Cq3oaSAoBHDx8AuNk4RKBy6g08GEYHpmXj5PTsnyW1MLOHMVDSCohMYFo2cktZIXFRczcJGHk6x92+i/JqKXZhqqoamTIiuH2XHVT6TMsWVvy2XyFWTcId44q+4vNEiEwCehxuuMLJK2kF9+/djey2FG7fnbr7TGxly6sltlWP2zySukVJkhIbsXHj4zA2IC+B8/4z+q/wF3P3fP1xtVq3AAAAAElFTkSuQmCC",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAUCAYAAAAdmmTCAAAAVUlEQVR4nGNgGAWjYBSMAmqC/xlSd6H0bWRxRqpbtETmJ8N/hr8Mfxg+M/xmeMeY9kST2nbAABOtDKYm+J8hVQulKwfaLaNgFIyCUTAKRsEoGAW0AgC4ohK2kAGQawAAAABJRU5ErkJggg==",
+      "trim": null,
+      "guts": null,
+      "note": "Orange heat chamber and muzzle vents shimmer with smooth overlapping furnace waves. Frame 4/40. Ambient loop, not firing timing."
+    },
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAUCAYAAAAdmmTCAAAC00lEQVR4nOVXv2vbQBT+HDJo0BkhrJoYxxhBaAuFUgpxvRRK93bof2Hw4CmkQ0IyNGTqUOhaunRPU0oo/QFdYgdMMQSSEDBBMRKygxCWB2/q4NzlJJ1kO66nfiD04+ne+97T3XdPKcwALaP5oufewAORCXpXvdQs/sdh8bYDtYzmK2kFqqpGbNk7Gk5OzwDAn2cCzDFfxXGVo+/qRR2t4xaGw2Hie/NKIMUHefXyBTOYlo3Do0YksGiq8OMKhTwAwDA6AT/AqChxiYahZTS/Vq0Iba83t1IAsEDJKGkFhUKeHU9KjyNkRcTLq6XAvWF0GHGKWrWCWrUCIhNoGc1/s7UpXCtxcd6+ex84Uzub827fDQQ1LZtdS5LkE5kAuKkyb//TOobjOEl8IpAkyd9YX2P3Hz5+wqV5iY31NdQbTRweNbC3f8Ds9Hpv/wBKWgEAP3bBfvv5HQDAB9je2YVp2bC7PTiOA7fvMtu1QyGuFy8DLVK90Qw8JzJBvdGE3e3F+gLA4iaqDZFJIHsikwCRJMIiKGkFbt+FadkRX5QQLcwkiCVPp0n7oj0VwSRQgrmlbOCeR/uiDW/gTeQvlrw38LCcW8Z5+zwgp6KAYYS/CB1DJfjHr9/MRhe83e2xQvGF04s69KIOAOwMjOQ3IJV8APpCmFjcrkpJT5IcD14APn/9MtV+sEhJUlJJxHmSAPD82VMUCnls7+yycSJ4A48t/LCMzoLItJm0eqqqsg0JGCXbuxqpBN86TCuh02Cq3oaSAoBHDx8AuNk4RKBy6g08GEYHpmXj5PTsnyW1MLOHMVDSCohMYFo2cktZIXFRczcJGHk6x92+i/JqKXZhqqoamTIiuH2XHVT6TMsWVvy2XyFWTcId44q+4vNEiEwCehxuuMLJK2kF9+/djey2FG7fnbr7TGxly6sltlWP2zySukVJkhIbsXHj4zA2IC+B8/4z+q/wF3P3fP1xtVq3AAAAAElFTkSuQmCC",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAUCAYAAAAdmmTCAAAAVUlEQVR4nGNgGAWjYBSMAmqC/xlSJ6H0bWRxRqpbtFDmAwMTAyvDP4afDL8ZPjKmPFGkth0wwEQrg6kJ/mdIdUHp+oF2yygYBaNgFIyCUTAKRgGtAACS3RC1ur0GfAAAAABJRU5ErkJggg==",
+      "trim": null,
+      "guts": null,
+      "note": "Orange heat chamber and muzzle vents shimmer with smooth overlapping furnace waves. Frame 5/40. Ambient loop, not firing timing."
+    },
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAUCAYAAAAdmmTCAAAC00lEQVR4nOVXv2vbQBT+HDJo0BkhrJoYxxhBaAuFUgpxvRRK93bof2Hw4CmkQ0IyNGTqUOhaunRPU0oo/QFdYgdMMQSSEDBBMRKygxCWB2/q4NzlJJ1kO66nfiD04+ne+97T3XdPKcwALaP5oufewAORCXpXvdQs/sdh8bYDtYzmK2kFqqpGbNk7Gk5OzwDAn2cCzDFfxXGVo+/qRR2t4xaGw2Hie/NKIMUHefXyBTOYlo3Do0YksGiq8OMKhTwAwDA6AT/AqChxiYahZTS/Vq0Iba83t1IAsEDJKGkFhUKeHU9KjyNkRcTLq6XAvWF0GHGKWrWCWrUCIhNoGc1/s7UpXCtxcd6+ex84Uzub827fDQQ1LZtdS5LkE5kAuKkyb//TOobjOEl8IpAkyd9YX2P3Hz5+wqV5iY31NdQbTRweNbC3f8Ds9Hpv/wBKWgEAP3bBfvv5HQDAB9je2YVp2bC7PTiOA7fvMtu1QyGuFy8DLVK90Qw8JzJBvdGE3e3F+gLA4iaqDZFJIHsikwCRJMIiKGkFbt+FadkRX5QQLcwkiCVPp0n7oj0VwSRQgrmlbOCeR/uiDW/gTeQvlrw38LCcW8Z5+zwgp6KAYYS/CB1DJfjHr9/MRhe83e2xQvGF04s69KIOAOwMjOQ3IJV8APpCmFjcrkpJT5IcD14APn/9MtV+sEhJUlJJxHmSAPD82VMUCnls7+yycSJ4A48t/LCMzoLItJm0eqqqsg0JGCXbuxqpBN86TCuh02Cq3oaSAoBHDx8AuNk4RKBy6g08GEYHpmXj5PTsnyW1MLOHMVDSCohMYFo2cktZIXFRczcJGHk6x92+i/JqKXZhqqoamTIiuH2XHVT6TMsWVvy2XyFWTcId44q+4vNEiEwCehxuuMLJK2kF9+/djey2FG7fnbr7TGxly6sltlWP2zySukVJkhIbsXHj4zA2IC+B8/4z+q/wF3P3fP1xtVq3AAAAAElFTkSuQmCC",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAUCAYAAAAdmmTCAAAAVUlEQVR4nGNgGAWjYBSMAmqC/xlS26D0NWRxRqpbNFfmEQMLAw8DAwMjw1+Gb4xJT6SpbQcMMNHKYGqC/xlSk6B060C7ZRSMglEwCkbBKBgFo4BWAAAehw6rJFC7fAAAAABJRU5ErkJggg==",
+      "trim": null,
+      "guts": null,
+      "note": "Orange heat chamber and muzzle vents shimmer with smooth overlapping furnace waves. Frame 6/40. Ambient loop, not firing timing."
+    },
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAUCAYAAAAdmmTCAAAC00lEQVR4nOVXv2vbQBT+HDJo0BkhrJoYxxhBaAuFUgpxvRRK93bof2Hw4CmkQ0IyNGTqUOhaunRPU0oo/QFdYgdMMQSSEDBBMRKygxCWB2/q4NzlJJ1kO66nfiD04+ne+97T3XdPKcwALaP5oufewAORCXpXvdQs/sdh8bYDtYzmK2kFqqpGbNk7Gk5OzwDAn2cCzDFfxXGVo+/qRR2t4xaGw2Hie/NKIMUHefXyBTOYlo3Do0YksGiq8OMKhTwAwDA6AT/AqChxiYahZTS/Vq0Iba83t1IAsEDJKGkFhUKeHU9KjyNkRcTLq6XAvWF0GHGKWrWCWrUCIhNoGc1/s7UpXCtxcd6+ex84Uzub827fDQQ1LZtdS5LkE5kAuKkyb//TOobjOEl8IpAkyd9YX2P3Hz5+wqV5iY31NdQbTRweNbC3f8Ds9Hpv/wBKWgEAP3bBfvv5HQDAB9je2YVp2bC7PTiOA7fvMtu1QyGuFy8DLVK90Qw8JzJBvdGE3e3F+gLA4iaqDZFJIHsikwCRJMIiKGkFbt+FadkRX5QQLcwkiCVPp0n7oj0VwSRQgrmlbOCeR/uiDW/gTeQvlrw38LCcW8Z5+zwgp6KAYYS/CB1DJfjHr9/MRhe83e2xQvGF04s69KIOAOwMjOQ3IJV8APpCmFjcrkpJT5IcD14APn/9MtV+sEhJUlJJxHmSAPD82VMUCnls7+yycSJ4A48t/LCMzoLItJm0eqqqsg0JGCXbuxqpBN86TCuh02Cq3oaSAoBHDx8AuNk4RKBy6g08GEYHpmXj5PTsnyW1MLOHMVDSCohMYFo2cktZIXFRczcJGHk6x92+i/JqKXZhqqoamTIiuH2XHVT6TMsWVvy2XyFWTcId44q+4vNEiEwCehxuuMLJK2kF9+/djey2FG7fnbr7TGxly6sltlWP2zySukVJkhIbsXHj4zA2IC+B8/4z+q/wF3P3fP1xtVq3AAAAAElFTkSuQmCC",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAUCAYAAAAdmmTCAAAAVUlEQVR4nGNgGAWjYBSMAmqC/xlSy6H0OWRxRqpbNF3mAgMbgyADEwMnw3+Gv4xJTySpbQcMMNHKYGqC/xlSU6B0x0C7ZRSMglEwCkbBKBgFo4BWAABbAA6Z3D1/hAAAAABJRU5ErkJggg==",
+      "trim": null,
+      "guts": null,
+      "note": "Orange heat chamber and muzzle vents shimmer with smooth overlapping furnace waves. Frame 7/40. Ambient loop, not firing timing."
+    },
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAUCAYAAAAdmmTCAAAC00lEQVR4nOVXv2vbQBT+HDJo0BkhrJoYxxhBaAuFUgpxvRRK93bof2Hw4CmkQ0IyNGTqUOhaunRPU0oo/QFdYgdMMQSSEDBBMRKygxCWB2/q4NzlJJ1kO66nfiD04+ne+97T3XdPKcwALaP5oufewAORCXpXvdQs/sdh8bYDtYzmK2kFqqpGbNk7Gk5OzwDAn2cCzDFfxXGVo+/qRR2t4xaGw2Hie/NKIMUHefXyBTOYlo3Do0YksGiq8OMKhTwAwDA6AT/AqChxiYahZTS/Vq0Iba83t1IAsEDJKGkFhUKeHU9KjyNkRcTLq6XAvWF0GHGKWrWCWrUCIhNoGc1/s7UpXCtxcd6+ex84Uzub827fDQQ1LZtdS5LkE5kAuKkyb//TOobjOEl8IpAkyd9YX2P3Hz5+wqV5iY31NdQbTRweNbC3f8Ds9Hpv/wBKWgEAP3bBfvv5HQDAB9je2YVp2bC7PTiOA7fvMtu1QyGuFy8DLVK90Qw8JzJBvdGE3e3F+gLA4iaqDZFJIHsikwCRJMIiKGkFbt+FadkRX5QQLcwkiCVPp0n7oj0VwSRQgrmlbOCeR/uiDW/gTeQvlrw38LCcW8Z5+zwgp6KAYYS/CB1DJfjHr9/MRhe83e2xQvGF04s69KIOAOwMjOQ3IJV8APpCmFjcrkpJT5IcD14APn/9MtV+sEhJUlJJxHmSAPD82VMUCnls7+yycSJ4A48t/LCMzoLItJm0eqqqsg0JGCXbuxqpBN86TCuh02Cq3oaSAoBHDx8AuNk4RKBy6g08GEYHpmXj5PTsnyW1MLOHMVDSCohMYFo2cktZIXFRczcJGHk6x92+i/JqKXZhqqoamTIiuH2XHVT6TMsWVvy2XyFWTcId44q+4vNEiEwCehxuuMLJK2kF9+/djey2FG7fnbr7TGxly6sltlWP2zySukVJkhIbsXHj4zA2IC+B8/4z+q/wF3P3fP1xtVq3AAAAAElFTkSuQmCC",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAUCAYAAAAdmmTCAAAAVUlEQVR4nGNgGAWjYBSMAmqC/xlSc6H0UWRxRqpbNElmHwMrgyADKwM/AyMDK2PyE1lq2wEDTLQymJrgf4bURCjdNtBuGQWjYBSMglEwCkbBKKAVAAB4awyBAEI+gAAAAABJRU5ErkJggg==",
+      "trim": null,
+      "guts": null,
+      "note": "Orange heat chamber and muzzle vents shimmer with smooth overlapping furnace waves. Frame 8/40. Ambient loop, not firing timing."
+    },
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAUCAYAAAAdmmTCAAAC00lEQVR4nOVXv2vbQBT+HDJo0BkhrJoYxxhBaAuFUgpxvRRK93bof2Hw4CmkQ0IyNGTqUOhaunRPU0oo/QFdYgdMMQSSEDBBMRKygxCWB2/q4NzlJJ1kO66nfiD04+ne+97T3XdPKcwALaP5oufewAORCXpXvdQs/sdh8bYDtYzmK2kFqqpGbNk7Gk5OzwDAn2cCzDFfxXGVo+/qRR2t4xaGw2Hie/NKIMUHefXyBTOYlo3Do0YksGiq8OMKhTwAwDA6AT/AqChxiYahZTS/Vq0Iba83t1IAsEDJKGkFhUKeHU9KjyNkRcTLq6XAvWF0GHGKWrWCWrUCIhNoGc1/s7UpXCtxcd6+ex84Uzub827fDQQ1LZtdS5LkE5kAuKkyb//TOobjOEl8IpAkyd9YX2P3Hz5+wqV5iY31NdQbTRweNbC3f8Ds9Hpv/wBKWgEAP3bBfvv5HQDAB9je2YVp2bC7PTiOA7fvMtu1QyGuFy8DLVK90Qw8JzJBvdGE3e3F+gLA4iaqDZFJIHsikwCRJMIiKGkFbt+FadkRX5QQLcwkiCVPp0n7oj0VwSRQgrmlbOCeR/uiDW/gTeQvlrw38LCcW8Z5+zwgp6KAYYS/CB1DJfjHr9/MRhe83e2xQvGF04s69KIOAOwMjOQ3IJV8APpCmFjcrkpJT5IcD14APn/9MtV+sEhJUlJJxHmSAPD82VMUCnls7+yycSJ4A48t/LCMzoLItJm0eqqqsg0JGCXbuxqpBN86TCuh02Cq3oaSAoBHDx8AuNk4RKBy6g08GEYHpmXj5PTsnyW1MLOHMVDSCohMYFo2cktZIXFRczcJGHk6x92+i/JqKXZhqqoamTIiuH2XHVT6TMsWVvy2XyFWTcId44q+4vNEiEwCehxuuMLJK2kF9+/djey2FG7fnbr7TGxly6sltlWP2zySukVJkhIbsXHj4zA2IC+B8/4z+q/wF3P3fP1xtVq3AAAAAElFTkSuQmCC",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAUCAYAAAAdmmTCAAAAVElEQVR4nGNgGAWjYBSMAmqC/xlSM6H0AWRxRqpb1COzjoGVgY+BlUGQgYWBhzHtiTq17YABJloZTE3wP0OqB0rXD7RbRsEoGAWjYBSMglEwCmgFAK5hDGxUO33KAAAAAElFTkSuQmCC",
+      "trim": null,
+      "guts": null,
+      "note": "Orange heat chamber and muzzle vents shimmer with smooth overlapping furnace waves. Frame 9/40. Ambient loop, not firing timing."
+    },
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAUCAYAAAAdmmTCAAAC00lEQVR4nOVXv2vbQBT+HDJo0BkhrJoYxxhBaAuFUgpxvRRK93bof2Hw4CmkQ0IyNGTqUOhaunRPU0oo/QFdYgdMMQSSEDBBMRKygxCWB2/q4NzlJJ1kO66nfiD04+ne+97T3XdPKcwALaP5oufewAORCXpXvdQs/sdh8bYDtYzmK2kFqqpGbNk7Gk5OzwDAn2cCzDFfxXGVo+/qRR2t4xaGw2Hie/NKIMUHefXyBTOYlo3Do0YksGiq8OMKhTwAwDA6AT/AqChxiYahZTS/Vq0Iba83t1IAsEDJKGkFhUKeHU9KjyNkRcTLq6XAvWF0GHGKWrWCWrUCIhNoGc1/s7UpXCtxcd6+ex84Uzub827fDQQ1LZtdS5LkE5kAuKkyb//TOobjOEl8IpAkyd9YX2P3Hz5+wqV5iY31NdQbTRweNbC3f8Ds9Hpv/wBKWgEAP3bBfvv5HQDAB9je2YVp2bC7PTiOA7fvMtu1QyGuFy8DLVK90Qw8JzJBvdGE3e3F+gLA4iaqDZFJIHsikwCRJMIiKGkFbt+FadkRX5QQLcwkiCVPp0n7oj0VwSRQgrmlbOCeR/uiDW/gTeQvlrw38LCcW8Z5+zwgp6KAYYS/CB1DJfjHr9/MRhe83e2xQvGF04s69KIOAOwMjOQ3IJV8APpCmFjcrkpJT5IcD14APn/9MtV+sEhJUlJJxHmSAPD82VMUCnls7+yycSJ4A48t/LCMzoLItJm0eqqqsg0JGCXbuxqpBN86TCuh02Cq3oaSAoBHDx8AuNk4RKBy6g08GEYHpmXj5PTsnyW1MLOHMVDSCohMYFo2cktZIXFRczcJGHk6x92+i/JqKXZhqqoamTIiuH2XHVT6TMsWVvy2XyFWTcId44q+4vNEiEwCehxuuMLJK2kF9+/djey2FG7fnbr7TGxly6sltlWP2zySukVJkhIbsXHj4zA2IC+B8/4z+q/wF3P3fP1xtVq3AAAAAElFTkSuQmCC",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAUCAYAAAAdmmTCAAAAVElEQVR4nGNgGAWjYBSMAmqC/xlSs6H0PmRxRqpb1CmzkIGJgZOBlUGAgZVBgDH7iRm17YABJloZTE3wP0OqHUoXD7RbRsEoGAWjYBSMglEwCmgFABV8DFuoxFA8AAAAAElFTkSuQmCC",
+      "trim": null,
+      "guts": null,
+      "note": "Orange heat chamber and muzzle vents shimmer with smooth overlapping furnace waves. Frame 10/40. Ambient loop, not firing timing."
+    },
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAUCAYAAAAdmmTCAAAC00lEQVR4nOVXv2vbQBT+HDJo0BkhrJoYxxhBaAuFUgpxvRRK93bof2Hw4CmkQ0IyNGTqUOhaunRPU0oo/QFdYgdMMQSSEDBBMRKygxCWB2/q4NzlJJ1kO66nfiD04+ne+97T3XdPKcwALaP5oufewAORCXpXvdQs/sdh8bYDtYzmK2kFqqpGbNk7Gk5OzwDAn2cCzDFfxXGVo+/qRR2t4xaGw2Hie/NKIMUHefXyBTOYlo3Do0YksGiq8OMKhTwAwDA6AT/AqChxiYahZTS/Vq0Iba83t1IAsEDJKGkFhUKeHU9KjyNkRcTLq6XAvWF0GHGKWrWCWrUCIhNoGc1/s7UpXCtxcd6+ex84Uzub827fDQQ1LZtdS5LkE5kAuKkyb//TOobjOEl8IpAkyd9YX2P3Hz5+wqV5iY31NdQbTRweNbC3f8Ds9Hpv/wBKWgEAP3bBfvv5HQDAB9je2YVp2bC7PTiOA7fvMtu1QyGuFy8DLVK90Qw8JzJBvdGE3e3F+gLA4iaqDZFJIHsikwCRJMIiKGkFbt+FadkRX5QQLcwkiCVPp0n7oj0VwSRQgrmlbOCeR/uiDW/gTeQvlrw38LCcW8Z5+zwgp6KAYYS/CB1DJfjHr9/MRhe83e2xQvGF04s69KIOAOwMjOQ3IJV8APpCmFjcrkpJT5IcD14APn/9MtV+sEhJUlJJxHmSAPD82VMUCnls7+yycSJ4A48t/LCMzoLItJm0eqqqsg0JGCXbuxqpBN86TCuh02Cq3oaSAoBHDx8AuNk4RKBy6g08GEYHpmXj5PTsnyW1MLOHMVDSCohMYFo2cktZIXFRczcJGHk6x92+i/JqKXZhqqoamTIiuH2XHVT6TMsWVvy2XyFWTcId44q+4vNEiEwCehxuuMLJK2kF9+/djey2FG7fnbr7TGxly6sltlWP2zySukVJkhIbsXHj4zA2IC+B8/4z+q/wF3P3fP1xtVq3AAAAAElFTkSuQmCC",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAUCAYAAAAdmmTCAAAAVElEQVR4nGNgGAWjYBSMAmqC/xlS86H0YWRxRqpb1CYzi4GRgZGBmYGbgZVBkLHwiSe17YABJloZTE3wP0OqDUqnDrRbRsEoGAWjYBSMglEwCmgFAOwZDFXNNPwtAAAAAElFTkSuQmCC",
+      "trim": null,
+      "guts": null,
+      "note": "Orange heat chamber and muzzle vents shimmer with smooth overlapping furnace waves. Frame 11/40. Ambient loop, not firing timing."
+    },
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAUCAYAAAAdmmTCAAAC00lEQVR4nOVXv2vbQBT+HDJo0BkhrJoYxxhBaAuFUgpxvRRK93bof2Hw4CmkQ0IyNGTqUOhaunRPU0oo/QFdYgdMMQSSEDBBMRKygxCWB2/q4NzlJJ1kO66nfiD04+ne+97T3XdPKcwALaP5oufewAORCXpXvdQs/sdh8bYDtYzmK2kFqqpGbNk7Gk5OzwDAn2cCzDFfxXGVo+/qRR2t4xaGw2Hie/NKIMUHefXyBTOYlo3Do0YksGiq8OMKhTwAwDA6AT/AqChxiYahZTS/Vq0Iba83t1IAsEDJKGkFhUKeHU9KjyNkRcTLq6XAvWF0GHGKWrWCWrUCIhNoGc1/s7UpXCtxcd6+ex84Uzub827fDQQ1LZtdS5LkE5kAuKkyb//TOobjOEl8IpAkyd9YX2P3Hz5+wqV5iY31NdQbTRweNbC3f8Ds9Hpv/wBKWgEAP3bBfvv5HQDAB9je2YVp2bC7PTiOA7fvMtu1QyGuFy8DLVK90Qw8JzJBvdGE3e3F+gLA4iaqDZFJIHsikwCRJMIiKGkFbt+FadkRX5QQLcwkiCVPp0n7oj0VwSRQgrmlbOCeR/uiDW/gTeQvlrw38LCcW8Z5+zwgp6KAYYS/CB1DJfjHr9/MRhe83e2xQvGF04s69KIOAOwMjOQ3IJV8APpCmFjcrkpJT5IcD14APn/9MtV+sEhJUlJJxHmSAPD82VMUCnls7+yycSJ4A48t/LCMzoLItJm0eqqqsg0JGCXbuxqpBN86TCuh02Cq3oaSAoBHDx8AuNk4RKBy6g08GEYHpmXj5PTsnyW1MLOHMVDSCohMYFo2cktZIXFRczcJGHk6x92+i/JqKXZhqqoamTIiuH2XHVT6TMsWVvy2XyFWTcId44q+4vNEiEwCehxuuMLJK2kF9+/djey2FG7fnbr7TGxly6sltlWP2zySukVJkhIbsXHj4zA2IC+B8/4z+q/wF3P3fP1xtVq3AAAAAElFTkSuQmCC",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAUCAYAAAAdmmTCAAAAVUlEQVR4nGNgGAWjYBSMAmqC/xlSS6D0GWRxRqpb1CYzg+Efw08GRgYWBhYGPsbyJ7HUtgMGmGhlMDXB/wypLigdPtBuGQWjYBSMglEwCkbBKKAVAAAi8A5ZABFymwAAAABJRU5ErkJggg==",
+      "trim": null,
+      "guts": null,
+      "note": "Orange heat chamber and muzzle vents shimmer with smooth overlapping furnace waves. Frame 12/40. Ambient loop, not firing timing."
+    },
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAUCAYAAAAdmmTCAAAC00lEQVR4nOVXv2vbQBT+HDJo0BkhrJoYxxhBaAuFUgpxvRRK93bof2Hw4CmkQ0IyNGTqUOhaunRPU0oo/QFdYgdMMQSSEDBBMRKygxCWB2/q4NzlJJ1kO66nfiD04+ne+97T3XdPKcwALaP5oufewAORCXpXvdQs/sdh8bYDtYzmK2kFqqpGbNk7Gk5OzwDAn2cCzDFfxXGVo+/qRR2t4xaGw2Hie/NKIMUHefXyBTOYlo3Do0YksGiq8OMKhTwAwDA6AT/AqChxiYahZTS/Vq0Iba83t1IAsEDJKGkFhUKeHU9KjyNkRcTLq6XAvWF0GHGKWrWCWrUCIhNoGc1/s7UpXCtxcd6+ex84Uzub827fDQQ1LZtdS5LkE5kAuKkyb//TOobjOEl8IpAkyd9YX2P3Hz5+wqV5iY31NdQbTRweNbC3f8Ds9Hpv/wBKWgEAP3bBfvv5HQDAB9je2YVp2bC7PTiOA7fvMtu1QyGuFy8DLVK90Qw8JzJBvdGE3e3F+gLA4iaqDZFJIHsikwCRJMIiKGkFbt+FadkRX5QQLcwkiCVPp0n7oj0VwSRQgrmlbOCeR/uiDW/gTeQvlrw38LCcW8Z5+zwgp6KAYYS/CB1DJfjHr9/MRhe83e2xQvGF04s69KIOAOwMjOQ3IJV8APpCmFjcrkpJT5IcD14APn/9MtV+sEhJUlJJxHmSAPD82VMUCnls7+yycSJ4A48t/LCMzoLItJm0eqqqsg0JGCXbuxqpBN86TCuh02Cq3oaSAoBHDx8AuNk4RKBy6g08GEYHpmXj5PTsnyW1MLOHMVDSCohMYFo2cktZIXFRczcJGHk6x92+i/JqKXZhqqoamTIiuH2XHVT6TMsWVvy2XyFWTcId44q+4vNEiEwCehxuuMLJK2kF9+/djey2FG7fnbr7TGxly6sltlWP2zySukVJkhIbsXHj4zA2IC+B8/4z+q/wF3P3fP1xtVq3AAAAAElFTkSuQmCC",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAUCAYAAAAdmmTCAAAAVUlEQVR4nGNgGAWjYBSMAmqC/xlSS6H0dWRxRqpb1C4zm+E3wyeG/wx/GJgZOBhrnuRT2w4YYKKVwdQE/zOkpkJpn4F2yygYBaNgFIyCUTAKRgGtAACWfBBlp4BUQwAAAABJRU5ErkJggg==",
+      "trim": null,
+      "guts": null,
+      "note": "Orange heat chamber and muzzle vents shimmer with smooth overlapping furnace waves. Frame 13/40. Ambient loop, not firing timing."
+    },
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAUCAYAAAAdmmTCAAAC00lEQVR4nOVXv2vbQBT+HDJo0BkhrJoYxxhBaAuFUgpxvRRK93bof2Hw4CmkQ0IyNGTqUOhaunRPU0oo/QFdYgdMMQSSEDBBMRKygxCWB2/q4NzlJJ1kO66nfiD04+ne+97T3XdPKcwALaP5oufewAORCXpXvdQs/sdh8bYDtYzmK2kFqqpGbNk7Gk5OzwDAn2cCzDFfxXGVo+/qRR2t4xaGw2Hie/NKIMUHefXyBTOYlo3Do0YksGiq8OMKhTwAwDA6AT/AqChxiYahZTS/Vq0Iba83t1IAsEDJKGkFhUKeHU9KjyNkRcTLq6XAvWF0GHGKWrWCWrUCIhNoGc1/s7UpXCtxcd6+ex84Uzub827fDQQ1LZtdS5LkE5kAuKkyb//TOobjOEl8IpAkyd9YX2P3Hz5+wqV5iY31NdQbTRweNbC3f8Ds9Hpv/wBKWgEAP3bBfvv5HQDAB9je2YVp2bC7PTiOA7fvMtu1QyGuFy8DLVK90Qw8JzJBvdGE3e3F+gLA4iaqDZFJIHsikwCRJMIiKGkFbt+FadkRX5QQLcwkiCVPp0n7oj0VwSRQgrmlbOCeR/uiDW/gTeQvlrw38LCcW8Z5+zwgp6KAYYS/CB1DJfjHr9/MRhe83e2xQvGF04s69KIOAOwMjOQ3IJV8APpCmFjcrkpJT5IcD14APn/9MtV+sEhJUlJJxHmSAPD82VMUCnls7+yycSJ4A48t/LCMzoLItJm0eqqqsg0JGCXbuxqpBN86TCuh02Cq3oaSAoBHDx8AuNk4RKBy6g08GEYHpmXj5PTsnyW1MLOHMVDSCohMYFo2cktZIXFRczcJGHk6x92+i/JqKXZhqqoamTIiuH2XHVT6TMsWVvy2XyFWTcId44q+4vNEiEwCehxuuMLJK2kF9+/djey2FG7fnbr7TGxly6sltlWP2zySukVJkhIbsXHj4zA2IC+B8/4z+q/wF3P3fP1xtVq3AAAAAElFTkSuQmCC",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAUCAYAAAAdmmTCAAAAVUlEQVR4nGNgGAWjYBSMAmqC/xlSi6D0I2RxRqpb1CEzn+E3w3uGPwxfGRgYGBgbn9RS2w4YYKKVwdQE/zOklkFpj4F2yygYBaNgFIyCUTAKRgGtAABdmBB6KYkPcAAAAABJRU5ErkJggg==",
+      "trim": null,
+      "guts": null,
+      "note": "Orange heat chamber and muzzle vents shimmer with smooth overlapping furnace waves. Frame 14/40. Ambient loop, not firing timing."
+    },
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAUCAYAAAAdmmTCAAAC00lEQVR4nOVXv2vbQBT+HDJo0BkhrJoYxxhBaAuFUgpxvRRK93bof2Hw4CmkQ0IyNGTqUOhaunRPU0oo/QFdYgdMMQSSEDBBMRKygxCWB2/q4NzlJJ1kO66nfiD04+ne+97T3XdPKcwALaP5oufewAORCXpXvdQs/sdh8bYDtYzmK2kFqqpGbNk7Gk5OzwDAn2cCzDFfxXGVo+/qRR2t4xaGw2Hie/NKIMUHefXyBTOYlo3Do0YksGiq8OMKhTwAwDA6AT/AqChxiYahZTS/Vq0Iba83t1IAsEDJKGkFhUKeHU9KjyNkRcTLq6XAvWF0GHGKWrWCWrUCIhNoGc1/s7UpXCtxcd6+ex84Uzub827fDQQ1LZtdS5LkE5kAuKkyb//TOobjOEl8IpAkyd9YX2P3Hz5+wqV5iY31NdQbTRweNbC3f8Ds9Hpv/wBKWgEAP3bBfvv5HQDAB9je2YVp2bC7PTiOA7fvMtu1QyGuFy8DLVK90Qw8JzJBvdGE3e3F+gLA4iaqDZFJIHsikwCRJMIiKGkFbt+FadkRX5QQLcwkiCVPp0n7oj0VwSRQgrmlbOCeR/uiDW/gTeQvlrw38LCcW8Z5+zwgp6KAYYS/CB1DJfjHr9/MRhe83e2xQvGF04s69KIOAOwMjOQ3IJV8APpCmFjcrkpJT5IcD14APn/9MtV+sEhJUlJJxHmSAPD82VMUCnls7+yycSJ4A48t/LCMzoLItJm0eqqqsg0JGCXbuxqpBN86TCuh02Cq3oaSAoBHDx8AuNk4RKBy6g08GEYHpmXj5PTsnyW1MLOHMVDSCohMYFo2cktZIXFRczcJGHk6x92+i/JqKXZhqqoamTIiuH2XHVT6TMsWVvy2XyFWTcId44q+4vNEiEwCehxuuMLJK2kF9+/djey2FG7fnbr7TGxly6sltlWP2zySukVJkhIbsXHj4zA2IC+B8/4z+q/wF3P3fP1xtVq3AAAAAElFTkSuQmCC",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAUCAYAAAAdmmTCAAAAVUlEQVR4nGNgGAWjYBSMAmqC/xlSM6D0S2RxRqpb1CmzhOE3w3uG3wwfGP4x/GBsftJKbTtggIlWBlMT/M+Q2g2lfQbaLaNgFIyCUTAKRsEoGAW0AgAMyxKQFoBhYAAAAABJRU5ErkJggg==",
+      "trim": null,
+      "guts": null,
+      "note": "Orange heat chamber and muzzle vents shimmer with smooth overlapping furnace waves. Frame 15/40. Ambient loop, not firing timing."
+    },
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAUCAYAAAAdmmTCAAAC00lEQVR4nOVXv2vbQBT+HDJo0BkhrJoYxxhBaAuFUgpxvRRK93bof2Hw4CmkQ0IyNGTqUOhaunRPU0oo/QFdYgdMMQSSEDBBMRKygxCWB2/q4NzlJJ1kO66nfiD04+ne+97T3XdPKcwALaP5oufewAORCXpXvdQs/sdh8bYDtYzmK2kFqqpGbNk7Gk5OzwDAn2cCzDFfxXGVo+/qRR2t4xaGw2Hie/NKIMUHefXyBTOYlo3Do0YksGiq8OMKhTwAwDA6AT/AqChxiYahZTS/Vq0Iba83t1IAsEDJKGkFhUKeHU9KjyNkRcTLq6XAvWF0GHGKWrWCWrUCIhNoGc1/s7UpXCtxcd6+ex84Uzub827fDQQ1LZtdS5LkE5kAuKkyb//TOobjOEl8IpAkyd9YX2P3Hz5+wqV5iY31NdQbTRweNbC3f8Ds9Hpv/wBKWgEAP3bBfvv5HQDAB9je2YVp2bC7PTiOA7fvMtu1QyGuFy8DLVK90Qw8JzJBvdGE3e3F+gLA4iaqDZFJIHsikwCRJMIiKGkFbt+FadkRX5QQLcwkiCVPp0n7oj0VwSRQgrmlbOCeR/uiDW/gTeQvlrw38LCcW8Z5+zwgp6KAYYS/CB1DJfjHr9/MRhe83e2xQvGF04s69KIOAOwMjOQ3IJV8APpCmFjcrkpJT5IcD14APn/9MtV+sEhJUlJJxHmSAPD82VMUCnls7+yycSJ4A48t/LCMzoLItJm0eqqqsg0JGCXbuxqpBN86TCuh02Cq3oaSAoBHDx8AuNk4RKBy6g08GEYHpmXj5PTsnyW1MLOHMVDSCohMYFo2cktZIXFRczcJGHk6x92+i/JqKXZhqqoamTIiuH2XHVT6TMsWVvy2XyFWTcId44q+4vNEiEwCehxuuMLJK2kF9+/djey2FG7fnbr7TGxly6sltlWP2zySukVJkhIbsXHj4zA2IC+B8/4z+q/wF3P3fP1xtVq3AAAAAElFTkSuQmCC",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAUCAYAAAAdmmTCAAAAVUlEQVR4nGNgGAWjYBSMAmqC/xlSnVD6NbI4I9Ut6pJZyvCH4QvDL4Z3DH8YPjG2PGmnth0wwEQrg6kJ/mdIXYTSkQPtllEwCkbBKBgFo2AUjAJaAQC+BxKmoG8ibgAAAABJRU5ErkJggg==",
+      "trim": null,
+      "guts": null,
+      "note": "Orange heat chamber and muzzle vents shimmer with smooth overlapping furnace waves. Frame 16/40. Ambient loop, not firing timing."
+    },
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAUCAYAAAAdmmTCAAAC00lEQVR4nOVXv2vbQBT+HDJo0BkhrJoYxxhBaAuFUgpxvRRK93bof2Hw4CmkQ0IyNGTqUOhaunRPU0oo/QFdYgdMMQSSEDBBMRKygxCWB2/q4NzlJJ1kO66nfiD04+ne+97T3XdPKcwALaP5oufewAORCXpXvdQs/sdh8bYDtYzmK2kFqqpGbNk7Gk5OzwDAn2cCzDFfxXGVo+/qRR2t4xaGw2Hie/NKIMUHefXyBTOYlo3Do0YksGiq8OMKhTwAwDA6AT/AqChxiYahZTS/Vq0Iba83t1IAsEDJKGkFhUKeHU9KjyNkRcTLq6XAvWF0GHGKWrWCWrUCIhNoGc1/s7UpXCtxcd6+ex84Uzub827fDQQ1LZtdS5LkE5kAuKkyb//TOobjOEl8IpAkyd9YX2P3Hz5+wqV5iY31NdQbTRweNbC3f8Ds9Hpv/wBKWgEAP3bBfvv5HQDAB9je2YVp2bC7PTiOA7fvMtu1QyGuFy8DLVK90Qw8JzJBvdGE3e3F+gLA4iaqDZFJIHsikwCRJMIiKGkFbt+FadkRX5QQLcwkiCVPp0n7oj0VwSRQgrmlbOCeR/uiDW/gTeQvlrw38LCcW8Z5+zwgp6KAYYS/CB1DJfjHr9/MRhe83e2xQvGF04s69KIOAOwMjOQ3IJV8APpCmFjcrkpJT5IcD14APn/9MtV+sEhJUlJJxHmSAPD82VMUCnls7+yycSJ4A48t/LCMzoLItJm0eqqqsg0JGCXbuxqpBN86TCuh02Cq3oaSAoBHDx8AuNk4RKBy6g08GEYHpmXj5PTsnyW1MLOHMVDSCohMYFo2cktZIXFRczcJGHk6x92+i/JqKXZhqqoamTIiuH2XHVT6TMsWVvy2XyFWTcId44q+4vNEiEwCehxuuMLJK2kF9+/djey2FG7fnbr7TGxly6sltlWP2zySukVJkhIbsXHj4zA2IC+B8/4z+q/wF3P3fP1xtVq3AAAAAElFTkSuQmCC",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAUCAYAAAAdmmTCAAAAVUlEQVR4nGNgGAWjYBSMAmqC/xlSZVD6CbI4I9Ut6pRZzPCP4RfDH4aPDL8Y3jM2P2mmth0wwEQrg6kJ/mdIPYPS2QPtllEwCkbBKBgFo2AUjAJaAQAL2xKzsqCdMwAAAABJRU5ErkJggg==",
+      "trim": null,
+      "guts": null,
+      "note": "Orange heat chamber and muzzle vents shimmer with smooth overlapping furnace waves. Frame 17/40. Ambient loop, not firing timing."
+    },
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAUCAYAAAAdmmTCAAAC00lEQVR4nOVXv2vbQBT+HDJo0BkhrJoYxxhBaAuFUgpxvRRK93bof2Hw4CmkQ0IyNGTqUOhaunRPU0oo/QFdYgdMMQSSEDBBMRKygxCWB2/q4NzlJJ1kO66nfiD04+ne+97T3XdPKcwALaP5oufewAORCXpXvdQs/sdh8bYDtYzmK2kFqqpGbNk7Gk5OzwDAn2cCzDFfxXGVo+/qRR2t4xaGw2Hie/NKIMUHefXyBTOYlo3Do0YksGiq8OMKhTwAwDA6AT/AqChxiYahZTS/Vq0Iba83t1IAsEDJKGkFhUKeHU9KjyNkRcTLq6XAvWF0GHGKWrWCWrUCIhNoGc1/s7UpXCtxcd6+ex84Uzub827fDQQ1LZtdS5LkE5kAuKkyb//TOobjOEl8IpAkyd9YX2P3Hz5+wqV5iY31NdQbTRweNbC3f8Ds9Hpv/wBKWgEAP3bBfvv5HQDAB9je2YVp2bC7PTiOA7fvMtu1QyGuFy8DLVK90Qw8JzJBvdGE3e3F+gLA4iaqDZFJIHsikwCRJMIiKGkFbt+FadkRX5QQLcwkiCVPp0n7oj0VwSRQgrmlbOCeR/uiDW/gTeQvlrw38LCcW8Z5+zwgp6KAYYS/CB1DJfjHr9/MRhe83e2xQvGF04s69KIOAOwMjOQ3IJV8APpCmFjcrkpJT5IcD14APn/9MtV+sEhJUlJJxHmSAPD82VMUCnls7+yycSJ4A48t/LCMzoLItJm0eqqqsg0JGCXbuxqpBN86TCuh02Cq3oaSAoBHDx8AuNk4RKBy6g08GEYHpmXj5PTsnyW1MLOHMVDSCohMYFo2cktZIXFRczcJGHk6x92+i/JqKXZhqqoamTIiuH2XHVT6TMsWVvy2XyFWTcId44q+4vNEiEwCehxuuMLJK2kF9+/djey2FG7fnbr7TGxly6sltlWP2zySukVJkhIbsXHj4zA2IC+B8/4z+q/wF3P3fP1xtVq3AAAAAElFTkSuQmCC",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAUCAYAAAAdmmTCAAAAVUlEQVR4nGNgGAWjYBSMAmqC/xlSSVD6GrI4I9UtapeZw8DIwMTwl+E7wy+G94yNT2qobQcMMNHKYGqC/xlSX6F000C7ZRSMglEwCkbBKBgFo4BWAAD+FBC3MW2mjgAAAABJRU5ErkJggg==",
+      "trim": null,
+      "guts": null,
+      "note": "Orange heat chamber and muzzle vents shimmer with smooth overlapping furnace waves. Frame 18/40. Ambient loop, not firing timing."
+    },
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAUCAYAAAAdmmTCAAAC00lEQVR4nOVXv2vbQBT+HDJo0BkhrJoYxxhBaAuFUgpxvRRK93bof2Hw4CmkQ0IyNGTqUOhaunRPU0oo/QFdYgdMMQSSEDBBMRKygxCWB2/q4NzlJJ1kO66nfiD04+ne+97T3XdPKcwALaP5oufewAORCXpXvdQs/sdh8bYDtYzmK2kFqqpGbNk7Gk5OzwDAn2cCzDFfxXGVo+/qRR2t4xaGw2Hie/NKIMUHefXyBTOYlo3Do0YksGiq8OMKhTwAwDA6AT/AqChxiYahZTS/Vq0Iba83t1IAsEDJKGkFhUKeHU9KjyNkRcTLq6XAvWF0GHGKWrWCWrUCIhNoGc1/s7UpXCtxcd6+ex84Uzub827fDQQ1LZtdS5LkE5kAuKkyb//TOobjOEl8IpAkyd9YX2P3Hz5+wqV5iY31NdQbTRweNbC3f8Ds9Hpv/wBKWgEAP3bBfvv5HQDAB9je2YVp2bC7PTiOA7fvMtu1QyGuFy8DLVK90Qw8JzJBvdGE3e3F+gLA4iaqDZFJIHsikwCRJMIiKGkFbt+FadkRX5QQLcwkiCVPp0n7oj0VwSRQgrmlbOCeR/uiDW/gTeQvlrw38LCcW8Z5+zwgp6KAYYS/CB1DJfjHr9/MRhe83e2xQvGF04s69KIOAOwMjOQ3IJV8APpCmFjcrkpJT5IcD14APn/9MtV+sEhJUlJJxHmSAPD82VMUCnls7+yycSJ4A48t/LCMzoLItJm0eqqqsg0JGCXbuxqpBN86TCuh02Cq3oaSAoBHDx8AuNk4RKBy6g08GEYHpmXj5PTsnyW1MLOHMVDSCohMYFo2cktZIXFRczcJGHk6x92+i/JqKXZhqqoamTIiuH2XHVT6TMsWVvy2XyFWTcId44q+4vNEiEwCehxuuMLJK2kF9+/djey2FG7fnbr7TGxly6sltlWP2zySukVJkhIbsXHj4zA2IC+B8/4z+q/wF3P3fP1xtVq3AAAAAElFTkSuQmCC",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAUCAYAAAAdmmTCAAAAVUlEQVR4nGNgGAWjYBSMAmqC/xlSAVD6ELI4I9UtapaZyMDCwMXwn+Efwx+GL4x1T4qpbQcMMNHKYGqC/xlSf6D0rIF2yygYBaNgFIyCUTAKRgGtAACHORCwHFG/LgAAAABJRU5ErkJggg==",
+      "trim": null,
+      "guts": null,
+      "note": "Orange heat chamber and muzzle vents shimmer with smooth overlapping furnace waves. Frame 19/40. Ambient loop, not firing timing."
+    },
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAUCAYAAAAdmmTCAAAC00lEQVR4nOVXv2vbQBT+HDJo0BkhrJoYxxhBaAuFUgpxvRRK93bof2Hw4CmkQ0IyNGTqUOhaunRPU0oo/QFdYgdMMQSSEDBBMRKygxCWB2/q4NzlJJ1kO66nfiD04+ne+97T3XdPKcwALaP5oufewAORCXpXvdQs/sdh8bYDtYzmK2kFqqpGbNk7Gk5OzwDAn2cCzDFfxXGVo+/qRR2t4xaGw2Hie/NKIMUHefXyBTOYlo3Do0YksGiq8OMKhTwAwDA6AT/AqChxiYahZTS/Vq0Iba83t1IAsEDJKGkFhUKeHU9KjyNkRcTLq6XAvWF0GHGKWrWCWrUCIhNoGc1/s7UpXCtxcd6+ex84Uzub827fDQQ1LZtdS5LkE5kAuKkyb//TOobjOEl8IpAkyd9YX2P3Hz5+wqV5iY31NdQbTRweNbC3f8Ds9Hpv/wBKWgEAP3bBfvv5HQDAB9je2YVp2bC7PTiOA7fvMtu1QyGuFy8DLVK90Qw8JzJBvdGE3e3F+gLA4iaqDZFJIHsikwCRJMIiKGkFbt+FadkRX5QQLcwkiCVPp0n7oj0VwSRQgrmlbOCeR/uiDW/gTeQvlrw38LCcW8Z5+zwgp6KAYYS/CB1DJfjHr9/MRhe83e2xQvGF04s69KIOAOwMjOQ3IJV8APpCmFjcrkpJT5IcD14APn/9MtV+sEhJUlJJxHmSAPD82VMUCnls7+yycSJ4A48t/LCMzoLItJm0eqqqsg0JGCXbuxqpBN86TCuh02Cq3oaSAoBHDx8AuNk4RKBy6g08GEYHpmXj5PTsnyW1MLOHMVDSCohMYFo2cktZIXFRczcJGHk6x92+i/JqKXZhqqoamTIiuH2XHVT6TMsWVvy2XyFWTcId44q+4vNEiEwCehxuuMLJK2kF9+/djey2FG7fnbr7TGxly6sltlWP2zySukVJkhIbsXHj4zA2IC+B8/4z+q/wF3P3fP1xtVq3AAAAAElFTkSuQmCC",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAUCAYAAAAdmmTCAAAAVUlEQVR4nGNgGAWjYBSMAmqC/xlSLlB6JbI4I9UtqpdpYWBl4GdgYmBn+M/wi7H6SQ617YABJloZTE3wP0PqN5ReP9BuGQWjYBSMglEwCkbBKKAVAADBNw6fgX0/dQAAAABJRU5ErkJggg==",
+      "trim": null,
+      "guts": null,
+      "note": "Orange heat chamber and muzzle vents shimmer with smooth overlapping furnace waves. Frame 20/40. Ambient loop, not firing timing."
+    },
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAUCAYAAAAdmmTCAAAC00lEQVR4nOVXv2vbQBT+HDJo0BkhrJoYxxhBaAuFUgpxvRRK93bof2Hw4CmkQ0IyNGTqUOhaunRPU0oo/QFdYgdMMQSSEDBBMRKygxCWB2/q4NzlJJ1kO66nfiD04+ne+97T3XdPKcwALaP5oufewAORCXpXvdQs/sdh8bYDtYzmK2kFqqpGbNk7Gk5OzwDAn2cCzDFfxXGVo+/qRR2t4xaGw2Hie/NKIMUHefXyBTOYlo3Do0YksGiq8OMKhTwAwDA6AT/AqChxiYahZTS/Vq0Iba83t1IAsEDJKGkFhUKeHU9KjyNkRcTLq6XAvWF0GHGKWrWCWrUCIhNoGc1/s7UpXCtxcd6+ex84Uzub827fDQQ1LZtdS5LkE5kAuKkyb//TOobjOEl8IpAkyd9YX2P3Hz5+wqV5iY31NdQbTRweNbC3f8Ds9Hpv/wBKWgEAP3bBfvv5HQDAB9je2YVp2bC7PTiOA7fvMtu1QyGuFy8DLVK90Qw8JzJBvdGE3e3F+gLA4iaqDZFJIHsikwCRJMIiKGkFbt+FadkRX5QQLcwkiCVPp0n7oj0VwSRQgrmlbOCeR/uiDW/gTeQvlrw38LCcW8Z5+zwgp6KAYYS/CB1DJfjHr9/MRhe83e2xQvGF04s69KIOAOwMjOQ3IJV8APpCmFjcrkpJT5IcD14APn/9MtV+sEhJUlJJxHmSAPD82VMUCnls7+yycSJ4A48t/LCMzoLItJm0eqqqsg0JGCXbuxqpBN86TCuh02Cq3oaSAoBHDx8AuNk4RKBy6g08GEYHpmXj5PTsnyW1MLOHMVDSCohMYFo2cktZIXFRczcJGHk6x92+i/JqKXZhqqoamTIiuH2XHVT6TMsWVvy2XyFWTcId44q+4vNEiEwCehxuuMLJK2kF9+/djey2FG7fnbr7TGxly6sltlWP2zySukVJkhIbsXHj4zA2IC+B8/4z+q/wF3P3fP1xtVq3AAAAAElFTkSuQmCC",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAUCAYAAAAdmmTCAAAAVElEQVR4nGNgGAWjYBSMAmqC/xlSDlB6IrI4I9UtqpGpYGBlEGRgYeBlYGRgZqx6kk5tO2CAiVYGUxP8z5D6BKX3D7RbRsEoGAWjYBSMglEwCmgFAOyzDIqWTtYmAAAAAElFTkSuQmCC",
+      "trim": null,
+      "guts": null,
+      "note": "Orange heat chamber and muzzle vents shimmer with smooth overlapping furnace waves. Frame 21/40. Ambient loop, not firing timing."
+    },
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAUCAYAAAAdmmTCAAAC00lEQVR4nOVXv2vbQBT+HDJo0BkhrJoYxxhBaAuFUgpxvRRK93bof2Hw4CmkQ0IyNGTqUOhaunRPU0oo/QFdYgdMMQSSEDBBMRKygxCWB2/q4NzlJJ1kO66nfiD04+ne+97T3XdPKcwALaP5oufewAORCXpXvdQs/sdh8bYDtYzmK2kFqqpGbNk7Gk5OzwDAn2cCzDFfxXGVo+/qRR2t4xaGw2Hie/NKIMUHefXyBTOYlo3Do0YksGiq8OMKhTwAwDA6AT/AqChxiYahZTS/Vq0Iba83t1IAsEDJKGkFhUKeHU9KjyNkRcTLq6XAvWF0GHGKWrWCWrUCIhNoGc1/s7UpXCtxcd6+ex84Uzub827fDQQ1LZtdS5LkE5kAuKkyb//TOobjOEl8IpAkyd9YX2P3Hz5+wqV5iY31NdQbTRweNbC3f8Ds9Hpv/wBKWgEAP3bBfvv5HQDAB9je2YVp2bC7PTiOA7fvMtu1QyGuFy8DLVK90Qw8JzJBvdGE3e3F+gLA4iaqDZFJIHsikwCRJMIiKGkFbt+FadkRX5QQLcwkiCVPp0n7oj0VwSRQgrmlbOCeR/uiDW/gTeQvlrw38LCcW8Z5+zwgp6KAYYS/CB1DJfjHr9/MRhe83e2xQvGF04s69KIOAOwMjOQ3IJV8APpCmFjcrkpJT5IcD14APn/9MtV+sEhJUlJJxHmSAPD82VMUCnls7+yycSJ4A48t/LCMzoLItJm0eqqqsg0JGCXbuxqpBN86TCuh02Cq3oaSAoBHDx8AuNk4RKBy6g08GEYHpmXj5PTsnyW1MLOHMVDSCohMYFo2cktZIXFRczcJGHk6x92+i/JqKXZhqqoamTIiuH2XHVT6TMsWVvy2XyFWTcId44q+4vNEiEwCehxuuMLJK2kF9+/djey2FG7fnbr7TGxly6sltlWP2zySukVJkhIbsXHj4zA2IC+B8/4z+q/wF3P3fP1xtVq3AAAAAElFTkSuQmCC",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAUCAYAAAAdmmTCAAAAVElEQVR4nGNgGAWjYBSMAmqC/xlSLlC6BlmckeoWVcrkMbAwCDCwMQgwMDNwM1Y9Sae2HTDARCuDqQn+Z0g9htInBtoto2AUjIJRMApGwSgYBbQCAAW6DHOMMbbqAAAAAElFTkSuQmCC",
+      "trim": null,
+      "guts": null,
+      "note": "Orange heat chamber and muzzle vents shimmer with smooth overlapping furnace waves. Frame 22/40. Ambient loop, not firing timing."
+    },
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAUCAYAAAAdmmTCAAAC00lEQVR4nOVXv2vbQBT+HDJo0BkhrJoYxxhBaAuFUgpxvRRK93bof2Hw4CmkQ0IyNGTqUOhaunRPU0oo/QFdYgdMMQSSEDBBMRKygxCWB2/q4NzlJJ1kO66nfiD04+ne+97T3XdPKcwALaP5oufewAORCXpXvdQs/sdh8bYDtYzmK2kFqqpGbNk7Gk5OzwDAn2cCzDFfxXGVo+/qRR2t4xaGw2Hie/NKIMUHefXyBTOYlo3Do0YksGiq8OMKhTwAwDA6AT/AqChxiYahZTS/Vq0Iba83t1IAsEDJKGkFhUKeHU9KjyNkRcTLq6XAvWF0GHGKWrWCWrUCIhNoGc1/s7UpXCtxcd6+ex84Uzub827fDQQ1LZtdS5LkE5kAuKkyb//TOobjOEl8IpAkyd9YX2P3Hz5+wqV5iY31NdQbTRweNbC3f8Ds9Hpv/wBKWgEAP3bBfvv5HQDAB9je2YVp2bC7PTiOA7fvMtu1QyGuFy8DLVK90Qw8JzJBvdGE3e3F+gLA4iaqDZFJIHsikwCRJMIiKGkFbt+FadkRX5QQLcwkiCVPp0n7oj0VwSRQgrmlbOCeR/uiDW/gTeQvlrw38LCcW8Z5+zwgp6KAYYS/CB1DJfjHr9/MRhe83e2xQvGF04s69KIOAOwMjOQ3IJV8APpCmFjcrkpJT5IcD14APn/9MtV+sEhJUlJJxHmSAPD82VMUCnls7+yycSJ4A48t/LCMzoLItJm0eqqqsg0JGCXbuxqpBN86TCuh02Cq3oaSAoBHDx8AuNk4RKBy6g08GEYHpmXj5PTsnyW1MLOHMVDSCohMYFo2cktZIXFRczcJGHk6x92+i/JqKXZhqqoamTIiuH2XHVT6TMsWVvy2XyFWTcId44q+4vNEiEwCehxuuMLJK2kF9+/djey2FG7fnbr7TGxly6sltlWP2zySukVJkhIbsXHj4zA2IC+B8/4z+q/wF3P3fP1xtVq3AAAAAElFTkSuQmCC",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAUCAYAAAAdmmTCAAAAVElEQVR4nGNgGAWjYBSMAmqC/xlSAVA6B1mckeoWlctkMTAzcDGwMQgysDIIMFY/yaa2HTDARCuDqQn+Z0hdgtKnBtoto2AUjIJRMApGwSgYBbQCAFXADGAsS+ZFAAAAAElFTkSuQmCC",
+      "trim": null,
+      "guts": null,
+      "note": "Orange heat chamber and muzzle vents shimmer with smooth overlapping furnace waves. Frame 23/40. Ambient loop, not firing timing."
+    },
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAUCAYAAAAdmmTCAAAC00lEQVR4nOVXv2vbQBT+HDJo0BkhrJoYxxhBaAuFUgpxvRRK93bof2Hw4CmkQ0IyNGTqUOhaunRPU0oo/QFdYgdMMQSSEDBBMRKygxCWB2/q4NzlJJ1kO66nfiD04+ne+97T3XdPKcwALaP5oufewAORCXpXvdQs/sdh8bYDtYzmK2kFqqpGbNk7Gk5OzwDAn2cCzDFfxXGVo+/qRR2t4xaGw2Hie/NKIMUHefXyBTOYlo3Do0YksGiq8OMKhTwAwDA6AT/AqChxiYahZTS/Vq0Iba83t1IAsEDJKGkFhUKeHU9KjyNkRcTLq6XAvWF0GHGKWrWCWrUCIhNoGc1/s7UpXCtxcd6+ex84Uzub827fDQQ1LZtdS5LkE5kAuKkyb//TOobjOEl8IpAkyd9YX2P3Hz5+wqV5iY31NdQbTRweNbC3f8Ds9Hpv/wBKWgEAP3bBfvv5HQDAB9je2YVp2bC7PTiOA7fvMtu1QyGuFy8DLVK90Qw8JzJBvdGE3e3F+gLA4iaqDZFJIHsikwCRJMIiKGkFbt+FadkRX5QQLcwkiCVPp0n7oj0VwSRQgrmlbOCeR/uiDW/gTeQvlrw38LCcW8Z5+zwgp6KAYYS/CB1DJfjHr9/MRhe83e2xQvGF04s69KIOAOwMjOQ3IJV8APpCmFjcrkpJT5IcD14APn/9MtV+sEhJUlJJxHmSAPD82VMUCnls7+yycSJ4A48t/LCMzoLItJm0eqqqsg0JGCXbuxqpBN86TCuh02Cq3oaSAoBHDx8AuNk4RKBy6g08GEYHpmXj5PTsnyW1MLOHMVDSCohMYFo2cktZIXFRczcJGHk6x92+i/JqKXZhqqoamTIiuH2XHVT6TMsWVvy2XyFWTcId44q+4vNEiEwCehxuuMLJK2kF9+/djey2FG7fnbr7TGxly6sltlWP2zySukVJkhIbsXHj4zA2IC+B8/4z+q/wF3P3fP1xtVq3AAAAAElFTkSuQmCC",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAUCAYAAAAdmmTCAAAAVElEQVR4nGNgGAWjYBSMAmqC/xlSSVA6BVmckeoWVcjkMDAyMDOwMPAysDIIMdY9KaK2HTDARCuDqQn+Z0gdgtLHBtoto2AUjIJRMApGwSgYBbQCAAsWDFZJ76gCAAAAAElFTkSuQmCC",
+      "trim": null,
+      "guts": null,
+      "note": "Orange heat chamber and muzzle vents shimmer with smooth overlapping furnace waves. Frame 24/40. Ambient loop, not firing timing."
+    },
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAUCAYAAAAdmmTCAAAC00lEQVR4nOVXv2vbQBT+HDJo0BkhrJoYxxhBaAuFUgpxvRRK93bof2Hw4CmkQ0IyNGTqUOhaunRPU0oo/QFdYgdMMQSSEDBBMRKygxCWB2/q4NzlJJ1kO66nfiD04+ne+97T3XdPKcwALaP5oufewAORCXpXvdQs/sdh8bYDtYzmK2kFqqpGbNk7Gk5OzwDAn2cCzDFfxXGVo+/qRR2t4xaGw2Hie/NKIMUHefXyBTOYlo3Do0YksGiq8OMKhTwAwDA6AT/AqChxiYahZTS/Vq0Iba83t1IAsEDJKGkFhUKeHU9KjyNkRcTLq6XAvWF0GHGKWrWCWrUCIhNoGc1/s7UpXCtxcd6+ex84Uzub827fDQQ1LZtdS5LkE5kAuKkyb//TOobjOEl8IpAkyd9YX2P3Hz5+wqV5iY31NdQbTRweNbC3f8Ds9Hpv/wBKWgEAP3bBfvv5HQDAB9je2YVp2bC7PTiOA7fvMtu1QyGuFy8DLVK90Qw8JzJBvdGE3e3F+gLA4iaqDZFJIHsikwCRJMIiKGkFbt+FadkRX5QQLcwkiCVPp0n7oj0VwSRQgrmlbOCeR/uiDW/gTeQvlrw38LCcW8Z5+zwgp6KAYYS/CB1DJfjHr9/MRhe83e2xQvGF04s69KIOAOwMjOQ3IJV8APpCmFjcrkpJT5IcD14APn/9MtV+sEhJUlJJxHmSAPD82VMUCnls7+yycSJ4A48t/LCMzoLItJm0eqqqsg0JGCXbuxqpBN86TCuh02Cq3oaSAoBHDx8AuNk4RKBy6g08GEYHpmXj5PTsnyW1MLOHMVDSCohMYFo2cktZIXFRczcJGHk6x92+i/JqKXZhqqoamTIiuH2XHVT6TMsWVvy2XyFWTcId44q+4vNEiEwCehxuuMLJK2kF9+/djey2FG7fnbr7TGxly6sltlWP2zySukVJkhIbsXHj4zA2IC+B8/4z+q/wF3P3fP1xtVq3AAAAAElFTkSuQmCC",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAUCAYAAAAdmmTCAAAAVUlEQVR4nGNgGAWjYBSMAmqC/xlSZVA6GVmckeoWVcuUMvxj+M3AxMDOwMrAz9jwpIradsAAE60Mpib4nyG1FUofGGCnjIJRMApGwSgYBaNgFNAMAAAmeA5WY4xpQAAAAABJRU5ErkJggg==",
+      "trim": null,
+      "guts": null,
+      "note": "Orange heat chamber and muzzle vents shimmer with smooth overlapping furnace waves. Frame 25/40. Ambient loop, not firing timing."
+    },
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAUCAYAAAAdmmTCAAAC00lEQVR4nOVXv2vbQBT+HDJo0BkhrJoYxxhBaAuFUgpxvRRK93bof2Hw4CmkQ0IyNGTqUOhaunRPU0oo/QFdYgdMMQSSEDBBMRKygxCWB2/q4NzlJJ1kO66nfiD04+ne+97T3XdPKcwALaP5oufewAORCXpXvdQs/sdh8bYDtYzmK2kFqqpGbNk7Gk5OzwDAn2cCzDFfxXGVo+/qRR2t4xaGw2Hie/NKIMUHefXyBTOYlo3Do0YksGiq8OMKhTwAwDA6AT/AqChxiYahZTS/Vq0Iba83t1IAsEDJKGkFhUKeHU9KjyNkRcTLq6XAvWF0GHGKWrWCWrUCIhNoGc1/s7UpXCtxcd6+ex84Uzub827fDQQ1LZtdS5LkE5kAuKkyb//TOobjOEl8IpAkyd9YX2P3Hz5+wqV5iY31NdQbTRweNbC3f8Ds9Hpv/wBKWgEAP3bBfvv5HQDAB9je2YVp2bC7PTiOA7fvMtu1QyGuFy8DLVK90Qw8JzJBvdGE3e3F+gLA4iaqDZFJIHsikwCRJMIiKGkFbt+FadkRX5QQLcwkiCVPp0n7oj0VwSRQgrmlbOCeR/uiDW/gTeQvlrw38LCcW8Z5+zwgp6KAYYS/CB1DJfjHr9/MRhe83e2xQvGF04s69KIOAOwMjOQ3IJV8APpCmFjcrkpJT5IcD14APn/9MtV+sEhJUlJJxHmSAPD82VMUCnls7+yycSJ4A48t/LCMzoLItJm0eqqqsg0JGCXbuxqpBN86TCuh02Cq3oaSAoBHDx8AuNk4RKBy6g08GEYHpmXj5PTsnyW1MLOHMVDSCohMYFo2cktZIXFRczcJGHk6x92+i/JqKXZhqqoamTIiuH2XHVT6TMsWVvy2XyFWTcId44q+4vNEiEwCehxuuMLJK2kF9+/djey2FG7fnbr7TGxly6sltlWP2zySukVJkhIbsXHj4zA2IC+B8/4z+q/wF3P3fP1xtVq3AAAAAElFTkSuQmCC",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAUCAYAAAAdmmTCAAAAVUlEQVR4nGNgGAWjYBSMAmqC/xlSnVA6A1mckeoW1cs0M/xh+MLAwPCfgZmBi7HpSQO17YABJloZTE3wP0NqLZTeNdBuGQWjYBSMglEwCkbBKKAVAACeOA9gfQxLDwAAAABJRU5ErkJggg==",
+      "trim": null,
+      "guts": null,
+      "note": "Orange heat chamber and muzzle vents shimmer with smooth overlapping furnace waves. Frame 26/40. Ambient loop, not firing timing."
+    },
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAUCAYAAAAdmmTCAAAC00lEQVR4nOVXv2vbQBT+HDJo0BkhrJoYxxhBaAuFUgpxvRRK93bof2Hw4CmkQ0IyNGTqUOhaunRPU0oo/QFdYgdMMQSSEDBBMRKygxCWB2/q4NzlJJ1kO66nfiD04+ne+97T3XdPKcwALaP5oufewAORCXpXvdQs/sdh8bYDtYzmK2kFqqpGbNk7Gk5OzwDAn2cCzDFfxXGVo+/qRR2t4xaGw2Hie/NKIMUHefXyBTOYlo3Do0YksGiq8OMKhTwAwDA6AT/AqChxiYahZTS/Vq0Iba83t1IAsEDJKGkFhUKeHU9KjyNkRcTLq6XAvWF0GHGKWrWCWrUCIhNoGc1/s7UpXCtxcd6+ex84Uzub827fDQQ1LZtdS5LkE5kAuKkyb//TOobjOEl8IpAkyd9YX2P3Hz5+wqV5iY31NdQbTRweNbC3f8Ds9Hpv/wBKWgEAP3bBfvv5HQDAB9je2YVp2bC7PTiOA7fvMtu1QyGuFy8DLVK90Qw8JzJBvdGE3e3F+gLA4iaqDZFJIHsikwCRJMIiKGkFbt+FadkRX5QQLcwkiCVPp0n7oj0VwSRQgrmlbOCeR/uiDW/gTeQvlrw38LCcW8Z5+zwgp6KAYYS/CB1DJfjHr9/MRhe83e2xQvGF04s69KIOAOwMjOQ3IJV8APpCmFjcrkpJT5IcD14APn/9MtV+sEhJUlJJxHmSAPD82VMUCnls7+yycSJ4A48t/LCMzoLItJm0eqqqsg0JGCXbuxqpBN86TCuh02Cq3oaSAoBHDx8AuNk4RKBy6g08GEYHpmXj5PTsnyW1MLOHMVDSCohMYFo2cktZIXFRczcJGHk6x92+i/JqKXZhqqoamTIiuH2XHVT6TMsWVvy2XyFWTcId44q+4vNEiEwCehxuuMLJK2kF9+/djey2FG7fnbr7TGxly6sltlWP2zySukVJkhIbsXHj4zA2IC+B8/4z+q/wF3P3fP1xtVq3AAAAAElFTkSuQmCC",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAUCAYAAAAdmmTCAAAAVUlEQVR4nGNgGAWjYBSMAmqC/xlSM6B0IbI4I9UtapWZyvCL4T3DP4bvDIwMzIxNT5qobQcMMNHKYGqC/xlSq6H09oF2yygYBaNgFIyCUTAKRgGtAABouBBzXwPKagAAAABJRU5ErkJggg==",
+      "trim": null,
+      "guts": null,
+      "note": "Orange heat chamber and muzzle vents shimmer with smooth overlapping furnace waves. Frame 27/40. Ambient loop, not firing timing."
+    },
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAUCAYAAAAdmmTCAAAC00lEQVR4nOVXv2vbQBT+HDJo0BkhrJoYxxhBaAuFUgpxvRRK93bof2Hw4CmkQ0IyNGTqUOhaunRPU0oo/QFdYgdMMQSSEDBBMRKygxCWB2/q4NzlJJ1kO66nfiD04+ne+97T3XdPKcwALaP5oufewAORCXpXvdQs/sdh8bYDtYzmK2kFqqpGbNk7Gk5OzwDAn2cCzDFfxXGVo+/qRR2t4xaGw2Hie/NKIMUHefXyBTOYlo3Do0YksGiq8OMKhTwAwDA6AT/AqChxiYahZTS/Vq0Iba83t1IAsEDJKGkFhUKeHU9KjyNkRcTLq6XAvWF0GHGKWrWCWrUCIhNoGc1/s7UpXCtxcd6+ex84Uzub827fDQQ1LZtdS5LkE5kAuKkyb//TOobjOEl8IpAkyd9YX2P3Hz5+wqV5iY31NdQbTRweNbC3f8Ds9Hpv/wBKWgEAP3bBfvv5HQDAB9je2YVp2bC7PTiOA7fvMtu1QyGuFy8DLVK90Qw8JzJBvdGE3e3F+gLA4iaqDZFJIHsikwCRJMIiKGkFbt+FadkRX5QQLcwkiCVPp0n7oj0VwSRQgrmlbOCeR/uiDW/gTeQvlrw38LCcW8Z5+zwgp6KAYYS/CB1DJfjHr9/MRhe83e2xQvGF04s69KIOAOwMjOQ3IJV8APpCmFjcrkpJT5IcD14APn/9MtV+sEhJUlJJxHmSAPD82VMUCnls7+yycSJ4A48t/LCMzoLItJm0eqqqsg0JGCXbuxqpBN86TCuh02Cq3oaSAoBHDx8AuNk4RKBy6g08GEYHpmXj5PTsnyW1MLOHMVDSCohMYFo2cktZIXFRczcJGHk6x92+i/JqKXZhqqoamTIiuH2XHVT6TMsWVvy2XyFWTcId44q+4vNEiEwCehxuuMLJK2kF9+/djey2FG7fnbr7TGxly6sltlWP2zySukVJkhIbsXHj4zA2IC+B8/4z+q/wF3P3fP1xtVq3AAAAAElFTkSuQmCC",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAUCAYAAAAdmmTCAAAAVUlEQVR4nGNgGAWjYBSMAmqC/xlSi6B0JbI4I9Ut6pJZzvCb4T3Db4aPDP8ZfjM2Pqmjth0wwEQrg6kJ/mdIrYPSOwbaLaNgFIyCUTAKRsEoGAW0AgA4ARKJWeV1mAAAAABJRU5ErkJggg==",
+      "trim": null,
+      "guts": null,
+      "note": "Orange heat chamber and muzzle vents shimmer with smooth overlapping furnace waves. Frame 28/40. Ambient loop, not firing timing."
+    },
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAUCAYAAAAdmmTCAAAC00lEQVR4nOVXv2vbQBT+HDJo0BkhrJoYxxhBaAuFUgpxvRRK93bof2Hw4CmkQ0IyNGTqUOhaunRPU0oo/QFdYgdMMQSSEDBBMRKygxCWB2/q4NzlJJ1kO66nfiD04+ne+97T3XdPKcwALaP5oufewAORCXpXvdQs/sdh8bYDtYzmK2kFqqpGbNk7Gk5OzwDAn2cCzDFfxXGVo+/qRR2t4xaGw2Hie/NKIMUHefXyBTOYlo3Do0YksGiq8OMKhTwAwDA6AT/AqChxiYahZTS/Vq0Iba83t1IAsEDJKGkFhUKeHU9KjyNkRcTLq6XAvWF0GHGKWrWCWrUCIhNoGc1/s7UpXCtxcd6+ex84Uzub827fDQQ1LZtdS5LkE5kAuKkyb//TOobjOEl8IpAkyd9YX2P3Hz5+wqV5iY31NdQbTRweNbC3f8Ds9Hpv/wBKWgEAP3bBfvv5HQDAB9je2YVp2bC7PTiOA7fvMtu1QyGuFy8DLVK90Qw8JzJBvdGE3e3F+gLA4iaqDZFJIHsikwCRJMIiKGkFbt+FadkRX5QQLcwkiCVPp0n7oj0VwSRQgrmlbOCeR/uiDW/gTeQvlrw38LCcW8Z5+zwgp6KAYYS/CB1DJfjHr9/MRhe83e2xQvGF04s69KIOAOwMjOQ3IJV8APpCmFjcrkpJT5IcD14APn/9MtV+sEhJUlJJxHmSAPD82VMUCnls7+yycSJ4A48t/LCMzoLItJm0eqqqsg0JGCXbuxqpBN86TCuh02Cq3oaSAoBHDx8AuNk4RKBy6g08GEYHpmXj5PTsnyW1MLOHMVDSCohMYFo2cktZIXFRczcJGHk6x92+i/JqKXZhqqoamTIiuH2XHVT6TMsWVvy2XyFWTcId44q+4vNEiEwCehxuuMLJK2kF9+/djey2FG7fnbr7TGxly6sltlWP2zySukVJkhIbsXHj4zA2IC+B8/4z+q/wF3P3fP1xtVq3AAAAAElFTkSuQmCC",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAUCAYAAAAdmmTCAAAAVUlEQVR4nGNgGAWjYBSMAmqC/xlSS6F0PbI4I9UtmiCzneE3wyeG3wzvGf4wfGGse1JCbTtggIlWBlMT/M+Q2gylDwywU0bBKBgFo2AUjIJRMApoBgAK7BKfFa2EJQAAAABJRU5ErkJggg==",
+      "trim": null,
+      "guts": null,
+      "note": "Orange heat chamber and muzzle vents shimmer with smooth overlapping furnace waves. Frame 29/40. Ambient loop, not firing timing."
+    },
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAUCAYAAAAdmmTCAAAC00lEQVR4nOVXv2vbQBT+HDJo0BkhrJoYxxhBaAuFUgpxvRRK93bof2Hw4CmkQ0IyNGTqUOhaunRPU0oo/QFdYgdMMQSSEDBBMRKygxCWB2/q4NzlJJ1kO66nfiD04+ne+97T3XdPKcwALaP5oufewAORCXpXvdQs/sdh8bYDtYzmK2kFqqpGbNk7Gk5OzwDAn2cCzDFfxXGVo+/qRR2t4xaGw2Hie/NKIMUHefXyBTOYlo3Do0YksGiq8OMKhTwAwDA6AT/AqChxiYahZTS/Vq0Iba83t1IAsEDJKGkFhUKeHU9KjyNkRcTLq6XAvWF0GHGKWrWCWrUCIhNoGc1/s7UpXCtxcd6+ex84Uzub827fDQQ1LZtdS5LkE5kAuKkyb//TOobjOEl8IpAkyd9YX2P3Hz5+wqV5iY31NdQbTRweNbC3f8Ds9Hpv/wBKWgEAP3bBfvv5HQDAB9je2YVp2bC7PTiOA7fvMtu1QyGuFy8DLVK90Qw8JzJBvdGE3e3F+gLA4iaqDZFJIHsikwCRJMIiKGkFbt+FadkRX5QQLcwkiCVPp0n7oj0VwSRQgrmlbOCeR/uiDW/gTeQvlrw38LCcW8Z5+zwgp6KAYYS/CB1DJfjHr9/MRhe83e2xQvGF04s69KIOAOwMjOQ3IJV8APpCmFjcrkpJT5IcD14APn/9MtV+sEhJUlJJxHmSAPD82VMUCnls7+yycSJ4A48t/LCMzoLItJm0eqqqsg0JGCXbuxqpBN86TCuh02Cq3oaSAoBHDx8AuNk4RKBy6g08GEYHpmXj5PTsnyW1MLOHMVDSCohMYFo2cktZIXFRczcJGHk6x92+i/JqKXZhqqoamTIiuH2XHVT6TMsWVvy2XyFWTcId44q+4vNEiEwCehxuuMLJK2kF9+/djey2FG7fnbr7TGxly6sltlWP2zySukVJkhIbsXHj4zA2IC+B8/4z+q/wF3P3fP1xtVq3AAAAAElFTkSuQmCC",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAUCAYAAAAdmmTCAAAAVUlEQVR4nGNgGAWjYBSMAmqC/xlSS6B0A7I4I9UtmixzhOEfw3eG3wwfGH4zfGCsfJJKbTtggIlWBlMT/M+Q2gGlzwy0W0bBKBgFo2AUjIJRMApoBQCj2RKwedeO8wAAAABJRU5ErkJggg==",
+      "trim": null,
+      "guts": null,
+      "note": "Orange heat chamber and muzzle vents shimmer with smooth overlapping furnace waves. Frame 30/40. Ambient loop, not firing timing."
+    },
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAUCAYAAAAdmmTCAAAC00lEQVR4nOVXv2vbQBT+HDJo0BkhrJoYxxhBaAuFUgpxvRRK93bof2Hw4CmkQ0IyNGTqUOhaunRPU0oo/QFdYgdMMQSSEDBBMRKygxCWB2/q4NzlJJ1kO66nfiD04+ne+97T3XdPKcwALaP5oufewAORCXpXvdQs/sdh8bYDtYzmK2kFqqpGbNk7Gk5OzwDAn2cCzDFfxXGVo+/qRR2t4xaGw2Hie/NKIMUHefXyBTOYlo3Do0YksGiq8OMKhTwAwDA6AT/AqChxiYahZTS/Vq0Iba83t1IAsEDJKGkFhUKeHU9KjyNkRcTLq6XAvWF0GHGKWrWCWrUCIhNoGc1/s7UpXCtxcd6+ex84Uzub827fDQQ1LZtdS5LkE5kAuKkyb//TOobjOEl8IpAkyd9YX2P3Hz5+wqV5iY31NdQbTRweNbC3f8Ds9Hpv/wBKWgEAP3bBfvv5HQDAB9je2YVp2bC7PTiOA7fvMtu1QyGuFy8DLVK90Qw8JzJBvdGE3e3F+gLA4iaqDZFJIHsikwCRJMIiKGkFbt+FadkRX5QQLcwkiCVPp0n7oj0VwSRQgrmlbOCeR/uiDW/gTeQvlrw38LCcW8Z5+zwgp6KAYYS/CB1DJfjHr9/MRhe83e2xQvGF04s69KIOAOwMjOQ3IJV8APpCmFjcrkpJT5IcD14APn/9MtV+sEhJUlJJxHmSAPD82VMUCnls7+yycSJ4A48t/LCMzoLItJm0eqqqsg0JGCXbuxqpBN86TCuh02Cq3oaSAoBHDx8AuNk4RKBy6g08GEYHpmXj5PTsnyW1MLOHMVDSCohMYFo2cktZIXFRczcJGHk6x92+i/JqKXZhqqoamTIiuH2XHVT6TMsWVvy2XyFWTcId44q+4vNEiEwCehxuuMLJK2kF9+/djey2FG7fnbr7TGxly6sltlWP2zySukVJkhIbsXHj4zA2IC+B8/4z+q/wF3P3fP1xtVq3AAAAAElFTkSuQmCC",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAUCAYAAAAdmmTCAAAAVUlEQVR4nGNgGAWjYBSMAmqC/xlS86F0DbI4I9UtmiZzmuE/w3+GvwxfGX4zvGcsfhJEbTtggIlWBlMT/M+Q2gmlbw20W0bBKBgFo2AUjIJRMApoBQDNJRK2zYsHBwAAAABJRU5ErkJggg==",
+      "trim": null,
+      "guts": null,
+      "note": "Orange heat chamber and muzzle vents shimmer with smooth overlapping furnace waves. Frame 31/40. Ambient loop, not firing timing."
+    },
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAUCAYAAAAdmmTCAAAC00lEQVR4nOVXv2vbQBT+HDJo0BkhrJoYxxhBaAuFUgpxvRRK93bof2Hw4CmkQ0IyNGTqUOhaunRPU0oo/QFdYgdMMQSSEDBBMRKygxCWB2/q4NzlJJ1kO66nfiD04+ne+97T3XdPKcwALaP5oufewAORCXpXvdQs/sdh8bYDtYzmK2kFqqpGbNk7Gk5OzwDAn2cCzDFfxXGVo+/qRR2t4xaGw2Hie/NKIMUHefXyBTOYlo3Do0YksGiq8OMKhTwAwDA6AT/AqChxiYahZTS/Vq0Iba83t1IAsEDJKGkFhUKeHU9KjyNkRcTLq6XAvWF0GHGKWrWCWrUCIhNoGc1/s7UpXCtxcd6+ex84Uzub827fDQQ1LZtdS5LkE5kAuKkyb//TOobjOEl8IpAkyd9YX2P3Hz5+wqV5iY31NdQbTRweNbC3f8Ds9Hpv/wBKWgEAP3bBfvv5HQDAB9je2YVp2bC7PTiOA7fvMtu1QyGuFy8DLVK90Qw8JzJBvdGE3e3F+gLA4iaqDZFJIHsikwCRJMIiKGkFbt+FadkRX5QQLcwkiCVPp0n7oj0VwSRQgrmlbOCeR/uiDW/gTeQvlrw38LCcW8Z5+zwgp6KAYYS/CB1DJfjHr9/MRhe83e2xQvGF04s69KIOAOwMjOQ3IJV8APpCmFjcrkpJT5IcD14APn/9MtV+sEhJUlJJxHmSAPD82VMUCnls7+yycSJ4A48t/LCMzoLItJm0eqqqsg0JGCXbuxqpBN86TCuh02Cq3oaSAoBHDx8AuNk4RKBy6g08GEYHpmXj5PTsnyW1MLOHMVDSCohMYFo2cktZIXFRczcJGHk6x92+i/JqKXZhqqoamTIiuH2XHVT6TMsWVvy2XyFWTcId44q+4vNEiEwCehxuuMLJK2kF9+/djey2FG7fnbr7TGxly6sltlWP2zySukVJkhIbsXHj4zA2IC+B8/4z+q/wF3P3fP1xtVq3AAAAAElFTkSuQmCC",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAUCAYAAAAdmmTCAAAAVUlEQVR4nGNgGAWjYBSMAmqC/xlSs6F0MbI4I9UtmiZzloGJgZ3hP8Mfhj8Mnxhzn9hR2w4YYKKVwdQE/zOktkLpFwPtllEwCkbBKBgFo2AUjAJaAQCgyBCzrl7aJgAAAABJRU5ErkJggg==",
+      "trim": null,
+      "guts": null,
+      "note": "Orange heat chamber and muzzle vents shimmer with smooth overlapping furnace waves. Frame 32/40. Ambient loop, not firing timing."
+    },
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAUCAYAAAAdmmTCAAAC00lEQVR4nOVXv2vbQBT+HDJo0BkhrJoYxxhBaAuFUgpxvRRK93bof2Hw4CmkQ0IyNGTqUOhaunRPU0oo/QFdYgdMMQSSEDBBMRKygxCWB2/q4NzlJJ1kO66nfiD04+ne+97T3XdPKcwALaP5oufewAORCXpXvdQs/sdh8bYDtYzmK2kFqqpGbNk7Gk5OzwDAn2cCzDFfxXGVo+/qRR2t4xaGw2Hie/NKIMUHefXyBTOYlo3Do0YksGiq8OMKhTwAwDA6AT/AqChxiYahZTS/Vq0Iba83t1IAsEDJKGkFhUKeHU9KjyNkRcTLq6XAvWF0GHGKWrWCWrUCIhNoGc1/s7UpXCtxcd6+ex84Uzub827fDQQ1LZtdS5LkE5kAuKkyb//TOobjOEl8IpAkyd9YX2P3Hz5+wqV5iY31NdQbTRweNbC3f8Ds9Hpv/wBKWgEAP3bBfvv5HQDAB9je2YVp2bC7PTiOA7fvMtu1QyGuFy8DLVK90Qw8JzJBvdGE3e3F+gLA4iaqDZFJIHsikwCRJMIiKGkFbt+FadkRX5QQLcwkiCVPp0n7oj0VwSRQgrmlbOCeR/uiDW/gTeQvlrw38LCcW8Z5+zwgp6KAYYS/CB1DJfjHr9/MRhe83e2xQvGF04s69KIOAOwMjOQ3IJV8APpCmFjcrkpJT5IcD14APn/9MtV+sEhJUlJJxHmSAPD82VMUCnls7+yycSJ4A48t/LCMzoLItJm0eqqqsg0JGCXbuxqpBN86TCuh02Cq3oaSAoBHDx8AuNk4RKBy6g08GEYHpmXj5PTsnyW1MLOHMVDSCohMYFo2cktZIXFRczcJGHk6x92+i/JqKXZhqqoamTIiuH2XHVT6TMsWVvy2XyFWTcId44q+4vNEiEwCehxuuMLJK2kF9+/djey2FG7fnbr7TGxly6sltlWP2zySukVJkhIbsXHj4zA2IC+B8/4z+q/wF3P3fP1xtVq3AAAAAElFTkSuQmCC",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAUCAYAAAAdmmTCAAAAVUlEQVR4nGNgGAWjYBSMAmqC/xlSM6F0BrI4I9UtmipzioGVgY+BkYGF4S/DD8aMJzrUtgMGmGhlMDXB/wypVVD680C7ZRSMglEwCkbBKBgFo4BWAAAi0Q6m01kfhAAAAABJRU5ErkJggg==",
+      "trim": null,
+      "guts": null,
+      "note": "Orange heat chamber and muzzle vents shimmer with smooth overlapping furnace waves. Frame 33/40. Ambient loop, not firing timing."
+    },
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAUCAYAAAAdmmTCAAAC00lEQVR4nOVXv2vbQBT+HDJo0BkhrJoYxxhBaAuFUgpxvRRK93bof2Hw4CmkQ0IyNGTqUOhaunRPU0oo/QFdYgdMMQSSEDBBMRKygxCWB2/q4NzlJJ1kO66nfiD04+ne+97T3XdPKcwALaP5oufewAORCXpXvdQs/sdh8bYDtYzmK2kFqqpGbNk7Gk5OzwDAn2cCzDFfxXGVo+/qRR2t4xaGw2Hie/NKIMUHefXyBTOYlo3Do0YksGiq8OMKhTwAwDA6AT/AqChxiYahZTS/Vq0Iba83t1IAsEDJKGkFhUKeHU9KjyNkRcTLq6XAvWF0GHGKWrWCWrUCIhNoGc1/s7UpXCtxcd6+ex84Uzub827fDQQ1LZtdS5LkE5kAuKkyb//TOobjOEl8IpAkyd9YX2P3Hz5+wqV5iY31NdQbTRweNbC3f8Ds9Hpv/wBKWgEAP3bBfvv5HQDAB9je2YVp2bC7PTiOA7fvMtu1QyGuFy8DLVK90Qw8JzJBvdGE3e3F+gLA4iaqDZFJIHsikwCRJMIiKGkFbt+FadkRX5QQLcwkiCVPp0n7oj0VwSRQgrmlbOCeR/uiDW/gTeQvlrw38LCcW8Z5+zwgp6KAYYS/CB1DJfjHr9/MRhe83e2xQvGF04s69KIOAOwMjOQ3IJV8APpCmFjcrkpJT5IcD14APn/9MtV+sEhJUlJJxHmSAPD82VMUCnls7+yycSJ4A48t/LCMzoLItJm0eqqqsg0JGCXbuxqpBN86TCuh02Cq3oaSAoBHDx8AuNk4RKBy6g08GEYHpmXj5PTsnyW1MLOHMVDSCohMYFo2cktZIXFRczcJGHk6x92+i/JqKXZhqqoamTIiuH2XHVT6TMsWVvy2XyFWTcId44q+4vNEiEwCehxuuMLJK2kF9+/djey2FG7fnbr7TGxly6sltlWP2zySukVJkhIbsXHj4zA2IC+B8/4z+q/wF3P3fP1xtVq3AAAAAElFTkSuQmCC",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAUCAYAAAAdmmTCAAAAVUlEQVR4nGNgGAWjYBSMAmqC/xlSc6F0LLI4I9UtmiJzjIGVQZCBhYGbgYGBgTH5iRy17YABJloZTE3wP0NqJpT+NtBuGQWjYBSMglEwCkbBKKAVAABuCwyRlD9aHQAAAABJRU5ErkJggg==",
+      "trim": null,
+      "guts": null,
+      "note": "Orange heat chamber and muzzle vents shimmer with smooth overlapping furnace waves. Frame 34/40. Ambient loop, not firing timing."
+    },
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAUCAYAAAAdmmTCAAAC00lEQVR4nOVXv2vbQBT+HDJo0BkhrJoYxxhBaAuFUgpxvRRK93bof2Hw4CmkQ0IyNGTqUOhaunRPU0oo/QFdYgdMMQSSEDBBMRKygxCWB2/q4NzlJJ1kO66nfiD04+ne+97T3XdPKcwALaP5oufewAORCXpXvdQs/sdh8bYDtYzmK2kFqqpGbNk7Gk5OzwDAn2cCzDFfxXGVo+/qRR2t4xaGw2Hie/NKIMUHefXyBTOYlo3Do0YksGiq8OMKhTwAwDA6AT/AqChxiYahZTS/Vq0Iba83t1IAsEDJKGkFhUKeHU9KjyNkRcTLq6XAvWF0GHGKWrWCWrUCIhNoGc1/s7UpXCtxcd6+ex84Uzub827fDQQ1LZtdS5LkE5kAuKkyb//TOobjOEl8IpAkyd9YX2P3Hz5+wqV5iY31NdQbTRweNbC3f8Ds9Hpv/wBKWgEAP3bBfvv5HQDAB9je2YVp2bC7PTiOA7fvMtu1QyGuFy8DLVK90Qw8JzJBvdGE3e3F+gLA4iaqDZFJIHsikwCRJMIiKGkFbt+FadkRX5QQLcwkiCVPp0n7oj0VwSRQgrmlbOCeR/uiDW/gTeQvlrw38LCcW8Z5+zwgp6KAYYS/CB1DJfjHr9/MRhe83e2xQvGF04s69KIOAOwMjOQ3IJV8APpCmFjcrkpJT5IcD14APn/9MtV+sEhJUlJJxHmSAPD82VMUCnls7+yycSJ4A48t/LCMzoLItJm0eqqqsg0JGCXbuxqpBN86TCuh02Cq3oaSAoBHDx8AuNk4RKBy6g08GEYHpmXj5PTsnyW1MLOHMVDSCohMYFo2cktZIXFRczcJGHk6x92+i/JqKXZhqqoamTIiuH2XHVT6TMsWVvy2XyFWTcId44q+4vNEiEwCehxuuMLJK2kF9+/djey2FG7fnbr7TGxly6sltlWP2zySukVJkhIbsXHj4zA2IC+B8/4z+q/wF3P3fP1xtVq3AAAAAElFTkSuQmCC",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAUCAYAAAAdmmTCAAAAVUlEQVR4nGNgGAWjYBSMAmqC/xlSy6F0KLI4I9UtmixzkIGVQZCBlUGAgYmBgzHxiRi17YABJloZTE3wP0OqBUp/Gmi3jIJRMApGwSgYBaNgFNAKAACjoQx68INw8QAAAABJRU5ErkJggg==",
+      "trim": null,
+      "guts": null,
+      "note": "Orange heat chamber and muzzle vents shimmer with smooth overlapping furnace waves. Frame 35/40. Ambient loop, not firing timing."
+    },
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAUCAYAAAAdmmTCAAAC00lEQVR4nOVXv2vbQBT+HDJo0BkhrJoYxxhBaAuFUgpxvRRK93bof2Hw4CmkQ0IyNGTqUOhaunRPU0oo/QFdYgdMMQSSEDBBMRKygxCWB2/q4NzlJJ1kO66nfiD04+ne+97T3XdPKcwALaP5oufewAORCXpXvdQs/sdh8bYDtYzmK2kFqqpGbNk7Gk5OzwDAn2cCzDFfxXGVo+/qRR2t4xaGw2Hie/NKIMUHefXyBTOYlo3Do0YksGiq8OMKhTwAwDA6AT/AqChxiYahZTS/Vq0Iba83t1IAsEDJKGkFhUKeHU9KjyNkRcTLq6XAvWF0GHGKWrWCWrUCIhNoGc1/s7UpXCtxcd6+ex84Uzub827fDQQ1LZtdS5LkE5kAuKkyb//TOobjOEl8IpAkyd9YX2P3Hz5+wqV5iY31NdQbTRweNbC3f8Ds9Hpv/wBKWgEAP3bBfvv5HQDAB9je2YVp2bC7PTiOA7fvMtu1QyGuFy8DLVK90Qw8JzJBvdGE3e3F+gLA4iaqDZFJIHsikwCRJMIiKGkFbt+FadkRX5QQLcwkiCVPp0n7oj0VwSRQgrmlbOCeR/uiDW/gTeQvlrw38LCcW8Z5+zwgp6KAYYS/CB1DJfjHr9/MRhe83e2xQvGF04s69KIOAOwMjOQ3IJV8APpCmFjcrkpJT5IcD14APn/9MtV+sEhJUlJJxHmSAPD82VMUCnls7+yycSJ4A48t/LCMzoLItJm0eqqqsg0JGCXbuxqpBN86TCuh02Cq3oaSAoBHDx8AuNk4RKBy6g08GEYHpmXj5PTsnyW1MLOHMVDSCohMYFo2cktZIXFRczcJGHk6x92+i/JqKXZhqqoamTIiuH2XHVT6TMsWVvy2XyFWTcId44q+4vNEiEwCehxuuMLJK2kF9+/djey2FG7fnbr7TGxly6sltlWP2zySukVJkhIbsXHj4zA2IC+B8/4z+q/wF3P3fP1xtVq3AAAAAElFTkSuQmCC",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAUCAYAAAAdmmTCAAAAVUlEQVR4nGNgGAWjYBSMAmqC/xlS26B0CLI4I9UtmiRzgIGFgYeBjUGIgYWBjzHhiQi17YABJloZTE3wP0MqF0o/G2i3jIJRMApGwSgYBaNgFNAKAAD8sQxl5XZqagAAAABJRU5ErkJggg==",
+      "trim": null,
+      "guts": null,
+      "note": "Orange heat chamber and muzzle vents shimmer with smooth overlapping furnace waves. Frame 36/40. Ambient loop, not firing timing."
+    },
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAUCAYAAAAdmmTCAAAC00lEQVR4nOVXv2vbQBT+HDJo0BkhrJoYxxhBaAuFUgpxvRRK93bof2Hw4CmkQ0IyNGTqUOhaunRPU0oo/QFdYgdMMQSSEDBBMRKygxCWB2/q4NzlJJ1kO66nfiD04+ne+97T3XdPKcwALaP5oufewAORCXpXvdQs/sdh8bYDtYzmK2kFqqpGbNk7Gk5OzwDAn2cCzDFfxXGVo+/qRR2t4xaGw2Hie/NKIMUHefXyBTOYlo3Do0YksGiq8OMKhTwAwDA6AT/AqChxiYahZTS/Vq0Iba83t1IAsEDJKGkFhUKeHU9KjyNkRcTLq6XAvWF0GHGKWrWCWrUCIhNoGc1/s7UpXCtxcd6+ex84Uzub827fDQQ1LZtdS5LkE5kAuKkyb//TOobjOEl8IpAkyd9YX2P3Hz5+wqV5iY31NdQbTRweNbC3f8Ds9Hpv/wBKWgEAP3bBfvv5HQDAB9je2YVp2bC7PTiOA7fvMtu1QyGuFy8DLVK90Qw8JzJBvdGE3e3F+gLA4iaqDZFJIHsikwCRJMIiKGkFbt+FadkRX5QQLcwkiCVPp0n7oj0VwSRQgrmlbOCeR/uiDW/gTeQvlrw38LCcW8Z5+zwgp6KAYYS/CB1DJfjHr9/MRhe83e2xQvGF04s69KIOAOwMjOQ3IJV8APpCmFjcrkpJT5IcD14APn/9MtV+sEhJUlJJxHmSAPD82VMUCnls7+yycSJ4A48t/LCMzoLItJm0eqqqsg0JGCXbuxqpBN86TCuh02Cq3oaSAoBHDx8AuNk4RKBy6g08GEYHpmXj5PTsnyW1MLOHMVDSCohMYFo2cktZIXFRczcJGHk6x92+i/JqKXZhqqoamTIiuH2XHVT6TMsWVvy2XyFWTcId44q+4vNEiEwCehxuuMLJK2kF9+/djey2FG7fnbr7TGxly6sltlWP2zySukVJkhIbsXHj4zA2IC+B8/4z+q/wF3P3fP1xtVq3AAAAAElFTkSuQmCC",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAUCAYAAAAdmmTCAAAAVUlEQVR4nGNgGAWjYBSMAmqC/xlSJ6F0FLI4I9UtmixziIGJgY2BhYGfgY1BkDHxiQS17YABJloZTE3wP0MqEkpfHmi3jIJRMApGwSgYBaNgFNAKAACkkQxXKJQidQAAAABJRU5ErkJggg==",
+      "trim": null,
+      "guts": null,
+      "note": "Orange heat chamber and muzzle vents shimmer with smooth overlapping furnace waves. Frame 37/40. Ambient loop, not firing timing."
+    },
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAUCAYAAAAdmmTCAAAC00lEQVR4nOVXv2vbQBT+HDJo0BkhrJoYxxhBaAuFUgpxvRRK93bof2Hw4CmkQ0IyNGTqUOhaunRPU0oo/QFdYgdMMQSSEDBBMRKygxCWB2/q4NzlJJ1kO66nfiD04+ne+97T3XdPKcwALaP5oufewAORCXpXvdQs/sdh8bYDtYzmK2kFqqpGbNk7Gk5OzwDAn2cCzDFfxXGVo+/qRR2t4xaGw2Hie/NKIMUHefXyBTOYlo3Do0YksGiq8OMKhTwAwDA6AT/AqChxiYahZTS/Vq0Iba83t1IAsEDJKGkFhUKeHU9KjyNkRcTLq6XAvWF0GHGKWrWCWrUCIhNoGc1/s7UpXCtxcd6+ex84Uzub827fDQQ1LZtdS5LkE5kAuKkyb//TOobjOEl8IpAkyd9YX2P3Hz5+wqV5iY31NdQbTRweNbC3f8Ds9Hpv/wBKWgEAP3bBfvv5HQDAB9je2YVp2bC7PTiOA7fvMtu1QyGuFy8DLVK90Qw8JzJBvdGE3e3F+gLA4iaqDZFJIHsikwCRJMIiKGkFbt+FadkRX5QQLcwkiCVPp0n7oj0VwSRQgrmlbOCeR/uiDW/gTeQvlrw38LCcW8Z5+zwgp6KAYYS/CB1DJfjHr9/MRhe83e2xQvGF04s69KIOAOwMjOQ3IJV8APpCmFjcrkpJT5IcD14APn/9MtV+sEhJUlJJxHmSAPD82VMUCnls7+yycSJ4A48t/LCMzoLItJm0eqqqsg0JGCXbuxqpBN86TCuh02Cq3oaSAoBHDx8AuNk4RKBy6g08GEYHpmXj5PTsnyW1MLOHMVDSCohMYFo2cktZIXFRczcJGHk6x92+i/JqKXZhqqoamTIiuH2XHVT6TMsWVvy2XyFWTcId44q+4vNEiEwCehxuuMLJK2kF9+/djey2FG7fnbr7TGxly6sltlWP2zySukVJkhIbsXHj4zA2IC+B8/4z+q/wF3P3fP1xtVq3AAAAAElFTkSuQmCC",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAUCAYAAAAdmmTCAAAAVUlEQVR4nGNgGAWjYBSMAmqC/xlSd6F0JrI4I9UtmipzkuE/wz8GZgZOBjYGQcbkJ/LUtgMGmGhlMDXB/wwpLyi9Z6DdMgpGwSgYBaNgFIyCUUArAAC8rA5U0UZr0gAAAABJRU5ErkJggg==",
+      "trim": null,
+      "guts": null,
+      "note": "Orange heat chamber and muzzle vents shimmer with smooth overlapping furnace waves. Frame 38/40. Ambient loop, not firing timing."
+    },
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAUCAYAAAAdmmTCAAAC00lEQVR4nOVXv2vbQBT+HDJo0BkhrJoYxxhBaAuFUgpxvRRK93bof2Hw4CmkQ0IyNGTqUOhaunRPU0oo/QFdYgdMMQSSEDBBMRKygxCWB2/q4NzlJJ1kO66nfiD04+ne+97T3XdPKcwALaP5oufewAORCXpXvdQs/sdh8bYDtYzmK2kFqqpGbNk7Gk5OzwDAn2cCzDFfxXGVo+/qRR2t4xaGw2Hie/NKIMUHefXyBTOYlo3Do0YksGiq8OMKhTwAwDA6AT/AqChxiYahZTS/Vq0Iba83t1IAsEDJKGkFhUKeHU9KjyNkRcTLq6XAvWF0GHGKWrWCWrUCIhNoGc1/s7UpXCtxcd6+ex84Uzub827fDQQ1LZtdS5LkE5kAuKkyb//TOobjOEl8IpAkyd9YX2P3Hz5+wqV5iY31NdQbTRweNbC3f8Ds9Hpv/wBKWgEAP3bBfvv5HQDAB9je2YVp2bC7PTiOA7fvMtu1QyGuFy8DLVK90Qw8JzJBvdGE3e3F+gLA4iaqDZFJIHsikwCRJMIiKGkFbt+FadkRX5QQLcwkiCVPp0n7oj0VwSRQgrmlbOCeR/uiDW/gTeQvlrw38LCcW8Z5+zwgp6KAYYS/CB1DJfjHr9/MRhe83e2xQvGF04s69KIOAOwMjOQ3IJV8APpCmFjcrkpJT5IcD14APn/9MtV+sEhJUlJJxHmSAPD82VMUCnls7+yycSJ4A48t/LCMzoLItJm0eqqqsg0JGCXbuxqpBN86TCuh02Cq3oaSAoBHDx8AuNk4RKBy6g08GEYHpmXj5PTsnyW1MLOHMVDSCohMYFo2cktZIXFRczcJGHk6x92+i/JqKXZhqqoamTIiuH2XHVT6TMsWVvy2XyFWTcId44q+4vNEiEwCehxuuMLJK2kF9+/djey2FG7fnbr7TGxly6sltlWP2zySukVJkhIbsXHj4zA2IC+B8/4z+q/wF3P3fP1xtVq3AAAAAElFTkSuQmCC",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAUCAYAAAAdmmTCAAAAVUlEQVR4nGNgGAWjYBSMAmqC/xlS76F0LbI4I9UtmilzheEPwzcGRgYmBhYGHsa0JxrUtgMGmGhlMDXB/wwpZyi9dKDdMgpGwSgYBaNgFIyCUUArAAA8fw5c6uHx9wAAAABJRU5ErkJggg==",
+      "trim": null,
+      "guts": null,
+      "note": "Orange heat chamber and muzzle vents shimmer with smooth overlapping furnace waves. Frame 39/40. Ambient loop, not firing timing."
+    },
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAUCAYAAAAdmmTCAAAC00lEQVR4nOVXv2vbQBT+HDJo0BkhrJoYxxhBaAuFUgpxvRRK93bof2Hw4CmkQ0IyNGTqUOhaunRPU0oo/QFdYgdMMQSSEDBBMRKygxCWB2/q4NzlJJ1kO66nfiD04+ne+97T3XdPKcwALaP5oufewAORCXpXvdQs/sdh8bYDtYzmK2kFqqpGbNk7Gk5OzwDAn2cCzDFfxXGVo+/qRR2t4xaGw2Hie/NKIMUHefXyBTOYlo3Do0YksGiq8OMKhTwAwDA6AT/AqChxiYahZTS/Vq0Iba83t1IAsEDJKGkFhUKeHU9KjyNkRcTLq6XAvWF0GHGKWrWCWrUCIhNoGc1/s7UpXCtxcd6+ex84Uzub827fDQQ1LZtdS5LkE5kAuKkyb//TOobjOEl8IpAkyd9YX2P3Hz5+wqV5iY31NdQbTRweNbC3f8Ds9Hpv/wBKWgEAP3bBfvv5HQDAB9je2YVp2bC7PTiOA7fvMtu1QyGuFy8DLVK90Qw8JzJBvdGE3e3F+gLA4iaqDZFJIHsikwCRJMIiKGkFbt+FadkRX5QQLcwkiCVPp0n7oj0VwSRQgrmlbOCeR/uiDW/gTeQvlrw38LCcW8Z5+zwgp6KAYYS/CB1DJfjHr9/MRhe83e2xQvGF04s69KIOAOwMjOQ3IJV8APpCmFjcrkpJT5IcD14APn/9MtV+sEhJUlJJxHmSAPD82VMUCnls7+yycSJ4A48t/LCMzoLItJm0eqqqsg0JGCXbuxqpBN86TCuh02Cq3oaSAoBHDx8AuNk4RKBy6g08GEYHpmXj5PTsnyW1MLOHMVDSCohMYFo2cktZIXFRczcJGHk6x92+i/JqKXZhqqoamTIiuH2XHVT6TMsWVvy2XyFWTcId44q+4vNEiEwCehxuuMLJK2kF9+/djey2FG7fnbr7TGxly6sltlWP2zySukVJkhIbsXHj4zA2IC+B8/4z+q/wF3P3fP1xtVq3AAAAAElFTkSuQmCC",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC8AAAAUCAYAAAAdmmTCAAAAVUlEQVR4nGNgGAWjYBSMAmqC/xlSv6H0VGRxRqpbNFfmIcNvho8M/xh+MjAysDFmPtGnth0wwEQrg6kJ/mdIuUDpCQPslFEwCkbBKBgFo2AUjAKaAQD4DxBs7i/QvAAAAABJRU5ErkJggg==",
+      "trim": null,
+      "guts": null,
+      "note": "Orange heat chamber and muzzle vents shimmer with smooth overlapping furnace waves. Frame 40/40. Ambient loop, not firing timing."
+    }
+  ],
+  "game_scale": 1.2,
+  "checks": {
+    "visual": false,
+    "tested": false
+  },
+  "asset_id": "asset-w06",
+  "state_key": ""
+}

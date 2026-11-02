@@ -1,0 +1,49 @@
+{
+  "forge": 1,
+  "code": "W07",
+  "name": "Chainblade — grid study · Art Pass V2",
+  "w": 42,
+  "h": 20,
+  "fps": 8,
+  "base": null,
+  "pixel_scale": 12,
+  "markers": {
+    "grip": [
+      6,
+      11
+    ],
+    "muzzle": [
+      39,
+      10
+    ],
+    "pivot": [
+      6,
+      11
+    ],
+    "shoulder": null,
+    "elbow": null,
+    "hand": null,
+    "hip": null,
+    "knee": null
+  },
+  "ready": false,
+  "notes": "Derived from the revised AI-generated sheet, matching the supplied reference with requested edits. Automatically reduced grid interpretation; small details differ from the reference. Grip/pivot/muzzle are initial estimates requiring rig checks. Preview slot W07 confirmed from repository pixelkit-v2 manifest at ae7247a9b94aeb834342cd40e8aea2eb82308bb8. This does not add firing behaviours.\nRevision: weapons-v001. Status: draft. Pixel cleanup and anchor/scale review outstanding. Stored in isolated art/weapon-lab branch.\n\nArt Pass V2: material-family harmonisation. Eight-step neutral charcoal/gunmetal ramp derived from the generated V2 material reference. Original pixel geometry, alpha, markers, scale, dimensions, fps, frame count, emissive PNGs, trim and guts are unchanged. Every frame uses the same RGB material mapping. Existing cyan, magenta, red and amber light identities and all original loops retained. Source is the current shared build 20261101T094357Z-78228871. Saved draft; renderer comparison only; battle playtest and art approval pending.",
+  "review": null,
+  "ghostOff": null,
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACoAAAAUCAYAAAD7s6+GAAADNElEQVR4nO2UX4gbVRTGf1PTeqiZ4RI2FgdvH4RldzElLBRKX0StiBT/oOCLFREqqEWh4IOKoNSHiiCKT61Q6EazFVdU9EkW8Uks2No2EGlhZVu4ODRJScdMZO+2mY0PnYzT3aTqi1TY7+nMOd+d+c535h64ibBj+47+qNqG/1LIOm4mOP+GLCJt4LbM2RVgM9AHjgAN4I0kXrbW7hORo8CvwEHgPTfv/hh1o6+AL4F54BDwAXDOWntYRD4Elqy1rw0T4MxVKw7Ao7sf3jxC5LciEr+wd29vrlqJ56qVWER6InJFRHqZ597BA2/1RCQWkX4mvzRXrWTzvQF/WDx+1/jjIpIa6QAUx4rTUTc6scrpnLW2n5C7wK3a187U5ERKajRb1Oo1Ekcd7euhk5ianKDRbNFut6/Lh50QAOUpAAqFAgDtdhsTmJXBxKy1cQ4g6kYnyqWy89gjD3G0cgwTGICrIpIKf/P1V3n7nXcBBnXcvIu19pak2XhqcqLfaLZSF7bcXqTRbPH0U09SPfb50AayTb+yf1/KM4HZ8PGRj5xnnnt+Gcg5yVjjcqnMdLnE6Vo9/cgA899/x7N79jAzOwuQistCROIH739gqKNDMGhm6N7MTCrWvvYWFhdsLnPAgdT21Wf7p2v1NRevOFaMAaJuxKix3wAjl3sGjgnMz8Ddg4Xfq9VrfPH1N5jA9IEOsClxbiNwNekQuOaeiMRRN0J5KhXZaLZSziD279hyXT5Td4bxB78Af5k3RRKQXJiXgU3Ab9baT7MvFZEcsFQulZ3pcskZ/AKru2e0S8NqN+L3gR7XLtJKKvTvICKXta/dXffd48zMzuLm3Z3KU7uAA2EnPA4cUp76xATmnPb1E4VC4WytXutpX28HzpjARG7evVd56mTYCX8AXlSe+iXshIeVp44DM8D7YSfcqDz1kgnMSWvtzqyG3BpVw7ECOFu33gnQV546YwJzys2788BC1I26wCnt60smMGHYCce1ry8nArdpX/9uAnMRKClPXTSB+QPYpjx1oVAoXFm8sPhT1I3Oa187YSf8zM27Z621/1DaWleXRWS5OFbcnV3E61jHOv5n+BM1cnOupuy1RgAAAABJRU5ErkJggg==",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACoAAAAUCAYAAAD7s6+GAAAAnklEQVR4AeySsQ2DMBBF77gYMk+ipM0WjJA+BdkhiZSSIRiBlgrBNghRwAlaaK1vCaS7ym6+373viA4yBoouyowGNVoUs6AfQOVtqk9TVlQwOmcD6hM+3P86PfLgC3qBdtev9pePjrefxgmTJCcKPV6gjplix+SaTKR6CZdP2SXouc3E1e/gcOvlo/Vlz2cDRbdjRs0o2gA6z/4o2ugCAAD//8UsnHEAAAAGSURBVAMAzp8YKRYWDaMAAAAASUVORK5CYII=",
+      "trim": null,
+      "guts": null,
+      "note": "Resting pose only."
+    }
+  ],
+  "game_scale": 1.2,
+  "checks": {
+    "visual": false,
+    "tested": false
+  },
+  "asset_id": "asset-w07",
+  "state_key": ""
+}

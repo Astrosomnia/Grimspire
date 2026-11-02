@@ -1,0 +1,34 @@
+{
+  "schema": 2,
+  "id": "20261102T053403Z-e018ed93",
+  "created": "2026-11-02T05:34:03.505Z",
+  "author": {
+    "id": null,
+    "login": "ChatGPT"
+  },
+  "base_main": "94521fd1731f9a935ba7935769273b5fdd6ce601",
+  "source_lab_commit": "5898ef63a803c1ae40f12eb639008aa4ad94b026",
+  "notes": "Art Pass V2: shared neutral gunmetal palette, original coloured lights and animation PNGs retained exactly. Eight current weapons; static live Chainblade retained here, historical 40-frame V2 edge chase also saved in its Library versions. Fist stays 0.9×, others 1.2×. Renderer checked; battle playtest and approval pending.",
+  "selected_slot": "W05",
+  "original_code": "W05",
+  "variant": "custom",
+  "slots": [
+    "W01",
+    "W02",
+    "W03",
+    "W04",
+    "W05",
+    "W06",
+    "W07",
+    "W08",
+    "ARM"
+  ],
+  "files": {
+    "game.html": "0e4cf1fd08ff84797df3c10a62df3a9316069d2b0ba364c9f232cdb110972739",
+    "payload.json": "4bec5992078571903ed6dcc86bb5b4f8f73012c6b7c00f1328a2d4acfa50fb73"
+  },
+  "stored": [
+    "payload.json"
+  ],
+  "status": "draft"
+}

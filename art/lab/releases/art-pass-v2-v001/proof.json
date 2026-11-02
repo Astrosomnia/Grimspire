@@ -1,0 +1,155 @@
+{
+  "material_palette": [
+    [
+      8,
+      8,
+      8
+    ],
+    [
+      21,
+      20,
+      21
+    ],
+    [
+      37,
+      34,
+      37
+    ],
+    [
+      55,
+      52,
+      55
+    ],
+    [
+      78,
+      74,
+      76
+    ],
+    [
+      104,
+      99,
+      99
+    ],
+    [
+      134,
+      129,
+      127
+    ],
+    [
+      170,
+      164,
+      161
+    ]
+  ],
+  "source_revision": "20261101T094357Z-78228871",
+  "sources": [
+    {
+      "code": "W01",
+      "alternative": false,
+      "frames": 40,
+      "fps": 20,
+      "game_scale": 1.2,
+      "markers_unchanged": true,
+      "silhouette_all_frames_unchanged": true,
+      "emissive_all_frames_byte_identical": true,
+      "trim_guts_unchanged": true,
+      "animation_fingerprint": "293ff29f57c6f52ca53e893a271198b75d0f9b6adb6c6cd4e0d87e61f74509cf"
+    },
+    {
+      "code": "W02",
+      "alternative": false,
+      "frames": 40,
+      "fps": 20,
+      "game_scale": 1.2,
+      "markers_unchanged": true,
+      "silhouette_all_frames_unchanged": true,
+      "emissive_all_frames_byte_identical": true,
+      "trim_guts_unchanged": true,
+      "animation_fingerprint": "ecc4516582c365a3e5888be89126c0e2f4361442dc187ab47f92689326f13bbf"
+    },
+    {
+      "code": "W03",
+      "alternative": false,
+      "frames": 40,
+      "fps": 20,
+      "game_scale": 1.2,
+      "markers_unchanged": true,
+      "silhouette_all_frames_unchanged": true,
+      "emissive_all_frames_byte_identical": true,
+      "trim_guts_unchanged": true,
+      "animation_fingerprint": "b923a3206c4aa000d0d239d71b5221404cb0210bd9d6d2492f888af6f7ec5992"
+    },
+    {
+      "code": "W04",
+      "alternative": false,
+      "frames": 20,
+      "fps": 20,
+      "game_scale": 1.2,
+      "markers_unchanged": true,
+      "silhouette_all_frames_unchanged": true,
+      "emissive_all_frames_byte_identical": true,
+      "trim_guts_unchanged": true,
+      "animation_fingerprint": "e8a66da8f49b7df10f5c57700730a4bd85cb6b04259b0c91debedeb7a298bacb"
+    },
+    {
+      "code": "W05",
+      "alternative": false,
+      "frames": 32,
+      "fps": 20,
+      "game_scale": 1.2,
+      "markers_unchanged": true,
+      "silhouette_all_frames_unchanged": true,
+      "emissive_all_frames_byte_identical": true,
+      "trim_guts_unchanged": true,
+      "animation_fingerprint": "e3f6dfd87b24f49c7a091bb6f1e9c30af19614a6d13b58fb3c9b459c765c399a"
+    },
+    {
+      "code": "W06",
+      "alternative": false,
+      "frames": 40,
+      "fps": 20,
+      "game_scale": 1.2,
+      "markers_unchanged": true,
+      "silhouette_all_frames_unchanged": true,
+      "emissive_all_frames_byte_identical": true,
+      "trim_guts_unchanged": true,
+      "animation_fingerprint": "9b79f82544d645620059081b0c0c797026e4bfebfe23ccd3fa9900af87c6ba64"
+    },
+    {
+      "code": "W07",
+      "alternative": false,
+      "frames": 1,
+      "fps": 8,
+      "game_scale": 1.2,
+      "markers_unchanged": true,
+      "silhouette_all_frames_unchanged": true,
+      "emissive_all_frames_byte_identical": true,
+      "trim_guts_unchanged": true,
+      "animation_fingerprint": "ed0a7faa5a3e6d526cf5c247e8b82d9687587d56dae020f9c9ad5054db05e2c1"
+    },
+    {
+      "code": "W08",
+      "alternative": false,
+      "frames": 60,
+      "fps": 20,
+      "game_scale": 0.9,
+      "markers_unchanged": true,
+      "silhouette_all_frames_unchanged": true,
+      "emissive_all_frames_byte_identical": true,
+      "trim_guts_unchanged": true,
+      "animation_fingerprint": "0c6e65f9eabd99c34e46d0e0fc050dd18883aac3e854744c914c5d1f4ceb2c4c"
+    },
+    {
+      "code": "W07",
+      "alternative": true,
+      "frames": 40,
+      "fps": 20,
+      "game_scale": 1.2,
+      "markers_unchanged": true,
+      "silhouette_all_frames_unchanged": true,
+      "emissive_all_frames_byte_identical": true,
+      "trim_guts_unchanged": true,
+      "animation_fingerprint": "a303cbcef5c23a8905d60b89fb8c0a6cbb0f319282378d2457b60103080ab0a9"
+    }
+  ]
+}
