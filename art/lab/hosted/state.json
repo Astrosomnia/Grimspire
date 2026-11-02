@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "current": "20261102T194923Z-1df29329",
+  "current": "20261102T225136Z-6ba7d47f",
   "revisions": [
     {
       "id": "20261031T210936Z-6c67f2da",
@@ -305,6 +305,14 @@
       "slot": "W04",
       "variant": "custom",
       "author": "Claude"
+    },
+    {
+      "id": "20261102T225136Z-6ba7d47f",
+      "created": "2026-11-02T22:51:36.000Z",
+      "notes": "Architecture kit K01-K09 on top of 20261102T194923Z-1df29329. North Star look, drowned district, set pieces live (GV 19).",
+      "slot": "W04",
+      "variant": "custom",
+      "author": "Claude"
     }
   ],
   "integrations": [
@@ -430,6 +438,15 @@
       "approved_at": "2026-11-02T19:52:21.000Z",
       "pr": null,
       "status": "main updated by Claude (brazier, set pieces behind switch)"
+    },
+    {
+      "revision": "20261102T225136Z-6ba7d47f",
+      "main_commit": "4ab279ecf5306271ef01e45a4ff82eec28713a3a",
+      "game_sha256": "5170817bda15c1a4a7d5ea69fbb9d50ea651f0a45d37a32f0ce5a80362c1d606",
+      "approved_by": "Astrosomnia",
+      "approved_at": "2026-11-02T22:53:53.000Z",
+      "pr": null,
+      "status": "main updated by Claude (North Star look, drowned district, set pieces live)"
     }
   ]
 }
