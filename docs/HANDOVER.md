@@ -29,7 +29,7 @@ For new ChatGPT project chats, [`CHAT-CONTEXT.md`](CHAT-CONTEXT.md) provides pas
 | Balance sheet, field reports board | Claude artifacts on claude.ai (Claude keeps them in sync and reports changes in `LOG.md`) |
 | Online backend | Firebase project `grimspire-9cf6a` (free tier): anonymous auth, Firestore `matches` and `reports` |
 
-Branches: `main` (game, docs, tools) and `art/weapon-lab` (Forge app and art data). Release branches the Forge makes (`art/release-*`) can be deleted once merged. Short-lived art branches (like `art/category-review-sheets-20261101`) are fine; delete them when done.
+Branches: `main` (game, docs, tools), `art/weapon-lab` (Forge app and art data) and `phase3` (Claude's interim North Star work: background depth, water, grade; merged to `main` only with Jarred's OK). Release branches the Forge makes (`art/release-*`) can be deleted once merged. Short-lived art branches (like `art/category-review-sheets-20261101`) are fine; delete them when done.
 
 ## How work flows
 **Code (Claude):** edit `index.html` on `main`, run `python3 tools/build.py debug`, test, bump `const GV` if the sim changed, commit, push. GitHub Pages deploys `main`. Log it.

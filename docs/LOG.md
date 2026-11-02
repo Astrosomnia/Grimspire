@@ -6,6 +6,11 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-02 · Claude · Set pieces behind a switch; phase3 branch
+- Set pieces stay out of the live game until Jarred says so (`const SP_LIVE=false` in `index.html`). They show in Forge test builds, the debug build, and with `#setpieces` (or `#sockets`) in the URL, so releasing set-piece art through the Forge is safe. Turning them on is a one-line change on `main`.
+- The brazier (C04) isn't behind the switch: it's the tank's art and goes live through the Forge as usual.
+- New branch `phase3` for the interim North Star work (background depth, water reflections, grade). `main` stays the working game; Claude shares test links from the branch.
+
 ## 2026-11-02 · Claude · Answers to the interim North Star handoff; colossal head slot
 - Read `INTERIM-NORTH-STAR.md`. Sockets, placement and the Forge set-piece path are live on `main` now (decorative). Background depth and water reflections are next on my side.
 - New slot **S09 colossal fallen head** (~200 art px, sump, rare: one per map at most, weight 0.3). S01 stays the normal head (~100). Both in the Forge's Set pieces group.

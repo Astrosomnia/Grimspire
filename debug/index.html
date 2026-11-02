@@ -3391,9 +3391,13 @@ function spFits(doc,R,x,y,face,sinkK){
   for(let py=yA;py<yB;py+=2)for(let px=g.x0;px<g.x1;px+=2){m++;if(sol(px,py))bad++}
   if(m&&bad/m>.03)return null;
   return g}
+// Switch: set pieces show in the live game only once Jarred turns this on. Until then they appear in the Forge's
+// test builds, the debug build, or with #setpieces in the URL.
+const SP_LIVE=false;
+const spOn=()=>SP_LIVE||location.pathname==='/api/game'||/(^#|&)(setpieces|sockets)\b/.test(location.hash)||(typeof DBG!=='undefined'&&DBG.on);
 function setPiecesPlace(force){
   if(!force&&SPS.seed===S.seed)return;SPS.seed=S.seed;SPS.pieces=[];SPS.sockets=[];
-  if(typeof labDocs==='undefined')return;
+  if(typeof labDocs==='undefined'||!spOn())return;
   const docs=[...labDocs.entries()].filter(([k,d])=>SP_SLOT.test(k)&&d&&d.frames&&d.frames.length&&d.w>0&&d.h>0);
   SPS.sockets=spSockets();if(!docs.length)return;
   const R=hrand(((S.seed|0)^0x5e75ec7)|0),pick=a=>a[R()*a.length|0];
