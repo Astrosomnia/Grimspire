@@ -1319,6 +1319,20 @@
       "h": 58,
       "frame_count": 1,
       "category": "Arms"
+    },
+    {
+      "id": "asset-8ef87d35d0c021c2ff529c9f",
+      "path": "art/lab/hosted/library/asset-8ef87d35d0c021c2ff529c9f.forge.json",
+      "sha256": "8ef87d35d0c021c2ff529c9fa29e828207c2a027b74c75ee44ea9671af84a25a",
+      "asset_id": "custom-48c145bc-fb86-4386-8dca-e6fa57025d62",
+      "state_key": "",
+      "asset_name": "Ash Legion torso · option C",
+      "code": "T10",
+      "name": "Ash Legion torso · option C · 1.2 scale review · cloth layer",
+      "w": 41,
+      "h": 58,
+      "frame_count": 1,
+      "category": "Troopers"
     }
   ]
 }
