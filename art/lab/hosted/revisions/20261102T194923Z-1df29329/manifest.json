@@ -1,0 +1,62 @@
+{
+  "schema": 2,
+  "id": "20261102T194923Z-1df29329",
+  "created": "2026-11-02T19:49:23.000Z",
+  "author": {
+    "id": null,
+    "login": "Claude"
+  },
+  "base_main": "b846c02436610fed48c0192db912ea69adbae4f1",
+  "source_lab_commit": "39e5e81aac43390c0ce052a1af390556abec9a46",
+  "notes": "Promethium brazier C04 (asset-8d844e9f, no vents) and set pieces S01 S09 S07 S03 on top of 20261102T075625Z-b1818a51.",
+  "selected_slot": "W04",
+  "original_code": "W04",
+  "variant": "custom",
+  "slots": [
+    "W01",
+    "W02",
+    "W03",
+    "W04",
+    "W05",
+    "W06",
+    "W07",
+    "W08",
+    "ARM",
+    "TORSO",
+    "THIGH",
+    "SHIN",
+    "W09",
+    "W10",
+    "W11",
+    "W12",
+    "W13",
+    "W14",
+    "W15",
+    "W16",
+    "W18",
+    "W19",
+    "W20",
+    "W21",
+    "M01",
+    "C02",
+    "C04",
+    "CRATE_ARMS",
+    "CRATE_HEAVY",
+    "CRATE_MED",
+    "CRATE_TOOL",
+    "C03",
+    "C06",
+    "S01",
+    "S09",
+    "S07",
+    "S03"
+  ],
+  "files": {
+    "game.html": "7e098264cccff393e71c027197b0a0bb459e6a008d0082b6c9ddd058e20abc1f",
+    "payload.json": "47803580d5e543191ece14c1cfe7fd190d08afe7c6368272def211d664e6a6cc"
+  },
+  "stored": [
+    "payload.json"
+  ],
+  "status": "draft"
+}
