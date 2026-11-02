@@ -1,0 +1,8 @@
+{
+  "revision": "20261102T073613Z-302d2824",
+  "base_main": "0b7d117df69882e48d2b49b5de8c85c17228a5b5",
+  "game_sha256": "4658161419855bc0db7cf00ff99a4d94eefa4fab9e52c466840bef2c25b04246",
+  "notes": "Death marker C06 replaces the flag; rises out of the ground once the body has dissolved.",
+  "source_lab_commit": "dcc2f85",
+  "status": "main updated by Claude at Jarred's request"
+}

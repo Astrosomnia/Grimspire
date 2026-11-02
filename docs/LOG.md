@@ -6,6 +6,10 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-02 · Claude · Death marker replaces the flag
+- New Forge slot **C06 death marker**. The latest Grave Marker (`asset-501ddda0…`, red family study) is live: the pole-and-flag is gone, troopers still fall, dissolve or explode as before, then the marker punches up out of the ground in about a quarter second (slight overshoot, a puff of grit). Its lights take the squad's colour. Forge revision `20261102T073613Z-302d2824` is the current build.
+- Render only; graves in the sim are unchanged.
+
 ## 2026-11-02 · Claude · Tank rings live, crate glyphs fixed, dropship flames
 - Released ChatGPT's tank with twin yellow lamp rings (C04 `asset-9834162d…`), dark body, small yellow light. Forge revision `20261102T073249Z-cdf2e5fa` is the current build.
 - Crate glyphs were being blown out by the shared emissive pass (arms read white, heavy and medical yellow). Art with its own glow colour now draws its emissive pixels crisp at their true colour over a glow in that colour. Same for the tank's lamps.
