@@ -890,9 +890,10 @@ function statues(L,list){const c=L.c,g=c.getContext('2d'),tmp=mk(c.width,c.heigh
   g.setTransform(1,0,0,1,0,0);g.drawImage(tmp,0,0);
   const sk=mk(c.width,c.height),sg=sk.getContext('2d');sg.drawImage(c,0,0);sg.globalCompositeOperation='destination-out';sg.drawImage(c,-1,1.5);sg.globalCompositeOperation='source-in';sg.fillStyle=`rgba(150,180,235,${L.rim})`;sg.fillRect(0,0,c.width,c.height);
   g.drawImage(sk,0,0);g.drawImage(rim,0,0);return L}
-// Skyline layers: the far one a hazy step toward the sky, the near one darker, each with one rim for buildings and statues alike
-const layers=[statues(Object.assign(mkLayer(.22,'#17181f',.04,.34),{rim:.22}),[[0,RR()*.25+.1,.5,230]]),
-  statues(Object.assign(mkLayer(.45,'#0d0e14',.14,.46),{rim:.3}),[[1,RR()*.2+.42,.62,190],[2,RR()*.15+.75,.6,150]])];
+// Skyline layers: dark and gloomy, silhouettes against the sky. The far layer has no outline; the near one
+// only a whisper of sky on its top edges (a strong outline made them read as focused cut-outs).
+const layers=[statues(Object.assign(mkLayer(.22,'#0c0d12',.04,.34),{rim:0}),[[0,RR()*.25+.1,.5,230]]),
+  statues(Object.assign(mkLayer(.45,'#13151b',.14,.46),{rim:.07}),[[1,RR()*.2+.42,.62,190],[2,RR()*.15+.75,.6,150]])];
 const grain=mk(160,160);
 {const g=grain.getContext('2d'),d=g.createImageData(160,160);for(let i=0;i<160*160;i++){const v=Math.random()*255|0;d.data[i*4]=d.data[i*4+1]=d.data[i*4+2]=v;d.data[i*4+3]=255}g.putImageData(d,0,0)}
 let grainPat=null;

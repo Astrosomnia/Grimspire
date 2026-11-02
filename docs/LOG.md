@@ -6,6 +6,9 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-02 · Claude · Skyline back to dark and gloomy
+- Undid the lighter skyline and its outlines (they read as focused, fake cut-outs): layers are back to the original dark colours, the far layer has no outline and the near one only a faint sky edge. The 1:1 fix for floating statues stays. Sky traffic (transport ships) and the sky war overhead were never removed; they still run.
+
 ## 2026-11-02 · Claude · Fusion mine: no code mine over the art
 - The game was still drawing its old code mine (dome, antenna, blinking lamp) on top of the Forge mine art. With Forge art live, only the arming ring is drawn over it now; the red/amber light on the ground still blinks.
 - Thrown sun grenades now show the Forge art too (they were still a code circle in flight).
