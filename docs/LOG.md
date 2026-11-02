@@ -8,6 +8,7 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ## 2026-11-02 · Claude · Fusion mine: no code mine over the art
 - The game was still drawing its old code mine (dome, antenna, blinking lamp) on top of the Forge mine art. With Forge art live, only the arming ring is drawn over it now; the red/amber light on the ground still blinks.
+- Thrown sun grenades now show the Forge art too (they were still a code circle in flight).
 
 ## 2026-11-02 · Claude · Tank lid band removed
 - Took the renderer's yellow lid band off the tank (it looked off). The tank is plain dark with its yellow lamp and small light until ChatGPT's updated art lands; it releases through the Forge as C04.

@@ -2624,9 +2624,9 @@ function render(dt){
   drawWave2();
   for(const p of projs){
     if(p.w.kind==='shell'){const c=p.w.nuke?'#ff6a3d':'#ffb21e';ctx.shadowColor=c;ctx.shadowBlur=18;ctx.fillStyle='#fff3cf';ctx.beginPath();ctx.arc(p.x,p.y,p.w.nuke?5:3.4,0,Math.PI*2);ctx.fill();ctx.shadowBlur=0}
-    else if(SPR.ready&&p.w.id==='frag'){
+    else if(SPR.ready&&(p.w.id==='frag'||(p.w.id==='sun'&&typeof labArt!=='undefined'&&labArt.has('sun')))){
       ctx.save();ctx.translate(p.x,p.y-1);ctx.rotate(p.rest?0:time*9);prop(p.w.id,artW(p.w.id)/2,artH(p.w.id)/2,1.5,true);ctx.restore();
-      ctx.font=`700 ${13*s}px "Chakra Petch",monospace`;ctx.textAlign='center';ctx.fillStyle=BONE;ctx.fillText(Math.max(1,Math.ceil(p.fuse)),p.x,p.y-12)}
+      if(p.w.id==='frag'){ctx.font=`700 ${13*s}px "Chakra Petch",monospace`;ctx.textAlign='center';ctx.fillStyle=BONE;ctx.fillText(Math.max(1,Math.ceil(p.fuse)),p.x,p.y-12)}}
     else{const sun=p.w.id==='sun';ctx.fillStyle=sun?'#dff6ff':INK;ctx.strokeStyle=sun?'#8fe9ff':EDGE;ctx.lineWidth=1.3;if(sun){ctx.shadowColor='#8fe9ff';ctx.shadowBlur=16}
       ctx.beginPath();ctx.arc(p.x,p.y-1,sun?4.5:3.4,0,Math.PI*2);ctx.fill();ctx.stroke();ctx.shadowBlur=0;
       const c=TEAM[p.owner.team].col;if(!sun&&Math.sin(time*(14+(3-p.fuse)*10))>0){ctx.shadowColor=c;ctx.shadowBlur=10;ctx.fillStyle=c;ctx.fillRect(p.x-1,p.y-2,2,2);ctx.shadowBlur=0}
