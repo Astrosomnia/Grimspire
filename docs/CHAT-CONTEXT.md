@@ -34,4 +34,4 @@ Report these states separately, with evidence: drawn, saved, tested, approved, o
 
 ## Faction colours (decided 1 November 2026)
 
-Jarred chose option C, for now: Ash Legion is magenta and Neon Choir is cyan (swapped, live in the game), and faction cloth keeps its colour as drawn. See `docs/ART-DIRECTION.md`. The experimental T09 body and A05 arm are still not approved production sprites. Ash Legion work can continue.
+Jarred chose option C, for now: Ash Legion is magenta and Neon Choir is cyan (swapped, live in the game), and faction cloth keeps its colour as drawn. Paint cloth on the Forge's Cloth layer in greys; the game colours it per faction. See `docs/ART-DIRECTION.md`. The experimental T09 body and A05 arm are still not approved production sprites. Ash Legion work can continue.

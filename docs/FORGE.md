@@ -20,7 +20,7 @@ Test targets: W01–W08 (the held weapons), ARM (the foreground arm), TORSO, THI
 
 ## Technical rules for art
 - **Pixel density is fixed:** 12 source px per art pixel; about 1.85 art px per world px. A trooper is drawn about 27 world px tall; trooper frames are 41×58 art px with feet on row 54.
-- **Layers:** transparent background, no baked glow or drop shadow. Glow goes on the emissive layer; anything team-coloured is drawn neutral grey on the trim mask.
+- **Layers:** transparent background, no baked glow or drop shadow. Glow goes on the emissive layer; anything team-coloured is drawn neutral grey on the trim mask. **Cloth** (cloaks, tabards, sleeves) goes on the Cloth layer in greys: the game colours it per faction by brightness, with mid grey (128) becoming the faction's cloth colour, so one set of trooper art dresses all four factions. The Faction picker in the editor previews it.
 - **Points** (art px): weapons need **grip** (where the hand holds) and **muzzle** (where shots leave). The arm needs **shoulder** (its joint) and **hand** (where the grip attaches). A torso's **shoulder** and **hip** are sockets: where the arm attaches and where it sits on the legs. A thigh's **hip** is its joint and its **knee** is where the shin hangs. Hover a point's button in the Forge for its meaning. Points that feed firing (grip, muzzle, arm and torso sockets) change the sim; the game fingerprints them, so online players with different art are told to refresh.
 - **Scale:** each asset has its own game scale (weapons currently 1.2×; the arm 1×).
 - **Weapons:** muzzle facing right, barrel level.

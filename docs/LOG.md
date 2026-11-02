@@ -6,6 +6,12 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-01 · Claude · Cloth layer: each faction wears its own cloth
+- New **Cloth** layer in the Forge (beside body, emissive, trim, guts). Paint cloth in greys; the game colours it per faction by brightness (mid grey = the faction's cloth colour). The editor's Faction picker previews it, including the lit view and Rig.
+- Faction cloth colours in the game: Ash Legion oxblood, Neon Choir near-black blue-grey, The Hollow ash sackcloth, Halo Guard cream. Applied to Forge torsos, legs and the arm; weapons and the old atlas troopers are unchanged.
+- Moved the red cloth on the latest Ash Legion torso, thigh, shin and Jarred's arm onto the Cloth layer (new Library versions named "· cloth layer"). The Ash Legion Test page shows Ash Legion in oxblood against Neon Choir in dark cloth.
+- Cosmetic only; determinism hashes and renderer tests unchanged.
+
 ## 2026-11-01 · Jarred · Branch cleanup
 - Deleted the five `art/release-*` branches (closing stale PRs #3 and #4), `forge-pipeline`, `sprites` and `vector-backup`. Remaining: `main`, `art/weapon-lab`, and ChatGPT's in-progress `art/category-review-sheets-20261101`.
 

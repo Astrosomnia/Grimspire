@@ -403,10 +403,10 @@ const W=2000,H=900,G=620,WACC=180,
 let sump=H-40;
 const INK='#08090c',EDGE='#5f6676',BONE='#e6e4de';
 const TEAM=[
-  {name:'Ash Legion',col:'#ff2e88',rgb:[255,46,136],names:['Vael','Castor','Orsk','Hadrin','Absalom','Malchus','Corvin','Ezekar','Tobiah','Ulvar','Thrask','Severin']},
-  {name:'Neon Choir',col:'#3ff3ff',rgb:[63,243,255],names:['Seraph','Lumen','Kett','Mordre','Cantor','Ismay','Psalm','Vesper','Obadiah','Solenne','Thessaly','Verity']},
-  {name:'The Hollow',col:'#3dff8b',rgb:[61,255,139],names:['Malphas','Sabnock','Orobas','Vapula','Zagan','Murmur','Crocell','Furfur','Andras','Haures','Bune','Glasya']},
-  {name:'Halo Guard',col:'#ffd84a',rgb:[255,216,74],names:['Uriel','Aurion','Valthane','Imperon','Lucan','Ithrane','Halcyon','Thronn','Exarion','Kyrios','Solmar','Sanctus']}
+  {name:'Ash Legion',col:'#ff2e88',rgb:[255,46,136],cloth:[86,24,34],names:['Vael','Castor','Orsk','Hadrin','Absalom','Malchus','Corvin','Ezekar','Tobiah','Ulvar','Thrask','Severin']},
+  {name:'Neon Choir',col:'#3ff3ff',rgb:[63,243,255],cloth:[36,40,50],names:['Seraph','Lumen','Kett','Mordre','Cantor','Ismay','Psalm','Vesper','Obadiah','Solenne','Thessaly','Verity']},
+  {name:'The Hollow',col:'#3dff8b',rgb:[61,255,139],cloth:[88,82,70],names:['Malphas','Sabnock','Orobas','Vapula','Zagan','Murmur','Crocell','Furfur','Andras','Haures','Bune','Glasya']},
+  {name:'Halo Guard',col:'#ffd84a',rgb:[255,216,74],cloth:[190,176,140],names:['Uriel','Aurion','Valthane','Imperon','Lucan','Ithrane','Halcyon','Thronn','Exarion','Kyrios','Solmar','Sanctus']}
 ];
 const FACDESC=['Magenta. The old guard of the ward.','Cyan. Hymns and plasma.','Green. They chant backwards.','Gold. Gabriel\u2019s host, scourged and shining.'];
 const NEON={cyan:[63,243,255],mag:[255,46,136],amber:[255,165,40],acid:[160,255,70],ice:[185,212,255]};
@@ -2991,11 +2991,17 @@ const labDocs=new Map(Object.entries(LAB_PAYLOAD.assets).map(([slot,doc])=>[labS
 const labOriginalProp = prop;
 const labImage = src => src ? new Promise((resolve,reject)=>{const i=new Image();i.onload=()=>resolve(i);i.onerror=()=>reject(new Error('Weapon image failed to load'));i.src=src}) : Promise.resolve(null);
 const labReady = Promise.all(Object.entries(LAB_PAYLOAD.assets).map(async ([slot,doc])=>{
-  const frames=await Promise.all(doc.frames.map(async f=>({body:await labImage(f.body),trim:await labImage(f.trim),emis:await labImage(f.emis)})));
+  const frames=await Promise.all(doc.frames.map(async f=>({body:await labImage(f.body),trim:await labImage(f.trim),emis:await labImage(f.emis),cloth:await labImage(f.cloth)})));
   const k=labSlots[slot]||slot;labArt.set(k,{doc,frames});
 })).then(()=>{window.GRIMSPIRE_ART_READY=true}).catch(e=>{window.GRIMSPIRE_ART_ERROR=e.message;console.error(e)});
 // Old payloads retain their shared scale; the foreground arm was always human-sized.
 const labAssetScale=d=>d.game_scale??(d===labDocs.get('ARM')?1:labSettings.scale);
+// Cloth layer: painted in greys, coloured per faction by luminance (mid grey 128 = the faction's cloth colour),
+// so one set of trooper art dresses every faction. Cached per image and squad.
+function labCloth(img,team){if(!img)return null;const T=TEAM[team]||TEAM[0],c=T.cloth||[80,80,80];img._cloth=img._cloth||{};if(img._cloth[team])return img._cloth[team];
+  const w=img.width,h=img.height,cv=document.createElement('canvas');cv.width=w;cv.height=h;const g=cv.getContext('2d');g.drawImage(img,0,0);
+  const d=g.getImageData(0,0,w,h),p=d.data;for(let i=0;i<p.length;i+=4){if(!p[i+3])continue;const l=(.299*p[i]+.587*p[i+1]+.114*p[i+2])/128;p[i]=Math.min(255,c[0]*l);p[i+1]=Math.min(255,c[1]*l);p[i+2]=Math.min(255,c[2]*l)}
+  g.putImageData(d,0,0);return img._cloth[team]=cv}
 function labDraw(a,anchor,size=1,glow=true){
   const {doc,frames}=a,f=frames[Math.floor(time*Math.max(1,doc.fps||8))%frames.length];
   ctx.save();ctx.imageSmoothingEnabled=false;ctx.scale(PX*size*labAssetScale(doc),PX*size*labAssetScale(doc));
@@ -3004,6 +3010,7 @@ function labDraw(a,anchor,size=1,glow=true){
     // Isolate the darkening mask on a cached canvas, so it cannot tint scenery.
     if(!f.dark){const c=document.createElement('canvas');c.width=doc.w;c.height=doc.h;const g=c.getContext('2d');g.drawImage(f.body,0,0);g.globalCompositeOperation='source-atop';g.fillStyle=`rgba(5,6,9,${labSettings.darkness})`;g.fillRect(0,0,c.width,c.height);f.dark=c}
     ctx.globalCompositeOperation='source-over';ctx.drawImage(f.dark,x,y)}
+  if(f.cloth){const tm=labDrawingTrooper?.team??0;f.clothD=f.clothD||{};if(!f.clothD[tm]){const c=document.createElement('canvas');c.width=doc.w;c.height=doc.h;const g=c.getContext('2d');g.drawImage(labCloth(f.cloth,tm),0,0);g.globalCompositeOperation='source-atop';g.fillStyle=`rgba(5,6,9,${labSettings.darkness})`;g.fillRect(0,0,c.width,c.height);f.clothD[tm]=c}ctx.drawImage(f.clothD[tm],x,y)}
   if(f.trim)ctx.drawImage(f.trim,x,y);
   if(glow&&f.emis){ctx.globalAlpha=labSettings.emissive;ctx.shadowColor=labSettings.glowColor;ctx.shadowBlur=labSettings.bloom;ctx.drawImage(f.emis,x,y);ctx.shadowBlur=0;ctx.globalCompositeOperation='lighter';ctx.globalAlpha=labSettings.emissive*.55;ctx.drawImage(f.emis,x,y)}
   ctx.restore();
@@ -3199,7 +3206,7 @@ const labPartBake=new Map();
 function labBake(slot,fi,team){const a=labArt.get(slot);if(!a)return null;const{doc,frames}=a,f=frames[Math.min(fi,frames.length-1)];if(!f?.body)return null;
   const key=slot+':'+fi+':'+team;let b=labPartBake.get(key);if(b)return b;
   const w=doc.w,h=doc.h,tint=img=>{const c=mk(w,h),g=c.getContext('2d');g.drawImage(img,0,0);g.globalCompositeOperation='source-in';g.fillStyle=TEAM[team].col;g.fillRect(0,0,w,h);return c};
-  const lit=mk(w,h),g=lit.getContext('2d');g.drawImage(f.body,0,0);if(f.trim){g.globalCompositeOperation='source-atop';g.globalAlpha=.28;g.drawImage(tint(f.trim),0,0);g.globalAlpha=1}
+  const lit=mk(w,h),g=lit.getContext('2d');g.drawImage(f.body,0,0);if(f.cloth)g.drawImage(labCloth(f.cloth,team),0,0);if(f.trim){g.globalCompositeOperation='source-atop';g.globalAlpha=.28;g.drawImage(tint(f.trim),0,0);g.globalAlpha=1}
   const tm=darken(lit,.86);if(f.trim){const tg=tm.getContext('2d');tg.globalCompositeOperation='source-atop';tg.globalAlpha=.16;tg.drawImage(tint(f.trim),0,0)}
   b={lit,team:tm,emis:f.emis?tint(f.emis):null,doc};labPartBake.set(key,b);return b}
 function labTorsoFor(t){const a=labArt.get('TORSO');if(!a)return null;const{doc,frames}=a,fi=Math.floor(time*Math.max(1,doc.fps||8))%frames.length,b=labBake('TORSO',fi,t.team);if(!b)return null;
