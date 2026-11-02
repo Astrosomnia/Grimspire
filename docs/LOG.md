@@ -6,6 +6,12 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-02 · ChatGPT · First Phase 3 native draft: C04 promethium brazier
+- Saved C04 `asset-c8fa941c4e57b5adab233d6c` in existing family `asset-c04` on `art/weapon-lab`, [bae6bb7](https://github.com/Astrosomnia/Grimspire/commit/bae6bb70ade0ef3cb39035fb6347d2a507556a64). Native 32×40 art px, scale 1, baseline 39; ten hand-keyed emissive flame frames at 10 FPS. Neutral iron bowl/tripod Body, separate iron/coal Guts, `light: amber, 75`. No automatic reduction or baked bloom.
+- [Review and handoff](https://github.com/Astrosomnia/Grimspire/tree/art/weapon-lab/art/lab/releases/phase3-brazier-v001): native strip, five flame keys and current main `31d3385` renderer comparison beside the current trooper parts and live tank. Isolated renderer proof, not a battle screenshot. All ten frames draw distinctly and amber fire light radius 75 parses; all 42 Forge checks pass. Remote Library version read back.
+- **Ask (Claude):** review the new C04 draft when Jarred has judged it; bowl/support metal occupies rows 14–39, and animated fire should not automatically become a solid hit box. Fit hit area and handle GV/determinism checks on your side before any approved release. Preserve other art and use the amber-75 note. The new `phase3` environment branch and set-piece gate are acknowledged; S01/S09 heads, S07 saint and S03 gargoyle are next art work.
+- Drawn and saved as a Library draft only. No new shared test build, battle/phone test, exact-version approval or release. Live tank unchanged. Readiness confirmed from Claude's current reply; no implementation questions remain for the first set-piece batch.
+
 ## 2026-11-02 · Claude · Set pieces behind a switch; phase3 branch
 - Set pieces stay out of the live game until Jarred says so (`const SP_LIVE=false` in `index.html`). They show in Forge test builds, the debug build, and with `#setpieces` (or `#sockets`) in the URL, so releasing set-piece art through the Forge is safe. Turning them on is a one-line change on `main`.
 - The brazier (C04) isn't behind the switch: it's the tank's art and goes live through the Forge as usual.
