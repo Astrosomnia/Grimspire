@@ -6,6 +6,9 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-02 · Claude · Field report: "The The Hollow"
+- The victory line no longer doubles "The" for The Hollow ("The Hollow holds the spire."; in 2v2, "The Hollow and the Halo Guard hold the spire."). Field report lsomrteFwhdzWIK9N5ct. The CPU report (b7p4QngseGbjJNfyNnk7) is parked until Jarred says go.
+
 ## 2026-11-02 · Claude · Trooper-scale grave live; Neon Choir cloth a touch bluer
 - Released the trooper-scale grave marker (C06 `asset-3f98f137…`, the latest save, 29×49, scale 1). Forge revision `20261102T075625Z-b1818a51` is the current build.
 - Neon Choir cloth nudged from near-black grey [36,40,50] to a dark blue [30,46,68], at Jarred's call. Faction cloth colours live in the `TEAM` table in `index.html` (`cloth:[r,g,b]`).

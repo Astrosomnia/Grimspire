@@ -1144,7 +1144,7 @@ function gameOver(w){
   S.phase='over';setMusicMode('title');const r=$('#result');r.hidden=false;
   if(w<0){r.textContent='Nobody holds the spire. The sump takes everyone.';r.style.color=BONE}
   else{const win=S.order.filter(f=>(S.ally?S.ally[f]:f)===w),nm=win.map(f=>TEAM[f].name);
-    r.textContent=nm.length>1?`The ${nm[0]} and the ${nm[1]} hold the spire.`:`The ${nm[0]} holds the spire.`;r.style.color=TEAM[win[0]].col}
+    {const the=(n,cap)=>/^The /.test(n)?(cap?n:'t'+n.slice(1)):(cap?'The ':'the ')+n;r.textContent=nm.length>1?`${the(nm[0],1)} and ${the(nm[1])} hold the spire.`:`${the(nm[0],1)} holds the spire.`}r.style.color=TEAM[win[0]].col}
   $('#goRematch').hidden=S.mode!=='online';
   $('#kick').textContent='Hive Ward 91 · after the smoke';$('#lede').hidden=true;
   $('#goCpu').firstChild.textContent='Fight the machine again';
