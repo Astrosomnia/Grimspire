@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "current": "20261102T064902Z-2a5783df",
+  "current": "20261102T070504Z-604e66c3",
   "revisions": [
     {
       "id": "20261031T210936Z-6c67f2da",
@@ -257,6 +257,14 @@
       "slot": "W04",
       "variant": "custom",
       "author": "Claude"
+    },
+    {
+      "id": "20261102T070504Z-604e66c3",
+      "created": "2026-11-02T07:05:04.314Z",
+      "notes": "Everything back to 1x: weapons, trooper arm, torso and legs, and equipment were 1.2x (Thunder Fist stays 0.9x). Same art as 20261102T064902Z-2a5783df.",
+      "slot": "W04",
+      "variant": "custom",
+      "author": "Claude"
     }
   ],
   "integrations": [
@@ -328,6 +336,15 @@
       "approved_at": "2026-11-02T06:51:59.436Z",
       "pr": null,
       "status": "main updated by Claude with Jarred's approval (runtime added crate and tank glow after the build)"
+    },
+    {
+      "revision": "20261102T070504Z-604e66c3",
+      "main_commit": "74590bfef77390e46e64cb50aa3f7ac99e4cad82",
+      "game_sha256": "1496c4adc655139716fe74d78aed993e177872b2a5390a4d80cafa01f298e937",
+      "approved_by": "Astrosomnia",
+      "approved_at": "2026-11-02T07:06:54.210Z",
+      "pr": null,
+      "status": "main updated by Claude at Jarred's request (everything at 1x)"
     }
   ]
 }

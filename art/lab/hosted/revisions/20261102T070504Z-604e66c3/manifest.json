@@ -1,0 +1,56 @@
+{
+  "schema": 2,
+  "id": "20261102T070504Z-604e66c3",
+  "created": "2026-11-02T07:05:04.314Z",
+  "author": {
+    "id": null,
+    "login": "Claude"
+  },
+  "base_main": "2ab99d9487e28847e6817e4db45c0afe23967d31",
+  "source_lab_commit": "481208ed6b34923ac15c741ef467f7bf81ec53cc",
+  "notes": "Everything back to 1x: weapons, trooper arm, torso and legs, and equipment were 1.2x (Thunder Fist stays 0.9x). Same art as 20261102T064902Z-2a5783df.",
+  "selected_slot": "W04",
+  "original_code": "W04",
+  "variant": "custom",
+  "slots": [
+    "W01",
+    "W02",
+    "W03",
+    "W04",
+    "W05",
+    "W06",
+    "W07",
+    "W08",
+    "ARM",
+    "TORSO",
+    "THIGH",
+    "SHIN",
+    "W09",
+    "W10",
+    "W11",
+    "W12",
+    "W13",
+    "W14",
+    "W15",
+    "W16",
+    "W18",
+    "W19",
+    "W20",
+    "W21",
+    "M01",
+    "C02",
+    "C04",
+    "CRATE_ARMS",
+    "CRATE_HEAVY",
+    "CRATE_MED",
+    "CRATE_TOOL"
+  ],
+  "files": {
+    "game.html": "1496c4adc655139716fe74d78aed993e177872b2a5390a4d80cafa01f298e937",
+    "payload.json": "9cee25d1364db15677d9a7660ef28b9e6ec2d15cd5877dd736edfd39c96f7854"
+  },
+  "stored": [
+    "payload.json"
+  ],
+  "status": "draft"
+}
