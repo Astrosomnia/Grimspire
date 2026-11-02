@@ -1,0 +1,56 @@
+{
+  "schema": 2,
+  "id": "20261102T064902Z-2a5783df",
+  "created": "2026-11-02T06:49:02.455Z",
+  "author": {
+    "id": null,
+    "login": "Claude"
+  },
+  "base_main": "e4f535f758494765beb92fc28b860ac9ffc20c29",
+  "source_lab_commit": "b4fbf1637ecbb6004bde4548ed56ae14e415c978",
+  "notes": "Claude release: everything live. Weapons W01-W08 (red Dakka), Ash Legion arm, torso, thigh and shin at 1.2x with cloth, red-family equipment W09-W21 and M01, parachute, promethium tank and the four category crates. Dropship (C03) left on the old art: the study is a third of the old size.",
+  "selected_slot": "W04",
+  "original_code": "W04",
+  "variant": "custom",
+  "slots": [
+    "W01",
+    "W02",
+    "W03",
+    "W04",
+    "W05",
+    "W06",
+    "W07",
+    "W08",
+    "ARM",
+    "TORSO",
+    "THIGH",
+    "SHIN",
+    "W09",
+    "W10",
+    "W11",
+    "W12",
+    "W13",
+    "W14",
+    "W15",
+    "W16",
+    "W18",
+    "W19",
+    "W20",
+    "W21",
+    "M01",
+    "C02",
+    "C04",
+    "CRATE_ARMS",
+    "CRATE_HEAVY",
+    "CRATE_MED",
+    "CRATE_TOOL"
+  ],
+  "files": {
+    "game.html": "ab1328d0182d14ff129bc07f9efbedab88309073a7cef1649beef424b9dbbe24",
+    "payload.json": "bb3b0ae5e679856023642f4e30e72923361a2aa03ae85bd9b883c0369edef0fa"
+  },
+  "stored": [
+    "payload.json"
+  ],
+  "status": "draft"
+}

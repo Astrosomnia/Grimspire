@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "current": "20261102T053427Z-3c6bc044",
+  "current": "20261102T064902Z-2a5783df",
   "revisions": [
     {
       "id": "20261031T210936Z-6c67f2da",
@@ -249,6 +249,14 @@
       "slot": "ARM",
       "variant": "custom",
       "author": "Astrosomnia"
+    },
+    {
+      "id": "20261102T064902Z-2a5783df",
+      "created": "2026-11-02T06:49:02.455Z",
+      "notes": "Claude release: everything live. Weapons W01-W08 (red Dakka), Ash Legion arm, torso, thigh and shin at 1.2x with cloth, red-family equipment W09-W21 and M01, parachute, promethium tank and the four category crates. Dropship (C03) left on the old art: the study is a third of the old size.",
+      "slot": "W04",
+      "variant": "custom",
+      "author": "Claude"
     }
   ],
   "integrations": [
@@ -311,6 +319,15 @@
         "url": "https://astrosomnia.github.io/Grimspire/",
         "verified_at": "2026-11-01T07:34:18.064Z"
       }
+    },
+    {
+      "revision": "20261102T064902Z-2a5783df",
+      "main_commit": "627487c277902dfd5a96150a7d11ce6491bdd966",
+      "game_sha256": "49d1324fc12b6ef521a60ae19f6d5a94e76db40c1608e1000674d12e959332e4",
+      "approved_by": "Astrosomnia",
+      "approved_at": "2026-11-02T06:51:59.436Z",
+      "pr": null,
+      "status": "main updated by Claude with Jarred's approval (runtime added crate and tank glow after the build)"
     }
   ]
 }
