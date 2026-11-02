@@ -1,0 +1,58 @@
+{
+  "schema": 2,
+  "id": "20261102T075625Z-b1818a51",
+  "created": "2026-11-02T07:56:25.699Z",
+  "author": {
+    "id": null,
+    "login": "Claude"
+  },
+  "base_main": "5df6d9cdd3e3a72a5807d2b5882958ce2cfbb2a1",
+  "source_lab_commit": "319166d57420a998c5424a8df2460b55c537bc75",
+  "notes": "Trooper-scale death marker C06 (asset-3f98f137) on top of 20261102T073613Z-302d2824.",
+  "selected_slot": "W04",
+  "original_code": "W04",
+  "variant": "custom",
+  "slots": [
+    "W01",
+    "W02",
+    "W03",
+    "W04",
+    "W05",
+    "W06",
+    "W07",
+    "W08",
+    "ARM",
+    "TORSO",
+    "THIGH",
+    "SHIN",
+    "W09",
+    "W10",
+    "W11",
+    "W12",
+    "W13",
+    "W14",
+    "W15",
+    "W16",
+    "W18",
+    "W19",
+    "W20",
+    "W21",
+    "M01",
+    "C02",
+    "C04",
+    "CRATE_ARMS",
+    "CRATE_HEAVY",
+    "CRATE_MED",
+    "CRATE_TOOL",
+    "C03",
+    "C06"
+  ],
+  "files": {
+    "game.html": "83045b038ac467f97146a22798ff5d636b9e77c04219cc8467fadcb9ff21726e",
+    "payload.json": "54efd8b1f1e3922c0a35b271a93aafff757034f6565dcfb9acae3d59c5fa0df6"
+  },
+  "stored": [
+    "payload.json"
+  ],
+  "status": "draft"
+}
