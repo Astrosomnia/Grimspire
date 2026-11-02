@@ -1,0 +1,8 @@
+{
+  "revision": "20261102T071533Z-06c99a08",
+  "base_main": "6383a572c488c10acaebff97eed7df868a1c9c24",
+  "game_sha256": "6e171514fe70c22073f341dce99acd1cbfed3524932910cb289dc11c158e0b3d",
+  "notes": "Dark Dakka, full-size dropship and bright crate glyphs at 1x. Runtime: tank dark with a yellow lid.",
+  "source_lab_commit": "a6eac06",
+  "status": "main updated by Claude at Jarred's request"
+}
