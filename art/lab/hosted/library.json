@@ -1641,6 +1641,20 @@
       "h": 28,
       "frame_count": 40,
       "category": "Other art"
+    },
+    {
+      "id": "asset-4c6051548ba940f14f8154e2",
+      "path": "art/lab/hosted/library/asset-4c6051548ba940f14f8154e2.forge.json",
+      "sha256": "4c6051548ba940f14f8154e2cba770304c7f13cd266b2b31a2399a589bbfb82a",
+      "asset_id": "asset-c06",
+      "state_key": "",
+      "asset_name": "Grave Marker",
+      "code": "C06",
+      "name": "Grave Marker · trooper-scale / true helmet / faction cloth",
+      "w": 29,
+      "h": 49,
+      "frame_count": 1,
+      "category": "Other art"
     }
   ]
 }

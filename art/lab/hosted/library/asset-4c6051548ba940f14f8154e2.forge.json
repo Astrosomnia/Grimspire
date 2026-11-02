@@ -1,0 +1,40 @@
+{
+  "forge": 1,
+  "game_scale": 1,
+  "code": "C06",
+  "name": "Grave Marker · trooper-scale / true helmet / faction cloth",
+  "w": 29,
+  "h": 49,
+  "fps": 8,
+  "base": 48,
+  "pixel_scale": 12,
+  "markers": {
+    "grip": null,
+    "muzzle": null,
+    "pivot": null,
+    "shoulder": null,
+    "elbow": null,
+    "hand": null,
+    "hip": null,
+    "knee": null
+  },
+  "ready": false,
+  "notes": "Native-size redraw, 2 Nov 2026. Overall 29×49 art px (old 17×27), scale 1, baseline 48: approximately standing-trooper height. Helmet is the exact 9×10 native crop [16,5..25,15) from live T10 torso, placed [10,2], with its original body and visor emission untouched; matches trooper helmet size without enlarging head or pixels. Larger post, crosspiece, readable broad rubble clusters and hanging cloth replace the small noisy original. Cloth is separate neutral greys (58/91/128), coloured by faction through labBake/labCloth; no oxblood baked into material. Grave renderer already tints lamps by squad. Drawn for current 1× pipeline; no game code changed. Ask (Claude): integrate only C06 into latest build, keep punch-up/baseline behaviour and faction cloth/emission. Judge full-size next to living trooper; no scale multiplier needed.",
+  "review": null,
+  "ghostOff": null,
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB0AAAAxCAYAAAAm/aJCAAACFElEQVR4nO2XTWvbQBCGXwVTGmziXZHKUW2DyaUNpOea4l58by/9n4Hk1EtFqUVID4GWGpqcusbG+AMkJcj4EOjmEFasbH2sZLc0VC8IVtLMPDs7u2IE/C/Ssjrslgnfq+qg+jMAwFX/a+YYmRxeHr/mRu0guG+33wAALi7O8eXTqXKsHVXD3TLhYmyadZhmHYPBIATfOnSvqgfj798uAQCfrY84Oz0J4KpSXpLa80MOAC+OXmE2nUBe5tl0AkC9vsqZ3t44AIDrnz9CINOsq4YIVFI1XC48bbnwQHWDT8c+njytwHXmuaDKmcpqNJow9imAh7pmPTbKmcpqtVpgjMHYp7j7XQIA7jpzZf9cmcqajn8FHwpV5cp0VVmXd+NM86iA/rtQ3/dz+YV2HdUNHmcIAIRQdLvdteeWZcHz3Egf15mt7ezgyFDd4J3O28QZ9vv92Hdxvrbd46vgkgAm0iRZlqVqGojqRgisyS/EmBCaOXClUol8PhoN15Y4WF7XmWkCHFefPJOJqmnmpkrUnjEG3/fheW5k4CQ9vnNaQAtoAS2gBbSAbh/KGPv70E2VCs3StG0FKloTqhtcXGn2KtDY3ubd+w+RAWy7lxiQEJraN4X+T8VMG41mpHEScLXZtu1eaNKJfa8Ail/8NI1Gw8TWVG5nBThUUznDTY+FECF0bVI7wGY7NK4UskS2gqP9iSORpnsQ8MB4GavqlwAAAABJRU5ErkJggg==",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB0AAAAxCAYAAAAm/aJCAAAAPUlEQVR4nO3WMQoAIAwDQPFBvrO/rruTgorg3RxI6ZRS4GvZIrNFzubryWOeKt1m5b0AwPo8GZkrAABc1gEKXg2N0TPWdQAAAABJRU5ErkJggg==",
+      "cloth": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB0AAAAxCAYAAAAm/aJCAAAAlUlEQVR4nO3Uyw2AIBBFUTQ2QhsUQBNTH63QBAtKwRVE+YybgUR9Z2Wi8QYCoxQAAAAA/Ncm9SMiSqN3zrlb55CKxhjLs7W2PIcQmm93qSin3gWRqDFmuLU9S1b6naj3nr0F9el970pr+Zr0rsu06JNp0dEqp0Wv00mpdjiIjUGtdRPNp5abyyKIKE2PjMLLowAAwDoB+7Irru3D4zYAAAAASUVORK5CYII=",
+      "trim": null,
+      "guts": null
+    }
+  ],
+  "checks": {
+    "visual": false,
+    "tested": false
+  },
+  "asset_id": "asset-c06",
+  "state_key": ""
+}
