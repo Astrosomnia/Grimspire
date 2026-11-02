@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "current": "20261102T071533Z-06c99a08",
+  "current": "20261102T073249Z-cdf2e5fa",
   "revisions": [
     {
       "id": "20261031T210936Z-6c67f2da",
@@ -273,6 +273,14 @@
       "slot": "W04",
       "variant": "custom",
       "author": "Claude"
+    },
+    {
+      "id": "20261102T073249Z-cdf2e5fa",
+      "created": "2026-11-02T07:32:49.492Z",
+      "notes": "Tank with twin yellow lamp rings (C04 asset-9834162d) on top of 20261102T071533Z-06c99a08.",
+      "slot": "W04",
+      "variant": "custom",
+      "author": "Claude"
     }
   ],
   "integrations": [
@@ -362,6 +370,15 @@
       "approved_at": "2026-11-02T07:17:43.297Z",
       "pr": null,
       "status": "main updated by Claude (ship, dark Dakka, crate glyphs)"
+    },
+    {
+      "revision": "20261102T073249Z-cdf2e5fa",
+      "main_commit": "0b7d117df69882e48d2b49b5de8c85c17228a5b5",
+      "game_sha256": "94979cf5ab48bf54536b93894d6d29217770f699d8d9b5ba8bedbd2dd59338a1",
+      "approved_by": "Astrosomnia",
+      "approved_at": "2026-11-02T07:34:22.756Z",
+      "pr": null,
+      "status": "main updated by Claude (tank rings)"
     }
   ]
 }

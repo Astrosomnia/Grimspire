@@ -1,0 +1,57 @@
+{
+  "schema": 2,
+  "id": "20261102T073249Z-cdf2e5fa",
+  "created": "2026-11-02T07:32:49.492Z",
+  "author": {
+    "id": null,
+    "login": "Claude"
+  },
+  "base_main": "9822ba1e1ccb6d234cc50ee02844a665a14f6f85",
+  "source_lab_commit": "d54f480337787fa41d9b7b71be2d059d297b34ed",
+  "notes": "Tank with twin yellow lamp rings (C04 asset-9834162d) on top of 20261102T071533Z-06c99a08.",
+  "selected_slot": "W04",
+  "original_code": "W04",
+  "variant": "custom",
+  "slots": [
+    "W01",
+    "W02",
+    "W03",
+    "W04",
+    "W05",
+    "W06",
+    "W07",
+    "W08",
+    "ARM",
+    "TORSO",
+    "THIGH",
+    "SHIN",
+    "W09",
+    "W10",
+    "W11",
+    "W12",
+    "W13",
+    "W14",
+    "W15",
+    "W16",
+    "W18",
+    "W19",
+    "W20",
+    "W21",
+    "M01",
+    "C02",
+    "C04",
+    "CRATE_ARMS",
+    "CRATE_HEAVY",
+    "CRATE_MED",
+    "CRATE_TOOL",
+    "C03"
+  ],
+  "files": {
+    "game.html": "94979cf5ab48bf54536b93894d6d29217770f699d8d9b5ba8bedbd2dd59338a1",
+    "payload.json": "a4492b71521c710173b4aa491f0030978da4f3223b1ed45a34fdfb9b0c025900"
+  },
+  "stored": [
+    "payload.json"
+  ],
+  "status": "draft"
+}
