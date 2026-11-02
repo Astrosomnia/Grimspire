@@ -6,6 +6,12 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-02 · Claude · Who's who in 3–4 squad games
+- 2v2: each side of the top bar is bracketed and labelled "Allies" (left side vs right side, as before), and the turn banner names your ally ("Kett · with Halo Guard").
+- Every human turn (pass-and-play and vs machines) shows "Your turn" over the squad's name, like online already did.
+- The top bar marks whose turn it is: that squad's count line reads "Your turn" (or "Machine turn" / "Their turn"), and with 3+ squads the others dim.
+- UI only; sim and determinism untouched.
+
 ## 2026-11-02 · Claude · Field report: "The The Hollow"
 - The victory line no longer doubles "The" for The Hollow ("The Hollow holds the spire."; in 2v2, "The Hollow and the Halo Guard hold the spire."). Field report lsomrteFwhdzWIK9N5ct. The CPU report (b7p4QngseGbjJNfyNnk7) is parked until Jarred says go.
 

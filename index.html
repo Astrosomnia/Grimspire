@@ -53,6 +53,12 @@ button:focus-visible{outline:2px solid var(--fire);outline-offset:2px}
 .team{display:grid;gap:6px;min-width:0}
 .team.sm{gap:4px}.team.sm .tname{font-size:clamp(13px,2.8vw,18px)}.team.sm .tcount{font-size:10px}
 .team.out{opacity:.35}
+/* 2v2: a bracket groups each side's allies; with 3+ squads the squad whose turn it is stays bright */
+.tside.allied{border-left:2px solid rgba(232,226,214,.3);padding-left:9px}
+.tside.r.allied{border-left:0;padding-left:0;border-right:2px solid rgba(232,226,214,.3);padding-right:9px}
+.tside .allytag{font-family:var(--mono);font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:var(--bone);opacity:.55}.tside.r .allytag{text-align:right}
+.team{transition:opacity .3s}#hud.many .team.wait{opacity:.5}#hud.many .team.wait.out{opacity:.25}
+.team.now .tcount{color:var(--bone)}
 .team.t1{text-align:right}
 .tname{font-family:var(--display);font-size:clamp(16px,4.4vw,26px);line-height:1.05;white-space:nowrap;overflow:hidden}
 .t0{color:var(--cyan)} .t1{color:var(--mag)}
@@ -92,6 +98,7 @@ body.chatting #chatFeed p.old{opacity:1}
   font-family:var(--display);font-size:clamp(30px,7vw,58px);line-height:1;opacity:0;
   padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 #banner small{display:block;font-family:var(--mono);font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--bone);margin-top:8px}
+#banner small.pre{margin:0 0 10px;color:var(--bone);letter-spacing:.4em}
 #banner.show{animation:ban 1.9s ease forwards}
 @keyframes ban{0%{opacity:0;transform:translateY(8px)}12%{opacity:1;transform:none}75%{opacity:1}100%{opacity:0}}
 
@@ -1134,8 +1141,11 @@ function beginTurn(){
   S.shots=curW().shots||1;S.wind=Math.round(rnd(-1,1)*10)/10;AI.stage=0;AI.t=0;AI.gen=null;AI.plan=null;AI.cover=null;AI.replanned=false;AI.noised=false;AI.err=null;AI.stuck=0;AI.roped=false;
   for(const o of troopers)if(o.alive&&o.team===S.team&&zones.some(z=>inZone(o,z)))irradiate(o);
   if(S.stag)texts.push({x:S.active.x,y:S.active.y-58,txt:'Staggered · no moving this turn',life:2.4,col:BONE,small:true});
-  if(S.mode==='online'&&S.team===NET.me&&NET.role)banner('Your turn',TEAM[S.team].name+' · '+S.active.name,TEAM[S.team].col);
-  else banner(TEAM[S.team].name,S.active.name+(isCPU()?' · machine':S.mode==='online'?' · opponent':''),TEAM[S.team].col);updWeapUI();
+  // Whose turn: humans get "Your turn" over their squad's name; in 2v2 the line names the ally too
+  {const al=S.cfg&&S.cfg.teams?S.order.find(f=>f!==S.team&&S.ally[f]===S.ally[S.team]):undefined,with_=al!==undefined?' · with '+TEAM[al].name:'';
+  if(S.mode==='online'&&S.team===NET.me&&NET.role)banner('Your turn',TEAM[S.team].name+' · '+S.active.name+with_,TEAM[S.team].col);
+  else if(!isCPU()&&S.mode!=='online')banner(TEAM[S.team].name,S.active.name+with_,TEAM[S.team].col,'Your turn');
+  else banner(TEAM[S.team].name,S.active.name+(isCPU()?' · machine':' · opponent')+with_,TEAM[S.team].col)}updWeapUI();
   if(S.mode==='online'&&NET.role==='act'&&S.team!==NET.me)NET.handover=true;
 }
 function gameOver(w){
@@ -1152,7 +1162,7 @@ function gameOver(w){
 function quitToTitle(){if(S.mode==='online')netLeave();S.phase='title';setMusicMode('title');S.paused=false;$('#pause').hidden=true;$('#result').hidden=true;$('#lede').hidden=false;
   $('#goRematch').hidden=true;$('#kick').textContent='Hive Ward 91 · the night it burned';$('#goCpu').firstChild.textContent='Fight the machine';
   $('#ov').hidden=false;document.body.classList.add('intitle')}
-function banner(a,b,col){const el=$('#banner');el.innerHTML='';const t=document.createElement('div');t.textContent=a;t.style.color=col;
+function banner(a,b,col,pre){const el=$('#banner');el.innerHTML='';if(pre){const p=document.createElement('small');p.className='pre';p.textContent=pre;el.append(p)}const t=document.createElement('div');t.textContent=a;t.style.color=col;
   t.style.textShadow=`0 0 22px ${col}`;const s=document.createElement('small');s.textContent=b;el.append(t,s);
   el.classList.remove('show');void el.offsetWidth;el.classList.add('show')}
 const canPick=()=>S.phase==='aim'&&!isCPU()&&!S.fired&&(!S.jet||S.jet.parked)&&!S.charging&&!S.paused;
@@ -2722,15 +2732,19 @@ const setS=(k,p,v)=>{if(hc[k+p]!==v){hc[k+p]=v;hudEls[k].style[p]=v}};
 function fitNames(){const h=$('#hud');document.documentElement.style.setProperty('--hudh',(h.getBoundingClientRect().height-14)+'px');for(const el of document.querySelectorAll('#hud .tname')){el.style.fontSize='';let fs=parseFloat(getComputedStyle(el).fontSize);while(el.scrollWidth>el.clientWidth+1&&fs>10){fs-=1;el.style.fontSize=fs+'px'}}}
 addEventListener('resize',()=>requestAnimationFrame(fitNames));
 addEventListener('load',()=>dbgBuild());setTimeout(()=>dbgBuild(),0);
-function buildHud(){const L=$('#tl'),R=$('#tr');L.innerHTML='';R.innerHTML='';const o=S.order,n=o.length,sm=n>2;
-  for(const k in hc)if(/^(hp|c|o)\d/.test(k))delete hc[k];
+function buildHud(){const L=$('#tl'),R=$('#tr');L.innerHTML='';R.innerHTML='';const o=S.order,n=o.length,sm=n>2,al=!!(S.cfg&&S.cfg.teams);
+  $('#hud').classList.toggle('many',sm);for(const el of[L,R]){el.classList.toggle('allied',al);if(al){const g=document.createElement('div');g.className='allytag';g.textContent='Allies';el.append(g)}}
+  for(const k in hc)if(/^(hp|c|o|n)\d/.test(k))delete hc[k];
   o.forEach((f,i)=>{const T=TEAM[f],b=document.createElement('div');b.className='team'+(sm?' sm':'');b.style.color=T.col;
     b.innerHTML=`<div class="tname" style="text-shadow:0 0 14px ${T.col}80">${T.name}</div><div class="bar"><i></i></div><div class="tcount"></div>`;
     const left=S.cfg&&S.cfg.teams?S.ally[f]===S.ally[o[0]]:i<Math.ceil(n/2);(left?L:R).append(b);
     hudEls['hp'+f]=b.querySelector('i');hudEls['c'+f]=b.querySelector('.tcount');hudEls['b'+f]=b});requestAnimationFrame(fitNames)}
 function updHud(){netHud();{const tc=S.phase==='aim'||S.phase==='retreat'?TEAM[S.team].col:'';if(hc.tc!==tc){hc.tc=tc;hudEls.turn.style.color=tc}}
   for(const tm of S.order||[]){if(!hudEls['hp'+tm])continue;const list=troopers.filter(t=>t.team===tm),hp=list.reduce((a,t)=>a+(t.alive?t.hp:0),0),up=list.filter(t=>t.alive).length;
-    setS('hp'+tm,'width',Math.min(100,hp/(S.squad*100)*100).toFixed(1)+'%');setT('c'+tm,up?`${up} standing`:(S.gone&&S.gone.includes(tm)?'withdrew':'fallen'));
+    // the squad whose turn it is says so in the top bar
+    const now=tm===S.team&&(S.phase==='aim'||S.phase==='retreat'),tag=S.mode==='online'&&S.team!==NET.me?'Their turn':isCPU()?'Machine turn':'Your turn';
+    setS('hp'+tm,'width',Math.min(100,hp/(S.squad*100)*100).toFixed(1)+'%');setT('c'+tm,now&&up?tag:up?`${up} standing`:(S.gone&&S.gone.includes(tm)?'withdrew':'fallen'));
+    if(hc['n'+tm]!==now){hc['n'+tm]=now;hudEls['b'+tm].classList.toggle('now',now);hudEls['b'+tm].classList.toggle('wait',!now)}
     const out=!up;if(hc['o'+tm]!==out){hc['o'+tm]=out;hudEls['b'+tm].classList.toggle('out',out)}}
   const t=S.active,w=curW();
   if(S.phase==='aim'){setT('timer',String(Math.max(0,Math.ceil(S.timer))));
