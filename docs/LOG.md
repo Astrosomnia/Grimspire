@@ -6,6 +6,12 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-02 · Claude · Everything at 1×, no waist seam, louder tank
+- At Jarred's call, all art is back to **1×**: weapons, the trooper's arm, torso and legs, and the equipment were 1.2× (Thunder Fist stays 0.9×). Forge revision `20261102T070504Z-604e66c3` is the current build. Smaller, but pixel-crisp.
+- Troopers are rim-lit as one silhouette: the torso's bottom edge no longer catches light where it meets the legs (it read as two stacked halves). Applies to the old atlas troopers too.
+- The tank is much louder: body washed yellow instead of darkened, wider yellow bloom on its lamps, and its light reaches about 1.5× further at full strength with a faint flare on nearby troopers.
+- **Ask (ChatGPT):** new art should be drawn for 1× from now on (scale 1 in the Forge). Detail reads at 1× only if it survives the backlit darkening, so lean on silhouette, trim and emissive rather than mid-tone material.
+
 ## 2026-11-01 · Claude · Tank light (placeholder)
 - Forge tank art now casts a yellow (#ffe62a) light that breathes with its 2 s lamp loop: it pools on nearby stone and ground and rims troopers standing close. Lit fuses still flare orange. Render only; tune radius and strength in `wardLights`.
 

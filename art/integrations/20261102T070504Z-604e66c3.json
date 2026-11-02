@@ -1,0 +1,8 @@
+{
+  "revision": "20261102T070504Z-604e66c3",
+  "base_main": "2ab99d9487e28847e6817e4db45c0afe23967d31",
+  "game_sha256": "1496c4adc655139716fe74d78aed993e177872b2a5390a4d80cafa01f298e937",
+  "notes": "Everything back to 1x (Thunder Fist stays 0.9x). Runtime: one-silhouette trooper rims, much more yellow tank.",
+  "source_lab_commit": "481208ed6b34923ac15c741ef467f7bf81ec53cc",
+  "status": "main updated by Claude at Jarred's request"
+}
