@@ -30,7 +30,7 @@ All are cults to some degree. Differentiate shape, material, behaviour and cloth
 Original names only, Warhammer-flavoured. 12-name rosters each.
 
 ### Decided: faction colour and cloth (Jarred, 1 Nov 2026, "for now")
-Option C from the side-by-side: **Ash Legion is magenta and Neon Choir is cyan** (swapped from before; it fits the lore better), and faction cloth keeps its colour as drawn in the concepts. Cloth is painted on the Forge's Cloth layer and coloured per faction in the game: Ash Legion oxblood, Neon Choir near-black blue-grey, The Hollow ash sackcloth, Halo Guard cream (the `cloth` values in the game's `TEAM` table). Factions may later get their own trooper art; the Cloth layer still colours variants (`art/reference/ash-legion-variants.png`, `faction-lineup.png`). Live in the game from 1 Nov. Revisit if cloth starts competing with the light at game scale.
+Option C from the side-by-side: **Ash Legion is magenta and Neon Choir is cyan** (swapped from before; it fits the lore better), and faction cloth keeps its colour as drawn in the concepts. Cloth is painted on the Forge's Cloth layer and coloured per faction in the game: Ash Legion oxblood, Neon Choir dark blue, The Hollow ash sackcloth, Halo Guard cream (the `cloth` values in the game's `TEAM` table). Factions may later get their own trooper art; the Cloth layer still colours variants (`art/reference/ash-legion-variants.png`, `faction-lineup.png`). Live in the game from 1 Nov. Revisit if cloth starts competing with the light at game scale.
 
 ### Ash Legion: what landed (from ChatGPT sessions)
 Preferred anchor: the enclosed-helmet knight-priest (layered dark armour, imposing human proportions, cloak and priestly cloth; anonymous institutional authority).

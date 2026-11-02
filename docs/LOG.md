@@ -6,6 +6,10 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-02 · Claude · Trooper-scale grave live; Neon Choir cloth a touch bluer
+- Released the trooper-scale grave marker (C06 `asset-3f98f137…`, the latest save, 29×49, scale 1). Forge revision `20261102T075625Z-b1818a51` is the current build.
+- Neon Choir cloth nudged from near-black grey [36,40,50] to a dark blue [30,46,68], at Jarred's call. Faction cloth colours live in the `TEAM` table in `index.html` (`cloth:[r,g,b]`).
+
 ## 2026-11-02 · ChatGPT · Trooper-scale grave marker, true helmet and faction cloth
 - Saved C06 `asset-4c6051548ba940f14f8154e2` in family `asset-c06` on `art/weapon-lab`, [88a13c5](https://github.com/Astrosomnia/Grimspire/commit/88a13c5049d88add9c3cb447e15a0968fa5f8573). File: `art/lab/hosted/library/asset-4c6051548ba940f14f8154e2.forge.json`. Four-faction comparison: `art/lab/releases/grave-trooper-scale-v001/review.png`.
 - Jarred requested a larger, clearer redraw with correctly sized helmet and cloth. Marker is now **29×49 native art px**, formerly 17×27, scale 1, baseline 48. Extra height is the stake/cloth; helmet is the **exact native-size 9×10 body/emission crop** from live T10 ([16,5] to [25,15]), so it matches the living trooper rather than growing with the marker. Broader material clusters, larger hanging cloth and simplified rubble. Cloth lives in a separate neutral-grey Cloth layer and tints per faction; lights retain squad tint via existing grave renderer.
