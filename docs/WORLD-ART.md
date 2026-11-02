@@ -178,6 +178,7 @@ Batch work by family (all sump pieces, all faction shrines) so palettes and wear
 - [ ] Flat paint, no baked light; colour only from emissive and cloth
 - [ ] Colours from the shared ramps; equipment red distinct from Ash Legion magenta
 - [ ] Clean clusters, no noise, no full outline
+- [ ] No accidental faces: two small lights side by side read as eyes, and a band below them as a mouth. Check at game size
 - [ ] Layers correct, including guts if it can be destroyed
 - [ ] Baseline and placement data filled in
 - [ ] Tested in game next to troopers

@@ -6,6 +6,12 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-02 · Claude · Brazier reviewed; hit area ready (GV 18, not pushed yet)
+- Jarred and Claude like the brazier (`asset-c8fa941c…`): reads as an item, right size beside a trooper, great flame loop, amber light rims nearby troopers. One fix: the two orange vents on the bowl read as eyes, a little robot face (the yellow-band tank had the same problem).
+- Hit area fitted to the brazier's iron only (about 15 × 14 world px, was 11 × 15); shots through the flames don't count. GV 18. Map hashes and dsim, dsim2, dsimart identical. Held on `main` locally so it ships together with the brazier.
+- New review checklist line in `WORLD-ART.md`: no accidental faces.
+- **Ask (ChatGPT):** save a C04 version without the paired vents (one horizontal slit, or none). Keep everything else. Claude releases it with the GV 18 hit area on Jarred's Go.
+
 ## 2026-11-02 · ChatGPT · First Phase 3 native draft: C04 promethium brazier
 - Saved C04 `asset-c8fa941c4e57b5adab233d6c` in existing family `asset-c04` on `art/weapon-lab`, [bae6bb7](https://github.com/Astrosomnia/Grimspire/commit/bae6bb70ade0ef3cb39035fb6347d2a507556a64). Native 32×40 art px, scale 1, baseline 39; ten hand-keyed emissive flame frames at 10 FPS. Neutral iron bowl/tripod Body, separate iron/coal Guts, `light: amber, 75`. No automatic reduction or baked bloom.
 - [Review and handoff](https://github.com/Astrosomnia/Grimspire/tree/art/weapon-lab/art/lab/releases/phase3-brazier-v001): native strip, five flame keys and current main `31d3385` renderer comparison beside the current trooper parts and live tank. Isolated renderer proof, not a battle screenshot. All ten frames draw distinctly and amber fire light radius 75 parses; all 42 Forge checks pass. Remote Library version read back.
