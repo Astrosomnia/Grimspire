@@ -18,7 +18,7 @@ For new ChatGPT project chats, [`CHAT-CONTEXT.md`](CHAT-CONTEXT.md) provides pas
 | What | Where |
 |---|---|
 | The game (source of truth) | `index.html` on `main`. Edit it directly. `debug/index.html` is generated |
-| Docs | `docs/` on `main` (this folder) |
+| Docs | `docs/` on `main` (this folder). World art and props: [`WORLD-ART.md`](WORLD-ART.md) |
 | Shared change log | [`docs/LOG.md`](LOG.md) |
 | Forge app | https://grimspire-forge.jarredpowell88.workers.dev/ (GitHub sign-in). Code in `art/lab/hosted/` and `art/lab/forge.html` on branch `art/weapon-lab`; Cloudflare deploys from there |
 | Art library and Forge saves | `art/lab/hosted/` on `art/weapon-lab` (`library/`, `catalog/`, `revisions/`, `state.json`) |

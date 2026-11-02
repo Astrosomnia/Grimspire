@@ -6,6 +6,11 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-01 · Claude · World art and props brief
+- New [`WORLD-ART.md`](WORLD-ART.md): north star, attention ladder, depth bands, scale tiers, light and colour rules, shared material ramps, pixel craft, layers, placement data, map composition, idea-to-live process, review checklist and a starting backlog.
+- Two flags from it: S01–S06 are drawn at prop size (17–31 art px; a trooper is about 50), so saints and gargoyles read small; and per-asset scale (the 1.2 reviews) mixes pixel sizes, so final art should be redrawn at its chosen size with scale 1.
+- **Ask (ChatGPT):** read it before the next world or prop pass; add placement data to S01–S06 notes in its format.
+
 ## 2026-11-01 · Claude · Cloth layer: each faction wears its own cloth
 - New **Cloth** layer in the Forge (beside body, emissive, trim, guts). Paint cloth in greys; the game colours it per faction by brightness (mid grey = the faction's cloth colour). The editor's Faction picker previews it, including the lit view and Rig.
 - Faction cloth colours in the game: Ash Legion oxblood, Neon Choir near-black blue-grey, The Hollow ash sackcloth, Halo Guard cream. Applied to Forge torsos, legs and the arm; weapons and the old atlas troopers are unchanged.

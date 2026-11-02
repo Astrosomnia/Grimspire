@@ -18,6 +18,7 @@ Use the current docs for the task:
 - `docs/ROADMAP.md`: priorities and next work.
 - `docs/VISION.md`: game design and longer-term direction.
 - `docs/ART-DIRECTION.md`: visual rules, faction foundations and unresolved art decisions.
+- `docs/WORLD-ART.md`: world art, props and set pieces: north star, depth bands, scale tiers, light, placement data, process and review checklist. Follow it for every world piece.
 - `docs/FORGE.md`: art format, anchors, testing, saving, importing and releases.
 
 When a piece of work is finished, prepend a dated entry to `docs/LOG.md` on `main` (not on a side branch) under its introduction, newest first. Record what changed, where it lives, evidence for its status, and any pending decisions or requests. Update `docs/HANDOVER.md` if workflow or locations changed. Read the latest file before writing so another contributor's entry is preserved. The Forge logs releases itself; do not duplicate those entries.

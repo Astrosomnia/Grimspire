@@ -1,6 +1,6 @@
 # Grimspire art direction
 
-The look we're aiming for. Owned by Jarred, developed with ChatGPT. Technical art rules (pixel density, layers, anchors) are in [`FORGE.md`](FORGE.md).
+The look we're aiming for. Owned by Jarred, developed with ChatGPT. World art, props and set pieces have their own brief: [`WORLD-ART.md`](WORLD-ART.md). Technical art rules (pixel density, layers, anchors) are in [`FORGE.md`](FORGE.md).
 
 ## The north star
 `art/reference/north-star.jpg` (set 29 Oct 2026). Not the exact look or scale, but the direction.
