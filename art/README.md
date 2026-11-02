@@ -6,6 +6,7 @@ Art references and source material on `main`. Art is edited in the [Forge](../do
 | Folder | What it is |
 |---|---|
 | `reference/north-star.jpg` | **The style anchor.** The drowned gothic city. See [`docs/ART-DIRECTION.md`](../docs/ART-DIRECTION.md) |
+| `reference/phase3-interim-north-star-20261102.png` | **Approved interim environment target (2 Nov).** Cathedral depth, colossal saints, black water and neon reflections. [Art/code work plan](../docs/INTERIM-NORTH-STAR.md) |
 | `reference/` (others) | Concepts from 1 Nov: `ash-legion-variants.png`, `faction-lineup.png`, `gothic-tech-priestess.jpeg`, `old-trooper-palette-swaps.png`. Direction, not settled style |
 | `integrations/` | Receipts for Forge releases to `main` |
 | `in-game/` | The three atlases the live build uses right now, pulled out of `index.html`. The baseline for scale, framing and what we're replacing |

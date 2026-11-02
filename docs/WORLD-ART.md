@@ -10,6 +10,10 @@ Three tests every piece must pass:
 2. **It stays out of the way.** Nothing in the world competes with a trooper, a projectile or a crate for attention.
 3. **It reads as a silhouette.** Dark against the sky or the lit stone, before any detail.
 
+## Approved interim target — 2 November 2026
+
+Jarred chose the [Phase 3 concept sheet](../art/reference/phase3-interim-north-star-20261102.png) as an achievable interim North Star, explicitly including its cathedral background and black water/neon reflections. Keep the original north star as the broader mood anchor. The [implementation handoff](INTERIM-NORTH-STAR.md) separates native art from Claude’s rendering work and proposes one staged map first. Draw **both** normal (~100 art px) and colossal (~200 art px) fallen heads at scale 1, retaining the studies’ design identity. This approves direction, not production sprites or a live release.
+
 ## What the references show
 Two images set the look: `art/reference/north-star.jpg` (the world) and `og.jpg` (the mood and the trooper). Concretely:
 

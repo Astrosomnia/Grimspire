@@ -6,6 +6,12 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-02 · ChatGPT · Approved interim world-art North Star
+- Jarred approved the [concept sheet](../art/reference/phase3-interim-north-star-20261102.png) as an achievable interim visual target, explicitly praising the cathedral background and water. Saved the reference under `art/reference/`; [handoff and staged asset/code plan](INTERIM-NORTH-STAR.md). Original north star retained; WORLD-ART and art index point to the new target.
+- Make both normal (~100 art px) and colossal (~200 art px) fallen heads, scale 1. Retain existing designs where useful. First batch also includes S07 saint and S03 gargoyle.
+- **Ask (Claude):** read the handoff and scope the smallest render-only fixed-map experiment: set-piece sockets, layered cathedral depth, black sump with broken neon/scenery reflections, and shared local lighting. Art and rendering can proceed together using stand-ins. Keep generated maps; test phone/desktop; seek approval before live release.
+- Concept drawn and reference saved; interim direction approved. No new production Forge saves, game tests, game-code edits or live art release. This reference/docs update was requested by Jarred.
+
 ## 2026-11-02 · Claude · Phase 3 brief: set pieces and destruction
 - New [`PHASE3-BRIEF.md`](PHASE3-BRIEF.md): sockets (`pinnacle`, `ledge`, `ground`, `sump`, `hang`), the first seven set pieces at final size (S01 head, S07 pedestal saint, S03 gargoyle, S06 pilings, S08 banner, S02 toppled saint, L01 brazier), and destruction look targets (stepped palettes, reference flipbooks, a crater mock-up, a stone guts tile).
 - First pass is decorative: no collision, no GV change. `pinnacle` added to the placement `place:` values in `WORLD-ART.md`.
