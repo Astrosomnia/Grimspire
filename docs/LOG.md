@@ -6,6 +6,14 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-01 · ChatGPT · Equipment/world art imported; Ash Legion 1.2 review
+- Added **36 draft Forge documents** on `art/weapon-lab` in [0b4a80a](https://github.com/Astrosomnia/Grimspire/commit/0b4a80ae3da6c1e34f0278d0e68642e2750216c1): latest equipment/props, crate marks, mine safe/armed versions, six environmental pieces and four 1.2× trooper candidates. Existing asset identities/states and all 46 prior Library registrations retained; current shared build pointer preserved.
+- Red equipment lights; hook-free W10 winch, heavy mining W11, W18 bipod, larger W19, handheld W21 tricorder. P01/W13/W15 have strong separate emissive layers. C01/C03 use a proposed religious machine glyph; C06 follows T10's helmet. Godfall shapes retained. These are automatically reduced editing drafts, not hand-cleaned final sprites.
+- Inspected T10/A07/A08/A05 with current main's actual torso/leg/shoulder renderer at 1× and 1.2×; 1.2× improves body/weapon balance. Palette/cluster cleanup, distinct far leg and hand/shoulder clearance remain pending. Original part pixels and sockets retained. [1.2× saved review](https://grimspire-forge.jarredpowell88.workers.dev/api/game?debug=1&grounds=1&revision=20261102T050235Z-25011463) added to history, pinned to main `9e8ce7c`; not battle-playtested or approved.
+- Inventory, per-asset notes, native preview, scale comparison and environment placement brief: `art/lab/releases/red-family-v001/` on the art branch. Model/hash checks, snapshot reconstruction and **42 Forge tests pass**; remote index/state/manifest/notes read back exactly. No application code, live main art or deployment changed.
+- Quick family audit compares W01–W08 with new equipment at a common art-pixel size. Existing eight remain unchanged; next pass: neutral gunmetal, red indicators, consistent edge/highlight width, preserving silhouettes/anchors/scales/animation timing.
+- **Ask (Claude):** wire the unsupported equipment/projectiles/props as appropriate, bind mine light to arming and keep projectile illumination visible. For environmental decoration, start with ground/sump/ledge placement tags, footprints, clearances, depth bands, spacing and repeat controls; leave collision/destruction opt-in. Detailed brief is in the release README. Jarred is happy to expand the environmental library substantially.
+
 ## 2026-11-01 · ChatGPT · Red equipment pass and industrial tools
 - Jarred requested warmer red equipment lighting, a minigun bipod, substantially larger sentry, larger mine arming lamp and a much brighter plasma-like Sun grenade. Revised four equipment review sheets in the ChatGPT project; ruined-world sheet retained. Godfall design retained with red lights.
 - Incorporated follow-up: W10 has no exposed hook and now reads as an enclosed winch/climbing tool; W11 is a heavy ore-mining plasma cutter. Latest handheld sheet supersedes the earlier red pass.
@@ -15,6 +23,12 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 - Generated five separate labelled concept sheets for Jarred in the GRIMSPIRE ChatGPT project: Handheld Tools & Heavy Weapons; Explosives & Projectiles; Deployables & Godfall; Supply Props & Vehicles; Drowned Ruins — Set Pieces. Delivered as images in that conversation; generated outputs are automatically retained there.
 - Used the current W02 charge-sweep Forge document as the visual reference: coarse pixel clusters, charcoal metal and selective emissive panels. Review sheets are static concepts, not animation frames or packed production atlases. Larger supply/world objects still need density and material refinement; the ruined-world sheet includes proposed additional pieces.
 - Status: drawn for individual review. Not imported into Forge, tested, approved, on main or deployed. Existing assets and game unchanged. Next: Jarred identifies individual pieces to refine, then chosen art gets native-pixel cleanup, separated layers and Forge import.
+
+## 2026-11-01 · Claude · Forge legs walk in the game
+- **THIGH and SHIN slots** in the Forge and the game. Forge legs replace the game's legs on the same walk, jump and knockdown rig: the thigh swings from the torso's Hip, the shin bends at the thigh's Knee. Frame 1 near leg, frame 2 far. They work as a pair, and their lengths set the hip height (an atlas torso rides up or down to match).
+- Firing origins follow the new hip height; covered by the art fingerprint. With no Forge legs nothing changes (determinism hashes and renderer tests unchanged).
+- Test builds served outside the Forge open the testing grounds with `#grounds`.
+- The Ash Legion (T10 torso, A07 thigh, A08 shin, A05 arm) runs in a test battle.
 
 ## 2026-11-01 · Claude · Ash Legion option C as rig parts
 - Split the T09 Ash Legion fit-test into Forge parts (new Library assets): **T10 Ash Legion torso** (head, pack, front tabard; Shoulder [18,19], Hip [18,31]), **A07 thigh** (with tassets; Hip, Knee) and **A08 shin** (boot and knee lamp; Knee). Thigh and shin have near/far frames using the same art. The arm is the existing A05.
