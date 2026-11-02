@@ -20,7 +20,7 @@ Use the current docs for the task:
 - `docs/ART-DIRECTION.md`: visual rules, faction foundations and unresolved art decisions.
 - `docs/FORGE.md`: art format, anchors, testing, saving, importing and releases.
 
-When a piece of work is finished, prepend a dated entry to `docs/LOG.md` under its introduction, newest first. Record what changed, where it lives, evidence for its status, and any pending decisions or requests. Update `docs/HANDOVER.md` if workflow or locations changed. Read the latest file before writing so another contributor's entry is preserved. The Forge logs releases itself; do not duplicate those entries.
+When a piece of work is finished, prepend a dated entry to `docs/LOG.md` on `main` (not on a side branch) under its introduction, newest first. Record what changed, where it lives, evidence for its status, and any pending decisions or requests. Update `docs/HANDOVER.md` if workflow or locations changed. Read the latest file before writing so another contributor's entry is preserved. The Forge logs releases itself; do not duplicate those entries.
 
 Keep docs in `docs/` on `main`. The lab README, AGENTS and ROADMAP are pointers, and handoffs in `docs/archive/` are history. Do not revive these as competing sources of truth.
 
