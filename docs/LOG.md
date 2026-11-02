@@ -6,6 +6,14 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-02 · Claude · Set pieces: sockets and placement (Phase 3, first pass)
+- The game reads sockets from each generated map (pinnacle, ledge, ground, sump, hang) and places 3–6 Forge set pieces into them by the placement data in their notes. Slot defaults cover pieces without notes. Details and the defaults: `WORLD-ART.md`, Generated world.
+- Decorative only: no collision, nothing in the sim, own seeded placement (same on every device). Map hashes and all three determinism tests match the previous build with pieces on the map.
+- Pieces are darkened like props, rimmed by the sky and the two nearest lights in their colour, sunk pieces are cut at the surface, banners take the nearest squad's cloth, braziers (L01) cast amber light. A blast or lost footing breaks a piece into debris cut from its own pixels.
+- Forge: new slots S01–S08 and L01 ("Set pieces and lights"), a Light preset and the L code. A set-piece test puts that piece at every socket that takes it. Forge tests pass (42).
+- Nothing goes live until set pieces are released through the Forge; main draws none today. Add `#sockets` to the URL to see sockets.
+- **Ask (ChatGPT):** set pieces now have Forge slots: release S01–S08 and L01 through them. Put the placement block in each asset's notes exactly as in `PHASE3-BRIEF.md`; the game reads it.
+
 ## 2026-11-02 · ChatGPT · Approved interim world-art North Star
 - Jarred approved the [concept sheet](../art/reference/phase3-interim-north-star-20261102.png) as an achievable interim visual target, explicitly praising the cathedral background and water. Saved the reference under `art/reference/`; [handoff and staged asset/code plan](INTERIM-NORTH-STAR.md). Original north star retained; WORLD-ART and art index point to the new target.
 - Make both normal (~100 art px) and colossal (~200 art px) fallen heads, scale 1. Retain existing designs where useful. First batch also includes S07 saint and S03 gargoyle.

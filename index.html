@@ -786,6 +786,7 @@ function carve(cx,cy,r,scorch=true){
     tctx.fillStyle=rg;tctx.fillRect(cx-r-14,cy-r-14,r*2+28,r*2+28)}
   for(const g of[tctx,mctx,gfx]){g.globalCompositeOperation='destination-out';g.fillStyle='#000';g.beginPath();g.arc(cx,cy,r,0,Math.PI*2);g.fill();g.globalCompositeOperation='source-over'}
   rimDirty=true;checkFixtures();scarTags(cx,cy,r);
+  if(window.GRIMSPIRE_SET_PIECES)setPiecesHit(cx,cy,r);
 }
 function carveLine(x0,y0,x1,y1,r,col){
   const n=Math.ceil(Math.hypot(x1-x0,y1-y0)/2);
@@ -795,6 +796,7 @@ function carveLine(x0,y0,x1,y1,r,col){
   tctx.beginPath();tctx.moveTo(x0,y0);tctx.lineTo(x1,y1);tctx.stroke();
   for(const g of[tctx,mctx,gfx]){g.globalCompositeOperation='destination-out';g.strokeStyle='#000';g.lineWidth=r*2;g.lineCap='round';g.beginPath();g.moveTo(x0,y0);g.lineTo(x1,y1);g.stroke();g.globalCompositeOperation='source-over'}
   rimDirty=true;checkFixtures();for(const q of tags)if(q.left>0){const was=q.left;q.left=paintLeft(q)/q.a0}
+  if(window.GRIMSPIRE_SET_PIECES)setPiecesHitLine(x0,y0,x1,y1,r);
 }
 let girders=[];
 function stampGirder(b){girders.push({x:b.x,y:b.y,rot:b.rot});
@@ -1116,7 +1118,7 @@ function newGameInner(mode){
   crates=[];ships=[];fires=[];flames=[];mines=[];girders=[];zones=[];sentries=[];S.saw=S.mini=S.drone=S.pod=null;S.stag=false;S.turnN=0;S.rnd=0;S.events=[];S.ev=null;S.slow=null;S.cine=0;S.flame=null;
   const n0=S.order.length,first=Math.floor(Math.random()*n0);S.team=S.order[(first+n0-1)%n0];S.ptr=[-1,-1,-1,-1];S.weapon=['mortar','mortar','mortar','mortar'];S.lastAtk=['mortar','mortar','mortar','mortar'];S.deathCd=0;S.paused=false;
   $('#ov').hidden=true;$('#pause').hidden=true;document.body.classList.remove('intitle');
-  dressSeed=null;dressWard();
+  dressSeed=null;dressWard();if(window.GRIMSPIRE_SET_PIECES)setPiecesPlace(true);
   nextTurn();
 }
 function pickNext(team){const list=troopers.filter(t=>t.team===team);
@@ -2415,6 +2417,7 @@ function gatherLights(){
   for(const sh of ships)for(const n of labShipNozzles(sh))L.push({x:n[0],y:n[1]+4,r:55,c:FIRE,i:.6+Math.random()*.2,h:.03});
   for(const b of builds)L.push({x:b.x,y:b.y,r:130,c:[90,240,255],i:.7,h:.1});
   if(S.swing&&S.active)L.push({x:S.active.x+S.active.face*16,y:S.active.y-12,r:80,c:FIRE,i:.6*S.swing.t/.3,h:0});
+  if(window.GRIMSPIRE_SET_PIECES)setPiecesLights(L);
   return L;
 }
 function drawFixture(f){
@@ -2615,6 +2618,7 @@ function render(dt){
   ctx.globalAlpha=.8;ctx.drawImage(rim,0,0);ctx.globalAlpha=.55;ctx.drawImage(graf,0,0);ctx.globalCompositeOperation='lighter';ctx.globalAlpha=.22;ctx.drawImage(graf,0,0);ctx.globalCompositeOperation='source-over';ctx.globalAlpha=1;
   for(const f of fixtures)if(f.alive)drawFixture(f);
   for(const z of zones){const R=zoneR(z),g=ctx.createRadialGradient(z.x,z.y,0,z.x,z.y,R);const zk=zoneK(z);g.addColorStop(0,`rgba(150,255,60,${.16*zk})`);g.addColorStop(.7,`rgba(150,255,60,${.07*zk})`);g.addColorStop(1,'rgba(150,255,60,0)');ctx.fillStyle=g;ctx.beginPath();ctx.arc(z.x,z.y,R,0,Math.PI*2);ctx.fill()}
+  if(window.GRIMSPIRE_SET_PIECES)setPiecesDraw(lights);
   for(const g of graves)drawGrave(g);
   for(const c of corpses)drawTrooper(c);
   drawWard(lights);
@@ -2796,7 +2800,7 @@ function loadState(str){const d=JSON.parse(str);
   const img=mctx.createImageData(W,H),px=img.data;for(let i=0;i<W*H;i++)if(solid[i])px[i*4+3]=255;mctx.putImageData(img,0,0);
   tctx.globalCompositeOperation='destination-in';tctx.drawImage(mask,0,0);tctx.globalCompositeOperation='source-over';rimDirty=true;
   zones=d.zones||[];sentries=d.sentries||[];troopers=d.troopers;mines=d.mines;barrels=d.barrels;crates=d.crates;fires=d.fires;puddles=d.puddles;graves=d.graves;corpses=d.corpses;girders=d.girders;
-  fixtures.forEach((f,i)=>{f.alive=d.fx[i]==='1'});dressWard();gfx.globalCompositeOperation='destination-in';gfx.drawImage(mask,0,0);gfx.globalCompositeOperation='source-over';
+  fixtures.forEach((f,i)=>{f.alive=d.fx[i]==='1'});dressWard();if(window.GRIMSPIRE_SET_PIECES)setPiecesPlace();gfx.globalCompositeOperation='destination-in';gfx.drawImage(mask,0,0);gfx.globalCompositeOperation='source-over';
   projs=[];flames=[];builds=[];beams=[];tracers=[];ships=[];
   for(const k of SKEYS)S[k]=d.S[k];sump=d.sump;time=d.time;SR.s=d.rng;S.active=troopers[d.act]||null;
   S.jet=S.cut=S.burst=S.strike=S.flame=S.swing=S.ev=S.saw=S.mini=S.drone=S.pod=null;S.charging=false;S.charge=0;S.paused=false;S.camSnap=true;S.camFree=false;
@@ -3295,6 +3299,184 @@ function labShipFlames(sh,dir){if(typeof labArt==='undefined')return;const L=lab
     for(const[k,col,a]of[[1,'255,110,30',.55],[.55,'255,215,120',.85]]){const g=ctx.createLinearGradient(0,y,0,y+len*k);g.addColorStop(0,`rgba(${col},${a})`);g.addColorStop(1,`rgba(${col},0)`);ctx.fillStyle=g;
       ctx.beginPath();ctx.moveTo(x-w*k,y);ctx.quadraticCurveTo(x-w*k*.6,y+len*k*.6,x+(Math.random()-.5)*.8,y+len*k);ctx.quadraticCurveTo(x+w*k*.6,y+len*k*.6,x+w*k,y);ctx.fill()}}
   ctx.restore()}
+// ---- Set pieces (Phase 3, first pass) ----
+// The generator's shapes are read back as sockets: pinnacle (narrow raised tops), ledge (the edge of a run of
+// stone with a drop beside it), ground (flat runs), sump (the lowest flat runs, which the rising water drowns)
+// and hang (undersides of bridges, islands and overhangs). Forge set pieces (S01–S08) and lights (L01) snap
+// into them by the placement data in their notes (see docs/WORLD-ART.md), with defaults per slot below.
+// Decorative only: no collision, nothing in the sim. Placement is seeded from the match seed with its own
+// generator (never the sim's), so every device shows the same pieces. Blasts break them into debris cut from
+// their own pixels; that's per device and uses the plain random (RR), never the sim's.
+const SP_SLOT=/^(S\d\d|L\d\d)$/;
+const SP_DEFAULT={
+  S01:{place:'sump',sink:[.3,.45],weight:.6,limit:1},S02:{place:'ground',weight:.4,limit:1},S03:{place:'ledge',weight:.8,limit:2},
+  S04:{place:'ground',weight:.5,limit:1},S05:{place:'ground',weight:.5,limit:1},S06:{place:'sump',sink:[.4,.6],weight:.6,limit:1},
+  S07:{place:'pinnacle',weight:.8,limit:2},S08:{place:'hang',weight:.7,limit:2},L01:{place:'ground',weight:.7,limit:2,light:{c:[255,150,50],r:70}}};
+const SP_LIGHTS={amber:[255,150,50],fire:[255,130,40],red:[255,40,40],cyan:[63,243,255],magenta:[255,46,136],green:[160,255,70],gold:[255,205,60],white:[230,236,245]};
+const SPS={seed:null,pieces:[],sockets:[]};
+function spRange(v){const m=String(v).match(/(-?\d*\.?\d+)\s*(?:(?:[–—-]|to)\s*(-?\d*\.?\d+))?/);if(!m)return null;const a=+m[1],b=m[2]!==undefined?+m[2]:a;return[Math.min(a,b),Math.max(a,b)]}
+// Placement data from the asset's notes ("key: value" lines); anything missing falls back to the slot's default.
+function spRules(slot,doc){
+  const r=Object.assign({place:'ground',band:'play',weight:1,limit:1,flip:true,faction:'none',clear:0,sink:null,light:null},SP_DEFAULT[slot]||{});
+  for(const line of String(doc.notes||'').split(/\r?\n/)){const m=line.match(/^\s*[-*]?\s*([a-z]+)\s*:\s*(.+?)\s*$/i);if(!m)continue;const k=m[1].toLowerCase(),v=m[2];
+    if(k==='place'){const p=v.toLowerCase().match(/^(ground|sump|ledge|pinnacle|wall|hang)\b/);if(p)r.place=p[1]}
+    else if(k==='band')r.band=v.toLowerCase().split(/\W/)[0];
+    else if(k==='base'){const n=parseInt(v,10);if(Number.isFinite(n))r.base=n}
+    else if(k==='footprint'){const q=spRange(v);if(q)r.footprint=q.map(Math.round)}
+    else if(k==='clear'){const n=parseFloat(v);if(Number.isFinite(n))r.clear=n}
+    else if(k==='sink'){const q=spRange(v);if(q)r.sink=q[1]>0?q.map(n=>clamp(n,0,.9)):null}
+    else if(k==='weight'){const n=parseFloat(v);if(Number.isFinite(n))r.weight=Math.max(0,n)}
+    else if(k==='limit'){const n=parseInt(v,10);if(Number.isFinite(n))r.limit=Math.max(0,n)}
+    else if(k==='flip')r.flip=!/^no/i.test(v);
+    else if(k==='faction')r.faction=v.toLowerCase();
+    else if(k==='light'){if(/^none/i.test(v))r.light=null;else{const hex=v.match(/#([0-9a-f]{6})/i),nm=(v.match(/[a-z]+/i)||['amber'])[0].toLowerCase(),rad=v.match(/(\d+)\s*(?:px)?\s*$/)||v.match(/radius\s*(\d+)/i);
+      r.light={c:hex?[0,2,4].map(i=>parseInt(hex[1].slice(i,i+2),16)):SP_LIGHTS[nm]||SP_LIGHTS.amber,r:rad?clamp(+rad[1],20,260):70}}}}
+  const w=doc.w;
+  if(!r.footprint)r.footprint=r.place==='ledge'?[0,Math.max(1,Math.round(w*.4))-1]:r.place==='hang'?[Math.round(w*.35),Math.round(w*.65)]:[Math.round(w*.15),Math.max(Math.round(w*.15),Math.round(w*.85)-1)];
+  r.footprint=[clamp(r.footprint[0],0,w-1),clamp(r.footprint[1],0,w-1)];
+  r.base=Number.isFinite(doc.base)?doc.base:Number.isFinite(r.base)?r.base:r.place==='hang'?0:doc.h-1;
+  return r}
+// Sockets: read back from the finished terrain mask, so they follow whatever the generator built.
+function spSockets(){
+  const sol=(x,y)=>x>=0&&x<W&&y>=0&&y<H&&solid[y*W+x]===1;
+  const dropAt=(x,y)=>{let d=0;x=Math.round(x);if(x<0||x>=W)return 999;while(y+d<H&&!sol(x,y+d))d++;return y+d>=H?999:d};
+  const out=[],tops=[],unders=[];
+  // runs of standable tops (24 px of air above), and of undersides (solid above, open air below)
+  const scan=(isEdge,list)=>{let open=[];for(let x=6;x<W-6;x+=2){const here=[];for(let y=8;y<H-2;y++)if(isEdge(x,y))here.push(y);
+      const next=[];for(const y of here){const r=open.find(o=>!o.taken&&Math.abs(o.yl-y)<=2);if(r){r.taken=true;r.x1=x;r.yl=y;r.ys.push(y);next.push(r)}else{const n={x0:x,x1:x,yl:y,ys:[y]};list.push(n);next.push(n)}}
+      for(const o of next)o.taken=false;open=next}
+    for(const r of list){const s=r.ys.slice().sort((a,b)=>a-b);r.y=s[s.length>>1];r.lo=s[0];r.hi=s[s.length-1]}};
+  scan((x,y)=>{if(!sol(x,y)||sol(x,y-1))return false;for(let a=1;a<=24;a++)if(sol(x,y-a))return false;return true},tops);
+  scan((x,y)=>{if(sol(x,y)||!sol(x,y-1)||!sol(x,y-3))return false;for(let a=1;a<=40;a++)if(sol(x,y+a))return false;return true},unders);
+  let low=0;for(const r of tops)if(r.x1-r.x0>=40&&r.y<sump-6)low=Math.max(low,r.y);
+  for(const r of tops){const wd=r.x1-r.x0;if(wd<6||r.y>=sump-4)continue;
+    const dL=dropAt(r.x0-4,r.y-2),dR=dropAt(r.x1+4,r.y-2);
+    if(wd<=80&&dL>=30&&dR>=30&&r.y<sump-90)out.push({type:'pinnacle',x0:r.x0,x1:r.x1,y:r.y});
+    if(wd>=16&&r.hi-r.lo<=10){if(dR>=40)out.push({type:'ledge',x0:r.x0,x1:r.x1,x:r.x1,y:r.ys[r.ys.length-1],dir:1});if(dL>=40)out.push({type:'ledge',x0:r.x0,x1:r.x1,x:r.x0,y:r.ys[0],dir:-1})}
+    if(wd>=20){out.push({type:'ground',x0:r.x0,x1:r.x1,y:r.y});if(low&&r.y>=low-110)out.push({type:'sump',x0:r.x0,x1:r.x1,y:r.y})}}
+  for(const r of unders)if(r.x1-r.x0>=6&&r.y>12&&r.y<sump-50)out.push({type:'hang',x0:r.x0,x1:r.x1,y:r.y});
+  // tower crowns and roofs: crenellations break a top into merlons, so read the skyline with the gaps closed
+  const sky=new Int16Array(W),hm=new Int16Array(W);for(let x=0;x<W;x++){let y=0;while(y<H&&!sol(x,y))y++;sky[x]=y}
+  for(let x=0;x<W;x++){let m=H;for(let k=-7;k<=7;k++){const v=sky[clamp(x+k,0,W-1)];if(v<m)m=v}hm[x]=m}
+  for(let x=8;x<W-8;){let e=x;while(e+1<W-8&&Math.abs(hm[e+1]-hm[x])<=2)e++;const y=hm[x],wd=e-x-14;
+    let dl=0,dr=0;for(let k=3;k<=20;k++){dl=Math.max(dl,hm[clamp(x-k,0,W-1)]-y);dr=Math.max(dr,hm[clamp(e+k,0,W-1)]-y)}// a corner pinnacle may stand between the top and its drop
+    if(wd>=10&&wd<=200&&y<sump-90&&dl>=30&&dr>=30&&!out.some(o=>o.type==='pinnacle'&&o.x1>x+7&&o.x0<e-7))out.push({type:'pinnacle',x0:x+7,x1:e-7,y});
+    x=e+1}
+  return out}
+// Where a piece would sit at anchor (x,y): its world box, footprint test and headroom test.
+function spGeom(doc,R,x,y,face,sinkK){
+  const z=PX*labAssetScale(doc),ax=R.place==='ledge'?R.footprint[1]+1:(R.footprint[0]+R.footprint[1]+1)/2,ay=R.place==='hang'?R.base:R.base+1;
+  const sink=R.place==='hang'?0:sinkK*doc.h*z,xl=face>0?x-ax*z:x-(doc.w-ax)*z,top=y-ay*z+sink;
+  return{z,ax,ay,sink,x0:xl,x1:xl+doc.w*z,y0:top,y1:top+doc.h*z}}
+function spFits(doc,R,x,y,face,sinkK){
+  const g=spGeom(doc,R,x,y,face,sinkK),sol=(px,py)=>{px=Math.round(px);py=Math.round(py);return px>=0&&px<W&&py>=0&&py<H&&solid[py*W+px]===1};
+  if(g.x0<24||g.x1>W-24||g.y0<6)return null;
+  const f0=x+(R.footprint[0]-g.ax)*g.z*face,f1=x+(R.footprint[1]+1-g.ax)*g.z*face,a=Math.min(f0,f1),b=Math.max(f0,f1);
+  let ok=0,n=0;
+  for(let fx=a+.5;fx<b;fx+=1){n++;let hit=false;
+    for(let d=-2;d<=2&&!hit;d++)hit=R.place==='hang'?sol(fx,y+d-1)&&!sol(fx,y+d):sol(fx,y+d)&&!sol(fx,y+d-1);
+    if(hit)ok++}
+  const need=R.place==='pinnacle'?.4:R.place==='hang'?.8:.9;if(!n||ok/n<need)return null;
+  // headroom: the drawn box above the surface (or below it, for hangs) must be open air
+  const yA=R.place==='hang'?y+2:g.y0-(R.clear||0)*g.z,yB=R.place==='hang'?g.y1+4:y-3;let bad=0,m=0;
+  for(let py=yA;py<yB;py+=2)for(let px=g.x0;px<g.x1;px+=2){m++;if(sol(px,py))bad++}
+  if(m&&bad/m>.03)return null;
+  return g}
+function setPiecesPlace(force){
+  if(!force&&SPS.seed===S.seed)return;SPS.seed=S.seed;SPS.pieces=[];SPS.sockets=[];
+  if(typeof labDocs==='undefined')return;
+  const docs=[...labDocs.entries()].filter(([k,d])=>SP_SLOT.test(k)&&d&&d.frames&&d.frames.length&&d.w>0&&d.h>0);
+  SPS.sockets=spSockets();if(!docs.length)return;
+  const R=hrand(((S.seed|0)^0x5e75ec7)|0),pick=a=>a[R()*a.length|0];
+  // in the Forge's test build, the set piece under test turns up at every socket that takes it
+  const forge=location.pathname==='/api/game'||/(^#|&)grounds\b/.test(location.hash),test=forge&&SP_SLOT.test(LAB_PAYLOAD.selected_slot||'')?LAB_PAYLOAD.selected_slot:null;
+  const rules=new Map(docs.map(([k,d])=>{const r=spRules(k,d);if(k===test){r.weight=100;r.limit=Math.max(r.limit,4)}return[k,r]}));
+  const want=test?8:3+(R()*4|0),count={};
+  const busy=(g,slot,x)=>{
+    if(SPS.pieces.some(p=>g.x0<p.x1+24&&g.x1>p.x0-24&&g.y0<p.y1+24&&g.y1>p.y0-24))return true;
+    if(SPS.pieces.some(p=>p.slot===slot&&Math.abs(p.x-x)<(test?220:600)))return true;
+    if(troopers.some(t=>t.alive&&t.x>g.x0-26&&t.x<g.x1+26&&t.y>g.y0-10&&t.y-30<g.y1+10))return true;
+    if(barrels.some(b=>b.x>g.x0-14&&b.x<g.x1+14&&b.y>g.y0&&b.y-20<g.y1))return true;
+    if(fixtures.some(f=>(f.k==='lamp'||f.k==='post')&&f.x>g.x0-20&&f.x<g.x1+20&&f.y>g.y0-30&&f.y<g.y1+30))return true;
+    return false};
+  for(let tries=0;tries<240&&SPS.pieces.length<want;tries++){
+    const open=docs.filter(([k])=>(count[k]||0)<rules.get(k).limit&&rules.get(k).weight>0&&rules.get(k).band==='play');if(!open.length)break;
+    let sum=0;for(const[k]of open)sum+=rules.get(k).weight;let u=R()*sum,slot=open[0][0],doc=open[0][1];for(const[k,d]of open){u-=rules.get(k).weight;if(u<=0){slot=k;doc=d;break}}
+    const Rl=rules.get(slot),socks=SPS.sockets.filter(s=>s.type===Rl.place);if(!socks.length){count[slot]=99;continue}
+    for(let k=0;k<6;k++){const s=pick(socks);let x,y,face=Rl.flip&&R()<.5?-1:1;
+      const sinkK=Rl.sink?Rl.sink[0]+(Rl.sink[1]-Rl.sink[0])*R():0;
+      if(Rl.place==='ledge'){face=s.dir;x=s.x+s.dir;y=s.y}
+      else{const z=PX*labAssetScale(doc),half=(Rl.footprint[1]-Rl.footprint[0]+1)/2*z,lo=s.x0+half+1,hi=s.x1-half-1;if(hi<lo&&Rl.place!=='pinnacle')continue;
+        x=hi<lo?(s.x0+s.x1)/2:lo+(hi-lo)*R();y=s.y}
+      const g=spFits(doc,Rl,x,y,face,sinkK);if(!g||busy(g,slot,x))continue;
+      // cloth: the squad whose ground it stands on dresses it; anywhere else it hangs in neutral grey
+      let team=-1;if(doc.frames.some(f=>f.cloth)){let best=260;for(const t of troopers){const d=Math.hypot(t.x-x,t.y-y);if(d<best){best=d;team=t.team}}}
+      SPS.pieces.push({slot,doc,R:Rl,x,y,face,team,...g,broken:false});count[slot]=(count[slot]||0)+1;break}}
+}
+// Bakes per animation frame and squad: darkened body (cloth tinted), crisp emissive, and the edge masks rims draw from.
+function spBake(p){const a=labArt.get(p.slot);if(!a||!a.frames.length)return null;const d=a.doc,fi=Math.floor(time*Math.max(1,d.fps||8))%a.frames.length,f=a.frames[fi];if(!f.body)return null;
+  p.bk=p.bk||{};const key=fi+':'+p.team;if(p.bk[key])return p.bk[key];
+  const w=d.w,h=d.h,base=mk(w,h),g=base.getContext('2d');g.drawImage(f.body,0,0);
+  if(f.cloth){const c=p.team>=0?labCloth(f.cloth,p.team):(()=>{const cv=mk(w,h),cg=cv.getContext('2d');cg.drawImage(f.cloth,0,0);const id=cg.getImageData(0,0,w,h),q=id.data;
+      for(let i=0;i<q.length;i+=4){if(!q[i+3])continue;const l=(.299*q[i]+.587*q[i+1]+.114*q[i+2])/128;q[i]=Math.min(255,62*l);q[i+1]=Math.min(255,64*l);q[i+2]=Math.min(255,72*l)}cg.putImageData(id,0,0);return cv})();g.drawImage(c,0,0)}
+  const dark=darken(base,labSettings.darkness);if(f.trim)dark.getContext('2d').drawImage(f.trim,0,0);
+  const px=g.getImageData(0,0,w,h).data,A=(x,y)=>x>=0&&y>=0&&x<w&&y<h&&px[(y*w+x)*4+3]>40;
+  const mask=fn=>{const c=mk(w,h),cg=c.getContext('2d');cg.fillStyle='#fff';for(let y=0;y<h;y++)for(let x=0;x<w;x++)if(A(x,y)&&fn(x,y))cg.fillRect(x,y,1,1);return c};
+  const b={dark,base,emis:f.emis||null,top:mask((x,y)=>!A(x,y-1)),left:mask((x,y)=>!A(x-1,y)),right:mask((x,y)=>!A(x+1,y)),px,w,h};
+  p.bk[key]=b;return b}
+const spTint=(()=>{let c=null;return(m,col,a)=>{if(!c||c.width<m.width||c.height<m.height)c=mk(Math.max(m.width,c?c.width:0),Math.max(m.height,c?c.height:0));
+  const g=c.getContext('2d');g.globalCompositeOperation='source-over';g.clearRect(0,0,c.width,c.height);g.drawImage(m,0,0);g.globalCompositeOperation='source-in';g.fillStyle=rgba(col,a);g.fillRect(0,0,c.width,c.height);return c}})();
+function setPiecesDraw(lights){
+  if(/(^#|&)sockets\b/.test(location.hash))spDrawSockets();
+  if(typeof labArt==='undefined')return;
+  const sky=[0,1,2].map(i=>Math.round([150,175,220][i]+([230,60,60][i]-[150,175,220][i])*BLEED));
+  for(const p of SPS.pieces){if(p.broken)continue;const b=spBake(p);if(!b)continue;
+    const z=p.z,cx=(p.x0+p.x1)/2,cy=(p.y0+p.y1)/2;
+    ctx.save();
+    // sunk pieces are cut at the surface they sit in
+    if(p.sink>0){ctx.beginPath();ctx.rect(p.x0-4,p.y0-4,p.x1-p.x0+8,p.y-p.y0+4.5);ctx.clip()}
+    ctx.translate(p.x,p.y+p.sink);ctx.scale(p.face*z,z);ctx.imageSmoothingEnabled=false;
+    const ox=-p.ax,oy=-p.ay,draw=c=>ctx.drawImage(c,0,0,b.w,b.h,ox,oy,b.w,b.h);
+    draw(b.dark);
+    // rims in the colour of the light: cold sky from above, then the two strongest nearby lights from their side
+    draw(spTint(b.top,sky,.32));
+    const near=[];for(const L of lights){if(L.i<=0)continue;const d=Math.hypot(L.x-cx,L.y-cy),reach=L.r*1.15+(p.x1-p.x0)/2;if(d<reach)near.push({L,k:Math.min(1,L.i)*(1-d/reach)})}
+    near.sort((a,b)=>b.k-a.k);
+    for(const{L,k}of near.slice(0,2)){const side=Math.sign(L.x-cx)*p.face,a=Math.min(.9,k*1.4);if(a<.04)continue;
+      draw(spTint(side>=0?b.right:b.left,L.c,a));if(L.y<p.y0+(p.y1-p.y0)*.4)draw(spTint(b.top,L.c,a*.8))}
+    if(b.emis){const col=p.R.light?rgba(p.R.light.c,1):labSettings.glowColor;ctx.shadowColor=col;ctx.shadowBlur=8;draw(b.emis);ctx.shadowBlur=0;draw(b.emis)}
+    ctx.restore()}
+}
+function setPiecesLights(L){for(const p of SPS.pieces){if(p.broken||!p.R.light)continue;const y=p.y0+(p.y1-p.y0)*.3;if(y>sump)continue;
+  L.push({x:(p.x0+p.x1)/2,y,r:p.R.light.r,c:p.R.light.c,i:.72+.1*Math.sin(time*7.3+p.x)+.06*Math.sin(time*23+p.y),h:.05})}}
+// Breaking: debris cut from the piece's own pixels flies off the blast; a piece that loses its footing collapses.
+function spShatter(p,bx,by,power){p.broken=true;const b=typeof labArt!=='undefined'&&spBake(p);if(!b)return;
+  let n=0;const cap=90,cell=2;
+  for(let y=0;y<b.h&&n<cap*3;y+=cell)for(let x=0;x<b.w;x+=cell){const i=(y*b.w+x)*4;if(b.px[i+3]<60)continue;n++}
+  const keep=Math.min(1,cap/Math.max(1,n));const dk=b.dark.getContext('2d').getImageData(0,0,b.w,b.h).data;
+  for(let y=0;y<b.h;y+=cell)for(let x=0;x<b.w;x+=cell){const i=(y*b.w+x)*4;if(b.px[i+3]<60||RR()>keep)continue;
+    const wx=p.x+(x+cell/2-p.ax)*p.z*p.face,wy=p.y+p.sink+(y+cell/2-p.ay)*p.z;if(wy>sump+2)continue;
+    const dx=wx-bx,dy=wy-by,d=Math.hypot(dx,dy)||1,sp=power*(.5+RR()*.8)*Math.min(1.4,60/(d+20));
+    const l=1.3,col=`rgb(${Math.min(255,dk[i]*l+10)|0},${Math.min(255,dk[i+1]*l+10)|0},${Math.min(255,dk[i+2]*l+14)|0})`;
+    parts.push({k:'debris',x:wx,y:wy,vx:dx/d*sp+(RR()-.5)*60,vy:dy/d*sp-RR()*160,life:1.6+RR()*1.6,max:3.2,s:Math.max(1,cell*p.z*(.8+RR()*.7)),col})}
+  for(let k=0;k<5;k++)parts.push({k:'smoke',x:p.x0+(p.x1-p.x0)*RR(),y:p.y0+(p.y1-p.y0)*RR(),vx:(RR()-.5)*30,vy:-10-RR()*20,life:1+RR(),max:2,s:3+RR()*4,c:46})}
+function spSupported(p){const sol=(x,y)=>{x=Math.round(x);y=Math.round(y);return x>=0&&x<W&&y>=0&&y<H&&solid[y*W+x]===1};
+  const f0=p.x+(p.R.footprint[0]-p.ax)*p.z*p.face,f1=p.x+(p.R.footprint[1]+1-p.ax)*p.z*p.face,a=Math.min(f0,f1),b=Math.max(f0,f1);let ok=0,n=0;
+  for(let x=a+.5;x<b;x+=1){n++;let hit=false;for(let d=-2;d<=4&&!hit;d++)hit=p.R.place==='hang'?sol(x,p.y-1-d):sol(x,p.y+d);if(hit)ok++}
+  return n?ok/n>=.5:true}
+function setPiecesHit(cx,cy,r){for(const p of SPS.pieces){if(p.broken)continue;
+  const nx=clamp(cx,p.x0,p.x1),ny=clamp(cy,p.y0,p.y1),d=Math.hypot(cx-nx,cy-ny);
+  if(d<r*.85)spShatter(p,cx,cy,140+r*4);else if(d<r+30&&!spSupported(p))spShatter(p,cx,cy,40)}}
+function setPiecesHitLine(x0,y0,x1,y1,r){const n=Math.max(1,Math.ceil(Math.hypot(x1-x0,y1-y0)/Math.max(6,r)));for(let i=0;i<=n;i++)setPiecesHit(x0+(x1-x0)*i/n,y0+(y1-y0)*i/n,r)}
+// #sockets in the URL draws every socket: pinnacles gold, ledges cyan (arrow points over the drop), ground grey,
+// sump blue, hangs magenta.
+function spDrawSockets(){const C={pinnacle:'#ffd23c',ledge:'#3ff3ff',ground:'#8a8f99',sump:'#4f8cff',hang:'#ff2e88'};ctx.save();ctx.lineWidth=1.2;
+  for(const s of SPS.sockets){ctx.strokeStyle=C[s.type];ctx.fillStyle=C[s.type];ctx.globalAlpha=.85;
+    if(s.type==='ledge'){ctx.beginPath();ctx.moveTo(s.x,s.y-4);ctx.lineTo(s.x+s.dir*8,s.y-8);ctx.lineTo(s.x,s.y-12);ctx.stroke()}
+    else if(s.type==='pinnacle'){const x=(s.x0+s.x1)/2;ctx.beginPath();ctx.moveTo(x-5,s.y-3);ctx.lineTo(x,s.y-12);ctx.lineTo(x+5,s.y-3);ctx.fill()}
+    else{const off=s.type==='hang'?3:s.type==='sump'?-4:-1.5;ctx.beginPath();ctx.moveTo(s.x0,s.y+off);ctx.lineTo(s.x1,s.y+off);ctx.stroke()}}
+  ctx.globalAlpha=1;for(const p of SPS.pieces){ctx.strokeStyle=p.broken?'#ff4040':'#ffffff';ctx.strokeRect(p.x0,p.y0,p.x1-p.x0,p.y1-p.y0)}ctx.restore()}
+window.GRIMSPIRE_SET_PIECES=SPS;
 // Fingerprint of the art that feeds the sim (points and scales). Online players compare it with GV,
 // so a Forge release that moves a grip, muzzle or socket can't silently desync a match.
 const labSimKey=(()=>{let s=JSON.stringify(LAB_PAYLOAD.settings?.scale??1);for(const k of Object.keys(LAB_PAYLOAD.assets).sort()){const d=LAB_PAYLOAD.assets[k];s+=k+JSON.stringify([d.markers,d.game_scale??null])}

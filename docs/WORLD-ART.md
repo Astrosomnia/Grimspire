@@ -140,6 +140,10 @@ Maps stay generated; hand-made art supplies what you see. The generator decides 
 4. **A modular architecture kit.** The generator builds from hand-drawn modules (wall spans, arch segments, tower caps, buttresses, rose-window panels, broken tops) joined by sockets, and the destructible shape comes from the modules' own pixels. Prove the look on one map first.
 5. **A composition director.** One landmark against the moon, faction territory and light around each spawn, the sump staged with wreckage, density thinning near troopers, no repeats in view.
 
+**Sockets in the game now (first pass, 2 Nov 2026).** The game reads sockets back from the finished terrain: `pinnacle` (raised tops with a drop on both sides, including crenellated tower crowns and roofs), `ledge` (the end of a flat run with a 40 px drop; the piece faces out over it), `ground` (flat runs), `sump` (the lowest flat runs, which the rising water drowns) and `hang` (undersides with 40 px of air below). Each map places 3–6 pieces, at most `limit` of each, never the same piece within 600 px, clear of spawns, tanks and lamps. Pieces are decorative, lit by rims in the colour of nearby light, sunk pieces are cut at their surface, cloth takes the colour of the nearest squad within 260 px (neutral grey otherwise), and a blast breaks a piece into debris cut from its own pixels (so does losing its footing). Add `#sockets` to the game's URL to see every socket and placed box.
+
+Notes are parsed line by line in the placement data format above. Anything missing falls back to the slot's default: S01 sump, S02 ground, S03 ledge, S04 ground, S05 ground, S06 sump, S07 pinnacle, S08 hang (baseline 0), L01 ground with an amber light. Default footprint is the middle 70% of the width (ledge: the rear 40%). In the Forge's test build, the set piece under test appears at every socket that takes it.
+
 Decoration is cosmetic and may vary per device. Anything solid becomes part of the destructible terrain, so it must be seeded and synced, and it needs guts.
 
 ## Destruction

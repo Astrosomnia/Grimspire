@@ -16,7 +16,7 @@ Prototype in HTML/canvas to nail the loop, weapons and feel, then rebuild in **G
 ## Art phases
 - **Phase 1 (done):** weapons, the arm, the Forge pipeline
 - **Phase 2 (now):** troopers as rig parts (torso, legs, arm, cloth layer), equipment and tool slots, first set pieces
-- **Phase 3:** the generated world made cohesive with hand art: sockets for set pieces, one grade over everything, material tiles, a modular architecture kit, a composition director, and pixel-art destruction (art-grid craters, terrain debris, pixel effects). See `WORLD-ART.md`
+- **Phase 3 (started 2 Nov):** the generated world made cohesive with hand art. In: sockets and decorative set-piece placement. Next: the redrawn set pieces (ChatGPT), pixel-art effects, art-grid craters and debris from terrain; later one grade over everything, material tiles, a modular architecture kit and a composition director. See `WORLD-ART.md`
 
 ## Next up
 - **Art direction:** continue the Ash Legion trooper (magenta, cloth as drawn) by hand at game scale (idle, aim, both facings, walk, jump-pack ignition, flight, landing)
