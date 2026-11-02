@@ -3386,7 +3386,8 @@ function spFits(doc,R,x,y,face,sinkK){
   for(let fx=a+.5;fx<b;fx+=1){n++;let hit=false;
     for(let d=-2;d<=2&&!hit;d++)hit=R.place==='hang'?sol(fx,y+d-1)&&!sol(fx,y+d):sol(fx,y+d)&&!sol(fx,y+d-1);
     if(hit)ok++}
-  const need=R.place==='pinnacle'?.4:R.place==='hang'?.8:.9;if(!n||ok/n<need)return null;
+  // sunk pieces hide uneven ground, so a sump piece needs only most of its footprint on the bottom
+  const need=R.place==='pinnacle'?.4:R.place==='hang'?.8:R.place==='sump'?.6:.9;if(!n||ok/n<need)return null;
   // headroom: the drawn box above the surface (or below it, for hangs) must be open air
   const yA=R.place==='hang'?y+2:g.y0-(R.clear||0)*g.z,yB=R.place==='hang'?g.y1+4:y-3;let bad=0,m=0;
   for(let py=yA;py<yB;py+=2)for(let px=g.x0;px<g.x1;px+=2){m++;if(sol(px,py))bad++}
@@ -3420,7 +3421,7 @@ function setPiecesPlace(force){
     for(let k=0;k<6;k++){const s=pick(socks);let x,y,face=Rl.flip&&R()<.5?-1:1;
       const sinkK=Rl.sink?Rl.sink[0]+(Rl.sink[1]-Rl.sink[0])*R():0;
       if(Rl.place==='ledge'){face=s.dir;x=s.x+s.dir;y=s.y}
-      else{const z=PX*labAssetScale(doc),half=(Rl.footprint[1]-Rl.footprint[0]+1)/2*z,lo=s.x0+half+1,hi=s.x1-half-1;if(hi<lo&&Rl.place!=='pinnacle')continue;
+      else{const z=PX*labAssetScale(doc),half=(Rl.footprint[1]-Rl.footprint[0]+1)/2*z*(Rl.place==='sump'?.4:1),lo=s.x0+half+1,hi=s.x1-half-1;if(hi<lo&&Rl.place!=='pinnacle')continue;
         x=hi<lo?(s.x0+s.x1)/2:lo+(hi-lo)*R();y=s.y}
       const g=spFits(doc,Rl,x,y,face,sinkK);if(!g||busy(g,slot,x))continue;
       // cloth: the squad whose ground it stands on dresses it; anywhere else it hangs in neutral grey
