@@ -6,6 +6,13 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-02 · Claude · Drowned district: more levels, weathering, softer light reflections, glows behind the skyline (branch `phase3`)
+- Light reflections are soft, wavering columns (a dim wide glow behind a brighter core) instead of stacked lines, with a couple of glints at the surface.
+- Magenta and cyan glows sit behind the second and third skyline bands, showing between the buildings.
+- Drowned district gets more levels to move between: a two-to-three-storey tenement on a stone plinth (rooms and stairs, as on generated maps), and stone blocks under both bridges to stand on beneath the arches.
+- Weathering pass on the district: chipped edges, bites out of corners and hairline cracks, so nothing reads ruler-straight. ChatGPT's kit pieces will carry their own wear.
+- Generated maps unchanged (hashes and dsim match).
+
 ## 2026-11-02 · Claude · Water, horizon and decoration off the action plane (branch `phase3`)
 - **Water:** the scene reflection is taken at quarter resolution and drawn faint, so buildings only hint in the water; no more horizontal "blinds". Each strong light gets its own long reflection reaching as deep as the light is high, widest where the mirror image sits.
 - **Horizon:** each skyline band now stands on its own water, receding to a horizon above the play layer's waterline (farther bands higher, misted at the base), with its own faint reflection. Building heights are measured from that water, so the sky shows above the city. The horizon follows the sump on drowned maps and stays two-thirds down on generated ones.
