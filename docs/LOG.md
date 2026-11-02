@@ -6,6 +6,11 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-01 · ChatGPT · Additional asset category review sheets
+- Generated five separate labelled concept sheets for Jarred in the GRIMSPIRE ChatGPT project: Handheld Tools & Heavy Weapons; Explosives & Projectiles; Deployables & Godfall; Supply Props & Vehicles; Drowned Ruins — Set Pieces. Delivered as images in that conversation; generated outputs are automatically retained there.
+- Used the current W02 charge-sweep Forge document as the visual reference: coarse pixel clusters, charcoal metal and selective emissive panels. Review sheets are static concepts, not animation frames or packed production atlases. Larger supply/world objects still need density and material refinement; the ruined-world sheet includes proposed additional pieces.
+- Status: drawn for individual review. Not imported into Forge, tested, approved, on main or deployed. Existing assets and game unchanged. Next: Jarred identifies individual pieces to refine, then chosen art gets native-pixel cleanup, separated layers and Forge import.
+
 ## 2026-11-01 · Claude · Ash Legion option C as rig parts
 - Split the T09 Ash Legion fit-test into Forge parts (new Library assets): **T10 Ash Legion torso** (head, pack, front tabard; Shoulder [18,19], Hip [18,31]), **A07 thigh** (with tassets; Hip, Knee) and **A08 shin** (boot and knee lamp; Knee). Thigh and shin have near/far frames using the same art. The arm is the existing A05.
 - Assemble them in the Forge's Rig (torso, thigh, shin, single arm). In the game, Test with the Torso slot shows the torso and arm on the game's own legs; Forge legs in the game are the next code step.
