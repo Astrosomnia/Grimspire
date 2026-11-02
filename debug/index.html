@@ -2230,6 +2230,8 @@ function drawWard(lights){
     for(const r of p.rip){const a=1-r.t/.8;ctx.strokeStyle=`rgba(170,200,240,${a*.5})`;ctx.lineWidth=.6;ctx.beginPath();ctx.ellipse(r.x,p.y-1,1+r.t*7,.5+r.t*1.2,0,0,Math.PI*2);ctx.stroke()}}
   // promethium tanks
   for(const b of barrels){if(!b.alive)continue;const hot=b.fuse>=0&&Math.sin(time*40)>0;
+    if(SPR.ready&&typeof labArt!=='undefined'&&labArt.has('tank')){ctx.save();ctx.translate(b.x,b.y);prop('tank',artW('tank')/2,artH('tank'),1,true);ctx.restore();
+      if(hot){ctx.shadowColor='#ff8a1e';ctx.shadowBlur=10;ctx.fillStyle='#fff2c8';ctx.fillRect(b.x-1,b.y-17,2,2);ctx.shadowBlur=0}continue}
     ctx.fillStyle=INK;ctx.strokeStyle=hot?'#ffb21e':EDGE;ctx.lineWidth=1.2;ctx.beginPath();ctx.rect(b.x-5.5,b.y-15,11,15);ctx.fill();ctx.stroke();
     ctx.fillStyle='#ffb21e';ctx.globalAlpha=.85;for(let k=0;k<3;k++)ctx.fillRect(b.x-5+k*4,b.y-10,2.2,3);ctx.globalAlpha=1;
     ctx.fillStyle='#2a2d34';ctx.fillRect(b.x-6,b.y-15,12,1.6);ctx.fillRect(b.x-6,b.y-3,12,1.6);
@@ -2238,7 +2240,8 @@ function drawWard(lights){
   for(const c of crates){const col=CRATE[c.type].col;
     if(SPR.ready){ctx.save();ctx.translate(c.x,c.y);if(!c.landed&&c.para){const a=SPR.P.chute.a;ctx.save();ctx.translate(0,-11);prop('chute',a[0],a[1],.6);ctx.restore()}
       {const pu=.5+.5*Math.sin(time*3+c.x);ctx.save();ctx.globalCompositeOperation='lighter';const g=ctx.createRadialGradient(0,-7,1,0,-7,22);g.addColorStop(0,CRATE[c.type].col+'55');g.addColorStop(1,CRATE[c.type].col+'00');ctx.globalAlpha=.55+.45*pu;ctx.fillStyle=g;ctx.fillRect(-22,-29,44,44);ctx.restore()}
-      prop('crate',artW('crate')/2,artH('crate')-1,.92);const sy=SPR.sym[c.type],u=SPR.up,f=PX*.92/u;if(sy){ctx.scale(f,f);ctx.shadowColor=col;ctx.shadowBlur=14;ctx.drawImage(sy,-sy.width/2,-(artH('crate')-1)*u+(artH('crate')*u-sy.height)/2)}ctx.restore();continue}
+      const ck='crate_'+c.type,cart=typeof labArt!=='undefined'&&labArt.has(ck);
+      prop(cart?ck:'crate',artW('crate')/2,artH('crate')-1,.92);const sy=cart?null:SPR.sym[c.type],u=SPR.up,f=PX*.92/u;if(sy){ctx.scale(f,f);ctx.shadowColor=col;ctx.shadowBlur=14;ctx.drawImage(sy,-sy.width/2,-(artH('crate')-1)*u+(artH('crate')*u-sy.height)/2)}ctx.restore();continue}
     if(!c.landed&&c.para){ctx.strokeStyle='rgba(200,205,215,.6)';ctx.lineWidth=.8;ctx.beginPath();ctx.moveTo(c.x-7,c.y-12);ctx.lineTo(c.x-13,c.y-30);ctx.moveTo(c.x+7,c.y-12);ctx.lineTo(c.x+13,c.y-30);ctx.stroke();
       ctx.fillStyle='#1d2027';ctx.strokeStyle='rgba(200,205,215,.7)';ctx.beginPath();ctx.moveTo(c.x-15,c.y-29);ctx.quadraticCurveTo(c.x,c.y-46,c.x+15,c.y-29);ctx.closePath();ctx.fill();ctx.stroke()}
     ctx.fillStyle=INK;ctx.strokeStyle=EDGE;ctx.lineWidth=1.2;ctx.beginPath();ctx.rect(c.x-8,c.y-12,16,12);ctx.fill();ctx.stroke();
@@ -2986,7 +2989,11 @@ const LAB_PAYLOAD={"assets":{"W01":{"forge":1,"code":"W01","name":"Plasma Mortar
 // Category art hooks. Ranged origins share the scaled art rig; other combat rules are unchanged.
 window.GRIMSPIRE_ART_REVISION=LAB_PAYLOAD.revision;
 const labArt = new Map();
-const labSlots = {W01:'mortar',W02:'rail',W03:'scatter',W04:'bolter',W05:'las',W06:'flamer',W07:'chain',W08:'fist'};
+const labSlots = {W01:'mortar',W02:'rail',W03:'scatter',W04:'bolter',W05:'las',W06:'flamer',W07:'chain',W08:'fist',
+  // equipment and tools: drawn in the hand at their grip, and wherever else the game draws them (thrown, placed, flying)
+  W09:'lance',W10:'rope',W11:'cutter',W12:'frag',W13:'sun',W14:'mine',W15:'nuke',W16:'fab',W18:'minigun',W19:'sentry',W20:'drone',W21:'teleport',
+  // props: the martyr charge, parachute, dropship, promethium tank, and a full crate per category
+  M01:'martyr',C02:'chute',C03:'ship',C04:'tank',CRATE_ARMS:'crate_arms',CRATE_HEAVY:'crate_heavy',CRATE_MED:'crate_med',CRATE_TOOL:'crate_tool'};
 const labSettings = LAB_PAYLOAD.settings;
 // Simulation geometry exists before asynchronous PNG loading (including online replay).
 const labDocs=new Map(Object.entries(LAB_PAYLOAD.assets).map(([slot,doc])=>[labSlots[slot]||slot,doc]));
@@ -3019,9 +3026,16 @@ function labDraw(a,anchor,size=1,glow=true){
 }
 prop = function(k,ax,ay,s,glow,dark){
   const a=labArt.get(k);if(!a)return labOriginalProp(k,ax,ay,s,glow,dark);
-  const {doc,frames}=a,f=frames[Math.floor(time*Math.max(1,doc.fps||8))%frames.length];
-  // Keep the hand at the existing grip. Art has an explicit preview scale.
-  const old=SPR.P[k],grip=doc.markers.grip||doc.markers.pivot||[doc.w*.3,doc.h/2];
+  const {doc,frames}=a,old=SPR.P[k]||SPR.P[k.split('_')[0]];
+  if(!labInHand){
+    // Placed, thrown or flying: the same proportional spot on the new art, with anchors on the old sprite's
+    // bottom edge going to the art's baseline. The art's own scale sets its size (the call's size was tuned
+    // for the old atlas art, so it isn't applied).
+    const ow=old.r[2]/SPR.up,oh=old.r[3]/SPR.up,bottom=ay>=oh-1.5;
+    const an=[ax/ow*doc.w,bottom?(Number.isFinite(doc.base)?doc.base+1:doc.h):ay/oh*doc.h];
+    labDraw(a,an,1,glow);return}
+  // In the hand: keep the hand at the existing grip. Art has an explicit preview scale.
+  const grip=doc.markers.grip||doc.markers.pivot||[doc.w*.3,doc.h/2];
   const oldGrip=old.g||[old.r[2]/SPR.up*.3,old.r[3]/SPR.up/2];
   const oldY=oldGrip[1];
   ctx.save();ctx.translate((oldGrip[0]-ax)*PX*(s||1),(oldY-ay)*PX*(s||1));
@@ -3029,7 +3043,8 @@ prop = function(k,ax,ay,s,glow,dark){
 };
 // The shoulder is the assembly pivot. Grip remains the attachment point at the hand.
 // Read anchors before PNG loading so drawing and simulation share one deterministic rig.
-const labHeldSlots=new Set(Object.values(labSlots));
+const labHeldSlots=new Set(['mortar','rail','scatter','bolter','las','flamer','chain','fist']);
+let labInHand=false; // set while drawWeapSpr draws a weapon in the hand
 // Full trooper source: shoulder [300,324], body anchor [250,661], 12px art grid.
 // Torso sockets. A TORSO asset's Hip point sits on the legs' hip and its Shoulder point is where the arm
 // attaches (both at pixel centres, as the Forge draws them). Without one, the original trooper geometry.
@@ -3148,8 +3163,8 @@ drawWeapSpr=function(k,rimOnly){
   ctx.save();
   if(hand&&m){const gp=m.g||[0,0],oldY=(gp[1]-(m.m?m.m[1]:gp[1]))*PX;ctx.translate(hand[0],hand[1]-oldY)}
   let drawn;
-  if(k==='chain'&&labArt.has(k)){const m=SPR.P[k];prop(k,m.g[0],m.m?m.m[1]:m.g[1],1,!rimOnly,true);drawn=true}
-  else drawn=labOriginalWeapon(k,rimOnly);
+  if(k==='chain'&&labArt.has(k)){const m=SPR.P[k];labInHand=true;try{prop(k,m.g[0],m.m?m.m[1]:m.g[1],1,!rimOnly,true)}finally{labInHand=false}drawn=true}
+  else{labInHand=true;try{drawn=labOriginalWeapon(k,rimOnly)}finally{labInHand=false}}
   ctx.restore();
   if(drawn&&!rimOnly&&k!=='fist')labDrawGunHand(k);
   ctx.restore();
