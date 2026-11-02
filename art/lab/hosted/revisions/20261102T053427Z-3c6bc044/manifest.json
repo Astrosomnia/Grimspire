@@ -1,0 +1,34 @@
+{
+  "schema": 2,
+  "id": "20261102T053427Z-3c6bc044",
+  "created": "2026-11-02T05:34:28.014Z",
+  "author": {
+    "id": 144634800,
+    "login": "Astrosomnia"
+  },
+  "base_main": "94521fd1731f9a935ba7935769273b5fdd6ce601",
+  "source_lab_commit": "44b0b5f5cd232405bdab194bbce30c24bf245b1d",
+  "notes": "Test Ash Legion — jump-pack arm v1 · 1.2 scale review as Single foreground arm",
+  "selected_slot": "ARM",
+  "original_code": "A05",
+  "variant": "custom",
+  "slots": [
+    "W01",
+    "W02",
+    "W03",
+    "W04",
+    "W05",
+    "W06",
+    "W07",
+    "W08",
+    "ARM"
+  ],
+  "files": {
+    "game.html": "91d1b55ecf1c25f4a6504085f37d9842d54ee37ba5011633acd867f7cca580e0",
+    "payload.json": "5af6dc316c3ee940d2e53adbdbda242b387ca577ef1d9fe91579109845b46e1b"
+  },
+  "stored": [
+    "payload.json"
+  ],
+  "status": "draft"
+}

@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "current": "20261101T094357Z-78228871",
+  "current": "20261102T053427Z-3c6bc044",
   "revisions": [
     {
       "id": "20261031T210936Z-6c67f2da",
@@ -241,6 +241,14 @@
       "slot": "TORSO",
       "variant": "custom",
       "author": "ChatGPT"
+    },
+    {
+      "id": "20261102T053427Z-3c6bc044",
+      "created": "2026-11-02T05:34:28.014Z",
+      "notes": "Test Ash Legion — jump-pack arm v1 · 1.2 scale review as Single foreground arm",
+      "slot": "ARM",
+      "variant": "custom",
+      "author": "Astrosomnia"
     }
   ],
   "integrations": [
