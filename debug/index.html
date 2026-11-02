@@ -3044,7 +3044,7 @@ prop = function(k,ax,ay,s,glow,dark){
     // for the old atlas art, so it isn't applied).
     const ow=old.r[2]/SPR.up,oh=old.r[3]/SPR.up,bottom=ay>=oh-1.5;
     const an=[ax/ow*doc.w,bottom?(Number.isFinite(doc.base)?doc.base+1:doc.h):ay/oh*doc.h];
-    labDraw(a,an,1,glow,k==='tank'?{c:'rgba(255,214,40,.7)',to:6}:null);return}
+    labDraw(a,an,1,glow);return}
   // In the hand: keep the hand at the existing grip. Art has an explicit preview scale.
   const grip=doc.markers.grip||doc.markers.pivot||[doc.w*.3,doc.h/2];
   const oldGrip=old.g||[old.r[2]/SPR.up*.3,old.r[3]/SPR.up/2];

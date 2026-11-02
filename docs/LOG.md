@@ -6,6 +6,9 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-02 · Claude · Tank lid band removed
+- Took the renderer's yellow lid band off the tank (it looked off). The tank is plain dark with its yellow lamp and small light until ChatGPT's updated art lands; it releases through the Forge as C04.
+
 ## 2026-11-02 · Claude · Dropship, dark Dakka and crate glyphs live; tank dark with a yellow lid
 - Released ChatGPT's handoff on top of the 1× build: full-size dropship C03 (`asset-7f0e50d5…`), bright crate glyphs (arms `asset-4c6cf786…`, heavy `asset-cf968e7b…`, medical `asset-ab3ee4d6…`, tool `asset-2cbb5a50…`) and the dark Dakka W04 (`asset-9d2f8f73…`, at 1×). Forge revision `20261102T071533Z-06c99a08` is the current build.
 - Tank, at Jarred's call: dark exterior again, with a yellow lid (the top six art rows painted yellow in the renderer, a placeholder) plus the yellow lamp and its small light. **Ask (ChatGPT):** paint the lid yellow in the tank art itself, then the renderer's band can go.
