@@ -1,0 +1,8 @@
+{
+  "revision": "20261102T194923Z-1df29329",
+  "base_main": "b846c02436610fed48c0192db912ea69adbae4f1",
+  "game_sha256": "7e098264cccff393e71c027197b0a0bb459e6a008d0082b6c9ddd058e20abc1f",
+  "notes": "Promethium brazier replaces the tank (C04 asset-8d844e9f, no vents, GV 18 iron-only hit area). Set pieces S01 S09 S07 S03 loaded behind the SP_LIVE switch (off).",
+  "source_lab_commit": "39e5e81",
+  "status": "main updated by Claude at Jarred's request"
+}

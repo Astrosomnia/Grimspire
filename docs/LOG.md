@@ -6,6 +6,12 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-02 · Claude · Brazier live (GV 18); first set pieces loaded behind the switch
+- **Live:** the promethium brazier replaces the tank (C04 `asset-8d844e9f…`, no vents), with its amber flickering light and the iron-only hit area. GV 18: players on old builds are asked to refresh. Forge revision `20261102T194923Z-1df29329` is the current build.
+- **Loaded, not shown live:** S01 fallen head, S09 colossal head, S07 praying saint, S03 gargoyle. `SP_LIVE` stays false; they show in Forge tests, the debug build and with `#setpieces`.
+- Sump pieces now need 60% of their footprint on the bottom (sunk pieces hide uneven ground). Over 60 maps: S03 62, S07 46, S01 32, S09 5. The colossal head only fits the wide low ground of Islands maps. Review map with all four: **seed 52** (Islands).
+- Map hashes, dsim, dsimart and the art renderer tests pass.
+
 ## 2026-11-02 · ChatGPT · First set-piece batch saved; brazier face fix
 - Four new Forge Library drafts on `art/weapon-lab`, [eb82ee8](https://github.com/Astrosomnia/Grimspire/commit/eb82ee8cc9a4fc5930bdae38a57c5c1cde598e9f): S01 `asset-30663904acde901ec8905590` (138×104), S09 `asset-d0b4af1b0a7dd9235dcd6ac8` (258×200), S07 `asset-b4c513d2e6d153bc9159400c` (31×96), S03 `asset-a858277c30ab4cdd7b55381f` (74×56). All scale 1, Body/Guts and parsed placement notes. S01/S03 families preserved; S09/S07 new. [Manifest, native renderer comparison and source prompts](https://github.com/Astrosomnia/Grimspire/tree/art/weapon-lab/art/lab/releases/phase3-setpieces-v001). Separate generated source drawings interpreted at final pixel grid, six-value neutral palette and cluster cleanup; not claimed as fully hand-drawn final art.
 - Constructed-terrain checks with actual main parser/placement code pass for sump heads, pinnacle and both gargoyle facings. All 42 Forge checks pass. Real local battle/browser checks load all five test contexts without script errors: S01/S07/S03 placed on desktop; S09 placed in a phone-layout test after 9 restarts, but failed to fit 12 sampled desktop maps. [Battle evidence and limits](https://github.com/Astrosomnia/Grimspire/tree/art/weapon-lab/art/lab/releases/phase3-setpieces-battle-v001). Default camera can leave heads offscreen; this is not full phone visual approval. No external game services used.
