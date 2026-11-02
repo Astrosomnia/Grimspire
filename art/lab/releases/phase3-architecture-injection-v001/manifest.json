@@ -1,0 +1,169 @@
+{
+  "schema": 1,
+  "name": "Grimspire K01–K09 base kit injection",
+  "source_repository": "Astrosomnia/Grimspire",
+  "source_branch": "art/weapon-lab",
+  "source_ref": "10976f2be34aa884ea0df5325a0d145d1227ef01",
+  "storage": "Forge shared Library; library.json plus immutable library/*.forge.json",
+  "status": "saved drafts; authorised for Claude's phase3 test integration, not live release",
+  "dimensions_unit": "native art pixels",
+  "game_scale": 1,
+  "pixel_scale_meaning": "12 source pixels per art pixel; not an extra runtime multiplier",
+  "instructions": [
+    "Read these exact version files at source_ref.",
+    "Use each asset's native w/h, base and game_scale; do not stretch to the code placeholder bounds.",
+    "Use the game's current PX/art density for world placement; do not enlarge by pixel_scale 12.",
+    "Preserve Body, Emissive and Guts layers and joint notes.",
+    "Integrate/test on phase3, preserving latest lighting, water and other art; gameplay collision and GV checks remain Claude's.",
+    "This manifest does not alter current shared build or release the live game."
+  ],
+  "assets": [
+    {
+      "slot": "K01",
+      "version_id": "asset-7b136c7a17200bcf120a312d",
+      "asset_id": "custom-677a1672-11c0-4e81-8eb2-a1f97e99988d",
+      "path": "art/lab/hosted/library/asset-7b136c7a17200bcf120a312d.forge.json",
+      "sha256": "7b136c7a17200bcf120a312d97db8d371ec48d5dc7ac1454d7af97dda6450999",
+      "w": 112,
+      "h": 100,
+      "baseline": 99,
+      "game_scale": 1,
+      "pixel_scale": 12,
+      "layers": [
+        "body",
+        "emis",
+        "guts"
+      ]
+    },
+    {
+      "slot": "K02",
+      "version_id": "asset-9fa21f5a16bd94b652aeb063",
+      "asset_id": "custom-0aaff43c-6a29-4f52-b906-949466c1791f",
+      "path": "art/lab/hosted/library/asset-9fa21f5a16bd94b652aeb063.forge.json",
+      "sha256": "9fa21f5a16bd94b652aeb06364375d324de3fe3b2c5df751b5f80793a4ad9abb",
+      "w": 112,
+      "h": 192,
+      "baseline": 191,
+      "game_scale": 1,
+      "pixel_scale": 12,
+      "layers": [
+        "body",
+        "guts"
+      ]
+    },
+    {
+      "slot": "K03",
+      "version_id": "asset-6768333ba4cd15664ae8b807",
+      "asset_id": "custom-a59ae77d-179e-4f0c-b808-91212a2f487e",
+      "path": "art/lab/hosted/library/asset-6768333ba4cd15664ae8b807.forge.json",
+      "sha256": "6768333ba4cd15664ae8b807a03c9c9cbfc4b7f2278f8a52aa1856e7c192489f",
+      "w": 112,
+      "h": 40,
+      "baseline": 39,
+      "game_scale": 1,
+      "pixel_scale": 12,
+      "layers": [
+        "body",
+        "guts"
+      ]
+    },
+    {
+      "slot": "K04",
+      "version_id": "asset-61a606ff2c29995ad833c64e",
+      "asset_id": "custom-1627515a-d72f-4a10-a671-1b98342ae0e2",
+      "path": "art/lab/hosted/library/asset-61a606ff2c29995ad833c64e.forge.json",
+      "sha256": "61a606ff2c29995ad833c64eab5cda6d01b0a32ba1bbeac30c4245820b49578d",
+      "w": 112,
+      "h": 64,
+      "baseline": 63,
+      "game_scale": 1,
+      "pixel_scale": 12,
+      "layers": [
+        "body",
+        "guts"
+      ]
+    },
+    {
+      "slot": "K05",
+      "version_id": "asset-3c3d92f58ad58d62c16652d8",
+      "asset_id": "custom-294887fc-1769-4d04-ab6c-7b02deff39f3",
+      "path": "art/lab/hosted/library/asset-3c3d92f58ad58d62c16652d8.forge.json",
+      "sha256": "3c3d92f58ad58d62c16652d8ed24f5935895103eb3ac49f1aabac106988ace59",
+      "w": 180,
+      "h": 80,
+      "baseline": 79,
+      "game_scale": 1,
+      "pixel_scale": 12,
+      "layers": [
+        "body",
+        "guts"
+      ]
+    },
+    {
+      "slot": "K06",
+      "version_id": "asset-4e5644372c5465b42a9616ad",
+      "asset_id": "custom-b8bc4b8b-e19d-4c01-8adb-4a26f15a0a0b",
+      "path": "art/lab/hosted/library/asset-4e5644372c5465b42a9616ad.forge.json",
+      "sha256": "4e5644372c5465b42a9616ad37c331169d37eb1633c7d8baa13bf0613c0accd5",
+      "w": 40,
+      "h": 200,
+      "baseline": 199,
+      "game_scale": 1,
+      "pixel_scale": 12,
+      "layers": [
+        "body",
+        "guts"
+      ]
+    },
+    {
+      "slot": "K07",
+      "version_id": "asset-6482c0ef61c25d583ddb9dd6",
+      "asset_id": "custom-1a450d92-07c2-4fe1-a366-6cb7a1f1c517",
+      "path": "art/lab/hosted/library/asset-6482c0ef61c25d583ddb9dd6.forge.json",
+      "sha256": "6482c0ef61c25d583ddb9dd62d2c8a7159a65c7688b8998768fe53814ec546a5",
+      "w": 360,
+      "h": 300,
+      "baseline": 299,
+      "game_scale": 1,
+      "pixel_scale": 12,
+      "layers": [
+        "body",
+        "emis",
+        "guts"
+      ]
+    },
+    {
+      "slot": "K08",
+      "version_id": "asset-a4bcf746ba5984c9bf412403",
+      "asset_id": "custom-6117333f-04b6-4245-830c-99487281e972",
+      "path": "art/lab/hosted/library/asset-a4bcf746ba5984c9bf412403.forge.json",
+      "sha256": "a4bcf746ba5984c9bf4124031b4a6867c7c44990103d04255c8c65ebbfc4e039",
+      "w": 512,
+      "h": 360,
+      "baseline": 359,
+      "game_scale": 1,
+      "pixel_scale": 12,
+      "layers": [
+        "body",
+        "emis",
+        "guts"
+      ]
+    },
+    {
+      "slot": "K09",
+      "version_id": "asset-6e6ed36ecb94fec528c1e01a",
+      "asset_id": "custom-008319b9-23f2-404e-84e2-5625c22ff349",
+      "path": "art/lab/hosted/library/asset-6e6ed36ecb94fec528c1e01a.forge.json",
+      "sha256": "6e6ed36ecb94fec528c1e01a49034dfe45384123e5ed3ccb643d61f6c189581b",
+      "w": 360,
+      "h": 30,
+      "baseline": 29,
+      "game_scale": 1,
+      "pixel_scale": 12,
+      "layers": [
+        "body",
+        "guts"
+      ]
+    }
+  ]
+}
