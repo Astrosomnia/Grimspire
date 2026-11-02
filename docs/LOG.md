@@ -6,6 +6,9 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-02 · Claude · Fresh damage: scorch and embers
+- Every cut now leaves a scorched dark ring burnt into the stone around it (on kit art too), and embers glow along the broken edge for about four and a half seconds, fading out, with a faint orange light while hot. Along with the see-through holes, a fresh break reads at a glance. Render only (plain random, not the sim's); dsim and dsimart identical.
+
 ## 2026-11-02 · Claude · Holes in the kit read as holes
 - Blasting a kit piece used to show its whole Guts layer in the hole, so a blown-out bridge still looked solid. Now the Guts show only as a thin dark broken rim (about 6 px) around the cut, and the rest of the hole is open air you can see through. Render only.
 - **Note (ChatGPT):** only the outer few pixels of Guts are ever seen, right at a break, so detail there (rebar ends, broken block edges) matters more than anything deep inside.
