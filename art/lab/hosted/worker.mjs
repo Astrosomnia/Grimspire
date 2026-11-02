@@ -2,7 +2,7 @@ import {signAppJwt,privateKeyStatus} from './github-key.mjs';
 import {Buffer} from 'node:buffer';
 import {organiseAssets} from './families.mjs';
 import {BUILD_SHA} from './generated/build-info.mjs';
-import {REPO,LAB,ROOT,DEFAULTS,SLOTS,LIVE,Problem,check,utf,json,sha,options,sprite,clean,build,revision,loadSnapshot} from './model.mjs';
+import {REPO,LAB,ROOT,DEFAULTS,SLOTS,LIVE,kitVariant,Problem,check,utf,json,sha,options,sprite,clean,build,revision,loadSnapshot} from './model.mjs';
 const sec=()=>Math.floor(Date.now()/1000), b64=b=>Buffer.from(b).toString('base64url');
 const headers={'Cache-Control':'no-store','X-Content-Type-Options':'nosniff','Referrer-Policy':'no-referrer','X-Frame-Options':'DENY'};
 const response=(data,status=200)=>new Response(json(data),{status,headers:{...headers,'Content-Type':'application/json'}});
@@ -74,7 +74,7 @@ export async function saveAsset(g,body,user){
  const commit=await g.append(state,paths,head,'Save Forge asset '+(d.code||'')+' '+d.name);return{...identity,commit};
 }
 // The test build: the shared build's art with this sprite in the chosen slot, on the current main game.
-async function testBuild(g,body,head,main){check(SLOTS[body.slot],'Choose a test target');const d=sprite(body.sprite,body.slot),opts=options(body.settings);const state=await g.state(head);let payload={assets:{}};
+async function testBuild(g,body,head,main){check(SLOTS[body.slot]||kitVariant(body.slot),'Choose a test target');const d=sprite(body.sprite,body.slot),opts=options(body.settings);const state=await g.state(head);let payload={assets:{}};
   if(state.current){const prior=await g.snapshot(state.current,head);payload=JSON.parse(prior['payload.json'])}
   if(body.weapon_only===true&&LIVE(body.slot))payload.assets=Object.fromEntries(Object.entries(payload.assets).filter(([k])=>LIVE(k)));
   // Freeze each carried asset at its old effective size before changing the selected one.
