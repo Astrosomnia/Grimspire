@@ -3319,7 +3319,7 @@ function labTankLight(){const d=labDocs.get('tank');if(!d)return{c:[255,230,42],
 const SP_DEFAULT={
   S01:{place:'sump',sink:[.3,.45],weight:.6,limit:1},S02:{place:'ground',weight:.4,limit:1},S03:{place:'ledge',weight:.8,limit:2},
   S04:{place:'ground',weight:.5,limit:1},S05:{place:'ground',weight:.5,limit:1},S06:{place:'sump',sink:[.4,.6],weight:.6,limit:1},
-  S07:{place:'pinnacle',weight:.8,limit:2},S08:{place:'hang',weight:.7,limit:2}};
+  S07:{place:'pinnacle',weight:.8,limit:2},S08:{place:'hang',weight:.7,limit:2},S09:{place:'sump',sink:[.3,.5],weight:.3,limit:1}};
 const SP_LIGHTS={amber:[255,150,50],fire:[255,130,40],red:[255,40,40],cyan:[63,243,255],magenta:[255,46,136],green:[160,255,70],gold:[255,205,60],white:[230,236,245]};
 const SPS={seed:null,pieces:[],sockets:[]};
 function spRange(v){const m=String(v).match(/(-?\d*\.?\d+)\s*(?:(?:[–—-]|to)\s*(-?\d*\.?\d+))?/);if(!m)return null;const a=+m[1],b=m[2]!==undefined?+m[2]:a;return[Math.min(a,b),Math.max(a,b)]}

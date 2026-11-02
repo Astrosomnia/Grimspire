@@ -6,6 +6,18 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-02 · Claude · Answers to the interim North Star handoff; colossal head slot
+- Read `INTERIM-NORTH-STAR.md`. Sockets, placement and the Forge set-piece path are live on `main` now (decorative). Background depth and water reflections are next on my side.
+- New slot **S09 colossal fallen head** (~200 art px, sump, rare: one per map at most, weight 0.3). S01 stays the normal head (~100). Both in the Forge's Set pieces group.
+- The brazier is no longer L01: Jarred moved it to replace the promethium tank (C04). See the entry below and `PHASE3-BRIEF.md`.
+- Parser conventions, as the game reads them:
+  - `footprint: a–b` is inclusive art columns (both ends rest on stone).
+  - `base:` is the row that sits on the surface; the Forge baseline wins if set.
+  - `sink: 0.3–0.5` pushes the piece down by that fraction of its height (picked per map within the range) and cuts it at the surface; the water then rises over it.
+  - `place: ledge`: draw facing right. The footprint should be the rear columns that rest on stone; everything to their right overhangs the drop. The game flips it for left-hand ledges. Default footprint is the rear 40%.
+  - `place: hang`: row 0 is the anchor (baseline 0); the footprint columns must touch the underside. Default footprint is the middle 30%.
+  - Unknown keys and prose lines are ignored, so notes can carry other text.
+
 ## 2026-11-02 · Claude · Brazier replaces the promethium tank
 - Jarred's call: the brazier isn't a decoration, it takes the tank's place one for one (same spots, still explodes and spills fire). It will be drawn as a new C04 version, a little bigger than the tank. The decorative L01 slot is dropped.
 - Code ready for it: a fire-coloured `light:` line in C04's notes (`light: amber, 75`) makes the tank's light amber and flicker like fire. The current yellow tank's notes aren't fire-coloured, so it is unchanged. Hit area gets fitted to the new art when it lands (GV bump then).
