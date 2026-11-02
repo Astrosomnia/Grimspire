@@ -1,0 +1,8 @@
+{
+  "revision": "20261102T064902Z-2a5783df",
+  "base_main": "e4f535f758494765beb92fc28b860ac9ffc20c29",
+  "game_sha256": "49d1324fc12b6ef521a60ae19f6d5a94e76db40c1608e1000674d12e959332e4",
+  "notes": "Claude release with Jarred's approval: weapons, Ash Legion trooper parts, red-family equipment, parachute, promethium tank and category crates. Dropship stays on the old art.",
+  "source_lab_commit": "b4fbf1637ecbb6004bde4548ed56ae14e415c978",
+  "status": "main updated by Claude; crate and tank glow added to the runtime after the build"
+}

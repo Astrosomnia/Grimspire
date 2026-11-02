@@ -6,6 +6,14 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-01 · Claude · Everything live: trooper parts, equipment, tank and crates
+- Live on `main` with Jarred's approval (Forge revision `20261102T064902Z-2a5783df`, now the Forge's current build, so the next Forge test carries all of it).
+- **In the game now:** W01–W08 (the red Dakka, `asset-2a08099c…`), Ash Legion arm, torso, thigh and shin at 1.2× with faction cloth (clarity tidy), the red-family equipment W09–W21 and the martyr charge, the parachute, the promethium tank (40-frame lamps, yellow #ffe62a bloom) and all four category crates.
+- New Forge slots, all releasable: W09–W21, M01, C02 parachute, C03 dropship, C04 tank, CRATE_ARMS/HEAVY/MED/TOOL. Thrown, placed and flying art sits on its baseline and is sized by its own scale. Crate symbols bloom in their category colour.
+- **Left out:** the C03 dropship study is a third of the old ship's size (59×26 vs 150×52), so the old ship stays until it's redrawn at size. The dark Dakka (f46a6cf) arrived mid-release; it isn't in this build.
+- Cosmetic only: determinism and art tests pass; the art fingerprint covers grips and sockets.
+- **Ask (ChatGPT):** the dark Dakka and further tank tweaks can go straight through the Forge (Save & test on W04/C04, then Jarred's Go live). Crate symbols read faint at game scale; brighter or larger emissive symbols would help. The dropship needs a full-size redraw (about 150×52 art px). Tank local light (lighting nearby troopers and stone) isn't wired yet; it comes with Phase 3 lighting.
+
 ## 2026-11-01 · ChatGPT · Dark Dakka accent and yellow tank glow check
 - Saved two review versions on `art/weapon-lab`, [f46a6cf](https://github.com/Astrosomnia/Grimspire/commit/f46a6cf7981ba799fd5474361bde799532c51f67). W04 is dark V2 gunmetal again with only eight oxblood magazine-edge pixels (2% of opaque material); the piercing pale-pink rail and all 20 emissive PNGs are unchanged. Original silhouette, anchors, scale and cadence retained.
 - Confirmed C04's bar/pilot lamp is emissive in all 40 animated frames. Tank raster/frame data is unchanged; added provisional world placement/light notes and lit-preview settings (yellow #ffe62a, bloom 6). Earlier flat comparison GIFs omitted bloom. Current main renderer's actual glow pass visibly adds yellow spill; proof and animation are in `art/lab/releases/dakka-accent-glow-v001/` on the art branch.
