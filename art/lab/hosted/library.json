@@ -1627,6 +1627,20 @@
       "h": 18,
       "frame_count": 1,
       "category": "Other art"
+    },
+    {
+      "id": "asset-9834162d28c0fdecbb27d4d3",
+      "path": "art/lab/hosted/library/asset-9834162d28c0fdecbb27d4d3.forge.json",
+      "sha256": "9834162d28c0fdecbb27d4d3b4de510ad13394a58456913867b85e0f235bf38c",
+      "asset_id": "asset-c04",
+      "state_key": "",
+      "asset_name": "Promethium Tank",
+      "code": "C04",
+      "name": "Promethium Tank · twin yellow lamp rings",
+      "w": 21,
+      "h": 28,
+      "frame_count": 40,
+      "category": "Other art"
     }
   ]
 }
