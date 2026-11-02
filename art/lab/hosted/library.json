@@ -1669,6 +1669,20 @@
       "h": 49,
       "frame_count": 1,
       "category": "Other art"
+    },
+    {
+      "id": "asset-c8fa941c4e57b5adab233d6c",
+      "path": "art/lab/hosted/library/asset-c8fa941c4e57b5adab233d6c.forge.json",
+      "sha256": "c8fa941c4e57b5adab233d6cedbed38a062f17e59471ff8bce381d16c0143134",
+      "asset_id": "asset-c04",
+      "state_key": "",
+      "asset_name": "Promethium Tank",
+      "code": "C04",
+      "name": "Promethium brazier · iron votive bowl · native draft",
+      "w": 32,
+      "h": 40,
+      "frame_count": 10,
+      "category": "Other art"
     }
   ]
 }
