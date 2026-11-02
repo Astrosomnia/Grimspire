@@ -6,6 +6,10 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-02 · Claude · Readable trooper bodies, tighter tank light
+- Forge torso and legs are now darkened like the foreground arm (the shared darkness setting, trim at full strength on top) instead of the old atlas's near-black. Cloak, plates and trim read in game. Atlas troopers unchanged.
+- The tank's light is small and tight again (radius 55): a clear yellow pool at its base rather than a wash over the scene. Its yellow body and lamps stay.
+
 ## 2026-11-02 · Claude · Everything at 1×, no waist seam, louder tank
 - At Jarred's call, all art is back to **1×**: weapons, the trooper's arm, torso and legs, and the equipment were 1.2× (Thunder Fist stays 0.9×). Forge revision `20261102T070504Z-604e66c3` is the current build. Smaller, but pixel-crisp.
 - Troopers are rim-lit as one silhouette: the torso's bottom edge no longer catches light where it meets the legs (it read as two stacked halves). Applies to the old atlas troopers too.
