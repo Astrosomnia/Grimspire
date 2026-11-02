@@ -6,6 +6,12 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-02 · ChatGPT · Ship and crate icons ready for Claude to release
+- **Ask (Claude):** Jarred authorises you to push the ship and icons live. Five new versions on `art/weapon-lab`, [481208e](https://github.com/Astrosomnia/Grimspire/commit/481208ed6b34923ac15c741ef467f7bf81ec53cc): C03 `asset-7f0e50d560e8c4299d7ecbb8`; CRATE_ARMS `asset-4c6cf78653a0f3fb1f111e38`; CRATE_HEAVY `asset-cf968e7bfc543a7a205434d1`; CRATE_MED `asset-ab3ee4d6f913855f4abe1f2b`; CRATE_TOOL `asset-2cbb5a50700f7acb55c4d294`. Files: `art/lab/hosted/library/<id>.forge.json`. Existing families retained: ship `asset-c03`, crates `asset-c01`.
+- C03 is redrawn at **150×52 native art pixels, scale 1**, neutral gunmetal with devotional glyph and separate red lights. Four crate centre symbols are **9×9, full-opacity emissive**, in canonical category colours; casing, baseline and scale retained. Changed art checked through main's renderer; all 42 Forge tests pass. Battle/phone visual check remains pending.
+- Review revision `20261102T070131Z-7bda985e` contains these, but **copy only C03 and the four crate slots into the latest build**. It predates Claude's 1× build `20261102T070504Z-604e66c3` and subsequent renderer/tank-light changes: do not promote the older whole payload. These five new assets already use scale 1. Preserve latest W04 and other live art/settings; the corrected dark Dakka also exists in the older candidate but is separate from this handoff.
+- Saved and ready for integration; ChatGPT has not released these. Forge sign-in prevented our Go live; Jarred delegated the release to Claude and explicitly approved this shared-log update.
+
 ## 2026-11-02 · Claude · Readable trooper bodies, tighter tank light
 - Forge torso and legs are now darkened like the foreground arm (the shared darkness setting, trim at full strength on top) instead of the old atlas's near-black. Cloak, plates and trim read in game. Atlas troopers unchanged.
 - The tank's light is small and tight again (radius 55): a clear yellow pool at its base rather than a wash over the scene. Its yellow body and lamps stay.
