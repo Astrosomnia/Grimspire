@@ -1109,6 +1109,20 @@
       "h": 58,
       "frame_count": 1,
       "category": "Arms"
+    },
+    {
+      "id": "asset-501ddda002e856b328d57fc4",
+      "path": "art/lab/hosted/library/asset-501ddda002e856b328d57fc4.forge.json",
+      "sha256": "501ddda002e856b328d57fc469989ee864836edd5f0762ba188bd79befc42d66",
+      "asset_id": "asset-c06",
+      "state_key": "",
+      "asset_name": "Grave Marker",
+      "code": "C06",
+      "name": "Grave Marker · red family study",
+      "w": 17,
+      "h": 27,
+      "frame_count": 1,
+      "category": "Other art"
     }
   ]
 }

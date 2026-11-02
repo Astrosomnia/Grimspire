@@ -1,0 +1,39 @@
+{
+  "forge": 1,
+  "game_scale": 1,
+  "asset_id": "asset-c06",
+  "state_key": "",
+  "source_version": "asset-783badc3bceaf23e1987d584",
+  "code": "C06",
+  "name": "Grave Marker · red family study",
+  "w": 17,
+  "h": 27,
+  "fps": 8,
+  "base": 26,
+  "pixel_scale": 12,
+  "markers": {
+    "grip": null,
+    "muzzle": null,
+    "pivot": null,
+    "shoulder": null,
+    "elbow": null,
+    "hand": null,
+    "hip": null,
+    "knee": null
+  },
+  "ready": false,
+  "notes": "Category review import, 1 Nov 2026. Helmet derived from T10 Ash Legion profile, elongated closed faceplate and vertical magenta visor; verify against final cleaned trooper. Generated sheet extracted to a 12-source-pixel art grid, 24-colour native interpretation; source and small details may differ after reduction. Separate material/emissive layers; no baked bloom. Native pixel cleanup and game-scale, anchor and animation review pending. Red is the dominant equipment light; neutral charcoal materials, amber heat. Draft saved for review only, not approved or integrated. Placement role: ground.",
+  "review": null,
+  "ghostOff": null,
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAbCAYAAACa9mScAAADQElEQVR4AXyVS09TQRTH/3NrYSEkLkyMwEJM5BECxsRHhIS4ERSCCYrRTyBUcGukgCYal0g0SvErKK+AQNriI0ITI7hoCwuKUE2gECIVeWwo7XjOlF76uGVyzzzOnPnNzJkzczWkSWZzhhRCSIBFkybNTHWwIDmlgQhZVFSCqqs1qK6qQcOt27C2WtHR9oTGM5SKuM8QIsSBRWAloBrdNhsGh4Zwo64eQq1QqVVmCAEEtrd3EEsrq6soKi5Gzskc/Pj4hTYYNwsZpYEAm/828Omzk0yovrmJrKNZyMzMVO3kLAUihCYrTpfgbl4h7hVfQqXIQmB5Gb75eWRkmJPHq3YqxMD/DGTrOZ+PixRJgUQQSTFy72wgV8tU+owTx+mcE2dKgZCl7rWemW9445kgFXD26DHw1hRMt1Bd0CFC+VxILl0LM+j2utDY2IT8/AK4Fmdg87jAK+I+Wkp09H6uIDzQYmlBgjQ1K5Pr16phaWpBk6UZZVVXlC45UxBW2myvsbCwmCCsN9JJ0IK5c18UhJUsdseIiInTad83Abg+PT0Fh3MM5RWVKC09J+9bHujeVRDdOq4iEUZhwZmoRkgE//4BhbsKuvxT+VhaWo72UW4IERRw7dbH1A0VpSaTCVJGhKBzuHjhPPLychGfDCGAxPepad1ub29P1cORENaDQVWPBxlCpJSC783omB3+X341iDM6RaytrenCOhZDCHeEQrvIzs5St5lcwipan0Rf/zv0D/RidzekdJylhYD2v7W1Db+f7osm2JZEI99IEYmExfCHQWpHv0MgEuPjDtCzCB4UNY/EaAQ7qB8CAV50diJMzmQAnxiXRmIIMdMjrQkT5nzzoDoEPYft1g4erwcYN2KSAnnZ9Uo+etgKuo/oedsNdjDfHT5yilQCaimgBIimmSTP7vZ40dbajq7OLnrp7yhY7GmUUr03CSAdQg6UN+sb4PZ4VGy4CTQx6QI/0iUlZRgZGcbsrAd0Z6CJIwAvFdGkILxn/q/wkQYCKyo21oPrCsDtwoIC1NbWgSeZmJzE5fKKhF8HQTQp6GY/e/4Udscofvt/KnG5voKF2/197zE0PIBeKr1et9JzW9KmNGjyPwAAAP//oCN7IwAAAAZJREFUAwBhGGVbw/4eXgAAAABJRU5ErkJggg==",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABEAAAAbCAYAAACa9mScAAAAVElEQVR4AeyQwQkAIAwD1U1cTnAiweUcRfERWvor+LCQQmn6SCBX0oMJHDJr35ZA4Dq2yv3dddoa+Rr1ukO0GZohICGXTIQFFJmAhFwyERZQ/zA5AAAA//9rBOD9AAAABklEQVQDAOggBDdBNSRSAAAAAElFTkSuQmCC",
+      "trim": null,
+      "guts": null,
+      "note": ""
+    }
+  ],
+  "updated": 1793598103255,
+  "by": "jarred"
+}
