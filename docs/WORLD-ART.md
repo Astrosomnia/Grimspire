@@ -3,14 +3,25 @@
 How Grimspire's world is built: the north star, the rules every piece follows, and the process from idea to live. For Jarred, ChatGPT and Claude. The faction and character look is in [`ART-DIRECTION.md`](ART-DIRECTION.md); the Forge's technical rules are in [`FORGE.md`](FORGE.md).
 
 ## North star
-**A drowned cathedral-city at night. Black wet stone, colossal ruined saints, faction neon bleeding across the water. The world is dark and quiet so the troopers, the light and the explosions do the talking.**
-
-Reference: `art/reference/north-star.jpg`. Tone: Dead Cells, Blasphemous. Grim, painterly pixel art, readable silhouettes, colour from light.
+**Black gothic ruins against a burning sky. A drowned cathedral-city where colossal saints lie half-sunk in black water, faction neon is sprayed across the stone, and every lit edge glows the colour of the light that hits it. The stone is dark; the sky and the lights are vivid. The troopers, the light and the explosions do the talking.**
 
 Three tests every piece must pass:
 1. **It belongs to this place.** A drowned, sacred, industrial ruin: stone, iron, bone, wax, chain, water. If it could sit in any fantasy or sci-fi game, it isn't specific enough.
 2. **It stays out of the way.** Nothing in the world competes with a trooper, a projectile or a crate for attention.
-3. **It looks right in the dark.** It reads as a shape against the sky or the stone, before any detail.
+3. **It reads as a silhouette.** Dark against the sky or the lit stone, before any detail.
+
+## What the references show
+Two images set the look: `art/reference/north-star.jpg` (the world) and `og.jpg` (the mood and the trooper). Concretely:
+
+- **Contrast, not darkness.** Near-black architecture against a bright crimson-magenta sky with a huge blood moon. The darks are very dark and the sky is luminous; there is little in between.
+- **Rim light carries the form.** Stone shows almost no surface detail in shadow. Its shape comes from thin lit edges: magenta-crimson where the sky and Ash Legion light reach, cyan on Neon Choir's side. Light colour, not object colour.
+- **Faction territory lights the world.** Ash Legion's half of the scene is washed magenta, Neon Choir's half cyan. Their graffiti is wall-sized and dripping, their banners hang two or three troopers long with the faction sigil, and the stone near them picks up their colour.
+- **Architecture is the terrain.** Towers, arches, bridges and broken walls are what troopers stand on. Set pieces crown and decorate it: a saint on a pinnacle, a gargoyle on a ledge, a banner hanging from an arch, a rope bridge between towers.
+- **Colossal and half-sunk.** Fallen saint heads three or four troopers tall sit in the water up to the cheekbone. Statues are larger than people. Scale makes the city feel ancient.
+- **Depth fades toward the sky.** The distant skyline is lighter and tinted toward the sky colour, with soft edges, not darker. Each layer back loses contrast and gains sky.
+- **The water is a mirror.** Black, still, reflecting the neon and the moon. Wreckage pokes out of it as dark silhouettes with lit edges.
+- **Supply crates glow.** Small, but their lit symbols make them pop on any ledge.
+- **The OG adds the grim.** Skull and bone piles, iron spikes, chains, crimson banners with a circle-and-cross sigil, neon lines running up spires, gunships in the sky, aqueducts and falling water lit cyan. Dense, oppressive, holy and industrial at once.
 
 ## Attention ladder
 What the eye should find first, in order. Each level is darker and calmer than the one above it.
@@ -30,11 +41,11 @@ The engine draws the world in these bands, back to front. Every piece belongs to
 | Band | What lives there | Moves | Look |
 |---|---|---|---|
 | **Sky** | Gradient, moon, smog, searchlights, the far sky war | Fixed or barely | Code only |
-| **Skyline** | Distant spires, domes, cathedral fronts, colossal statues | Parallax, slow | Flat silhouettes, near-black, tiny window lights, no detail |
-| **Back wall** | Facades, arches, lancet windows, graffiti, colossal saints behind the fight | With the world, non-solid | Dark, low contrast, slightly bluer than the play layer |
+| **Skyline** | Distant spires, domes, cathedral fronts, colossal statues | Parallax, slow | Flat silhouettes tinted toward the sky colour, lighter and softer the farther back, tiny window lights, no detail |
+| **Back wall** | Facades, arches, lancet windows, graffiti, banners, colossal saints behind the fight | With the world, non-solid | Dark, lower contrast than the play layer and a step toward the sky colour |
 | **Play layer** | Destructible terrain, props, set pieces, troopers | With the world | Full contrast for things that matter; set pieces one step darker |
 | **Sump** | The water and what's half-sunk in it | With the world, bobbing | Pieces cut by the waterline, reflections in code |
-| **Foreground** | Rare: chains, a broken rail, a hanging censer | Faster parallax | Near-black silhouettes only, never over a trooper's path |
+| **Foreground** | Wreckage in the water, chains, a broken rail, a hanging censer | Faster parallax | Near-black silhouettes with lit edges, never over a trooper's path |
 
 Skyline and back-wall pieces are large and cheap: big shapes, few pixels of detail. Play-layer pieces are small and careful.
 
@@ -45,7 +56,7 @@ Everything is drawn at the trooper's pixel density: **12 source px per art px, a
 |---|---|---|---|
 | Debris | 4–16 | Ankle to knee | Rubble, skulls, candles, chain links, shell casings |
 | Props | 16–50 | Knee to head | Crates, tanks, graves, reliquaries, braziers, lecterns |
-| Set pieces | 50–150 | One to three troopers | Fallen saint heads, toppled statues, arches, piers, bells |
+| Set pieces | 50–200 | One to four troopers | Fallen saint heads (three to four troopers, half-sunk), statues on pinnacles, gargoyles, banners, arches, piers, bells |
 | Landmarks | 150–500 | A building | Colossal saints, cathedral fronts, broken spires (back wall or skyline) |
 
 **Size sets meaning.** Saints and gargoyles are colossal: a fallen saint's head should be taller than the trooper standing beside it. The first six set pieces (S01–S06) are drawn at prop size (17–31 art px tall); they read as altar ornaments, not ruins. Redraw them at set-piece size, or keep them as props and give them prop jobs.
@@ -53,14 +64,15 @@ Everything is drawn at the trooper's pixel density: **12 source px per art px, a
 **Draw at final size.** The Forge's per-asset scale is for testing. A sprite scaled by 1.2 has pixels 1.2 times the size of everything around it, and mixed pixel sizes are the fastest way to make a world look pasted together. Once a size is chosen, redraw at that size and set scale back to 1. This applies to the 1.2 trooper and weapon reviews too.
 
 ## Light and colour
-- **No baked lighting.** Paint flat. The engine adds a cold rim from the sky and light from neon, fire and blasts. The one allowed exception: a one-pixel cold highlight on top edges, which matches the engine's sky rim.
-- **Darkness by band.** Set pieces sit one value step below terrain edges; back walls one step below that. Use the shared ramps below and stay in their lower half.
+- **No baked lighting.** Paint flat. The engine adds rim light from the sky and from neon, fire and blasts, in the colour of that light. Don't paint rims or highlights in a fixed colour: they'd be wrong as soon as the light changes.
+- **Dark stone, bright light.** World pieces stay in the lower half of the shared ramps; the brightness in a scene comes from the sky, the lights and the rims. Set pieces sit one value step below terrain edges. Farther bands lose contrast and shift toward the sky colour.
 - **Colour comes from light.** Stone, iron and bone are near-neutral. Colour on a piece is either a real light (emissive layer) or faction cloth (Cloth layer).
 - **Light colours mean something:**
   - Faction neon (magenta Ash Legion, cyan Neon Choir, green Hollow, gold Halo Guard): only on faction things, near that faction's ground
   - Equipment red: warning and status lamps on shared kit. Keep it a true red, clearly apart from Ash Legion's magenta
   - Amber: fire, candles, braziers, sodium lamps. The world's warm light
-  - Cold blue-white: sky, moon, searchlights. Never painted, only rim light
+  - Sky light: whatever the sky is (cold moonlight at night, crimson when the sky bleeds). Never painted, only rim light
+- **The game's sky is darker than the reference.** The north star's crimson sky is the target mood; today it appears when sudden death bleeds the sky red. A brighter per-map crimson sky is an open question in `ART-DIRECTION.md`.
 - **A light that glows should light things.** Braziers, candle racks and lamps get an emissive layer and a light tag (below), so the engine lights troopers near them.
 
 ### Shared material ramps
@@ -108,10 +120,10 @@ light: none, or colour and radius for pieces that cast light
 Defaults: decorative, non-solid, flippable, play band. Solid pieces become part of the destructible terrain, so they need guts and a clean silhouette.
 
 ## Composing a map
-- **One landmark** per map in the back wall or skyline: a colossal saint, a cathedral front, a broken spire
+- **One landmark** per map in the back wall or skyline: a colossal saint, a cathedral front, a broken spire, ideally against the moon
 - **Three to six set pieces** on the play layer and in the sump, spread out, never two of the same within view
 - **Debris scattered** to break up flat ground, thinning out near spawn points so troopers stay readable
-- **Faction territory** around each spawn: graffiti, banners and a shrine in that faction's colours
+- **Faction territory** around each spawn: wall-sized graffiti, long banners and a shrine in that faction's colours, lighting the stone around them
 - **The sump is a stage:** half-sunk heads, pier pilings and wreckage at the waterline make the rising water feel like the city drowning
 - Nothing decorative inside a trooper's spawn area or on a crate's landing spot
 
@@ -144,7 +156,8 @@ A starting list. Add freely; mark what's in progress.
 
 **Sump:** fallen saint heads (several faces, set-piece size), toppled saint torsos, drowned bell, pier pilings, chained barge hulls, sunken reliquary, floating candles, drowned pilgrims' cages
 **Ruins:** shattered arches, broken pillars and capitals, ossuary niches, collapsed rood screen, gargoyles (perched and fallen), confessional booths, broken organ pipes
-**Faction territory:** a banner, a shrine and a graffiti set per faction (Ash Legion inquisitor's gibbet, Neon Choir cable reliquary, Hollow flagellant's post, Halo Guard sealed vault door)
-**Industrial:** pipes and valves, cranes and hooks, pumps, cable bundles, sodium lamps, broken servitors
+**Faction territory:** a long banner, a shrine and a wall-sized graffiti set per faction (Ash Legion's circle-and-cross sigil from the OG image is a strong start) (Ash Legion inquisitor's gibbet, Neon Choir cable reliquary, Hollow flagellant's post, Halo Guard sealed vault door)
+**Industrial:** pipes and valves, cranes and hooks, pumps, cable bundles, sodium lamps, broken servitors, aqueducts with falling water
+**Grim:** skull and bone piles, iron spikes, gibbets, chained cages, rope bridges
 **Lights:** braziers, candle racks, votive walls, hanging censers, neon saints
 **Landmarks:** colossal praying saint, winged angel, cathedral front with rose window, drowned spire
