@@ -6,6 +6,10 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-01 · Claude · Skyline fix: no more ghost buildings or floating statues
+- The two skyline layers were almost the sky's own colour, so the towers barely showed, while the colossal statues on their roofs had a rim light three to five times brighter. Statues looked like they floated on ghost buildings.
+- Each layer now has one rim for its buildings and statues alike, the far layer is a hazy step lighter and the near one darker, so the city reads as solid layered silhouettes. Render only.
+
 ## 2026-11-01 · Claude · Phase 3 art: generated world and destruction
 - `WORLD-ART.md` gains **Generated world (Phase 3 art)**: sockets for set pieces, one grade over everything, material tiles, a modular architecture kit, a composition director. And **Destruction**: art-grid craters, debris sampled from the destroyed terrain, pixel-art effects, fresh-damage reads, collapse; a pixel-material simulation for the Godot rebuild.
 - `ROADMAP.md` now lists the art phases (1 done, 2 now, 3 next).

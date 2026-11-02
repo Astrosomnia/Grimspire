@@ -885,12 +885,13 @@ function colossus(g,kind,x,base,h,col){g.save();g.translate(x,base);g.fillStyle=
 function statues(L,list){const c=L.c,g=c.getContext('2d'),tmp=mk(c.width,c.height),tg=tmp.getContext('2d');tg.scale(.5,.5);const used=new Set();
   for(const[k,fx,,h]of list){let best=null;for(const r of L.roofs){if(used.has(r))continue;const d=Math.abs(r.x-W*fx);if(!best||d<best.d)best={r,d}}if(!best)continue;used.add(best.r);
     const r=best.r,hh=Math.min(h,r.w*(k===2?1.5:2.4));colossus(tg,k,r.x,r.y+6,hh,L.col)}
-  const rim=mk(c.width,c.height),rg=rim.getContext('2d');rg.drawImage(tmp,0,0);rg.globalCompositeOperation='destination-out';rg.drawImage(tmp,-1,1.5);rg.globalCompositeOperation='source-in';rg.fillStyle='rgba(150,180,235,.5)';rg.fillRect(0,0,c.width,c.height);
+  const rim=mk(c.width,c.height),rg=rim.getContext('2d');rg.drawImage(tmp,0,0);rg.globalCompositeOperation='destination-out';rg.drawImage(tmp,-1,1.5);rg.globalCompositeOperation='source-in';rg.fillStyle=`rgba(150,180,235,${L.rim})`;rg.fillRect(0,0,c.width,c.height);
   g.drawImage(tmp,0,0);
-  const sk=mk(c.width,c.height),sg=sk.getContext('2d');sg.drawImage(c,0,0);sg.globalCompositeOperation='destination-out';sg.drawImage(c,-1,1.5);sg.globalCompositeOperation='source-in';sg.fillStyle=`rgba(150,180,235,${L.par<.3?.1:.16})`;sg.fillRect(0,0,c.width,c.height);
+  const sk=mk(c.width,c.height),sg=sk.getContext('2d');sg.drawImage(c,0,0);sg.globalCompositeOperation='destination-out';sg.drawImage(c,-1,1.5);sg.globalCompositeOperation='source-in';sg.fillStyle=`rgba(150,180,235,${L.rim})`;sg.fillRect(0,0,c.width,c.height);
   g.drawImage(sk,0,0);g.drawImage(rim,0,0);return L}
-const layers=[statues(mkLayer(.22,'#0c0d12',.04,.34),[[0,RR()*.25+.1,.5,230]]),
-  statues(mkLayer(.45,'#13151b',.14,.46),[[1,RR()*.2+.42,.62,190],[2,RR()*.15+.75,.6,150]])];
+// Skyline layers: the far one a hazy step toward the sky, the near one darker, each with one rim for buildings and statues alike
+const layers=[statues(Object.assign(mkLayer(.22,'#17181f',.04,.34),{rim:.22}),[[0,RR()*.25+.1,.5,230]]),
+  statues(Object.assign(mkLayer(.45,'#0d0e14',.14,.46),{rim:.3}),[[1,RR()*.2+.42,.62,190],[2,RR()*.15+.75,.6,150]])];
 const grain=mk(160,160);
 {const g=grain.getContext('2d'),d=g.createImageData(160,160);for(let i=0;i<160*160;i++){const v=Math.random()*255|0;d.data[i*4]=d.data[i*4+1]=d.data[i*4+2]=v;d.data[i*4+3]=255}g.putImageData(d,0,0)}
 let grainPat=null;
