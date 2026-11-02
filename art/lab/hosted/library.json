@@ -521,6 +521,48 @@
       "h": 58,
       "frame_count": 1,
       "category": "Troopers"
+    },
+    {
+      "id": "asset-40bc4d063e00c1144b772ac5",
+      "path": "art/lab/hosted/library/asset-40bc4d063e00c1144b772ac5.forge.json",
+      "sha256": "40bc4d063e00c1144b772ac5dca30d24cb696629aec80c2fb261da69d4d5c929",
+      "asset_id": "custom-48c145bc-fb86-4386-8dca-e6fa57025d62",
+      "state_key": "",
+      "asset_name": "Ash Legion torso · option C",
+      "code": "T10",
+      "name": "Ash Legion torso · option C",
+      "w": 41,
+      "h": 58,
+      "frame_count": 1,
+      "category": "Troopers"
+    },
+    {
+      "id": "asset-f34aff97d731b448a09a88cd",
+      "path": "art/lab/hosted/library/asset-f34aff97d731b448a09a88cd.forge.json",
+      "sha256": "f34aff97d731b448a09a88cd6bcfc3b02135fd5fb0ab9939ce163db30f364055",
+      "asset_id": "custom-115a49c4-8841-4fa9-b24f-b735da4fe993",
+      "state_key": "",
+      "asset_name": "Ash Legion thigh · option C",
+      "code": "A07",
+      "name": "Ash Legion thigh · option C",
+      "w": 11,
+      "h": 13,
+      "frame_count": 2,
+      "category": "Arms"
+    },
+    {
+      "id": "asset-b182768ab88afd026dd3c66a",
+      "path": "art/lab/hosted/library/asset-b182768ab88afd026dd3c66a.forge.json",
+      "sha256": "b182768ab88afd026dd3c66a3b0196dba358a622bd239558ed0d36bb6887f5b7",
+      "asset_id": "custom-4573ea5d-fd71-4c95-ac7b-dd5d943e26dd",
+      "state_key": "",
+      "asset_name": "Ash Legion shin · option C",
+      "code": "A08",
+      "name": "Ash Legion shin · option C",
+      "w": 12,
+      "h": 13,
+      "frame_count": 2,
+      "category": "Arms"
     }
   ]
 }

@@ -1,0 +1,40 @@
+{
+  "forge": 1,
+  "code": "A08",
+  "name": "Ash Legion shin · option C",
+  "w": 12,
+  "h": 13,
+  "fps": 8,
+  "base": null,
+  "pixel_scale": 12,
+  "markers": {
+    "grip": null,
+    "muzzle": null,
+    "pivot": null,
+    "shoulder": null,
+    "elbow": null,
+    "hand": null,
+    "hip": null,
+    "knee": [
+      6,
+      0
+    ]
+  },
+  "notes": "Split from the T09 Ash Legion jump-pack fit-test (auto-reduced, not hand-cleaned) on 1 Nov 2026. Option C palette: magenta glow, oxblood cloth. Shin and boot (with the knee lamp), hung from the Knee. Frame 1 near leg, frame 2 far leg.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAANCAYAAACdKY9CAAABAklEQVR4XmNkgAIBIYn/bh6eMC4cXL58jeH65ZOMMAEmGOPH969gyecvXqMofv70IYohSBo+MyJLgjSDwId3L+CmgwBcAwhwc/PCTbNSZsdwHoYGGJCTkWS49YkPxe0YfgABPgEhBkkJUYZHT54zvHmN8AsygDuJg5P3P7INuAALSAIUpJLS8gwioqJgdSfPXGL49OEdVj1gDcjg6OEjYKd9/foZqwZwkIGcw8HJDVaga2AC9gcoPi5fOIMRrGAN0rKq/0GmgpwBosEadbXANMjGp49vY8Y0LJRAAOQXWIxb29owqAvLwQME7AeQe0EYlDyERSTgHgYFLUjzy/+/4P4BAMFWYs39PPJDAAAAAElFTkSuQmCC",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAANCAYAAACdKY9CAAAAIElEQVR4XmNgoCb4r9fxH908JlwWYFNMEJClaRQMTgAALYoIH+BGxNsAAAAASUVORK5CYII=",
+      "trim": null,
+      "guts": null
+    },
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAANCAYAAACdKY9CAAABAklEQVR4XmNkgAIBIYn/bh6eMC4cXL58jeH65ZOMMAEmGOPH969gyecvXqMofv70IYohSBo+MyJLgjSDwId3L+CmgwBcAwhwc/PCTbNSZsdwHoYGGJCTkWS49YkPxe0YfgABPgEhBkkJUYZHT54zvHmN8AsygDuJg5P3P7INuAALSAIUpJLS8gwioqJgdSfPXGL49OEdVj1gDcjg6OEjYKd9/foZqwZwkIGcw8HJDVaga2AC9gcoPi5fOIMRrGAN0rKq/0GmgpwBosEadbXANMjGp49vY8Y0LJRAAOQXWIxb29owqAvLwQME7AeQe0EYlDyERSTgHgYFLUjzy/+/4P4BAMFWYs39PPJDAAAAAElFTkSuQmCC",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAAANCAYAAACdKY9CAAAAIElEQVR4XmNgoCb4r9fxH908JlwWYFNMEJClaRQMTgAALYoIH+BGxNsAAAAASUVORK5CYII=",
+      "trim": null,
+      "guts": null
+    }
+  ],
+  "asset_id": "custom-4573ea5d-fd71-4c95-ac7b-dd5d943e26dd",
+  "state_key": ""
+}
