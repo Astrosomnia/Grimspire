@@ -281,3 +281,9 @@ First playable review of the straight foreground gun arm and glove on all six gu
 - Point buttons have hints; torsos show a note explaining sockets.
 - Seeded the live torso (from the old T08 sheet frame) as a Trooper → torso version with Hip [23,31] and Shoulder [24,26], within a fraction of a pixel of today's geometry.
 - Checks: 41 hosted tests (new torso test) and 6 catalog tests pass; editor scripts compile; a seeded-torso game is deterministic and renders.
+
+## Forge legs — 2026-11-01 (Claude)
+
+- THIGH (Hip, Knee) and SHIN (Knee) test slots, releasable, carried into weapon-only builds. Frame 1 near leg, frame 2 far.
+- The game on main draws them on its walk rig; they work as a pair.
+- Checks: 42 hosted tests (new legs test) and 6 catalog tests pass.

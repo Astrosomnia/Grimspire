@@ -116,3 +116,9 @@ test('A torso needs both sockets, carries into weapon builds and can go live',as
   const ok=body(g);ok.slot='TORSO';ok.sprite.name='Torso test';ok.sprite.markers={...ok.sprite.markers,shoulder:[10,5],hip:[12,10]};const r=await save(g,ok,user);
   const w=body(g);w.expected_head=g.refs[LAB];w.weapon_only=true;const r2=await save(g,w,user);const payload=JSON.parse(g.files(r2.commit)[ROOT+'/revisions/'+r2.revision+'/payload.json']);assert(payload.assets.TORSO,'torso kept in weapon-only build');
   const p=await prepare(g,{revision:r2.revision},user,env);await publish(g,{ticket:p.ticket,approve:true,game_hash:p.game_hash},user,env);assert.equal(g.refs.main,p.candidate);assert(r.revision)});
+
+test('Thigh and shin need their joints and can go live with the torso',async()=>{const g=new Repository();const th=body(g);th.slot='THIGH';th.sprite.markers={...th.sprite.markers,hip:null,knee:null};await assert.rejects(save(g,th,user),/Hip .*Knee/);
+  const ok=body(g);ok.slot='THIGH';ok.sprite.markers={...ok.sprite.markers,hip:[5,1],knee:[5,10]};await save(g,ok,user);
+  const sh=body(g);sh.expected_head=g.refs[LAB];sh.slot='SHIN';sh.sprite.markers={...sh.sprite.markers,knee:[5,0]};const r=await save(g,sh,user);
+  const payload=JSON.parse(g.files(r.commit)[ROOT+'/revisions/'+r.revision+'/payload.json']);assert(payload.assets.THIGH&&payload.assets.SHIN);
+  const p=await prepare(g,{revision:r.revision},user,env);await publish(g,{ticket:p.ticket,approve:true,game_hash:p.game_hash},user,env);assert.equal(g.refs.main,p.candidate)});
