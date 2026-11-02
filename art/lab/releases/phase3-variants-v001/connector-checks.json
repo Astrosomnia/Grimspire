@@ -1,0 +1,53 @@
+{
+  "liveMain": "64e43ca",
+  "results": [
+    {
+      "code": "K01a",
+      "base": "K01",
+      "w": 112,
+      "h": 100,
+      "baseline": 99,
+      "checkedBoundaryPixels": 1632
+    },
+    {
+      "code": "K01b",
+      "base": "K01",
+      "w": 112,
+      "h": 100,
+      "baseline": 99,
+      "checkedBoundaryPixels": 1632
+    },
+    {
+      "code": "K05a",
+      "base": "K05",
+      "w": 180,
+      "h": 80,
+      "baseline": 79,
+      "checkedBoundaryPixels": 1328
+    },
+    {
+      "code": "K05b",
+      "base": "K05",
+      "w": 180,
+      "h": 80,
+      "baseline": 79,
+      "checkedBoundaryPixels": 1328
+    },
+    {
+      "code": "K07a",
+      "base": "K07",
+      "w": 360,
+      "h": 300,
+      "baseline": 299,
+      "checkedBoundaryPixels": 8544
+    },
+    {
+      "code": "K07b",
+      "base": "K07",
+      "w": 360,
+      "h": 300,
+      "baseline": 299,
+      "checkedBoundaryPixels": 8544
+    }
+  ]
+}

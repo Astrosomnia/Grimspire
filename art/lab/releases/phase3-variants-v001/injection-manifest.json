@@ -1,0 +1,87 @@
+{
+  "schema": 1,
+  "source_repository": "Astrosomnia/Grimspire",
+  "source_branch": "art/weapon-lab",
+  "dimensions_unit": "native art pixels",
+  "status": "saved drafts for test integration; no live release",
+  "instructions": [
+    "Fetch current art branch and these immutable exact-version paths; verify each sha256.",
+    "Inject each letter-suffixed code as a separate slot, preserving current bases and latest other art.",
+    "Keep w/h, baseline and game_scale 1 exactly; pixel_scale 12 is source density, not another runtime enlargement.",
+    "Keep Body, Emissive and Guts; handle internal collision changes and game checks on Claude’s side."
+  ],
+  "assets": [
+    {
+      "slot": "K01a",
+      "version_id": "asset-f3434464aab347a5fcd28083",
+      "asset_id": "custom-dfa23b36-0afa-4a03-b951-468435715f0f",
+      "path": "art/lab/hosted/library/asset-f3434464aab347a5fcd28083.forge.json",
+      "sha256": "f3434464aab347a5fcd28083becf3089ba2753d30b474d12890ec7ae4ff70304",
+      "w": 112,
+      "h": 100,
+      "baseline": 99,
+      "game_scale": 1,
+      "pixel_scale": 12
+    },
+    {
+      "slot": "K01b",
+      "version_id": "asset-aae574ea8cd4da604cbcd84c",
+      "asset_id": "custom-b920212f-9377-4de1-8b1a-2a90cb77ebde",
+      "path": "art/lab/hosted/library/asset-aae574ea8cd4da604cbcd84c.forge.json",
+      "sha256": "aae574ea8cd4da604cbcd84c476f3d3cbd24ff50c0fc0eba118b613196a8539c",
+      "w": 112,
+      "h": 100,
+      "baseline": 99,
+      "game_scale": 1,
+      "pixel_scale": 12
+    },
+    {
+      "slot": "K05a",
+      "version_id": "asset-0560e310da5e3f8ce1a7a4ea",
+      "asset_id": "custom-bf519863-a9f4-4156-aea2-00a976b4b343",
+      "path": "art/lab/hosted/library/asset-0560e310da5e3f8ce1a7a4ea.forge.json",
+      "sha256": "0560e310da5e3f8ce1a7a4ea6e51c81e7928cf45e7f4351041837d3e6384bfab",
+      "w": 180,
+      "h": 80,
+      "baseline": 79,
+      "game_scale": 1,
+      "pixel_scale": 12
+    },
+    {
+      "slot": "K05b",
+      "version_id": "asset-7d814d6320aae149c58ebee5",
+      "asset_id": "custom-8467712a-8146-4304-b03a-bad4f8d7c80b",
+      "path": "art/lab/hosted/library/asset-7d814d6320aae149c58ebee5.forge.json",
+      "sha256": "7d814d6320aae149c58ebee592857460d763fd4d60b39c5eaff63fdbdb6bb717",
+      "w": 180,
+      "h": 80,
+      "baseline": 79,
+      "game_scale": 1,
+      "pixel_scale": 12
+    },
+    {
+      "slot": "K07a",
+      "version_id": "asset-e90866b60054c06449c84987",
+      "asset_id": "custom-a4c67525-8757-4eea-bcac-ea2581da4eb7",
+      "path": "art/lab/hosted/library/asset-e90866b60054c06449c84987.forge.json",
+      "sha256": "e90866b60054c06449c84987ad561ff91371f220bd28cfd6eaddb40e77b340d7",
+      "w": 360,
+      "h": 300,
+      "baseline": 299,
+      "game_scale": 1,
+      "pixel_scale": 12
+    },
+    {
+      "slot": "K07b",
+      "version_id": "asset-4374fe1595e45bd90c43e9a3",
+      "asset_id": "custom-0549be66-b497-46a4-be78-f7d90d931048",
+      "path": "art/lab/hosted/library/asset-4374fe1595e45bd90c43e9a3.forge.json",
+      "sha256": "4374fe1595e45bd90c43e9a3d674df176d09471fe00f6759c5706bbee799474e",
+      "w": 360,
+      "h": 300,
+      "baseline": 299,
+      "game_scale": 1,
+      "pixel_scale": 12
+    }
+  ]
+}
