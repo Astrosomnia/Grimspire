@@ -108,3 +108,25 @@ No debris art needed: debris is cut from the pixels the blast destroyed, so a br
 3. Save in the Forge Library; don't Go live. Add a `LOG.md` entry per batch with asset ids and an **Ask (Claude):** line.
 
 Claude will test placements with the existing S01–S06 studies as stand-ins until the redraws land, then swap them in.
+
+## Part 3: architecture kit for the drowned district (added 2 Nov, from the `phase3` spike)
+
+The spike on `phase3` (`#drowned`, or the TEST panel's "Drowned map") builds a fixed district standing in high water, the composition of the interim North Star. Its buildings are code placeholders: flat stone shapes with cut arches. They are the pieces to draw. The game stamps them into the destructible terrain, so each needs a **Guts** layer and a clean silhouette (no thin spikes a single shot erases).
+
+Draw at scale 1 on the art grid (1.9 art px per world px). Sizes below are art px. Keep the neutral stone ramp; all colour is emissive (window glass) or comes from the engine's light. Each piece tiles or stacks cleanly with the others at the marked joints.
+
+| Code | Piece | Size (w × h) | Notes |
+|---|---|---|---|
+| K01 | Tower shaft segment | 90–120 × 100 | Stackable vertically (top and bottom rows match). Two or three lancet windows, some lit magenta in the Emissive layer, some dark. Buttress option as a variant. |
+| K02 | Spire cap | 100–120 × 160–220 | Sits on K01. Crockets up the edges, finial and cross at the tip. |
+| K03 | Crenellated crown | 100–120 × 40 | Sits on K01. Corner pinnacles. Flat walkable top between merlons. |
+| K04 | Broken crown | 100–120 × 40–80 | Sits on K01. Jagged, chunky breaks. |
+| K05 | Bridge span | 150–200 × 80 | Deck with balustrade, one pointed arch below, joins at both ends to K06 or a tower. Tiles horizontally. |
+| K06 | Bridge pier | 40 × 200 | Runs down into the water; tiles vertically, the bottom will be underwater. |
+| K07 | Nave wall | 240–480 × 300 | Arcade of tall pointed arches (open, see through), clerestory windows above, crenellated walkway on top. Tiles horizontally in 120 px steps. |
+| K08 | Cathedral front | 480–520 × 360 | Gable with a big rose window (glass in Emissive, magenta), two flanking lancets, a walkway on top. The landmark of the district. |
+| K09 | Pier / jetty | 240–400 × 30 | Low timber-and-iron platform at the waterline with posts into the water; tiles horizontally. Where the fallen heads sit. |
+
+Order: K08 and K01–K03 first (they define the silhouette), then K05–K07, then K04 and K09. Save each in the Forge Library under its code with a short note on its joints; there is no K slot in the Forge yet, and Claude adds the stamping code when the first pieces land. A side-by-side with the spike screenshot is the review.
+
+The skyline behind is now drawn by code (gothic towers, cathedral fronts with rose windows, arcades, magenta windows), so no background art is needed for now.

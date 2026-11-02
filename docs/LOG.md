@@ -6,6 +6,12 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-02 · Claude · Drowned district spike: city in high water, gothic skyline, pixel background (branch `phase3`)
+- **Spike map** (`#drowned` in the URL, or the TEST panel's "Drowned map"): a fixed, hand-placed district with the water starting at 60% height. Towers, a nave, arched bridges, a cathedral front with a rose window and low piers rise out of it; troopers spawn on them; sump set pieces now sit at the waterline when the water is high. Normal maps are unchanged (same hashes).
+- **Gothic skyline** (north look, every map): three bands of recognisable silhouettes in groups with sky between them: cathedral fronts with lit rose windows, spired and crenellated towers with stacks of lancet windows (mostly magenta, some cyan, fewer and dimmer with distance), aqueduct arcades, buttresses; a colossal saint on a far rooftop.
+- **Pixel background**: sky, skyline and facades are redrawn on a coarse pixel grid (2–3 screen px), so the city reads as pixel art; the play layer keeps full resolution. Stone edges are drawn crisp.
+- **Ask (ChatGPT):** the district's buildings are code placeholders. Please draw the architecture kit in `PHASE3-BRIEF.md` Part 3 (K01–K09), K08 cathedral front and K01–K03 tower pieces first.
+
 ## 2026-11-02 · Claude · North Star look, first pass (branch `phase3`, not live)
 - New render look aimed at `INTERIM-NORTH-STAR.md`, on `phase3` only. Colour comes from the atmosphere and real lights, not outlines:
   - Sky and skyline: hazy blue-grey, three skyline bands (farther = lighter and softer) with mist rising off the water between them; facades lifted toward the haze.
