@@ -1,0 +1,128 @@
+[
+  {
+    "code": "A05",
+    "source": "asset-210f6d36cf0dcb4f50a78e06",
+    "markers": {
+      "grip": null,
+      "muzzle": null,
+      "pivot": [
+        18,
+        19
+      ],
+      "shoulder": [
+        18,
+        19
+      ],
+      "elbow": [
+        21,
+        27
+      ],
+      "hand": [
+        32,
+        30
+      ],
+      "hip": null,
+      "knee": null
+    },
+    "scale": 1.2,
+    "body_colours_before": 10,
+    "body_colours_after": 7,
+    "combined_silhouette_unchanged": true,
+    "cloth_layer_retained": true,
+    "emissive_unchanged": true
+  },
+  {
+    "code": "T10",
+    "source": "asset-8ef87d35d0c021c2ff529c9f",
+    "markers": {
+      "grip": null,
+      "muzzle": null,
+      "pivot": null,
+      "shoulder": [
+        18,
+        19
+      ],
+      "elbow": null,
+      "hand": null,
+      "hip": [
+        21,
+        31
+      ],
+      "knee": null
+    },
+    "scale": 1.2,
+    "body_colours_before": 11,
+    "body_colours_after": 7,
+    "combined_silhouette_unchanged": true,
+    "cloth_layer_retained": true,
+    "emissive_unchanged": true
+  },
+  {
+    "code": "A07",
+    "source": "asset-6df79b1fc4841d56c121c3a2",
+    "markers": {
+      "grip": null,
+      "muzzle": null,
+      "pivot": null,
+      "shoulder": null,
+      "elbow": null,
+      "hand": null,
+      "hip": [
+        6,
+        1
+      ],
+      "knee": [
+        5,
+        12
+      ]
+    },
+    "scale": 1.2,
+    "body_colours_before": 22,
+    "body_colours_after": 14,
+    "combined_silhouette_unchanged": true,
+    "cloth_layer_retained": true,
+    "emissive_unchanged": true
+  },
+  {
+    "code": "A08",
+    "source": "asset-1c341823399f9fd1358b13f3",
+    "markers": {
+      "grip": null,
+      "muzzle": null,
+      "pivot": null,
+      "shoulder": null,
+      "elbow": null,
+      "hand": null,
+      "hip": null,
+      "knee": [
+        6,
+        0
+      ]
+    },
+    "scale": 1.2,
+    "body_colours_before": 18,
+    "body_colours_after": 12,
+    "combined_silhouette_unchanged": true,
+    "cloth_layer_retained": true,
+    "emissive_unchanged": true
+  },
+  {
+    "code": "W04",
+    "source": "asset-74172c97968889686edfaaa5",
+    "frames": 20,
+    "fps": 20,
+    "silhouette_unchanged": true,
+    "markers_unchanged": true,
+    "scale_unchanged": true,
+    "pink_rail_pixels": 17
+  },
+  {
+    "code": "C04",
+    "frames": 40,
+    "fps": 20,
+    "emissive_pixels": 18,
+    "min_light_alpha": 165,
+    "body_unchanged": true,
+    "markers_unchanged": true
+  }
+]

@@ -1,0 +1,51 @@
+{
+  "forge": 1,
+  "code": "A07",
+  "name": "Ash Legion thigh · option C · 1.2 scale review · cloth layer · clarity tidy",
+  "w": 11,
+  "h": 13,
+  "fps": 8,
+  "base": null,
+  "pixel_scale": 12,
+  "markers": {
+    "grip": null,
+    "muzzle": null,
+    "pivot": null,
+    "shoulder": null,
+    "elbow": null,
+    "hand": null,
+    "hip": [
+      6,
+      1
+    ],
+    "knee": [
+      5,
+      12
+    ]
+  },
+  "notes": "Split from the T09 Ash Legion jump-pack fit-test (auto-reduced, not hand-cleaned) on 1 Nov 2026. Option C palette: magenta glow, oxblood cloth. Thigh with its tassets, hanging straight from the Hip; Knee is where the shin hangs. Frame 1 near leg, frame 2 far leg (same art; the far one is drawn darker).\nJarred 1 Nov: needs native-pixel cleanup to match the equipment family. Palette noise, block grouping and near/far distinction remain outstanding. This candidate changes ONLY game_scale to 1.2 and review notes; original pixels, frames and sockets retained. All four body parts must use the same scale. Rendered at 1 and 1.2 with current main game rig; not battle/play tested or approved. Do not treat the render comparison as final art. Cloth moved to the Cloth layer (greys; the game colours it per faction) on 1 Nov 2026.\nClarity tidy: reduced armour/cloth shade count, neutralised tan speckles and merged isolated interior value flecks into neighbouring planes. Isolated warm material flecks surrounded by cloth are moved into the cloth layer. Cloth remains a separate neutral-grey faction-tinted layer. Far leg material slightly darker. Combined body/cloth silhouette, emissive/trim layers, original frame counts/FPS, scales and ALL anchors retained. Torso hip remains [21,31] as moved by Jarred. No socket or proportion changes. Draft pending game-scale review.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAANCAYAAAB/9ZQ7AAAA8ElEQVR4nJWRMWvCQBiGnytdxEUFkeggugQHURDhcKilXZwq+EMLOrlUxEF0VlCXQAYTz0DSFqRjnHLkSgn0nT54H+4evg/+EZFVPr2OYykHbDZrVh9T8ZAuc/lCnMyVajOWcgDA6bAD4DEN/9w+RS5fiOsNm7fxBNd1WS7mFEtllOeYMEC9YdPp9phN34nCgGKpTBQGfztXqk2t8vwyAmC5mKM8x3QG+P4KDTA9GxqJb6fbw/fPWFYN3z/r3ni5L4f623Su6pLtbLfaGozCAOU5QsO/FU6Hnd6E8hxhOPflkORallXjqi4c99vMC2fmDrkKW56CQYkXAAAAAElFTkSuQmCC",
+      "emis": null,
+      "trim": null,
+      "guts": null,
+      "cloth": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAANCAYAAAB/9ZQ7AAAAMElEQVR4nGNgIAEwogtUVFT8//DhA4OAgABDR0cHijwTNhOwKRwFeEFERMT/IWATADmhDNtyj6p2AAAAAElFTkSuQmCC"
+    },
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAANCAYAAAB/9ZQ7AAAA5UlEQVR4nJWRsWvCQBSHvyuCOKgQOEGyxKEEEYNU6tIl0L+7kMUlQhEdFcySCh4+SNpSOqVTjlyRgL/pwe/j7uM9uCOqrXxaxVUULdjttryniXpolt1ev6pnT/tVFC0AyE4HADpN+PfnU3V7/WrsB8TxK+fzB5t0zWDoISZ3YYCxHxCGU5LkjbIQBkOPspDbzp72rcrz6gWATbpGTO46A3x/lQ7YnB2N2jcMpxhzQesRxlxs77w8my/tt82IXNudg8mjBctCEJMrC/9XyE4HuwkxuXKcZ/Ml9bW0HiFyJTvuWy/cmj8TuVspSGGXVgAAAABJRU5ErkJggg==",
+      "emis": null,
+      "trim": null,
+      "guts": null,
+      "cloth": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAANCAYAAAB/9ZQ7AAAAMElEQVR4nGNgIAEwogtkZmb+//TpEwMfHx/D9OnTUeSZsJmATeEowAt8fX3/DwGbAGHWDMCVKhwVAAAAAElFTkSuQmCC"
+    }
+  ],
+  "game_scale": 1.2,
+  "checks": {
+    "visual": false,
+    "tested": false
+  },
+  "ready": false,
+  "asset_id": "custom-115a49c4-8841-4fa9-b24f-b735da4fe993",
+  "state_key": ""
+}

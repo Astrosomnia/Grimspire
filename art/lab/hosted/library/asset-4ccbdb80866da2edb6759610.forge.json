@@ -1,0 +1,52 @@
+{
+  "forge": 1,
+  "game_scale": 1.2,
+  "code": "A05",
+  "name": "Ash Legion — jump-pack arm v1 · 1.2 scale review · cloth layer · clarity tidy",
+  "w": 41,
+  "h": 58,
+  "fps": 8,
+  "base": 54,
+  "pixel_scale": 12,
+  "markers": {
+    "grip": null,
+    "muzzle": null,
+    "pivot": [
+      18,
+      19
+    ],
+    "shoulder": [
+      18,
+      19
+    ],
+    "elbow": [
+      21,
+      27
+    ],
+    "hand": [
+      32,
+      30
+    ],
+    "hip": null,
+    "knee": null
+  },
+  "notes": "Experimental Ash Legion variation: short mantle, integrated idle jump pack, exposed exhausts, thigh-length front vestment. Body and arm share 41x58 frame and shoulder [18,19]. Feet row 54. Separate glow. Not gameplay-tested or approved. Cloth and pack are static body artwork; no cloth physics added.\nJarred 1 Nov: needs native-pixel cleanup to match the equipment family. Palette noise, block grouping and near/far distinction remain outstanding. This candidate changes ONLY game_scale to 1.2 and review notes; original pixels, frames and sockets retained. All four body parts must use the same scale. Rendered at 1 and 1.2 with current main game rig; not battle/play tested or approved. Do not treat the render comparison as final art. Cloth moved to the Cloth layer (greys; the game colours it per faction) on 1 Nov 2026.\nClarity tidy: reduced armour/cloth shade count, neutralised tan speckles and merged isolated interior value flecks into neighbouring planes. Isolated warm material flecks surrounded by cloth are moved into the cloth layer. Cloth remains a separate neutral-grey faction-tinted layer. Far leg material slightly darker. Combined body/cloth silhouette, emissive/trim layers, original frame counts/FPS, scales and ALL anchors retained. Torso hip remains [21,31] as moved by Jarred. No socket or proportion changes. Draft pending game-scale review.",
+  "ghostOff": null,
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACkAAAA6CAYAAAAtInDDAAABZElEQVR4nO3Wv0rDUBTH8a/iUgptLdg06RDMUgsWBQdXcXJScOnSJ+gDuPgEvoygb+FQaKlQuwgdtH8CSVsoHa+DJrRqi/ReUOR8loQMJz/OPScEhBBCCCGEEP/Q1fWNqlRrymTNDVOFKtWaajbqhIEPwOD12Vht7UKW46nt7A45Kw+AbRdwXZf7u1ueHh+MBN3ULTAZB4SBz3DQZzjox8/PLy51S8e0Q86mo4Vu9Xov8f3e/rGR2dQOCe/d/Kzb7cbzqcvYcEezCRAGPtGcdtot7SUyFhIgkcyoVDrLyekZAM1GnZyVx7YLNBv1tRdpy2RIgGKpHN+Hgc/B4RFAdFXrdNdoJ2H5sQPx9kdBi6UynXYLWP1dNd7Jj5cp+H6h5gPOsxxPLQtqPCQsdmU2HTEZByqVzgIs3fhVnTR+3D+RSGaUu1uMA0/GwZfv7Z9hOZ6yHM/oz4gQQgghhBBCCCHE73gDatKJRiSo0BoAAAAASUVORK5CYII=",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACkAAAA6CAYAAAAtInDDAAAAtklEQVR4AezSwQmAQAxEUbUg67ME67MhxZvxMDhhWBC+IBiTjeGZZfrBxZCpn4QkkimBVB92EsmUQKoPO4lkSiDVh51EMiWQ6sNOIpkSSPVhJw1JWYrkm+dc9/P97ks8XLIz6NAh52Ob7/uL3rNm6JDPDzvPDOloqVoklY6TQ9LRUrVIKh0nh6SjpWqRVDpODklHS9UiqXScHJKOlqpFsur0IyT7dvUkktWjHyHZt6snkawe/egCAAD//4GxMigAAAAGSURBVAMAMq8IddbSTqIAAAAASUVORK5CYII=",
+      "trim": null,
+      "guts": null,
+      "note": "Idle fit-test variation. No engine flame baked into artwork.",
+      "cloth": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACkAAAA6CAYAAAAtInDDAAAAoElEQVR4nO3TwQ0CIRCF4aexFIrguMVQ1hTDkSLoBQ8GwhIPCsRo/L/Lwk6YvMyyEgAAwD+6rDbw3pe6DiHU53Lf3lIz7305jqPtnXNtvTPodfZgHzDGKEnKObe6mZUnx6ZMh5Qe4frpSZKZycyWQo1uuxrVaaaU6mfeNsnpe9P/MNIp3Kk+vv+4Mei79Vct3cmfsGtSAAAAAAAAAAB8gTshqyr96QkZZgAAAABJRU5ErkJggg=="
+    }
+  ],
+  "ready": false,
+  "checks": {
+    "visual": false,
+    "tested": false
+  },
+  "asset_id": "custom-ash-legion-jumppack-arm",
+  "state_key": ""
+}

@@ -1,0 +1,37 @@
+{
+  "schema": 2,
+  "id": "20261102T061739Z-50f56248",
+  "created": "2026-11-02T06:17:39.672Z",
+  "author": {
+    "id": null,
+    "login": "ChatGPT"
+  },
+  "base_main": "24c7aa37147abd9f0e1be7d125924f735ff61d84",
+  "source_lab_commit": "d8a15ab22ea03d49b6aecf767da613a9ac592adb",
+  "notes": "Clarity tidy + red-mag Dakka. Latest cloth-aware parts at 1.2\u00d7, torso Hip [21,31] retained; broader material masses, original silhouette and sockets. Dakka red metal/pale pink rail keeps 20-frame cadence. Tank and coloured crate variants are in Library (not gameplay integrated here). Renderer checked; battle playtest/approval pending.",
+  "selected_slot": "TORSO",
+  "original_code": "T10",
+  "variant": "custom",
+  "slots": [
+    "W01",
+    "W02",
+    "W03",
+    "W04",
+    "W05",
+    "W06",
+    "W07",
+    "W08",
+    "ARM",
+    "TORSO",
+    "THIGH",
+    "SHIN"
+  ],
+  "files": {
+    "game.html": "6a0ca86b8e42d1e4cb98a7a8c50888ac64d9b5abf9a7bf5f5278de829645adfb",
+    "payload.json": "1c6a808b88370047d629381f46bded943de4253c694fd30afa8736588daabaed"
+  },
+  "stored": [
+    "payload.json"
+  ],
+  "status": "draft"
+}

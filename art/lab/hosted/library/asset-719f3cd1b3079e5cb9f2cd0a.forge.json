@@ -1,0 +1,44 @@
+{
+  "forge": 1,
+  "code": "T10",
+  "name": "Ash Legion torso · option C · 1.2 scale review · cloth layer · clarity tidy",
+  "w": 41,
+  "h": 58,
+  "fps": 8,
+  "base": 54,
+  "pixel_scale": 12,
+  "markers": {
+    "grip": null,
+    "muzzle": null,
+    "pivot": null,
+    "shoulder": [
+      18,
+      19
+    ],
+    "elbow": null,
+    "hand": null,
+    "hip": [
+      21,
+      31
+    ],
+    "knee": null
+  },
+  "notes": "Split from the T09 Ash Legion jump-pack fit-test (auto-reduced, not hand-cleaned) on 1 Nov 2026. Option C palette: magenta glow, oxblood cloth. Torso, head, pack and front tabard. Shoulder is where the arm attaches, Hip is where it sits on the legs. The legs are separate (A07 thigh, A08 shin). Test with the Torso slot.\nJarred 1 Nov: needs native-pixel cleanup to match the equipment family. Palette noise, block grouping and near/far distinction remain outstanding. This candidate changes ONLY game_scale to 1.2 and review notes; original pixels, frames and sockets retained. All four body parts must use the same scale. Rendered at 1 and 1.2 with current main game rig; not battle/play tested or approved. Do not treat the render comparison as final art. Cloth moved to the Cloth layer (greys; the game colours it per faction) on 1 Nov 2026. Hip at [21,31] from Jarred's latest save.\nClarity tidy: reduced armour/cloth shade count, neutralised tan speckles and merged isolated interior value flecks into neighbouring planes. Isolated warm material flecks surrounded by cloth are moved into the cloth layer. Cloth remains a separate neutral-grey faction-tinted layer. Far leg material slightly darker. Combined body/cloth silhouette, emissive/trim layers, original frame counts/FPS, scales and ALL anchors retained. Torso hip remains [21,31] as moved by Jarred. No socket or proportion changes. Draft pending game-scale review.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACkAAAA6CAYAAAAtInDDAAACq0lEQVR4nO2YP2vbUBTFj0oXIbAlgaxYHky02AEFGzw4dAghWbJlzJJPkA9XcKcsCSFDSYZCSwONFwcPdeIY5D9gPN4O7lVkI0uyn9qG8n6TLJ7eO/fc966uDEgkkrVRsppI1XTK5U0YpgUAeLi/y2zuTCaqek0q2FvB7729DwCA29vPuLlsCa/xTnQCVdOJr4vFEorFErrdLoBXsaIIi8zlzeD629cvAIDrqwt8an0MxIoinArbcQkAKju7eOk/I5z2l/4zAPH9ubaTtuPS/tEJsbjJ2AcAtH98XxBWLJZEdC3wPmlA1WsGe6772Ea/11EM0wruzaYjZTYdAQD6vQ5sx6WhP8hUZGonh/4guC7YW+j3OpEp5PvXVxeZlaHYSWzHpbAY23EpbR2sek3iwFYFlJZYJydjH6dn58QC+X4ahx7u7xQOKFymNiHRyYPDYwDz8jL0B8KubEKsk+wE8y8EAikODhfo8MGJwnZcUjWdbMel8NbIgkSRtXoDT08/Y11UNZ0M00J5uwLDtIIMZCU2tk52H9upJsnlTQz9AQzTWti3v8WSYVpC5ShVnYxbgE8uCzRMC6dn58QvARYs4mpsdKqm02w6ChaZjH3w72WR3Gj0ex2l6jWpVm8E+xmYBxqebx1i0z2bjhQu4MsHJ6r2sWvhJiML1oqKhbEby07zuMrOLoB508EBRmUhLan25P7RyUJKgdfGQ9V0UjWduBticTeXLeXg8BgFewuGaS08mzmqplPVa1K4G7Idl6pek5JedxycKIlOcoqiinlS+rL4vsmUqEbkzbK8NcJs2g0Jf4iFnbMdl2r1Bmr1RuTY8nZlozWERYbf6YZpoVwurxyb5R8GEsl/yaoy9KYQ/UKURMGd0qbPCxfztPzRVk0ikUgkEolEIpH8BX4BmCkgyiyaDi8AAAAASUVORK5CYII=",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACkAAAA6CAYAAAAtInDDAAAAUklEQVR4Xu3TMQrAIAwFUPFAnrO3Vhw6tg6xJcJ7kDV8k1gKALzp7eqzolOq0QZ/OCLk53asG25Z7mn5u7MEfZQ+4E7Rxy7XnYGQAAAAAABwkAF3JhL5IgSrBgAAAABJRU5ErkJggg==",
+      "trim": null,
+      "guts": null,
+      "cloth": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACkAAAA6CAYAAAAtInDDAAACH0lEQVR4nO2YwZHjIBBFv7YmAELgQAgOQUEQgA6EQAgKwQcFQBAOgRA4EAIZMIet1iAsSwLJOztTvCqXZYHg0zTdLQONRuP/QUoZv1vD7+IKi/65QsgWnPN3T9E4TFf6gJQyGmM6uu77fm57PB6gtiup9kkpZcz9re/7xUHRWkfqWzsPcMCSWusYQgBjDOM4zv1JpBDi6Rnn3Grf9F4Ju5akgdMJtNZPAp1z84eEUdtZF6jyydQPU5xz8N4DABhjCCEAWIahGmsW+SQJtNbCWvvULoRYCGKMlepZpWhV0zTNW2itxe12A/Dsg8DXofHez8KFEKt99zhsyVQggE2BJI7uCyGqBRaJpAORs3a6lVKLQzMMQ+ecgxBitnAJh1aVDpyLGoZhc4w0+GutoxBi95litNYxtYyUMkop4zRNMXcBYGnFfJz0u4SPvQ6vfGjNGlrrSCEoh+6/at9i1+xSysgYW2QcCtTGmC69Lp79KkhEuk1HcvGrba/hktXnojnn8N7DGNMppSJjbP5dM/4llTm5Q55hqDghaquh0yJp4vv93gF/fZOyDAmsOSwpp0VSyqNtBb6EkkgqSL5tu8dx7EIICCEswhVjDJzzeRGvKqcj7MbJPdIQlZNnJ6VUDCEUW/S0yJIJyW9Left79xU0kVfxNpGp/629apTwVktSoUxVfC0/YrtPh6AtKB3W/inwz2j/+DYajUaj0Wg0Gr+FT/2HH3/gkV9CAAAAAElFTkSuQmCC"
+    }
+  ],
+  "game_scale": 1.2,
+  "checks": {
+    "visual": false,
+    "tested": false
+  },
+  "ready": false,
+  "asset_id": "custom-48c145bc-fb86-4386-8dca-e6fa57025d62",
+  "state_key": ""
+}
