@@ -6,6 +6,9 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-01 · Jarred · Branch cleanup
+- Deleted the five `art/release-*` branches (closing stale PRs #3 and #4), `forge-pipeline`, `sprites` and `vector-backup`. Remaining: `main`, `art/weapon-lab`, and ChatGPT's in-progress `art/category-review-sheets-20261101`.
+
 ## 2026-11-01 · Claude · Forge legs walk in the game
 - **THIGH and SHIN slots** in the Forge and the game. Forge legs replace the game's legs on the same walk, jump and knockdown rig: the thigh swings from the torso's Hip, the shin bends at the thigh's Knee. Frame 1 near leg, frame 2 far. They work as a pair, and their lengths set the hip height (an atlas torso rides up or down to match).
 - Firing origins follow the new hip height; covered by the art fingerprint. With no Forge legs nothing changes (determinism hashes and renderer tests unchanged).
