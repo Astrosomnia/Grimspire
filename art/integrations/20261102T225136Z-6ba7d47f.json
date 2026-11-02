@@ -1,0 +1,8 @@
+{
+  "revision": "20261102T225136Z-6ba7d47f",
+  "base_main": "227c640a82cc17ff955c87846e03a65df744955a",
+  "game_sha256": "5170817bda15c1a4a7d5ea69fbb9d50ea651f0a45d37a32f0ce5a80362c1d606",
+  "notes": "Architecture kit K01-K09 (ChatGPT injection manifest v001) on top of 20261102T194923Z-1df29329. Runtime: North Star look, drowned district in rotation, set pieces live, GV 19.",
+  "source_lab_commit": "befa1ab",
+  "status": "main updated by Claude at Jarred's request"
+}

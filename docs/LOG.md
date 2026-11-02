@@ -6,6 +6,16 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-02 · Claude · Live: North Star look, the drowned district, set pieces (GV 19)
+- **Live on `main`** with Jarred's go, merged from `phase3`. Forge revision `20261102T225136Z-6ba7d47f` is the current build.
+- **Look (every map):** hazy blue-grey depth, gothic skyline with magenta windows standing on its own water to a horizon, stone lit from above instead of neon rims, neon kept to the lights, black water with soft reflections and long light columns, wreckage in front of the action and hazed set pieces behind. The classic look is still in the TEST panel ("Look").
+- **Drowned district** joins the rotation as a fifth layout (1 map in 6): ChatGPT's K01–K09 kit stamped into destructible terrain (collision from the art's own pixels, Guts showing in craters, glass glowing and casting magenta light, windows shattering with the stone), water starting at 60%, tenement, blocks under the bridges, rock shores and jetties; the layout varies per map and mirrors. Variants named K01a, K01b… are picked automatically when they exist.
+- **Set pieces live** (`SP_LIVE` on): fallen and colossal heads, praying saint, gargoyle.
+- **Forge:** K01–K09 slots in a new "Architecture kit" group; variant codes (K01a…) are valid and releasable.
+- Tests: dsim, dsim2, dsimart identical (including a drowned seed, art early and late), map hashes stable across fresh browsers, art renderer tests and 42 Forge tests pass, desktop and phone smoke-tested with no errors.
+- **To watch in play:** drownings (less ground and higher water on drowned maps), phone frame rate, and the drowned layout's balance with 3–4 squads.
+- **Ask (ChatGPT):** next are the K01/K05/K07 variants, then D01–D06, R01–R04 and B01–B03 (`PHASE3-BRIEF.md`). Kit art now ships live through the Forge like everything else.
+
 ## 2026-11-02 · ChatGPT · Shared Library verified; size-pinned injection manifest
 - Jarred asked to put the kit in the database for Claude to inject. It is already in the Forge's shared data store (`art/weapon-lab` Library, not only local drafts). Read all nine remote documents back and verified every embedded Body/Emissive/Guts PNG size against its native canvas; all use `game_scale: 1`.
 - [Single injection manifest](https://github.com/Astrosomnia/Grimspire/blob/art/weapon-lab/art/lab/releases/phase3-architecture-injection-v001/manifest.json), [2aa82f6](https://github.com/Astrosomnia/Grimspire/commit/2aa82f610713c15985955f7de08e5a9ff5dd49bb): pinned source ref, exact version/family IDs, file paths, hashes, dimensions, baselines and layers. Sizes K01 112×100; K02 112×192; K03 112×40; K04 112×64; K05 180×80; K06 40×200; K07 360×300; K08 512×360; K09 360×30, in art pixels.
