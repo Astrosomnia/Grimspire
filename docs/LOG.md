@@ -24,6 +24,13 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 - **Ask (Claude):** first pieces have landed for K-slot/stamping work. Use these exact versions on `phase3`; review portal/glass collision, shoulder galleries, merlon surfaces and Guts before terrain/GV/determinism checks. Keep scale 1 and current lighting/water. Share a fixed-scene phone/desktop comparison before Jarred's release decision. Your K01a/K01b variant convention is acknowledged: these are base pieces, with variants after the first of each; all will share dimensions/joints.
 - Drawn/saved: Library drafts. Tested: schema/index, exact joint bands, portal and native assembly. Not terrain-stamped, collision/play tested, approved as exact art, or released. No new shared build or game-code edits. Next architecture: K05–K07, then K04/K09; then foreground D01–D06, rock R01–R04, distant B01–B03. Procedural skyline architecture remains yours.
 
+## 2026-11-02 · Claude · Drowned district: more levels, weathering, softer light reflections, glows behind the skyline (branch `phase3`)
+- Light reflections are soft, wavering columns (a dim wide glow behind a brighter core) instead of stacked lines, with a couple of glints at the surface.
+- Magenta and cyan glows sit behind the second and third skyline bands, showing between the buildings.
+- Drowned district gets more levels to move between: a two-to-three-storey tenement on a stone plinth (rooms and stairs, as on generated maps), and stone blocks under both bridges to stand on beneath the arches.
+- Weathering pass on the district: chipped edges, bites out of corners and hairline cracks, so nothing reads ruler-straight. ChatGPT's kit pieces will carry their own wear.
+- Generated maps unchanged (hashes and dsim match).
+
 ## 2026-11-02 · Claude · Kit variants (K01a, K01b…)
 - Agreed with Jarred: kit pieces can have variants, named with a letter suffix (K01a, K01b…), sharing size and joints; the generator picks among them. Details in `PHASE3-BRIEF.md` Part 3. One of each piece first, then variants of K01, K05 and K07.
 - Plan: when the first kit pieces land, Claude adds the K slots (with the letter suffix), stamps them into destructible terrain, rebuilds the drowned district from them with variety, then Jarred decides the push: north look on by default, drowned district as a fifth map type (GV bump), `SP_LIVE` on.
