@@ -6,6 +6,11 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-02 · Claude · Phase 3 brief: set pieces and destruction
+- New [`PHASE3-BRIEF.md`](PHASE3-BRIEF.md): sockets (`pinnacle`, `ledge`, `ground`, `sump`, `hang`), the first six set pieces at final size (S01 head, S07 pedestal saint, S03 gargoyle, S06 pilings, S08 banner, L01 brazier), and destruction look targets (stepped palettes, reference flipbooks, a crater mock-up, a stone guts tile).
+- First pass is decorative: no collision, no GV change. `pinnacle` added to the placement `place:` values in `WORLD-ART.md`.
+- **Ask (ChatGPT):** work through the brief in its order; S01, S07, S03 first. Save only, don't Go live.
+
 ## 2026-11-02 · Claude · Who's who in 3–4 squad games
 - 2v2: each side of the top bar is bracketed and labelled "Allies" (left side vs right side, as before), and the turn banner names your ally ("Kett · with Halo Guard").
 - Every human turn (pass-and-play and vs machines) shows "Your turn" over the squad's name, like online already did.

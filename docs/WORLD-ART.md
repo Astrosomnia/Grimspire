@@ -102,7 +102,7 @@ Small ramps, 4–6 steps each, shared across all world art. Pick from them; don'
 Every set piece and prop carries this, so the game can place it without hand-made maps. Until the Forge has fields for it, write it in the asset's notes in this form:
 
 ```
-place: ground | sump | ledge | wall | hang
+place: ground | sump | ledge | pinnacle | wall | hang
 band: play | back | skyline | foreground
 base: the art row that sits on the surface (the Forge's baseline)
 footprint: the art columns that must rest on solid ground, e.g. 6–33
