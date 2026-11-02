@@ -1,0 +1,179 @@
+[
+  {
+    "slot": "S01",
+    "phone": false,
+    "attempts": 3,
+    "artReady": true,
+    "category": "S01",
+    "sockets": 57,
+    "pieces": [
+      {
+        "slot": "S01",
+        "x": 1682.0477764382501,
+        "y": 756,
+        "face": 1,
+        "base": 103,
+        "sink": 21.34329070188898,
+        "broken": false
+      },
+      {
+        "slot": "S07",
+        "x": 1091.5144242976232,
+        "y": 379,
+        "face": 1,
+        "base": 95,
+        "sink": 0,
+        "broken": false
+      },
+      {
+        "slot": "S03",
+        "x": 921,
+        "y": 410,
+        "face": 1,
+        "base": 53,
+        "sink": 0,
+        "broken": false
+      },
+      {
+        "slot": "S03",
+        "x": 333,
+        "y": 456,
+        "face": -1,
+        "base": 53,
+        "sink": 0,
+        "broken": false
+      }
+    ],
+    "body": "n Choir\nYOUR TURN\nYOUR TURN\nNeon Choir\nTHESSALY\nPLASMA MORTAR\n∞\n← → move · ↑ ↓ aim · hold Space to charge · Enter jump · Tab arsenal · X switch trooper · 1–5 fuse · mouse to the edge pans · scroll to zoom · C recenter · Esc pause\nForge testing grounds · local-phase3-setpieces-v001\nRestart local test",
+    "errors": []
+  },
+  {
+    "slot": "S09",
+    "phone": false,
+    "attempts": 12,
+    "artReady": true,
+    "category": "S09",
+    "sockets": 51,
+    "pieces": [
+      {
+        "slot": "S07",
+        "x": 277,
+        "y": 627,
+        "face": 1,
+        "base": 95,
+        "sink": 0,
+        "broken": false
+      },
+      {
+        "slot": "S03",
+        "x": 1355,
+        "y": 562,
+        "face": -1,
+        "base": 53,
+        "sink": 0,
+        "broken": false
+      },
+      {
+        "slot": "S03",
+        "x": 1123,
+        "y": 408,
+        "face": -1,
+        "base": 53,
+        "sink": 0,
+        "broken": false
+      },
+      {
+        "slot": "S01",
+        "x": 600.8392177308283,
+        "y": 767,
+        "face": -1,
+        "base": 103,
+        "sink": 21.427837209752266,
+        "broken": false
+      }
+    ],
+    "body": "on Choir\n4 STANDING\nYOUR TURN\nAsh Legion\nCASTOR\nPLASMA MORTAR\n∞\n← → move · ↑ ↓ aim · hold Space to charge · Enter jump · Tab arsenal · X switch trooper · 1–5 fuse · mouse to the edge pans · scroll to zoom · C recenter · Esc pause\nForge testing grounds · local-phase3-setpieces-v001\nRestart local test",
+    "errors": []
+  },
+  {
+    "slot": "S07",
+    "phone": false,
+    "attempts": 2,
+    "artReady": true,
+    "category": "S07",
+    "sockets": 66,
+    "pieces": [
+      {
+        "slot": "S07",
+        "x": 656,
+        "y": 558,
+        "face": -1,
+        "base": 95,
+        "sink": 0,
+        "broken": false
+      }
+    ],
+    "body": "on Choir\nYOUR TURN\nYOUR TURN\nNeon Choir\nOBADIAH\nPLASMA MORTAR\n∞\n← → move · ↑ ↓ aim · hold Space to charge · Enter jump · Tab arsenal · X switch trooper · 1–5 fuse · mouse to the edge pans · scroll to zoom · C recenter · Esc pause\nForge testing grounds · local-phase3-setpieces-v001\nRestart local test",
+    "errors": []
+  },
+  {
+    "slot": "S03",
+    "phone": false,
+    "attempts": 1,
+    "artReady": true,
+    "category": "S03",
+    "sockets": 91,
+    "pieces": [
+      {
+        "slot": "S03",
+        "x": 881,
+        "y": 342,
+        "face": 1,
+        "base": 53,
+        "sink": 0,
+        "broken": false
+      },
+      {
+        "slot": "S07",
+        "x": 1305.184996290861,
+        "y": 300,
+        "face": -1,
+        "base": 95,
+        "sink": 0,
+        "broken": false
+      }
+    ],
+    "body": "eon Choir\nYOUR TURN\nYOUR TURN\nNeon Choir\nCANTOR\nPLASMA MORTAR\n∞\n← → move · ↑ ↓ aim · hold Space to charge · Enter jump · Tab arsenal · X switch trooper · 1–5 fuse · mouse to the edge pans · scroll to zoom · C recenter · Esc pause\nForge testing grounds · local-phase3-setpieces-v001\nRestart local test",
+    "errors": []
+  },
+  {
+    "slot": "S09",
+    "phone": true,
+    "attempts": 9,
+    "artReady": true,
+    "category": "S09",
+    "sockets": 67,
+    "pieces": [
+      {
+        "slot": "S09",
+        "x": 1721.530815782553,
+        "y": 765,
+        "face": -1,
+        "base": 199,
+        "sink": 33.34517244347135,
+        "broken": false
+      },
+      {
+        "slot": "S07",
+        "x": 1080.9364509113047,
+        "y": 604,
+        "face": -1,
+        "base": 95,
+        "sink": 0,
+        "broken": false
+      }
+    ],
+    "body": "Ash Legion\nYOUR TURN\n40\nII\nTOBIAH · PLASMA MORTAR\nWIND ← 0.7\nNeon Choir\n4 STANDING\nYOUR TURN\nAsh Legion\nTOBIAH\nMOVE\nAIM\n×1\nJUMP\nFIRE\nForge testing grounds · local-phase3-setpieces-v001\nRestart local test",
+    "errors": []
+  }
+]
