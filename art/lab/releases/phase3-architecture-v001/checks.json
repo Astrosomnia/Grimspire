@@ -1,0 +1,35 @@
+{
+  "jointWidth": 112,
+  "matchingFourRowBands": [
+    "K01 top/bottom Body and Guts",
+    "K02 base to K01",
+    "K03 base to K01"
+  ],
+  "portalTransparent": true,
+  "pieces": [
+    {
+      "code": "K08",
+      "w": 512,
+      "h": 360,
+      "base": 359
+    },
+    {
+      "code": "K01",
+      "w": 112,
+      "h": 100,
+      "base": 99
+    },
+    {
+      "code": "K02",
+      "w": 112,
+      "h": 192,
+      "base": 191
+    },
+    {
+      "code": "K03",
+      "w": 112,
+      "h": 40,
+      "base": 39
+    }
+  ]
+}

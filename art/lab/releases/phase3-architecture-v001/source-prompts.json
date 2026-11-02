@@ -1,0 +1,19 @@
+{
+  "tool": "built-in image_gen",
+  "reference": "art/reference/phase3-interim-north-star-20261102.png",
+  "remaining": [
+    {
+      "code": "K01",
+      "prompt": "Use case: stylized-concept. Isolated modular pixel-art architecture for GRIMSPIRE drowned gothic district. Match the approved reference's dark stone Gothic architecture. TRUE TRANSPARENT background, no scene, ground, sky, water, glow, shadow, text or people. Strict FLAT FRONT ELEVATION for a 2D side-scrolling game, no perspective or side walls. Broad crisp pixel clusters, six flat neutral cold stone values #11161d #191f28 #232a34 #2e3641 #3b434f #4c5460. No white highlights, no rim lighting, no gradients, no speckle noise. Window glass only can be solid flat magenta #cf286d, no coloured spill. Entire object visible with clear margin. Heavy masonry and stout details, clean silhouette for destructible terrain. K01 TOWER SHAFT SEGMENT ONLY, target112×100 art pixels. Near-square repeatable segment with two or three pointed lancet windows, one magenta and others dark. Broad buttress ribs at outside edges and large stone courses. No roof, crown or finial. Flat full-width matching plain stone connector bands at top and bottom, same exact width, so copies stack vertically without seams. Make a shaft slice, not a complete tower."
+    },
+    {
+      "code": "K02",
+      "prompt": "Use case: stylized-concept. Isolated modular pixel-art architecture for GRIMSPIRE drowned gothic district. Match the approved reference's dark stone Gothic architecture. TRUE TRANSPARENT background, no scene, ground, sky, water, glow, shadow, text or people. Strict FLAT FRONT ELEVATION for a 2D side-scrolling game, no perspective or side walls. Broad crisp pixel clusters, six flat neutral cold stone values #11161d #191f28 #232a34 #2e3641 #3b434f #4c5460. No white highlights, no rim lighting, no gradients, no speckle noise. Window glass only can be solid flat magenta #cf286d, no coloured spill. Entire object visible with clear margin. Heavy masonry and stout details, clean silhouette for destructible terrain. K02 SPIRE CAP ONLY, target112×192 art pixels, tall narrow taper. Stepped chunky crockets on both slopes, sturdy cross finial at tip, dark lancet inset near base. Full112-wide flat horizontal bottom connector band for joining a tower shaft. No shaft below cap, no pedestal, no terrain. Large quiet stone planes and sparse cracks, no fine filigree. No bright windows needed."
+    },
+    {
+      "code": "K03",
+      "prompt": "Use case: stylized-concept. Isolated modular pixel-art architecture for GRIMSPIRE drowned gothic district. Match the approved reference's dark stone Gothic architecture. TRUE TRANSPARENT background, no scene, ground, sky, water, glow, shadow, text or people. Strict FLAT FRONT ELEVATION for a 2D side-scrolling game, no perspective or side walls. Broad crisp pixel clusters, six flat neutral cold stone values #11161d #191f28 #232a34 #2e3641 #3b434f #4c5460. No white highlights, no rim lighting, no gradients, no speckle noise. Window glass only can be solid flat magenta #cf286d, no coloured spill. Entire object visible with clear margin. Heavy masonry and stout details, clean silhouette for destructible terrain. K03 CRENELLATED CROWN ONLY, target112×40 art pixels, low wide aspect2.8:1. Three/four chunky merlons with flat walkable gaps; short substantial pointed corner pinnacles. Broad horizontal masonry band at bottom. Full112-wide flat bottom connector to a tower shaft. No tower shaft below crown, no windows, no lighting. Low castle-top module only."
+    }
+  ],
+  "cathedral": "K08: flat-front 512×360 dark stone cathedral facade; large magenta rose window, flanking lit/dark lancets, transparent open pointed doorway, shoulder galleries; six-value neutral material, no baked glow or rim."
+}

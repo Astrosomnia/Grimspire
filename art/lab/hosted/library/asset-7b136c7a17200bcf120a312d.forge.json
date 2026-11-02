@@ -1,0 +1,33 @@
+{
+  "forge": 1,
+  "code": "K01",
+  "name": "Tower shaft · stackable lancets",
+  "w": 112,
+  "h": 100,
+  "fps": 8,
+  "base": 99,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "grip": null,
+    "muzzle": null,
+    "pivot": null
+  },
+  "ready": false,
+  "checks": {
+    "visual": false,
+    "tested": false
+  },
+  "notes": "band: play\nscale: 1\n\njoint: tower-112; top rows 0–3 match bottom rows 96–99 exactly; stack pitch 100; bottom baseline 99.\n2 Nov 2026 architecture draft from a new built-in image-generation source based on approved interim North Star. Encoded at exact final grid 112×100, six shared neutral material values. Body/Emissive/Guts separated; only window glass is magenta, no baked glow or coloured rim. Interior uses hollow masonry and metal ties. K codes have no Forge game slot yet; Library save is not integration. Collision/stamping/lighting belong to Claude. Joint bands were edited natively for exact matches. Final hand cleanup, in-scene/phone review and exact-version approval pending.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,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",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHAAAABkCAYAAABep7TGAAAABHNCSVQICAgIfAhkiAAAAAFzUkdCAK7OHOkAAAEGSURBVHic7dc7DoJAFIZRNS6G1oWxGhZm626wIpkYfDQw/pdzKgPNNV/ukDmdAAAAAAAAAAAAAAAAAAD+yH0Y5/swzr3n2NKl9wB7qByxbMDK0VplAx6FgOFKBfzl2Kx2tJYK2Lo9pnPvGfZQ5k++btbtMZ2XZ+3v9v3eM26h7AYexWEDVvkWXnsPsKUqx+QnJTZwbZvaZ1W2bU2JgEcmYDgBwwkYTsBwAkJPJS667+55y0X+2/tkjtBwAoYTMJyA4QQMJ2A4AcMJGE7AcAKGEzCcgOEEDCdgOAHDCRhOwHAChhMwnIDhBAwnYDgBwwkYTsBwAoYTMJyA4QQEAAAAAAAAAKCaJ7puL3edJMmwAAAAAElFTkSuQmCC",
+      "trim": null,
+      "cloth": null,
+      "guts": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHAAAABkCAYAAABep7TGAAAABHNCSVQICAgIfAhkiAAAAAFzUkdCAK7OHOkAAAJhSURBVHic7d2xb9NAGIbx9yIPIKYi2ihD1SFLlYEpYucvZ0dMDKgDSFQZoqSIDDTAFhZsuWIhUZzkcZ7f1Faqvkiv7uK7z2eX8WS6ibCqn+vHJMnlcHSQgg+LufX2aHCQKupMGd3cOoWClSS5uLrePHv+otNCv3+tkyTW2V+d+f1dcQqFM0A4A4QbJMlqOSvH/iDazvz+rqQ9Aus/6PS1s3IKhTNAOAOEM0C45svw4uraLTWQeuXgCIQrSbJtT/D7t0WS5OWrYUcfyzr/yxEI9uXTBzez6QwQbDyZbkqSvH7z1itQoI/v3zmF0lVJsn78sdU/ka/a+lbHEQhX5e/laHZYD+o46rziCOQzQDgDhHtyG4UdCYb2PUyOQLiq/UuX6yDyWuvU6qyWs+ZnRyDckxFYHzXr0iFqnFMdRyCcAcIZIFwToAc9OdpZDeICHqkO0SkUzgDhDBDOAOE8GwFVdyRsJwG120k7dSPOYcf/lOvYjegRA4QzQDgDhDNAOAOEM0A4A4QzQDgDhDNAODezgTwb0SOejQDWsRvRI56NgNfxxl6gdlY+qQnMJzX1QJUks6+fz+JdQ32s4wiEM0A4X70D9c+rd8RkgHCejYDyvRE90eyFbrOrfg47/qdep+5IOALhDBDOAOEG8VnZSHVmA8PjGk+mG6dQOAOEM0A4A4QzQDgDhCt2IdhKbCVhrZaz0vQDu17QE3f8T7lO/QYzvwPhmn7gse/xt85udRyBcAYI51ProZqn1hse1+jm1nYSnQHCGSBc8ZYKtqpeIF4ORwcp+LCYW2+PnELhik+nYPsDw4kkFFKjWakAAAAASUVORK5CYII="
+    }
+  ],
+  "asset_id": "custom-677a1672-11c0-4e81-8eb2-a1f97e99988d",
+  "state_key": ""
+}

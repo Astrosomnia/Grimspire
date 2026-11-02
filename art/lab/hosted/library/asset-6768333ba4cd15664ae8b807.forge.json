@@ -1,0 +1,33 @@
+{
+  "forge": 1,
+  "code": "K03",
+  "name": "Tower crown · merlons and corner pinnacles",
+  "w": 112,
+  "h": 40,
+  "fps": 8,
+  "base": 39,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "grip": null,
+    "muzzle": null,
+    "pivot": null
+  },
+  "ready": false,
+  "checks": {
+    "visual": false,
+    "tested": false
+  },
+  "notes": "band: play\nscale: 1\n\njoint: tower-112; bottom rows 36–39 match K01 connector. Flat gaps between merlons are walkable candidates.\n2 Nov 2026 architecture draft from a new built-in image-generation source based on approved interim North Star. Encoded at exact final grid 112×40, six shared neutral material values. Body/Emissive/Guts separated; only window glass is magenta, no baked glow or coloured rim. Interior uses hollow masonry and metal ties. K codes have no Forge game slot yet; Library save is not integration. Collision/stamping/lighting belong to Claude. Joint bands were edited natively for exact matches. Final hand cleanup, in-scene/phone review and exact-version approval pending.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHAAAAAoCAYAAAAmPX7RAAAABHNCSVQICAgIfAhkiAAAAAFzUkdCAK7OHOkAAARvSURBVHic7Vs9bxsxDKUDD7bvMjRIangIEiAZggydgu795d2LTh2KDC3QIIPhOEiGnGxv7mIdZB5JUR93iYF7UyLf8VEiKYqUDUDg6vZuS433eD9wNjnqXpUeOdEw4OziZgt9FH4oSDbpI/DAsWdAa2kAgKI87qPwA8C1CRBRKEZgUR63pVePSGCbeLfQL1+/9VH4gWCqt73/+xx44BhyH2BLaxEbsb9+fB9EEb4DZ8qulDJPCgMAgE+fz2uFTk6n5IN/f//0El/d3m1T8qap3lQ8uTi75gvhtIeXzdqINhkCAIzGRbRClIJdo2vOLvl8thkCAMwf7gc2Cjdr03jo9ekxKuxXpoLN2sBoXMCkKOvxl+cFgBDtKeBkd81ZlMfw+O9PNKfWJrVhcL2BhWmJ3e0Ydh5EKUCNxzgKxQfEpLnxtjlT+DQ2YQ8xsaBCntsGcm3dsZyUY8XyheoRgklRwspU5GedlhGxCyYhdntPfZdDG3O0xnPTkIXKgFIoa2FzYRsTlDi75mtzjlQUigbMtQBYRtuLOinKPY4ujdgFpyt7iKPrbDojX5oU5Ta0ZnLJbC6wHmq9tQ3YU6F7uMB65ETuOc4ubrZ2u+RqzvPL6+1yMYch9pTlYl7/7SbPFI/Ck+hiK3U5u966Uzldh1uZqs59eAvdrE2zE8Ph/PK6MbZczBsR6zoAOHmBUhKPc9HPcYVwUhEo8UmcFB+WzelBrRfFYWtICa9Pj3InRmrjcDibzsBUb+yxl3snBWfTWb2oWq9P4bTvYkPm5LTr/vK82LMBXld1Hci1j1LaSnZr0MqQnnOP2JIR2+DU8EmyUtYwqZDfrA1Zm4CjuOR1IYpLXJhXu9Xm4qTSi8spydBwSLuZ14D2RBf7ec53U7ggsizScLoHjRhODQfXjVFFoM2Rk6LcI6PaUqGtKq0MTq47jvXzzcU226V5Urwnp1OxOxI6RzxO6cZF4cDWHFy9sVzM2cYwBa5x7XsmVK7vmK7l5GSFzlHLGSJX2pphZ5s6AqV85CPFNRcFXMv4ClyNXHfhsZdbL3YPGtStgVt8p+iCc5lmnpLczdqozgiqOlAqM3zP4OdCn4/pZMREeKouoXMEYTuVZLqo60COVGoFhR4GfLlRujIJAbXgdiy0tZV7jpxsn16S3CPYWXI0LvaSuO/oawVzl5mhsEkby+76RsECO0JOXbTrx6WN0bior8LI24iVqbzRoMl7GD7HCJWHwUW27xnpnbYa7tL6YZ2ldSMNKL3AhXtqw5jLB6kRzjmi5EhUCRGii2/38q1fiM6NHKiJkBBs1qZxHLZf+GnLu4E4guPmcI586+LkdLpXiqXMMeQ8MAThxt0tWIG4KNUqcEhfNdTOEdA8czsEeC4TZhc32/nDffMUSt05wS7EtUpquwixF56aolujKyUnxBDuPLl3Yy6SXbmUPVxZA/f21xWQeyvNhTZ1yyG7Lf0ouStTwaD/DeBhY2hDNPVSVQt7pdPz5UH/87IDxyDHdz57vB/+A0nla06roPisAAAAAElFTkSuQmCC",
+      "emis": null,
+      "trim": null,
+      "cloth": null,
+      "guts": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHAAAAAoCAYAAAAmPX7RAAAABHNCSVQICAgIfAhkiAAAAAFzUkdCAK7OHOkAAAHiSURBVHic7Zsxb4MwEIXPiKFV2iFVm4ghYmBBmfP/f0HmiIUBZUBJqzI0tN3oUluUQGwHy+Gq940E/GyOd2dsQtTDfLFq+o6D2zEUk8B/V4BLRPdAst6oSOe77dnvwD/zxap5el4S9cQEDmTOn2hGcXqWZ8sigwtviKx9d/czdawdEziQOdoA9rkSTAc4kDmh6waHHPv9VRN1cnmbMbW2ranTcaEZxWljo+NCcwhBv4VS1xET4Uvp1nTAtgPsatre2Gv1rg2gqaaJTllkAimUOQERUXXcX3wi8CrhH909l787deDYQHN4UKY2RqRQ5qhZqCyWY9G140pHUhaZ6FupN9HRlY4h2m27Ho+tjpEDsb00XZQD5Wr3ENVxb9Sgrh0XGq40feu9vx2c6ci+h+3to0sk602D7SU/mMREnoNJDHMEGUa8jUwFY9IldMaT77YiJCKaPTxaXWh7/rVARw9SKHNCIqL69GF1EdeU8x914EDmIIDMCWxnoGA6JOtNAwcyJ8DqCl/y3VaoTypu3RlgT3XcC+U+BJEXcivMeDdiLJzftaaoI3cjMIlhjnLgZ33yIggdtzoBof6xRH43ihTKnADu40sUp43AUhpvQlkcX5aRF8HXQwk9h6AGMkfgD5y8+QFXkvX1q7bx2AAAAABJRU5ErkJggg=="
+    }
+  ],
+  "asset_id": "custom-a59ae77d-179e-4f0c-b808-91212a2f487e",
+  "state_key": ""
+}

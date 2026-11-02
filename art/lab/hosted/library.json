@@ -1753,6 +1753,62 @@
       "h": 40,
       "frame_count": 10,
       "category": "Other art"
+    },
+    {
+      "id": "asset-a4bcf746ba5984c9bf412403",
+      "path": "art/lab/hosted/library/asset-a4bcf746ba5984c9bf412403.forge.json",
+      "sha256": "a4bcf746ba5984c9bf4124031b4a6867c7c44990103d04255c8c65ebbfc4e039",
+      "asset_id": "custom-6117333f-04b6-4245-830c-99487281e972",
+      "state_key": "",
+      "asset_name": "Cathedral front · rose window and open portal",
+      "code": "K08",
+      "name": "Cathedral front · rose window and open portal",
+      "w": 512,
+      "h": 360,
+      "frame_count": 1,
+      "category": "Other art"
+    },
+    {
+      "id": "asset-7b136c7a17200bcf120a312d",
+      "path": "art/lab/hosted/library/asset-7b136c7a17200bcf120a312d.forge.json",
+      "sha256": "7b136c7a17200bcf120a312d97db8d371ec48d5dc7ac1454d7af97dda6450999",
+      "asset_id": "custom-677a1672-11c0-4e81-8eb2-a1f97e99988d",
+      "state_key": "",
+      "asset_name": "Tower shaft · stackable lancets",
+      "code": "K01",
+      "name": "Tower shaft · stackable lancets",
+      "w": 112,
+      "h": 100,
+      "frame_count": 1,
+      "category": "Other art"
+    },
+    {
+      "id": "asset-9fa21f5a16bd94b652aeb063",
+      "path": "art/lab/hosted/library/asset-9fa21f5a16bd94b652aeb063.forge.json",
+      "sha256": "9fa21f5a16bd94b652aeb06364375d324de3fe3b2c5df751b5f80793a4ad9abb",
+      "asset_id": "custom-0aaff43c-6a29-4f52-b906-949466c1791f",
+      "state_key": "",
+      "asset_name": "Tower spire · crockets and finial",
+      "code": "K02",
+      "name": "Tower spire · crockets and finial",
+      "w": 112,
+      "h": 192,
+      "frame_count": 1,
+      "category": "Other art"
+    },
+    {
+      "id": "asset-6768333ba4cd15664ae8b807",
+      "path": "art/lab/hosted/library/asset-6768333ba4cd15664ae8b807.forge.json",
+      "sha256": "6768333ba4cd15664ae8b807a03c9c9cbfc4b7f2278f8a52aa1856e7c192489f",
+      "asset_id": "custom-a59ae77d-179e-4f0c-b808-91212a2f487e",
+      "state_key": "",
+      "asset_name": "Tower crown · merlons and corner pinnacles",
+      "code": "K03",
+      "name": "Tower crown · merlons and corner pinnacles",
+      "w": 112,
+      "h": 40,
+      "frame_count": 1,
+      "category": "Other art"
     }
   ]
 }
