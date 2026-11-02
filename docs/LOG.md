@@ -6,6 +6,9 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-01 · Claude · Tank light (placeholder)
+- Forge tank art now casts a yellow (#ffe62a) light that breathes with its 2 s lamp loop: it pools on nearby stone and ground and rims troopers standing close. Lit fuses still flare orange. Render only; tune radius and strength in `wardLights`.
+
 ## 2026-11-01 · Claude · Everything live: trooper parts, equipment, tank and crates
 - Live on `main` with Jarred's approval (Forge revision `20261102T064902Z-2a5783df`, now the Forge's current build, so the next Forge test carries all of it).
 - **In the game now:** W01–W08 (the red Dakka, `asset-2a08099c…`), Ash Legion arm, torso, thigh and shin at 1.2× with faction cloth (clarity tidy), the red-family equipment W09–W21 and the martyr charge, the parachute, the promethium tank (40-frame lamps, yellow #ffe62a bloom) and all four category crates.
