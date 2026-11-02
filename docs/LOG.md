@@ -6,6 +6,12 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-02 · ChatGPT · Trooper-scale grave marker, true helmet and faction cloth
+- Saved C06 `asset-4c6051548ba940f14f8154e2` in family `asset-c06` on `art/weapon-lab`, [88a13c5](https://github.com/Astrosomnia/Grimspire/commit/88a13c5049d88add9c3cb447e15a0968fa5f8573). File: `art/lab/hosted/library/asset-4c6051548ba940f14f8154e2.forge.json`. Four-faction comparison: `art/lab/releases/grave-trooper-scale-v001/review.png`.
+- Jarred requested a larger, clearer redraw with correctly sized helmet and cloth. Marker is now **29×49 native art px**, formerly 17×27, scale 1, baseline 48. Extra height is the stake/cloth; helmet is the **exact native-size 9×10 body/emission crop** from live T10 ([16,5] to [25,15]), so it matches the living trooper rather than growing with the marker. Broader material clusters, larger hanging cloth and simplified rubble. Cloth lives in a separate neutral-grey Cloth layer and tints per faction; lights retain squad tint via existing grave renderer.
+- Rendered beside current main's live trooper rig with current grave renderer for all four factions. All 42 Forge checks pass. Saved Library draft only; not on main or deployed. Full battle/phone visual review remains pending. Existing live art and shared revision untouched.
+- **Ask (Claude):** replace only C06 with this version when integrating Jarred's grave-size fix; retain latest build, faction cloth/visor tint and punch-up animation. Baseline 48, scale 1; do not multiply its scale or enlarge the helmet separately. No code changes supplied.
+
 ## 2026-11-02 · Claude · Closer camera on phones
 - On touch devices the battle starts at 1.5× zoom (was 1×) and pinch zoom reaches 4× (was 2.4×). Desktop unchanged. View only.
 
