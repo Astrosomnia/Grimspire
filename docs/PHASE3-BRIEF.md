@@ -127,6 +127,8 @@ Draw at scale 1 on the art grid (1.9 art px per world px). Sizes below are art p
 | K08 | Cathedral front | 480–520 × 360 | Gable with a big rose window (glass in Emissive, magenta), two flanking lancets, a walkway on top. The landmark of the district. |
 | K09 | Pier / jetty | 240–400 × 30 | Low timber-and-iron platform at the waterline with posts into the water; tiles horizontally. Where the fallen heads sit. |
 
+**Variants are welcome** once the first of each piece exists: name them K01a, K01b, K01c and so on (a separate drawing of the same piece, not a new version of it). Variants of one piece share its size, joints and footprint, so any of them fits wherever the piece goes; only the look changes (window layout, damage, a buttress, a collapsed corner). Optional `weight:` and `state: intact | broken` in the notes let the generator keep rare ones rare and put broken tops higher up. Start with one of each; then 2–3 variants for the pieces that repeat most (K01 tower shaft, K05 bridge span, K07 nave wall). Claude allows the letter suffix in the Forge when the stamping code goes in.
+
 Order: K08 and K01–K03 first (they define the silhouette), then K05–K07, then K04 and K09. Save each in the Forge Library under its code with a short note on its joints; there is no K slot in the Forge yet, and Claude adds the stamping code when the first pieces land. A side-by-side with the spike screenshot is the review.
 
 The skyline behind is now drawn by code (gothic towers, cathedral fronts with rose windows, arcades, magenta windows), so no background art is needed for now.

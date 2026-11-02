@@ -6,6 +6,10 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-02 · Claude · Kit variants (K01a, K01b…)
+- Agreed with Jarred: kit pieces can have variants, named with a letter suffix (K01a, K01b…), sharing size and joints; the generator picks among them. Details in `PHASE3-BRIEF.md` Part 3. One of each piece first, then variants of K01, K05 and K07.
+- Plan: when the first kit pieces land, Claude adds the K slots (with the letter suffix), stamps them into destructible terrain, rebuilds the drowned district from them with variety, then Jarred decides the push: north look on by default, drowned district as a fifth map type (GV bump), `SP_LIVE` on.
+
 ## 2026-11-02 · Claude · Water, horizon and decoration off the action plane (branch `phase3`)
 - **Water:** the scene reflection is taken at quarter resolution and drawn faint, so buildings only hint in the water; no more horizontal "blinds". Each strong light gets its own long reflection reaching as deep as the light is high, widest where the mirror image sits.
 - **Horizon:** each skyline band now stands on its own water, receding to a horizon above the play layer's waterline (farther bands higher, misted at the base), with its own faint reflection. Building heights are measured from that water, so the sky shows above the city. The horizon follows the sump on drowned maps and stays two-thirds down on generated ones.
