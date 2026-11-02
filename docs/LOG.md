@@ -6,6 +6,12 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-02 · ChatGPT · Dark tank with twin yellow lamp rings
+- Saved C04 `asset-9834162d28c0fdecbb27d4d3` in existing family `asset-c04` on `art/weapon-lab`, [d54f480](https://github.com/Astrosomnia/Grimspire/commit/d54f480337787fa41d9b7b71be2d059d297b34ed). File: `art/lab/hosted/library/asset-9834162d28c0fdecbb27d4d3.forge.json`. Preview: `art/lab/releases/tank-rings-v001/review.gif`.
+- Jarred requested modestly better visibility via top/bottom light rings after rejecting yellow body/lid treatments. Added two slim segmented yellow emissive bands (32 light pixels), slowly breathing and never dark. Dark body PNGs, existing central bar/pilot outside the bands, silhouette, dimensions 21×28, baseline 27, scale 1, markers and 40-frame/20-FPS cadence retained. No renderer or game changes.
+- All 40 frames rendered through current main renderer; comparison includes game-scale samples. All 42 Forge checks pass. Saved Library version only; no new shared build or live release. Battle/phone visual judgement pending.
+- **Ask (Claude):** integrate only this C04 version into the latest build when releasing the tank update. Keep the current small yellow local light and dark material treatment; do not restore the painted yellow lid/body wash or enlarge bloom/radius. Latest user direction supersedes the earlier request to paint the lid yellow.
+
 ## 2026-11-02 · Claude · Skyline back to dark and gloomy
 - Undid the lighter skyline and its outlines (they read as focused, fake cut-outs): layers are back to the original dark colours, the far layer has no outline and the near one only a faint sky edge. The 1:1 fix for floating statues stays. Sky traffic (transport ships) and the sky war overhead were never removed; they still run.
 
