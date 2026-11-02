@@ -1,0 +1,51 @@
+{
+  "forge": 1,
+  "game_scale": 1.2,
+  "asset_id": "custom-ash-legion-jumppack-arm",
+  "state_key": "",
+  "source_version": "asset-4127f3d564491e3b8e20af21",
+  "code": "A05",
+  "name": "Ash Legion — jump-pack arm v1 · 1.2 scale review",
+  "w": 41,
+  "h": 58,
+  "fps": 8,
+  "base": 54,
+  "pixel_scale": 12,
+  "markers": {
+    "grip": null,
+    "muzzle": null,
+    "pivot": [
+      18,
+      19
+    ],
+    "shoulder": [
+      18,
+      19
+    ],
+    "elbow": [
+      21,
+      27
+    ],
+    "hand": [
+      32,
+      30
+    ],
+    "hip": null,
+    "knee": null
+  },
+  "ready": false,
+  "notes": "Experimental Ash Legion variation: short mantle, integrated idle jump pack, exposed exhausts, thigh-length front vestment. Body and arm share 41x58 frame and shoulder [18,19]. Feet row 54. Separate glow. Not gameplay-tested or approved. Cloth and pack are static body artwork; no cloth physics added.\nJarred 1 Nov: needs native-pixel cleanup to match the equipment family. Palette noise, block grouping and near/far distinction remain outstanding. This candidate changes ONLY game_scale to 1.2 and review notes; original pixels, frames and sockets retained. All four body parts must use the same scale. Rendered at 1 and 1.2 with current main game rig; not battle/play tested or approved. Do not treat the render comparison as final art.",
+  "review": null,
+  "ghostOff": null,
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACkAAAA6CAYAAAAtInDDAAACmklEQVR4AeyVTWsTURSGz0T8aoyGYCSiboSQ1pBQsdKFdqMgFrsqKNSda8Ff4c8obix04cIfoS4KimKkNUQrVWMiqaF1mDYE7JX3lBHn0mhz5ralcAJnZt7JvTNPnntmkqB98FFIV4ukJtWkKwOurqM9qSZdGXB1He1JNdmPgaEjKRPWw2LBoPqZv52xsXoScBePHabh1ACXd9DwPV2DiiEHj6YNAEH1xl8jz/yid/VVRAKsS1AxJGiq7TYVz2ZwSMY7wPuZj016/P47H7vaiCFhDhCmS2QoQa/9DtfEg/tUnpykpws1fO2kxJAD3YABZhY3rQHMyw/S7OwTevHsOX93KZHYbFJO8o0Y8tXGhhccSpGfPUWAazRbdDKbpStjV2lq6jatFS/LqayZYkhcJ9n16cdyk36utGm51eLC+XIhR7fGr+PQScWCBEFn3feCwGeLyDC6+q2KQ2c2Y0FiyUHTWQ/+WERe8k/Q568NNowct2JBhjeHzUZ9iSOWfXr6EVUq83Q+X6B0Jredh4fn9to4gcTFV9pN79OHebZ34+Y4lUoX2G5peITu3L1nhkqjYlhnkABFwR72KDxQp3NZHDI0QMeuTZgz5/J9ATuFxLIv1qq81Fhu0GGPhwmFjHbADwFoCPy/lnAKCYj6l5qH/kRt9XrCuxQ/BKCjI2U6ns5QMpn6Z+86hwQo+hMFs4BGrwIayw9AvLIwbu7lW+5hZIzHua1qRyDtGwEWEABGha8sAGMsMva9alcg7ZsDeqEyx38CsIhsj/k77wlkCAC7qDD32u8pZC8o+7xC2kakWU1Kzdnz1KRtRJrVpNScPU9N2kakWU1Kzdnz1KRtRJrVZNScPKlJubvoTDUZ9SFPalLuLjpTTUZ9yNNvAAAA//+5117PAAAABklEQVQDABFZGYRMf6CKAAAAAElFTkSuQmCC",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACkAAAA6CAYAAAAtInDDAAAAtklEQVR4AezSwQmAQAxEUbUg67ME67MhxZvxMDhhWBC+IBiTjeGZZfrBxZCpn4QkkimBVB92EsmUQKoPO4lkSiDVh51EMiWQ6sNOIpkSSPVhJw1JWYrkm+dc9/P97ks8XLIz6NAh52Ob7/uL3rNm6JDPDzvPDOloqVoklY6TQ9LRUrVIKh0nh6SjpWqRVDpODklHS9UiqXScHJKOlqpFsur0IyT7dvUkktWjHyHZt6snkawe/egCAAD//4GxMigAAAAGSURBVAMAMq8IddbSTqIAAAAASUVORK5CYII=",
+      "trim": null,
+      "guts": null,
+      "note": "Idle fit-test variation. No engine flame baked into artwork."
+    }
+  ],
+  "updated": 1793597809219,
+  "by": "jarred"
+}

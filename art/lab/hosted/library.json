@@ -1095,6 +1095,20 @@
       "h": 58,
       "frame_count": 1,
       "category": "Arms"
+    },
+    {
+      "id": "asset-56e6a26852e82fc7c4c5acbd",
+      "path": "art/lab/hosted/library/asset-56e6a26852e82fc7c4c5acbd.forge.json",
+      "sha256": "56e6a26852e82fc7c4c5acbd9907622211e8b785f418830bad64d309d0b2523f",
+      "asset_id": "custom-ash-legion-jumppack-arm",
+      "state_key": "",
+      "asset_name": "Ash Legion — jump-pack arm v1",
+      "code": "A05",
+      "name": "Ash Legion — jump-pack arm v1 · 1.2 scale review",
+      "w": 41,
+      "h": 58,
+      "frame_count": 1,
+      "category": "Arms"
     }
   ]
 }
