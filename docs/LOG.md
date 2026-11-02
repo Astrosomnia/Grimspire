@@ -6,6 +6,12 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-01 · Claude · Forge legs walk in the game
+- **THIGH and SHIN slots** in the Forge and the game. Forge legs replace the game's legs on the same walk, jump and knockdown rig: the thigh swings from the torso's Hip, the shin bends at the thigh's Knee. Frame 1 near leg, frame 2 far. They work as a pair, and their lengths set the hip height (an atlas torso rides up or down to match).
+- Firing origins follow the new hip height; covered by the art fingerprint. With no Forge legs nothing changes (determinism hashes and renderer tests unchanged).
+- Test builds served outside the Forge open the testing grounds with `#grounds`.
+- The Ash Legion (T10 torso, A07 thigh, A08 shin, A05 arm) runs in a test battle.
+
 ## 2026-11-01 · Claude · Ash Legion option C as rig parts
 - Split the T09 Ash Legion fit-test into Forge parts (new Library assets): **T10 Ash Legion torso** (head, pack, front tabard; Shoulder [18,19], Hip [18,31]), **A07 thigh** (with tassets; Hip, Knee) and **A08 shin** (boot and knee lamp; Knee). Thigh and shin have near/far frames using the same art. The arm is the existing A05.
 - Assemble them in the Forge's Rig (torso, thigh, shin, single arm). In the game, Test with the Torso slot shows the torso and arm on the game's own legs; Forge legs in the game are the next code step.

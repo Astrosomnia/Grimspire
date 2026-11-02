@@ -2480,17 +2480,18 @@ function drawTrooper(t){if(!SPR.ready)return drawTrooperProc(t);
   const rimSet=(i,k=1)=>{const o=LT.rims[i];if(o.w<.03){ctx.shadowColor='transparent';return false}const n=Math.hypot(o.dx,o.dy)||1;
     ctx.shadowColor=rgba(o.c.map(Math.round),Math.min(.9,.2+o.w*.8)*k);ctx.shadowOffsetX=o.dx/n*off;ctx.shadowOffsetY=o.dy/n*off;ctx.shadowBlur=rb;return true};
   const strongest=LT.rims[0].w>LT.rims[1].w?0:1;
-  const col=TEAM[t.team].col,act=t===S.active,[fw,fh]=SPR.M.frame,K=SPR.k,fr=SPR.T.torso[0],posed=false,R=RIG;
+  const col=TEAM[t.team].col,act=t===S.active,[fw,fh]=SPR.M.frame,K=SPR.k,fr=SPR.T.torso[0],posed=false,R=typeof labLegRig==='function'?labLegRig():RIG;
   const sq=t.sq||0,bob=t.wet?Math.sin(time*2.4+t.x)*1.2:0,lay=Math.min(1,Math.abs(t.tilt||0)/1.45),dx=-SPR.ax*K,dy=-SPR.ay*K;
   const[an,af,bn,bf]=legPose(t),ext=(a,b)=>R.thH*Math.cos(a)+(R.shH-R.ov)*Math.cos(a-b),drop=(R.thH+R.shH-R.ov-Math.max(ext(an,bn),ext(af,bf)))*K;
   ctx.save();ctx.translate(t.x,t.y+bob-lay*3);ctx.rotate(t.tilt||0);ctx.scale(t.face*(1+sq*.22),1-sq*.3);ctx.translate(0,drop);
   ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';
-  const leg=(a,b,off,far)=>{const sx=far?R.farX:0;ctx.save();ctx.translate(dx+(R.hip[0]+off)*K,dy+R.hip[1]*K);ctx.rotate(-a);
+  const LG=typeof labLegsOn==='function'&&labLegsOn();
+  const leg=(a,b,off,far)=>{const sx=far?R.farX:0;ctx.save();ctx.translate(dx+(R.hip[0]+off)*K,dy+R.hip[1]*K);ctx.rotate(-a);if(LG){labLegDraw(t,b,far);ctx.restore();return}
     ctx.save();ctx.translate(0,(R.thH-R.ov)*K);ctx.rotate(b);ctx.drawImage(SPR.legsD,sx*R.res,R.shY*R.res,R.shW*R.res,R.shH*R.res,-R.shW/2*K,0,R.shW*K,R.shH*K);ctx.restore();
     ctx.drawImage(SPR.legsD,sx*R.res,0,R.thW*R.res,R.thH*R.res,-R.thW/2*K,0,R.thW*K,R.thH*K);ctx.restore()};
   for(const i of[0,1])if(rimSet(i)){leg(af,bf,R.dF,true);leg(an,bn,R.dN,false)}ctx.shadowColor='transparent';leg(af,bf,R.dF,true);leg(an,bn,R.dN,false);
   // the torso: Forge art when a TORSO asset is live (pixel-crisp), otherwise the atlas frame
-  const TT=typeof labTorsoFor==='function'?labTorsoFor(t):null,torso=k=>{if(!TT)return ctx.drawImage(SPR[k][t.team],fr*fw,0,fw,fh,dx,dy,fw*K,fh*K);if(!TT[k])return;const sm=ctx.imageSmoothingEnabled;ctx.imageSmoothingEnabled=false;ctx.drawImage(TT[k],TT.x,TT.y,TT.w,TT.h);ctx.imageSmoothingEnabled=sm};
+  const TT=typeof labTorsoFor==='function'?labTorsoFor(t):null,hs=typeof labHipShift==='function'?labHipShift():0,torso=k=>{if(!TT)return ctx.drawImage(SPR[k][t.team],fr*fw,0,fw,fh,dx,dy+hs,fw*K,fh*K);if(!TT[k])return;const sm=ctx.imageSmoothingEnabled;ctx.imageSmoothingEnabled=false;ctx.drawImage(TT[k],TT.x,TT.y,TT.w,TT.h);ctx.imageSmoothingEnabled=sm};
   ctx.save();if(t.moving)ctx.transform(1,0,-.04,1,0,0);
   // cold sky light catches the top edge; the nearest neon or fire rims the side facing it
   ctx.shadowColor='rgba(150,180,235,.5)';ctx.shadowOffsetX=0;ctx.shadowOffsetY=-off;ctx.shadowBlur=rb;torso('team');
@@ -3025,9 +3026,21 @@ const labHeldSlots=new Set(Object.values(labSlots));
 // attaches (both at pixel centres, as the Forge draws them). Without one, the original trooper geometry.
 // Read from synchronous payload metadata so firing origins stay deterministic.
 const labTorsoDoc=labDocs.get('TORSO')||null;
-function labTorsoHip(){const M=SPR.M,K=TROOP_H/((M.feet-50)*M.sc);return[((M.crop[0]-250)*M.sc+RIG.hip[0])*K,((M.crop[1]-M.feet)*M.sc+RIG.hip[1])*K]}
+// Leg rig. THIGH and SHIN assets replace the atlas legs: the thigh hangs from the hip and swings there, the shin
+// hangs from the thigh's Knee and bends there. Their lengths set the hip height (and so the walk's body drop),
+// in the same units as RIG so drawTrooper and the firing origin share one geometry.
+const labThighDoc=labDocs.get('THIGH')||null,labShinDoc=labDocs.get('SHIN')||null;
+let labRigCache=null;
+function labLegRig(){if(labRigCache)return labRigCache;const th=labThighDoc?.markers,sn=labShinDoc?.markers;
+  if(!th?.hip||!th?.knee||!sn?.knee)return labRigCache=RIG;
+  const M=SPR.M,K=TROOP_H/((M.feet-50)*M.sc),z1=PX*(labThighDoc.game_scale??1),z2=PX*(labShinDoc.game_scale??1);
+  const L1=Math.hypot(th.knee[0]-th.hip[0],th.knee[1]-th.hip[1])*z1,L2=((labShinDoc.base??labShinDoc.h)-(sn.knee[1]+.5))*z2;
+  return labRigCache={...RIG,thH:L1/K,shH:L2/K,ov:0,hip:[RIG.hip[0],(M.feet-M.crop[1])*M.sc-(L1+L2)/K],forge:true}}
+// How far the hip moved from the atlas legs' hip (world px): an atlas torso rides up or down with Forge legs.
+function labHipShift(){if(!labThighDoc||!labShinDoc)return 0;const M=SPR.M,K=TROOP_H/((M.feet-50)*M.sc);return(labLegRig().hip[1]-RIG.hip[1])*K}
+function labTorsoHip(){const M=SPR.M,K=TROOP_H/((M.feet-50)*M.sc),R=labLegRig();return[((M.crop[0]-250)*M.sc+R.hip[0])*K,((M.crop[1]-M.feet)*M.sc+R.hip[1])*K]}
 const labTorsoScale=d=>PX*(d.game_scale??1);
-const labBodyShoulder=(()=>{const m=labTorsoDoc?.markers;if(!m?.shoulder||!m?.hip)return[(300-250)/12*PX,(324-661)/12*PX];
+const labBodyShoulder=(()=>{const m=labTorsoDoc?.markers;if(!m?.shoulder||!m?.hip)return[(300-250)/12*PX,(324-661)/12*PX+labHipShift()];
   const h=labTorsoHip(),z=labTorsoScale(labTorsoDoc);return[h[0]+(m.shoulder[0]-m.hip[0])*z,h[1]+(m.shoulder[1]-m.hip[1])*z]})();
 let labDrawingTrooper=null;
 if(typeof drawTrooper==='function'){
@@ -3056,7 +3069,7 @@ function labAimWorldPoint(t,local){
   let x=labBodyShoulder[0]+local[0]*c-local[1]*s,y=labBodyShoulder[1]+local[0]*s+local[1]*c;
   // Match drawTrooper's leg drop, squash, facing, tilt and water bob exactly.
   if(typeof legPose==='function'&&typeof RIG!=='undefined'){
-    const[an,af,bn,bf]=legPose(t),R=RIG,K=typeof TROOP_H==='number'?TROOP_H/((SPR.M.feet-50)*SPR.M.sc):SPR.k;
+    const[an,af,bn,bf]=legPose(t),R=labLegRig(),K=typeof TROOP_H==='number'?TROOP_H/((SPR.M.feet-50)*SPR.M.sc):SPR.k;
     const ext=(a,b)=>R.thH*Math.cos(a)+(R.shH-R.ov)*Math.cos(a-b);
     y+=(R.thH+R.shH-R.ov-Math.max(ext(an,bn),ext(af,bf)))*K;
   }
@@ -3154,7 +3167,7 @@ if(typeof drawTrooper==='function'){
   const original=drawTrooper;
   drawTrooper=function(t){const a=labArt.get('TROOPER');if(!a||!t.alive)return original(t);ctx.save();ctx.translate(t.x,t.y);ctx.scale(t.face||1,1);labDraw(a,labGroundAnchor(a.doc));ctx.restore()};
 }
-if(location.pathname==='/api/game'&&new URLSearchParams(location.search).get('grounds')==='1'){
+if((location.pathname==='/api/game'&&new URLSearchParams(location.search).get('grounds')==='1')||/(^#|&)grounds\b/.test(location.hash)){
   labReady.then(()=>{
     const tools=document.createElement('div');tools.id='forgeTestTools';
     tools.style.cssText='position:fixed;top:12px;left:12px;z-index:10000;background:#10151eee;color:#eee;padding:10px;border:1px solid #59edff;max-width:330px;font:14px system-ui';
@@ -3180,15 +3193,24 @@ if(location.pathname==='/api/game'&&new URLSearchParams(location.search).get('gr
 }
 // Torso art drawn in place of the atlas torso, baked per squad like the atlas: lit (trim at 28%),
 // team (darkened, a whisper of trim) and emissive tinted to the squad colour.
-const labTorsoBake=new Map();
-function labTorsoFor(t){const a=labArt.get('TORSO');if(!a)return null;const{doc,frames}=a,fi=Math.floor(time*Math.max(1,doc.fps||8))%frames.length,f=frames[fi];if(!f.body)return null;
-  const key=fi+':'+t.team;let b=labTorsoBake.get(key);
-  if(!b){const w=doc.w,h=doc.h,tint=img=>{const c=mk(w,h),g=c.getContext('2d');g.drawImage(img,0,0);g.globalCompositeOperation='source-in';g.fillStyle=TEAM[t.team].col;g.fillRect(0,0,w,h);return c};
-    const lit=mk(w,h),g=lit.getContext('2d');g.drawImage(f.body,0,0);if(f.trim){g.globalCompositeOperation='source-atop';g.globalAlpha=.28;g.drawImage(tint(f.trim),0,0);g.globalAlpha=1}
-    const team=darken(lit,.86);if(f.trim){const tg=team.getContext('2d');tg.globalCompositeOperation='source-atop';tg.globalAlpha=.16;tg.drawImage(tint(f.trim),0,0)}
-    b={lit,team,emis:f.emis?tint(f.emis):null};labTorsoBake.set(key,b)}
+// Forge body parts are baked per squad like the atlas: lit (trim at 28%), team (darkened, a whisper of trim)
+// and emissive tinted to the squad colour.
+const labPartBake=new Map();
+function labBake(slot,fi,team){const a=labArt.get(slot);if(!a)return null;const{doc,frames}=a,f=frames[Math.min(fi,frames.length-1)];if(!f?.body)return null;
+  const key=slot+':'+fi+':'+team;let b=labPartBake.get(key);if(b)return b;
+  const w=doc.w,h=doc.h,tint=img=>{const c=mk(w,h),g=c.getContext('2d');g.drawImage(img,0,0);g.globalCompositeOperation='source-in';g.fillStyle=TEAM[team].col;g.fillRect(0,0,w,h);return c};
+  const lit=mk(w,h),g=lit.getContext('2d');g.drawImage(f.body,0,0);if(f.trim){g.globalCompositeOperation='source-atop';g.globalAlpha=.28;g.drawImage(tint(f.trim),0,0);g.globalAlpha=1}
+  const tm=darken(lit,.86);if(f.trim){const tg=tm.getContext('2d');tg.globalCompositeOperation='source-atop';tg.globalAlpha=.16;tg.drawImage(tint(f.trim),0,0)}
+  b={lit,team:tm,emis:f.emis?tint(f.emis):null,doc};labPartBake.set(key,b);return b}
+function labTorsoFor(t){const a=labArt.get('TORSO');if(!a)return null;const{doc,frames}=a,fi=Math.floor(time*Math.max(1,doc.fps||8))%frames.length,b=labBake('TORSO',fi,t.team);if(!b)return null;
   const m=doc.markers,hip=m.hip||[doc.w/2-.5,doc.h*.55],z=labTorsoScale(doc),H=labTorsoHip();
   return{...b,x:H[0]-(hip[0]+.5)*z,y:H[1]-(hip[1]+.5)*z,w:doc.w*z,h:doc.h*z}}
+function labLegsOn(){return labLegRig().forge===true&&labArt.has('THIGH')&&labArt.has('SHIN')}
+function labLegDraw(t,bend,far){const fi=far?1:0,T=labBake('THIGH',fi,t.team),N=labBake('SHIN',fi,t.team);if(!T||!N)return;
+  const th=T.doc.markers,sn=N.doc.markers,z1=PX*(T.doc.game_scale??1),z2=PX*(N.doc.game_scale??1),sm=ctx.imageSmoothingEnabled;ctx.imageSmoothingEnabled=false;
+  const part=(b,pt,z)=>{for(const k of['team','emis'])if(b[k])ctx.drawImage(b[k],-(pt[0]+.5)*z,-(pt[1]+.5)*z,b.doc.w*z,b.doc.h*z)};
+  ctx.save();ctx.translate((th.knee[0]-th.hip[0])*z1,(th.knee[1]-th.hip[1])*z1);ctx.rotate(bend);part(N,sn.knee,z2);ctx.restore();
+  part(T,th.hip,z1);ctx.imageSmoothingEnabled=sm}
 // Fingerprint of the art that feeds the sim (points and scales). Online players compare it with GV,
 // so a Forge release that moves a grip, muzzle or socket can't silently desync a match.
 const labSimKey=(()=>{let s=JSON.stringify(LAB_PAYLOAD.settings?.scale??1);for(const k of Object.keys(LAB_PAYLOAD.assets).sort()){const d=LAB_PAYLOAD.assets[k];s+=k+JSON.stringify([d.markers,d.game_scale??null])}

@@ -43,7 +43,7 @@ Branches: `main` (game, docs, tools) and `art/weapon-lab` (Forge app and art dat
 
 Assets made outside the Forge (by ChatGPT, say) go into the Library as new files under `art/lab/hosted/library/`, registered in `library.json` with their hash. See [`FORGE.md`](FORGE.md).
 
-**Art reaching the game:** the Forge writes art into the game's `LAB_PAYLOAD` block (between `// BEGIN/END GRIMSPIRE_ART_ADAPTER`). Everything else in the file, including the art renderer (`// BEGIN/END GRIMSPIRE_ART_RUNTIME`), is game code that Claude maintains. Weapons W01–W08, the arm and the torso go live this way today. Props, whole-body trooper frames and backgrounds can be tested in the Forge but need code before they can go live.
+**Art reaching the game:** the Forge writes art into the game's `LAB_PAYLOAD` block (between `// BEGIN/END GRIMSPIRE_ART_ADAPTER`). Everything else in the file, including the art renderer (`// BEGIN/END GRIMSPIRE_ART_RUNTIME`), is game code that Claude maintains. Weapons W01–W08, the arm, the torso and the legs (thigh and shin) go live this way today. Props, whole-body trooper frames and backgrounds can be tested in the Forge but need code before they can go live.
 
 ## Rules
 - **The sim is deterministic.** Online play replays inputs, so every device must compute the same result. Map generation and sim steps use the seeded generator; cosmetics use `RR` or their own hash. No `Math.pow` and friends in the sim (use lookup tables). Snapshots are plain JSON. Check with `tools/test/dsim*.py`.
