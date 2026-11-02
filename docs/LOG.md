@@ -6,6 +6,10 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-02 · Claude · Drowned district on half of all maps (GV 20)
+- At Jarred's call, the drowned district is now 1 map in 2 (50 of 100 seeds); spires, islands, canyon and ruins share the rest. GV 20. dsim and dsimart identical.
+- Its layout is a fixed recipe with random parts (tower heights and crowns, bridge lengths and deck heights, spacing, mirroring, lit windows, rocks). A fully generated version is the next step.
+
 ## 2026-11-02 · Claude · Live: North Star look, the drowned district, set pieces (GV 19)
 - **Live on `main`** with Jarred's go, merged from `phase3`. Forge revision `20261102T225136Z-6ba7d47f` is the current build.
 - **Look (every map):** hazy blue-grey depth, gothic skyline with magenta windows standing on its own water to a horizon, stone lit from above instead of neon rims, neon kept to the lights, black water with soft reflections and long light columns, wreckage in front of the action and hazed set pieces behind. The classic look is still in the TEST panel ("Look").
