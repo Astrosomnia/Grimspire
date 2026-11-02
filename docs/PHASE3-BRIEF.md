@@ -17,7 +17,7 @@ The map generator already knows where its towers, bridges, floating islands, fac
 |---|---|---|
 | `pinnacle` | Flat tops of towers, crenellated and broken crowns, pillar tops | Statues, finials |
 | `ledge` | The outer edge of a flat run of terrain, with a drop beside it | Gargoyles leaning out over the drop |
-| `ground` | Flat runs of terrain away from spawns and crate landings | Props, braziers, toppled statues |
+| `ground` | Flat runs of terrain away from spawns and crate landings | Toppled statues, reliquaries, arches |
 | `sump` | Low ground at or below the starting waterline | Half-sunk heads, pier pilings, wreckage |
 | `hang` | Undersides of bridges, islands and arches | Banners, chains, censers |
 
@@ -36,9 +36,16 @@ Redraw at **final size, scale 1**. The S01–S06 studies are 17–44 art px and 
 | S06 | **Pier pilings**, two or three posts with a broken crossbeam and chain | `sump` | 60–100 | `sink` 0.4–0.7. Same tide line height as S01 |
 | S08 | **Hanging banner**, long, torn hem, iconography in the cloth | `hang` | 60–120 | Cloth layer (greys, the game tints per faction). **Row 0 is the anchor**; set baseline to 0. Faction version near spawns, "None" grey elsewhere |
 | S02 | **Toppled saint**, lying along the ground, arm raised or broken off, robe folds as big shapes | `ground` | 40–60 tall, 120–180 long | A long low silhouette troopers walk past. Footprint is most of its length, so it only lands on long flat runs. `weight` 0.4, `limit` 1 |
-| L01 | **Brazier**, iron bowl on a tripod, coals and flame | `ground` | 22–32 | Emissive coals and flame (amber, animated 8–12 frames is plenty). `light: amber, radius 70` |
+| C04 | **Promethium brazier**, replacing the promethium tank 1:1 (see below) | tank's spots | 34–40 | Iron bowl on a tripod or squat plinth, burning promethium. Emissive coals and flame, amber, animated 8–12 frames. Notes: `light: amber, 75` |
 
 If one of these needs a different size to read, say so; size sets meaning more than exact numbers do.
+
+### The brazier replaces the tank
+Jarred's call: the promethium brazier takes the tank's place one for one. Same spots, same job: shoot it or blast it and it explodes and spills burning promethium. So it is a **gameplay item, not decoration**, and should read as one:
+- A little bigger than the tank (21×28 now): about **28–32 wide, 34–40 tall**, baseline on the bottom row, scale 1.
+- The brightest thing at its size: a lit bowl of fire you'd avoid standing next to. Strong silhouette, dark iron, all the colour in the emissive fire.
+- Save it as a new version of **C04** (family `asset-c04`). Notes need only `light: amber, 75`; the game then lights it amber and flickers it like fire. Without that line it keeps the tank's yellow lamp light.
+- Claude fits the hit area to the new art when it lands (a sim change, GV bump). It replaces the yellow-ring tank.
 
 ### Per piece, deliver
 - Forge Library asset at scale 1, layers per `WORLD-ART.md` (Body, Emissive, Cloth, Guts).
@@ -96,7 +103,7 @@ Claude draws effects procedurally at the art-pixel grid so they scale to any bla
 No debris art needed: debris is cut from the pixels the blast destroyed, so a broken saint sheds pieces of saint.
 
 ## Order and handoff
-1. S01, S07, S03 first (one each for `sump`, `pinnacle`, `ledge`), then S06, S08, S02, L01.
+1. C04 brazier and S01, S07, S03 first, then S06, S08, S02.
 2. Palettes and the small-blast flipbook next; the rest of Part 2 after.
 3. Save in the Forge Library; don't Go live. Add a `LOG.md` entry per batch with asset ids and an **Ask (Claude):** line.
 

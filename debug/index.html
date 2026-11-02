@@ -2246,7 +2246,7 @@ function drawWard(lights){
     for(const r of p.rip){const a=1-r.t/.8;ctx.strokeStyle=`rgba(170,200,240,${a*.5})`;ctx.lineWidth=.6;ctx.beginPath();ctx.ellipse(r.x,p.y-1,1+r.t*7,.5+r.t*1.2,0,0,Math.PI*2);ctx.stroke()}}
   // promethium tanks
   for(const b of barrels){if(!b.alive)continue;const hot=b.fuse>=0&&Math.sin(time*40)>0;
-    if(SPR.ready&&typeof labArt!=='undefined'&&labArt.has('tank')){ctx.save();ctx.translate(b.x,b.y);prop('tank',artW('tank')/2,artH('tank'),1,'#ffe62a');ctx.restore();
+    if(SPR.ready&&typeof labArt!=='undefined'&&labArt.has('tank')){ctx.save();ctx.translate(b.x,b.y);prop('tank',artW('tank')/2,artH('tank'),1,window.GRIMSPIRE_SET_PIECES?labTankLight().css:'#ffe62a');ctx.restore();
       if(hot){ctx.shadowColor='#ff8a1e';ctx.shadowBlur=10;ctx.fillStyle='#fff2c8';ctx.fillRect(b.x-1,b.y-17,2,2);ctx.shadowBlur=0}continue}
     ctx.fillStyle=INK;ctx.strokeStyle=hot?'#ffb21e':EDGE;ctx.lineWidth=1.2;ctx.beginPath();ctx.rect(b.x-5.5,b.y-15,11,15);ctx.fill();ctx.stroke();
     ctx.fillStyle='#ffb21e';ctx.globalAlpha=.85;for(let k=0;k<3;k++)ctx.fillRect(b.x-5+k*4,b.y-10,2.2,3);ctx.globalAlpha=1;
@@ -2289,7 +2289,9 @@ function wardLights(L){
   // lighting nearby stone and trooper rims; lit fuses still flare orange.
   const tankArt=typeof labArt!=='undefined'&&labArt.has('tank');
   for(const b of barrels)if(b.alive){if(b.fuse>=0)L.push({x:b.x,y:b.y-16,r:90,c:[255,138,30],i:.9,h:.1});
-    else if(tankArt)L.push({x:b.x,y:b.y-12,r:55,c:[255,230,42],i:.8+.12*Math.sin(time*Math.PI+b.x),h:0});
+    else if(tankArt){const tl=window.GRIMSPIRE_SET_PIECES?labTankLight():null;
+      if(tl&&tl.fire)L.push({x:b.x,y:b.y-artH('tank')*PX*.75,r:tl.r,c:tl.c,i:.74+.12*Math.sin(time*7.3+b.x)+.07*Math.sin(time*23+b.y),h:.04});
+      else L.push({x:b.x,y:b.y-12,r:tl?tl.r:55,c:tl?tl.c:[255,230,42],i:.8+.12*Math.sin(time*Math.PI+b.x),h:0})}
     else L.push({x:b.x,y:b.y-16,r:45,c:[255,138,30],i:.35,h:0})}
   for(const c of crates)L.push({x:c.x,y:c.y-6,r:85,c:CRATE[c.type].rgb,i:.7+Math.sin(time*3+c.x)*.15,h:.06});
   for(const z of zones)L.push({x:z.x,y:z.y,r:zoneR(z)*1.5,c:RAD,i:(.45+Math.sin(time*2.3+z.x)*.08)*zoneK(z),h:.05*zoneK(z)});
@@ -3303,16 +3305,22 @@ function labShipFlames(sh,dir){if(typeof labArt==='undefined')return;const L=lab
 // ---- Set pieces (Phase 3, first pass) ----
 // The generator's shapes are read back as sockets: pinnacle (narrow raised tops), ledge (the edge of a run of
 // stone with a drop beside it), ground (flat runs), sump (the lowest flat runs, which the rising water drowns)
-// and hang (undersides of bridges, islands and overhangs). Forge set pieces (S01–S08) and lights (L01) snap
+// and hang (undersides of bridges, islands and overhangs). Forge set pieces (S01–S08) snap
 // into them by the placement data in their notes (see docs/WORLD-ART.md), with defaults per slot below.
 // Decorative only: no collision, nothing in the sim. Placement is seeded from the match seed with its own
 // generator (never the sim's), so every device shows the same pieces. Blasts break them into debris cut from
 // their own pixels; that's per device and uses the plain random (RR), never the sim's.
 const SP_SLOT=/^(S\d\d|L\d\d)$/;
+// The promethium tank's light comes from its art's notes ("light: amber, 75"), so a brazier redraw of C04 burns
+// amber and flickers like fire; without one it keeps the tank's small yellow lamp light.
+function labTankLight(){const d=labDocs.get('tank');if(!d)return{c:[255,230,42],r:55,css:'#ffe62a',fire:false};if(d._light)return d._light;
+  const r=spRules('C04',d),c=r.light?r.light.c:[255,230,42];
+  const fire=!!r.light&&c[0]>200&&c[1]<200;// only a fire-coloured light changes it: the yellow tank keeps its tuned lamp
+  return d._light=fire?{c,r:r.light.r,css:'#'+c.map(v=>v.toString(16).padStart(2,'0')).join(''),fire}:{c:[255,230,42],r:55,css:'#ffe62a',fire:false}}
 const SP_DEFAULT={
   S01:{place:'sump',sink:[.3,.45],weight:.6,limit:1},S02:{place:'ground',weight:.4,limit:1},S03:{place:'ledge',weight:.8,limit:2},
   S04:{place:'ground',weight:.5,limit:1},S05:{place:'ground',weight:.5,limit:1},S06:{place:'sump',sink:[.4,.6],weight:.6,limit:1},
-  S07:{place:'pinnacle',weight:.8,limit:2},S08:{place:'hang',weight:.7,limit:2},L01:{place:'ground',weight:.7,limit:2,light:{c:[255,150,50],r:70}}};
+  S07:{place:'pinnacle',weight:.8,limit:2},S08:{place:'hang',weight:.7,limit:2}};
 const SP_LIGHTS={amber:[255,150,50],fire:[255,130,40],red:[255,40,40],cyan:[63,243,255],magenta:[255,46,136],green:[160,255,70],gold:[255,205,60],white:[230,236,245]};
 const SPS={seed:null,pieces:[],sockets:[]};
 function spRange(v){const m=String(v).match(/(-?\d*\.?\d+)\s*(?:(?:[–—-]|to)\s*(-?\d*\.?\d+))?/);if(!m)return null;const a=+m[1],b=m[2]!==undefined?+m[2]:a;return[Math.min(a,b),Math.max(a,b)]}
