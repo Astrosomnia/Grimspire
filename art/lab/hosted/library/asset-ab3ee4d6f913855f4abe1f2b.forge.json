@@ -1,0 +1,32 @@
+{
+  "forge": 1,
+  "code": "C01",
+  "name": "Supply Crate · med · bright category glyph",
+  "w": 36,
+  "h": 18,
+  "fps": 8,
+  "base": 17,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "grip": null,
+    "muzzle": null,
+    "pivot": null
+  },
+  "ready": false,
+  "checks": {
+    "visual": false,
+    "tested": false
+  },
+  "notes": "Category review import, 1 Nov 2026. Original abstract devotional machine glyph replaces winged military decal. Glyph is a proposed shared equipment mark, not established faction lore. Generated sheet extracted to a 12-source-pixel art grid, 24-colour native interpretation; source and small details may differ after reduction. Separate material/emissive layers; no baked bloom. Native pixel cleanup and game-scale, anchor and animation review pending. Red is the dominant equipment light; neutral charcoal materials, amber heat. Draft saved for review only, not approved or integrated. Placement role: ground.\nComplete medical crate variant with canonical category colour (160, 255, 70). Frames and geometry retained; functional mark fitted into central panel. Other category variants are versions in the same crate family; coloured masks remain separate existing states. Category spawning is runtime work for Claude.\nReadability revision: central category symbol redrawn at 9×9 with 2–3 px strokes and full 255-alpha emission. Arms: paired cartridges; heavy: shell; medical: cross; tools: crossed implements. Canonical category hues retained; casing, baseline, scale and side lamps unchanged. Uses current category-coloured bloom renderer.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAASCAYAAAAzI3woAAAE6UlEQVR4nI2W32sUVxTHP/fuZHZjrbXUboRsDEXNJjbR/KhQlVifKvSlVuh/UKnUh6rgXyGYUvBHsW++iQjmzTfRqlA1xmz8EautZhNwpoI/YpLdycw5fZjdm2wU6YVl55753nO+58c9Z+C9y6g1GQX0/bj/tdSajBrse3WZpQfApgKTik8ODTF6f4LeriIHDh8hkSrGZFBdqlMAizEGVNHavq7cGINowqlffnW69h86iMFgAFHBYFDEAHjpQavWNnH82FEALl66woUL57l46QphGBAEIaox+388QG9X0VEZvT/xTi+XY06f/p3R+xOUSqWUqMKePXvZvWsQgJ8OHQKMqqrx6gf37fuBM2fPAVCpRogKYRhQqUZMlssY4xEEIReDsMH4hQvnUUBVAOW7Pd+/hQEcmRs3b2FtE2EYcObsOXp6ejgxNMT+gz/jIrR8PX+eKrx+/SqiCdZkEE0YuX2LQmvB4erEd2wfdPgwDBp0TU1PkUiVq9cuk7FZRGNUE6ampyi0FgiCkFGopU3rNWTVGIOqYAwYLCeGhrh46Qq7dw26/wOHjyAaU6+btGbSWkmfFGMyjoxqQsZmOX7sqKuf5TVpa3hJI7yYsj3f7iUMA17PzDA+Purq6MHEAx5OPHSeb9+2462IPn5+E4DWDzc7WS7rA3D12mWna9u2HVy9dpkd23ciGjEw8CVbvxgA4NRvJ1OHAE2jkklvSOouBkvbunamytMU2lopTz7FGI8NG9djbaaB0IvkMQDZ6lpyuRzWZhBJqFQqTJWnUY0pdm7iwYNxOjq6+OvhBMZ4iMbumosmpFYBa7KcGBqipXkFRi2dnd20rWunv2+ADRvX0983gDEehbZWAHzfx/M8XiSPHRmAavYZr/QJnufh+1lyuRwbNq5HVPlq5046O7tZ88ka2ta1u5Tmm3Pkm3NkbLZWSbWmt3bFBwA8m5ulWNzEypWrGBm5gTUeqjGK0N3di7XWEQjm77+VPoCW5i5EBABrLeOlcRKpAoaM9ekodjA3N8vTp387u/9WYhKJ8Eh7l277+hsAHj1+xL279+ju6aa/fytxvICIcHd8rIEMwKfZIlFU5ZU+cSnz/Wb3vo4XjdiyZcDJRYTJyX/o6uqhs9hJGAY8u/4HoKZmIUNLS57JchlrLYks4HlNjNz6kzt3bmGtRRE8r4mxsRFevnzxzsjkcjln8N7de4yNjeJ5Te79eGmcsbGRlKxJiz4MA/L5FjecbC2ZBEHobgZAHC+gKBmbxfOaMFjieAFrfFat+miJt4bBXBeDuS5EFifRps83kbYHV6pu+X4W1RiA1zMzDe8akG9mZ1MFtVlmMBTaWmvk0gjVFYmIS8nofIXR+QoAnmedvD7zFEFEKLS1ompq+kAkwfezNVvLCIVhgIi4EIuII1aXRVEVBUql286JKJpv+Pm+TxRFlEp3yNgsc3OzGBZJGmNcwdfJhGHgBrprjPl8C5VqRBwvYGpgUaE8+ZTVqz92hDo6iu555cpVrk9NlacBWLMmTxRFFIudjrTWUjdVnsaaxmmVy/rk8y2oJosRUoTh4WHieKEB3N7+GT2be10NLV9v3ryujRIotLUissDc3CwiSQPOYBERevv6XGTqxF7PzDA8PEw9aY3fQ8Yu+RRTp+5d+0WpNuzSIclig3OypTjBYJfPQQPwHzYHafW2ZqKbAAAAAElFTkSuQmCC",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAASCAYAAAAzI3woAAAAVUlEQVR4nGNgGAWjYJgBRmoYsuC/238YO4FxF0VmMlHuHOqCQecglOBd8N/tP7FBjhxNuAAxZsHMgallQpcYaEB2AqRWCKGD0VxGCAw6B42CUUApAACaexrz2FgXuQAAAABJRU5ErkJggg==",
+      "trim": null,
+      "guts": null
+    }
+  ],
+  "asset_id": "asset-c01",
+  "state_key": ""
+}

@@ -1557,6 +1557,76 @@
       "h": 28,
       "frame_count": 40,
       "category": "Other art"
+    },
+    {
+      "id": "asset-7f0e50d560e8c4299d7ecbb8",
+      "path": "art/lab/hosted/library/asset-7f0e50d560e8c4299d7ecbb8.forge.json",
+      "sha256": "7f0e50d560e8c4299d7ecbb8e62c573326a0d7a125945cd1770b11eb289bf7a7",
+      "asset_id": "asset-c03",
+      "state_key": "",
+      "asset_name": "Dropship",
+      "code": "C03",
+      "name": "Dropship · full-size gunmetal / devotional glyph",
+      "w": 150,
+      "h": 52,
+      "frame_count": 1,
+      "category": "Other art"
+    },
+    {
+      "id": "asset-4c6cf78653a0f3fb1f111e38",
+      "path": "art/lab/hosted/library/asset-4c6cf78653a0f3fb1f111e38.forge.json",
+      "sha256": "4c6cf78653a0f3fb1f111e380327d5d02ee7dce5514254f057a7dc6a9a548030",
+      "asset_id": "asset-c01",
+      "state_key": "",
+      "asset_name": "Supply Crate",
+      "code": "C01",
+      "name": "Supply Crate · arms · bright category glyph",
+      "w": 36,
+      "h": 18,
+      "frame_count": 1,
+      "category": "Other art"
+    },
+    {
+      "id": "asset-cf968e7bfc543a7a205434d1",
+      "path": "art/lab/hosted/library/asset-cf968e7bfc543a7a205434d1.forge.json",
+      "sha256": "cf968e7bfc543a7a205434d146f23605210428433b854199ecf5d3d7530a82f9",
+      "asset_id": "asset-c01",
+      "state_key": "",
+      "asset_name": "Supply Crate",
+      "code": "C01",
+      "name": "Supply Crate · heavy · bright category glyph",
+      "w": 36,
+      "h": 18,
+      "frame_count": 1,
+      "category": "Other art"
+    },
+    {
+      "id": "asset-ab3ee4d6f913855f4abe1f2b",
+      "path": "art/lab/hosted/library/asset-ab3ee4d6f913855f4abe1f2b.forge.json",
+      "sha256": "ab3ee4d6f913855f4abe1f2b33ea2c8650dcc81f6d2e6461fedb9474f6d07a9d",
+      "asset_id": "asset-c01",
+      "state_key": "",
+      "asset_name": "Supply Crate",
+      "code": "C01",
+      "name": "Supply Crate · med · bright category glyph",
+      "w": 36,
+      "h": 18,
+      "frame_count": 1,
+      "category": "Other art"
+    },
+    {
+      "id": "asset-2cbb5a50700f7acb55c4d294",
+      "path": "art/lab/hosted/library/asset-2cbb5a50700f7acb55c4d294.forge.json",
+      "sha256": "2cbb5a50700f7acb55c4d294af32172a88144566f15c4a1efbe0c9120b319aef",
+      "asset_id": "asset-c01",
+      "state_key": "",
+      "asset_name": "Supply Crate",
+      "code": "C01",
+      "name": "Supply Crate · tool · bright category glyph",
+      "w": 36,
+      "h": 18,
+      "frame_count": 1,
+      "category": "Other art"
     }
   ]
 }

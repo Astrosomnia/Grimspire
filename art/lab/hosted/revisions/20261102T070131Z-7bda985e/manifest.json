@@ -1,0 +1,57 @@
+{
+  "schema": 2,
+  "id": "20261102T070131Z-7bda985e",
+  "created": "2026-11-02T07:01:31.722Z",
+  "author": {
+    "id": null,
+    "login": "ChatGPT"
+  },
+  "base_main": "2ab99d9487e28847e6817e4db45c0afe23967d31",
+  "source_lab_commit": "1c106cf309ce025468d804aff3d6b8476cff49e5",
+  "notes": "Full-size 150×52 dropship redraw, larger full-emission category crate symbols, corrected dark Dakka with tiny oxblood accent and piercing pink rail. Carries every live equipment and trooper slot, forward hip [21,31], all loops, and current main including Claude’s yellow tank local light. Jarred requested these changes and live release; Forge sign-in required to complete Go live.",
+  "selected_slot": "C03",
+  "original_code": "C03",
+  "variant": "custom",
+  "slots": [
+    "W01",
+    "W02",
+    "W03",
+    "W04",
+    "W05",
+    "W06",
+    "W07",
+    "W08",
+    "ARM",
+    "TORSO",
+    "THIGH",
+    "SHIN",
+    "W09",
+    "W10",
+    "W11",
+    "W12",
+    "W13",
+    "W14",
+    "W15",
+    "W16",
+    "W18",
+    "W19",
+    "W20",
+    "W21",
+    "M01",
+    "C02",
+    "C04",
+    "CRATE_ARMS",
+    "CRATE_HEAVY",
+    "CRATE_MED",
+    "CRATE_TOOL",
+    "C03"
+  ],
+  "files": {
+    "game.html": "ef4081a230646351b687ae38ea958049f0c7e062a1b88aa5d16e46670553a1ba",
+    "payload.json": "f11876c2a38aed768621ab42da1be70612d8fe461b26da8e378d6c894af9898b"
+  },
+  "stored": [
+    "payload.json"
+  ],
+  "status": "draft"
+}
