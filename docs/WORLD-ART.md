@@ -127,6 +127,29 @@ Defaults: decorative, non-solid, flippable, play band. Solid pieces become part 
 - **The sump is a stage:** half-sunk heads, pier pilings and wreckage at the waterline make the rising water feel like the city drowning
 - Nothing decorative inside a trooper's spawn area or on a crate's landing spot
 
+## Generated world (Phase 3 art)
+Maps stay generated; hand-made art supplies what you see. The generator decides the shape and where things go. In this order:
+
+1. **Sockets instead of scatter.** The generator marks tower tops, ledges, arch keystones, wall faces, spawn walls and the waterline. Set pieces snap into those spots by their placement data: saints on pinnacles, gargoyles on ledges, banners under arches, heads at the waterline, graffiti near spawns.
+2. **One grade over everything.** A final pass snaps colours to the shared ramps, fades each depth band toward the sky colour and lights everything with the same rims, so generated and hand-drawn pixels can't drift apart.
+3. **Material tiles for terrain.** Hand-drawn seamless tiles fill the generated shape by surface type: masonry blocks for walls, rubble for rock, carved bands for ledges, each with a matching guts tile for craters. Edge details are stamped along surfaces: drips, moss, cracks, a tide line at the sump. Tiles are drawn on the art grid in the Forge and line up in world space.
+4. **A modular architecture kit.** The generator builds from hand-drawn modules (wall spans, arch segments, tower caps, buttresses, rose-window panels, broken tops) joined by sockets, and the destructible shape comes from the modules' own pixels. Prove the look on one map first.
+5. **A composition director.** One landmark against the moon, faction territory and light around each spawn, the sump staged with wreckage, density thinning near troopers, no repeats in view.
+
+Decoration is cosmetic and may vary per device. Anything solid becomes part of the destructible terrain, so it must be seeded and synced, and it needs guts.
+
+## Destruction
+Blasts should break the world the way the art is drawn: in pixels and chunks, not smooth circles.
+
+**In the HTML game:**
+- **Crater shapes on the art grid.** Craters follow a noisy, broken outline snapped to art pixels, with stepped edges, loose fragments and short cracks running out from the rim. Stone breaks along its masonry lines once material tiles exist; rock crumbles. This changes the playable shape, so it uses the seeded generator and a GV bump.
+- **Debris made of the terrain.** Chunks thrown out are sampled from the pixels that were destroyed, so a broken saint sheds pieces of saint. They tumble, bounce, settle and catch the blast light. Cosmetic.
+- **Effects drawn as pixel art.** Fire, smoke, dust and explosions render into a buffer at the art-pixel grid and scale up crisp, using stepped palette colours and dithering instead of smooth gradients. Light from the blast stays soft; the shapes stay pixel.
+- **Fresh damage reads.** Scorched, dithered rims; embers glowing in the cut for a few seconds; the guts layer showing inside.
+- **Collapse.** Pieces with nothing holding them up break off and fall as rigid chunks.
+
+**In the Godot rebuild:** a pixel-material simulation in the spirit of Noita: every pixel knows what it is (stone, rubble, iron, water, fire), stone breaks into rigid chunks with real physics, rubble pours, water flows into craters, fire spreads by material, and normal-mapped tiles let fresh cracks catch the light. That's the 2D equivalent of voxel destruction and suits a side-on artillery game better than true 3D voxels.
+
 ## Process: idea to live
 1. **Pick from the backlog** (below), or add to it. Name the band, size tier and placement first.
 2. **Concept sheet** (ChatGPT): a few options at roughly final pixel size, each shown as a silhouette and in a mock scene next to a trooper. Concept-resolution paintings are reference only.

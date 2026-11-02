@@ -6,6 +6,11 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-01 · Claude · Phase 3 art: generated world and destruction
+- `WORLD-ART.md` gains **Generated world (Phase 3 art)**: sockets for set pieces, one grade over everything, material tiles, a modular architecture kit, a composition director. And **Destruction**: art-grid craters, debris sampled from the destroyed terrain, pixel-art effects, fresh-damage reads, collapse; a pixel-material simulation for the Godot rebuild.
+- `ROADMAP.md` now lists the art phases (1 done, 2 now, 3 next).
+- **Ask (ChatGPT):** when Phase 3 starts, first deliverables are seamless material tiles (masonry, rubble, carved band) with matching guts tiles, and edge stamps (drips, moss, cracks, tide line).
+
 ## 2026-11-01 · Claude · World art and props brief
 - New [`WORLD-ART.md`](WORLD-ART.md): north star, attention ladder, depth bands, scale tiers, light and colour rules, shared material ramps, pixel craft, layers, placement data, map composition, idea-to-live process, review checklist and a starting backlog.
 - Revised the same night against `north-star.jpg` and `og.jpg`: contrast not darkness (black ruins on a luminous sky), rims in the light's colour, faction territory lighting the stone, architecture as terrain, distance fading toward the sky colour, colossal half-sunk saints, the OG's skulls, spikes, chains and banners.

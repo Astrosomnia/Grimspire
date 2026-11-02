@@ -13,6 +13,11 @@ Prototype in HTML/canvas to nail the loop, weapons and feel, then rebuild in **G
 5. Roll assets out through focused releases against current `main`
 6. Expand the asset set and world art direction, agreeing the reference and brief with Jarred first
 
+## Art phases
+- **Phase 1 (done):** weapons, the arm, the Forge pipeline
+- **Phase 2 (now):** troopers as rig parts (torso, legs, arm, cloth layer), equipment and tool slots, first set pieces
+- **Phase 3:** the generated world made cohesive with hand art: sockets for set pieces, one grade over everything, material tiles, a modular architecture kit, a composition director, and pixel-art destruction (art-grid craters, terrain debris, pixel effects). See `WORLD-ART.md`
+
 ## Next up
 - **Art direction:** continue the Ash Legion trooper (magenta, cloth as drawn) by hand at game scale (idle, aim, both facings, walk, jump-pack ignition, flight, landing)
 - **Throwing arm:** separate arm and throw motion for grenades and other thrown items
@@ -58,7 +63,7 @@ Prototype in HTML/canvas to nail the loop, weapons and feel, then rebuild in **G
 ## Backlog
 **Content:** terrain materials (rubble, armour plate), objectives beyond last-man-standing, hand-designed set pieces mixed into generated maps, per-faction sprites or trims, faction-specific weapons (long term).
 **Feel:** hit-stop on big impacts, barks on hits and kills, instant replay of big hits (parked).
-**Bigger swings (likely Godot):** real 2D lighting with normal maps, falling debris and crumbling structures, AI-painted map library, the roguelike run structure, per-zone map personalities (Sump, Manufactorum, Cathedral, Spire).
+**Bigger swings (likely Godot):** a pixel-material destruction simulation (stone breaking into rigid chunks, rubble, water and fire by material), real 2D lighting with normal maps, AI-painted map library, the roguelike run structure, per-zone map personalities (Sump, Manufactorum, Cathedral, Spire).
 
 ## Open questions
 - Crimson sky: done as the sudden-death bleed; also a per-map mood?
