@@ -407,6 +407,7 @@ const PRESETS=[
   {n:'Prop',p:'C',w:32,h:40,d:'Tanks, markers, sentries'},
   {n:'Dropship',p:'C',w:150,h:48,d:'Large vehicle'},
   {n:'Set piece',p:'S',w:160,h:128,d:'Statues, sunk saints'},
+  {n:'Light',p:'L',w:32,h:40,d:'Braziers, candle racks, lamps'},
   {n:'Terrain tile',p:'E',w:64,h:64,d:'Fill and rubble'},
   {n:'Skyline strip',p:'B',w:320,h:120,d:'Far background'}
 ];
@@ -850,7 +851,7 @@ async function copyJson(){const t=JSON.stringify(serialise());try{await navigato
 
 // ---------- naming ----------
 // One convention for every file: CODE_name_layer.png, e.g. W04_dakka_bolter_emissive.png. Variants go after the name.
-const CODES={W:'Weapons, held and thrown',P:'Projectiles',M:'Martyr and other charges',A:'Arm and rig parts',T:'Trooper animations',G:'Godfall pod',C:'Props: crates, chutes, tanks, dropship, markers',S:'Set pieces: statues, sunk saints, wreckage',E:'Terrain: fill, rubble, edges',F:'Faction marks: graffiti, banners, sigils',B:'Background: skyline, sky traffic',U:'UI and icons'};
+const CODES={W:'Weapons, held and thrown',P:'Projectiles',M:'Martyr and other charges',A:'Arm and rig parts',T:'Trooper animations',G:'Godfall pod',C:'Props: crates, chutes, tanks, dropship, markers',S:'Set pieces: statues, sunk saints, wreckage',L:'Lights: braziers, candle racks, lamps',E:'Terrain: fill, rubble, edges',F:'Faction marks: graffiti, banners, sigils',B:'Background: skyline, sky traffic',U:'UI and icons'};
 // codes already used by the repo's kits, so new work doesn't clash
 const REPO_CODES='W01 W02 W03 W04 W05 W06 W07 W08 W09 W10 W11 W12 W13 W14 W15 W16 W17 W18 W19 W20 W21 P01 M01 C01 C02 C03 C04 C05 G01 B01 A01 A02 A03 A04 T01 T02 T03 T04 T05 T06 T07 T08'.split(' ');
 const validCode=c=>/^[A-Z]\d{2}$/.test(c||'');
