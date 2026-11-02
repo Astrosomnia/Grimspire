@@ -1,0 +1,16 @@
+{
+  "Dakka": {
+    "red_accent_pixels": 8,
+    "opaque_body_pixels": 400,
+    "frames": 20,
+    "emissive_PNGs_byte_identical": true,
+    "markers_and_scale_unchanged": true
+  },
+  "Tank": {
+    "frames": 40,
+    "fps": 20,
+    "all_frame_data_unchanged": true,
+    "emissive_frames": 40,
+    "unique_emissive_frames": 40
+  }
+}

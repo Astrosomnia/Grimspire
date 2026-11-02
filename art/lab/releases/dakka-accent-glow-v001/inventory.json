@@ -1,0 +1,30 @@
+[
+  {
+    "id": "asset-9d2f8f735298da3a693ab692",
+    "path": "art/lab/hosted/library/asset-9d2f8f735298da3a693ab692.forge.json",
+    "sha256": "9d2f8f735298da3a693ab692e9fdd402644325681e053e091efc4fefbc424d46",
+    "asset_id": "asset-w04",
+    "state_key": "",
+    "asset_name": "Dakka Bolter",
+    "code": "W04",
+    "name": "Dakka Bolter \u00b7 dark metal / small oxblood accent",
+    "w": 42,
+    "h": 20,
+    "frame_count": 20,
+    "category": "Weapons"
+  },
+  {
+    "id": "asset-47c7b5294661adc31118a27f",
+    "path": "art/lab/hosted/library/asset-47c7b5294661adc31118a27f.forge.json",
+    "sha256": "47c7b5294661adc31118a27f580f1110fce20965c3234ab42f94aabf9e976d16",
+    "asset_id": "asset-c04",
+    "state_key": "",
+    "asset_name": "Promethium Tank",
+    "code": "C04",
+    "name": "Promethium Tank \u00b7 yellow emissive / light-tag review",
+    "w": 21,
+    "h": 28,
+    "frame_count": 40,
+    "category": "Other art"
+  }
+]
