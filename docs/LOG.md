@@ -6,6 +6,32 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-01 · ChatGPT · Trooper clarity, red Dakka, coloured crates and yellow tank
+- Saved **14 new versions** in existing Forge families/states, [48ad3b3](https://github.com/Astrosomnia/Grimspire/commit/48ad3b3cd1582ce0327907d95cfba00685dfb189). Inventory, proof, animated review and four-faction comparison: `art/lab/releases/clarity-red-dakka-v001/` on `art/weapon-lab`.
+- T10/A07/A08/A05 use the latest Cloth-layer sources: fewer material shades, merged isolated flecks, tan speckles near cloth moved onto Cloth, darker far-leg values. Neutral-grey cloth remains faction-tinted. Combined silhouette, sockets, scales and frame structure retained; **Jarred's forward T10 Hip stays [21,31] exactly**.
+- W04 has red metal on magazine/receiver and a pale pink top rail inspired by `og.jpg`. Original silhouette, grip/muzzle, scale and 20-frame/20-FPS cadence retained; intentional new pink rail light shares the loop.
+- C01's four symbol states and four complete crate variants restore canonical colours: arms #8fb3dc, heavy #ffb21e, medical #a0ff46, tools #3ff3ff. C04 has **40 distinct yellow lamp frames at 20 FPS** (2 s); never dark, original material/footprint/markers retained.
+- [Combined trooper/Dakka review](https://grimspire-forge.jarredpowell88.workers.dev/api/game?debug=1&grounds=1&revision=20261102T061739Z-50f56248#grounds), pinned to cloth-aware main `24c7aa3`; current shared build untouched. Other V2 weapons carried. Tank/crate art is in Library pending prop integration.
+- Current main renderer drew all **74 frames**, four faction cloth variants rendered before/after, all **42 Forge tests pass**. Remote registrations, manifest and proof read back. Saved drafts only; no hosted battle walkthrough, final approval, main art integration or live release. No application code changes.
+- **Ask (Claude):** wire full crate category variants/coloured symbols and C04 FPS animation when integrating props; retain tank yellow visibility and avoid treating placement tests as gameplay/collision definitions.
+
+## 2026-11-01 · Claude · Phase 3 art: generated world and destruction
+- `WORLD-ART.md` gains **Generated world (Phase 3 art)**: sockets for set pieces, one grade over everything, material tiles, a modular architecture kit, a composition director. And **Destruction**: art-grid craters, debris sampled from the destroyed terrain, pixel-art effects, fresh-damage reads, collapse; a pixel-material simulation for the Godot rebuild.
+- `ROADMAP.md` now lists the art phases (1 done, 2 now, 3 next).
+- **Ask (ChatGPT):** when Phase 3 starts, first deliverables are seamless material tiles (masonry, rubble, carved band) with matching guts tiles, and edge stamps (drips, moss, cracks, tide line).
+
+## 2026-11-01 · Claude · World art and props brief
+- New [`WORLD-ART.md`](WORLD-ART.md): north star, attention ladder, depth bands, scale tiers, light and colour rules, shared material ramps, pixel craft, layers, placement data, map composition, idea-to-live process, review checklist and a starting backlog.
+- Revised the same night against `north-star.jpg` and `og.jpg`: contrast not darkness (black ruins on a luminous sky), rims in the light's colour, faction territory lighting the stone, architecture as terrain, distance fading toward the sky colour, colossal half-sunk saints, the OG's skulls, spikes, chains and banners.
+- Two flags from it: S01–S06 are drawn at prop size (17–31 art px; a trooper is about 50), so saints and gargoyles read small; and per-asset scale (the 1.2 reviews) mixes pixel sizes, so final art should be redrawn at its chosen size with scale 1.
+- **Ask (ChatGPT):** read it before the next world or prop pass; add placement data to S01–S06 notes in its format.
+
+## 2026-11-01 · Claude · Cloth layer: each faction wears its own cloth
+- New **Cloth** layer in the Forge (beside body, emissive, trim, guts). Paint cloth in greys; the game colours it per faction by brightness (mid grey = the faction's cloth colour). The editor's Faction picker previews it, including the lit view and Rig.
+- Faction cloth colours in the game: Ash Legion oxblood, Neon Choir near-black blue-grey, The Hollow ash sackcloth, Halo Guard cream. Applied to Forge torsos, legs and the arm; weapons and the old atlas troopers are unchanged.
+- Moved the red cloth on the latest Ash Legion torso, thigh, shin and Jarred's arm onto the Cloth layer (new Library versions named "· cloth layer"). The Ash Legion Test page shows Ash Legion in oxblood against Neon Choir in dark cloth.
+- Cosmetic only; determinism hashes and renderer tests unchanged.
+
 ## 2026-11-01 · ChatGPT · Art Pass V2: weapon materials, animation retained
 - Saved **nine V2 versions** in existing W01–W08 Forge families: eight current weapons plus the historical 40-frame Chainblade edge-chase alternative. Art commit [ac4f9d5](https://github.com/Astrosomnia/Grimspire/commit/ac4f9d5262127ddb1615eeeb97ca7b372e7d602a); comparison, inventory and preservation proof in `art/lab/releases/art-pass-v2-v001/` on the art branch.
 - Shared eight-step neutral charcoal/gunmetal material palette reduces blue-purple metal bias and scattered shades. Jarred allowed blue/magenta light; all original emissive PNGs remain byte-identical, retaining cyan, magenta, red and amber. This is a material pass, with existing geometry retained.
