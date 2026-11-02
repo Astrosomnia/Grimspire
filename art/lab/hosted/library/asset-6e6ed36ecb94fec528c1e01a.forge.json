@@ -1,0 +1,33 @@
+{
+  "forge": 1,
+  "code": "K09",
+  "name": "Jetty · timber and iron waterline deck",
+  "w": 360,
+  "h": 30,
+  "fps": 8,
+  "base": 29,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "grip": null,
+    "muzzle": null,
+    "pivot": null
+  },
+  "ready": false,
+  "checks": {
+    "visual": false,
+    "tested": false
+  },
+  "notes": "band: play\nscale: 1\nstate: intact\n\njoint: horizontal jetty pitch 360; side columns 0–3 and 356–359 match; connector deck occupies rows 0–15, posts below. No water painted; depth/clipping supplied by renderer.\n2 Nov 2026 architecture draft from a new built-in image-generation source matching the first approved-direction kit. Encoded at exact final grid 360×30, six shared neutral material values. Body/Emissive/Guts separated. No baked glow, water or coloured rim. Hollow masonry/metal ties inside stone; jetty has structural timber/iron interior. Native connector edits for exact tile matches. Library save is not game integration; stamping/collision/lighting belong to Claude. Final hand cleanup, in-scene phone review and exact-version approval pending.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAWgAAAAeCAYAAAAB6YS9AAAABHNCSVQICAgIfAhkiAAAAAFzUkdCAK7OHOkAAATTSURBVHic7Zy9TxsxGMbfVB0gdwwgaJQBUYkOiKET6t6/vHvVqUPVgUpUGSoQgoEcsKXTixzHPn/77LvnJ7GExF+P/fjrvZt9/vJ1QwI/v3+bkYbzy6tN0x7o/r1Ft36iP79+aNMCcXHV5rlb07+/v6FPBRx+ON0cHS8IY69MlmcXm5PF0uq7Jm1kP54tzy62Ppg3rfKHD/e3RER0+vGTVUFWN9e0t99o0wtFNpjzy6tN/y/i5//60kWro1gf17pwWUzadOsnatoDWt1cExEl1ceFkLrHyJOJnbc8EH3SZ22pZ+yxrqK+qcce9XhFCWnHaHtbHu5ve7UhorfJ1aQN15/ZMWgd3EmOjhfa74iJs3mlJlc+qfPl9vVN8/Wlo6PjBT13a6X4sjYhecUmd3ly5hcjLzkN0+BOOSZSp00RdRnKg3Tjb960bwtd23K9Dy2c7PhcQG7slOTIQ5dvKeamQl6FqDQC6UnVP1WrzJwap+j/qSbNocaqqMe8ab13BO9CCtC0B1uZl7BdTsnrS1e8Oau04POxseszJcQzT9kMaoLHFBW0o/NF9MKTxZLmTUsni2XQ5Bm0gubzFRJmwNo6iIq+lU8NnWjetFtHHd36abDdBoiHuCOSxx4fb9WyWxL7Yw1jyoRuN8Njz9cXvQyaC8DnKVTQhVMIY5nJVfqQ0Ilg1nUinjGrDK4GfcdmzDI6b/TF2aDF2aEUU45x7FCKOYfWRdRHvNDl1VUJeoEwVJeFNWib05xzT1Lc/rx77QumcGEnisNUMduM5dUbSI+NNmLYFgg3ipxtaVoQiStskJdYvij3R68VtHzGCcpkyAibWqipLUzjrYYjDuDGjkHrVhSy6LbmPPSRwRRgbXxCe0Lirm1/rzOMKfcN2/YT2871IY6xtW+J59chk6FNHZzD7MTOwU/HNO1BNbfHY4ZNmXc4sj6xbvldz+v39hvl39SxaQPVd1JqWzLcFjX0nVje6B1mZxtKUnvImo6S6rW33yjLw6FYrA+fk/nO+iWuYKYEj6+H+1uttiImnaeuYar2kb0xJO3gMDtTRmPtBCXVS3XEoXoAIGQmL9GcazYgn7KJ+tmEcZVcf19i1ilmWvKdnC7ElbGN1vIOsxOfWHvu1qPsDDUj3vjr9LE9/yz1SKLEMsVGNQnJYXYIoSwD0RtjPYa/Y9Au21+5Q6guMXCjPByqR4BVL00yAQ3LgBdDjOkRb+g2DKrLepVJ902+zM57SQ8/nGZ9befj3eqtDHLej3ermfgZfzdGGWOmRVI9RDh9VT3l3+Ruex+GKnNfP5G/41om1e9U9bRJX+6zJZGzbLnbwaV/iJjKaJNuDLi95DL2vtTbtUC6yyq5IC5pAjf6NLPRRwU0S4NOK1+dCFolJ4VJ92nmdAbdd+anC73CNisv8sol5OwZ5EXWRTeWxM+h1bCoxpLpAtBFs9446Jiz8ePdaobZPQ+xdYuVFtgG46s+YrezKS3v90EDAPIyhagVsA0MGgAACgUGDUBFYBVdPjE18jZo3UvDQV3IOoIykC8CoVEdxNYJK+iJoYoUwOQKQDpCTBsGPXGwOqsDTKLTBAYNQAVgEh0fSd4HDQAAIBybSRcGDQAAGXE5rrJ+IibkGXQ84TQMoe8NgG75wPiqjxya/QfRrWM/T+bBDQAAAABJRU5ErkJggg==",
+      "emis": null,
+      "trim": null,
+      "cloth": null,
+      "guts": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAWgAAAAeCAYAAAAB6YS9AAAABHNCSVQICAgIfAhkiAAAAAFzUkdCAK7OHOkAAAGjSURBVHic7d07TsNAEAZgG1EBF6CioEHU3P8EqaM0Kai4ANCGKpJZP/Jy1jPR93UYYXb928NKWQ/t88vbrun4+ty0zYjX94/d2PeGbNer0XMxr1OzaeSThmxjm7MulvW4LQ88PD6dMcRldCd6zk0czX4+tzCXUy0x9/JBmft3X/v8jMt67X9/vv993SvQAMRwt/QAABimQAMEpUADBKVAAwSlQAMEdV8eyLTNDuCWlNvsrKABguqtoMsKDsAyrKABglKgAYJSoAGCUqABglKgAYLq9SWt3ZZvqmXodr1qu8fmbEk5d3vLsR6v+/MPzTNjS8SlxnxMa9lzMx36uaF5HnP+8p6NpObYal+HU+6PrkNjrNXSeH+9yjFONvW+xoA0Er8umeUhq3xqZ9bbB91lT3Q+2/VKj+8kPF/51M7s4F/buR72qX+lxfzkloOccqqVmw8JAYJSoAGCUqABglKgAYKa3MXR6A+dltxykFNOtXKzggYI6uAK2l7NnOSWg5xyqpWbFTRAUAo0QFBHv310yZsz3nJaxqVvO8mtHs9XPjUy+wNOG9W4FQQO1gAAAABJRU5ErkJggg=="
+    }
+  ],
+  "asset_id": "custom-008319b9-23f2-404e-84e2-5625c22ff349",
+  "state_key": ""
+}

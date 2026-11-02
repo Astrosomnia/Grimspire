@@ -1809,6 +1809,76 @@
       "h": 40,
       "frame_count": 1,
       "category": "Other art"
+    },
+    {
+      "id": "asset-3c3d92f58ad58d62c16652d8",
+      "path": "art/lab/hosted/library/asset-3c3d92f58ad58d62c16652d8.forge.json",
+      "sha256": "3c3d92f58ad58d62c16652d8ed24f5935895103eb3ac49f1aabac106988ace59",
+      "asset_id": "custom-294887fc-1769-4d04-ab6c-7b02deff39f3",
+      "state_key": "",
+      "asset_name": "Bridge span · pointed open arch",
+      "code": "K05",
+      "name": "Bridge span · pointed open arch",
+      "w": 180,
+      "h": 80,
+      "frame_count": 1,
+      "category": "Other art"
+    },
+    {
+      "id": "asset-4e5644372c5465b42a9616ad",
+      "path": "art/lab/hosted/library/asset-4e5644372c5465b42a9616ad.forge.json",
+      "sha256": "4e5644372c5465b42a9616ad37c331169d37eb1633c7d8baa13bf0613c0accd5",
+      "asset_id": "custom-b8bc4b8b-e19d-4c01-8adb-4a26f15a0a0b",
+      "state_key": "",
+      "asset_name": "Bridge pier · stackable stone rib",
+      "code": "K06",
+      "name": "Bridge pier · stackable stone rib",
+      "w": 40,
+      "h": 200,
+      "frame_count": 1,
+      "category": "Other art"
+    },
+    {
+      "id": "asset-6482c0ef61c25d583ddb9dd6",
+      "path": "art/lab/hosted/library/asset-6482c0ef61c25d583ddb9dd6.forge.json",
+      "sha256": "6482c0ef61c25d583ddb9dd62d2c8a7159a65c7688b8998768fe53814ec546a5",
+      "asset_id": "custom-1a450d92-07c2-4fe1-a366-6cb7a1f1c517",
+      "state_key": "",
+      "asset_name": "Nave wall · three open bays",
+      "code": "K07",
+      "name": "Nave wall · three open bays",
+      "w": 360,
+      "h": 300,
+      "frame_count": 1,
+      "category": "Other art"
+    },
+    {
+      "id": "asset-61a606ff2c29995ad833c64e",
+      "path": "art/lab/hosted/library/asset-61a606ff2c29995ad833c64e.forge.json",
+      "sha256": "61a606ff2c29995ad833c64eab5cda6d01b0a32ba1bbeac30c4245820b49578d",
+      "asset_id": "custom-1627515a-d72f-4a10-a671-1b98342ae0e2",
+      "state_key": "",
+      "asset_name": "Broken tower crown · chunky fracture",
+      "code": "K04",
+      "name": "Broken tower crown · chunky fracture",
+      "w": 112,
+      "h": 64,
+      "frame_count": 1,
+      "category": "Other art"
+    },
+    {
+      "id": "asset-6e6ed36ecb94fec528c1e01a",
+      "path": "art/lab/hosted/library/asset-6e6ed36ecb94fec528c1e01a.forge.json",
+      "sha256": "6e6ed36ecb94fec528c1e01a49034dfe45384123e5ed3ccb643d61f6c189581b",
+      "asset_id": "custom-008319b9-23f2-404e-84e2-5625c22ff349",
+      "state_key": "",
+      "asset_name": "Jetty · timber and iron waterline deck",
+      "code": "K09",
+      "name": "Jetty · timber and iron waterline deck",
+      "w": 360,
+      "h": 30,
+      "frame_count": 1,
+      "category": "Other art"
     }
   ]
 }

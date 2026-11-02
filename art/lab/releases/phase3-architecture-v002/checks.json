@@ -1,0 +1,47 @@
+{
+  "checks": [
+    "K04 base matches K01",
+    "K06 top/bottom match",
+    "K05 K07 K09 horizontal side bands match",
+    "K07 all 120px bay connector bands match",
+    "K05 arch and all K07 arches open"
+  ],
+  "nativeSizes": {
+    "K01": [
+      112,
+      100
+    ],
+    "K02": [
+      112,
+      192
+    ],
+    "K03": [
+      112,
+      40
+    ],
+    "K04": [
+      112,
+      64
+    ],
+    "K05": [
+      180,
+      80
+    ],
+    "K06": [
+      40,
+      200
+    ],
+    "K07": [
+      360,
+      300
+    ],
+    "K08": [
+      512,
+      360
+    ],
+    "K09": [
+      360,
+      30
+    ]
+  }
+}

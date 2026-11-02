@@ -1,0 +1,33 @@
+{
+  "forge": 1,
+  "code": "K06",
+  "name": "Bridge pier · stackable stone rib",
+  "w": 40,
+  "h": 200,
+  "fps": 8,
+  "base": 199,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "grip": null,
+    "muzzle": null,
+    "pivot": null
+  },
+  "ready": false,
+  "checks": {
+    "visual": false,
+    "tested": false
+  },
+  "notes": "band: play\nscale: 1\nstate: intact\n\njoint: vertical pier pitch 200; width 40; rows 0–3 match rows 196–199. Top centre (20,0) supports bridge endpoint; bottom will be submerged by code.\n2 Nov 2026 architecture draft from a new built-in image-generation source matching the first approved-direction kit. Encoded at exact final grid 40×200, six shared neutral material values. Body/Emissive/Guts separated. No baked glow, water or coloured rim. Hollow masonry/metal ties inside stone; jetty has structural timber/iron interior. Native connector edits for exact tile matches. Library save is not game integration; stamping/collision/lighting belong to Claude. Final hand cleanup, in-scene phone review and exact-version approval pending.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAADICAYAAACauqPvAAAABHNCSVQICAgIfAhkiAAAAAFzUkdCAK7OHOkAAAUTSURBVHic7V1NcxoxDNVm9pAUcoChMDkw7Ux76PTc//9LcsgMhw6UgUPYwI1eIsZ4/SFZ2l2T+N0CjvWQLFuW1t7qx+8/Z8gY9VtzAACAr4unXgT+W/9lybvrmI8Y1dO3X3mb+HRsYDpbkBrvtmtyW40+dts13cQ4VvtGNZkvszZxBQAwmS/P9w+j1penYwOuz2PfafRzOjaw36yq7L24EJSiEJRgMl+eq8l8eV5+/0n6h9XLM1DbhvqYzhYwGj+S2tYAAM3hlSyA01ajn6xNDLdAsAbmOquxJnP6uO21GHE6Np0Ij8ncb1ZVjR98GY2DjSnAOG+3XZPaU2TW3hYOUCOS6WwBu+062J4KNS+2tUENxWJoEeR6qW/L8GU0htOxCWrLlOWTe3ESChlbK5T9jMvUVBPvN6uqwj9CnuyKel3kUAu2uX0kQ/L2m1UFtpP4vIr6i7FdyDu58pKcxKU91NL9w6g1zUxni+S5lE0wRA6hSTL7YIFN0KU9hMs5Qv+rTtA2EXotmtecy1yfufpQJRibKuyJ+f5h1CLEXWHIBE/H5sqEIc2EtIQrjDpBG9TUh8ujOSATDA1w1AjOgxAYr7G+kgmaCIVSPqhM1PgrORGNqT2ErUVJ6HW1FpteaHsjQrJpemsOF0czx6ZvWLQIusaG2Sl4nMOlIXuKwb+xL/RmUyZ+ZzpVdAxK9yqhNhRnIe9JhspRk73Yp8mQA7i+4/5Q9locGtAxuJa+GEThFieJnorO6yTS7ado455qZnvqCoFFEMFdIXABSNEmK9waAlcaRNWb+9uu5j9Xvy55d2BlFlzpCDSPb32OwRV1uyxiykZOFw1Ssverl2cyqRA4si4EtbL3FHBkfbx9MXX+0gKbYN9RzWUMSnZeXHBk1fCeKIzlB0EprWtOV5T8YPZOkpzA1Fj6KPLIwQJloxRL65r/S/2B2Zu4EJRClWDKpiiGz6VB6ECLnWhQk2RnJtYi2fkYlJLM3kmuljrtkAvN7NMiRV40gUntKAUUedmbuBCUIil5BJ7po4u1OJmgLzDVeFbGRPYmLgSlKASlKASlaOWo+wRFXqteDJH6rSZMeT5ZwXDLVb/VhKtWbMvLfgxmT1A1mukC6tEMwvXYVAqyN3EhKEX2BMlLXWpB2tdXTB6ihvfSJ7UCKSV5OjbUc1Hnq9MQpdqZiEJQilLttFGqnaHPuG16r3aGUKqdQ6EQlKIQlKIQlEJ8GkIDIXnO0xD4pG7X2QPzNIQvwinZLSmyJ/h5s1s2SnZrKBSCUiQ7CRVZP9iDy6ZkP90ZQa18YvZjsBOCmtlY9WonxymSq52pSDmMFYP6w2Uc0/b6cFlX0U32XqweD36656hV1mKKY6RqVkRQazIOIXsTJxPsQ3vwYaqdzeEVRuNHtWon8QbHM/keVsp1kBxw+ivlWCmyJ3gxcZ9JS46sC8E+D9lzZGVfjlW9nI6LTqudEtKcaqdafjC2FJb84FAoBKUoBKUoBKUoBKXI/rYU1ulYbXLJp2PtS4exI/O+LI3rNSgJzFY047sR2f5+0Csm+x5nIbScJCdyYBPMjRx8yHmwbxSCUmRP8DaOTlLOk2hkVxHEMyXDnSfhyLutMchBb89u4VWOOTrIZL4810C88hEUXyTFkTfIi6RKlr9P3MH7gKW8DkYLtrzQ97f9IqnYfYLlpY434yQ5I3uC0WBBepO82Y8JajGnHuKljow+ztmvxVV5h7aF8g7tvvEfA/uYDpiDy4AAAAAASUVORK5CYII=",
+      "emis": null,
+      "trim": null,
+      "cloth": null,
+      "guts": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAADICAYAAACauqPvAAAABHNCSVQICAgIfAhkiAAAAAFzUkdCAK7OHOkAAAKGSURBVHic7Z2/SyNBHMXfLlMoeoXiD1IEhbOQK6zE3r/cXqwsJIWCYYvF3GGKM2oXG2cR9Dhnn5m8kfepUmSYD9/NsJO3+92tfv46nkOY8Dh7AABs7w6yTPj7rk2ar16wD0012DuUPsT189MMz0+zhU/Udx75Q6wvOJ001bIl/kU7HlX6FVy2wP+wIIu04GDvcF5v7AylzyQhfshxNukzj/QhBoCwubWbPOj+zx0AoM/Y1HnkK6gveHN1IXsunk6aKgDA2vqPpIGp32eQP8QBAGYPf5MG5VrFKKGCZQgqruToVEYFlel2M3FlptBnTCrlVDDHziRlnumkAYqqYIzhFk3qPPIVtCCLBVksyGJBFmczLL12Mzn+1RWzm7EgiwVZagBQvOoencqooDIWZJEXDCAylhzZTJcLql2zi3cCOJthcTbD0lUw181ln6Udj4CiKhhvm1sU8d/cyupa0jj5ClqQxYIszmZYnM2wWJDFgiwWZLEgiwVZfN8Mi7MZFmczLBZksSCLBVnKEFS7RoLXhis4m/kCAnrsZHJ1Q0wnjX4FyxBU7oboVnFKn5J7mt7QVTClr8k9TW+wIIsFWZzNsDibYXE2w2JBFguyWJDFgizOZlh83wyLBVksyGJBFguyWJDF2QxLGdmM4tXO2HzqbIYlAMBw/2DZHh/SjkeFVLC5vU7uNUrle/c0KT7yuR2P/HC6L0Fe0NkMi7MZFguyWJDFgiwWZLEgi7MZljKyGWWczbBYkKUMQcWENfaTlFFBZeQFq/j7Uw0wnc2w+D1NLBZkqQDg6ORU7lQHAJfnZ/ovdfR7mlgsyFIrPos6srEznMtXMHziO+/IsXrjPH6HNov8O7RfABLWMolR6aYxAAAAAElFTkSuQmCC"
+    }
+  ],
+  "asset_id": "custom-b8bc4b8b-e19d-4c01-8adb-4a26f15a0a0b",
+  "state_key": ""
+}

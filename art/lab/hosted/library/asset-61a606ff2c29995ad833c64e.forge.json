@@ -1,0 +1,33 @@
+{
+  "forge": 1,
+  "code": "K04",
+  "name": "Broken tower crown · chunky fracture",
+  "w": 112,
+  "h": 64,
+  "fps": 8,
+  "base": 63,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "grip": null,
+    "muzzle": null,
+    "pivot": null
+  },
+  "ready": false,
+  "checks": {
+    "visual": false,
+    "tested": false
+  },
+  "notes": "band: play\nscale: 1\nstate: broken\n\njoint: tower-112; bottom rows 60–63 match K01 top connector; state broken.\n2 Nov 2026 architecture draft from a new built-in image-generation source matching the first approved-direction kit. Encoded at exact final grid 112×64, six shared neutral material values. Body/Emissive/Guts separated. No baked glow, water or coloured rim. Hollow masonry/metal ties inside stone; jetty has structural timber/iron interior. Native connector edits for exact tile matches. Library save is not game integration; stamping/collision/lighting belong to Claude. Final hand cleanup, in-scene phone review and exact-version approval pending.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,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",
+      "emis": null,
+      "trim": null,
+      "cloth": null,
+      "guts": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHAAAABACAYAAADCmvPmAAAABHNCSVQICAgIfAhkiAAAAAFzUkdCAK7OHOkAAAMBSURBVHic7Zs9b9swEIYpw1vaIYYbw0PgIYuRoVPQvb88e5GpQ+Alg+HBsBvES9NkU5dQoGVRPn7eUXmfyUAUkXevjh93pFJELq+u68ur65r6PMjDiPIQhJPLmPLQZDprfh/2m5T9AY70Cnhze4fIE06vgP9e/+brCfCisv1hvlieRN92vbI+D3ggLWKAXMgCIvpkgggsHKc5UCESxdEZgTbxgDyChlAIzQ8pE2MC0WSBRUzhnCxIXBLXh/0GCxpmEIGFczIHmpUHGy/PO0SfEI4iENWH8mgEdBUPRV4ZjFRA5CFi+RkrpdTFl69O/+T6vAvff/wkfRS/f91jDtYRGOIMqsNzv+uz0AjnMhy+PO+Uaq1Ynx4fgiKiq/2udkxC25SAze9U25xTadSOuDgXc6k/zSo09tdMFcVXvCFEH5Wb27va5qejfWAKERFd/dh8rv1m+q/Ll9jIC4aiR7Q50Ma5LwyEceTcFNmVrpxprHYk5mPbtlH6GFIByipgyvQbt5h9ttn65usP833NEJpqSJtMZ7Ui7OlC4b6z0WdXV9+o/u7y22Q6q/XUlHwO5MJ0UOotxzkxUs73Y/URyrnuQeRop22PPseT6khkDpvabcwXy3q7XlWDqchrkXKXubgPeQ1GQEVwJrezUzBSAlZwpcJZ1NbTwaAiMAfSorhZhW7Xq0pa5yRh+ma+WNbvb69sfTEXY4PdRsSghA866xBa0lzrK17u21vZIlCLxz1Up7w6rt+T08YsEdh20BDvGHLZyFKNSNmeD+0++vQrdsKa2ha2ERHgnNuP5kBqpYBaWTiXRD7sN1Vfojd1BcPoR/PbJ/HcVwkxbYxlj9keIrBwIKAxT5V4zINdQCnHA30XG9z9976dBPgwtWKPQBAGBCwcCFg4ELBwIGDhQMDCgYCFk/TYOzXJK6Uq4UPsuw+u7SICC6dSH19Iiow/Jc0UOwOUq4JhtnPOzhAb++x5enwYzsnsz0pvPQ7IZ6wvTXybzbM0+Ge3RXsRwRBaODiNXTj/AaJkaq0K1oUvAAAAAElFTkSuQmCC"
+    }
+  ],
+  "asset_id": "custom-1627515a-d72f-4a10-a671-1b98342ae0e2",
+  "state_key": ""
+}
