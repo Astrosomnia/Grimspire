@@ -178,6 +178,8 @@ body.chatting #chatFeed p.old{opacity:1}
 .slider.h{left:max(14px,env(safe-area-inset-left,0px));bottom:calc(env(safe-area-inset-bottom,0px) + 22px)}
 .slider.v{left:calc(max(14px,env(safe-area-inset-left,0px)) + 47px);bottom:calc(env(safe-area-inset-bottom,0px) + 74px)}
 .slider.h b{left:50%;bottom:-13px;transform:translateX(-50%)}
+.slider{translate:var(--lx,0px) var(--ly,0px)}
+.slider.lift{border-color:var(--fire);box-shadow:0 0 18px rgba(255,178,30,.35)}
 .slider.v b{left:50%;top:-13px;transform:translateX(-50%)}
 .slider.h::before,.slider.h::after,.slider.v::before,.slider.v::after{content:"";position:absolute;width:0;height:0;border:4px solid transparent;opacity:.5;pointer-events:none}
 .slider.h::before{left:5px;top:50%;margin-top:-4px;border-right-color:var(--bone)}.slider.h::after{right:5px;top:50%;margin-top:-4px;border-left-color:var(--bone)}
@@ -332,6 +334,7 @@ body.intitle #dbg{display:none}
       <button class="go alt" id="pRestart" type="button">Restart this battle</button>
       <label class="vol" for="vSfx"><span>Effects</span><input type="range" id="vSfx" min="0" max="100" step="1" value="100"><output id="oSfx">100%</output></label>
       <label class="vol" for="vMus"><span>Music</span><input type="range" id="vMus" min="0" max="100" step="1" value="75"><output id="oMus">75%</output></label>
+      <button class="go alt" id="pLevers" type="button" hidden>Reset controls</button>
       <button class="go alt" id="pReport" type="button">Report a bug or idea</button>
       <button class="go alt" id="pForfeit" type="button" hidden>Forfeit and leave</button>
       <button class="go alt" id="pQuit" type="button">Quit to title</button>
@@ -1822,9 +1825,9 @@ function walk(t,dir,dt,sp){if(t===S.active&&S.stag&&S.phase==='aim')return;
 }
 function jump(t){
   if(t.rope){ropeJump(t);return}if(t===S.active&&S.stag&&S.phase==='aim')return;
-  if(t.wet){t.wet=false;t.air=true;t.vy=-235;t.vx=t.face*85;t.y-=2;splash(t.x,sump);S.moved=true;return}
+  if(t.wet){t.wet=false;t.air=true;t.vy=-235;t.vx=t.face*85;t.y-=2;splash(t.x,sump);S.moved=true;sfx('jet');JUMPFX.set(t,time);return}
   if(t.air||t.crouch>0||t.recover>0)return;t.crouch=.16;t.sq=.35;S.moved=true}
-function launchJump(t){t.vy=-255;t.vx=t.face*140;t.air=true;t.jumped=true;t.y-=1;sfx('jump')}
+function launchJump(t){t.vy=-255;t.vx=t.face*140;t.air=true;t.jumped=true;t.y-=1;sfx('jump');sfx('jet');JUMPFX.set(t,time)}
 /* any big shove: knocks troopers off ropes, out of water, into a low skid or a short flight */
 function airborne(o){o.down=0;o.rope=null;o.wet=false;o.skid=false;o.air=true;o.crouch=0;o.y-=1}
 function shove(o,vx,vy){if(!o.alive)return;
@@ -2510,14 +2513,39 @@ function mkStick(el){const knob=el.querySelector('i'),R=44;let id=null,cx=0,cy=0
   const end=e=>{if(e.pointerId!==id)return;id=null;LS.x=LS.y=0;knob.style.transform=''};
   ['pointerup','pointercancel','lostpointercapture'].forEach(ev=>el.addEventListener(ev,end))}
 // a lever on one axis: drag anywhere on it, it springs back to centre when let go
-function mkSlider(el,axis){const knob=el.querySelector('i'),R=24;let id=null,c=0;
-  el.addEventListener('pointerdown',e=>{e.preventDefault();initAudio();id=e.pointerId;try{el.setPointerCapture(id)}catch(_){}const r=el.getBoundingClientRect();c=axis==='x'?r.left+r.width/2:r.top+r.height/2;el.classList.add('on');mv(e)});
-  const mv=e=>{if(e.pointerId!==id)return;let d=clamp((axis==='x'?e.clientX:e.clientY)-c,-R,R);knob.style.transform=axis==='x'?`translateX(${d}px)`:`translateY(${d}px)`;
+function mkSlider(el,axis){const knob=el.querySelector('i'),R=24;let id=null,c=0,hold=null,moving=false,x0=0,y0=0;
+  el.addEventListener('pointerdown',e=>{e.preventDefault();initAudio();id=e.pointerId;try{el.setPointerCapture(id)}catch(_){}const r=el.getBoundingClientRect();c=axis==='x'?r.left+r.width/2:r.top+r.height/2;el.classList.add('on');
+    x0=e.clientX;y0=e.clientY;moving=false;clearTimeout(hold);hold=setTimeout(()=>{hold=null;moving=true;if(axis==='x')LS.x=0;else LS.y=0;knob.style.transform='';leverOf(el).pick();try{navigator.vibrate&&navigator.vibrate(15)}catch(_){}},LEVER_HOLD);mv(e)});
+  const mv=e=>{if(e.pointerId!==id)return;
+    if(moving){leverOf(el).drag(e.clientX-x0,e.clientY-y0);return}
+    if(hold&&Math.hypot(e.clientX-x0,e.clientY-y0)>4){clearTimeout(hold);hold=null}
+    let d=clamp((axis==='x'?e.clientX:e.clientY)-c,-R,R);knob.style.transform=axis==='x'?`translateX(${d}px)`:`translateY(${d}px)`;
     let v=d/R;if(Math.abs(v)<.14)v=0;else v=Math.sign(v)*(.3+.7*(Math.abs(v)-.14)/.86);if(axis==='x')LS.x=v;else LS.y=v};
   el.addEventListener('pointermove',mv);
-  const end=e=>{if(e.pointerId!==id)return;id=null;if(axis==='x')LS.x=0;else LS.y=0;knob.style.transform='';el.classList.remove('on')};
+  const end=e=>{if(e.pointerId!==id)return;id=null;clearTimeout(hold);hold=null;if(moving){moving=false;leverOf(el).drop()}if(axis==='x')LS.x=0;else LS.y=0;knob.style.transform='';el.classList.remove('on')};
   ['pointerup','pointercancel','lostpointercapture'].forEach(ev=>el.addEventListener(ev,end))}
+// Hold a lever still for 1.5 s to pick it up, drag it somewhere comfier, let go. Each lever moves on its own.
+// Remembered on this device; Reset controls in the pause menu puts them back.
+const LEVER_HOLD=1500;
+const mkLever=(el,KEY,others)=>{let o={x:0,y:0},start=null,box=null;
+  try{const v=JSON.parse(localStorage.getItem(KEY)||'null');if(v&&isFinite(v.x)&&isFinite(v.y))o={x:+v.x,y:+v.y}}catch(_){}
+  const apply=()=>{el.style.setProperty('--lx',o.x+'px');el.style.setProperty('--ly',o.y+'px');$('#pLevers').hidden=!LEVERS.some(l=>l.moved())};
+  // the lever's footprint (with its label) with no offset, so the offset can be held inside the screen
+  const base=()=>{const q=el.getBoundingClientRect();return{l:q.left-o.x,t:q.top-14-o.y,r:q.right-o.x,b:q.bottom+14-o.y}};
+  const lim=(x,y)=>{const m=6;o.x=Math.round(clamp(x,m-box.l,innerWidth-m-box.r));o.y=Math.round(clamp(y,m-box.t,innerHeight-m-box.b))};
+  const save=()=>{try{if(o.x||o.y)localStorage.setItem(KEY,JSON.stringify(o));else localStorage.removeItem(KEY)}catch(_){}};
+  return{el,moved:()=>!!(o.x||o.y),apply,
+    fit(){if(!el.offsetParent)return;box=base();lim(o.x,o.y);apply()},
+    pick(){start={...o};box=base();el.classList.add('lift')},
+    drag(dx,dy){if(!start)return;lim(start.x+dx,start.y+dy);apply()},
+    drop(){if(!start)return;start=null;el.classList.remove('lift');save();apply()},
+    reset(){o={x:0,y:0};save()}}};
+const LEVERS=[mkLever($('#sWalk'),'grimspire.lever.move'),mkLever($('#sAim'),'grimspire.lever.aim')];
+try{localStorage.removeItem('grimspire.levers')}catch(_){}
+LEVERS.forEach(l=>l.apply());addEventListener('resize',()=>requestAnimationFrame(()=>LEVERS.forEach(l=>l.fit())));
+const leverOf=el=>LEVERS.find(l=>l.el===el);
 mkSlider($('#sWalk'),'x');mkSlider($('#sAim'),'y');
+$('#pLevers').addEventListener('click',()=>{LEVERS.forEach(l=>l.reset());LEVERS.forEach(l=>l.apply())});
 $('#bArs').addEventListener('click',openArsenal);$('#dArs').addEventListener('click',openArsenal);
 $('#aClose').addEventListener('click',closeArsenal);$('#arsenal').addEventListener('click',e=>{if(e.target.id==='arsenal')closeArsenal()});
 $('#pauseBtn').addEventListener('click',()=>setPause(true));$('#pResume').addEventListener('click',()=>setPause(false));
@@ -2663,7 +2691,10 @@ function collect(c,t){
 const DROP={chance:.33,superChance:.25,superN:4};
 const CRATEMIX={med:20,heavy:30,arms:35,tool:15};// % from the balance sheet
 const crateType=()=>{let r=Math.random()*100;for(const k of['med','heavy','arms','tool']){if(r<CRATEMIX[k])return k;r-=CRATEMIX[k]}return'tool'};
-function dropSpot(avoid){for(let i=0;i<40;i++){const c=rnd(140,W-140),y=surf(c);if(y>80&&y<sump-70&&!isSolid(c,y-30)&&!avoid.some(a=>Math.abs(a-c)<160))return c}return null}
+// a crate lands clear of the troopers: of a few good spots, the one farthest from anyone
+const CRATE_PICKS=6;
+function dropSpot(avoid){const clear=(c,y)=>{let m=1e9;for(const t of troopers)if(t.alive)m=Math.min(m,Math.hypot(t.x-c,t.y-y));return m};let best=null,bd=-1,n=0;
+  for(let i=0;i<60&&n<CRATE_PICKS;i++){const c=rnd(140,W-140),y=surf(c);if(y>80&&y<sump-70&&!isSolid(c,y-30)&&!avoid.some(a=>Math.abs(a-c)<160)){n++;const d=clear(c,y);if(d>bd){bd=d;best=c}}}return best}
 function startEvent(k){
   if(k==='rise'){S.ev={k,t:0,from:sump,to:sump-13*S.order.length};banner('The sump rises','Sudden death','#9fb4d8');sfx('rise')}
   else{const big=Math.random()<DROP.superChance,dir=Math.random()<.5?1:-1,xs=[];
@@ -2986,6 +3017,7 @@ function gatherLights(){
   if(S.cut&&S.active)L.push({x:S.active.x+S.cut.dx*14,y:S.active.y-12+S.cut.dy*14,r:110,c:[255,200,140],i:.9,h:.12});
   for(const t of troopers)if(t.alive&&t.rope){const r=t.rope;L.push({x:(r.x+t.x)/2,y:(r.y+t.y-18)/2,r:70,c:[63,243,255],i:.45+Math.random()*.15,h:.05});L.push({x:r.x,y:r.y,r:40,c:[63,243,255],i:.6,h:0})}
   if(S.jet&&S.active)L.push({x:S.active.x,y:S.active.y,r:90,c:FIRE,i:.6,h:.08});
+  for(const t of troopers){const p=t.alive&&jumpKick(t);if(p)L.push({x:t.x,y:t.y,r:70,c:FIRE,i:.25*p,h:.08})}
   if(S.pod){const p=S.pod,a=p.stage==='build'?Math.atan2(p.dy,p.dx):p.landed?p.ang:Math.atan2(p.vy,p.vx);L.push({x:p.x,y:p.y,r:55,c:TEAM[p.owner.team].rgb,i:.35,h:0});
     if((p.stage==='build'&&p.t>=POD.build)||(!p.landed&&p.stage!=='build'&&p.burn>0))L.push({x:p.x-Math.cos(a)*26,y:p.y-Math.sin(a)*26,r:130,c:FIRE,i:.85,h:.1})}
   if(S.drone){const d=S.drone,on=droneBlink(d);L.push({x:d.x+d.dir*4,y:d.y-9,r:on?95:45,c:[255,50,50],i:on?.85:.25,h:on?.07:0})}
@@ -3108,8 +3140,10 @@ function drawTrooper(t){if(!SPR.ready)return drawTrooperProc(t);
   if(LT.blast>.02){ctx.globalAlpha=LT.blast;torso('lit');ctx.globalAlpha=1}
   ctx.save();ctx.shadowColor=col;ctx.shadowBlur=9;torso('emis');ctx.globalCompositeOperation='lighter';ctx.globalAlpha=.35;ctx.shadowBlur=0;torso('emis');ctx.restore();
   ctx.restore();
-  if(act&&S.jet&&S.jet.fuel>0&&(key('fire')||axY()<-.3)){ctx.fillStyle='#ffd27a';ctx.beginPath();ctx.moveTo(-8.6,-9.5);ctx.lineTo(-5,-9.5);ctx.lineTo(-6.8,-2+Math.random()*4);ctx.fill()}
+  if(act&&S.jet&&S.jet.fuel>0&&(key('fire')||axY()<-.3))jetFlame(1);else{const p=jumpKick(t);if(p)jetFlame(p)}
   if(posed||t.wet){ctx.restore();return}
+  // the jump pack needs no hand: the arm hangs at the side
+  if(act&&t.kind===undefined&&curW().kind==='jet'){if(typeof labDrawRestArm==='function')labDrawRestArm();ctx.restore();return}
   ctx.translate(1.5,-12);ctx.rotate(t.aim);
   if(t.kind==='martyr'){prop('martyr',artW('martyr')/2,artH('martyr')*.7,1.6,Math.sin(t.t*(10+t.t*14))>0);ctx.restore();return}
   const k=act?curW():null,id=k?HELD[k.id]:'rail';
@@ -3118,6 +3152,15 @@ function drawTrooper(t){if(!SPR.ready)return drawTrooperProc(t);
     ctx.beginPath();ctx.rect(-1,-1.6,9,3.2);ctx.fill();ctx.stroke()}
   ctx.restore();
 }
+// Jump pack exhaust, drawn in the trooper's body space from the torso's Thrust point (a Forge point on TORSO).
+// p scales the plume: 1 is steady thrust, more for the kick of a powered jump.
+function jetFlame(p){const n=typeof labThrustPoint==='function'?labThrustPoint():null,x=n?n[0]:-6.8,y=n?n[1]:-9.5,
+    w=1.3*Math.min(1.5,.7+p*.3),L=(5+Math.random()*3.5)*p;
+  const tri=(hw,l)=>{ctx.beginPath();ctx.moveTo(x-hw,y);ctx.lineTo(x+hw,y);ctx.lineTo(x+(Math.random()-.5)*.8,y+l);ctx.fill()};
+  ctx.fillStyle='rgba(255,110,30,.85)';tri(w*1.35,L*1.2);ctx.fillStyle='#ffd27a';tri(w,L)}
+// every jump is pack-assisted: a short burst of flame as they leave the ground (cosmetic only)
+const JUMPFX=new WeakMap(),KICK=.3;
+function jumpKick(t){const j=JUMPFX.get(t);if(j===undefined)return 0;const u=(time-j)/KICK;return u>=0&&u<1?.6+1.6*(1-u)*(1-u):0}
 function drawTrooperProc(t){
   const col=TEAM[t.team].col,act=t===S.active,st=t.moving?Math.sin(t.anim)*2.2:0,b=t.moving?Math.abs(Math.cos(t.anim))*.8:0;
   const sq=t.sq||0,bob=t.wet?Math.sin(time*2.4+t.x)*1.2:0;
@@ -3132,6 +3175,7 @@ function drawTrooperProc(t){
   ctx.lineJoin='round';ctx.strokeStyle=EDGE;ctx.lineWidth=1.8;ctx.stroke();ctx.fillStyle=INK;ctx.fill();
   ctx.shadowColor=col;ctx.shadowBlur=10;ctx.fillStyle=col;ctx.fillRect(1.6,-19.7-b,3.6,1.6);ctx.fillRect(-1,-15-b,5.5,1);ctx.fillRect(-8,-15-b,1.6,1.6);ctx.shadowBlur=0;
   if(act&&S.jet&&S.jet.fuel>0&&(key('fire')||axY()<-.3)){ctx.fillStyle='#ffd27a';ctx.beginPath();ctx.moveTo(-8.5,-8);ctx.lineTo(-4.5,-8);ctx.lineTo(-6.5,-1+Math.random()*4);ctx.fill()}
+  if(act&&t.kind===undefined&&curW().kind==='jet'){ctx.restore();return}
   ctx.save();ctx.translate(1,-11-b);ctx.rotate(t.aim);
   const k=act?curW():null;ctx.strokeStyle=EDGE;ctx.lineWidth=1.4;ctx.fillStyle=INK;
   if(t.kind==='martyr'){ctx.beginPath();ctx.rect(-1,-1.5,10,3);ctx.stroke();ctx.fill();ctx.beginPath();ctx.arc(11.5,0,3,0,Math.PI*2);ctx.stroke();ctx.fill();const on=Math.sin(t.t*(10+t.t*14))>0;ctx.shadowColor='#ff2a2a';ctx.shadowBlur=on?12:0;ctx.fillStyle=on?'#ff3b3b':'#5a1414';ctx.fillRect(10.7,-.8,1.6,1.6);ctx.shadowBlur=0;ctx.restore();ctx.restore();return}
@@ -3498,7 +3542,7 @@ function netCatchUp(){if(S.mode!=='online'||NET.role!=='watch')return;const behi
   if(behind>300&&!NET.skip)for(let i=0;i<Math.min(6,behind-240);i++)tick()}
 function netGameOver(){if(NET.role!=='act')clearNet()}
 function netLeave(){document.title=TITLE0;chatStop();if(NET.unC)NET.unC();if(NET.unM)NET.unM();NET.unC=NET.unM=null;NET.role=null;NET.started=false;S.mode='hot';$('#netBar').hidden=true}
-const GV=31;// bump on every release that changes the sim
+const GV=32;// bump on every release that changes the sim
 function startOnline(code,me,d){BE.update(code,{['vers.'+me]:GV,['arts.'+me]:window.GRIMSPIRE_ART_SIM||''}).catch(()=>{});NET.code=code;NET.me=me;NET.round=d.round||0;NET.snapK=-1;NET.snap=null;NET.matchAtt=d.att||'';NET.started=true;NET.leaving=false;saveNet();
   $('#net').hidden=true;if(!CHAT.un)chatStart();const cfg=Object.assign(mkCfg('online',d.seats,d.mode==='teams'),{mode:'online'});newGame('online',d.seed,cfg);S.genOK=true;
   const base=NET.round*1e5,has=d.snapK!=null&&d.snapK>=base&&d.snap;
@@ -3692,6 +3736,15 @@ function labTorsoHip(){const M=SPR.M,K=TROOP_H/((M.feet-50)*M.sc),R=labLegRig();
 const labTorsoScale=d=>PX*(d.game_scale??1);
 const labBodyShoulder=(()=>{const m=labTorsoDoc?.markers;if(!m?.shoulder||!m?.hip)return[(300-250)/12*PX,(324-661)/12*PX+labHipShift()];
   const h=labTorsoHip(),z=labTorsoScale(labTorsoDoc);return[h[0]+(m.shoulder[0]-m.hip[0])*z,h[1]+(m.shoulder[1]-m.hip[1])*z]})();
+// Jump pack exhaust: the torso's Thrust point (place it in the Forge), in body space. Until one is placed,
+// the gap between the two nozzles on the current Ash Legion torso.
+const LAB_THRUST_DEFAULT=[12,27];
+function labThrustPoint(){const d=labTorsoDoc;if(!d||!labArt.has('TORSO'))return null;const m=d.markers||{},p=m.thrust||LAB_THRUST_DEFAULT,
+  hip=m.hip||[d.w/2-.5,d.h*.55],z=labTorsoScale(d),H=labTorsoHip();return[H[0]+(p[0]-hip[0])*z,H[1]+(p[1]-hip[1])*z-z/2]}
+// Nothing in hand (the jump pack): the arm hangs from the shoulder, slightly forward. Body space, before any aim.
+const LAB_REST_ARM=1.42;
+function labDrawRestArm(){const art=labArt.get('ARM');if(!art)return false;const m=art.doc.markers,sh=m.shoulder||m.pivot||[0,3],hd=m.hand||[sh[0]+14,sh[1]];
+  ctx.save();ctx.translate(labBodyShoulder[0],labBodyShoulder[1]);ctx.rotate(LAB_REST_ARM-Math.atan2(hd[1]-sh[1],hd[0]-sh[0]));labDraw(art,sh,1,false);ctx.restore();return true}
 let labDrawingTrooper=null;
 if(typeof drawTrooper==='function'){
   const drawBody=drawTrooper;

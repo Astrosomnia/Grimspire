@@ -6,6 +6,14 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-03 · Claude · Jump pack tidy, powered jumps, movable levers, crates clear of troopers (GV 32)
+- **Jump pack in hand:** selecting or flying the jump pack no longer shows the grey placeholder block. Nothing is held and the arm hangs at the trooper's side (`LAB_REST_ARM`, radians from forward).
+- **Exhaust point:** the flame now comes from the torso's new **Thrust** point. Until one is placed it uses the gap between the two nozzles on the current Ash Legion torso (`LAB_THRUST_DEFAULT` = 12, 27). The Forge has a Thrust point for TORSO on `art/weapon-lab` (not pushed yet); setting it there and going live moves the flame without code.
+- **Powered jump:** every jump, and the jump out of the sump, fires a short pack burst (flame, light, jet sound) that fades over 0.3 s (`KICK`). Cosmetic only; the jump arc is unchanged.
+- **Levers (phone):** hold a lever still for 1.5 s and it lifts (`LEVER_HOLD`) (amber ring); drag it anywhere on screen and let go. Move and Aim are set independently (Jarred: overlapping is the player's call). Remembered on that device. **Reset controls** appears in the pause menu once they've been moved. Default position unchanged.
+- **Crates:** each drop now looks at six good landing spots and takes the one farthest from any trooper (`CRATE_PICKS`). Over 1000 drops on 40 maps: landing within 60 px of a trooper went from 49% to 4%; median distance 61 → 133 px. Sim change, so GV 32.
+- Tests: dsim, dsim2, dsimart identical; det map hashes match; art alignment, render and categories pass; Forge tests 42/42; phone layouts load with no errors; lever hold, drag, clamp, reload and reset checked on a phone viewport.
+
 ## 2026-11-03 · Claude · Drowned less often; landmarks flush on their rock; lanterns only under real ceilings (GV 31)
 - **Layout odds (Jarred):** drowned 1.75 against 1 each for spires, islands, canyon and ruins (about 1 map in 3.3, was 1 in 2; ruins drops from 2 to 1). Over 300 seeds: drowned 101, islands 58, ruins 48, canyon 47, spires 46.
 - **Seams:** the rock mass under lifted landmarks and the cathedral front sat 3 px below the building's baseline, leaving a strip of air under the dome, belfry and church. The rock top now runs a pixel above the baseline; measured gaps under K10–K13 on lifted pieces are zero.
