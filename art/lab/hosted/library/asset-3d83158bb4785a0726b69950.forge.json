@@ -1,0 +1,33 @@
+{
+  "forge": 1,
+  "code": "D01a",
+  "name": "D01a · Broken fluted column · chain and torn cloth",
+  "w": 76,
+  "h": 128,
+  "base": 127,
+  "fps": 8,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "grip": null,
+    "muzzle": null,
+    "pivot": null
+  },
+  "ready": false,
+  "checks": {
+    "visual": false,
+    "tested": false
+  },
+  "notes": "design: D01\nplace: sump\nband: foreground\nbase: 127\nfootprint: 11–65\nclear: 0\nsink: 0.30–0.38\nweight: 0.8\nlimit: 2\nzones: any\nfaction: none\nsolid: none\nflip: yes\nlight: none\n\none broken gothic fluted stone column, leaning slightly, broad shattered capital, jagged top, squat plinth, missing chunk on right. Near-black filled silhouette with readable flutes only at outer profile. Native size 76×128, game_scale 1. Flat silhouette body; depth haze/top-edge/reflection belong to the renderer. Bottom third intended underwater.  Built-in image-generation source encoded at native grid with palette/alpha edits; source preserved. New design code awaiting Claude renderer/slot wiring; generic Forge placement preview only. No production integration claimed. Final native cleanup, exact-art and in-scene approval pending.\n\nvariant_of: D01\ndressing: chain, cloth\nweight: 0.3\nBare original retained. Existing native Body pixels/footprint/base/scale preserved exactly; generated edit supplies only added chain pixels and a separate neutral-grey Cloth mask within the same canvas. Foreground dressing remains near-black, faction none by default. Chains/cloth are cosmetic only. No animation, collision or play-terrain changes implemented. New D-letter slot needs Claude routing.",
+  "frames": [
+    {
+      "trim": null,
+      "cloth": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEwAAACACAYAAAChvY/kAAAABHNCSVQICAgIfAhkiAAAAAFzUkdCAK7OHOkAAACiSURBVHic7ddBDoQgDEBRnMP0/ufhMs7KZGLc1MQizHtLN+JPA9IaAAAAAAAAAAAA0LbRC7grIvbzs977498zbbDDb7iKYJ+nX1Dpauq4EBF7VSwTlrRUsAqCJU0frHqjnzrYiFNx6mBn/sNeaIlgFZN1cDVKWmLCKgn2TyrvkNMTK2lULHtYkmAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA6/oCXBkhF31qMLwAAAAASUVORK5CYII=",
+      "emis": null,
+      "guts": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEwAAACACAYAAAChvY/kAAAABHNCSVQICAgIfAhkiAAAAAFzUkdCAK7OHOkAAANtSURBVHic7Z1LcsQgDESZVC6QTXa5/8FmN5s5QrJyFeWyAUFLahG9ZT4OfjSCsYn9KCR8ff/89n7m/Xo+bFpzz4d3A6Lh3mMjySok6SqZMDnmvTaaqBqWdJVSyqfVH5oRxQhE2JUMplQgUUvYLok6M5wCbwEsic1ZUkhzSHqnipEwCWPpvAdLQySg6tndubeOHyZhLIQU9vX987s6MmZ/32ylb8VZxMzwPY5x9bt0NexoJLJdVyc+e5UE3rgVzo1DtWtF2JnLuFoLbA0bRFvq468eb7sadgUyAN2CqJ22kaLMUjKK1rKC5YOyBtCrFZLiKpXKkrLhhDGn5v16PrTbd/yNkCv9mlqUhTiRsFaDpF+PSthlRasj3q+n+BPMaMeGFYZCOgL+pbCVMgEr+ohLLhas1tSphCE/m0VjuyGp3YFwYYyJQy5tpg/EKkZ720L4lX6NRSdulbAeiKQtHyCSOAphBxHEIYRtt6w4g/7wv60wraskW82SFiwnLELtQrJtwrQ6cutZUqOOwRK226XoO7ZLmHbHwQ/uLS6UsNaVAguRFmXBfZbs3Uu0uNcoQVXY+Sar9PuMuCesxahQyxRSC2MkhQlJYUJSmJAUJsTs8o7WbhprIAm7mtajbsns4TYkkQmy3AgDEea9c8dy+GbRF7IsjKE4W6Y7/G026w4LMyRZZlE1YSwniCZMwu6w7pjwwrKGkaMySx5bJ3esYyoJQ4tiEq+2DkPt5WeSVVYT1hp2iBNtPT/CC9V/Yb4TqvW4BQvUZsneoxV6kurvMwlVv5HbuoE7+n/k2w/JEXrSepK8RNIuXJmGYY2LsLqG9bYAmDZsABdh9XBCPdfCCnVhraHVmxQYgQvTOFmmejYtjOkkLKGdJVkJKcyzxoUU5kk4Yd4zaDhh3tALY5uNzYVJhlQty3soHtAnrFSyGKSFEMZEChMyJQxZiNmKeo8QCWO6KRxC2AGDNKgw9Cx2db3MO22hEsaAqjCGIYQmEyZEtBmFKTFe+y4yYULCC7OeNcMLsyaFCUlhQlKYkBQmhE4Y+3ZOqLCRbZa9n2HdqnkQ5qXCo1C9RCUheNWYFvkcVxJSmJCh2EYblpqFPxMmJIUJUX3VKgPo4ZkJEwJ7OzE7qKRlwoSkMCF0b5K3YnaIZsKEpDAhKUxIChOSwoT8AdR8y91IQm7BAAAAAElFTkSuQmCC",
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEwAAACACAYAAAChvY/kAAAABHNCSVQICAgIfAhkiAAAAAFzUkdCAK7OHOkAAAOoSURBVHic7Z29UuswEEZlhpIiDal4/ydLlTQuUsGdya10R+Nry1ppf74Ve0oIRj76tJJlg5cEwsfl+jr7zHO9LzqtOebNugHeMO+xlmQlkHSlSBgd9V5rTVQJSrpSSuld6xf1iEKERdieDKRUcCKWsFkStaU5BdYCUBIbsySR6pC0ThUibhKG0nkLSkMocNWzo3OvHd9NwlBwKezjcn2Njozen1db6WuxFdEzfPMx9n4WroblRnK2a+/Ee3dJ2Bs3wrZxXO0aEbZlN67aAmvDhqMt5fFHjzddDduDMwCnBVE6bS1FGaVkJKllBcqFsgSsuxWU4kqVipKy5oQhp+a53hfp9uXf4XKlX1KK0hBHElZrEPXrXnG7rKh1xHO9k69gWjvWrTAuqCPgVwobKRNsRZ9jy0WD0ZralTDOazNvTDckpTuQXRhi4jiXNt0HQhJzViI4hU0xJDU7b4qEtcKRtOEDeBIHISzjQRyHsClqWA3ui/9phUntkrjfD9NmOGEeahcn0yZMqiOnniUl6hhbwmbbij5iuoRJdxz7wa3FuRJW2ynQEKlRFsxnybN7iRr3GimICtveZKV+HxHzhNVoFaqZQmhhiIQwIiGMSAgjEsKIDG/vXD6//i1I//x8H35O6mkabVh2XNfH7b/VvNdHMs8wG5KcCbp8fr3KpEvCIsz6yZ2ccA2i6BMZFqbZu0doDcc0w2027dnUzZBEmUXFhGkOE03cJOwI7Y5xL0x70nEvTBuRWfK53pdy9V27xvSGSMK46wrSBCK2Ditry8iSAElWGk1Y7RqS40TzMRCuJjIiQzKf4NEugtS/W9BAbJaspaJlO6b8PtKwFF1WrI/bsieuTGDvMawwW4edSTuTZPUIAezCFWkYlphs75Qy1sft8M+NkYZixiRhZV3qHZJWiCestmTYu9uUgG+xJYmESZws0jqtWxjSSWgCO0ui4lKYZY1zKcwSd8KsZ1B3wqyBF4Y2G6sLowypkcenpIBPWCpkIUhzIQyJEEakSxhnIUYr6me4SJj1E44lLoRlEKSxCuOexfb27a3T5iphCIgKQxhC3ETCiJD29JESU3tvhySRMCLuhWnPmu6FaRPCiIQwIiGMSAgjAicM/XFOVmHlyR2d6NlnWo5hiZuXCrcC9RKVAOBVY1LE/3EFIYQRaYqtt2EpWfgjYURCGBHRV60iwD08I2FE2N5OjA5X0iJhREIYEbg3yWvRO0QjYURCGJEQRiSEEQlhRP4CBqPOynJd3QwAAAAASUVORK5CYII="
+    }
+  ],
+  "asset_id": "custom-f6d266ca-9d00-4c66-be9a-3a7dbfe266cd",
+  "state_key": ""
+}

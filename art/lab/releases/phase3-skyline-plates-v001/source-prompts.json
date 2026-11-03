@@ -1,0 +1,110 @@
+[
+  {
+    "key": "SKY01",
+    "plane": "near",
+    "name": "Cathedral causeway",
+    "subject": "a great asymmetric cathedral nave at left, two unequal buttressed bell towers near centre-right, a long two-level pointed arcade connecting masses; an OPEN SKY valley at right quarter",
+    "w": 768,
+    "h": 384,
+    "prompt": "Use case: stylized-concept. Asset type: ONE wide transparent pixel-art skyline plate for GRIMSPIRE, drowned gothic industrial cathedral-city. Reference: the previously viewed North Star sheet's BACKGROUND ARCHITECTURE ONLY: recognisable clustered masonry, deep open arches, irregular density and roof rhythm. Subject: a great asymmetric cathedral nave at left, two unequal buttressed bell towers near centre-right, a long two-level pointed arcade connecting masses; an OPEN SKY valley at right quarter. A wide continuous side elevation of an entire neighbourhood across the frame, not one isolated building. Native target 768×384 art pixels. Closest BACKGROUND plane, broad gothic masses and a few structural facet areas, two or three flat cold-neutral charcoal values; many readable cutouts but no surface texture. Keep all architecture connected by a low solid plinth at bottom. Outer left/right edges end LOW, with spires and big masses inset, so plates overlap without chopping landmarks. Differently spaced and scaled structures; large sky gaps rather than an even row of identical towers. Very few tiny magenta/cyan lit window slits, no paired-eye lamps. Pixel clusters, crisp stepped edges, flat paint. TRUE TRANSPARENT BACKGROUND in all sky gaps. No sky colour, haze, fog, moon, water, reflections, people, troopers, text, borders, perspective ground or full outlines. No neon rims, gradients, baked lighting or bright stone. Engine colours/fogs at runtime. Composition wide 2:1, occupy the width with useful neighbourhood silhouette."
+  },
+  {
+    "key": "SKY02",
+    "plane": "near",
+    "name": "Drowned manufactorum",
+    "subject": "a squat sacred-industrial pumping hall with a jagged sawtooth roof, three thick unequal chimney stacks, one gothic gantry and suspended cable runs, broad open sky between masses, no cathedral front",
+    "w": 768,
+    "h": 384,
+    "prompt": "Use case: stylized-concept. Asset type: ONE wide transparent pixel-art skyline plate for GRIMSPIRE, drowned gothic industrial cathedral-city. Reference: the previously viewed North Star sheet's BACKGROUND ARCHITECTURE ONLY: recognisable clustered masonry, deep open arches, irregular density and roof rhythm. Subject: a squat sacred-industrial pumping hall with a jagged sawtooth roof, three thick unequal chimney stacks, one gothic gantry and suspended cable runs, broad open sky between masses, no cathedral front. A wide continuous side elevation of an entire neighbourhood across the frame, not one isolated building. Native target 768×384 art pixels. Closest BACKGROUND plane, broad gothic masses and a few structural facet areas, two or three flat cold-neutral charcoal values; many readable cutouts but no surface texture. Keep all architecture connected by a low solid plinth at bottom. Outer left/right edges end LOW, with spires and big masses inset, so plates overlap without chopping landmarks. Differently spaced and scaled structures; large sky gaps rather than an even row of identical towers. Very few tiny magenta/cyan lit window slits, no paired-eye lamps. Pixel clusters, crisp stepped edges, flat paint. TRUE TRANSPARENT BACKGROUND in all sky gaps. No sky colour, haze, fog, moon, water, reflections, people, troopers, text, borders, perspective ground or full outlines. No neon rims, gradients, baked lighting or bright stone. Engine colours/fogs at runtime. Composition wide 2:1, occupy the width with useful neighbourhood silhouette."
+  },
+  {
+    "key": "SKY03",
+    "plane": "near",
+    "name": "Broken aqueduct ward",
+    "subject": "an enormous broken double-height pointed aqueduct, missing central span with open sky, one heavy fortress abutment at left and a small leaning spire at far right, low causeway below",
+    "w": 768,
+    "h": 384,
+    "prompt": "Use case: stylized-concept. Asset type: ONE wide transparent pixel-art skyline plate for GRIMSPIRE, drowned gothic industrial cathedral-city. Reference: the previously viewed North Star sheet's BACKGROUND ARCHITECTURE ONLY: recognisable clustered masonry, deep open arches, irregular density and roof rhythm. Subject: an enormous broken double-height pointed aqueduct, missing central span with open sky, one heavy fortress abutment at left and a small leaning spire at far right, low causeway below. A wide continuous side elevation of an entire neighbourhood across the frame, not one isolated building. Native target 768×384 art pixels. Closest BACKGROUND plane, broad gothic masses and a few structural facet areas, two or three flat cold-neutral charcoal values; many readable cutouts but no surface texture. Keep all architecture connected by a low solid plinth at bottom. Outer left/right edges end LOW, with spires and big masses inset, so plates overlap without chopping landmarks. Differently spaced and scaled structures; large sky gaps rather than an even row of identical towers. Very few tiny magenta/cyan lit window slits, no paired-eye lamps. Pixel clusters, crisp stepped edges, flat paint. TRUE TRANSPARENT BACKGROUND in all sky gaps. No sky colour, haze, fog, moon, water, reflections, people, troopers, text, borders, perspective ground or full outlines. No neon rims, gradients, baked lighting or bright stone. Engine colours/fogs at runtime. Composition wide 2:1, occupy the width with useful neighbourhood silhouette."
+  },
+  {
+    "key": "SKY04",
+    "plane": "near",
+    "name": "Ribbed dome quarter",
+    "subject": "a large off-centre ribbed dome on a gothic drum, low clustered chapels, one cut-off square bell tower, asymmetrical roof heights, occasional large open arches",
+    "w": 768,
+    "h": 384,
+    "prompt": "Use case: stylized-concept. Asset type: ONE wide transparent pixel-art skyline plate for GRIMSPIRE, drowned gothic industrial cathedral-city. Reference: the previously viewed North Star sheet's BACKGROUND ARCHITECTURE ONLY: recognisable clustered masonry, deep open arches, irregular density and roof rhythm. Subject: a large off-centre ribbed dome on a gothic drum, low clustered chapels, one cut-off square bell tower, asymmetrical roof heights, occasional large open arches. A wide continuous side elevation of an entire neighbourhood across the frame, not one isolated building. Native target 768×384 art pixels. Closest BACKGROUND plane, broad gothic masses and a few structural facet areas, two or three flat cold-neutral charcoal values; many readable cutouts but no surface texture. Keep all architecture connected by a low solid plinth at bottom. Outer left/right edges end LOW, with spires and big masses inset, so plates overlap without chopping landmarks. Differently spaced and scaled structures; large sky gaps rather than an even row of identical towers. Very few tiny magenta/cyan lit window slits, no paired-eye lamps. Pixel clusters, crisp stepped edges, flat paint. TRUE TRANSPARENT BACKGROUND in all sky gaps. No sky colour, haze, fog, moon, water, reflections, people, troopers, text, borders, perspective ground or full outlines. No neon rims, gradients, baked lighting or bright stone. Engine colours/fogs at runtime. Composition wide 2:1, occupy the width with useful neighbourhood silhouette."
+  },
+  {
+    "key": "SKY05",
+    "plane": "middle",
+    "name": "Needle-spire congregation",
+    "subject": "three separate clusters of slender varied gothic spires, small crenellated roofs, tall thin empty valleys between groups; no huge central tower",
+    "w": 768,
+    "h": 384,
+    "prompt": "Use case: stylized-concept. Asset type: ONE wide transparent pixel-art skyline plate for GRIMSPIRE, drowned gothic industrial cathedral-city. Reference: the previously viewed North Star sheet's BACKGROUND ARCHITECTURE ONLY: recognisable clustered masonry, deep open arches, irregular density and roof rhythm. Subject: three separate clusters of slender varied gothic spires, small crenellated roofs, tall thin empty valleys between groups; no huge central tower. A wide continuous side elevation of an entire neighbourhood across the frame, not one isolated building. Native target 768×384 art pixels. Middle BACKGROUND plane, simple dark neutral charcoal architectural silhouettes, clear gothic shapes with little structural detail. Keep all architecture connected by a low solid plinth at bottom. Outer left/right edges end LOW, with spires and big masses inset, so plates overlap without chopping landmarks. Differently spaced and scaled structures; large sky gaps rather than an even row of identical towers. Very few tiny magenta/cyan lit window slits, no paired-eye lamps. Pixel clusters, crisp stepped edges, flat paint. TRUE TRANSPARENT BACKGROUND in all sky gaps. No sky colour, haze, fog, moon, water, reflections, people, troopers, text, borders, perspective ground or full outlines. No neon rims, gradients, baked lighting or bright stone. Engine colours/fogs at runtime. Composition wide 2:1, occupy the width with useful neighbourhood silhouette."
+  },
+  {
+    "key": "SKY06",
+    "plane": "middle",
+    "name": "Terraced shrine terraces",
+    "subject": "a broad stepped mass of tightly packed gothic rooflines climbing to left, unequal small domes and angled buttress shoulders, a long low gap at centre-right",
+    "w": 768,
+    "h": 384,
+    "prompt": "Use case: stylized-concept. Asset type: ONE wide transparent pixel-art skyline plate for GRIMSPIRE, drowned gothic industrial cathedral-city. Reference: the previously viewed North Star sheet's BACKGROUND ARCHITECTURE ONLY: recognisable clustered masonry, deep open arches, irregular density and roof rhythm. Subject: a broad stepped mass of tightly packed gothic rooflines climbing to left, unequal small domes and angled buttress shoulders, a long low gap at centre-right. A wide continuous side elevation of an entire neighbourhood across the frame, not one isolated building. Native target 768×384 art pixels. Middle BACKGROUND plane, simple dark neutral charcoal architectural silhouettes, clear gothic shapes with little structural detail. Keep all architecture connected by a low solid plinth at bottom. Outer left/right edges end LOW, with spires and big masses inset, so plates overlap without chopping landmarks. Differently spaced and scaled structures; large sky gaps rather than an even row of identical towers. Very few tiny magenta/cyan lit window slits, no paired-eye lamps. Pixel clusters, crisp stepped edges, flat paint. TRUE TRANSPARENT BACKGROUND in all sky gaps. No sky colour, haze, fog, moon, water, reflections, people, troopers, text, borders, perspective ground or full outlines. No neon rims, gradients, baked lighting or bright stone. Engine colours/fogs at runtime. Composition wide 2:1, occupy the width with useful neighbourhood silhouette."
+  },
+  {
+    "key": "SKY07",
+    "plane": "middle",
+    "name": "Bell-tower embankment",
+    "subject": "one broad squat bell cage with unequal peaked roofs flanked by small chapels and a distant narrow bridge, sparse irregular spacing, asymmetrical negative space",
+    "w": 768,
+    "h": 384,
+    "prompt": "Use case: stylized-concept. Asset type: ONE wide transparent pixel-art skyline plate for GRIMSPIRE, drowned gothic industrial cathedral-city. Reference: the previously viewed North Star sheet's BACKGROUND ARCHITECTURE ONLY: recognisable clustered masonry, deep open arches, irregular density and roof rhythm. Subject: one broad squat bell cage with unequal peaked roofs flanked by small chapels and a distant narrow bridge, sparse irregular spacing, asymmetrical negative space. A wide continuous side elevation of an entire neighbourhood across the frame, not one isolated building. Native target 768×384 art pixels. Middle BACKGROUND plane, simple dark neutral charcoal architectural silhouettes, clear gothic shapes with little structural detail. Keep all architecture connected by a low solid plinth at bottom. Outer left/right edges end LOW, with spires and big masses inset, so plates overlap without chopping landmarks. Differently spaced and scaled structures; large sky gaps rather than an even row of identical towers. Very few tiny magenta/cyan lit window slits, no paired-eye lamps. Pixel clusters, crisp stepped edges, flat paint. TRUE TRANSPARENT BACKGROUND in all sky gaps. No sky colour, haze, fog, moon, water, reflections, people, troopers, text, borders, perspective ground or full outlines. No neon rims, gradients, baked lighting or bright stone. Engine colours/fogs at runtime. Composition wide 2:1, occupy the width with useful neighbourhood silhouette."
+  },
+  {
+    "key": "SKY08",
+    "plane": "middle",
+    "name": "Distant suspension viaduct",
+    "subject": "a low long sacred-industrial viaduct with sloping suspension chains between two unequal spired pylons, one broken deck gap; varied tiny chapel roofs below",
+    "w": 768,
+    "h": 384,
+    "prompt": "Use case: stylized-concept. Asset type: ONE wide transparent pixel-art skyline plate for GRIMSPIRE, drowned gothic industrial cathedral-city. Reference: the previously viewed North Star sheet's BACKGROUND ARCHITECTURE ONLY: recognisable clustered masonry, deep open arches, irregular density and roof rhythm. Subject: a low long sacred-industrial viaduct with sloping suspension chains between two unequal spired pylons, one broken deck gap; varied tiny chapel roofs below. A wide continuous side elevation of an entire neighbourhood across the frame, not one isolated building. Native target 768×384 art pixels. Middle BACKGROUND plane, simple dark neutral charcoal architectural silhouettes, clear gothic shapes with little structural detail. Keep all architecture connected by a low solid plinth at bottom. Outer left/right edges end LOW, with spires and big masses inset, so plates overlap without chopping landmarks. Differently spaced and scaled structures; large sky gaps rather than an even row of identical towers. Very few tiny magenta/cyan lit window slits, no paired-eye lamps. Pixel clusters, crisp stepped edges, flat paint. TRUE TRANSPARENT BACKGROUND in all sky gaps. No sky colour, haze, fog, moon, water, reflections, people, troopers, text, borders, perspective ground or full outlines. No neon rims, gradients, baked lighting or bright stone. Engine colours/fogs at runtime. Composition wide 2:1, occupy the width with useful neighbourhood silhouette."
+  },
+  {
+    "key": "SKY09",
+    "plane": "far",
+    "name": "Serrated hive horizon",
+    "subject": "a low thin distant city ribbon of irregular needles, tiny stepped gothic roofs and several narrow empty breaks, three low unequal clusters, no large landmark",
+    "w": 768,
+    "h": 384,
+    "prompt": "Use case: stylized-concept. Asset type: ONE wide transparent pixel-art skyline plate for GRIMSPIRE, drowned gothic industrial cathedral-city. Reference: the previously viewed North Star sheet's BACKGROUND ARCHITECTURE ONLY: recognisable clustered masonry, deep open arches, irregular density and roof rhythm. Subject: a low thin distant city ribbon of irregular needles, tiny stepped gothic roofs and several narrow empty breaks, three low unequal clusters, no large landmark. A wide continuous side elevation of an entire neighbourhood across the frame, not one isolated building. Native target 768×384 art pixels. Farthest BACKGROUND plane, a one-value neutral dark charcoal silhouette, small far buildings and economical stepped pixel clusters. Keep all architecture connected by a low solid plinth at bottom. Outer left/right edges end LOW, with spires and big masses inset, so plates overlap without chopping landmarks. Differently spaced and scaled structures; large sky gaps rather than an even row of identical towers. Very few tiny magenta/cyan lit window slits, no paired-eye lamps. Pixel clusters, crisp stepped edges, flat paint. TRUE TRANSPARENT BACKGROUND in all sky gaps. No sky colour, haze, fog, moon, water, reflections, people, troopers, text, borders, perspective ground or full outlines. No neon rims, gradients, baked lighting or bright stone. Engine colours/fogs at runtime. Composition wide 2:1, occupy the width with useful neighbourhood silhouette."
+  },
+  {
+    "key": "SKY10",
+    "plane": "far",
+    "name": "Drowned dome horizon",
+    "subject": "a low far horizon of tiny unequal domes and thin ruined steeples with long quiet roof stretches and one broad empty-sky valley",
+    "w": 768,
+    "h": 384,
+    "prompt": "Use case: stylized-concept. Asset type: ONE wide transparent pixel-art skyline plate for GRIMSPIRE, drowned gothic industrial cathedral-city. Reference: the previously viewed North Star sheet's BACKGROUND ARCHITECTURE ONLY: recognisable clustered masonry, deep open arches, irregular density and roof rhythm. Subject: a low far horizon of tiny unequal domes and thin ruined steeples with long quiet roof stretches and one broad empty-sky valley. A wide continuous side elevation of an entire neighbourhood across the frame, not one isolated building. Native target 768×384 art pixels. Farthest BACKGROUND plane, a one-value neutral dark charcoal silhouette, small far buildings and economical stepped pixel clusters. Keep all architecture connected by a low solid plinth at bottom. Outer left/right edges end LOW, with spires and big masses inset, so plates overlap without chopping landmarks. Differently spaced and scaled structures; large sky gaps rather than an even row of identical towers. Very few tiny magenta/cyan lit window slits, no paired-eye lamps. Pixel clusters, crisp stepped edges, flat paint. TRUE TRANSPARENT BACKGROUND in all sky gaps. No sky colour, haze, fog, moon, water, reflections, people, troopers, text, borders, perspective ground or full outlines. No neon rims, gradients, baked lighting or bright stone. Engine colours/fogs at runtime. Composition wide 2:1, occupy the width with useful neighbourhood silhouette."
+  },
+  {
+    "key": "SKY11",
+    "plane": "far",
+    "name": "Far furnace district",
+    "subject": "a very low thin horizon of sacred-industrial stacks, angular sheds and tiny buttressed towers in two loose groups separated by an empty valley; no smoke",
+    "w": 768,
+    "h": 384,
+    "prompt": "Use case: stylized-concept. Asset type: ONE wide transparent pixel-art skyline plate for GRIMSPIRE, drowned gothic industrial cathedral-city. Reference: the previously viewed North Star sheet's BACKGROUND ARCHITECTURE ONLY: recognisable clustered masonry, deep open arches, irregular density and roof rhythm. Subject: a very low thin horizon of sacred-industrial stacks, angular sheds and tiny buttressed towers in two loose groups separated by an empty valley; no smoke. A wide continuous side elevation of an entire neighbourhood across the frame, not one isolated building. Native target 768×384 art pixels. Farthest BACKGROUND plane, a one-value neutral dark charcoal silhouette, small far buildings and economical stepped pixel clusters. Keep all architecture connected by a low solid plinth at bottom. Outer left/right edges end LOW, with spires and big masses inset, so plates overlap without chopping landmarks. Differently spaced and scaled structures; large sky gaps rather than an even row of identical towers. Very few tiny magenta/cyan lit window slits, no paired-eye lamps. Pixel clusters, crisp stepped edges, flat paint. TRUE TRANSPARENT BACKGROUND in all sky gaps. No sky colour, haze, fog, moon, water, reflections, people, troopers, text, borders, perspective ground or full outlines. No neon rims, gradients, baked lighting or bright stone. Engine colours/fogs at runtime. Composition wide 2:1, occupy the width with useful neighbourhood silhouette."
+  },
+  {
+    "key": "SKY12",
+    "plane": "far",
+    "name": "Ruined pilgrims skyline",
+    "subject": "a low thin far city edge with two tiny broken bridge arches, small pointed chapels, several irregular far spires and uneven ruin gaps",
+    "w": 768,
+    "h": 384,
+    "prompt": "Use case: stylized-concept. Asset type: ONE wide transparent pixel-art skyline plate for GRIMSPIRE, drowned gothic industrial cathedral-city. Reference: the previously viewed North Star sheet's BACKGROUND ARCHITECTURE ONLY: recognisable clustered masonry, deep open arches, irregular density and roof rhythm. Subject: a low thin far city edge with two tiny broken bridge arches, small pointed chapels, several irregular far spires and uneven ruin gaps. A wide continuous side elevation of an entire neighbourhood across the frame, not one isolated building. Native target 768×384 art pixels. Farthest BACKGROUND plane, a one-value neutral dark charcoal silhouette, small far buildings and economical stepped pixel clusters. Keep all architecture connected by a low solid plinth at bottom. Outer left/right edges end LOW, with spires and big masses inset, so plates overlap without chopping landmarks. Differently spaced and scaled structures; large sky gaps rather than an even row of identical towers. Very few tiny magenta/cyan lit window slits, no paired-eye lamps. Pixel clusters, crisp stepped edges, flat paint. TRUE TRANSPARENT BACKGROUND in all sky gaps. No sky colour, haze, fog, moon, water, reflections, people, troopers, text, borders, perspective ground or full outlines. No neon rims, gradients, baked lighting or bright stone. Engine colours/fogs at runtime. Composition wide 2:1, occupy the width with useful neighbourhood silhouette."
+  }
+]

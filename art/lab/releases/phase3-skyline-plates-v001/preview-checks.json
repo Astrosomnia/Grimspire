@@ -1,0 +1,307 @@
+{
+  "source": "main 965f763 / GV22",
+  "kind": "generic PROP/BACKGROUND visual dummy, not three-plane skyline renderer or D-variant integration",
+  "externalServicesBlocked": true,
+  "results": [
+    {
+      "key": "D01a",
+      "phone": false,
+      "code": "D01a",
+      "w": 76,
+      "h": 128,
+      "scale": 1,
+      "placed": 1,
+      "errors": []
+    },
+    {
+      "key": "D03a",
+      "phone": false,
+      "code": "D03a",
+      "w": 208,
+      "h": 150,
+      "scale": 1,
+      "placed": 1,
+      "errors": []
+    },
+    {
+      "key": "D06a",
+      "phone": false,
+      "code": "D06a",
+      "w": 216,
+      "h": 108,
+      "scale": 1,
+      "placed": 1,
+      "errors": []
+    },
+    {
+      "key": "SKY01",
+      "phone": false,
+      "code": "SKY01",
+      "w": 768,
+      "h": 384,
+      "scale": 1,
+      "placed": true,
+      "errors": []
+    },
+    {
+      "key": "SKY02",
+      "phone": false,
+      "code": "SKY02",
+      "w": 768,
+      "h": 384,
+      "scale": 1,
+      "placed": true,
+      "errors": []
+    },
+    {
+      "key": "SKY03",
+      "phone": false,
+      "code": "SKY03",
+      "w": 768,
+      "h": 384,
+      "scale": 1,
+      "placed": true,
+      "errors": []
+    },
+    {
+      "key": "SKY04",
+      "phone": false,
+      "code": "SKY04",
+      "w": 768,
+      "h": 384,
+      "scale": 1,
+      "placed": true,
+      "errors": []
+    },
+    {
+      "key": "SKY05",
+      "phone": false,
+      "code": "SKY05",
+      "w": 768,
+      "h": 384,
+      "scale": 1,
+      "placed": true,
+      "errors": []
+    },
+    {
+      "key": "SKY06",
+      "phone": false,
+      "code": "SKY06",
+      "w": 768,
+      "h": 384,
+      "scale": 1,
+      "placed": true,
+      "errors": []
+    },
+    {
+      "key": "SKY07",
+      "phone": false,
+      "code": "SKY07",
+      "w": 768,
+      "h": 384,
+      "scale": 1,
+      "placed": true,
+      "errors": []
+    },
+    {
+      "key": "SKY08",
+      "phone": false,
+      "code": "SKY08",
+      "w": 768,
+      "h": 384,
+      "scale": 1,
+      "placed": true,
+      "errors": []
+    },
+    {
+      "key": "SKY09",
+      "phone": false,
+      "code": "SKY09",
+      "w": 768,
+      "h": 384,
+      "scale": 1,
+      "placed": true,
+      "errors": []
+    },
+    {
+      "key": "SKY10",
+      "phone": false,
+      "code": "SKY10",
+      "w": 768,
+      "h": 384,
+      "scale": 1,
+      "placed": true,
+      "errors": []
+    },
+    {
+      "key": "SKY11",
+      "phone": false,
+      "code": "SKY11",
+      "w": 768,
+      "h": 384,
+      "scale": 1,
+      "placed": true,
+      "errors": []
+    },
+    {
+      "key": "SKY12",
+      "phone": false,
+      "code": "SKY12",
+      "w": 768,
+      "h": 384,
+      "scale": 1,
+      "placed": true,
+      "errors": []
+    },
+    {
+      "key": "D01a",
+      "phone": true,
+      "code": "D01a",
+      "w": 76,
+      "h": 128,
+      "scale": 1,
+      "placed": 1,
+      "errors": []
+    },
+    {
+      "key": "D03a",
+      "phone": true,
+      "code": "D03a",
+      "w": 208,
+      "h": 150,
+      "scale": 1,
+      "placed": 1,
+      "errors": []
+    },
+    {
+      "key": "D06a",
+      "phone": true,
+      "code": "D06a",
+      "w": 216,
+      "h": 108,
+      "scale": 1,
+      "placed": 1,
+      "errors": []
+    },
+    {
+      "key": "SKY01",
+      "phone": true,
+      "code": "SKY01",
+      "w": 768,
+      "h": 384,
+      "scale": 1,
+      "placed": true,
+      "errors": []
+    },
+    {
+      "key": "SKY02",
+      "phone": true,
+      "code": "SKY02",
+      "w": 768,
+      "h": 384,
+      "scale": 1,
+      "placed": true,
+      "errors": []
+    },
+    {
+      "key": "SKY03",
+      "phone": true,
+      "code": "SKY03",
+      "w": 768,
+      "h": 384,
+      "scale": 1,
+      "placed": true,
+      "errors": []
+    },
+    {
+      "key": "SKY04",
+      "phone": true,
+      "code": "SKY04",
+      "w": 768,
+      "h": 384,
+      "scale": 1,
+      "placed": true,
+      "errors": []
+    },
+    {
+      "key": "SKY05",
+      "phone": true,
+      "code": "SKY05",
+      "w": 768,
+      "h": 384,
+      "scale": 1,
+      "placed": true,
+      "errors": []
+    },
+    {
+      "key": "SKY06",
+      "phone": true,
+      "code": "SKY06",
+      "w": 768,
+      "h": 384,
+      "scale": 1,
+      "placed": true,
+      "errors": []
+    },
+    {
+      "key": "SKY07",
+      "phone": true,
+      "code": "SKY07",
+      "w": 768,
+      "h": 384,
+      "scale": 1,
+      "placed": true,
+      "errors": []
+    },
+    {
+      "key": "SKY08",
+      "phone": true,
+      "code": "SKY08",
+      "w": 768,
+      "h": 384,
+      "scale": 1,
+      "placed": true,
+      "errors": []
+    },
+    {
+      "key": "SKY09",
+      "phone": true,
+      "code": "SKY09",
+      "w": 768,
+      "h": 384,
+      "scale": 1,
+      "placed": true,
+      "errors": []
+    },
+    {
+      "key": "SKY10",
+      "phone": true,
+      "code": "SKY10",
+      "w": 768,
+      "h": 384,
+      "scale": 1,
+      "placed": true,
+      "errors": []
+    },
+    {
+      "key": "SKY11",
+      "phone": true,
+      "code": "SKY11",
+      "w": 768,
+      "h": 384,
+      "scale": 1,
+      "placed": true,
+      "errors": []
+    },
+    {
+      "key": "SKY12",
+      "phone": true,
+      "code": "SKY12",
+      "w": 768,
+      "h": 384,
+      "scale": 1,
+      "placed": true,
+      "errors": []
+    }
+  ]
+}

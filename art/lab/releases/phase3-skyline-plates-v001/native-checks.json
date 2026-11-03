@@ -1,0 +1,196 @@
+{
+  "checks": [
+    {
+      "key": "SKY01",
+      "plane": "near",
+      "size": [
+        768,
+        384
+      ],
+      "base": 383,
+      "scale": 1,
+      "binaryAlpha": true,
+      "joint": true,
+      "emissionWithinBody": true
+    },
+    {
+      "key": "SKY02",
+      "plane": "near",
+      "size": [
+        768,
+        384
+      ],
+      "base": 383,
+      "scale": 1,
+      "binaryAlpha": true,
+      "joint": true,
+      "emissionWithinBody": true
+    },
+    {
+      "key": "SKY03",
+      "plane": "near",
+      "size": [
+        768,
+        384
+      ],
+      "base": 383,
+      "scale": 1,
+      "binaryAlpha": true,
+      "joint": true,
+      "emissionWithinBody": true
+    },
+    {
+      "key": "SKY04",
+      "plane": "near",
+      "size": [
+        768,
+        384
+      ],
+      "base": 383,
+      "scale": 1,
+      "binaryAlpha": true,
+      "joint": true,
+      "emissionWithinBody": true
+    },
+    {
+      "key": "SKY05",
+      "plane": "middle",
+      "size": [
+        768,
+        384
+      ],
+      "base": 383,
+      "scale": 1,
+      "binaryAlpha": true,
+      "joint": true,
+      "emissionWithinBody": true
+    },
+    {
+      "key": "SKY06",
+      "plane": "middle",
+      "size": [
+        768,
+        384
+      ],
+      "base": 383,
+      "scale": 1,
+      "binaryAlpha": true,
+      "joint": true,
+      "emissionWithinBody": true
+    },
+    {
+      "key": "SKY07",
+      "plane": "middle",
+      "size": [
+        768,
+        384
+      ],
+      "base": 383,
+      "scale": 1,
+      "binaryAlpha": true,
+      "joint": true,
+      "emissionWithinBody": true
+    },
+    {
+      "key": "SKY08",
+      "plane": "middle",
+      "size": [
+        768,
+        384
+      ],
+      "base": 383,
+      "scale": 1,
+      "binaryAlpha": true,
+      "joint": true,
+      "emissionWithinBody": true
+    },
+    {
+      "key": "SKY09",
+      "plane": "far",
+      "size": [
+        768,
+        384
+      ],
+      "base": 383,
+      "scale": 1,
+      "binaryAlpha": true,
+      "joint": true,
+      "emissionWithinBody": true
+    },
+    {
+      "key": "SKY10",
+      "plane": "far",
+      "size": [
+        768,
+        384
+      ],
+      "base": 383,
+      "scale": 1,
+      "binaryAlpha": true,
+      "joint": true,
+      "emissionWithinBody": true
+    },
+    {
+      "key": "SKY11",
+      "plane": "far",
+      "size": [
+        768,
+        384
+      ],
+      "base": 383,
+      "scale": 1,
+      "binaryAlpha": true,
+      "joint": true,
+      "emissionWithinBody": true
+    },
+    {
+      "key": "SKY12",
+      "plane": "far",
+      "size": [
+        768,
+        384
+      ],
+      "base": 383,
+      "scale": 1,
+      "binaryAlpha": true,
+      "joint": true,
+      "emissionWithinBody": true
+    },
+    {
+      "key": "D01a",
+      "size": [
+        76,
+        128
+      ],
+      "base": 127,
+      "scale": 1,
+      "baseBodyPixelsPreserved": 3963,
+      "addedChainPixels": 63,
+      "clothPixels": 59
+    },
+    {
+      "key": "D03a",
+      "size": [
+        208,
+        150
+      ],
+      "base": 149,
+      "scale": 1,
+      "baseBodyPixelsPreserved": 7862,
+      "addedChainPixels": 426,
+      "clothPixels": 151
+    },
+    {
+      "key": "D06a",
+      "size": [
+        216,
+        108
+      ],
+      "base": 107,
+      "scale": 1,
+      "baseBodyPixelsPreserved": 9133,
+      "addedChainPixels": 35,
+      "clothPixels": 352
+    }
+  ]
+}

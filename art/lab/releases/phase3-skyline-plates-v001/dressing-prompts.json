@@ -1,0 +1,20 @@
+[
+  {
+    "key": "D01a",
+    "base": "D01",
+    "change": "Add ONE heavy drooping iron chain attached across the fluted shaft, and ONE small torn cloth strip caught on the broken capital, hanging into a flute gap. Keep most silhouette bare.",
+    "prompt": "Use case: precise-object-edit. Edit target: supplied existing foreground wreckage source. Add ONE heavy drooping iron chain attached across the fluted shaft, and ONE small torn cloth strip caught on the broken capital, hanging into a flute gap. Keep most silhouette bare. Preserve the existing object geometry, every original outer silhouette and hole, original framing, position, dimensions and transparent background. Add dressing INSIDE the existing object bounding box, never extend canvas or move anything. Body remains flat near-black; new chain slightly lighter neutral charcoal. Cloth is flat LIGHT NEUTRAL GREY, clearly distinct from stone for separation into its own Cloth layer (final game will darken/tint it). Cloth edges ragged chunky pixel steps, not smooth fabric painting. No colour, light, water, scene, people or text. Do not redraw existing architecture. Transparent cutout, crisp pixel clusters."
+  },
+  {
+    "key": "D03a",
+    "base": "D03",
+    "change": "Add ONE heavy irregular drooping chain spanning the upper quarter of the arch opening, with a small torn cloth streamer caught at its left attachment. Keep the large arch opening mostly clear.",
+    "prompt": "Use case: precise-object-edit. Edit target: supplied existing foreground wreckage source. Add ONE heavy irregular drooping chain spanning the upper quarter of the arch opening, with a small torn cloth streamer caught at its left attachment. Keep the large arch opening mostly clear. Preserve the existing object geometry, every original outer silhouette and hole, original framing, position, dimensions and transparent background. Add dressing INSIDE the existing object bounding box, never extend canvas or move anything. Body remains flat near-black; new chain slightly lighter neutral charcoal. Cloth is flat LIGHT NEUTRAL GREY, clearly distinct from stone for separation into its own Cloth layer (final game will darken/tint it). Cloth edges ragged chunky pixel steps, not smooth fabric painting. No colour, light, water, scene, people or text. Do not redraw existing architecture. Transparent cutout, crisp pixel clusters."
+  },
+  {
+    "key": "D06a",
+    "base": "D06",
+    "change": "Add ONE ragged torn tarpaulin draped between two middle ribs and a short sagging iron chain near the prow. Keep most rib openings clear.",
+    "prompt": "Use case: precise-object-edit. Edit target: supplied existing foreground wreckage source. Add ONE ragged torn tarpaulin draped between two middle ribs and a short sagging iron chain near the prow. Keep most rib openings clear. Preserve the existing object geometry, every original outer silhouette and hole, original framing, position, dimensions and transparent background. Add dressing INSIDE the existing object bounding box, never extend canvas or move anything. Body remains flat near-black; new chain slightly lighter neutral charcoal. Cloth is flat LIGHT NEUTRAL GREY, clearly distinct from stone for separation into its own Cloth layer (final game will darken/tint it). Cloth edges ragged chunky pixel steps, not smooth fabric painting. No colour, light, water, scene, people or text. Do not redraw existing architecture. Transparent cutout, crisp pixel clusters."
+  }
+]

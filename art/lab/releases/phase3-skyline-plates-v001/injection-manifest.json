@@ -1,0 +1,329 @@
+{
+  "schema": 1,
+  "date": "2026-11-02",
+  "status": "drawn / Library drafts / tested in generic previews / runtime skyline composition and exact approval pending",
+  "assets": [
+    {
+      "code": "D01a",
+      "version": "asset-3d83158bb4785a0726b69950",
+      "family": "custom-f6d266ca-9d00-4c66-be9a-3a7dbfe266cd",
+      "path": "art/lab/hosted/library/asset-3d83158bb4785a0726b69950.forge.json",
+      "sha256": "3d83158bb4785a0726b69950cb2ec0773b67f49801a49f0d3a20f5155bd05557",
+      "w": 76,
+      "h": 128,
+      "base": 127,
+      "game_scale": 1,
+      "plane": null,
+      "band": "foreground",
+      "preview_slot": "PROP",
+      "layers": [
+        "cloth",
+        "guts",
+        "body"
+      ],
+      "variant_of": "D01"
+    },
+    {
+      "code": "D03a",
+      "version": "asset-505c8ba97bd106e4860fe4ab",
+      "family": "custom-c6b7c6fd-ac87-4537-92fc-c58322f8a3a3",
+      "path": "art/lab/hosted/library/asset-505c8ba97bd106e4860fe4ab.forge.json",
+      "sha256": "505c8ba97bd106e4860fe4ab7a3a16f313fe21ab3ce04e9f85afe665bcf064b6",
+      "w": 208,
+      "h": 150,
+      "base": 149,
+      "game_scale": 1,
+      "plane": null,
+      "band": "foreground",
+      "preview_slot": "PROP",
+      "layers": [
+        "cloth",
+        "guts",
+        "body"
+      ],
+      "variant_of": "D03"
+    },
+    {
+      "code": "D06a",
+      "version": "asset-04735ea8946e139c6f4bd0b8",
+      "family": "custom-dfe4203e-6499-444e-8005-e59c523f9db7",
+      "path": "art/lab/hosted/library/asset-04735ea8946e139c6f4bd0b8.forge.json",
+      "sha256": "04735ea8946e139c6f4bd0b87ff2a0946d83dfdbd291e2efda056f4ba1279a24",
+      "w": 216,
+      "h": 108,
+      "base": 107,
+      "game_scale": 1,
+      "plane": null,
+      "band": "foreground",
+      "preview_slot": "PROP",
+      "layers": [
+        "cloth",
+        "guts",
+        "body"
+      ],
+      "variant_of": "D06"
+    },
+    {
+      "code": "SKY01",
+      "version": "asset-2461036631197ee20ee4f22c",
+      "family": "custom-538607fa-defb-4f21-a58a-0655d3533242",
+      "path": "art/lab/hosted/library/asset-2461036631197ee20ee4f22c.forge.json",
+      "sha256": "2461036631197ee20ee4f22cac8f425b1bdcb6356980cfc34b18a0900ddb7559",
+      "w": 768,
+      "h": 384,
+      "base": 383,
+      "game_scale": 1,
+      "plane": "near",
+      "band": "skyline",
+      "preview_slot": "BACKGROUND",
+      "layers": [
+        "emis",
+        "body"
+      ],
+      "variant_of": null
+    },
+    {
+      "code": "SKY02",
+      "version": "asset-6ec55febf7bb48e33c81db8b",
+      "family": "custom-8dc83a99-fbc6-454f-8d10-2b44140f5555",
+      "path": "art/lab/hosted/library/asset-6ec55febf7bb48e33c81db8b.forge.json",
+      "sha256": "6ec55febf7bb48e33c81db8b768bf8ff10f98af1861b9b46e4fc46d73b4a3836",
+      "w": 768,
+      "h": 384,
+      "base": 383,
+      "game_scale": 1,
+      "plane": "near",
+      "band": "skyline",
+      "preview_slot": "BACKGROUND",
+      "layers": [
+        "emis",
+        "body"
+      ],
+      "variant_of": null
+    },
+    {
+      "code": "SKY03",
+      "version": "asset-16ba893c2c344f16b6602f27",
+      "family": "custom-e502aa26-c196-4d3d-acac-b3c9dfb6c3f7",
+      "path": "art/lab/hosted/library/asset-16ba893c2c344f16b6602f27.forge.json",
+      "sha256": "16ba893c2c344f16b6602f27bb19aa02c9d6fad307b7f76022fb5c9d26f7923b",
+      "w": 768,
+      "h": 384,
+      "base": 383,
+      "game_scale": 1,
+      "plane": "near",
+      "band": "skyline",
+      "preview_slot": "BACKGROUND",
+      "layers": [
+        "emis",
+        "body"
+      ],
+      "variant_of": null
+    },
+    {
+      "code": "SKY04",
+      "version": "asset-476ec65bb9c9e19121a6c311",
+      "family": "custom-190d1cfe-6f3a-4c83-8775-96b9e01a5810",
+      "path": "art/lab/hosted/library/asset-476ec65bb9c9e19121a6c311.forge.json",
+      "sha256": "476ec65bb9c9e19121a6c3116810f90230857c17659941f534d83a83e4b18fc6",
+      "w": 768,
+      "h": 384,
+      "base": 383,
+      "game_scale": 1,
+      "plane": "near",
+      "band": "skyline",
+      "preview_slot": "BACKGROUND",
+      "layers": [
+        "emis",
+        "body"
+      ],
+      "variant_of": null
+    },
+    {
+      "code": "SKY05",
+      "version": "asset-446c3b3d1f2521ac55f85f95",
+      "family": "custom-d4a70824-78e8-4d70-84cb-e1d45745f79c",
+      "path": "art/lab/hosted/library/asset-446c3b3d1f2521ac55f85f95.forge.json",
+      "sha256": "446c3b3d1f2521ac55f85f95454e694b77531ba784f99d1f521b0ff1c66c38d4",
+      "w": 768,
+      "h": 384,
+      "base": 383,
+      "game_scale": 1,
+      "plane": "middle",
+      "band": "skyline",
+      "preview_slot": "BACKGROUND",
+      "layers": [
+        "emis",
+        "body"
+      ],
+      "variant_of": null
+    },
+    {
+      "code": "SKY06",
+      "version": "asset-865b479388754587fd42212f",
+      "family": "custom-fe8607a0-cd94-4b23-b124-002e7b31ad91",
+      "path": "art/lab/hosted/library/asset-865b479388754587fd42212f.forge.json",
+      "sha256": "865b479388754587fd42212f7ca5f5cfca1a83f139f5d7d2fd7e0f0386616207",
+      "w": 768,
+      "h": 384,
+      "base": 383,
+      "game_scale": 1,
+      "plane": "middle",
+      "band": "skyline",
+      "preview_slot": "BACKGROUND",
+      "layers": [
+        "emis",
+        "body"
+      ],
+      "variant_of": null
+    },
+    {
+      "code": "SKY07",
+      "version": "asset-6a1460b240bff38a174bec93",
+      "family": "custom-d888560c-e9f5-4102-896c-871647f3585a",
+      "path": "art/lab/hosted/library/asset-6a1460b240bff38a174bec93.forge.json",
+      "sha256": "6a1460b240bff38a174bec93188cc979b0c73a94190499577f6f176d84785748",
+      "w": 768,
+      "h": 384,
+      "base": 383,
+      "game_scale": 1,
+      "plane": "middle",
+      "band": "skyline",
+      "preview_slot": "BACKGROUND",
+      "layers": [
+        "emis",
+        "body"
+      ],
+      "variant_of": null
+    },
+    {
+      "code": "SKY08",
+      "version": "asset-76de8350b5fd9c4161691e03",
+      "family": "custom-1605432d-0c7d-4820-a780-c2d1501e374b",
+      "path": "art/lab/hosted/library/asset-76de8350b5fd9c4161691e03.forge.json",
+      "sha256": "76de8350b5fd9c4161691e0343ba9486905c38c95394641e8e5bc6a40d7b0997",
+      "w": 768,
+      "h": 384,
+      "base": 383,
+      "game_scale": 1,
+      "plane": "middle",
+      "band": "skyline",
+      "preview_slot": "BACKGROUND",
+      "layers": [
+        "emis",
+        "body"
+      ],
+      "variant_of": null
+    },
+    {
+      "code": "SKY09",
+      "version": "asset-ad6f306c2a05aeaf55023753",
+      "family": "custom-11baeb49-c3f9-4f53-bbcf-1c045ad288a9",
+      "path": "art/lab/hosted/library/asset-ad6f306c2a05aeaf55023753.forge.json",
+      "sha256": "ad6f306c2a05aeaf55023753c8eefc28a2d9b006cf7f184f984245e3f932d58a",
+      "w": 768,
+      "h": 384,
+      "base": 383,
+      "game_scale": 1,
+      "plane": "far",
+      "band": "skyline",
+      "preview_slot": "BACKGROUND",
+      "layers": [
+        "emis",
+        "body"
+      ],
+      "variant_of": null
+    },
+    {
+      "code": "SKY10",
+      "version": "asset-9a1c9ccaf417a7088694b208",
+      "family": "custom-cdbe7b30-4458-4e6b-bda5-811a047225e9",
+      "path": "art/lab/hosted/library/asset-9a1c9ccaf417a7088694b208.forge.json",
+      "sha256": "9a1c9ccaf417a7088694b20870e55b38a91c972fddaabf9bc26848dcc0ea0a60",
+      "w": 768,
+      "h": 384,
+      "base": 383,
+      "game_scale": 1,
+      "plane": "far",
+      "band": "skyline",
+      "preview_slot": "BACKGROUND",
+      "layers": [
+        "emis",
+        "body"
+      ],
+      "variant_of": null
+    },
+    {
+      "code": "SKY11",
+      "version": "asset-d02c008bc2a5adc282999ca9",
+      "family": "custom-b3e91571-4a03-4731-9a07-220b0493c24e",
+      "path": "art/lab/hosted/library/asset-d02c008bc2a5adc282999ca9.forge.json",
+      "sha256": "d02c008bc2a5adc282999ca90deb0471a677dff3d71c0dd81f6795a8f8d763db",
+      "w": 768,
+      "h": 384,
+      "base": 383,
+      "game_scale": 1,
+      "plane": "far",
+      "band": "skyline",
+      "preview_slot": "BACKGROUND",
+      "layers": [
+        "emis",
+        "body"
+      ],
+      "variant_of": null
+    },
+    {
+      "code": "SKY12",
+      "version": "asset-22ae7b65564560dc6e04d7d4",
+      "family": "custom-9c4637f2-e5f0-4556-95b8-3a1ae0ba73b4",
+      "path": "art/lab/hosted/library/asset-22ae7b65564560dc6e04d7d4.forge.json",
+      "sha256": "22ae7b65564560dc6e04d7d4449d305d1cd0929c5e4ee250e04124f1e0fb4b13",
+      "w": 768,
+      "h": 384,
+      "base": 383,
+      "game_scale": 1,
+      "plane": "far",
+      "band": "skyline",
+      "preview_slot": "BACKGROUND",
+      "layers": [
+        "emis",
+        "body"
+      ],
+      "variant_of": null
+    }
+  ],
+  "plate_contract": {
+    "w": 768,
+    "h": 384,
+    "baseline": 383,
+    "scale": 1,
+    "overlap": 64,
+    "stride": 704,
+    "side_connector_columns": 8,
+    "solid_apron_rows": 16,
+    "apron_top": 368,
+    "native_profile_heights": {
+      "near": 352,
+      "middle": 248,
+      "far": 144
+    }
+  },
+  "runtime_suggestions": {
+    "parallax": {
+      "near": 0.55,
+      "middle": 0.35,
+      "far": 0.18
+    },
+    "fog_mix": {
+      "near": 0.14,
+      "middle": 0.48,
+      "far": 0.75
+    },
+    "emissive_strength": {
+      "near": 0.68,
+      "middle": 0.38,
+      "far": 0.18
+    },
+    "notes": "Art-study starting points, not game settings changed. Tint opaque Body toward current sky haze, increase mix near each waterline, attenuate emission separately, keep pixel edges crisp. Cache bakes per grade. Count plates from viewport plus parallax margin, not always three. Never stretch assets."
+  }
+}

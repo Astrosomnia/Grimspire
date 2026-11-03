@@ -1,0 +1,33 @@
+{
+  "forge": 1,
+  "code": "D06a",
+  "name": "D06a · Capsized barge ribs · chain and torn cloth",
+  "w": 216,
+  "h": 108,
+  "base": 107,
+  "fps": 8,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "grip": null,
+    "muzzle": null,
+    "pivot": null
+  },
+  "ready": false,
+  "checks": {
+    "visual": false,
+    "tested": false
+  },
+  "notes": "design: D06\nplace: sump\nband: foreground\nbase: 107\nfootprint: 32–184\nclear: 0\nsink: 0.30–0.38\nweight: 0.8\nlimit: 2\nzones: any\nfaction: none\nsolid: none\nflip: yes\nlight: none\n\none capsized old iron barge hull skeleton lying on its side, six unequal thick curved ribs attached to a long keel, big open gaps between ribs, broken prow, low wide silhouette. Native size 216×108, game_scale 1. Flat silhouette body; depth haze/top-edge/reflection belong to the renderer. Bottom third intended underwater.  Built-in image-generation source encoded at native grid with palette/alpha edits; source preserved. New design code awaiting Claude renderer/slot wiring; generic Forge placement preview only. No production integration claimed. Final native cleanup, exact-art and in-scene approval pending.\n\nvariant_of: D06\ndressing: chain, cloth\nweight: 0.3\nBare original retained. Existing native Body pixels/footprint/base/scale preserved exactly; generated edit supplies only added chain pixels and a separate neutral-grey Cloth mask within the same canvas. Foreground dressing remains near-black, faction none by default. Chains/cloth are cosmetic only. No animation, collision or play-terrain changes implemented. New D-letter slot needs Claude routing.",
+  "frames": [
+    {
+      "trim": null,
+      "cloth": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANgAAABsCAYAAAAIe3yOAAAABHNCSVQICAgIfAhkiAAAAAFzUkdCAK7OHOkAAAFJSURBVHic7dzRjcIwFERR2GLcfz1uhv2NVkDAy7Mz4ZwCQgS6mRAhLhcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAOIDW2q21dlt9HvzPdfUJcN/fuHrvPqtAPrSD24ZWHdnM1/oWP6tPAM5MYAdnSWCC6oceHqjUsGBQyO1HgMonih5s1LJgodzSZXDFCrAX08jy3DumBfs8b2iAV9dqL5BnxxFXDbeIUMhVK0D19y3rVceCBRBALoF9OfHWEhgUElggq5NDYCFElUlgoQSXQWBhPhWWQOcQWLDRSMQ1j8CgkCtZuJFfeViweSzYCfXer48iEtdcAjsZAR2LwKCQwMJtF2tvvazbfAIDGOU/7teyYFBIYACj3B6uZcGgkMCgkMAAAAAAAAAAAAAAAAAAAAAAAAAAAADgHb87dWSw/7a/mQAAAABJRU5ErkJggg==",
+      "emis": null,
+      "guts": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANgAAABsCAYAAAAIe3yOAAAABHNCSVQICAgIfAhkiAAAAAFzUkdCAK7OHOkAAARxSURBVHic7d07luIwEIVh4PQGSMjY/8LISFgCE/ShMR7byJJK9fq/pCNmhK2rkuQHx4Mh58v1WfO5x/127N8aoN1JuwFAZAQMEPSj+Z/XTgkBL6hggCACBggiYICgIdvbEmsttubhARUMENR1F5FdQeATFQwQVL2OsVitWJfBGioYIChUBauxVPX2fDeqJrakr2BRBgrYlL6C9UIlw5L0FQyQRMAAQQQMENS8bmAt9os1GJZQwQBB1fcijq5caxViqx01n7Fm2laqpD+qrwzo5XG/Hc+X6/P196DQGVtDS3hich+wV8ec/y35zIunigZfdgeMzgiU2z0tGRmwUdOmCIMGU0yb2EUEBBVPEUtG+dY704FoqGCAoPQBo8JCkvttek1MifFNt4D13MViRwxRFAWsdlSOPJqvDQJRLmKXtpvBcNvXgHntIFKsdijuWbSJNZiwms7eOqjNw0b49KQMWKaqPP+ur5ui9VqUS8qAZbc0wBA6Gd0C1qMqZD/JXipr9vO0x2rAvJxs9MH5lpH+Tg5AUro1WKSROso1t8jSBawW6463eZA5NutMBIwTxA9ORPVfwFpPNNMUPZwPe0xUMMj5Vu0IoCx2EZWdL9en907uvf2SqisY64DxLB9z1pDLqipYpgMEtFBfg1kPq/X2eZTp7n71gEGX9vv7l+7uj/SwZ4qAsQgvw3Hqj11EqIsc7BQVzKLInapG1OPRNWBRD5IVkk8j15670vb06hse1l1T3aaIhEuOt06FN9ZgG6x07Ong1Xsga7mTZM/xsXIsR2MN5pDWr3i26vH8mrdraFUB4/0bNrQEbUTVKv23Ii8vqGABlAbNakeev7sxEgJmWIYRvoWH188RsMEkw9Iy7SPEMgiYAxYCYK0yrFk7TlrtZ5seqlPQUQ+can1HKhjM6/V6Oo0tfioY3PEyXT0QMD88dSq8/U0RtRfREixcTJXA9n37Nb9R00XWYINkvZu8RYTvSsAcG7F9b+3xGAmS1Yw1WEKP++0YoTpssfIdqWCOWOgwI3j8nmsVuShgXm8i9Uqyg3nsvFJGHAumiEERJBuYIgIVSmdtVDDneGzfptcmCxUMi6Jvz48abAhYANPOMn212/Q6WbbqZSXIagHz9vKSSKx0vgyoYMCKmoFoXizY5AhmaTbgaYbgqa0lqGBIZXSAqWAIx9Iak4ABgk4RfuU+mp7nI9qaZqQed+RTwRYw6KCXok2OeWdjVEQGewbZtUyYqGBUC4wyuq81b9P3arDkrzcCU/Pbx1r78Fa/Vfv5ItgW9R7GaahGDOonK+8uACLiTg6kMp99Sc/GCBhQqWTmZ2IX8cXa9Sdr7YE/VDCjeF4uhtAB4x3u/uzdvexxbvf+PNKeAc/UFBH2ME1uY7KC7T2h0lMoDz+2XYKgjGcyYPiUcT1mbTCoPe5/AZu/mahXw0bQaK+3YwQdi6mk8wC/eB4MMIyAAYIIGLCix4bSxy4iay+gLyoYIOgjYFmusQCj7AoUU0h4pFk4mCICgv4BXVVQgqg5TbkAAAAASUVORK5CYII=",
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANgAAABsCAYAAAAIe3yOAAAABHNCSVQICAgIfAhkiAAAAAFzUkdCAK7OHOkAAAR8SURBVHic7d0/d9owFIdhyOmYwQuZ+P6frFO6MGRqew4dUiXBsUGWdXX/vc+SidbY+uleCWOOB0Oep5dry+veLq/H/kcD7PekfQBAZAQMEPRD8z9vbQkBL6hggCACBggiYICgIdvbEmsttubhARUMENR1F5FdQeAWFQwQ1LyOsVitWJfBGioYIChUBWuxVPW2vDeqJu5JX8GiTBSwKX0F64VKhiXpKxggiYABgggYIGj3uoG12DvWYFhCBQMENd+LOLpyrVWIe8fR8hprvh4rVdIf1UcG9PJ2eT0+Ty/X8vegMBj3hpbwxOQ+YGVgzv/WvKbwVNHgy+aAMRiBepvbkpEBG9U2RZg0aDFtYhcREFTdItbM8nvvTAeioYIBgtIHjAoLSe636TXREuORbgHruYvFjhiiqApY66wceTZfmwSifIhde9xMhvc9DJjXASLF6oDinkWbWIMJaxnseye1edgIn56UActUlefvtdwUrXdEuaQMWHZLEwyhk9EtYD2qQvaL7KWyZr9OW6wGzMvFRh9cbxnp7+QAJKVbg0WaqaN85hZZuoC1Yt3xaR5kzs06EwHjAvGDE1F9C9jeC02boofrYY+JCgY5j6odAZTFLqKy5+nl6n2Qez9+Sc0VjHXAeJbPOWvIZU0VLNMJAvZQX4NZD6v14/Mo09396gGDLu3n9y/d3R/py54pAsYiHFrYRXTg7fJ69DBbt4o8AaaoYBZFHlQtop6PrgGLepK0Tafz9fLrp3gFm07n698/vze9pray9hob3ip5txaRcMkZES7IYA12h7fZcrQt5yfruWQN5tColrG3Ht9f8/YZWlPAeP6GLs1wSTzBOfLyghYRh8P/Qb51g6OXyJMtLaJhkQdeDx4eP0fABovcDuE7AoYq1irDmrUJTOv4CVhy2hVV86biEQgYzOv1eDqNLX52ER2aTufU6zgv7eqBgAGyPlpE7V5cQut7sj5DeryLo7e9T8sa1S6yBhvE2gTm4XYr6xNdDQKWUFnD1YReapBbmnAkqxkBS6hULkuDvDcr9zkSMJjjsTVcC3JVwHj88lh7B1hpAa2vsbSNCDLb9MEQLltoEYEGtV0bAQsk+x0elpT2k4BhUfTtee5FxGZl3cX6y87PQqlVMG8PL4nEwsDLghYRWNEyEc2LBS1iMN7bw2jdDBUMqYwOMBUM4VhaYxIwQNCTle1MfOJ62NDjd9moYAuYdNBL1SbHfLBF2+kBlmyZZNcyYaKCUS0wyuj7NXdv0/cKh9aDIZHP/Cs9e8fwvXGr9vNFsK1c42iTXgnVdDpfRzz45yn6L9gDmriTA6mUylx+C026GyNgQKOazs/ELmJh7fMna8cDf6hgRvF9uRhCB8zKwydRb+vuZY9ru/XnkbZMeKZaRNhDm7yPyQq29YJKt1Aefmy7BkEZz2TAcCvjeszaZNB63j8C9vUfsPbmHtE4Xm/nCDoWU8ngAd7xfTDAMAIGCCJgwIoeG0o3u4isvYC+qGCAoJuAZfmMBRhlU6BoIeGRZuGgRQQE/QPEZC0lhjLKXQAAAABJRU5ErkJggg=="
+    }
+  ],
+  "asset_id": "custom-dfe4203e-6499-444e-8005-e59c523f9db7",
+  "state_key": ""
+}

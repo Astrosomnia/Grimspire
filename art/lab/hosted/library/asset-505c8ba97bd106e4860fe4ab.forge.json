@@ -1,0 +1,33 @@
+{
+  "forge": 1,
+  "code": "D03a",
+  "name": "D03a · Half-sunk broken arch · chain and torn cloth",
+  "w": 208,
+  "h": 150,
+  "base": 149,
+  "fps": 8,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "grip": null,
+    "muzzle": null,
+    "pivot": null
+  },
+  "ready": false,
+  "checks": {
+    "visual": false,
+    "tested": false
+  },
+  "notes": "design: D03\nplace: sump\nband: foreground\nbase: 149\nfootprint: 31–177\nclear: 0\nsink: 0.30–0.38\nweight: 0.8\nlimit: 2\nzones: any\nfaction: none\nsolid: none\nflip: yes\nlight: none\n\none broken pointed gothic arch rising from two uneven stumps, asymmetric missing upper-right voussoirs, thick arch ring and one large open arch hole, chunky broken stone. Native size 208×150, game_scale 1. Flat silhouette body; depth haze/top-edge/reflection belong to the renderer. Bottom third intended underwater.  Built-in image-generation source encoded at native grid with palette/alpha edits; source preserved. New design code awaiting Claude renderer/slot wiring; generic Forge placement preview only. No production integration claimed. Final native cleanup, exact-art and in-scene approval pending.\n\nvariant_of: D03\ndressing: chain, cloth\nweight: 0.3\nBare original retained. Existing native Body pixels/footprint/base/scale preserved exactly; generated edit supplies only added chain pixels and a separate neutral-grey Cloth mask within the same canvas. Foreground dressing remains near-black, faction none by default. Chains/cloth are cosmetic only. No animation, collision or play-terrain changes implemented. New D-letter slot needs Claude routing.",
+  "frames": [
+    {
+      "trim": null,
+      "cloth": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANAAAACWCAYAAACvpQYFAAAABHNCSVQICAgIfAhkiAAAAAFzUkdCAK7OHOkAAAE8SURBVHic7djbDcIwEEVBgqjF/dfjZsJvhELIY8FCd6YCK/LJ2r7dAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMjVWptba/PodfBfptELGG0tmt57/Hdhn+iNsjVxRMQesZvkXTzC4YjIzSIeqsRumNeIxMMZ99ELGEUwVIgNyJM1FSL/wu5AVImdQEvC4ay4gBzdqBQVkHioFhUQVIs5+++ZPu5CHGUCwQWRAfXep7Vp447EUZEBQZXH6AX80nLqmDZUiJlAHgj4hpiAlkwfqkQGBFUEBBcIaONZGz4R0IKIOCo+INFwRXRA4oETPGMDAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADDGEzTaRUzIXfPzAAAAAElFTkSuQmCC",
+      "emis": null,
+      "guts": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANAAAACWCAYAAACvpQYFAAAABHNCSVQICAgIfAhkiAAAAAFzUkdCAK7OHOkAAAVaSURBVHic7d1LUtxAEEVR2uENMGHG/hfGjAlLwAO7wwoh1e/VJ7PynghPaANqqZ4yq6QWjxcs9fr2/q18/9fnx6Pf1qDWr9UbAHhGgAABAQIE9M8TqfOdUsyL5qECAQICBAgo9QPNatlq0N71RQUCBL9Xb8AuLFYbjEcFAgT0w514rkDMi9pRgQABZ54KnqtMKapRHSoQICBAgIAAAQKuAyVEmPNAw4QxIXKAWEwoQwUKHhRomAMBAgIECAgQIAg3UfQ033lO5EdtMwsFOiqQUcfBzUC3i1U4Q1JBOb7mqYrujgoUFFWtDwLkEIPfDlq4BXoE4Opn0NrNRwUCBFSgiUa3XqOXvfHTlgFiAGGWLSejVgJkYbJfsy8sbK83zIEAAQECBAQIEGy5iLCC1fkD14vGch8gBgNWch+g1axWnhSuF/Xj7uCfrR4EHgN01GP/ed8HCipQhR0Hyvk9rT4hecMqHCAgQIDAVUuyqr3YsXUr0bK/o+0rKhAgYBEBXR2rVoRqRIASIgyAFK4X5dHCAQICBAho4f6J3q6l0MrdMxsgDhY8MHvWnRUgKk+b1PGJtE+ZAwECAgQICBAgMNOrzlw0iNSjz3A+dpH2r9lVOPhVejLcIWghAxTtfq0RuMzwV6g50Nfnx4PA6AjPf2YG04yD8vX58Xh9e/++urJOsMo899n5L+aNuFvBwzEJVYFSk13OqnlX4Tm/Fs32AXq2bSVns6iDAO22D1AtQpSXu40n0lwzdIDuBgIhynvuo1RbF4GZNz1q0CrPPYs6KM5y++xuP6nH1MP+X3YdaOUTdu5+93kl6bi6FNHdKmX0qnMUsoW7OvDHr0VanXt9e/9+/jt//YVrZ1nLdoyFz/vk7uE6n2lzlcuL3CJA6XJ16ftuPdYe9ut2AVIPaoQ5U641u3ot9X01v09hcf+Gvxfu6rVUxUkNKutzg9a7piPfbZ0Tcg509hwQx+CULnFfzREszpvO1aP0wjLhSRtagawPpCupvj81eLw8uSb3HkasPHrZNy1CtXCrDmBJKzji99SeDHYc4KNtE6AZrUXNJDv1tZKf1bpNJa95aDm92CZAOS0D7amkBbm7jnL+GXc/p8cCRG7xoyTgI09Era2c5XlXmACNoF7fuBvQLatjd99T2qpZHqSWhQzQ3QDODd7aC4u5qpJrpVqfLXBXbbgdp7+QAeppxmJA6/fXngxQL1SAVt3jlhvQLY/Jba1W6CtMgFaccc+t1KhnMOx+sdPy+wsToKMVD3EsqRi5GzlzvwPzuQ6Qp4HT69qL5bNxRK4D5Flu4JcEzGt4dvq8FQEydq9WybZ4Dc6OCNCBpYFpaVtwL/zHGRioUHSvQBbaoFKEB6qwFYjwoIeQASI86KW5hfPUqgGjhKxA8C31zIrZCBAgIECAgAABAgIECFzfysNn+7FacYCsrHoAltDCAQICBAgIECAgQICgeBHB4vOUWXHDalQgQECAAAEBAgRd5hArHlSIPfQeO7PHBxUIEBAgQECAAIHru7GBs9nPDqcCAQICBAho4RDK3bJ5a6tHBQIEVCBsbfRFfioQIDyskQABAgIECAgQIJADZOGTqcAqVCBAIAWI6oPomq4DERzgL1o4QMCdCAD3wgFrECBAQIAAAXMgQPhjbdn/4GHJmmfF+eJhTL0UjitaOEBAgABBVetjrfTSuvlkbRyd1YwrFhEw3XGAWg9TDi0cICBAgIAAAQICBAgIECAgQIDgxzK2p2XF47ZyTQgrbFOBPAUf++BCKqbycKKruTN7mwoErLBVBWr9TAfQ6uGhpCoI0Ho7jzFaOEBAgAABAQIEBAgQ/AHTR+uvhAYG3AAAAABJRU5ErkJggg==",
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANAAAACWCAYAAACvpQYFAAAABHNCSVQICAgIfAhkiAAAAAFzUkdCAK7OHOkAAAVNSURBVHic7d0xc9w2EAZQXyalCzVypf//y1zJjQpVSWaUwr4MQ+tIkEsSWOC9GRfy6U4UiY+7AHmn2xeq+vr07SPy/Pe319txW8NWf9TeAMhMgCBAgCBA/3yh6HynlHnRdVQgCBAgCFDqT3RVy7aF9u5YKhAE/Fl7A3rRYrXhfCoQBOiHD5K5ApkX7acCQYAzzwaZq0wp1WgbFQgCBAgCBAgCXAdaMMKchxgTxgUjB8hiQhkVaPCgEGMOBAECBAECBAHDTRQzzXfuE/mzttlCQZwK1Kjp4DbQ22UVriFLQZk+lqmK9k4FGpSqdgwBSsjgb4cWroIjAvDZa2jtrqcCQYAKdKGzW6+zl735XZcBMoC4SpeT0VYC1MJkf8u+aGF7szEHggABggABgoAuFxFqaHX+4HrRudIHyGCgpvQBqq3VyrPE9aLjpDv4c7UHQcYATR2x/7LvgwgVaIMeB8r8d6p9QsrGKhwECBAEpGpJarUXPbZuJfbs79H2lQoEARYRONS0ao1QjQRowQgDYInrReu0cBAgQBCghftl9HZtiVbusWYD5GCRQbNn3asCpPLss3R8Rtqn5kAQIEAQIEAQ0EyveuWiwUg9+hXmx26k/dvsKhx5lZ4MewjakAF6en757wC//fie/iDWMN2H//z9V92NqWioOdD72+uth7NebdPwjK6ZwXTFHOj97fX29Pzyca86KtF293023V/TfXrkccxwshuqAs3PnPNBUGWjEvksPPPHRtP9HGh6Fls6yCoQe3QfoDWCs920ZZsb7Y8hD9XCcZx7NV9q60YwVIA+WzyYe3p++bj/u3TjGvZof4weni81V+Favtva6txPj/ZDaXCix9gqXFIjrc49qrjTkIx8Elkz/CLC3Xxi/Pbj++3RoJrLNsAe/R73fXDUcvUI72TtroXbW/YfDZotAyZLkNZas88eW3remqOOdYstnQr0y/3M++hOhen3Tb+efk/rk+q1gBz9vBGoQDMlFaektWltkJVUj72/+5qeK9CpG1Sj9z1jJ2+pLK1WodLtWrpIGtXjqpwW7gIlreAZP2epUrqf7RjdBOiKs9OWSfbS/5W81t5tKnksslDC/3UToDOV3sGw9PXataUjWr+1xY+SgJ/Zeu5d1m6xdbsToIC9Z+6lgb5lDlKyMFDaqrU2Z8tCgDZYG4yPWqPSwV164XbtdR5Vmz2347BMgIKuWAzY+/ylbROcYwjQBdYG9J43+u2tVhxLgE40b6XOusu79Yu4US1/7pwAnezRgsHaStmWEPQWmExSB6ilM9Gao6699F5tskkdoMxKbqmJvkarevrcBAFqTMlF26zB6ZEANUpIcvCWbgg4vAJl72lhCxUIAgQIAna3cFo1UIFI6OvTt49WTuACBAECBAECBAECBAGpb+X5bCKZ6Q5t8isOUCurHtASLRwECBAECBAECBAEFC8izFe3WlhUsOJGbSoQBAgQBAgQBBwyh7hyPmTe05ejx87V40MFggABggABgoDUd2PD3NV/yUEFggABggAtHEN5tGy+t9VTgSBABaJrZ1/kV4Eg8GGNAgQBAgQBAgQB4QC18M5UqEUFgoBQgFQfRrfrOpDgwE9aOAhwJwK4Fw7qECAIECAIMAeCwB9rW/2GDEvWPisulwxj6kvhuNLCQYAAQcCm1qe10qt1y6m1cTS3ZVxZROBy0wHaepjWaOEgQIAgQIAgQIAgQIAgQIAg4Ldl7EzLitNtdU2IGrqpQJmCTz9cSOVSGU50W+7M7qYCQQ1dVaC97+mAvW4ZSmqEANXX8xjTwkGAAEGAAEGAAEHAv12YsboUeGBKAAAAAElFTkSuQmCC"
+    }
+  ],
+  "asset_id": "custom-c6b7c6fd-ac87-4537-92fc-c58322f8a3a3",
+  "state_key": ""
+}
