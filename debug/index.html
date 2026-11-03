@@ -585,7 +585,7 @@ function ruinRock(g,hs){
   g.putImageData(img,0,0);
   for(let x=0;x<=W;x++){let y=0;const cx=Math.min(W-1,x);while(y<H&&!m[y*W+cx])y++;hs[x]=y}
 }
-function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;
+function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;NS.kit=[];decoC.getContext('2d').clearRect(0,0,W,H);
   struct.width=W;struct.height=H;carv.width=W;carv.height=H;eyes=[];
   const g=mctx;g.globalCompositeOperation='source-over';g.clearRect(0,0,W,H);sctx.clearRect(0,0,W,H);
   g.fillStyle='#fff';sctx.fillStyle='#fff';bctx.clearRect(0,0,W,H);
@@ -738,10 +738,10 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;
       // a slot's variants (K01, K01a, K01b…) share size and joints; pick one per piece
       const kW=n=>{const m=String(labArt.get(n).doc.notes||'').match(/^\s*weight\s*:\s*([\d.]+)/im);return m?Math.max(0,+m[1]):1};
       const pickK=k=>{const v=[...labArt.keys()].filter(n=>n===k||(n.length===4&&n.startsWith(k)&&/[a-z]$/.test(n)));let sum=0;for(const n of v)sum+=kW(n);let u=Math.random()*sum;for(const n of v){u-=kW(n);if(u<=0)return n}return v[0]};
-      const put=(k,x,yb,flip)=>{const id=pickK(k),a=labArt.get(id),d=a.doc,f=a.frames[0],w=d.w*z,h=d.h*z,y=yb-((Number.isFinite(d.base)?d.base:d.h-1)+1)*z;
+      const put=(k,x,yb,flip,vid)=>{const id=vid||pickK(k),a=labArt.get(id),d=a.doc,f=a.frames[0],w=d.w*z,h=d.h*z,y=yb-((Number.isFinite(d.base)?d.base:d.h-1)+1)*z;
         const draw=(c,img)=>{if(!img)return;c.save();c.imageSmoothingEnabled=false;if(flip){c.translate(x+w,y);c.scale(-1,1);c.drawImage(img,0,0,w,h)}else c.drawImage(img,x,y,w,h);c.restore()};
         // stacked tower shafts would make columns of glass: only some windows are lit, and only the big glass casts light
-        const lit=f.emis&&(k!=='K01'||Math.random()<.3);draw(g,f.body);draw(hg,f.guts);NS.kit.push({id,x,y,w,h,flip,body:f.body,emis:lit?f.emis:null,light:lit&&(k==='K08'||k==='K07')?[x+w/2,y+h*(k==='K08'?.42:.3),k==='K08'?150:110]:null});return{x,y,w,h}};
+        const lit=f.emis&&(k!=='K01'||Math.random()<.3),sp=kitSplit(f.body,k,d);draw(g,sp.solid);if(sp.deco)draw(decoC.getContext('2d'),sp.deco);draw(hg,f.guts);NS.kit.push({id,x,y,w,h,flip,body:f.body,solid:sp.solid,emis:lit?f.emis:null,light:lit&&(k==='K08'||k==='K07')?[x+w/2,y+h*(k==='K08'?.42:.3),k==='K08'?150:110]:null});return{x,y,w,h}};
       const TW=112*z,SH=100*z,SPAN=180*z,PIER=40*z,PH=200*z,J=4*z;
       const crown=()=>{const r=Math.random();return r<.5?'K02':r<.75?'K03':'K04'};
       const mir=Math.random()<.5,wl=sump+18;// laid out left to right; mirrored maps flip the whole district
@@ -760,8 +760,8 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;
         if(!opts.length)break;
         let sum=0;for(const o of opts)sum+=o[1];let u=Math.random()*sum,pick=opts[0][0];for(const o of opts){u-=o[1];if(u<=0){pick=o[0];break}}
         if(pick==='C'){lay.push(['K08',x]);x+=512*z;cath=true}
-        else if(pick==='N'){const m=room>720*z&&Math.random()<.4?2:1;for(let k=0;k<m;k++){lay.push(['K07',x]);x+=360*z}naves++}
-        else if(pick==='B'){const n=Math.max(1,Math.min(4,Math.floor(room/SPAN),1+Math.floor(Math.random()*4)));lay.push(['B',x,n,rnd(360,440)]);x+=n*SPAN;bridges++}
+        else if(pick==='N'){const m=room>720*z&&Math.random()<.4?2:1,v=pickK('K07');for(let k=0;k<m;k++){lay.push(['K07',x,v]);x+=360*z}naves++}
+        else if(pick==='B'){const n=Math.max(1,Math.min(4,Math.floor(room/SPAN),1+Math.floor(Math.random()*4)));lay.push(['B',x,n,rnd(360,440),pickK('K05')]);x+=n*SPAN;bridges++}
         else if(pick==='TEN'){x+=rnd(10,24);lay.push(['TEN',x+88]);x+=176+rnd(10,24);tens++;last='TEN';if(x<END-TW)tower();continue}
         else{const gw=rnd(40,110);if(Math.random()<.5)lay.push(['ROCK',x,gw]);x+=gw;last='G';if(x<END-TW)tower();continue}
         last=pick;tower()}
@@ -772,9 +772,9 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;
       rock(fx(-30,170),fx(-30,170)+170,rnd(460,480));rock(fx(W-110,140),fx(W-110,140)+140,rnd(450,475));
       for(const L2 of lay){const k=L2[0];
         if(k==='T'){const xx=fx(L2[1],TW);let yb=H+SH;while(yb-SH>L2[2]){put('K01',xx,yb);yb-=SH}put(crown(),xx,yb+J,Math.random()<.5);spires.push({cx:xx+TW/2,w:TW,top:yb,base:H,roof:TW})}
-        else if(k==='K07'){const w=360*z,c=put('K07',fx(L2[1],w),wl,mir);hangs.push({cx:c.x+c.w/2,cy:c.y})}
+        else if(k==='K07'){const w=360*z,c=put('K07',fx(L2[1],w),wl,mir,L2[2]);hangs.push({cx:c.x+c.w/2,cy:c.y})}
         else if(k==='K08'){const w=512*z;put('K08',fx(L2[1],w),wl,mir)}
-        else if(k==='B'){const[_,x0,n,deck]=L2,w=n*SPAN,xs=fx(x0,w),yb=deck+80*z;for(let i=0;i<n;i++)put('K05',xs+i*SPAN,yb,mir);
+        else if(k==='B'){const[_,x0,n,deck,vid]=L2,w=n*SPAN,xs=fx(x0,w),yb=deck+80*z;for(let i=0;i<n;i++)put('K05',xs+i*SPAN,yb,mir,vid);
           for(let i=0;i<=n;i++){let py=yb+PH;while(py-PH<H+20){put('K06',xs+i*SPAN-PIER/2,py);py+=PH}}hangs.push({cx:xs+w*rnd(.3,.7),cy:deck});
           // a stone block under the middle arch: a lower level to stand on
           const bx=xs+SPAN*Math.floor(n/2)+SPAN*.3;both(gg=>{gg.fillRect(bx,deck+rnd(80,100),SPAN*.4,H)})}
@@ -790,7 +790,7 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;
       // a few hairline cracks running down walls
       for(let i=0;i<30;i++){const[x,y]=edges[rnd(0,edges.length)|0];cut(gg=>{gg.lineWidth=1;gg.strokeStyle='#000';gg.beginPath();let cx=x,cy=y;gg.moveTo(cx,cy);for(let k=0;k<4;k++){cx+=rnd(-3,3);cy+=rnd(3,7);gg.lineTo(cx,cy)}gg.stroke()})}}}
     // weathering skipped on kit pixels: re-stamp the kit bodies over any chips
-    if(kitOK)for(const p of NS.kit){g.save();g.imageSmoothingEnabled=false;if(p.flip){g.translate(p.x+p.w,p.y);g.scale(-1,1);g.drawImage(p.body,0,0,p.w,p.h)}else g.drawImage(p.body,p.x,p.y,p.w,p.h);g.restore()}
+    if(kitOK)for(const p of NS.kit){g.save();g.imageSmoothingEnabled=false;if(p.flip){g.translate(p.x+p.w,p.y);g.scale(-1,1);g.drawImage(p.solid,0,0,p.w,p.h)}else g.drawImage(p.solid,p.x,p.y,p.w,p.h);g.restore()}
   }
 
   // floating islands
@@ -883,6 +883,7 @@ function rebuildRim(){
   rctx.globalCompositeOperation='source-in';rctx.fillStyle='rgba(150,180,235,.6)';rctx.fillRect(0,0,W,H);
   rctx.globalCompositeOperation='source-over';rimDirty=false;
   if(NS.on){rebuildTopLight();
+    {const u=unionC.getContext('2d');u.globalCompositeOperation='copy';u.drawImage(terr,0,0);u.globalCompositeOperation='source-over';u.drawImage(decoC,0,0)}
     // Inside a hole, the kit's broken interior shows only as a thin rim (about 6 px) around the cut, darkened and
     // in shadow; beyond it the hole is open air you can see through, so it never reads as something to stand on.
     const b=gutsBand.getContext('2d');b.globalCompositeOperation='source-over';b.clearRect(0,0,W,H);
@@ -983,6 +984,19 @@ function drawEmbers(L){for(let i=cuts.length-1;i>=0;i--){const c=cuts[i],age=tim
     for(const p of c.pts){if(!isSolid(p[0],p[1]))continue;const f=.55+.45*Math.sin(time*9+p[3]),a=k*p[2]*f;if(a<.05)continue;
       ctx.fillStyle=`rgba(255,90,20,${a*.35})`;ctx.fillRect(p[0]-1.6,p[1]-1.6,3.2,3.2);
       ctx.fillStyle=a>.55?`rgba(255,215,130,${a})`:`rgba(255,120,35,${a})`;ctx.fillRect(p[0]-1,p[1]-1,2,2)}}}
+// Walkway pieces (crown, bridge span, nave wall): merlons and balustrades above the deck would make the walk a
+// staircase of tiny steps, so they are drawn but not solid; you walk along the deck behind them. The deck is the
+// deck row is a `deck: N` line in the piece's notes, or else the first row that starts a band at least 8 rows
+// thick and solid across most of the piece (a thin rail doesn't count). Open structures without one keep their
+// whole shape solid. A bridge or nave uses one variant throughout, so its walk stays level. Cached per image.
+function kitSplit(img,k,doc){if(img._split)return img._split;const w=img.width,h=img.height;
+  const m=String(doc?.notes||'').match(/^\s*deck\s*:\s*(\d+)/im);let deck=0;
+  if(m)deck=Math.min(h-1,+m[1]);else if(/^K0[357]/.test(k)){const c=mk(w,h),g=c.getContext('2d');g.drawImage(img,0,0);const d=g.getImageData(0,0,w,h).data,x0=Math.round(w*.08),x1=Math.round(w*.92),full=[];
+    for(let y=0;y<h;y++){let n=0;for(let x=x0;x<x1;x++)if(d[(y*w+x)*4+3]>127)n++;full.push(n>=(x1-x0)*.85)}
+    for(let y=0;y<h-8&&y<h*.4;y++){let ok=true;for(let q=0;q<8;q++)if(!full[y+q]){ok=false;break}if(ok){deck=y;break}}}
+  const solidC=mk(w,h),sg=solidC.getContext('2d');sg.drawImage(img,0,0);sg.clearRect(0,0,w,deck);
+  const deco=deck?mk(w,h):null;if(deco){const dg=deco.getContext('2d');dg.drawImage(img,0,0);dg.clearRect(0,deck,w,h-deck)}
+  return img._split={solid:solidC,deco,deck}}
 function nsToggle(on){NS.on=on===undefined?!NS.on:on;rimDirty=true;toplAll=true}
 // Skyline in three hazy bands, built on first use with the same kit as the old two layers.
 function nsLayers(){if(NS.layers)return NS.layers;const sd=RR()*1e9|0;
@@ -1044,7 +1058,7 @@ function nsBack(){if(NS.backGen===genTerrain.n&&NS.backN)return NS.backN;NS.back
   g.globalCompositeOperation='source-atop';g.fillStyle='rgba(34,42,56,.7)';g.fillRect(0,0,W,H);g.globalCompositeOperation='source-over';g.drawImage(hollow,0,0);return NS.backN=c}
 // Light from above: the top few pixels of every surface catch the sky, undersides fall into shadow. Built per
 // column from the terrain mask, only for columns a blast or build has touched since the last frame.
-const topl=mk(W,H),tlctx=topl.getContext('2d'),hollow=mk(W,H),gutsC=mk(W,H),gutsBand=mk(W,H);let toplImg=null,toplAll=true,toplX0=W,toplX1=-1;
+const topl=mk(W,H),tlctx=topl.getContext('2d'),hollow=mk(W,H),gutsC=mk(W,H),gutsBand=mk(W,H),decoC=mk(W,H),unionC=mk(W,H);let toplImg=null,toplAll=true,toplX0=W,toplX1=-1;
 function toplMark(x0,x1){toplX0=Math.min(toplX0,Math.max(0,Math.floor(x0)));toplX1=Math.max(toplX1,Math.min(W-1,Math.ceil(x1)))}
 function rebuildTopLight(){
   if(!toplImg)toplImg=tlctx.createImageData(W,H);const d=toplImg.data;
@@ -1104,7 +1118,7 @@ function carve(cx,cy,r,scorch=true){
   if(scorch){tctx.globalCompositeOperation='source-atop';
     const rg=tctx.createRadialGradient(cx,cy,r*.7,cx,cy,r+12);rg.addColorStop(0,'rgba(8,6,6,.95)');rg.addColorStop(.6,'rgba(30,14,8,.6)');rg.addColorStop(1,'rgba(0,0,0,0)');
     tctx.fillStyle=rg;tctx.fillRect(cx-r-14,cy-r-14,r*2+28,r*2+28)}
-  for(const g of[tctx,mctx,gfx]){g.globalCompositeOperation='destination-out';g.fillStyle='#000';g.beginPath();g.arc(cx,cy,r,0,Math.PI*2);g.fill();g.globalCompositeOperation='source-over'}
+  for(const g of[tctx,mctx,gfx,decoC.getContext('2d')]){g.globalCompositeOperation='destination-out';g.fillStyle='#000';g.beginPath();g.arc(cx,cy,r,0,Math.PI*2);g.fill();g.globalCompositeOperation='source-over'}
   rimDirty=true;toplMark(cx-r-2,cx+r+2);freshCut(cx,cy,r);checkFixtures();scarTags(cx,cy,r);
   if(window.GRIMSPIRE_SET_PIECES)setPiecesHit(cx,cy,r);
 }
@@ -1114,7 +1128,7 @@ function carveLine(x0,y0,x1,y1,r,col){
     for(let yy=iy0;yy<=iy1;yy++)for(let xx=ix0;xx<=ix1;xx++)if((xx-x)**2+(yy-y)**2<=r*r)solid[yy*W+xx]=0}
   tctx.globalCompositeOperation='source-atop';tctx.strokeStyle=col||'rgba(10,6,6,.9)';tctx.lineWidth=r*2+10;tctx.lineCap='round';
   tctx.beginPath();tctx.moveTo(x0,y0);tctx.lineTo(x1,y1);tctx.stroke();
-  for(const g of[tctx,mctx,gfx]){g.globalCompositeOperation='destination-out';g.strokeStyle='#000';g.lineWidth=r*2;g.lineCap='round';g.beginPath();g.moveTo(x0,y0);g.lineTo(x1,y1);g.stroke();g.globalCompositeOperation='source-over'}
+  for(const g of[tctx,mctx,gfx,decoC.getContext('2d')]){g.globalCompositeOperation='destination-out';g.strokeStyle='#000';g.lineWidth=r*2;g.lineCap='round';g.beginPath();g.moveTo(x0,y0);g.lineTo(x1,y1);g.stroke();g.globalCompositeOperation='source-over'}
   rimDirty=true;toplMark(Math.min(x0,x1)-r-2,Math.max(x0,x1)+r+2);{const n=Math.max(1,Math.ceil(Math.hypot(x1-x0,y1-y0)/Math.max(8,r*2)));for(let i=0;i<=n;i++)freshCut(x0+(x1-x0)*i/n,y0+(y1-y0)*i/n,r,i<n)}checkFixtures();for(const q of tags)if(q.left>0){const was=q.left;q.left=paintLeft(q)/q.a0}
   if(window.GRIMSPIRE_SET_PIECES)setPiecesHitLine(x0,y0,x1,y1,r);
 }
@@ -2948,7 +2962,7 @@ function render(dt){
   for(const L of lights){if(L.i<=0)continue;const gr=lg.createRadialGradient(L.x,L.y,0,L.x,L.y,L.r);gr.addColorStop(0,rgba(L.c,Math.min(1,L.i)));gr.addColorStop(.35,rgba(L.c,Math.min(1,L.i)*.45));gr.addColorStop(1,rgba(L.c,0));
     lg.fillStyle=gr;lg.fillRect(L.x-L.r,L.y-L.r,L.r*2,L.r*2)}
   lctx.setTransform(1,0,0,1,0,0);lctx.globalCompositeOperation='multiply';lctx.drawImage(lmap,0,0,lit.width,lit.height);
-  lctx.globalCompositeOperation='destination-in';lctx.setTransform(...WT);lctx.drawImage(terr,0,0);lctx.globalCompositeOperation='source-over';
+  lctx.globalCompositeOperation='destination-in';lctx.setTransform(...WT);lctx.drawImage(NS.on&&NS.kit&&NS.kit.length?unionC:terr,0,0);lctx.globalCompositeOperation='source-over';
   ctx.setTransform(1,0,0,1,0,0);ctx.drawImage(lit,0,0);
   if(NS.on&&NS.kit&&NS.kit.length)nsKitGlass(WT);
   // ---- world ----
@@ -3248,7 +3262,7 @@ function netCatchUp(){if(S.mode!=='online'||NET.role!=='watch')return;const behi
   if(behind>300&&!NET.skip)for(let i=0;i<Math.min(6,behind-240);i++)tick()}
 function netGameOver(){if(NET.role!=='act')clearNet()}
 function netLeave(){document.title=TITLE0;chatStop();if(NET.unC)NET.unC();if(NET.unM)NET.unM();NET.unC=NET.unM=null;NET.role=null;NET.started=false;S.mode='hot';$('#netBar').hidden=true}
-const GV=21;// bump on every release that changes the sim
+const GV=22;// bump on every release that changes the sim
 function startOnline(code,me,d){BE.update(code,{['vers.'+me]:GV,['arts.'+me]:window.GRIMSPIRE_ART_SIM||''}).catch(()=>{});NET.code=code;NET.me=me;NET.round=d.round||0;NET.snapK=-1;NET.snap=null;NET.matchAtt=d.att||'';NET.started=true;NET.leaving=false;saveNet();
   $('#net').hidden=true;if(!CHAT.un)chatStart();const cfg=Object.assign(mkCfg('online',d.seats,d.mode==='teams'),{mode:'online'});newGame('online',d.seed,cfg);S.genOK=true;
   const base=NET.round*1e5,has=d.snapK!=null&&d.snapK>=base&&d.snap;
