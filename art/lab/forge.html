@@ -396,8 +396,8 @@ const FACTIONS=[['Ash Legion','#ff2e88'],['Neon Choir','#3ff3ff'],['The Hollow',
 const CLOTH={'#ff2e88':[86,24,34],'#3ff3ff':[36,40,50],'#3dff8b':[88,82,70],'#ffd84a':[190,176,140]};
 const LAYERS=[{k:'body',n:'Body',d:'Dark, flat, no baked light'},{k:'emis',n:'Emissive',d:'Glows: visors, lights, plasma'},{k:'trim',n:'Trim',d:'Squad colour mask, paints grey'},{k:'cloth',n:'Cloth',d:'Faction cloth, paints grey'},{k:'guts',n:'Guts',d:'Revealed by blasts: rebar, rubble'}];
 const LK=['body','emis','trim','cloth','guts'];
-const MARKS=[{k:'grip',n:'Grip',c:'#ff3b3b'},{k:'muzzle',n:'Muzzle',c:'#3dff8b'},{k:'pivot',n:'Pivot',c:'#ffd84a'},{k:'shoulder',n:'Shoulder',c:'#3ff3ff'},{k:'elbow',n:'Elbow',c:'#ff2e88'},{k:'hand',n:'Hand',c:'#ffb21e'},{k:'hip',n:'Hip',c:'#a0ff46'},{k:'knee',n:'Knee',c:'#9fb4d8'}];
-const noMarks=()=>({grip:null,muzzle:null,pivot:null,shoulder:null,elbow:null,hand:null,hip:null,knee:null});
+const MARKS=[{k:'grip',n:'Grip',c:'#ff3b3b'},{k:'muzzle',n:'Muzzle',c:'#3dff8b'},{k:'pivot',n:'Pivot',c:'#ffd84a'},{k:'shoulder',n:'Shoulder',c:'#3ff3ff'},{k:'elbow',n:'Elbow',c:'#ff2e88'},{k:'hand',n:'Hand',c:'#ffb21e'},{k:'hip',n:'Hip',c:'#a0ff46'},{k:'knee',n:'Knee',c:'#9fb4d8'},{k:'thrust',n:'Thrust',c:'#ff7a1e'}];
+const noMarks=()=>({grip:null,muzzle:null,pivot:null,shoulder:null,elbow:null,hand:null,hip:null,knee:null,thrust:null});
 const PRESETS=[
   {n:'Weapon',p:'W',w:42,h:20,d:'Same frame as pixelkit-v2'},
   {n:'Trooper frame',p:'T',w:41,h:58,d:'Same frame as the game troopers, feet on row 54',base:54},
@@ -742,9 +742,9 @@ function buildLayers(){const L=$('#layers');L.textContent='';LAYERS.forEach((l,i
   d.append(e,t,k);d.onclick=()=>setLayer(l.k);L.append(d)})}
 function setLayer(k){layer=k;buildLayers();updCol()}
 // What each point means depends on the part. On a torso, Shoulder and Hip are sockets: where the arm and the legs attach.
-const MARK_HINT={grip:'Weapon: where the hand holds it',muzzle:'Weapon: where shots leave',pivot:'What it rotates around (older assets)',shoulder:'Arm: its shoulder joint. Torso: where the arm attaches',elbow:'Arm: the elbow',hand:'Arm: where the weapon grip attaches',hip:'Thigh: its hip joint. Torso: where it sits on the legs',knee:'Thigh: where the shin hangs. Shin: its knee joint'};
+const MARK_HINT={grip:'Weapon: where the hand holds it',muzzle:'Weapon: where shots leave',pivot:'What it rotates around (older assets)',shoulder:'Arm: its shoulder joint. Torso: where the arm attaches',elbow:'Arm: the elbow',hand:'Arm: where the weapon grip attaches',hip:'Thigh: its hip joint. Torso: where it sits on the legs',knee:'Thigh: where the shin hangs. Shin: its knee joint',thrust:'Torso: where the jump pack flame starts (the pixel just under the nozzles)'};
 const isTorso=()=>/torso/i.test(doc.name||'')||/torso/i.test(doc.state_key||'');
-function buildMarkers(){const M=$('#markers');M.textContent='';if(isTorso()){const n=document.createElement('p');n.className='note';n.style.margin='0 0 4px';n.textContent='Torso: Shoulder is where the arm attaches, Hip is where it sits on the legs. Test with the Torso slot.';M.append(n)}MARKS.forEach(m=>{const d=document.createElement('div');d.className='mk';const p=doc.markers[m.k];
+function buildMarkers(){const M=$('#markers');M.textContent='';if(isTorso()){const n=document.createElement('p');n.className='note';n.style.margin='0 0 4px';n.textContent='Torso: Shoulder is where the arm attaches, Hip is where it sits on the legs, Thrust is where the jump pack flame starts. Test with the Torso slot.';M.append(n)}MARKS.forEach(m=>{const d=document.createElement('div');d.className='mk';const p=doc.markers[m.k];
   const i=document.createElement('i');i.style.background=m.c;const b=document.createElement('button');b.textContent=m.n;b.title=MARK_HINT[m.k]||'';b.className=markType===m.k&&tool==='marker'?'on':'';b.onclick=()=>{markType=m.k;setTool('marker');buildMarkers()};
   const v=document.createElement('span');v.className='num';v.textContent=p?`${p[0]}, ${p[1]}  (${p[0]*ART}, ${p[1]*ART})`:'not set';
   const x=document.createElement('button');x.textContent='×';x.title='Clear';x.disabled=!p;x.onclick=()=>{pushDoc();doc.markers[m.k]=null;buildMarkers();changed()};d.append(i,b,v,x);M.append(d)})}
@@ -837,7 +837,7 @@ function manifest(){const m=doc.markers,P=p=>p?[p[0]*ART,p[1]*ART]:null,n=fileBa
     grip:P(m.grip),muzzle:P(m.muzzle),pivot:P(m.pivot),shoulder:P(m.shoulder),elbow:P(m.elbow),hand:P(m.hand),notes:doc.notes||'',frame_notes:doc.frames.map(f=>f.note||''),feet_y:doc.base!=null?(doc.base+1)*ART:null,
     points_native:m,feet_row_native:doc.base}}
 // Aseprite's sprite-sheet JSON (array form) for the ×1 body sheet, with points as 1-pixel slices, so Godot's Aseprite importers and Aseprite itself can read the kit
-function asepriteJson(n){const m=doc.markers,MC={grip:'#ff3b3bff',muzzle:'#3dff8bff',pivot:'#ffd84aff',shoulder:'#3ff3ffff',elbow:'#ff2e88ff',hand:'#ffb21eff',hip:'#a0ff46ff',knee:'#9fb4d8ff'};
+function asepriteJson(n){const m=doc.markers,MC={grip:'#ff3b3bff',muzzle:'#3dff8bff',pivot:'#ffd84aff',shoulder:'#3ff3ffff',elbow:'#ff2e88ff',hand:'#ffb21eff',hip:'#a0ff46ff',knee:'#9fb4d8ff',thrust:'#ff7a1eff'};
   return{frames:doc.frames.map((f,i)=>({filename:`${n} ${i}`,frame:{x:i*doc.w,y:0,w:doc.w,h:doc.h},rotated:false,trimmed:false,spriteSourceSize:{x:0,y:0,w:doc.w,h:doc.h},sourceSize:{w:doc.w,h:doc.h},duration:Math.round(1000/(doc.fps||8))})),
     meta:{app:'Grimspire Forge',version:'1',image:`native/${n}_body.png`,format:'RGBA8888',size:{w:doc.w*doc.frames.length,h:doc.h},scale:'1',frameTags:[{name:n,from:0,to:doc.frames.length-1,direction:'forward'}],
       layers:[{name:'body',opacity:255,blendMode:'normal'},{name:'emissive',opacity:255,blendMode:'normal'},{name:'trim',opacity:255,blendMode:'normal'}],
