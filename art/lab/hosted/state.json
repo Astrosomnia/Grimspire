@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "current": "20261103T000347Z-23e846ad",
+  "current": "20261103T002340Z-5e856f96",
   "revisions": [
     {
       "id": "20261031T210936Z-6c67f2da",
@@ -321,6 +321,14 @@
       "slot": "W04",
       "variant": "custom",
       "author": "Claude"
+    },
+    {
+      "id": "20261103T002340Z-5e856f96",
+      "created": "2026-11-03T00:23:40.000Z",
+      "notes": "Structural kit variants K01c K01d K02a K02b K05c K05d K07c K07d on top of 20261103T000347Z-23e846ad. Ghost and walkway fixes (GV 22).",
+      "slot": "W04",
+      "variant": "custom",
+      "author": "Claude"
     }
   ],
   "integrations": [
@@ -464,6 +472,15 @@
       "approved_at": "2026-11-03T00:06:12.000Z",
       "pr": null,
       "status": "main updated by Claude (kit variants, generated drowned district)"
+    },
+    {
+      "revision": "20261103T002340Z-5e856f96",
+      "main_commit": "641202da860efb945749193c5991f5621926079e",
+      "game_sha256": "0e9032f8dd9edd8a26b0d76330e64ce88179548b8648488b4e176b015bb2a8a1",
+      "approved_by": "Astrosomnia",
+      "approved_at": "2026-11-03T00:25:17.000Z",
+      "pr": null,
+      "status": "main updated by Claude (structural kit variants, ghost and walkway fixes)"
     }
   ]
 }
