@@ -6,6 +6,12 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-03 · Claude · Lore draft: Halo Guard, the Definitor, faction kits
+- [`docs/LORE-DRAFT.md`](LORE-DRAFT.md) updated from chat with Jarred. Still a draft.
+- **Halo Guard:** no one may know God; they climb to seal the top. Halos as blinders.
+- **Definitor (Jarred: decided):** a man, the old war's ruler who commissioned the spire to reach God; still up there, kept alive by the machine. **There is no answer.** He found nothing and has been lying ever since.
+- **Faction kits:** friend mode has everything unlocked; the roguelike gives each faction a signature weapon and passive (Ash firepower, Halo building, Choir tech, Hollow rot and miasma).
+
 ## 2026-11-03 · Claude · Lore draft (not canon)
 - New [`docs/LORE-DRAFT.md`](LORE-DRAFT.md) from a chat with Jarred: the Flood (set during it, sent because of the war), the spire as a new Babel, faction vat-arks as the reason for cloning, each faction's reason to climb (Halo Guard judged, Neon Choir hear the voice, Ash Legion seize the throne, the Hollow see the world consumed), what the Definitor means to each, and play hooks (rising water as sudden death, levels that read as ascent).
 - Scratch only, something to chew on. Nothing in game or VISION changed.

@@ -41,8 +41,9 @@ Fallback if cloning feels bolted on: lineage. Recruits are children or devotees 
 
 Each one answers "who sent the Flood?" differently, and their goals at the top are mutually exclusive.
 
-**Halo Guard (gold): "God sent it, and God was right."**
-The loyalists. The Flood was just; humanity earned it. They climb to stand before the throne and be counted among the saved, and to stop anyone unworthy from getting there. To them, everyone else on the stairs is the reason it rained.
+**Halo Guard (gold): "No one may know God."**
+They've learned Babel's lesson: reaching for God is the sin, and trying to know God is sacrilege. They climb to seal the top and stand at the threshold so no one else gets through. The irony is built in: to stop the sacrilege, they have to climb the tower too.
+Visual idea (Jarred loves this): **halos as blinders.** Their troopers never look up.
 
 **Neon Choir (cyan): "God is still speaking, and we can't hear it."**
 Babel's curse was the confusion of tongues. The Choir believe the original voice of God is still broadcasting and the static is the punishment. The higher you climb, the cleaner the signal. They want to hear the one true word and sing it back to the drowned world. God in the transmission.
@@ -55,23 +56,60 @@ They want to see the world consumed. God didn't punish the world; God started en
 
 (Spare idea: "God is the enemy" is still free for a fifth faction or a splinter group.)
 
-## The Definitor
+## The Definitor and the top of the tower
 
-It's the one who *defines*. It sits at the top and settles the question everyone is killing each other over. Each faction reads it differently:
+Men built the spire. The Definitor isn't a god; it's an **office**: the title of whoever ruled the old war and decided doctrine, literally the one who *defined* which God was true. Sith Emperor territory.
 
-- Halo Guard: the judge
-- Neon Choir: the voice
+- **The spire was his.** During the forever war, the Definitor commissioned the tower to reach God directly and end the argument once and for all.
+- **The Flood came while it was rising.** The Babel parallel made literal. Who sent the Flood is a matter of faith, but there's a whisper that the tower is why it rained.
+- **He's still up there.** Centuries old, kept alive by the machine, maybe more machine than man. Still building. Still claiming he'll speak the final answer.
+- **There is no answer. (Decided.)** He reached the top long ago and found nothing, and he has been lying ever since. Everyone is dying to climb toward a silence one man has been hiding.
+
+Each faction reads him differently, and all of them are wrong in their own way:
+
+- Halo Guard: the sacrilege incarnate
+- Neon Choir: the voice of God comes through him
 - Ash Legion: a throne to seize
 - The Hollow: the keystone to pull so everything comes down
 
-Never say which is right.
+The boss is a man claiming to know, not God. We never show God or say who was right.
+
+## Faction kits
+
+- **Friend mode (one-off matches): everything unlocked for everyone.** The classic multiplayer move, like GoldenEye giving you every gun from the campaign. No lore needed.
+- **Roguelike: factions matter.** Shared base arsenal, plus one signature weapon and one passive per faction. Keeps four factions readable and balanceable.
+
+Two pairs: **Halo builds, the Hollow rots. Ash outguns, the Choir outmanoeuvres.**
+
+**Ash Legion: firepower**
+- Signature: something huge and blunt (Godfall already feels like theirs).
+- Passive: bigger blast radius, or fire that lingers in craters (ash and promethium).
+- Weakness: no tricks. Every problem gets hit harder.
+
+**Halo Guard: defence and building**
+- Signature: raise a wall, barricade or buttress. Plug holes, bridge gaps, put cover in a sniper line. Fits the threshold-sealers.
+- Passive: armour near built structures, or less knockback.
+- Roguelike layer (maybe): tithes, e.g. four crate choices instead of three.
+- Weakness: slow. A turn spent building isn't a turn spent shooting.
+
+**Neon Choir: tech and tools**
+- Signature: sentry, drone and teleporter are Choir in spirit.
+- Passive: they see more (longer aim preview, wind readout, enemy health through walls). God in the signal means they hear better.
+- Possible: hack an enemy sentry, or relay a shot through a drone.
+- Weakness: fragile without their gadgets.
+
+**The Hollow: destruction and miasma**
+- Signature: a miasma cloud that lingers a few turns and hurts anyone inside. It drifts with wind and pools in low ground, so it settles in the holes everyone else digs.
+- Passive: their explosions rot terrain, which crumbles a turn or two later. Floors give way under people who thought they were safe.
+- Flavour: their dead release miasma. Killing them up close is risky.
+- Weakness: slow-acting. They can lose a fast fight.
 
 ## How it could show up in play
 
 - **Rising water is sudden death.** Worms already has it. Here it's the Flood catching up. Long battles end because the sea takes the floor, which also helps with battle length.
 - **Levels need to read as ascent.** Each stage should show it: a higher floor, the waterline lower beneath, the drowned city shrinking. Vertical tower stages also bring back the up-and-around movement the drowned city map is missing.
-- **Faction play styles.** The Hollow lean into destruction (cratering, collapsing floors, terrain splash). Halo Guard lean defensive. Neon Choir lean on comms, drones and support. Ash Legion lean straight aggression.
-- **Different endings.** Reaching the top could resolve differently by faction: judgement, revelation, conquest or collapse.
+- **Faction kits** in the roguelike (see above); friend mode gets everything.
+- **Different endings.** Reaching the top could resolve differently by faction (sealed, silenced, seized, collapsed), but the truth underneath is the same: there's no answer up there.
 - **Friend-mode maps stay lore-free.** The Flood and Babel belong to the roguelike run.
 
 ## Open questions
@@ -79,4 +117,6 @@ Never say which is right.
 - After or during? Leaning during. Note the title screen currently says the flood is gone ("The flood is gone. This is what it left."), which reads as after. If we go with during, that line changes.
 - Is the Flood literally the biblical one, or a second Flood in a high-tech world? A second Flood lets the old faiths, scripture and tech all survive with nobody agreeing what any of it means.
 - Do clones have souls? Each faction probably answers differently.
+- Is the Definitor alive, a machine, or a corpse running on old orders? Each changes the ending's tone.
+- Did the tower cause the Flood, or is that only rumour? Rumour keeps the mystery; confirming it sharpens the story.
 - Does the name change follow from this? "Sermon of Shells" quietly fits the drowned world.
