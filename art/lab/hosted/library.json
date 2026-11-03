@@ -2523,6 +2523,20 @@
       "h": 476,
       "frame_count": 1,
       "category": "Other art"
+    },
+    {
+      "id": "asset-6cf6f772096f63453f6bf3fe",
+      "path": "art/lab/hosted/library/asset-6cf6f772096f63453f6bf3fe.forge.json",
+      "sha256": "6cf6f772096f63453f6bf3fec81cac7ae11c3911199f4171c0bd001644c12946",
+      "asset_id": "custom-73e4b209-7d4c-4043-a2a1-370a50e660ac",
+      "state_key": "",
+      "asset_name": "Shattered cathedral dome",
+      "code": "K13",
+      "name": "Shattered cathedral dome · solid masonry V2",
+      "w": 768,
+      "h": 476,
+      "frame_count": 1,
+      "category": "Other art"
     }
   ]
 }
