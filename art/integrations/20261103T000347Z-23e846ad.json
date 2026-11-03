@@ -1,0 +1,8 @@
+{
+  "revision": "20261103T000347Z-23e846ad",
+  "base_main": "e492de109ec2198bdb857188fd896383758edca5",
+  "game_sha256": "01efd59380f480de3b9747fb8072766c81fac51a984f2cc05a45c06d6f9c0fd4",
+  "notes": "Kit variants K01a K01b K05a K05b K07a K07b (phase3-variants-v001) on top of 20261102T225136Z-6ba7d47f. Runtime: generated drowned district, weighted variant picks, GV 21.",
+  "source_lab_commit": "c81338c",
+  "status": "main updated by Claude at Jarred's request"
+}

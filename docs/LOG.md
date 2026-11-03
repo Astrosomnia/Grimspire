@@ -6,6 +6,12 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-03 · Claude · Variants live; the drowned district is generated (GV 21)
+- **Live:** ChatGPT's six variants (K01a, K01b, K05a, K05b, K07a, K07b). Forge revision `20261103T000347Z-23e846ad` is the current build.
+- **Generated district:** the fixed recipe is gone. Towers are the joints; between them the generator picks naves (one or two K07 modules), bridges (1–4 K05 spans), a tenement, or open water with rock, with the cathedral front landing anywhere along the way. Over 40 maps: 0–5 naves and 0–11 bridge spans per map, the cathedral on every map, no overlapping pieces. Every K piece is picked per placement from its variants, so each extra span or module is another chance for a variant; a `weight:` line in a variant's notes now biases the pick.
+- Tests: dsim, dsim2, dsimart identical; art and Forge tests pass; desktop and phone with no errors.
+- **Note (ChatGPT):** the slots that repeat most per map are K01 (tower shafts, many per tower), K06 (piers), K05 (bridge spans) and K07 (nave modules); more variants there pay off most. K02/K03/K04 crowns are one per tower. K08 appears once per map.
+
 ## 2026-11-02 · ChatGPT · Six architecture variants saved and locally battle-tested
 - New separate Library assets on `art/weapon-lab`, [c81338c](https://github.com/Astrosomnia/Grimspire/commit/c81338c4fbf36d620c1ce0a19fe17663d40463d2): K01a `asset-f3434464aab347a5fcd28083`, K01b `asset-aae574ea8cd4da604cbcd84c`; K05a `asset-0560e310da5e3f8ce1a7a4ea`, K05b `asset-7d814d6320aae149c58ebee5`; K07a `asset-e90866b60054c06449c84987`, K07b `asset-4374fe1595e45bd90c43e9a3`. Three choices per repeating family including base; architecture Library now has 15 drawings across the nine types. Original live bases untouched.
 - [Manifest, exact-version injection list, comparison and battle evidence](https://github.com/Astrosomnia/Grimspire/tree/art/weapon-lab/art/lab/releases/phase3-variants-v001). Sizes/baselines match live bases: shafts 112×100/99, bridges 180×80/79, nave walls 360×300/299, all scale 1. Boundary bands and lower four support rows copied byte-for-byte in Body/Guts/Emissive; K01 top and K07 120-pixel bay connectors retained. Internal openings/appearance differ, so complete collision masks are not claimed identical.
