@@ -1,0 +1,111 @@
+{
+  "schema": 1,
+  "source_repository": "Astrosomnia/Grimspire",
+  "source_branch": "art/weapon-lab",
+  "dimensions_unit": "native art pixels",
+  "status": "additional structural drafts; preserve previous six variants and live bases",
+  "instructions": [
+    "Inject exact immutable versions as separate letter-suffixed slots.",
+    "Keep sizes, baselines, connector notes, scale 1 and separate layers; pixel_scale 12 is source density only.",
+    "These have substantial internal collision changes; test walking, blast paths and destruction before release.",
+    "Do not replace older variants or roll back current game/payload."
+  ],
+  "assets": [
+    {
+      "slot": "K01c",
+      "version_id": "asset-d9966228c1007fddab1a4399",
+      "asset_id": "custom-27e8f243-03f8-4671-b67b-3f1e5aa49077",
+      "path": "art/lab/hosted/library/asset-d9966228c1007fddab1a4399.forge.json",
+      "sha256": "d9966228c1007fddab1a4399333857934e03913456ed141a73cb89412e12fca3",
+      "w": 112,
+      "h": 100,
+      "baseline": 99,
+      "game_scale": 1,
+      "pixel_scale": 12
+    },
+    {
+      "slot": "K01d",
+      "version_id": "asset-12500b4059a82b074ff90d28",
+      "asset_id": "custom-59f3f672-3d7e-4c7a-a4aa-bd6f047c3c61",
+      "path": "art/lab/hosted/library/asset-12500b4059a82b074ff90d28.forge.json",
+      "sha256": "12500b4059a82b074ff90d282d3db827b1d62f3a482d4b4e95fb77193ef321ca",
+      "w": 112,
+      "h": 100,
+      "baseline": 99,
+      "game_scale": 1,
+      "pixel_scale": 12
+    },
+    {
+      "slot": "K02a",
+      "version_id": "asset-9062ed294c1ae89204b0181e",
+      "asset_id": "custom-15294fc2-1abb-44d9-a009-4d8d4e76b325",
+      "path": "art/lab/hosted/library/asset-9062ed294c1ae89204b0181e.forge.json",
+      "sha256": "9062ed294c1ae89204b0181e3a9c01968f82c981419ef05aa0cf5956719834d0",
+      "w": 112,
+      "h": 192,
+      "baseline": 191,
+      "game_scale": 1,
+      "pixel_scale": 12
+    },
+    {
+      "slot": "K02b",
+      "version_id": "asset-dbc29a8ff8702c13dc83ffbf",
+      "asset_id": "custom-38ffa8b8-a83f-43a9-9424-636011f442cc",
+      "path": "art/lab/hosted/library/asset-dbc29a8ff8702c13dc83ffbf.forge.json",
+      "sha256": "dbc29a8ff8702c13dc83ffbf58682d029064d0112d6ddca928e648c439cc7d45",
+      "w": 112,
+      "h": 192,
+      "baseline": 191,
+      "game_scale": 1,
+      "pixel_scale": 12
+    },
+    {
+      "slot": "K05c",
+      "version_id": "asset-3df5a2fd850cd778a741a33f",
+      "asset_id": "custom-34a38fd2-a4ac-4033-a4cc-d725e35b6932",
+      "path": "art/lab/hosted/library/asset-3df5a2fd850cd778a741a33f.forge.json",
+      "sha256": "3df5a2fd850cd778a741a33fe26c63b7c168fed5fcca2b6f2ad38227271faba4",
+      "w": 180,
+      "h": 80,
+      "baseline": 79,
+      "game_scale": 1,
+      "pixel_scale": 12
+    },
+    {
+      "slot": "K05d",
+      "version_id": "asset-ca1384c2c3ff98e74a606484",
+      "asset_id": "custom-6a8cf5e7-fe44-4b26-807b-9aed2280744a",
+      "path": "art/lab/hosted/library/asset-ca1384c2c3ff98e74a606484.forge.json",
+      "sha256": "ca1384c2c3ff98e74a606484a0593f1654f97ef4df815e48496dc7ce777a6f29",
+      "w": 180,
+      "h": 80,
+      "baseline": 79,
+      "game_scale": 1,
+      "pixel_scale": 12
+    },
+    {
+      "slot": "K07c",
+      "version_id": "asset-d359b425ae0f0e77d4982e09",
+      "asset_id": "custom-c2cc0795-8dae-4041-b47f-5ec27366a311",
+      "path": "art/lab/hosted/library/asset-d359b425ae0f0e77d4982e09.forge.json",
+      "sha256": "d359b425ae0f0e77d4982e091e0d6f36f9b2fab2eb13169b805636dbb92f0879",
+      "w": 360,
+      "h": 300,
+      "baseline": 299,
+      "game_scale": 1,
+      "pixel_scale": 12
+    },
+    {
+      "slot": "K07d",
+      "version_id": "asset-8dce9dda7eaf3781a5b1668b",
+      "asset_id": "custom-293fed49-826a-48e0-8683-c998797218d0",
+      "path": "art/lab/hosted/library/asset-8dce9dda7eaf3781a5b1668b.forge.json",
+      "sha256": "8dce9dda7eaf3781a5b1668b762b6d2444919e863b31cc0963e00c17d8f37520",
+      "w": 360,
+      "h": 300,
+      "baseline": 299,
+      "game_scale": 1,
+      "pixel_scale": 12
+    }
+  ]
+}

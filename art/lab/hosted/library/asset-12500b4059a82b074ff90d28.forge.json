@@ -1,0 +1,33 @@
+{
+  "forge": 1,
+  "code": "K01d",
+  "name": "Tower shaft · diagonal flying buttress",
+  "w": 112,
+  "h": 100,
+  "base": 99,
+  "fps": 8,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "grip": null,
+    "muzzle": null,
+    "pivot": null
+  },
+  "ready": false,
+  "checks": {
+    "visual": false,
+    "tested": false
+  },
+  "notes": "band: play\nstate: intact\nweight: 0.9\n\nSeparate drawing/asset variant of K01, not a replacement version. Exact live dimensions 112×100, baseline 99, scale 1. Bottom four-row support footprint and required connector bands copied byte-for-byte (K02 caps preserve only their base joint; their upper/side silhouettes are free to change) from live K01, including Body, Emissive and Guts. K01 top band retained; K07 every 120-pixel bay connector retained. Structural redesign with substantially different mass and apertures, not surface weathering. Internal collision geometry differs; only the required connectors/support footprint is preserved. New native-grid interpretation of a built-in image-generation source; six-value neutral material ramp, separate magenta glass and hollow masonry Guts. No baked glow, water or coloured rims. Alternative structural frame/mass/negative-space design. Final hand cleanup, exact-art approval and full play review pending.",
+  "frames": [
+    {
+      "trim": null,
+      "cloth": null,
+      "body": "data:image/png;base64,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",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHAAAABkCAYAAABep7TGAAAABHNCSVQICAgIfAhkiAAAAAFzUkdCAK7OHOkAAABvSURBVHic7dFBDYAwAMBAghrMTeskDRE8lrI7BU16XQAAAAAAAAAAAAAAAAAAAHCw+Yw1n7F2d5zg3h3ANwbGGRhnYJyBcQbGGRhnYJyBcQbGGRhnYJyBAAAAAAAAAAAAAAAAAAAAAAAAAAAAwA+8INUE4WNC32MAAAAASUVORK5CYII=",
+      "guts": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHAAAABkCAYAAABep7TGAAAABHNCSVQICAgIfAhkiAAAAAFzUkdCAK7OHOkAAAQ4SURBVHic7Z2/b9NAFMe/tjyAmIJoIg9Rhi5RB6aInb+8e8XUAWUAiShD1IDIQANsZihnXHN27PO983vn91laNW7ux0fvfvrs5PpmU0ARS/bz/AgAuFrkQRL8+nDQ9DySBklFISPJV2ttQgWTAMBsvixevHzl7UsPu23i7csmhC2Yfv86AwBsfg67bULShGpUh4OsD1SJYSAdxKjEfrh0PSkAnI57sj4rX60LFekfIzut/0HhT9WVzgOFk42dAVj6Sm0NusNCYJ18tS7aJNr61DGlt/Xx1PkKJnA2Xxa2wVJT4fsOfC5J547rQK8s8Gy+DDJSrEsMlW5smHoM3oSqML8kANB3T/D7twcAwOs3C6JsaTpd0WmEYD5//ECzmK2EQwUK5vpmUyQA8Pbdex1YCOT+7labUOlkAHB+/NHrnySP2mJLRyNQOBn+DkfhMB9UxsH4gkagfFSgcFSgcKLdGWi6zyeGMlbLxnJDl5LYxD4TSDkPop5rVUdmLvTN15hzx9NxX/4uNgKHCmv6PmlTqWcCzVEzSkKkMYS++QtVnqZ0xEagNGz36/i44VnkNELazUuU+RUVgbGJO+y2g89nlhHI/fxCCHk+66Brfl3KVc1nCsFzIJ+MIc/1elTyy7IJDd1UjilvKOwEUlcAZVcxJO+u/aHIUagrXOUNgZ1A7oMpGz7kiTkb0QWqE8MUZfSV1755M+mm9T8o3Rmrzhq3k7qurFOvxFdX231waYHapTy+F9P7pF2tH3Z9oG8odhd8yxtC9AJ9w0keYhfoO/oo5bl+d7QCJckbkgd2An1UVIzymmC3lDaE2AcsNqIROKWoq8KuCXVhqvIQg8Apy4N0gVOXB8kCpd2/ScWzQYxZE+xK3+t9MZsvC99pc1jM71Km+jXiIpDTthcH2J2NaNuJ6NJsdk2HY39ny3O1PKfjvvxpEBOBPvs8jvJcYXc2wvbYyHy1LnycWeB+Y3BbGc1n9WvY39jLNV9jUq2TDAyf1HS1yL3n5/7ulnX0ocMLsw67bXnN1SIvJvOkJgnyXMkAYP/lk/XdPD5pewcQZTrc+70q5tV1VerlqV8TzW5EHUnihhBlE8phVSUU5K/eCU1MZWnjv1fvxEDszaZtShWNwNjlNVEOYsxoh5pQ6UikrW6aPosiAqfS79koI7DPTgSnJ9zGtDDtcj5CdATGJM8VsQJV3hMiBaq8f6QQdoOQynvCOEtVnlyubzaFmCZU5dkRIVDlNSNCoNIMe4FTXmXpAnuBSjsqUDjZkDMGY52NiBWX+ky1j5HL6bhPMvML9YTedQfD91ObOHPpbEQVM7Vi3wdKWikagms5y/3Asd9/MHUu1UvT5+wjUGlHBQpHn1o/MvlqXbicwDL/kxh5sZ6NiD0dbUKFowKFowKFQ74Co9CSmQnipeO9vjAHFDU9P2gTKpzB769TxuUP1SBKlfXWw7AAAAAASUVORK5CYII="
+    }
+  ],
+  "asset_id": "custom-59f3f672-3d7e-4c7a-a4aa-bd6f047c3c61",
+  "state_key": ""
+}
