@@ -595,6 +595,8 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
   const g=mctx;g.globalCompositeOperation='source-over';g.clearRect(0,0,W,H);sctx.clearRect(0,0,W,H);
   g.fillStyle='#fff';sctx.fillStyle='#fff';bctx.clearRect(0,0,W,H);
   genTerrain.blds=[];
+  // counts were tuned on the 2000 px map: scale them with the width, so a narrower map has less, not the same crammed in
+  const MK=W/W0,nW=(n,min=0)=>Math.max(min,Math.round(n*MK));
   // half of all maps are the drowned district; the rest share the generated layouts as before
   const L0=['drowned','drowned','drowned','drowned','drowned','spires','islands','canyon','ruins','ruins'][Math.random()*10|0],L=NS.drowned?'drowned':L0;S.layout=L;
   const base=L==='islands'?H*.8:L==='canyon'?H*.56:H*.66, amp=L==='islands'?.55:L==='canyon'?1.2:1;
@@ -713,7 +715,7 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
     gg.fillRect(cx-1,ay-16,2,16);gg.fillRect(cx-5,ay-11,10,2);gg.beginPath();gg.arc(cx,ay-17,2.2,0,Math.PI*2);gg.fill()};
   const pinnacle=(gg,x,top,h=20)=>{poly(gg,[[x-4,top],[x,top-h],[x+4,top]]);gg.fillRect(x-.75,top-h-5,1.5,5)};
   // spires
-  const ns=L==='drowned'?0:L==='spires'?3+(Math.random()*2|0):L==='canyon'?2:L==='ruins'?1:1+(Math.random()*2|0);
+  const ns=nW(L==='drowned'?0:L==='spires'?3+(Math.random()*2|0):L==='canyon'?2:L==='ruins'?1:1+(Math.random()*2|0),L==='drowned'?0:1);
   for(let i=0;i<ns;i++){const cx=L==='ruins'?flatX(240,60):freeX(240);if(L==='canyon'&&Math.abs(cx-ccx)<cwid*1.7)continue;
     const w=rnd(46,72),bs=hAt(cx),hh=rnd(140,240),top=bs-hh,roof=w*rnd(1,1.5),gr=Math.random()<.75,ga=Math.random()<.55,gy=top+rnd(16,36);
     if(kitHas('K01')){const tx=cx-TW/2;kTower(tx,Math.max(hAt(tx),hAt(tx+TW),bs)+30,top);spires.push({cx,w:TW,top,base:bs,roof:TW});continue}
@@ -781,8 +783,8 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
       if(ga&&((ga<0&&bite>x0+10)||(ga>0&&bite+bw<x1-10)))gargoyle(gg,ga<0?x0:x1,top+6,ga)});
     for(let k=0;k<fl;k++)if(Math.random()<.75)hangs.push({cx:x0+w*rnd(.4,.6),cy:k===fl-1?top-14:base-(k+1)*fh-4});
     (genTerrain.blds=genTerrain.blds||[]).push({x0,x1,base,fh,fl,side0});occ.push([x0-10,x1+10])};
-  if(L==='ruins'){for(let i=0;i<4;i++)facade();twinTowers();if(Math.random()<.45)twinTowers();for(let i=0,n=2+(Math.random()<.5?1:0);i<n;i++)tenement()}
-  else if(L==='spires'){for(let i=0;i<2;i++)facade();if(Math.random()<.6)tenement();if(Math.random()<.5)twinTowers()}
+  if(L==='ruins'){for(let i=0;i<nW(4,1);i++)facade();twinTowers();if(Math.random()<.45*MK)twinTowers();for(let i=0,n=nW(2+(Math.random()<.5?1:0),1);i<n;i++)tenement()}
+  else if(L==='spires'){for(let i=0;i<nW(2,1);i++)facade();if(Math.random()<.6)tenement();if(Math.random()<.5*MK)twinTowers()}
   else if(L==='drowned'){sump=Math.round(H*.6);
     // Spike (phase3): a hand-placed drowned cathedral district. Towers, a nave, arched bridges and a cathedral front
     // rise out of high water; low piers at the waterline take the fallen heads. Placeholder shapes for ChatGPT's
@@ -845,9 +847,9 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
         if(room>360*z)opts.push(['N',naves<3?3:1]);
         if(room>SPAN*1.2)opts.push(['B',bridges<3?4:1.5]);
         if(room>200&&tens<1)opts.push(['TEN',2]);
-        if(DGK.length&&dgs<2&&room>200)opts.push(['DG',dgs?1.5:3.5]);
-        if(CRK.length&&crags<2&&room>280&&last!=='G')opts.push(['CRAG',crags?1:2.5]);
-        const lmFit=LMK.filter(k=>!lmUsed.has(k)&&room>lmW(k)+20);if(lmFit.length&&lms<2)opts.push(['LM',lms?3:12]);
+        if(DGK.length&&dgs<nW(2,1)&&room>200)opts.push(['DG',dgs?1.5:3.5]);
+        if(CRK.length&&crags<nW(2,1)&&room>280&&last!=='G')opts.push(['CRAG',crags?1:2.5]);
+        const lmFit=LMK.filter(k=>!lmUsed.has(k)&&room>lmW(k)+20);if(lmFit.length&&lms<nW(2,1))opts.push(['LM',lms?3:12]);
         if(last!=='G')opts.push(['G',1.2]);
         if(!opts.length)break;
         let sum=0;for(const o of opts)sum+=o[1];let u=Math.random()*sum,pick=opts[0][0];for(const o of opts){u-=o[1];if(u<=0){pick=o[0];break}}
@@ -928,7 +930,7 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
   }
 
   // floating islands
-  const ni=L==='drowned'?0:L==='islands'?4+(Math.random()*3|0):L==='ruins'?(Math.random()<.5?1:0):1+(Math.random()*2|0);
+  const ni=nW(L==='drowned'?0:L==='islands'?4+(Math.random()*3|0):L==='ruins'?(Math.random()<.5?1:0):1+(Math.random()*2|0),L==='islands'?3:0);
   for(let i=0;i<ni;i++){let cx=L==='canyon'&&i===0?ccx:freeX(200),w=rnd(110,220);
     let cy=L==='islands'?rnd(H*.32,H*.6):Math.min(hAt(cx-w/2),hAt(cx+w/2),hAt(cx))-rnd(110,200);
     if(L==='canyon'&&i===0){w=cwid*2.2;cy=Math.min(hAt(cx-cwid*1.6),hAt(cx+cwid*1.6))-rnd(30,70)}
@@ -938,10 +940,10 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
     for(let k=n;k>=0;k--){const f=Math.sin(Math.PI*k/n);pts.push([cx-w/2+w*k/n+rnd(-6,6),cy+8+f*w*rnd(.22,.4)+(k%2?rnd(0,20):0)])}
     poly(g,pts);hangs.push({cx:cx+rnd(-w*.25,w*.25),cy})}
   // pillars
-  for(let i=0;i<(L==='drowned'?0:(L==='ruins'?2:3)+(Math.random()*3|0));i++){const cx=L==='ruins'?flatX(90,20):freeX(90),w=rnd(14,22),bs=hAt(cx),hh=rnd(50,140);
+  for(let i=0,n=nW(L==='drowned'?0:(L==='ruins'?2:3)+(Math.random()*3|0));i<n;i++){const cx=L==='ruins'?flatX(90,20):freeX(90),w=rnd(14,22),bs=hAt(cx),hh=rnd(50,140);
     both(gg=>poly(gg,[[cx-w/2,bs+20],[cx-w/2,bs-hh+rnd(-8,8)],[cx-w/6,bs-hh-rnd(0,14)],[cx+w/5,bs-hh+rnd(-4,10)],[cx+w/2,bs-hh+rnd(-10,6)],[cx+w/2,bs+20]]))}
   // bridges
-  for(let i=0;i<(L==='drowned'?0:1+(Math.random()*2|0));i++){const x=rnd(240,W-520),len=rnd(150,280),y=Math.min(hAt(x),hAt(x+len),hAt(x+len/2))-rnd(90,150);
+  for(let i=0,n=nW(L==='drowned'?0:1+(Math.random()*2|0));i<n;i++){const x=rnd(240,W-520),len=rnd(150,280),y=Math.min(hAt(x),hAt(x+len),hAt(x+len/2))-rnd(90,150);
     both(gg=>{gg.fillRect(x,y,len,11);for(let k=x+14;k<x+len-10;k+=34)gg.fillRect(k,y+11,4,14);
       gg.globalCompositeOperation='destination-out';poly(gg,[[x+len*.6,y-2],[x+len*.66,y+14],[x+len*.7,y-2]]);gg.globalCompositeOperation='source-over'});
     hangs.push({cx:x+len*.3,cy:y})}
@@ -976,7 +978,7 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
   // flying buttresses and stair ramps against the kit towers, then the same up-and-over pass as the drowned
   // district. Each piece's foot is buried; gaps under a landmark are filled with rock.
   if(L!=='drowned'&&kitReady&&kitHas('K05')){
-    const lmk=['K10','K11','K12','K13'].filter(kitHas),nl=lmk.length?(L==='ruins'?1+(Math.random()<.5?1:0):L==='islands'?(Math.random()<.5?1:0):1):0;
+    const lmk=['K10','K11','K12','K13'].filter(kitHas),nl=lmk.length?nW(L==='ruins'?1+(Math.random()<.5?1:0):L==='islands'?(Math.random()<.5?1:0):1,L==='islands'?0:1):0;
     for(let i=0;i<nl;i++){const id=pickK(lmk[Math.random()*lmk.length|0]),w=occW(id);let best=null;
       for(let k=0;k<60;k++){const x=rnd(70,W-70-w);if(!freeOcc(x,x+w))continue;let lo=1e9,hi=0;for(let xx=x;xx<=x+w;xx+=6){const h=hAt(xx);lo=Math.min(lo,h);hi=Math.max(hi,h)}
         if(hi-lo>(L==='ruins'?130:90)||lo<200||lo>sump-60)continue;if(!best||hi-lo<best.r)best={x,r:hi-lo,lo,hi}}
@@ -984,7 +986,7 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
       // rock under any part of the footprint where the ground falls away below the piece
       {const pts=[[best.x-6,yb-4]];for(let xx=best.x-6;xx<=best.x+w+6;xx+=8)pts.push([xx,Math.max(yb-4,hAt(xx)+14)]);pts.push([best.x+w+6,yb-4]);poly(g,pts)}
       const c=putOcc(id.slice(0,3),id,best.x,yb,flip);occ.push([best.x,best.x+w]);seatPiece(id,c,flip);hangs.push({cx:best.x+w/2,cy:c.y+c.h*.4})}
-    const rk=['R05','R06','R07','R08','R09'].filter(kitHas),nr=rk.length?(L==='islands'?3:2)+(Math.random()<.5?1:0):0;
+    const rk=['R05','R06','R07','R08','R09'].filter(kitHas),nr=rk.length?nW((L==='islands'?3:2)+(Math.random()<.5?1:0),1):0;
     for(let i=0;i<nr;i++){const code=L==='islands'&&Math.random()<.6&&kitHas('R06')?'R06':rk[Math.random()*rk.length|0],id=pickK(code),w=occW(id),h=labArt.get(id).doc.h*z;
       let x=-1;for(let k=0;k<30;k++){const t=rnd(30,W-30-w);if(freeOcc(t,t+w)){x=t;break}}if(x<0)continue;
       // sunk a third to a half into the ground (or the water, where there's no ground)
@@ -1000,7 +1002,7 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
     seatAll();upOver(genT,false)}
   // caverns (the noise makes its own on ruins)
   g.globalCompositeOperation='destination-out';
-  for(let i=0;i<(L==='ruins'||L==='drowned'?0:5+(Math.random()*4|0));i++){const x=rnd(150,W-150),y=hAt(x)+rnd(70,200);g.beginPath();g.ellipse(x,y,rnd(30,72),rnd(18,38),rnd(-.4,.4),0,Math.PI*2);g.fill()}
+  for(let i=0,n=nW(L==='ruins'||L==='drowned'?0:5+(Math.random()*4|0));i<n;i++){const x=rnd(150,W-150),y=hAt(x)+rnd(70,200);g.beginPath();g.ellipse(x,y,rnd(30,72),rnd(18,38),rnd(-.4,.4),0,Math.PI*2);g.fill()}
   g.globalCompositeOperation='source-over';
   const d=g.getImageData(0,0,W,H).data;for(let i=0;i<W*H;i++)solid[i]=d[i*4+3]>127?1:0;
   // ruins: hang lamps under natural overhangs
@@ -1012,7 +1014,7 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
       else if(type==='angel'){poly(c,[[-6,-9],[-4.5,-30],[4.5,-30],[6,-9]]);if(!broken){c.beginPath();c.arc(0,-34,3.4,0,Math.PI*2);c.fill();c.lineWidth=1.6;c.strokeStyle='#fff';c.beginPath();c.ellipse(0,-40,4.5,1.6,0,0,Math.PI*2);c.stroke()}
         poly(c,[[-3,-28],[-15,-46],[-18,-36],[-14,-26],[-9,-16]]);if(!broken)poly(c,[[3,-28],[15,-46],[18,-36],[14,-26],[9,-16]]);poly(c,[[3,-27],[9,-38],[10,-36],[5,-25]])}
       else{poly(c,[[-6,-9],[-5,-32],[-2,-38],[2,-39],[5,-33],[6,-9]]);if(!broken)poly(c,[[-2,-38],[0,-44],[3,-39]]);c.fillRect(-3,-26,6,4)}};
-    const want=L==='ruins'?7+(Math.random()*3|0):L==='spires'?4:3,placed=[];
+    const want=nW(L==='ruins'?7+(Math.random()*3|0):L==='spires'?4:3,2),placed=[];
     for(let k=0;k<160&&placed.length<want;k++){const x=rnd(110,W-110)|0;
       // every standable top in this column: ground, bridge decks, tower tops
       const tops=[];for(let y=40;y<sump-30;y++)if(solid[y*W+x]&&!solid[(y-1)*W+x]){let air=0;while(air<50&&y-1-air>0&&!solid[(y-1-air)*W+x])air++;if(air>=50)tops.push(y)}
@@ -1030,12 +1032,12 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
     if(Math.random()<.65)add({k:'cross',x:s.cx,y:s.top-s.roof*.45,ax:s.cx,ay:s.top-s.roof*.25})}
   for(const h of hangs){let y=Math.max(0,h.cy-10),k=0;while(!isSolid(h.cx,y)&&k<60){y++;k++}while(isSolid(h.cx,y)&&k<260){y++;k++}
     if(k<260)add({k:'lamp',x:h.cx,y:y+16,ax:h.cx,ay:y-3})}
-  for(let i=0;i<6;i++){const x=rnd(120,W-120),y=surf(x);if(y>60&&y<sump-70)add({k:'post',x,y,ax:x,ay:y+3})}
+  for(let i=0;i<nW(6,3);i++){const x=rnd(120,W-120),y=surf(x);if(y>60&&y<sump-70)add({k:'post',x,y,ax:x,ay:y+3})}
   for(const e of eyes)add({k:'eye',x:e.x,y:e.y,ax:e.ax,ay:e.ay,c:e.c,faulty:Math.random()<.3});
   if(L==='drowned')sump=Math.round(H*.6);// the drowned district starts with the water high
   paintTerrain();struct.width=1;struct.height=1;carv.width=1;carv.height=1;rimDirty=true;
   barrels=[];puddles=[];
-  for(let i=0,k=0;i<60&&barrels.length<7;i++){const x=rnd(100,W-100),y=surf(x);
+  for(let i=0,k=0;i<60&&barrels.length<Math.max(3,Math.round(7*W/W0));i++){const x=rnd(100,W-100),y=surf(x);
     if(y<60||y>sump-60||Math.abs(surf(x-5)-surf(x+5))>4||barrels.some(b=>Math.abs(b.x-x)<60)||isSolid(x,y-16))continue;
     barrels.push({x,y,vy:0,fuse:-1,alive:true})}
   for(let i=0;i<120&&puddles.length<14;i++){const x=rnd(80,W-80),y=surf(x),w=rnd(18,36);
@@ -3492,7 +3494,7 @@ function netCatchUp(){if(S.mode!=='online'||NET.role!=='watch')return;const behi
   if(behind>300&&!NET.skip)for(let i=0;i<Math.min(6,behind-240);i++)tick()}
 function netGameOver(){if(NET.role!=='act')clearNet()}
 function netLeave(){document.title=TITLE0;chatStop();if(NET.unC)NET.unC();if(NET.unM)NET.unM();NET.unC=NET.unM=null;NET.role=null;NET.started=false;S.mode='hot';$('#netBar').hidden=true}
-const GV=28;// bump on every release that changes the sim
+const GV=29;// bump on every release that changes the sim
 function startOnline(code,me,d){BE.update(code,{['vers.'+me]:GV,['arts.'+me]:window.GRIMSPIRE_ART_SIM||''}).catch(()=>{});NET.code=code;NET.me=me;NET.round=d.round||0;NET.snapK=-1;NET.snap=null;NET.matchAtt=d.att||'';NET.started=true;NET.leaving=false;saveNet();
   $('#net').hidden=true;if(!CHAT.un)chatStart();const cfg=Object.assign(mkCfg('online',d.seats,d.mode==='teams'),{mode:'online'});newGame('online',d.seed,cfg);S.genOK=true;
   const base=NET.round*1e5,has=d.snapK!=null&&d.snapK>=base&&d.snap;
@@ -3988,7 +3990,7 @@ function setPiecesPlace(force){
   // in the Forge's test build, the set piece under test turns up at every socket that takes it
   const forge=location.pathname==='/api/game'||/(^#|&)grounds\b/.test(location.hash),test=forge&&SP_SLOT.test(LAB_PAYLOAD.selected_slot||'')?LAB_PAYLOAD.selected_slot:null;
   const rules=new Map(docs.map(([k,d])=>{const r=spRules(k,d);if(k===test){r.weight=100;r.limit=Math.max(r.limit,4)}return[k,r]}));
-  const want=test?8:3+(R()*4|0),count={};
+  const want=test?8:Math.max(2,Math.round((3+(R()*4|0))*W/W0)),count={};
   const busy=(g,slot,x)=>{
     if(SPS.pieces.some(p=>g.x0<p.x1+24&&g.x1>p.x0-24&&g.y0<p.y1+24&&g.y1>p.y0-24))return true;
     if(SPS.pieces.some(p=>p.slot===slot&&Math.abs(p.x-x)<(test?220:600)))return true;

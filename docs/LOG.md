@@ -6,6 +6,11 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-03 · Claude · Map contents scale with map width (GV 29)
+- Jarred asked whether narrower maps cram the same stuff in. They did on spires, islands, canyon and ruins (fixed counts tuned for 2000 px). Now every count scales with `MAP_W`: spires, facades, twin towers, tenements, floating islands, pillars, bridges, pipes, caverns, statues, landmarks, big rocks, lamp posts, barrels and set pieces, each with a sensible minimum. The drowned district already filled its width piece by piece; its landmark, diagonal and crag caps now scale too. Skyline, wreckage and distant pieces already covered the width.
+- Kit pieces per 100 px at 100% / 67% / 50%: drowned 137 / 137 / 132, spires 28 / 33 / 32, islands 10 / 12 / 14, ruins 35 / 38 / 53 (the minimum of one twin tower and one tenement crowds ruins below ~60%).
+- Tests: dsim, dsim2, dsimart identical; generated and drowned maps identical across fresh browsers; all layouts and phone load with no errors.
+
 ## 2026-11-03 · Claude · Maps a third narrower; map width is a balance number (GV 28)
 - Jarred: maps are too wide; try at least a third narrower for closer fights and more varied spawns. `MAP_W` (Balance Sheet "map width") is now a fraction of the old 2000 px; live at **0.67 (1340 px)**. Every layout generates into the narrower width; online matches always use `MAP_W`, so changing it needs a GV bump.
 - To try other widths locally: the TEST panel's **Width** button cycles 100/85/75/67/60/50% and restarts, or add `#w=60` to the URL (also works with `#drowned`, e.g. `#drowned&w=75`).
