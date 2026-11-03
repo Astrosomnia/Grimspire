@@ -1,0 +1,8 @@
+{
+  "revision": "20261103T010715Z-042725d2",
+  "base_main": "965f763",
+  "game_sha256": "04cdf6e43223bd85455a015f95840a609b37db978e44b77bc01eddcab36565cb",
+  "notes": "World depth (D01-D06, R01-R04, B01-B03, phase3-world-depth-v001) and skyline plates SKY01-SKY12 plus D01a/D03a/D06a (phase3-skyline-plates-v001) on top of 20261103T002340Z-5e856f96. Runtime: rock foundations, foreground, landmarks, plate skyline, readability pass, GV 23.",
+  "source_lab_commit": "15afbb0",
+  "status": "main updated by Claude at Jarred's request"
+}
