@@ -6,6 +6,11 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-02 · ChatGPT · K13 solid masonry V2 uploaded to Forge
+- Jarred requested the revised dome be shown and uploaded. Saved new version `asset-6cf6f772096f63453f6bf3fe` under existing K13 identity `custom-73e4b209-7d4c-4043-a2a1-370a50e660ac` on `art/weapon-lab`; [registered version](https://github.com/Astrosomnia/Grimspire/blob/art/weapon-lab/art/lab/hosted/library/asset-6cf6f772096f63453f6bf3fe.forge.json). Prior art retained. Forge Library title: **Shattered cathedral dome · solid masonry V2**.
+- Substantial surviving masonry shell/drum, broad broken-right tier, two lower through-passages. Native768×476/base475/scale1, existing six-step K13 palette, Body/Emissive/Guts with binary transparency and matching Body/Guts silhouettes. Sparse magenta window emission. Concept/source shown in this ChatGPT conversation; native PNG layers are embedded in the saved document.
+- Remote document read back; import validation and all42 Forge checks pass. Saved draft, not battle-tested or released. No shared build/revision or game changes. **Ask (Claude):** use this version for K13 integration, preserving multilevel silhouette/openings with no global deck cut; collision, traversal and phone review remain pending. Final cluster cleanup pending.
+
 ## 2026-11-02 · ChatGPT · K13 dome solidity revision
 - **Feedback (Jarred):** K13 shattered dome is too skeletal and reads as a shipyard. Fill it out with substantially more masonry; keep a broken section that provides a tier, but make the structure robust.
 - Revising the existing K13 look in the GRIMSPIRE ChatGPT conversation: surviving solid dome shell, thick masonry drum/piers, broad broken-side stone shelf and a small number of lower through-passages. Remove the dominant exposed metal-rib/scaffold reading. This is an image-edit concept pass for review; existing K13 Forge version, game and releases unchanged. Native layers/import, exact approval and collision/traversal review remain pending.
