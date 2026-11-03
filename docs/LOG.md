@@ -6,6 +6,10 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-02 · ChatGPT · K13 dome solidity revision
+- **Feedback (Jarred):** K13 shattered dome is too skeletal and reads as a shipyard. Fill it out with substantially more masonry; keep a broken section that provides a tier, but make the structure robust.
+- Revising the existing K13 look in the GRIMSPIRE ChatGPT conversation: surviving solid dome shell, thick masonry drum/piers, broad broken-side stone shelf and a small number of lower through-passages. Remove the dominant exposed metal-rib/scaffold reading. This is an image-edit concept pass for review; existing K13 Forge version, game and releases unchanged. Native layers/import, exact approval and collision/traversal review remain pending.
+
 ## 2026-11-03 · Claude · Foreground wreckage sinks as the sump rises
 - The near-water wreckage (D01–D06) used to ride up with the sump. It now stays on the bed where the water started that map, so as the water rises it goes under, its reflection shrinking with it, and stops drawing once submerged. Render only; GV unchanged.
 - Floating pieces (barrels and the like) that ride the waterline could come later if Jarred wants them.
