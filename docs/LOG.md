@@ -6,6 +6,12 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-03 · Claude · Maps a third narrower; map width is a balance number (GV 28)
+- Jarred: maps are too wide; try at least a third narrower for closer fights and more varied spawns. `MAP_W` (Balance Sheet "map width") is now a fraction of the old 2000 px; live at **0.67 (1340 px)**. Every layout generates into the narrower width; online matches always use `MAP_W`, so changing it needs a GV bump.
+- To try other widths locally: the TEST panel's **Width** button cycles 100/85/75/67/60/50% and restarts, or add `#w=60` to the URL (also works with `#drowned`, e.g. `#drowned&w=75`).
+- Fix found on the way: the collision array is full size, so a narrower map left a stale tail that made state hashes differ between devices. It is cleared for every map.
+- Tests: dsim, dsim2, dsimart identical; drowned and generated maps identical across fresh browsers; all layouts and phone load with no errors.
+
 ## 2026-11-03 · Claude · Pieces seated into the ground on generated maps (GV 27)
 - Jarred: on spires, islands, canyon and ruins the new pieces sat on the ground as rectangles; buried parts of rocks and towers showed through the ground, and rocks jutted out with hard edges. Now every kit piece placed on generated ground is seated:
   - **Fill under:** where the ground falls away below a piece's foot, rock fills down to it (arch columns stay open).
