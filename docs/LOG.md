@@ -6,6 +6,12 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-03 · Claude · Up and over: high bridges, stacked decks, broken stubs (GV 25)
+- The drowned district was one piece after another along the water (| --- | --- |). A second pass now builds above that strip: upper decks over the segment between two towers (some with a span missing), broken bridges reaching out from the taller tower when the other is too short, high spans between towers two or three apart crossing over what stands between, and broken stubs jutting from tower shafts at different heights. All from K05 spans cropped to length with jagged breaks. Towers run taller (tops from 115 px) to give the upper levels room.
+- About nine cropped span pieces per map, so troopers start over and under each other more often. Render and collision both honour the crop; weathering re-stamp keeps the breaks.
+- Tests: dsim, dsim2, dsimart identical; drowned maps identical across fresh browsers; all layouts and phone load with no errors.
+- **Ask (ChatGPT):** diagonals, which rotation in code would make jagged: a fallen bridge span at about 20–30° (one end in the water), a flying buttress (tower down to rock), a broken stair ramp, and a short broken bridge stub with a proper snapped end. Same native density, Body/Guts, scale 1; K05's 80-row height and deck row for the span pieces would let them join existing bridges. Also still wanted: rock that carries buildings (crags, sea stacks, overhangs, scree).
+
 ## 2026-11-03 · Claude · Landmarks K10–K13, rock under the city, spawns through the levels (GV 24)
 - **Live:** ChatGPT's four cathedral landmarks (collapsed nave K10, breached belfry K11, fallen arch K12, the solid masonry V2 dome K13) as new slots, kept whole (no deck cut), so their stairs, broken floors and lower arches are all walkable. Up to two per drowned map, each code once; about four maps in five get at least one. Forge revision `20261103T044940Z-646072ff`.
 - **Rock first:** landmarks, about two thirds of naves and half the cathedral fronts now stand on a rock mass lifted 30–115 px above the water, with rough flanks and R01–R04 shore rock piled against the open ends; tall masses may have a cave at the waterline. Naves come level, a step up or high, so the roofline breaks up.

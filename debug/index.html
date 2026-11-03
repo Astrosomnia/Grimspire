@@ -756,7 +756,7 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;NS.kit=[];de
       const LMK=['K10','K11','K12','K13'].filter(k=>labArt.has(k)&&labArt.get(k).frames[0]?.body),lmW=k=>labArt.get(k).doc.w*z,lmUsed=new Set();
       // how far a piece stands above the water on its rock: level, a step up, or high
       const lift=()=>{const r=Math.random();return r<.3?0:r<.65?rnd(30,60):rnd(70,115)};
-      const tower=()=>{lay.push(['T',x,rnd(170,330)]);x+=TW;last='T'};
+      const tower=()=>{lay.push(['T',x,rnd(115,330)]);x+=TW;last='T'};
       tower();
       while(x<END-TW-40){const room=END-TW-x,opts=[];
         if(!cath&&room>512*z+20)opts.push(['C',x>W*.5?100:x>W*.3?6:1.5]);// it always fits in before the far end
@@ -775,7 +775,7 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;NS.kit=[];de
         else{const gw=rnd(40,110);if(Math.random()<.5)lay.push(['ROCK',x,gw]);x+=gw;last='G';if(x<END-TW)tower();continue}
         last=pick;tower()}
       if(x<W-200)lay.push(['J',x+rnd(4,16)]);
-      const fx=(x0,w)=>mir?W-x0-w:x0;
+      const fx=(x0,w)=>mir?W-x0-w:x0,towersAt=[];
       // rocks and plinths first, so the stamps sit on them
       const rock=(x0,x1,top)=>{const pts=[[x0,H]],n=Math.max(4,Math.round((x1-x0)/14));for(let i=0;i<=n;i++){const f=i/n,e=Math.sin(f*Math.PI);pts.push([x0+(x1-x0)*f,H-(H-top)*Math.pow(e,.55)+rnd(-7,7)])}pts.push([x1,H]);poly(g,pts)};
       // Rock first: a mass of raw rock standing out of the water with a level top at `top` under [x0,x1] (where a
@@ -796,7 +796,7 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;NS.kit=[];de
       if(!rockArt(fx(-RW*.55,RW*2),2,rnd(0,14)))rock(fx(-30,170),fx(-30,170)+170,rnd(460,480));
       if(!rockArt(fx(W-RW*1.4,RW*2),2,rnd(0,14)))rock(fx(W-110,140),fx(W-110,140)+140,rnd(450,475));
       for(const L2 of lay){const k=L2[0];
-        if(k==='T'){const xx=fx(L2[1],TW);let yb=H+SH;while(yb-SH>L2[2]){put('K01',xx,yb);yb-=SH}put(crown(),xx,yb+J,Math.random()<.5);spires.push({cx:xx+TW/2,w:TW,top:yb,base:H,roof:TW})}
+        if(k==='T'){const xx=fx(L2[1],TW);let yb=H+SH;while(yb-SH>L2[2]){put('K01',xx,yb);yb-=SH}put(crown(),xx,yb+J,Math.random()<.5);spires.push({cx:xx+TW/2,w:TW,top:yb,base:H,roof:TW});towersAt.push({x:xx,top:yb})}
         else if(k==='K07'){const w=360*z,xs=fx(L2[1],w),lf=L2[3]||0;
           // a lifted nave stands on a rock mass; the flanks show only at the ends of the run
           if(lf){const first=mir?L2[4]===L2[5]-1:L2[4]===0,lastM=mir?L2[4]===0:L2[4]===L2[5]-1;rockMass(xs,xs+w,wl-lf,first,lastM)}
@@ -818,6 +818,43 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;NS.kit=[];de
         for(const t of towers)if(Math.random()<.5){const cx=fx(t[1],TW)+TW/2,off=rnd(-.35,.35)*RW,lift=rnd(0,1)<.4?rnd(26,44):rnd(4,20);rockArt(cx-RW/2+off,1,lift)}
         for(const nv of naves)if(Math.random()<.33){const nx=fx(nv[1],360*z),side=Math.random()<.5?nx-RW*.55:nx+360*z-RW*.45;rockArt(side,1,rnd(0,18))}
         for(const b of piers)if(Math.random()<.3){const xs=fx(b[1],b[2]*SPAN),i=1+Math.floor(Math.random()*Math.max(1,b[2]-1));rockArt(xs+i*SPAN-RW/2,1,rnd(-6,8))}}
+      // 3. Up and over: the strip above is one piece after another along the water. This pass builds above it so
+      // troopers end up over and under each other: high spans between towers that aren't neighbours (crossing over
+      // whatever stands between), upper decks stacked over bridges (some with a span missing), and broken bridge
+      // stubs jutting from tower shafts at different heights. Spans are K05 cropped to length; a break is jagged.
+      {const T=towersAt.slice().sort((a,b)=>a.x-b.x),dg=decoC.getContext('2d'),im=g.getImageData(0,0,W,H).data,
+          A=(x,y)=>x>=0&&y>=0&&x<W&&y<H&&im[((y|0)*W+(x|0))*4+3]>127,
+          // highest solid point between two x positions (ignoring the towers themselves)
+          topIn=(x0,x1)=>{let t=H;for(let x=Math.ceil(x0);x<x1;x+=3)for(let y=40;y<t;y++)if(A(x,y)){t=y;break}return t},
+          clear=(x0,x1,y0,y1)=>{for(let x=Math.ceil(x0);x<x1;x+=4)for(let y=Math.max(0,y0|0);y<y1;y+=4)if(A(x,y))return false;return true},
+          vid=pickK('K05'),
+          // a run of spans from x0 to x1 with its deck at `deck`; the cut ends are clipped there, broken ends bitten
+          run=(x0,x1,deck,brokeL,brokeR,id)=>{const yb=deck+80*z;for(const c of[g,hg,dg]){c.save();c.beginPath();c.rect(x0,deck-40,x1-x0,140*z);c.clip()}
+            const k0=NS.kit.length;for(let x=x0;x<x1;x+=SPAN)put('K05',x,yb,mir,id||vid);for(const c of[g,hg,dg])c.restore();
+            for(let q=k0;q<NS.kit.length;q++)NS.kit[q].clip=[x0,deck-40,x1-x0,140*z];// the lit pass draws only the kept length
+            const bite=(ex,sd)=>{const r=rnd(10,18),pts=[[ex,deck-14],[ex,yb+2]];for(let i=0;i<=5;i++)pts.push([ex-sd*(i%2?r*rnd(.3,.7):r*rnd(.8,1.2))*(1-i/6),yb-(yb-deck+14)*i/5]);
+              for(const c of[g,hg,dg]){c.save();c.globalCompositeOperation='destination-out';poly(c,pts);c.restore()}cuts.push(pts)};
+            const cuts=[];if(brokeL)bite(x0,-1);if(brokeR)bite(x1,1);for(let q=k0;q<NS.kit.length;q++)NS.kit[q].cuts=cuts;hangs.push({cx:(x0+x1)/2,cy:deck})};
+        // high spans between towers two or three apart, well above what stands between
+        for(let i=0;i<T.length;i++){if(Math.random()>.8)continue;const j=i+(Math.random()<.6?2:3);if(j>=T.length)continue;
+          const a=T[i],b=T[j],x0=a.x+TW-4,x1=b.x+4;if(x1-x0>760||x1-x0<150)continue;
+          const lo=Math.max(a.top,b.top)+18,hi=topIn(x0+8,x1-8)-60;if(hi<lo)continue;const deck=rnd(lo,Math.min(hi,lo+150));
+          if(!clear(x0+6,x1-6,deck-30,deck+40))continue;
+          // sometimes it's down in the middle: two halves with a gap to jump or fall through
+          if(Math.random()<.4&&x1-x0>320){const m=(x0+x1)/2+rnd(-60,60),gw=rnd(40,70);run(x0,m-gw/2,deck,false,true);run(m+gw/2,x1,deck,true,false)}else run(x0,x1,deck,false,false);i=j-1}
+        // upper decks over the bridges between neighbouring towers
+        for(let i=0;i+1<T.length;i++){const a=T[i],b=T[i+1],x0=a.x+TW-4,x1=b.x+4;if(x1-x0<150||Math.random()>.75)continue;
+          const below=topIn(x0+8,x1-8);let deck=below-rnd(85,135);
+          // too high for the lower tower: a broken bridge reaching out from the taller one instead
+          if(deck<Math.max(a.top,b.top)+18){const tall=a.top<b.top?a:b,d2=Math.max(deck,tall.top+18+rnd(0,25));if(below-d2<70)continue;
+            const len=(x1-x0)*rnd(.45,.8),lx0=tall===a?x0:x1-len,lx1=lx0+len;if(clear(lx0+6,lx1-6,d2-30,d2+40))run(lx0,lx1,d2,tall!==a,tall===a);continue}
+          if(!clear(x0+6,x1-6,deck-30,deck+40))continue;
+          if(Math.random()<.45){const n=Math.max(2,Math.round((x1-x0)/SPAN)),gap=1+Math.floor(Math.random()*(n-1)),xa=x0+(x1-x0)*gap/n,w=(x1-x0)/n*rnd(.5,.8);
+            run(x0,xa-w/2,deck,false,true);run(xa+w/2,x1,deck,true,false)}else run(x0,x1,deck,false,false)}
+        // broken stubs off tower shafts: short ledges at different heights, over open air
+        for(const t of T){const n=Math.random()<.25?0:Math.random()<.5?1:2;for(let k=0;k<n;k++){
+          const sd=Math.random()<.5?-1:1,len=SPAN*rnd(.35,.75),deck=rnd(t.top+30,Math.min(sump-110,t.top+260)),x0=sd>0?t.x+TW-4:t.x+4-len,x1=x0+len;
+          if(x0<10||x1>W-10||!clear(x0+(sd>0?6:0),x1-(sd>0?0:6),deck-34,deck+50))continue;run(x0,x1,deck,sd<0,sd>0)}}}
       // weathering on the code-built parts only (the kit carries its own wear)
     {const im=g.getImageData(0,0,W,H).data,A=(x,y)=>x>=0&&y>=0&&x<W&&y<H&&im[(y*W+x)*4+3]>127,edges=[];
       for(let y=60;y<sump;y+=2)for(let x=4;x<W-4;x+=2)if(A(x,y)&&(!A(x,y-2)||!A(x-2,y)||!A(x+2,y)))edges.push([x,y]);
@@ -827,7 +864,8 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;NS.kit=[];de
       // a few hairline cracks running down walls
       for(let i=0;i<3;i++){const[x,y]=edges[rnd(0,edges.length)|0];cut(gg=>{gg.lineWidth=1;gg.strokeStyle='#000';gg.beginPath();let cx=x,cy=y;gg.moveTo(cx,cy);for(let k=0;k<4;k++){cx+=rnd(-3,3);cy+=rnd(3,7);gg.lineTo(cx,cy)}gg.stroke()})}}}
     // weathering skipped on kit pixels: re-stamp the kit bodies over any chips
-    if(kitOK)for(const p of NS.kit){g.save();g.imageSmoothingEnabled=false;if(p.flip){g.translate(p.x+p.w,p.y);g.scale(-1,1);g.drawImage(p.solid,0,0,p.w,p.h)}else g.drawImage(p.solid,p.x,p.y,p.w,p.h);g.restore()}
+    if(kitOK)for(const p of NS.kit){g.save();g.imageSmoothingEnabled=false;if(p.clip){g.beginPath();g.rect(...p.clip);g.clip()}if(p.flip){g.translate(p.x+p.w,p.y);g.scale(-1,1);g.drawImage(p.solid,0,0,p.w,p.h)}else g.drawImage(p.solid,p.x,p.y,p.w,p.h);g.restore();
+      if(p.cuts){g.save();g.globalCompositeOperation='destination-out';for(const c of p.cuts)poly(g,c);g.restore()}}
   }
 
   // floating islands
@@ -1016,11 +1054,11 @@ function nsKitBright(img){if(img._nsB)return img._nsB;const c=mk(img.width,img.h
   const d=g.getImageData(0,0,c.width,c.height),q=d.data;let sum=0,n=0;for(let i=0;i<q.length;i+=4)if(q[i+3]>127){sum+=.3*q[i]+.59*q[i+1]+.11*q[i+2];n++}
   // every piece lands on the same mean value (some variants were drawn darker and sank into the skyline)
   const k=n?Math.min(3.4,Math.max(1.6,105/(sum/n))):2.3;for(let i=0;i<q.length;i+=4){q[i]=Math.min(255,q[i]*k+6);q[i+1]=Math.min(255,q[i+1]*k+6);q[i+2]=Math.min(255,q[i+2]*k+8)}g.putImageData(d,0,0);return img._nsB=c}
-function nsKitPaint(g){g.save();g.imageSmoothingEnabled=false;g.save();for(const p of NS.kit){const b=nsKitBright(p.body);if(p.flip){g.save();g.translate(p.x+p.w,p.y);g.scale(-1,1);g.drawImage(b,0,0,p.w,p.h);g.restore()}else g.drawImage(b,p.x,p.y,p.w,p.h)}g.restore();g.drawImage(scorchC,0,0);g.restore()}
+function nsKitPaint(g){g.save();g.imageSmoothingEnabled=false;g.save();for(const p of NS.kit){const b=nsKitBright(p.body);if(p.clip){g.save();g.beginPath();g.rect(...p.clip);g.clip()}if(p.flip){g.save();g.translate(p.x+p.w,p.y);g.scale(-1,1);g.drawImage(b,0,0,p.w,p.h);g.restore()}else g.drawImage(b,p.x,p.y,p.w,p.h);if(p.clip)g.restore()}g.restore();g.drawImage(scorchC,0,0);g.restore()}
 // Glass (Emissive) glows over the lit stone; it is clipped by the terrain too, so a shattered window goes dark.
 function nsKitGlass(WT){if(!NS.kit.some(p=>p.emis))return;if(!NS.glass||NS.glass.width!==cv.width||NS.glass.height!==cv.height)NS.glass=mk(cv.width,cv.height);
   const g=NS.glass.getContext('2d');g.setTransform(1,0,0,1,0,0);g.globalCompositeOperation='source-over';g.clearRect(0,0,cv.width,cv.height);g.setTransform(...WT);g.imageSmoothingEnabled=false;
-  for(const p of NS.kit){if(!p.emis)continue;if(p.flip){g.save();g.translate(p.x+p.w,p.y);g.scale(-1,1);g.drawImage(p.emis,0,0,p.w,p.h);g.restore()}else g.drawImage(p.emis,p.x,p.y,p.w,p.h)}
+  for(const p of NS.kit){if(!p.emis)continue;if(p.clip){g.save();g.beginPath();g.rect(...p.clip);g.clip()}if(p.flip){g.save();g.translate(p.x+p.w,p.y);g.scale(-1,1);g.drawImage(p.emis,0,0,p.w,p.h);g.restore()}else g.drawImage(p.emis,p.x,p.y,p.w,p.h);if(p.clip)g.restore()}
   g.globalCompositeOperation='destination-in';g.drawImage(terr,0,0);g.globalCompositeOperation='source-over';
   ctx.save();ctx.setTransform(1,0,0,1,0,0);ctx.globalCompositeOperation='lighter';ctx.globalAlpha=.9;ctx.drawImage(NS.glass,0,0);ctx.globalAlpha=.35;ctx.drawImage(NS.glass,0,0);ctx.restore()}
 // Fresh damage: a scorched ring burnt into the stone around every cut (drawn over the kit art too), and embers
@@ -3338,7 +3376,7 @@ function netCatchUp(){if(S.mode!=='online'||NET.role!=='watch')return;const behi
   if(behind>300&&!NET.skip)for(let i=0;i<Math.min(6,behind-240);i++)tick()}
 function netGameOver(){if(NET.role!=='act')clearNet()}
 function netLeave(){document.title=TITLE0;chatStop();if(NET.unC)NET.unC();if(NET.unM)NET.unM();NET.unC=NET.unM=null;NET.role=null;NET.started=false;S.mode='hot';$('#netBar').hidden=true}
-const GV=24;// bump on every release that changes the sim
+const GV=25;// bump on every release that changes the sim
 function startOnline(code,me,d){BE.update(code,{['vers.'+me]:GV,['arts.'+me]:window.GRIMSPIRE_ART_SIM||''}).catch(()=>{});NET.code=code;NET.me=me;NET.round=d.round||0;NET.snapK=-1;NET.snap=null;NET.matchAtt=d.att||'';NET.started=true;NET.leaving=false;saveNet();
   $('#net').hidden=true;if(!CHAT.un)chatStart();const cfg=Object.assign(mkCfg('online',d.seats,d.mode==='teams'),{mode:'online'});newGame('online',d.seed,cfg);S.genOK=true;
   const base=NET.round*1e5,has=d.snapK!=null&&d.snapK>=base&&d.snap;
