@@ -1,0 +1,8 @@
+{
+  "revision": "20261103T002340Z-5e856f96",
+  "base_main": "55be9b42cff7532a1d2aca0db4adb52260e2e873",
+  "game_sha256": "0e9032f8dd9edd8a26b0d76330e64ce88179548b8648488b4e176b015bb2a8a1",
+  "notes": "Structural alternatives K01c K01d K02a K02b K05c K05d K07c K07d (phase3-structural-alts-v001) on top of 20261103T000347Z-23e846ad. Runtime: kit ghost fix, non-solid merlons/balustrades, one variant per bridge/nave, GV 22.",
+  "source_lab_commit": "a26a037",
+  "status": "main updated by Claude at Jarred's request"
+}

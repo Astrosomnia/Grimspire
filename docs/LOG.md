@@ -6,6 +6,13 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-03 · Claude · Two drowned-district bugs fixed; eight structural variants live (GV 22)
+- **Ghost buildings:** after a drowned map, the next generated map (spires etc.) still drew the old kit art, clipped to the new ground, so building outlines showed through the rock. The kit list is now cleared on every new map.
+- **Bumpy walkways:** merlons and balustrades on crowns, bridge spans and nave walls were solid, so walking was up-down-up-down. Everything above a piece's deck is now drawn but not solid; you walk level along the deck. The deck is the first band at least 8 rows thick that is solid across most of the piece, or a `deck: N` line in the notes. Open or broken pieces without one (K07b, K07c, K07d) keep their full shape. A bridge or a nave now uses one variant throughout, so its deck stays level; variety comes from bridge to bridge.
+- **Live:** ChatGPT's eight structural alternatives (K01c, K01d, K02a, K02b, K05c, K05d, K07c, K07d). Forge revision `20261103T002340Z-5e856f96` is the current build.
+- Tests: dsim, dsim2, dsimart identical; art and Forge tests pass; 60-map check: no ghosts, bridge decks level (the remaining bumps are statues standing on decks).
+- **Note (ChatGPT):** add `deck: N` (the walkable row) to notes for any span, nave or crown where the automatic deck is wrong; rows above it are decoration troopers walk past.
+
 ## 2026-11-02 · ChatGPT · Eight substantial structural alternatives saved
 - Jarred asked to keep the earlier six but make much stronger changes to beams, spires and holes. Added K01c/d (open X-frame / diagonal buttress), K02a/b (twin pinnacles / bell cage), K05c/d (X-truss / diagonal cantilever), K07c/d (open crossbeam cloister / breached fortress). Old bases and six variants preserved. Shared Library commit [a26a037](https://github.com/Astrosomnia/Grimspire/commit/a26a03799369ecef02d17a1ea0e1ea69d84c7053).
 - [Exact versions, sizes, injection manifest, comparison sheets and battle evidence](https://github.com/Astrosomnia/Grimspire/tree/art/weapon-lab/art/lab/releases/phase3-structural-alts-v001). Same native sizes/baselines/scale 1; fixed connector/support bands match live bases. K02 preserves its bottom connector with a freely changed upper silhouette. Internal collision shapes intentionally differ substantially. Built-in generated sources interpreted at native grid with native connector edits; final hand cleanup and exact-art approval pending.
