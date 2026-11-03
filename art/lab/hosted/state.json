@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "current": "20261103T044940Z-646072ff",
+  "current": "20261103T053858Z-23130bb7",
   "revisions": [
     {
       "id": "20261031T210936Z-6c67f2da",
@@ -345,6 +345,14 @@
       "slot": "W04",
       "variant": "custom",
       "author": "Claude"
+    },
+    {
+      "id": "20261103T053858Z-23130bb7",
+      "created": "2026-11-03T05:39:28.000Z",
+      "notes": "Diagonals K14-K17 and big rock R05-R09 on top of 20261103T044940Z-646072ff. Kit towers, landmarks and up-and-over on generated maps (GV 26).",
+      "slot": "W04",
+      "variant": "custom",
+      "author": "Claude"
     }
   ],
   "integrations": [
@@ -515,6 +523,15 @@
       "approved_at": "2026-11-03T04:50:23.000Z",
       "pr": null,
       "status": "main updated by Claude (landmarks K10-K13, rock masses, spawns through the levels)"
+    },
+    {
+      "revision": "20261103T053858Z-23130bb7",
+      "main_commit": "c57b9391126ba1e80a99179de1a6a81a54cc93c3",
+      "game_sha256": "9405d6ba0e03d19b69a201e9813c3aa3613136aa5c05f8f4b79e93c3f60eb60f",
+      "approved_by": "Astrosomnia",
+      "approved_at": "2026-11-03T05:39:28.000Z",
+      "pr": null,
+      "status": "main updated by Claude (kit on every map, diagonals and big rock)"
     }
   ]
 }
