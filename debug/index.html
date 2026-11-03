@@ -273,7 +273,8 @@ body.intitle #dbg{display:none}
 .logo{margin:0;line-height:0}
 .logo canvas{display:block;width:100%;height:auto;max-width:100%}
 .vh{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
-.lede{font-size:15px;line-height:1.55;margin:0;max-width:44ch}
+.lede{font-size:15px;line-height:1.55;margin:0;max-width:44ch;display:grid;gap:12px}.lede p{margin:0}
+.lede .omen{color:var(--fire);font-size:11px;letter-spacing:.14em;text-transform:uppercase}
 .result{font-family:var(--display);font-size:clamp(28px,6vw,40px);line-height:1.05;margin:0}
 .btns{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
 .go{padding:15px 16px;font-weight:700;font-size:12px;letter-spacing:.16em;text-transform:uppercase;
@@ -390,7 +391,7 @@ body.intitle #dbg{display:none}
   <div class="card">
     <h1 class="logo"><canvas id="logo" aria-hidden="true"></canvas><span class="vh">Grimspire</span></h1>
     <p class="result" id="result" hidden></p>
-    <p class="lede" id="lede">The flood has receded. This is all that remains.<br><br>Up to four squads, a drowned cathedral-stack, and a sump full of black water. Blow the ground out from under them. Last trooper standing holds the spire.</p>
+    <div class="lede" id="lede"><p class="omen">The flood is gone. This is what it left.</p><p>Up to four squads, a drowned cathedral‑stack and a sump of black water. Blow the ground out from under them. Last trooper standing holds the spire.</p></div>
     <div class="btns">
       <button class="go" id="goCpu" type="button">Fight the machine<span>Pick your squad, face 1 to 3 machines</span></button>
       <button class="go alt" id="goHot" type="button">Commanders<span>2 to 4 players, pass the device</span></button>

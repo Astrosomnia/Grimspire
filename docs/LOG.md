@@ -6,6 +6,11 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-03 · Claude · Title lede: flood line set apart; reviewed and merged PR #7
+- **Live bug (on `main` since the eyebrow was removed):** game over and Quit to title still wrote to the deleted eyebrow and threw, so the result screen never appeared. Codex's PR #7 removes both writes; checked: game over now shows "… holds the spire." with no errors.
+- **Lede (Jarred: make the call):** the flood line is now its own short amber line in small caps above the pitch, taking the eyebrow's old role, instead of a second white paragraph. Tightened: "The flood is gone. This is what it left." and "a drowned cathedral-stack and a sump of black water" (non-breaking hyphen so it doesn't split across lines on phones).
+- GV unchanged (no sim change).
+
 ## 2026-11-03 · Codex · Homepage copy cleanup
 - Jarred requested removal of “the night it burned” and the lead-in “The flood has receded. This is all that remains.” before “Up to four squads…”. Prepared [PR #7](https://github.com/Astrosomnia/Grimspire/pull/7), including regenerated debug build.
 - The eyebrow element was already removed; removed both stale #kick writes (game over / quit to title) and unused styling. Build and script syntax checks pass; no old eyebrow references remain. Browser visual check unavailable because local Chrome failed to launch. GV unchanged.
