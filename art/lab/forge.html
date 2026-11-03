@@ -854,7 +854,7 @@ async function copyJson(){const t=JSON.stringify(serialise());try{await navigato
 const CODES={W:'Weapons, held and thrown',P:'Projectiles',M:'Martyr and other charges',A:'Arm and rig parts',T:'Trooper animations',G:'Godfall pod',C:'Props: crates, chutes, tanks, dropship, markers',S:'Set pieces: statues, sunk saints, wreckage',K:'Architecture kit: towers, bridges, naves (variants K01a, K01b…)',D:'Foreground wreckage (drowned maps)',R:'Rocks: shores and foundations',L:'Lights: braziers, candle racks, lamps',E:'Terrain: fill, rubble, edges',F:'Faction marks: graffiti, banners, sigils',B:'Background: skyline, sky traffic',U:'UI and icons'};
 // codes already used by the repo's kits, so new work doesn't clash
 const REPO_CODES='W01 W02 W03 W04 W05 W06 W07 W08 W09 W10 W11 W12 W13 W14 W15 W16 W17 W18 W19 W20 W21 P01 M01 C01 C02 C03 C04 C05 G01 B01 A01 A02 A03 A04 T01 T02 T03 T04 T05 T06 T07 T08'.split(' ');
-const validCode=c=>/^[A-Z]\d{2}$/.test(c||'')||/^[KDRB]\d{2}[a-z]$/.test(c||'');// kit variants: K01a
+const validCode=c=>/^[A-Z]\d{2}$/.test(c||'')||/^[KDRB]\d{2}[a-z]$/.test(c||'')||/^SKY\d{2}$/.test(c||'');// kit variants: K01a; skyline plates: SKY01
 function splitCode(code,name){name=(name||'').trim();const m=name.match(/^([A-Za-z]\d{2}[a-z]?)[\s_-]+(.+)$/);if(m&&!validCode(code))return[m[1][0].toUpperCase()+m[1].slice(1),m[2]];if(m&&m[1].toUpperCase()===code)return[code,m[2]];return[validCode(code)?code:'',name]}
 const fileBase=()=>(validCode(doc.code)?doc.code+'_':'')+slug(doc.name);
 function nextCode(p){const used=new Set([...REPO_CODES,...(db?libDocs:localLib()).map(x=>splitCode(x.code,x.name)[0])]);for(let i=1;i<100;i++){const c=p+String(i).padStart(2,'0');if(!used.has(c))return c}return p+'99'}

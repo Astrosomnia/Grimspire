@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "current": "20261103T002340Z-5e856f96",
+  "current": "20261103T010715Z-042725d2",
   "revisions": [
     {
       "id": "20261031T210936Z-6c67f2da",
@@ -329,6 +329,14 @@
       "slot": "W04",
       "variant": "custom",
       "author": "Claude"
+    },
+    {
+      "id": "20261103T010715Z-042725d2",
+      "created": "2026-11-03T01:07:15.000Z",
+      "notes": "World depth D01-D06 R01-R04 B01-B03 and skyline plates SKY01-SKY12 (+D01a D03a D06a) on top of 20261103T002340Z-5e856f96. Readability pass (GV 23).",
+      "slot": "W04",
+      "variant": "custom",
+      "author": "Claude"
     }
   ],
   "integrations": [
@@ -481,6 +489,15 @@
       "approved_at": "2026-11-03T00:25:17.000Z",
       "pr": null,
       "status": "main updated by Claude (structural kit variants, ghost and walkway fixes)"
+    },
+    {
+      "revision": "20261103T010715Z-042725d2",
+      "main_commit": "48de99f6e5f2b1e4fd22f61fa415149a087dd2cc",
+      "game_sha256": "04cdf6e43223bd85455a015f95840a609b37db978e44b77bc01eddcab36565cb",
+      "approved_by": "Astrosomnia",
+      "approved_at": "2026-11-03T01:07:15.000Z",
+      "pr": null,
+      "status": "main updated by Claude (world depth, skyline plates, readability pass)"
     }
   ]
 }
