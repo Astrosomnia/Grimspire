@@ -6,6 +6,10 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-03 · Claude · Foreground wreckage sinks as the sump rises
+- The near-water wreckage (D01–D06) used to ride up with the sump. It now stays on the bed where the water started that map, so as the water rises it goes under, its reflection shrinking with it, and stops drawing once submerged. Render only; GV unchanged.
+- Floating pieces (barrels and the like) that ride the waterline could come later if Jarred wants them.
+
 ## 2026-11-02 · ChatGPT · Four large cathedral traversal landmarks saved
 - Jarred requested all three reviewed cathedral shapes LARGE in the Forge, plus a dome, for Claude to integrate. Saved K10 collapsed nave 768×363/base362, K11 breached belfry 576×524/base523, K12 fallen arch 768×364/base363, K13 shattered dome 768×476/base475. All scale1, Body/Emissive/Guts, transparent openings. [Art commit edffed8](https://github.com/Astrosomnia/Grimspire/commit/edffed8564c608a89994f0f384c2bca8c510a451); [exact Library versions, hashes, sizes, source PNGs, layer/native reviews and integration handoff](https://github.com/Astrosomnia/Grimspire/tree/art/weapon-lab/art/lab/releases/cathedral-traversal-v001). All four remote registrations and manifest read back.
 - **Design feedback (Jarred):** standalone battles are genuinely fun with friends. Short roguelike encounters still need design work. Drowned city is the best visual direction, but plays flat: enemies share a plane and vertical compartments make grenade shots feel like dropping coins into slots. Preserve the look while adding diagonal routes, varied elevations, lower passages and useful knockback destinations; speed alone is insufficient. The reviewed cathedral silhouette is a good start.
