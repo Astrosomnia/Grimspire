@@ -584,7 +584,7 @@ function ruinRock(g,hs){
   g.putImageData(img,0,0);
   for(let x=0;x<=W;x++){let y=0;const cx=Math.min(W-1,x);while(y<H&&!m[y*W+cx])y++;hs[x]=y}
 }
-function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;NS.kit=[];decoC.getContext('2d').clearRect(0,0,W,H);
+function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;NS.kit=[];NS.lip=null;decoC.getContext('2d').clearRect(0,0,W,H);
   struct.width=W;struct.height=H;carv.width=W;carv.height=H;eyes=[];
   const g=mctx;g.globalCompositeOperation='source-over';g.clearRect(0,0,W,H);sctx.clearRect(0,0,W,H);
   g.fillStyle='#fff';sctx.fillStyle='#fff';bctx.clearRect(0,0,W,H);
@@ -647,7 +647,14 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;NS.kit=[];de
   const seatY=(id,f,yb,flip)=>{const k=kTop(id),d=labArt.get(id).doc,c=Math.round(k.x0+(k.x1-k.x0)*(flip?1-f:f));return yb-((Number.isFinite(d.base)?d.base:d.h-1)+1-Math.max(0,k.t[c]))*z};
   const freeOcc=(x0,x1)=>!occ.some(o=>Math.min(x1,o[1])-Math.max(x0,o[0])>Math.min(x1-x0,o[1]-o[0])*.3);
   // a kit tower: shafts from a buried foot up to `top`, then a crown
-  const kTower=(x,foot,top)=>{let yb=foot;while(yb-SHk>top){put('K01',x,yb);yb-=SHk}const r=Math.random();put(r<.5?'K02':r<.75?'K03':'K04',x,yb+Jk,Math.random()<.5);genT.push({x,top:yb});occ.push([x,x+TW]);return yb};
+  const kTower=(x,foot,top)=>{let yb=foot;while(yb-SHk>top){put('K01',x,yb);yb-=SHk}const r=Math.random();put(r<.5?'K02':r<.75?'K03':'K04',x,yb+Jk,Math.random()<.5);genT.push({x,top:yb});occ.push([x,x+TW]);seats.push({x0:x,x1:x+TW,bot:()=>H});return yb};
+  // Seating pieces on generated ground: a piece's bottom per column (the lowest solid row in its bottom third, so
+  // arches stay open), and the list of placed pieces to seat once the ground is done (see seatAll)
+  const seats=[],kBot=id=>{const b=labArt.get(id).frames[0].body;if(b._bot)return b._bot;const c=mk(b.width,b.height),cg=c.getContext('2d');cg.drawImage(b,0,0);
+    const d=cg.getImageData(0,0,b.width,b.height).data,t=new Int16Array(b.width).fill(-1),lim=Math.floor(b.height*.7);
+    for(let x=0;x<b.width;x++)for(let y=b.height-1;y>=lim;y--)if(d[(y*b.width+x)*4+3]>127){t[x]=y;break}return b._bot=t};
+  const seatPiece=(id,r,flip)=>{const t=kBot(id),k=kTop(id),dw=t.length,col=x=>{const c=Math.floor((x-r.x)/z);return flip?dw-1-c:c};
+    const x0=r.x+(flip?dw-1-k.x1:k.x0)*z,x1=r.x+(flip?dw-1-k.x0:k.x1+1)*z;seats.push({x0,x1,bot:x=>{const c=col(x);return c>=0&&c<dw&&t[c]>=0?r.y+(t[c]+1)*z:null}})};
   // Up and over: builds above whatever already stands, so troopers end up over and under each other: high spans
   // between towers that aren't neighbours (crossing over whatever stands between), upper decks stacked over the
   // gap between neighbours (some with a span missing, or a broken bridge from the taller tower when the other is
@@ -936,6 +943,29 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;NS.kit=[];de
   for(let i=0;i<(L==='drowned'?0:(Math.random()*2|0)+(L==='canyon'?1:0));i++){const x=L==='canyon'&&i===0?ccx-cwid*1.8:rnd(150,W-600),len=L==='canyon'&&i===0?cwid*3.6:rnd(260,440),
     y=L==='canyon'&&i===0?Math.min(hAt(ccx-cwid*1.8),hAt(ccx+cwid*1.8))+rnd(20,50):rnd(H*.32,H*.52);
     both(gg=>{gg.fillRect(x,y,len,9);for(let k=x;k<x+len;k+=60)gg.fillRect(k,y-3,5,15);gg.fillRect(x+len*.5,y+9,6,Math.max(0,hAt(x+len*.5)-y))})}
+  // Seat every piece into the ground so no bounding box shows. Under the piece, rock fills down to the ground where
+  // the ground falls away (arches excepted). Along the join, a ragged lip of ground climbs 6–18 px up the piece;
+  // it is solid, and drawn again in front of the art (NS.lip), so the line where art meets terrain is covered by
+  // terrain. At each end that sits on the ground, a rubble apron eases the terrain up to the piece over 25–60 px.
+  // Only ever adds ground: the hills and cliffs around stay as generated.
+  const seatAll=()=>{if(!seats.length)return;const lip=new Path2D(),fill=pts=>{poly(g,pts)};
+    for(const st of seats){const c=[];for(let x=Math.ceil(st.x0);x<=st.x1;x+=3){const b=st.bot(x);c.push(b==null?null:[x,b,hAt(x)])}
+      // runs of columns that touch down
+      let run=[];const flush=()=>{if(run.length<2){run=[];return}
+        // the lip's height wanders smoothly (knots every ~15 px), not tooth by tooth
+        const kn=[];for(let i=0;i<=Math.ceil(run.length/5)+1;i++)kn.push(rnd(5,16));const lh=i=>{const f=i/5,j=Math.floor(f),t=f-j;return kn[j]+(kn[j+1]-kn[j])*t};
+        const under=[],top=[],bot=[],deep=[];run.forEach(([x,b,gy],i)=>{const cy=Math.min(b,gy);if(b<gy-2)under.push([x,b,gy]);top.push([x,cy-lh(i)]);bot.push([x,cy+10]);deep.push([x,H])});
+        for(let i=0;i+1<under.length;i++)if(under[i+1][0]-under[i][0]<=4)fill([[under[i][0],under[i][1]-1],[under[i+1][0]+1,under[i+1][1]-1],[under[i+1][0]+1,under[i+1][2]+12],[under[i][0],under[i][2]+12]]);
+        fill(top.concat(bot.slice().reverse()));
+        // in front of the art: everything from the lip down, so a buried foot never shows through the ground
+        const lp=top.concat(deep.reverse());lip.moveTo(lp[0][0],lp[0][1]);for(const p of lp)lip.lineTo(p[0],p[1]);lip.closePath();run=[]};
+      for(const p of c){if(p&&p[1]>p[2]-40)run.push(p);else flush()}flush();
+      // aprons where an end sits near the ground
+      for(const sd of[-1,1]){const ex=sd<0?st.x0+2:st.x1-2,b=st.bot(ex),gy=hAt(ex);if(b==null||b<gy-40)continue;
+        const cy=Math.min(b,gy)-rnd(4,12),aw=rnd(25,60),pts=[];
+        for(let i=0;i<=8;i++){const f=i/8,x=ex+sd*aw*f,e=1-(1-f)*(1-f)*(3-2*(1-f))*0+0,gx=hAt(x),y=cy+(gx-cy)*(f*f*(3-2*f))+(i&&i<8?rnd(-3,3):0);pts.push([x,Math.min(y,gx)])}
+        const back=pts.map(([x])=>[x,hAt(x)+14]).reverse();fill(pts.concat(back))}}
+    NS.lip=lip};
   // ---- the kit on generated maps: landmarks on level ground, big rock (R05–R09) standing out of the terrain,
   // flying buttresses and stair ramps against the kit towers, then the same up-and-over pass as the drowned
   // district. Each piece's foot is buried; gaps under a landmark are filled with rock.
@@ -947,18 +977,21 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;NS.kit=[];de
       if(!best)continue;const yb=Math.round((best.lo+best.hi)/2+rnd(6,16)),flip=Math.random()<.5;
       // rock under any part of the footprint where the ground falls away below the piece
       {const pts=[[best.x-6,yb-4]];for(let xx=best.x-6;xx<=best.x+w+6;xx+=8)pts.push([xx,Math.max(yb-4,hAt(xx)+14)]);pts.push([best.x+w+6,yb-4]);poly(g,pts)}
-      const c=putOcc(id.slice(0,3),id,best.x,yb,flip);occ.push([best.x,best.x+w]);hangs.push({cx:best.x+w/2,cy:c.y+c.h*.4})}
+      const c=putOcc(id.slice(0,3),id,best.x,yb,flip);occ.push([best.x,best.x+w]);seatPiece(id,c,flip);hangs.push({cx:best.x+w/2,cy:c.y+c.h*.4})}
     const rk=['R05','R06','R07','R08','R09'].filter(kitHas),nr=rk.length?(L==='islands'?3:2)+(Math.random()<.5?1:0):0;
     for(let i=0;i<nr;i++){const code=L==='islands'&&Math.random()<.6&&kitHas('R06')?'R06':rk[Math.random()*rk.length|0],id=pickK(code),w=occW(id),h=labArt.get(id).doc.h*z;
       let x=-1;for(let k=0;k<30;k++){const t=rnd(30,W-30-w);if(freeOcc(t,t+w)){x=t;break}}if(x<0)continue;
       // sunk a third to a half into the ground (or the water, where there's no ground)
-      const gnd=Math.min(hAt(x+w*.5),H-30),yb=Math.min(H+20,gnd+h*rnd(.25,.45));if(yb-h*.9>sump-30)continue;putOcc(code,id,x,yb,Math.random()<.5);occ.push([x,x+w])}
+      const gnd=Math.min(hAt(x+w*.5),H-30),yb=Math.min(H+20,gnd+h*rnd(.25,.45));if(yb-h*.9>sump-30)continue;
+      // the scree's high end and the overhang's open nose follow the lie of the land: high end uphill, nose over the drop
+      const leftHigh=hAt(x+w*.1)<hAt(x+w*.9),fl=code==='R08'?leftHigh:code==='R07'?!leftHigh:Math.random()<.5;
+      const c=putOcc(code,id,x,yb,fl);occ.push([x,x+w]);seatPiece(id,c,fl)}
     // diagonals against the towers: a flying buttress down from the shaft, or a stair ramp up to it
     for(const t of genT){if(Math.random()>.5)continue;const code=Math.random()<.5?'K15':'K16';if(!kitHas(code))continue;
       const id=pickK(code),w=occW(id),sd=Math.random()<.5?1:-1,ox=sd>0?t.x+TW-6:t.x+6-w;if(ox<10||ox+w>W-10||!freeOcc(ox+8,ox+w-8))continue;
       // K15 rises toward its left end, K16 toward its right: flip so the high end meets the tower
-      const flip=code==='K15'?sd<0:sd>0,foot=hAt(sd>0?ox+w*.85:ox+w*.15)+8;if(foot-t.top<90)continue;putOcc(code,id,ox,foot,flip);occ.push([ox,ox+w])}
-    upOver(genT,false)}
+      const flip=code==='K15'?sd<0:sd>0,foot=hAt(sd>0?ox+w*.85:ox+w*.15)+8;if(foot-t.top<90)continue;const c=putOcc(code,id,ox,foot,flip);occ.push([ox,ox+w]);seatPiece(id,c,flip)}
+    seatAll();upOver(genT,false)}
   // caverns (the noise makes its own on ruins)
   g.globalCompositeOperation='destination-out';
   for(let i=0;i<(L==='ruins'||L==='drowned'?0:5+(Math.random()*4|0));i++){const x=rnd(150,W-150),y=hAt(x)+rnd(70,200);g.beginPath();g.ellipse(x,y,rnd(30,72),rnd(18,38),rnd(-.4,.4),0,Math.PI*2);g.fill()}
@@ -1627,8 +1660,8 @@ function newGameInner(mode){
   const gap=S.order.length*S.squad>10?95:110;
   for(const team of S.order)for(let i=0;i<S.squad;i++){
     // any standable surface in the column, not only the top one, so squads start spread through the levels
-    // (under arches, on lower decks, within 130 px of the top so nobody starts sealed in a cavern) rather than all along the roofline
-    let x,y,tries=0;do{x=rnd(90,W-90);tries++;const top=surf(x),st=stands(x,70,sump-70).filter(v=>v-top<130);y=st.length?st[Math.random()*st.length|0]:top}
+    // (under arches, on lower decks, within 95 px of the top so nobody starts sealed in a cavern) rather than all along the roofline
+    let x,y,tries=0;do{x=rnd(90,W-90);tries++;const top=surf(x),st=stands(x,70,sump-70).filter(v=>v-top<95);y=st.length?st[Math.random()*st.length|0]:top}
       while(tries<400&&(xs.some(o=>Math.abs(o-x)<gap)||y>sump-70||y<70||isSolid(x,y-BH)));
     xs.push(x);troopers.push({team,name:roll[team][i],x,y,vx:0,vy:0,hp:100,alive:true,face:x<W/2?1:-1,aim:-.45,air:false,anim:0,moving:false,lastPow:{}});
   }
@@ -3139,6 +3172,8 @@ function render(dt){
   lctx.setTransform(...WT);lctx.drawImage(terr,0,0);
   // kit architecture is painted into the stone before the light, so it is lit, shadowed and carved exactly like it
   if(NS.on&&NS.kit&&NS.kit.length)nsKitPaint(lctx);
+  // ground over the foot of pieces on generated maps, so the join reads as stone sunk into the hill
+  if(NS.on&&NS.lip){lctx.save();lctx.clip(NS.lip);lctx.drawImage(terr,0,0);lctx.restore()}
   lg.setTransform(1,0,0,1,0,0);lg.globalCompositeOperation='source-over';
   const amb=lg.createLinearGradient(0,0,0,lmap.height);if(NS.on){amb.addColorStop(0,mixc([52,59,77],[80,30,36],BLEED));amb.addColorStop(1,mixc([24,28,38],[28,10,12],BLEED))}else{amb.addColorStop(0,mixc([34,38,54],[62,24,30],BLEED));amb.addColorStop(1,mixc([9,10,15],[16,6,8],BLEED))}lg.fillStyle=amb;lg.fillRect(0,0,lmap.width,lmap.height);
   lg.setTransform(scale/3,0,0,scale/3,(-cam.x*scale+shx)/3,(-cam.y*scale+shy)/3);lg.globalCompositeOperation='lighter';
@@ -3445,7 +3480,7 @@ function netCatchUp(){if(S.mode!=='online'||NET.role!=='watch')return;const behi
   if(behind>300&&!NET.skip)for(let i=0;i<Math.min(6,behind-240);i++)tick()}
 function netGameOver(){if(NET.role!=='act')clearNet()}
 function netLeave(){document.title=TITLE0;chatStop();if(NET.unC)NET.unC();if(NET.unM)NET.unM();NET.unC=NET.unM=null;NET.role=null;NET.started=false;S.mode='hot';$('#netBar').hidden=true}
-const GV=26;// bump on every release that changes the sim
+const GV=27;// bump on every release that changes the sim
 function startOnline(code,me,d){BE.update(code,{['vers.'+me]:GV,['arts.'+me]:window.GRIMSPIRE_ART_SIM||''}).catch(()=>{});NET.code=code;NET.me=me;NET.round=d.round||0;NET.snapK=-1;NET.snap=null;NET.matchAtt=d.att||'';NET.started=true;NET.leaving=false;saveNet();
   $('#net').hidden=true;if(!CHAT.un)chatStart();const cfg=Object.assign(mkCfg('online',d.seats,d.mode==='teams'),{mode:'online'});newGame('online',d.seed,cfg);S.genOK=true;
   const base=NET.round*1e5,has=d.snapK!=null&&d.snapK>=base&&d.snap;

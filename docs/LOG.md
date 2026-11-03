@@ -6,6 +6,15 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-03 · Claude · Pieces seated into the ground on generated maps (GV 27)
+- Jarred: on spires, islands, canyon and ruins the new pieces sat on the ground as rectangles; buried parts of rocks and towers showed through the ground, and rocks jutted out with hard edges. Now every kit piece placed on generated ground is seated:
+  - **Fill under:** where the ground falls away below a piece's foot, rock fills down to it (arch columns stay open).
+  - **Lip:** a band of ground with a smoothly wandering height (5–16 px) climbs up the join. It is solid, and the ground from the lip down is drawn again in front of the art (`NS.lip`), so a buried foot never shows through and the line where art meets terrain is covered by terrain.
+  - **Aprons:** each end that sits on the ground gets a rubble slope easing the terrain up to it over 25–60 px. Ground is only ever added, so the hills, cliffs and half-buried moments stay.
+  - **Fit:** the scree ramp's high end faces uphill and the overhang's nose hangs over the drop.
+- Spawns stay within 95 px of the top surface (130 still let some start in caverns).
+- Tests: dsim, dsim2, dsimart identical; generated and drowned maps identical across fresh browsers; 60 maps, all layouts and phone with no errors. Drowned district visuals unchanged.
+
 ## 2026-11-03 · Claude · The kit on every map; diagonals and big rock live (GV 26)
 - **Live:** ChatGPT's nine traversal and foundation pieces as new slots: K14 fallen span, K15 flying buttress, K16 stair ramp, K17 snapped stub, R05 crag, R06 sea stack, R07 overhang, R08 scree ramp, R09 rock-to-masonry footing. Full silhouettes, no deck cut (K17 uses its deck 18). Joins use each piece's occupied columns, not the canvas. Forge revision `20261103T053858Z-23130bb7`.
 - **Drowned district:** diagonal segments between towers (K14 low end in the water, K15 down from the tower before, K16 up to the tower after on rock), big rock segments (R05–R08), R09/R05 footings under half the landmarks, some towers standing in R06 sea stacks, and K17 for most tower stubs.
