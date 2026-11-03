@@ -735,7 +735,8 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;
     else{
       const z=PX,hg=gutsC.getContext('2d');// kit Guts: shown only as a thin broken rim inside holes (see rebuildRim)
       // a slot's variants (K01, K01a, K01b…) share size and joints; pick one per piece
-      const pickK=k=>{const v=[...labArt.keys()].filter(n=>n===k||(n.length===4&&n.startsWith(k)&&/[a-z]$/.test(n)));return v[Math.random()*v.length|0]};
+      const kW=n=>{const m=String(labArt.get(n).doc.notes||'').match(/^\s*weight\s*:\s*([\d.]+)/im);return m?Math.max(0,+m[1]):1};
+      const pickK=k=>{const v=[...labArt.keys()].filter(n=>n===k||(n.length===4&&n.startsWith(k)&&/[a-z]$/.test(n)));let sum=0;for(const n of v)sum+=kW(n);let u=Math.random()*sum;for(const n of v){u-=kW(n);if(u<=0)return n}return v[0]};
       const put=(k,x,yb,flip)=>{const id=pickK(k),a=labArt.get(id),d=a.doc,f=a.frames[0],w=d.w*z,h=d.h*z,y=yb-((Number.isFinite(d.base)?d.base:d.h-1)+1)*z;
         const draw=(c,img)=>{if(!img)return;c.save();c.imageSmoothingEnabled=false;if(flip){c.translate(x+w,y);c.scale(-1,1);c.drawImage(img,0,0,w,h)}else c.drawImage(img,x,y,w,h);c.restore()};
         // stacked tower shafts would make columns of glass: only some windows are lit, and only the big glass casts light
@@ -743,15 +744,27 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;
       const TW=112*z,SH=100*z,SPAN=180*z,PIER=40*z,PH=200*z,J=4*z;
       const crown=()=>{const r=Math.random();return r<.5?'K02':r<.75?'K03':'K04'};
       const mir=Math.random()<.5,wl=sump+18;// laid out left to right; mirrored maps flip the whole district
-      let x=110+rnd(0,30);
-      // left: tower, nave, bridge to a tower
-      const t1=rnd(220,300),n1=3+(Math.random()<.5?1:0),d1=rnd(408,440),t2=rnd(260,330),n2=2+(Math.random()<.4?1:0),d2=rnd(370,400),t3=rnd(240,310),t4=rnd(180,250);
-      const lay=[];// [kind,x,...] in left-to-right world x before mirroring
-      lay.push(['T',x,t1]);x+=TW;lay.push(['K07',x]);x+=360*z;
-      lay.push(['B',x,n1,d1]);x+=n1*SPAN;lay.push(['T',x,t2]);x+=TW+rnd(14,30);
-      lay.push(['TEN',x+88]);x+=176+rnd(14,26);
-      lay.push(['T',x,t3]);x+=TW;lay.push(['B',x,n2,d2]);x+=n2*SPAN;lay.push(['T',x,rnd(260,320)]);x+=TW+rnd(8,20);
-      lay.push(['K08',x]);x+=512*z+rnd(6,16);lay.push(['T',x,t4]);x+=TW;lay.push(['J',x+rnd(4,20)]);
+      // Generated layout: towers are the joints; between them come naves (one or two K07 modules), bridges (1–4 K05
+      // spans), a tenement, or open water with a jetty or rock. One cathedral front lands somewhere along the way.
+      // Every K piece is picked per placement from its variants, so more spans and modules mean more variety.
+      const lay=[],END=W-120;let x=90+rnd(0,40),cath=false,last='T',naves=0,bridges=0,tens=0;
+      const tower=()=>{lay.push(['T',x,rnd(170,330)]);x+=TW;last='T'};
+      tower();
+      while(x<END-TW-40){const room=END-TW-x,opts=[];
+        if(!cath&&room>512*z+20)opts.push(['C',x>W*.5?100:x>W*.3?6:1.5]);// it always fits in before the far end
+        if(room>360*z)opts.push(['N',naves<3?3:1]);
+        if(room>SPAN*1.2)opts.push(['B',bridges<3?4:1.5]);
+        if(room>200&&tens<1)opts.push(['TEN',2]);
+        if(last!=='G')opts.push(['G',1.2]);
+        if(!opts.length)break;
+        let sum=0;for(const o of opts)sum+=o[1];let u=Math.random()*sum,pick=opts[0][0];for(const o of opts){u-=o[1];if(u<=0){pick=o[0];break}}
+        if(pick==='C'){lay.push(['K08',x]);x+=512*z;cath=true}
+        else if(pick==='N'){const m=room>720*z&&Math.random()<.4?2:1;for(let k=0;k<m;k++){lay.push(['K07',x]);x+=360*z}naves++}
+        else if(pick==='B'){const n=Math.max(1,Math.min(4,Math.floor(room/SPAN),1+Math.floor(Math.random()*4)));lay.push(['B',x,n,rnd(360,440)]);x+=n*SPAN;bridges++}
+        else if(pick==='TEN'){x+=rnd(10,24);lay.push(['TEN',x+88]);x+=176+rnd(10,24);tens++;last='TEN';if(x<END-TW)tower();continue}
+        else{const gw=rnd(40,110);if(Math.random()<.5)lay.push(['ROCK',x,gw]);x+=gw;last='G';if(x<END-TW)tower();continue}
+        last=pick;tower()}
+      if(x<W-200)lay.push(['J',x+rnd(4,16)]);
       const fx=(x0,w)=>mir?W-x0-w:x0;
       // rocks and plinths first, so the stamps sit on them
       const rock=(x0,x1,top)=>{const pts=[[x0,H]],n=Math.max(4,Math.round((x1-x0)/14));for(let i=0;i<=n;i++){const f=i/n,e=Math.sin(f*Math.PI);pts.push([x0+(x1-x0)*f,H-(H-top)*Math.pow(e,.55)+rnd(-7,7)])}pts.push([x1,H]);poly(g,pts)};
@@ -765,7 +778,8 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;
           // a stone block under the middle arch: a lower level to stand on
           const bx=xs+SPAN*Math.floor(n/2)+SPAN*.3;both(gg=>{gg.fillRect(bx,deck+rnd(80,100),SPAN*.4,H)})}
         else if(k==='TEN'){tenement(fx(L2[1]-88,176)+88,176,500)}
-        else if(k==='J'){const w=360*z;put('K09',fx(L2[1],w),rnd(496,506)+30*z)}}
+        else if(k==='J'){const w=360*z;put('K09',fx(L2[1],w),rnd(496,506)+30*z)}
+        else if(k==='ROCK'){const w=L2[2]+30,xs=fx(L2[1]-15,w);rock(xs,xs+w,rnd(470,505))}}
       // weathering on the code-built parts only (the kit carries its own wear)
     {const im=g.getImageData(0,0,W,H).data,A=(x,y)=>x>=0&&y>=0&&x<W&&y<H&&im[(y*W+x)*4+3]>127,edges=[];
       for(let y=60;y<sump;y+=2)for(let x=4;x<W-4;x+=2)if(A(x,y)&&(!A(x,y-2)||!A(x-2,y)||!A(x+2,y)))edges.push([x,y]);
@@ -3233,7 +3247,7 @@ function netCatchUp(){if(S.mode!=='online'||NET.role!=='watch')return;const behi
   if(behind>300&&!NET.skip)for(let i=0;i<Math.min(6,behind-240);i++)tick()}
 function netGameOver(){if(NET.role!=='act')clearNet()}
 function netLeave(){document.title=TITLE0;chatStop();if(NET.unC)NET.unC();if(NET.unM)NET.unM();NET.unC=NET.unM=null;NET.role=null;NET.started=false;S.mode='hot';$('#netBar').hidden=true}
-const GV=20;// bump on every release that changes the sim
+const GV=21;// bump on every release that changes the sim
 function startOnline(code,me,d){BE.update(code,{['vers.'+me]:GV,['arts.'+me]:window.GRIMSPIRE_ART_SIM||''}).catch(()=>{});NET.code=code;NET.me=me;NET.round=d.round||0;NET.snapK=-1;NET.snap=null;NET.matchAtt=d.att||'';NET.started=true;NET.leaving=false;saveNet();
   $('#net').hidden=true;if(!CHAT.un)chatStart();const cfg=Object.assign(mkCfg('online',d.seats,d.mode==='teams'),{mode:'online'});newGame('online',d.seed,cfg);S.genOK=true;
   const base=NET.round*1e5,has=d.snapK!=null&&d.snapK>=base&&d.snap;
