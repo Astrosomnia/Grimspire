@@ -1,0 +1,241 @@
+{
+  "prior_entries_preserved": 187,
+  "assets": [
+    {
+      "code": "K14",
+      "dimensions": [
+        320,
+        200
+      ],
+      "opaque_pixels": 17446,
+      "body_guts_alpha_equal": true,
+      "binary_alpha": true,
+      "body_colours": 6,
+      "components": 1,
+      "largest_component_fraction": 1.0,
+      "source_bbox": [
+        12,
+        154,
+        1579,
+        873
+      ],
+      "native_occupied_bbox": [
+        0,
+        53,
+        320,
+        200
+      ],
+      "uniform_source_scale": 0.204211869814933
+    },
+    {
+      "code": "K15",
+      "dimensions": [
+        320,
+        224
+      ],
+      "opaque_pixels": 34090,
+      "body_guts_alpha_equal": true,
+      "binary_alpha": true,
+      "body_colours": 6,
+      "components": 1,
+      "largest_component_fraction": 1.0,
+      "source_bbox": [
+        11,
+        41,
+        1489,
+        1003
+      ],
+      "native_occupied_bbox": [
+        0,
+        16,
+        320,
+        224
+      ],
+      "uniform_source_scale": 0.2165087956698241
+    },
+    {
+      "code": "K16",
+      "dimensions": [
+        320,
+        192
+      ],
+      "opaque_pixels": 25944,
+      "body_guts_alpha_equal": true,
+      "binary_alpha": true,
+      "body_colours": 6,
+      "components": 1,
+      "largest_component_fraction": 1.0,
+      "source_bbox": [
+        18,
+        144,
+        1594,
+        907
+      ],
+      "native_occupied_bbox": [
+        0,
+        37,
+        320,
+        192
+      ],
+      "uniform_source_scale": 0.20304568527918782
+    },
+    {
+      "code": "K17",
+      "dimensions": [
+        180,
+        80
+      ],
+      "opaque_pixels": 5615,
+      "body_guts_alpha_equal": true,
+      "binary_alpha": true,
+      "body_colours": 6,
+      "components": 1,
+      "largest_component_fraction": 1.0,
+      "source_bbox": [
+        28,
+        99,
+        1796,
+        802
+      ],
+      "native_occupied_bbox": [
+        0,
+        0,
+        156,
+        80
+      ],
+      "uniform_source_scale": 0.08819345661450925,
+      "K05_left_connector_body": true,
+      "K05_left_connector_guts": true
+    },
+    {
+      "code": "R05",
+      "dimensions": [
+        480,
+        240
+      ],
+      "opaque_pixels": 74211,
+      "body_guts_alpha_equal": true,
+      "binary_alpha": true,
+      "body_colours": 5,
+      "components": 1,
+      "largest_component_fraction": 1.0,
+      "source_bbox": [
+        7,
+        166,
+        1767,
+        866
+      ],
+      "native_occupied_bbox": [
+        0,
+        49,
+        480,
+        240
+      ],
+      "uniform_source_scale": 0.2727272727272727
+    },
+    {
+      "code": "R06",
+      "dimensions": [
+        272,
+        320
+      ],
+      "opaque_pixels": 57086,
+      "body_guts_alpha_equal": true,
+      "binary_alpha": true,
+      "body_colours": 6,
+      "components": 1,
+      "largest_component_fraction": 1.0,
+      "source_bbox": [
+        4,
+        89,
+        1151,
+        1326
+      ],
+      "native_occupied_bbox": [
+        0,
+        27,
+        272,
+        320
+      ],
+      "uniform_source_scale": 0.23714036617262424
+    },
+    {
+      "code": "R07",
+      "dimensions": [
+        448,
+        272
+      ],
+      "opaque_pixels": 76233,
+      "body_guts_alpha_equal": true,
+      "binary_alpha": true,
+      "body_colours": 5,
+      "components": 1,
+      "largest_component_fraction": 1.0,
+      "source_bbox": [
+        10,
+        32,
+        1590,
+        959
+      ],
+      "native_occupied_bbox": [
+        0,
+        9,
+        448,
+        272
+      ],
+      "uniform_source_scale": 0.28354430379746837
+    },
+    {
+      "code": "R08",
+      "dimensions": [
+        448,
+        224
+      ],
+      "opaque_pixels": 57690,
+      "body_guts_alpha_equal": true,
+      "binary_alpha": true,
+      "body_colours": 6,
+      "components": 1,
+      "largest_component_fraction": 1.0,
+      "source_bbox": [
+        13,
+        160,
+        1762,
+        874
+      ],
+      "native_occupied_bbox": [
+        0,
+        41,
+        448,
+        224
+      ],
+      "uniform_source_scale": 0.25614636935391655
+    },
+    {
+      "code": "R09",
+      "dimensions": [
+        448,
+        240
+      ],
+      "opaque_pixels": 76093,
+      "body_guts_alpha_equal": true,
+      "binary_alpha": true,
+      "body_colours": 6,
+      "components": 1,
+      "largest_component_fraction": 1.0,
+      "source_bbox": [
+        7,
+        108,
+        1713,
+        897
+      ],
+      "native_occupied_bbox": [
+        0,
+        33,
+        448,
+        240
+      ],
+      "uniform_source_scale": 0.26260257913247365
+    }
+  ]
+}

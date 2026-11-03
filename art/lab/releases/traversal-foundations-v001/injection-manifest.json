@@ -1,0 +1,531 @@
+{
+  "schema": 1,
+  "date": "2026-11-02",
+  "status": "Saved Library drafts; new slots and game integration pending",
+  "assets": [
+    {
+      "code": "K14",
+      "id": "asset-4e9875317dcc6c1d97acfad5",
+      "asset_id": "custom-1dc048de-1f7d-4163-97ef-c13a2b50572f",
+      "path": "art/lab/hosted/library/asset-4e9875317dcc6c1d97acfad5.forge.json",
+      "sha256": "4e9875317dcc6c1d97acfad5db3b3d77fc29ad019f8005a444326919b8ddf9e7",
+      "w": 320,
+      "h": 200,
+      "base": 199,
+      "game_scale": 1,
+      "pixel_scale": 12,
+      "state": "broken",
+      "layers": [
+        "body",
+        "guts"
+      ],
+      "flat_top_runs": [
+        {
+          "x": [
+            282,
+            317
+          ],
+          "y": 55,
+          "width": 36
+        },
+        {
+          "x": [
+            268,
+            280
+          ],
+          "y": 53,
+          "width": 13
+        }
+      ],
+      "slot_implemented": false
+    },
+    {
+      "code": "K15",
+      "id": "asset-a75bea9c77440dd05709e007",
+      "asset_id": "custom-b7a873d8-aaf5-41e9-9162-6972b67cb345",
+      "path": "art/lab/hosted/library/asset-a75bea9c77440dd05709e007.forge.json",
+      "sha256": "a75bea9c77440dd05709e00706e28010d3a4dab8091b185b1f3265ab6e999f67",
+      "w": 320,
+      "h": 224,
+      "base": 223,
+      "game_scale": 1,
+      "pixel_scale": 12,
+      "state": "intact",
+      "layers": [
+        "body",
+        "guts"
+      ],
+      "flat_top_runs": [
+        {
+          "x": [
+            20,
+            64
+          ],
+          "y": 19,
+          "width": 45
+        },
+        {
+          "x": [
+            277,
+            311
+          ],
+          "y": 135,
+          "width": 35
+        },
+        {
+          "x": [
+            0,
+            19
+          ],
+          "y": 16,
+          "width": 20
+        }
+      ],
+      "slot_implemented": false
+    },
+    {
+      "code": "K16",
+      "id": "asset-0a63be9649895188bb78cd64",
+      "asset_id": "custom-b5c96f91-c714-4830-a7ff-d62d5442d707",
+      "path": "art/lab/hosted/library/asset-0a63be9649895188bb78cd64.forge.json",
+      "sha256": "0a63be9649895188bb78cd641937ae6b895dc8c8dfcb331c670c6476b0b3ae46",
+      "w": 320,
+      "h": 192,
+      "base": 191,
+      "game_scale": 1,
+      "pixel_scale": 12,
+      "state": "broken",
+      "layers": [
+        "body",
+        "guts"
+      ],
+      "flat_top_runs": [
+        {
+          "x": [
+            232,
+            277
+          ],
+          "y": 46,
+          "width": 46
+        },
+        {
+          "x": [
+            4,
+            32
+          ],
+          "y": 143,
+          "width": 29
+        },
+        {
+          "x": [
+            215,
+            231
+          ],
+          "y": 45,
+          "width": 17
+        },
+        {
+          "x": [
+            188,
+            202
+          ],
+          "y": 58,
+          "width": 15
+        },
+        {
+          "x": [
+            57,
+            70
+          ],
+          "y": 126,
+          "width": 14
+        },
+        {
+          "x": [
+            122,
+            135
+          ],
+          "y": 92,
+          "width": 14
+        },
+        {
+          "x": [
+            83,
+            95
+          ],
+          "y": 112,
+          "width": 13
+        },
+        {
+          "x": [
+            96,
+            108
+          ],
+          "y": 105,
+          "width": 13
+        }
+      ],
+      "slot_implemented": false
+    },
+    {
+      "code": "K17",
+      "id": "asset-af25bec7da36fa0c6c5a2387",
+      "asset_id": "custom-a51fc538-fdbf-4169-9e99-fc84b96cd613",
+      "path": "art/lab/hosted/library/asset-af25bec7da36fa0c6c5a2387.forge.json",
+      "sha256": "af25bec7da36fa0c6c5a238716aa4cda2c1b296f5e14c23ca85609a299e087cb",
+      "w": 180,
+      "h": 80,
+      "base": 79,
+      "game_scale": 1,
+      "pixel_scale": 12,
+      "state": "broken",
+      "layers": [
+        "body",
+        "guts"
+      ],
+      "flat_top_runs": [
+        {
+          "x": [
+            13,
+            153
+          ],
+          "y": 21,
+          "width": 141
+        }
+      ],
+      "slot_implemented": false
+    },
+    {
+      "code": "R05",
+      "id": "asset-8ec9ff4fa24b70db6434ce22",
+      "asset_id": "custom-0266b368-1820-4361-a1b8-5925164ff53b",
+      "path": "art/lab/hosted/library/asset-8ec9ff4fa24b70db6434ce22.forge.json",
+      "sha256": "8ec9ff4fa24b70db6434ce225968a1c6cdc63b7424a4715e73f7d04ea5cf4374",
+      "w": 480,
+      "h": 240,
+      "base": 239,
+      "game_scale": 1,
+      "pixel_scale": 12,
+      "state": "intact",
+      "layers": [
+        "body",
+        "guts"
+      ],
+      "flat_top_runs": [
+        {
+          "x": [
+            139,
+            404
+          ],
+          "y": 49,
+          "width": 266
+        },
+        {
+          "x": [
+            34,
+            68
+          ],
+          "y": 161,
+          "width": 35
+        },
+        {
+          "x": [
+            20,
+            31
+          ],
+          "y": 164,
+          "width": 12
+        }
+      ],
+      "slot_implemented": false
+    },
+    {
+      "code": "R06",
+      "id": "asset-9d838df5adb7f0c0f93820a3",
+      "asset_id": "custom-112c71a4-dd30-4a29-9187-94a4d1967438",
+      "path": "art/lab/hosted/library/asset-9d838df5adb7f0c0f93820a3.forge.json",
+      "sha256": "9d838df5adb7f0c0f93820a3578d20b4a625b4672d188d956987b8545466fbdd",
+      "w": 272,
+      "h": 320,
+      "base": 319,
+      "game_scale": 1,
+      "pixel_scale": 12,
+      "state": "intact",
+      "layers": [
+        "body",
+        "guts"
+      ],
+      "flat_top_runs": [
+        {
+          "x": [
+            70,
+            197
+          ],
+          "y": 32,
+          "width": 128
+        },
+        {
+          "x": [
+            198,
+            230
+          ],
+          "y": 29,
+          "width": 33
+        },
+        {
+          "x": [
+            46,
+            68
+          ],
+          "y": 27,
+          "width": 23
+        },
+        {
+          "x": [
+            233,
+            247
+          ],
+          "y": 33,
+          "width": 15
+        }
+      ],
+      "slot_implemented": false
+    },
+    {
+      "code": "R07",
+      "id": "asset-bcd03fead674d4699d5fbb84",
+      "asset_id": "custom-a640d501-70ce-4ba7-920b-2a6384d66899",
+      "path": "art/lab/hosted/library/asset-bcd03fead674d4699d5fbb84.forge.json",
+      "sha256": "bcd03fead674d4699d5fbb84011cc9aeebd819b15d54e5765abc89974a28c2ee",
+      "w": 448,
+      "h": 272,
+      "base": 271,
+      "game_scale": 1,
+      "pixel_scale": 12,
+      "state": "intact",
+      "layers": [
+        "body",
+        "guts"
+      ],
+      "flat_top_runs": [
+        {
+          "x": [
+            205,
+            331
+          ],
+          "y": 33,
+          "width": 127
+        },
+        {
+          "x": [
+            118,
+            167
+          ],
+          "y": 33,
+          "width": 50
+        },
+        {
+          "x": [
+            352,
+            388
+          ],
+          "y": 33,
+          "width": 37
+        },
+        {
+          "x": [
+            168,
+            194
+          ],
+          "y": 32,
+          "width": 27
+        },
+        {
+          "x": [
+            44,
+            60
+          ],
+          "y": 9,
+          "width": 17
+        },
+        {
+          "x": [
+            334,
+            350
+          ],
+          "y": 31,
+          "width": 17
+        },
+        {
+          "x": [
+            28,
+            42
+          ],
+          "y": 14,
+          "width": 15
+        },
+        {
+          "x": [
+            398,
+            412
+          ],
+          "y": 30,
+          "width": 15
+        }
+      ],
+      "slot_implemented": false
+    },
+    {
+      "code": "R08",
+      "id": "asset-424e2fc85299d3aa5a81e3be",
+      "asset_id": "custom-128b64a0-4d07-4180-9246-5d7c1056cec6",
+      "path": "art/lab/hosted/library/asset-424e2fc85299d3aa5a81e3be.forge.json",
+      "sha256": "424e2fc85299d3aa5a81e3be2f45b7b6a0f8852b971afe5ddf663c6698e4078f",
+      "w": 448,
+      "h": 224,
+      "base": 223,
+      "game_scale": 1,
+      "pixel_scale": 12,
+      "state": "intact",
+      "layers": [
+        "body",
+        "guts"
+      ],
+      "flat_top_runs": [
+        {
+          "x": [
+            367,
+            440
+          ],
+          "y": 42,
+          "width": 74
+        },
+        {
+          "x": [
+            276,
+            311
+          ],
+          "y": 65,
+          "width": 36
+        },
+        {
+          "x": [
+            6,
+            39
+          ],
+          "y": 175,
+          "width": 34
+        },
+        {
+          "x": [
+            98,
+            130
+          ],
+          "y": 132,
+          "width": 33
+        },
+        {
+          "x": [
+            182,
+            214
+          ],
+          "y": 96,
+          "width": 33
+        },
+        {
+          "x": [
+            342,
+            366
+          ],
+          "y": 41,
+          "width": 25
+        },
+        {
+          "x": [
+            235,
+            251
+          ],
+          "y": 83,
+          "width": 17
+        },
+        {
+          "x": [
+            66,
+            78
+          ],
+          "y": 156,
+          "width": 13
+        }
+      ],
+      "slot_implemented": false
+    },
+    {
+      "code": "R09",
+      "id": "asset-3cf5843d1a3e24b81575a2b9",
+      "asset_id": "custom-ccbe4ffc-94f0-445e-b777-29b440ca3dfe",
+      "path": "art/lab/hosted/library/asset-3cf5843d1a3e24b81575a2b9.forge.json",
+      "sha256": "3cf5843d1a3e24b81575a2b9e0f29f068e4e9ddfc21ec138eab1c49f6a65aec4",
+      "w": 448,
+      "h": 240,
+      "base": 239,
+      "game_scale": 1,
+      "pixel_scale": 12,
+      "state": "intact",
+      "layers": [
+        "body",
+        "guts"
+      ],
+      "flat_top_runs": [
+        {
+          "x": [
+            128,
+            314
+          ],
+          "y": 37,
+          "width": 187
+        },
+        {
+          "x": [
+            86,
+            127
+          ],
+          "y": 35,
+          "width": 42
+        },
+        {
+          "x": [
+            317,
+            348
+          ],
+          "y": 33,
+          "width": 32
+        },
+        {
+          "x": [
+            410,
+            424
+          ],
+          "y": 152,
+          "width": 15
+        },
+        {
+          "x": [
+            57,
+            68
+          ],
+          "y": 66,
+          "width": 12
+        },
+        {
+          "x": [
+            69,
+            80
+          ],
+          "y": 63,
+          "width": 12
+        }
+      ],
+      "slot_implemented": false
+    }
+  ]
+}
