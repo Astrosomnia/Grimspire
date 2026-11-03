@@ -1,0 +1,106 @@
+[
+  {
+    "code": "K10",
+    "name": "Collapsed cathedral nave",
+    "w": 768,
+    "h": 363,
+    "base": 362,
+    "source": "exec-8a3be630-e907-4b3a-86a0-865b36a290c1.png",
+    "source_crop": [
+      14,
+      22,
+      1762,
+      849
+    ],
+    "opaque_pixels": 110075,
+    "emissive_pixels": 3886,
+    "alpha_values": [
+      0,
+      255
+    ],
+    "body_guts_alpha_equal": true,
+    "game_scale": 1,
+    "world_size_at_1_9": [
+      404.2,
+      191.1
+    ]
+  },
+  {
+    "code": "K11",
+    "name": "Breached cathedral belfry",
+    "w": 576,
+    "h": 524,
+    "base": 523,
+    "source": "exec-b748a80c-01c5-4cd5-9755-4a08c78a0b6e.png",
+    "source_crop": [
+      10,
+      10,
+      1301,
+      1185
+    ],
+    "opaque_pixels": 111101,
+    "emissive_pixels": 1131,
+    "alpha_values": [
+      0,
+      255
+    ],
+    "body_guts_alpha_equal": true,
+    "game_scale": 1,
+    "world_size_at_1_9": [
+      303.2,
+      275.8
+    ]
+  },
+  {
+    "code": "K12",
+    "name": "Fallen cathedral arch",
+    "w": 768,
+    "h": 364,
+    "base": 363,
+    "source": "exec-f4badeea-0abe-4269-be99-993b6de874b4.png",
+    "source_crop": [
+      13,
+      23,
+      1761,
+      851
+    ],
+    "opaque_pixels": 117794,
+    "emissive_pixels": 1560,
+    "alpha_values": [
+      0,
+      255
+    ],
+    "body_guts_alpha_equal": true,
+    "game_scale": 1,
+    "world_size_at_1_9": [
+      404.2,
+      191.6
+    ]
+  },
+  {
+    "code": "K13",
+    "name": "Shattered cathedral dome",
+    "w": 768,
+    "h": 476,
+    "base": 475,
+    "source": "exec-d0682761-c9ba-4e87-a158-fdce88085fb1.png",
+    "source_crop": [
+      6,
+      23,
+      1530,
+      967
+    ],
+    "opaque_pixels": 155613,
+    "emissive_pixels": 2624,
+    "alpha_values": [
+      0,
+      255
+    ],
+    "body_guts_alpha_equal": true,
+    "game_scale": 1,
+    "world_size_at_1_9": [
+      404.2,
+      250.5
+    ]
+  }
+]

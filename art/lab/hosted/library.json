@@ -2467,6 +2467,62 @@
       "h": 384,
       "frame_count": 1,
       "category": "Other art"
+    },
+    {
+      "id": "asset-505518769172b961e866b8a9",
+      "path": "art/lab/hosted/library/asset-505518769172b961e866b8a9.forge.json",
+      "sha256": "505518769172b961e866b8a9432a91e6515688767901f83e9340434383f38c8c",
+      "asset_id": "custom-69e744de-9aa4-4007-bc22-08e58ac5e2f5",
+      "state_key": "",
+      "asset_name": "Collapsed cathedral nave",
+      "code": "K10",
+      "name": "Collapsed cathedral nave",
+      "w": 768,
+      "h": 363,
+      "frame_count": 1,
+      "category": "Other art"
+    },
+    {
+      "id": "asset-c4c84b8454c5c652ea8e56a0",
+      "path": "art/lab/hosted/library/asset-c4c84b8454c5c652ea8e56a0.forge.json",
+      "sha256": "c4c84b8454c5c652ea8e56a03f21126ca5727f75e730173c200bd5f14b872c77",
+      "asset_id": "custom-5848d5c6-ad13-4bc0-8c9d-0a6e508e6a62",
+      "state_key": "",
+      "asset_name": "Breached cathedral belfry",
+      "code": "K11",
+      "name": "Breached cathedral belfry",
+      "w": 576,
+      "h": 524,
+      "frame_count": 1,
+      "category": "Other art"
+    },
+    {
+      "id": "asset-20eecc847c632207b0e4e1df",
+      "path": "art/lab/hosted/library/asset-20eecc847c632207b0e4e1df.forge.json",
+      "sha256": "20eecc847c632207b0e4e1df50d8336e4bd89a60d1d0f13b4a5bf2454e0b36cc",
+      "asset_id": "custom-71bee64a-8e50-4e62-afde-e10ee1e1e446",
+      "state_key": "",
+      "asset_name": "Fallen cathedral arch",
+      "code": "K12",
+      "name": "Fallen cathedral arch",
+      "w": 768,
+      "h": 364,
+      "frame_count": 1,
+      "category": "Other art"
+    },
+    {
+      "id": "asset-ee968c595e6543854ba2c4f4",
+      "path": "art/lab/hosted/library/asset-ee968c595e6543854ba2c4f4.forge.json",
+      "sha256": "ee968c595e6543854ba2c4f4b3cee1f40039fb6925720e6a599ad36503b12ed9",
+      "asset_id": "custom-73e4b209-7d4c-4043-a2a1-370a50e660ac",
+      "state_key": "",
+      "asset_name": "Shattered cathedral dome",
+      "code": "K13",
+      "name": "Shattered cathedral dome",
+      "w": 768,
+      "h": 476,
+      "frame_count": 1,
+      "category": "Other art"
     }
   ]
 }
