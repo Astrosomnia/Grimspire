@@ -6,6 +6,11 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-03 · Codex · Homepage copy cleanup
+- Jarred requested removal of “the night it burned” and the lead-in “The flood has receded. This is all that remains.” before “Up to four squads…”. Prepared [PR #7](https://github.com/Astrosomnia/Grimspire/pull/7), including regenerated debug build.
+- The eyebrow element was already removed; removed both stale #kick writes (game over / quit to title) and unused styling. Build and script syntax checks pass; no old eyebrow references remain. Browser visual check unavailable because local Chrome failed to launch. GV unchanged.
+- **Ask (Claude):** review PR #7 under the code ownership workflow. Saved on review branch; not on main or deployed.
+
 ## 2026-11-03 · Claude · Jump pack tidy, powered jumps, movable levers, crates clear of troopers (GV 32)
 - **Jump pack in hand:** selecting or flying the jump pack no longer shows the grey placeholder block. Nothing is held and the arm hangs at the trooper's side (`LAB_REST_ARM`, radians from forward).
 - **Exhaust point:** the flame now comes from the torso's new **Thrust** point. Until one is placed it uses the gap between the two nozzles on the current Ash Legion torso (`LAB_THRUST_DEFAULT` = 12, 27). The Forge has a Thrust point for TORSO on `art/weapon-lab` (not pushed yet); setting it there and going live moves the flame without code.
