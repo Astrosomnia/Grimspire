@@ -6,6 +6,11 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-03 · Claude · Lore draft (not canon)
+- New [`docs/LORE-DRAFT.md`](LORE-DRAFT.md) from a chat with Jarred: the Flood (set during it, sent because of the war), the spire as a new Babel, faction vat-arks as the reason for cloning, each faction's reason to climb (Halo Guard judged, Neon Choir hear the voice, Ash Legion seize the throne, the Hollow see the world consumed), what the Definitor means to each, and play hooks (rising water as sudden death, levels that read as ascent).
+- Scratch only, something to chew on. Nothing in game or VISION changed.
+- Conflict to settle: the title lede says the flood is gone; the draft leans toward the water still rising.
+
 ## 2026-11-03 · Claude · Title lede: flood line set apart; reviewed and merged PR #7
 - **Live bug (on `main` since the eyebrow was removed):** game over and Quit to title still wrote to the deleted eyebrow and threw, so the result screen never appeared. Codex's PR #7 removes both writes; checked: game over now shows "… holds the spire." with no errors.
 - **Lede (Jarred: make the call):** the flood line is now its own short amber line in small caps above the pitch, taking the eyebrow's old role, instead of a second white paragraph. Tightened: "The flood is gone. This is what it left." and "a drowned cathedral-stack and a sump of black water" (non-breaking hyphen so it doesn't split across lines on phones).
