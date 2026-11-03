@@ -61,6 +61,8 @@ Prototype in HTML/canvas to nail the loop, weapons and feel, then rebuild in **G
 
 **Art pipeline and GV 17 (31 Oct–1 Nov):** hosted Forge with shared Library and releases; eight animated weapon glows; weapons at 1.2× with corrected grips and real muzzle firing origins; straight foreground arm rotating at the shoulder; per-asset scale. Art renderer moved into the game; Forge test without saving.
 
+**Drowned district plays (2–3 Nov, GV 19–24):** north look everywhere, drowned district from ChatGPT's kit, skyline plates, world depth, landmarks K10–K13 on rock, spawns through the levels.
+
 ## Backlog
 **Content:** terrain materials (rubble, armour plate), objectives beyond last-man-standing, hand-designed set pieces mixed into generated maps, per-faction sprites or trims, faction-specific weapons (long term).
 **Feel:** hit-stop on big impacts, barks on hits and kills, instant replay of big hits (parked).
