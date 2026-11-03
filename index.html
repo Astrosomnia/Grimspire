@@ -407,10 +407,12 @@ const W0=2000,H=900,G=620,WACC=180,
   /* wind push by strength 0.0 to 1.0: each step up hits harder than the last (about 300*w^1.7); a table so every device gets identical numbers */
   WINDF=[0,6,19,39,63,92,126,164,205,250,300],TS=1.12,BH=24,RET=64,REACH=260;
 let sump=H-40;
-// Map width. MAP_W is the balance number: a fraction of the original 2000 px (Balance Sheet "map width"). Every
-// device in an online match uses MAP_W, so it is part of the version (bump GV when it changes). Local games can
-// try other widths from the TEST panel or the URL (#w=60). Canvases are resized on change; arrays stay full size.
-const MAP_W=.67;let W=W0;
+// Map width. MAP_WS are the widths a match can roll, as fractions of the original 2000 px (Balance Sheet "map
+// widths"); each match picks one from its seed, so every device in an online match gets the same. Changing the
+// list changes maps, so bump GV. Local games can force one from the TEST panel or the URL (#w=60). Canvases are
+// resized on change; arrays stay full size.
+const MAP_WS=[[1,1],[.75,1.5],[.67,1.5],[.5,1]];let W=W0;// [width, weight]: the middle sizes come up a bit more often
+const rollMapW=seed=>{let u=hrand((seed^0x5bd1e995)|0)()*MAP_WS.reduce((a,o)=>a+o[1],0);for(const[w,k]of MAP_WS){u-=k;if(u<0)return w}return MAP_WS[0][0]};
 const INK='#08090c',EDGE='#5f6676',BONE='#e6e4de';
 const TEAM=[
   {name:'Ash Legion',col:'#ff2e88',rgb:[255,46,136],cloth:[86,24,34],names:['Vael','Castor','Orsk','Hadrin','Absalom','Malchus','Corvin','Ezekar','Tobiah','Ulvar','Thrask','Severin']},
@@ -1660,7 +1662,7 @@ function mkCfg(mode,facs,teams,cpuFrom){const n=facs.length,ally=[0,1,2,3],ctl=[
   facs.forEach((f,i)=>{ally[f]=teams&&n===4?i%2:f;ctl[f]=mode==='cpu'&&i>=(cpuFrom||1)?'c':'h'});
   return{order:facs.slice(),ally,ctl,squad:n<=2?4:3,teams:!!(teams&&n===4)}}
 function newGame(mode,seed,cfg){if(seed===undefined)seed=(RR()*2147483647)|0;S.seed=seed;SR.seed(seed);
-  setMapW(mode==='online'?MAP_W:(DBG.mapW??urlMapW??MAP_W));
+  setMapW(mode==='online'?rollMapW(seed):(DBG.mapW??urlMapW??rollMapW(seed)));
   S.cfg=cfg||S.cfg&&S.cfg.mode===mode&&S.cfg||Object.assign(mkCfg(mode,[0,1]),{mode});S.cfg.mode=mode;
   S.order=S.cfg.order.slice();S.ally=S.cfg.ally.slice();S.ctl=S.cfg.ctl.slice();S.squad=S.cfg.squad;S.gone=[];
   inSim(()=>newGameInner(mode));buildHud()}
@@ -2577,7 +2579,7 @@ function dbgBuild(){if(!DBG.on||$('#dbg'))return;const d=document.createElement(
     <div class="dr"><button id="dbSkip" type="button">End turn</button><button id="dbInf" type="button">Timer ∞</button></div>
     <div class="dr"><select id="dbC"><option value="heavy">Heavy</option><option value="arms">Arms</option><option value="tool">Tool</option><option value="med">Health</option></select><button id="dbDrop" type="button">Drop crate</button></div>
     <div class="dr"><button id="dbUp" type="button">Sump +20</button><button id="dbDn" type="button">Sump −20</button><button id="dbWind" type="button">Wind</button></div>
-    <div class="dr"><button id="dbLook" type="button">Look: ${NS.on?'north star':'classic'}</button><button id="dbSD" type="button">Sky bleed</button><button id="dbDrown" type="button">Drowned map</button><button id="dbMapW" type="button">Width: ${Math.round(W/W0*100)}%</button></div></div>`;
+    <div class="dr"><button id="dbLook" type="button">Look: ${NS.on?'north star':'classic'}</button><button id="dbSD" type="button">Sky bleed</button><button id="dbDrown" type="button">Drowned map</button><button id="dbMapW" type="button">Width: ${DBG.mapW==null?'random':Math.round(W/W0*100)+'%'}</button></div></div>`;
   document.body.append(d);const on=(id,f)=>$(id).addEventListener('click',()=>{if(S.phase==='title'||S.mode==='online')return;f();dbgDraw()});
   $('#dbT').addEventListener('click',()=>{$('#dbP').hidden=!$('#dbP').hidden;dbgDraw()});
   d.querySelectorAll('[data-fac]').forEach(b=>b.addEventListener('click',()=>{DBG.fac=+b.dataset.fac;dbgDraw()}));
@@ -2591,7 +2593,7 @@ function dbgBuild(){if(!DBG.on||$('#dbg'))return;const d=document.createElement(
   on('#dbInf',()=>{DBG.inf=!DBG.inf});
   on('#dbDrop',()=>{const c=$('#dbC').value,x=clamp(cam.x+cw/scale/2,60,W-60);crates.push({x,y:Math.max(20,cam.y+20),vy:0,type:c,landed:false,para:true})});
   on('#dbLook',()=>{nsToggle();$('#dbLook').textContent='Look: '+(NS.on?'north star':'classic')});on('#dbSD',()=>{S.rnd=(S.rnd||0)>=SD_ROUND?0:SD_ROUND});on('#dbDrown',()=>{NS.drowned=!NS.drowned;newGame('hot',undefined,mkCfg('hot',[0,1],false))});
-  on('#dbMapW',()=>{const o=[1,.85,.75,.67,.6,.5],i=o.findIndex(v=>Math.abs(v-W/W0)<.02);DBG.mapW=o[(i+1)%o.length];newGame(S.mode==='online'?'hot':S.mode,undefined,S.cfg);$('#dbMapW').textContent='Width: '+Math.round(W/W0*100)+'%'});
+  on('#dbMapW',()=>{const o=[null,1,.85,.75,.67,.6,.5],i=DBG.mapW==null?0:o.findIndex(v=>v!=null&&Math.abs(v-DBG.mapW)<.02);DBG.mapW=o[(i+1)%o.length];newGame(S.mode==='online'?'hot':S.mode,undefined,S.cfg);$('#dbMapW').textContent='Width: '+(DBG.mapW==null?'random':Math.round(W/W0*100)+'%')});
   on('#dbUp',()=>{sump=Math.max(80,sump-20)});on('#dbDn',()=>{sump=Math.min(H-10,sump+20)});
   on('#dbWind',()=>{S.wind=Math.round((S.wind<=-.95?1:S.wind-.5)*10)/10})}
 setInterval(()=>{if(DBG.on){if(DBG.inf&&S.phase==='aim')S.timer=40;if($('#dbP')&&!$('#dbP').hidden)dbgDraw()}},500);
@@ -3493,7 +3495,7 @@ function netCatchUp(){if(S.mode!=='online'||NET.role!=='watch')return;const behi
   if(behind>300&&!NET.skip)for(let i=0;i<Math.min(6,behind-240);i++)tick()}
 function netGameOver(){if(NET.role!=='act')clearNet()}
 function netLeave(){document.title=TITLE0;chatStop();if(NET.unC)NET.unC();if(NET.unM)NET.unM();NET.unC=NET.unM=null;NET.role=null;NET.started=false;S.mode='hot';$('#netBar').hidden=true}
-const GV=29;// bump on every release that changes the sim
+const GV=30;// bump on every release that changes the sim
 function startOnline(code,me,d){BE.update(code,{['vers.'+me]:GV,['arts.'+me]:window.GRIMSPIRE_ART_SIM||''}).catch(()=>{});NET.code=code;NET.me=me;NET.round=d.round||0;NET.snapK=-1;NET.snap=null;NET.matchAtt=d.att||'';NET.started=true;NET.leaving=false;saveNet();
   $('#net').hidden=true;if(!CHAT.un)chatStart();const cfg=Object.assign(mkCfg('online',d.seats,d.mode==='teams'),{mode:'online'});newGame('online',d.seed,cfg);S.genOK=true;
   const base=NET.round*1e5,has=d.snapK!=null&&d.snapK>=base&&d.snap;
@@ -4086,7 +4088,7 @@ window.GRIMSPIRE_ART_SIM=labSimKey;
 // END GRIMSPIRE_ART_RUNTIME
 requestAnimationFrame(frame);
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(resize);
-window.__G={S,NET,stateHash,dress:()=>({tags,scan:(c,x,y,r)=>{const g=c==="g"?gfx:c==="t"?tctx:c==="b"?bctx:mctx;const d=g.getImageData(x-r|0,y-r|0,2*r,2*r).data;let m=0,n=0;for(let j=0;j<2*r;j++)for(let i=0;i<2*r;i++){if((i-r)**2+(j-r)**2>(r-2)**2)continue;const a=d[(j*2*r+i)*4+3];if(a>m)m=a;if(a>40)n++}return [m,n]},px:(c,x,y)=>{const g=c==="g"?gfx:c==="t"?tctx:c==="b"?bctx:mctx;return [...g.getImageData(x|0,y|0,1,1).data]}}),simStep:f=>simStep(f),DROP,OW,MINI,kill:t=>killTrooper(t),get corpses(){return corpses},get graves(){return graves},AI,mines:()=>mines,blds:()=>genTerrain.blds||[],maskURL:()=>{const c=mk(W/2,H/2),x=c.getContext("2d");x.fillStyle="#123";x.fillRect(0,0,W/2,H/2);x.drawImage(back,0,0,W/2,H/2);x.drawImage(terr,0,0,W/2,H/2);x.fillStyle="rgba(60,120,255,.5)";x.fillRect(0,sump/2,W/2,H);return c.toDataURL()},bus:()=>bus(),camSet:(x,y)=>{cam.x=x;cam.y=y},scr:(x,y)=>[(x-cam.x)*scale,(y-cam.y)*scale],base:()=>baseScale,setSump:v=>{sump=v},spawnShell:(x,y)=>projs.push({w:WP.mortar,x,y,vx:0,vy:200,owner:null,age:1,fuse:0,rest:false}),MUS,get AC(){return AC},initAudio,setMusicMode,ammo:(tm,id)=>S.ammo[tm][id],surfY:surf,press:k=>{press.add(k);held.add(k)},release:k=>held.delete(k),dropRopeT:t=>dropRope(t),isSolid,explode,shove,switchTo,addFire,hurtT:(t,d)=>hurt(t,d),jumpT:t=>jump(t),get projs(){return projs},get troopers(){return troopers},get barrels(){return barrels},get crates(){return crates},get fires(){return fires},get puddles(){return puddles},sump:()=>sump,newGame,update,render,tryFire,launch,selectWeapon,WP,blowBarrel,sky,mkCfg,get order(){return S.order},testWall:(x,y0,y1)=>{for(let yy=y0;yy<y1;yy++)for(let xx=x;xx<x+4;xx++)solid[yy*W+xx]=1},testFlat:(x0,x1,y)=>{for(let yy=y-140;yy<y+30;yy++)for(let x=x0;x<x1;x++)solid[yy*W+x]=yy>=y?1:0},get sentries(){return sentries},get zones(){return zones},get texts(){return texts},cutChutes,nextTurn};
+window.__G={get W(){return W},S,NET,stateHash,dress:()=>({tags,scan:(c,x,y,r)=>{const g=c==="g"?gfx:c==="t"?tctx:c==="b"?bctx:mctx;const d=g.getImageData(x-r|0,y-r|0,2*r,2*r).data;let m=0,n=0;for(let j=0;j<2*r;j++)for(let i=0;i<2*r;i++){if((i-r)**2+(j-r)**2>(r-2)**2)continue;const a=d[(j*2*r+i)*4+3];if(a>m)m=a;if(a>40)n++}return [m,n]},px:(c,x,y)=>{const g=c==="g"?gfx:c==="t"?tctx:c==="b"?bctx:mctx;return [...g.getImageData(x|0,y|0,1,1).data]}}),simStep:f=>simStep(f),DROP,OW,MINI,kill:t=>killTrooper(t),get corpses(){return corpses},get graves(){return graves},AI,mines:()=>mines,blds:()=>genTerrain.blds||[],maskURL:()=>{const c=mk(W/2,H/2),x=c.getContext("2d");x.fillStyle="#123";x.fillRect(0,0,W/2,H/2);x.drawImage(back,0,0,W/2,H/2);x.drawImage(terr,0,0,W/2,H/2);x.fillStyle="rgba(60,120,255,.5)";x.fillRect(0,sump/2,W/2,H);return c.toDataURL()},bus:()=>bus(),camSet:(x,y)=>{cam.x=x;cam.y=y},scr:(x,y)=>[(x-cam.x)*scale,(y-cam.y)*scale],base:()=>baseScale,setSump:v=>{sump=v},spawnShell:(x,y)=>projs.push({w:WP.mortar,x,y,vx:0,vy:200,owner:null,age:1,fuse:0,rest:false}),MUS,get AC(){return AC},initAudio,setMusicMode,ammo:(tm,id)=>S.ammo[tm][id],surfY:surf,press:k=>{press.add(k);held.add(k)},release:k=>held.delete(k),dropRopeT:t=>dropRope(t),isSolid,explode,shove,switchTo,addFire,hurtT:(t,d)=>hurt(t,d),jumpT:t=>jump(t),get projs(){return projs},get troopers(){return troopers},get barrels(){return barrels},get crates(){return crates},get fires(){return fires},get puddles(){return puddles},sump:()=>sump,newGame,update,render,tryFire,launch,selectWeapon,WP,blowBarrel,sky,mkCfg,get order(){return S.order},testWall:(x,y0,y1)=>{for(let yy=y0;yy<y1;yy++)for(let xx=x;xx<x+4;xx++)solid[yy*W+xx]=1},testFlat:(x0,x1,y)=>{for(let yy=y-140;yy<y+30;yy++)for(let x=x0;x<x1;x++)solid[yy*W+x]=yy>=y?1:0},get sentries(){return sentries},get zones(){return zones},get texts(){return texts},cutChutes,nextTurn};
 })();
 </script>
 
