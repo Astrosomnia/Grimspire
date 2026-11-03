@@ -43,7 +43,7 @@ Each one answers "who sent the Flood?" differently, and their goals at the top a
 
 **Halo Guard (gold): "No one may know God."**
 They've learned Babel's lesson: reaching for God is the sin, and trying to know God is sacrilege. They climb to seal the top and stand at the threshold so no one else gets through. The irony is built in: to stop the sacrilege, they have to climb the tower too.
-Visual idea (Jarred loves this): **halos as blinders.** Their troopers never look up.
+Visual idea: **halos as blinders.** Their troopers never look up.
 
 **Neon Choir (cyan): "God is still speaking, and we can't hear it."**
 Babel's curse was the confusion of tongues. The Choir believe the original voice of God is still broadcasting and the static is the punishment. The higher you climb, the cleaner the signal. They want to hear the one true word and sing it back to the drowned world. God in the transmission.
