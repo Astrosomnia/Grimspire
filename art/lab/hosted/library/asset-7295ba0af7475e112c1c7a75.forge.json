@@ -1,0 +1,33 @@
+{
+  "forge": 1,
+  "code": "D03",
+  "name": "D03 · Half-sunk broken arch",
+  "w": 208,
+  "h": 150,
+  "base": 149,
+  "fps": 8,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "grip": null,
+    "muzzle": null,
+    "pivot": null
+  },
+  "ready": false,
+  "checks": {
+    "visual": false,
+    "tested": false
+  },
+  "notes": "design: D03\nplace: sump\nband: foreground\nbase: 149\nfootprint: 31–177\nclear: 0\nsink: 0.30–0.38\nweight: 0.8\nlimit: 2\nzones: any\nfaction: none\nsolid: none\nflip: yes\nlight: none\n\none broken pointed gothic arch rising from two uneven stumps, asymmetric missing upper-right voussoirs, thick arch ring and one large open arch hole, chunky broken stone. Native size 208×150, game_scale 1. Flat silhouette body; depth haze/top-edge/reflection belong to the renderer. Bottom third intended underwater.  Built-in image-generation source encoded at native grid with palette/alpha edits; source preserved. New design code awaiting Claude renderer/slot wiring; generic Forge placement preview only. No production integration claimed. Final native cleanup, exact-art and in-scene approval pending.",
+  "frames": [
+    {
+      "trim": null,
+      "cloth": null,
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANAAAACWCAYAAACvpQYFAAAABHNCSVQICAgIfAhkiAAAAAFzUkdCAK7OHOkAAAPJSURBVHic7d2xUtwwFAVQyKSkoOL/v4+Kgp4USWZ2FljWvrakJ53TJmQcW9fv6dnsPj7Q1dPzy0fy8+9vr4/HHQ1b/ep9AFCZAEFAgCCgf24o3e/cy76oHRUIAgIEAaX+RK1ati20d8dSgSDwu/cBzGLEasP5VCAI6IcPUrkC2RftpwJBwJ1ng8pV5l6q0TYqEAQECAICBAHPgW5YYc9DxobxhpUDZJhwHxVo8aCQsQeCgABBQIAgsNxGsdJ+5/9G/qxjNijIqUCDulzcFvq4TOEGcisol39WqYrOTgValKp2DAEqyOIfhxaugyMC8NW/obVrTwWCgArU0Nmt19ljbz6bMkAWEK1MuRkdJUAjbPa3nIsRjrcaeyAICBAEBAgCUw4Rehh1/+B50bnKB8hioKfyAept1Mpzi+dFxyl38a/1XgQVA3TpiPNX/RwkVKANZlwo1/+n3jekakzhICBAECjVkvRqL2Zs3e6x53yvdq5UIAgYInCoy6q1QjUSoBtWWAC3eF70My0cBAQIAlq4f1Zv127Ryn1v2AC5WFQw7F23VYBUnn1uXZ+Vzqk9EAQECAICBIFhetWWQ4OVevQWrq/dSud32Ckcdd17M5whaFo4CCxVgWa44zGWYRZUiz2QAJ3vyOtY4Xpp4SAwfQtX4S5GXdMHiLZW+zJkLRwEBAgC3Vq4Fco781OBICBAnOb97fVx9inodFO42S/YSiq8pKoCQUCAIHBqC2fSxsPkn+qjAkFgmiHCiBtM5jdNgBjf3lZu5JujFg4CAgQBAYKAAEHAEIHhjfxKjwoEgdIVaKQ7EWsqHSBqmulzE7RwEBAgCAgQBA7fA1XvaWELFQgCAgSB3S2cVg1UIAp6en75GOUGLkAQECAICBAEBAgCpV8m/Woj6Q1tWro7QKNMPWAkWjgICBAEBAgCAgSBu4cI19OtEYYKJm70pgJBQIAgIEAQOGQP0XI/ZN8zl6PXTuv1oQJBQIAgIEAQKP02Nlxr/U0OKhAEBAgCWjiW8t3YfG+rpwJBQAViamc/5FeBIPiwRgGCgABBQIAgEAdohN9MhV5UIAhEAVJ9WN2u50CCA39p4SDgTQTwLhz0IUAQECAI2ANB8GVtP/6FCiNrnxVXS4U19XDnutLCQUCAILCp9Rmt9GrdahptHV3bsq4MEWjucoGOHqafaOEgIEAQECAICBAEBAgCAgSBT2PsSmPFy2P1TIgepqlAlYLPPDxIpakKN7otb2ZPU4Ggh6kq0N7f6YC9HiuU1IQA9TfzGtPCQUCAICBAEBAgCPwBFU4qsCuW4QYAAAAASUVORK5CYII=",
+      "emis": null,
+      "guts": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANAAAACWCAYAAACvpQYFAAAABHNCSVQICAgIfAhkiAAAAAFzUkdCAK7OHOkAAAPKSURBVHic7d1BUtwwEAVQSOUCbNhx/4OxY8MRyCJJ1dQAw9jfltTSe9uElGPru1ttM/P4QFdPzy8fyc+/v70+Hnc0bPWr9wFAZQIEAQGCgP65oXS/cy/7onZUIAgIEASU+hO1atm20N4dSwWCwO/eBzCLEasN51OBIKAfPkjlCmRftJ8KBAF3ng0qV5l7qUbbqEAQECAICBAEPAe6YYU9DxkbxhtWDpBhwn1UoMWDQsYeCAICBAEBgsByG8VK+53/G/mzjtmgIKcCDepycVvo4zKFG8itoFz+WaUqOjsVaFGq2jEEqCCLfxxauA6OCMBX/4bWrj0VCAIqUENnt15nj735bMoAWUC0MuVmdJQAjbDZ33IuRjjeauyBICBAEBAgCEw5ROhh1P2D50XnKh8gi4Geygeot1Erzy2eFx2n3MW/1nsRVAzQpSPOX/VzkFCBNphxoVz/n3rfkKoxhYOAAEGgVEvSq72YsXW7x57zvdq5UoEgYIjAoS6r1grVSIBuWGEB3OJ50c+0cBAQIAho4f5ZvV27RSv3vWED5GJRwbB33VYBUnn2uXV9Vjqn9kAQECAICBAEhulVWw4NVurRW7i+diud32GncNR1781whqBp4SCwVAWa4Y7HWIZZUC32QAJ0viOvY4XrpYWDwPQtXIW7GHVNHyDaWu3LkLVwEBAgCHRr4VYo78xPBYKAAHGa97fXx9mnoNNN4Wa/YCup8JKqCgQBAYLAqS2cSRsPk3+qjwoEgWmGCCNuMJnfNAFifHtbuZFvjlo4CAgQBAQIAgIEAUMEhjfyKz0qEARKV6CR7kSsqXSAqGmmz03QwkFAgCAgQBA4fA9UvaeFLVQgCAgQBHa3cFo1UIEo6On55WOUG7gAQUCAICBAEBAgCJR+mfSrjaQ3tGnp7gCNMvWAkWjhICBAEBAgCAgQBO4eIlxPt0YYKpi40ZsKBAEBgoAAQeCQPUTL/ZB9z1yOXjut14cKBAEBgoAAQaD029hwrfU3OahAEBAgCGjhWMp3Y/O9rZ4KBAEViKmd/ZBfBYLgwxoFCAICBAEBgkAcoBF+MxV6UYEgEAVI9WF1u54DCQ78pYWDgDcRwLtw0IcAQUCAIGAPBMGXtf34FyqMrH1WXC0V1tTDnetKCwcBAYLAptZntNKrdatptHV0bcu6MkSgucsFOnqYfqKFg4AAQUCAICBAEBAgCAgQBD6NsSuNFS+P1TMhepimAlUKPvPwIJWmKtzotryZPU0Fgh6mqkB7f6cD9nqsUFITAtTfzGtMCwcBAYKAAEFAgCDwB4brKsJB5HNOAAAAAElFTkSuQmCC"
+    }
+  ],
+  "asset_id": "custom-990f9b30-28fb-44ca-95a1-aa2cc13de284",
+  "state_key": ""
+}

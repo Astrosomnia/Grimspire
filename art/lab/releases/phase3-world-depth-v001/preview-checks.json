@@ -1,0 +1,267 @@
+{
+  "source": "main game 3b7446d / GV21",
+  "kind": "generic PROP/BACKGROUND visual dummy, not D/R/B depth-band or terrain integration",
+  "externalServicesBlocked": true,
+  "results": [
+    {
+      "key": "D01",
+      "phone": false,
+      "code": "D01",
+      "w": 76,
+      "h": 128,
+      "scale": 1,
+      "placed": 1,
+      "errors": []
+    },
+    {
+      "key": "D02",
+      "phone": false,
+      "code": "D02",
+      "w": 184,
+      "h": 62,
+      "scale": 1,
+      "placed": 1,
+      "errors": []
+    },
+    {
+      "key": "D03",
+      "phone": false,
+      "code": "D03",
+      "w": 208,
+      "h": 150,
+      "scale": 1,
+      "placed": 1,
+      "errors": []
+    },
+    {
+      "key": "D04",
+      "phone": false,
+      "code": "D04",
+      "w": 150,
+      "h": 104,
+      "scale": 1,
+      "placed": 1,
+      "errors": []
+    },
+    {
+      "key": "D05",
+      "phone": false,
+      "code": "D05",
+      "w": 138,
+      "h": 90,
+      "scale": 1,
+      "placed": 1,
+      "errors": []
+    },
+    {
+      "key": "D06",
+      "phone": false,
+      "code": "D06",
+      "w": 216,
+      "h": 108,
+      "scale": 1,
+      "placed": 1,
+      "errors": []
+    },
+    {
+      "key": "R01",
+      "phone": false,
+      "code": "R01",
+      "w": 240,
+      "h": 120,
+      "scale": 1,
+      "placed": 1,
+      "errors": []
+    },
+    {
+      "key": "R02",
+      "phone": false,
+      "code": "R02",
+      "w": 240,
+      "h": 120,
+      "scale": 1,
+      "placed": 1,
+      "errors": []
+    },
+    {
+      "key": "R03",
+      "phone": false,
+      "code": "R03",
+      "w": 240,
+      "h": 120,
+      "scale": 1,
+      "placed": 1,
+      "errors": []
+    },
+    {
+      "key": "R04",
+      "phone": false,
+      "code": "R04",
+      "w": 240,
+      "h": 120,
+      "scale": 1,
+      "placed": 1,
+      "errors": []
+    },
+    {
+      "key": "B01",
+      "phone": false,
+      "code": "B01",
+      "w": 252,
+      "h": 340,
+      "scale": 1,
+      "placed": true,
+      "errors": []
+    },
+    {
+      "key": "B02",
+      "phone": false,
+      "code": "B02",
+      "w": 440,
+      "h": 216,
+      "scale": 1,
+      "placed": true,
+      "errors": []
+    },
+    {
+      "key": "B03",
+      "phone": false,
+      "code": "B03",
+      "w": 496,
+      "h": 180,
+      "scale": 1,
+      "placed": true,
+      "errors": []
+    },
+    {
+      "key": "D01",
+      "phone": true,
+      "code": "D01",
+      "w": 76,
+      "h": 128,
+      "scale": 1,
+      "placed": 1,
+      "errors": []
+    },
+    {
+      "key": "D02",
+      "phone": true,
+      "code": "D02",
+      "w": 184,
+      "h": 62,
+      "scale": 1,
+      "placed": 1,
+      "errors": []
+    },
+    {
+      "key": "D03",
+      "phone": true,
+      "code": "D03",
+      "w": 208,
+      "h": 150,
+      "scale": 1,
+      "placed": 1,
+      "errors": []
+    },
+    {
+      "key": "D04",
+      "phone": true,
+      "code": "D04",
+      "w": 150,
+      "h": 104,
+      "scale": 1,
+      "placed": 1,
+      "errors": []
+    },
+    {
+      "key": "D05",
+      "phone": true,
+      "code": "D05",
+      "w": 138,
+      "h": 90,
+      "scale": 1,
+      "placed": 1,
+      "errors": []
+    },
+    {
+      "key": "D06",
+      "phone": true,
+      "code": "D06",
+      "w": 216,
+      "h": 108,
+      "scale": 1,
+      "placed": 1,
+      "errors": []
+    },
+    {
+      "key": "R01",
+      "phone": true,
+      "code": "R01",
+      "w": 240,
+      "h": 120,
+      "scale": 1,
+      "placed": 1,
+      "errors": []
+    },
+    {
+      "key": "R02",
+      "phone": true,
+      "code": "R02",
+      "w": 240,
+      "h": 120,
+      "scale": 1,
+      "placed": 1,
+      "errors": []
+    },
+    {
+      "key": "R03",
+      "phone": true,
+      "code": "R03",
+      "w": 240,
+      "h": 120,
+      "scale": 1,
+      "placed": 1,
+      "errors": []
+    },
+    {
+      "key": "R04",
+      "phone": true,
+      "code": "R04",
+      "w": 240,
+      "h": 120,
+      "scale": 1,
+      "placed": 1,
+      "errors": []
+    },
+    {
+      "key": "B01",
+      "phone": true,
+      "code": "B01",
+      "w": 252,
+      "h": 340,
+      "scale": 1,
+      "placed": true,
+      "errors": []
+    },
+    {
+      "key": "B02",
+      "phone": true,
+      "code": "B02",
+      "w": 440,
+      "h": 216,
+      "scale": 1,
+      "placed": true,
+      "errors": []
+    },
+    {
+      "key": "B03",
+      "phone": true,
+      "code": "B03",
+      "w": 496,
+      "h": 180,
+      "scale": 1,
+      "placed": true,
+      "errors": []
+    }
+  ]
+}

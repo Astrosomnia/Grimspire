@@ -1,0 +1,33 @@
+{
+  "forge": 1,
+  "code": "D01",
+  "name": "D01 · Broken fluted column",
+  "w": 76,
+  "h": 128,
+  "base": 127,
+  "fps": 8,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "grip": null,
+    "muzzle": null,
+    "pivot": null
+  },
+  "ready": false,
+  "checks": {
+    "visual": false,
+    "tested": false
+  },
+  "notes": "design: D01\nplace: sump\nband: foreground\nbase: 127\nfootprint: 11–65\nclear: 0\nsink: 0.30–0.38\nweight: 0.8\nlimit: 2\nzones: any\nfaction: none\nsolid: none\nflip: yes\nlight: none\n\none broken gothic fluted stone column, leaning slightly, broad shattered capital, jagged top, squat plinth, missing chunk on right. Near-black filled silhouette with readable flutes only at outer profile. Native size 76×128, game_scale 1. Flat silhouette body; depth haze/top-edge/reflection belong to the renderer. Bottom third intended underwater.  Built-in image-generation source encoded at native grid with palette/alpha edits; source preserved. New design code awaiting Claude renderer/slot wiring; generic Forge placement preview only. No production integration claimed. Final native cleanup, exact-art and in-scene approval pending.",
+  "frames": [
+    {
+      "trim": null,
+      "cloth": null,
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEwAAACACAYAAAChvY/kAAAABHNCSVQICAgIfAhkiAAAAAFzUkdCAK7OHOkAAAMaSURBVHic7Z2xcsIwEERFJmUKKv7/+6go6JPKMx6PkbXS3WlP2VcmIOSn1dmWDb4VEn7uj9+r17xfz1tMbz7zNbsD2Zg+Yi3JKiTpKkoYTviotSZqD0u6SinlO+qDekQxYiLsTAZTKixxS9gqiTrSnILZAlgSq70kSHVKzk4VI2kSxjJ4N5aOIFjVs0/bXms/TcJYSCns5/74HZ0Zve8PO9KP4iiiZ/pubZy9l66GbZ207NfZhveukph3boRj56z6NSLsyGlcowXWpo1FX/btj7a3XA07wzIAlwXRO20tRZmlZBSvwwqWE2UPTFcrkOKKSmVJWXPCmFPzfj1v3v3bPiPlkf6evagIcZCwWofQv2cl7WFFbSDeryd8BtM6sGmFWYHOgH8pbKRMmBV9iyWXCEZralfCLM/NsrHclPQeQHNhjImzPLTpbohJzFWJsBS2xJSMHLwlEtaKRdKGG8gkjkLYRgZxFsKWqGE1rE/+lxXmtUqSfj0smuGEZahdliybMK+BXHov6VHHzBK22lL0J5ZLmPfAmTc+W1wqYbWVggiREWVh+l7y6lpixLVGBFdhx4us6P8ZmZ6wGq1CI1NILYwRCQORMBAJA5EwkDBhXnfTROMmLOstmVdMm5KsCbrC7Uvyq6KiDyJhIOmFRdfCNMJY6mQaYSxIGIiEgUgYSMjX/1gKtgVKGIiEgQydS6401VqZkrDMNU5TEkTCQNLe4zprAVIJA5EwEAkDcReW/aeUj5gL89hYpuO0bmFMGxGJahhISmEza1xKYTNJJ2z2HjSdsNnQC2PbG4cLQ6bUXtbsqbhBn7Cyk8UgLYUwJiQMpEuYZSFmK+pXpEgY02+TpRC2wSDNVJj1XuzsS1ez05YqYQy4CmOYQtYoYSDQdUmmxNSe2+GJEgaSXlj0XjO9sGgkDETCQCQMRMJA6ISx385pKmy/cZ829Oo1LW3MJM1DhVuheoiKIHjUmBf6HVcSJAykKbbZpqVn4VfCQCQMxPVRqwxYT08lDMTs6cTsWCVNCQORMBC6J8lH0TtFlTAQCQORMBAJA5EwkD/HqGhcUVgrpQAAAABJRU5ErkJggg==",
+      "emis": null,
+      "guts": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEwAAACACAYAAAChvY/kAAAABHNCSVQICAgIfAhkiAAAAAFzUkdCAK7OHOkAAAMcSURBVHic7Z1BcoMwEATlVD6Qi2/+/8N888VPSE5UURQWGml3NatMHxNbFq3RAgKbWyHh5/74vXrN+/W8xfTmM1+zO5CN6SPWkqxCkq6ihOGEj1provawpKuUUr6jPqhHFCMmws5kMKXCEreErZKoI80pmC2AJbHaS4JUp+TsVDGSJmEsg3dj6QiCVT37tO219tMkjIWUwn7uj9/RmdH7/rAj/SiOInqm79bG2XvpatjWSct+nW147yqJeedGOHbOql8jwo6cxjVaYG3aWPRl3/5oe8vVsDMsA3BZEL3T1lKUWUpG8TqsYDlR9sB0tQIprqhUlpQ1J4w5Ne/X8+bdv+0zUh7p79mLihAHCat1CP17VtIeVtQG4v16wmcwrQObVpgV6Az4l8JGyoRZ0bdYcolgtKZ2Jczy3Cwby01J7wE0F8aYOMtDm+6GmMRclQhLYUtMycjBWyJhrVgkbbiBTOIohG1kEGchbIkaVsP65H9ZYV6rJOnXw6IZTliG2mXJsgnzGsil95IedcwsYastRX9iuYR5D5x547PFpRJWWymIEBlRFqbvJa+uJUZca0RwFXa8yIr+n5HpCavRKjQyhdTCGJEwEAkDkTAQCQMJE+Z1N000bsKy3pJ5xbQpyZqgK9y+JL8qKvogEgaSXlh0LUwjjKVOphHGgoSBSBiIhIGEfP2PpWBboISBSBjI0LnkSlOtlSkJy1zjNCVBJAwk7T2usxYglTAQCQORMBB3Ydl/SvmIuTCPjWU6TusWxrQRkaiGgaQUNrPGpRQ2k3TCZu9B0wmbDb0wtr1xuDBkSu1lzZ6KG/QJKztZDNJSCGNCwkC6hFkWYraifkWKhDH9NlkKYRsM0kyFWe/Fzr50NTttqRLGgKswhilkjRIGAl2XZEpM7bkdnihhIOmFRe810wuLRsJAJAxEwkAkDIROGPvtnKbC9hv3aUOvXtPSxkzSPFS4FaqHqAiCR415od9xJUHCQJpim21aehZ+JQxEwkBcH7XKgPX0VMJAzJ5OzI5V0pQwEAkDoXuSfBS9U1QJA5EwEAkDkTAQCQP5Az1iaBR2+d3wAAAAAElFTkSuQmCC"
+    }
+  ],
+  "asset_id": "custom-ad055bf6-ba00-48f3-9770-059fedd14f67",
+  "state_key": ""
+}

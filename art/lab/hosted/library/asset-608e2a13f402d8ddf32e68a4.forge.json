@@ -1,0 +1,33 @@
+{
+  "forge": 1,
+  "code": "D06",
+  "name": "D06 · Capsized barge ribs",
+  "w": 216,
+  "h": 108,
+  "base": 107,
+  "fps": 8,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "grip": null,
+    "muzzle": null,
+    "pivot": null
+  },
+  "ready": false,
+  "checks": {
+    "visual": false,
+    "tested": false
+  },
+  "notes": "design: D06\nplace: sump\nband: foreground\nbase: 107\nfootprint: 32–184\nclear: 0\nsink: 0.30–0.38\nweight: 0.8\nlimit: 2\nzones: any\nfaction: none\nsolid: none\nflip: yes\nlight: none\n\none capsized old iron barge hull skeleton lying on its side, six unequal thick curved ribs attached to a long keel, big open gaps between ribs, broken prow, low wide silhouette. Native size 216×108, game_scale 1. Flat silhouette body; depth haze/top-edge/reflection belong to the renderer. Bottom third intended underwater.  Built-in image-generation source encoded at native grid with palette/alpha edits; source preserved. New design code awaiting Claude renderer/slot wiring; generic Forge placement preview only. No production integration claimed. Final native cleanup, exact-art and in-scene approval pending.",
+  "frames": [
+    {
+      "trim": null,
+      "cloth": null,
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANgAAABsCAYAAAAIe3yOAAAABHNCSVQICAgIfAhkiAAAAAFzUkdCAK7OHOkAAAQcSURBVHic7d27euIwEIZh4NmSgir3f31UFPRskcdJMDboNJrT9zap2DW2fs1IGHM8GHK+fD1aXne/XY/jjwbod9I+ACAyAgYI+qf5n7e2hIAXVDBAEAEDBBEwQNCU7W2JtRZb8/CACgYIGrqLyK4g8IwKBghqXsdYrFasy2ANFQwQFKqCtdiqejXvjaqJd9JXsCgTBWxKX8FGoZJhS/oKBkgiYIAgAgYI6l43sBb7xhoMW6hggKDmexFnV669CvHuOFpeY83fY6VK+qP6yIBR7rfr8Xz5eix/DwqDsTe0hCcm9wFbBub6b8lrFp4qGnypDhiDEShX3ZbMDNistinCpEGLaRO7iICg4haxZJbvvTMdiIYKBghKHzAqLCS536bXREuMT4YFbOQuFjtiiKIoYK2zcuTZfG8SiPIhdulxMxm+9zFgXgeIFKsDinsWbWINJqxlsPdOauuwET49KQOWqSqv3+tyU7TeEeWSMmDZbU0whE7GsICNqArZL7KXypr9OtXYDZiXi40xuN4y0t/JAUhKtwaLNFNH+cwtsnQBa8W649c6yJybfSYCxgXiByeieglY74WmTdHD9bDHRAWDnE/VjgDKYhdR2fny9fA+yL0fv6TmCsY6YD7L55w15LamCpbpBAE91Ndg1sNq/fg8ynR3v3rAoEv7+f1bd/dH+rJnioCxCIcWdhEduN+uRw+zdavIE2CKCmZR5EHVIur5GBqwqCcpk9prWFpZR40Nb5V8WItIuIBXrMHe8DZbzlZzfrKeS9ZgmGbE99e8fYbWFDCev5GXxBOcIy8vaBFxOCjfdBx5sqVFNCzywBvBw+PnCNhkkdshvCJgKGKtMuzZm8C0jp+AJaddUTVvKp6BgMG8UY+n09jiZxcR7nhpVw8EDJD10yJq9+ISWt+Tpxkyq96nZc1qF1mDTRJxApMWYaIjYImVhF5qkFuacCSrGWswhGTlW+BUMJhjIRi19ipyUcB4/PJcHgeYRzPOMy0iIIgWEWhQ2rURMEDA0n4SMGyKvj0/a51LwBCSlSCrBczbw0sisTL4MqCCATtaJqJ1sWCbHqZE62aoYEhldoCpYAjH0hqTgAGCThF+5T4arocNI+7Ip4JtYNLBKEWbHOvBFm2nB9hSM8nuZcJEBaNaIKrubfpR4dB6MCTQO4bfjVu1ny+Cbcs1ZtLrc7Ly7AIgIu7kQCqzuy8CBjQq6fxM7CIurH3+ZO144A8VzCi+LxdD6IBl+JHtaGp3L0dc29qfR6qZ8Ey1iLCHNrmPyQpWe0GlWygPP7ZdgqDMZzJgeJZxPWZtMmg97z8B+/sPWHtzn2gcr7dzBB2bqWTwAN/4PhhgGAEDBBEwYMeIDaWnXUTWXsBYVDBA0FPAsnzGAsxSFShaSHikWThoEQFB/wGk5esw0spsEgAAAABJRU5ErkJggg==",
+      "emis": null,
+      "guts": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANgAAABsCAYAAAAIe3yOAAAABHNCSVQICAgIfAhkiAAAAAFzUkdCAK7OHOkAAAQdSURBVHic7d07luIwEIVh4MwGSMh6/wsjI2EJTNDH3Y2xQa9Svf4v6YgZY+uqSsKY48GQ8+Xr0fK6++16HH80QL+T9gEAkREwQNA/zf+8tSUEvKCCAYIIGCCIgAGCpmxvS6y12JqHB1QwQNDQXUR2BYFnVDBAUPM6xmK1Yl0Ga6hggKBQFazFVtWreW9UTbyTvoJFmShgU/oKNgqVDFvSVzBAEgEDBBEwQFD3uoG12DfWYNhCBQMENd+LOLty7VWId8fR8hpr/h4rVdIf1UcGjHK/XY/ny9dj+XtQGIy9oSU8MbkP2DIw139LXrPwVNHgS3XAGIxAueq2ZGbAZrVNESYNWkyb2EUEBBW3iCWzfO+d6UA0VDBAUPqAUWEhyf02vSZaYnwyLGAjd7HYEUMURQFrnZUjz+Z7k0CUD7FLj5vJ8L2PAfM6QKRYHVDcs2gTazBhLYO9d1Jbh43w6UkZsExVef1el5ui9Y4ol5QBy25rgiF0MoYFbERVyH6RvVTW7Nepxm7AvFxsjMH1lpH+Tg5AUro1WKSZOspnbpGlC1gr1h2/1kHm3OwzETAuED84EdVLwHovNG2KHq6HPSYqGOR8qnYEUBa7iMrOl6+H90Hu/fglNVcw1gHzWT7nrCG3NVWwTCcI6KG+BrMeVuvH51Gmu/vVAwZd2s/v37q7P9KXPVMEjEU4tLCL6MD9dj16mK1bRZ4AU1QwiyIPqhZRz8fQgEU9SZnUXsPSyjpqbHir5MNaRMIFvGIN9oa32XK2mvOT9VyyBsM0I76/5u0ztKaA8fyNvCSe4Bx5eUGLiMNB+abjyJMtLaJhkQfeCB4eP0fAJovcDuEVAUMRa5Vhz94EpnX8BCw57YqqeVPxDAQM5o16PJ3GFj+7iHDHS7t6IGCArJ8WUbsXl9D6njzNkFn1Pi1rVrvIGmySiBOYtAgTHQFLrCT0UoPc0oQjWc1YgyEkK98Cp4LBHAvBqLVXkYsCxuOX5/I4wDyacZ5pEQFBtIhAg9KujYABApb2k4BhU/Tt+VnrXAKGkKwEWS1g3h5eEomVwZcBFQzY0TIRrYsF2/QwJVo3QwVDKrMDTAVDOJbWmAQMEHSK8Cv30XA9bBhxRz4VbAOTDkYp2uRYD7ZoOz3AlppJdi8TJioY1QJRdW/TjwqH1oMhgd4x/G7cqv18EWxbrjGTXp+TlWcXABFxJwdSmd19ETCgUUnnZ2IXcWHt8ydrxwN/qGBG8X25GEIHLMOPbEdTu3s54trW/jxSzYRnqkWEPbTJfUxWsNoLKt1Cefix7RIEZT6TAcOzjOsxa5NB63n/Cdjff8Dam/tE43i9nSPo2Ewlgwf4xvfBAMMIGCCIgAE7RmwoPe0isvYCxqKCAYKeApblMxZglqpA0ULCI83CQYsICPoP/6LsPiueDkYAAAAASUVORK5CYII="
+    }
+  ],
+  "asset_id": "custom-2b788025-69a3-4f26-89a3-1d8d7379a017",
+  "state_key": ""
+}

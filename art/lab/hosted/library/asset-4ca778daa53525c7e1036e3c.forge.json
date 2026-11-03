@@ -1,0 +1,33 @@
+{
+  "forge": 1,
+  "code": "D05",
+  "name": "D05 · Toppled saint hand",
+  "w": 138,
+  "h": 90,
+  "base": 89,
+  "fps": 8,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "grip": null,
+    "muzzle": null,
+    "pivot": null
+  },
+  "ready": false,
+  "checks": {
+    "visual": false,
+    "tested": false
+  },
+  "notes": "design: D05\nplace: sump\nband: foreground\nbase: 89\nfootprint: 20–118\nclear: 0\nsink: 0.30–0.38\nweight: 0.8\nlimit: 2\nzones: any\nfaction: none\nsolid: none\nflip: yes\nlight: none\n\none colossal toppled stone statue's hand and partial forearm rising from a broken cuff, palm half upward, two curled fingers broken, index reaching sideways, bold readable asymmetrical hand silhouette, never a creature. Native size 138×90, game_scale 1. Flat silhouette body; depth haze/top-edge/reflection belong to the renderer. Bottom third intended underwater.  Built-in image-generation source encoded at native grid with palette/alpha edits; source preserved. New design code awaiting Claude renderer/slot wiring; generic Forge placement preview only. No production integration claimed. Final native cleanup, exact-art and in-scene approval pending.",
+  "frames": [
+    {
+      "trim": null,
+      "cloth": null,
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIoAAABaCAYAAABnuc5LAAAABHNCSVQICAgIfAhkiAAAAAFzUkdCAK7OHOkAAAOESURBVHic7Z29eoMwDEVDv4wZMuX9n4+JgT2d0lKKwbYk+0q+Z+wPdfDhWjYuTLfBeTxf7/3X1mWe+rQGl+FOyJEYKSjML1+9G9CSEknIX4YShdRz790Aa5giOoQUhXLoE1IUKSxi/xOuRmGa2BBKFEpiR5iI1ZKEw84xoRJFCiVJE+LESNKEcuTBRCFZDDk9ZoqUM1yiUJI63IuCMCV+PF9vhHZYMuTQQ/5zJvq6zNNQolgMO56SpLatj+frPZQoWpyd8M/3otVCbkVpfSXn/D20dNFsj1tRyDFWsrqf9ZBfrCRZl3miKAZEqk8+n8Xl0COp3hE6cd9+jTZZ3z13KUo0JDOlVgX0cKLUpIpmZ2gdq/X+m+FE6QHStLl2mBtSFKtFMcnxSn63VDyNzzn0rAfpSs+h583HoUW5Zcgi7ZjeMmql5pBDjydqRdMeVimK4VWfe1yEtZ0rXIqyLvPUO9ItQdws7lIUVKSzKWT54SMvBfJJ7YXlEDb8rCcK1nUOhx7HtCyC3SaKh5lCJJgojuh5cVAUcFCSk6KAshek9/Nw3dYokUFJkS1wDSoh4lpKTpKc/bwVbhMloiTIuBUlIqVp0hJ3xSzSybsiNSxY7MK3xpUoESS5+h4qHHpIFi4SxVOSbEm1OydR0D6ziwhEO2ka5NYvtcfRBl6UiJJo0LrOga5RKAkOkIlCQdL0mjFBiUJBzuk5rYYeeggOMInCNEmDsEDXtQHociCsdyBIcuspCrIkks6J+t4gtcaU3uhCEsWyU6K8kLtLMYskCclDxeDc/ZyIgiBfxUiYJQqiFHsoST6iu8clMqCJQ0nKEJ0stM7PgYLUUZwoHuUgctQ3Lp1dsVvJtj/XSj6mST1qT0rW7gQLeShKPSrPNrXqAE1ZKIkM0dAj2c6X03HRn9XmieKbXpY3ynKv+prjM1FkZHd6q/9is3rUN0WRATc91q6FKIgOl0v4nxM9wkugSRqzmmDPVjitY33oMSMbjSbbDLadpfVaNKZbW8xFORJD6yq/elI000SPS1Gsnstu/VIlSqLLqSg9Hwu1LvNUu2ZDSfSpWpnd1xza9YLk5ZCUxAaVGkWzDpEMIZTEjjD/KUhJbEmKwukn2RImUYgtIUThsGPPoSgcdsien+mxZzkez9ebqWKLeHM1imDSFz+Sc+4t3/nbohOZLjaE3JNKUfQJMesh9nwDaqbe55XKUrQAAAAASUVORK5CYII=",
+      "emis": null,
+      "guts": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIoAAABaCAYAAABnuc5LAAAABHNCSVQICAgIfAhkiAAAAAFzUkdCAK7OHOkAAAOFSURBVHic7Z1NeoMwDERDv1wgm+xy/4OxY8MR0lVaSjHYlmSP5HnL/lAHP8aycWG6Dc7j+Xrvv7Yu89SnNbgMd0KOxEhBYX756t2AlpRIQv4ylCiknnvvBljDFNEhpCiUQ5+QokhhEfufcDUK08SGUKJQEjvCRKyWJBx2jgmVKFIoSZoQJ0aSJpQjDyYKyWLI6TFTpJzhEoWS1OFeFIQp8eP5eiO0w5Ihhx7ynzPR12WehhLFYtjxlCS1bX08X++hRNHi7IR/vhetFnIrSusrOefvoaWLZnvcikKOsZLV/ayH/GIlybrME0UxIFJ98vksLoceSfWO0In79mu0yfruuUtRoiGZKbUqoIcTpSZVNDtD61it998MJ0oPkKbNtcPckKJYLYpJjlfyu6XiaXzOoWc9SFd6Dj1vPg4tyi1DFmnH9JZRKzWHHHo8USua9rBKUQyv+tzjIqztXOFSlHWZp96RbgniZnGXoqAinU0hyw8feSmQT2ovLIew4Wc9UbCuczj0OKZlEew2UTzMFCLBRHFEz4uDooCDkpwUBZS9IL2fh+u2RokMSopsgWtQCRHXUnKS5OznrXCbKBElQcatKBEpTZOWuCtmkU7eFalhwWIXvjWuRIkgydX3UOHQQ7JwkSiekmRLqt05iYL2mV1EINpJ0yC3fqk9jjbwokSURIPWdQ50jUJJcIBMFAqSpteMCUoUCnJOz2k19NBDcIBJFKZJGoQFuq4NQJcDYb0DQZJbT1GQJZF0TtT3Bqk1pvRGF5Iolp0S5YXcXYpZJElIHioG5+7nRBQE+SpGwixREKXYQ0nyEd09LpEBTRxKUoboZKF1fg4UpI7iRPEoB5GjvnHp7IrdSrb9uVbyMU3qUXtSsnYnWMhDUepRebapVQdoykJJZIiGHsl2vpyOi/6sNk8U3/SyvFGWe9XXHJ+JIiO701v9F5vVo74pigy46bF2LURBdLhcwv+c6BFeAk3SmNUEe7bCaR3rQ48Z2Wg02Waw7Syt16Ix3dpiLsqRGFpX+dWTopkmelyKYvVcduuXKlESXU5F6flYqHWZp9o1G0qiT9XK7L7m0K4XJC+HpCQ2qNQomnWIZAihJHaE+U9BSmJLUhROP8mWMIlCbAkhCocdew5F4bBD9vxMjz3L8Xi+3kwVW8Sbq1EEk774kZxzb/nO3xadyHSxIeSeVIqiT4hZD7HnGy8u30HedudqAAAAAElFTkSuQmCC"
+    }
+  ],
+  "asset_id": "custom-612fc456-7592-46f8-bf1b-669ace7e75a8",
+  "state_key": ""
+}

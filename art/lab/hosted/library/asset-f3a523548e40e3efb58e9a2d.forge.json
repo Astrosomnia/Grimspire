@@ -1,0 +1,33 @@
+{
+  "forge": 1,
+  "code": "D04",
+  "name": "D04 · Chained mooring posts",
+  "w": 150,
+  "h": 104,
+  "base": 103,
+  "fps": 8,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "grip": null,
+    "muzzle": null,
+    "pivot": null
+  },
+  "ready": false,
+  "checks": {
+    "visual": false,
+    "tested": false
+  },
+  "notes": "design: D04\nplace: sump\nband: foreground\nbase: 103\nfootprint: 22–128\nclear: 0\nsink: 0.30–0.38\nweight: 0.8\nlimit: 2\nzones: any\nfaction: none\nsolid: none\nflip: yes\nlight: none\n\ntwo unequal stout iron mooring posts with broad caps connected by ONE heavy drooping chain, visible chunky oval links and open sky between chain and posts, one loose chain tail, dark near-black silhouette. Native size 150×104, game_scale 1. Flat silhouette body; depth haze/top-edge/reflection belong to the renderer. Bottom third intended underwater. Chain is deliberate here; keep broader chain/fabric dressing occasional, with separate bare/dressed variants later. Built-in image-generation source encoded at native grid with palette/alpha edits; source preserved. New design code awaiting Claude renderer/slot wiring; generic Forge placement preview only. No production integration claimed. Final native cleanup, exact-art and in-scene approval pending.",
+  "frames": [
+    {
+      "trim": null,
+      "cloth": null,
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJYAAABoCAYAAAATmQmLAAAABHNCSVQICAgIfAhkiAAAAAFzUkdCAK7OHOkAAAP/SURBVHic7Z27cuswDETtjMsUqfL/3+cqRfrcIqO5ssK3CHFBntPalihxiQVBSr7fOvH+8fnT61hHvr+ed6tjgw1voxsAc4KwwIRmi7G0vhKwR22IWGACwgITiu1ktPWlwBb1IGKBCQgLTIhaiLL15cAax0PEAhMQFpiAsMAEhAUmICwwAWGBCQgLTHiMbkBPqF/pkO0IT4VShKXDqY4YITrE4wNyLDCh2+jnYQrYQ8QCExAWmICwwASEBSYgLDABYYEJCAtMaKoPKSzzUNvShogFJky1uwFe6e0sNS5RLCwF+9uzbw+2qAdWCCZghZNwhaPEzhFyjGzEev/4/FGzwSPq7VuRpogVUqhV58byJ8SkDVboFKWBFZpIkbyDCQgLTGiywi30XV0/Ugr/kIaIBSbIC4so5RMeWHWKYr/s7/8Ub03eWElYexT65njvi6xQoeEleGnnCri1wu+v571m7WpFLPqu9N7KJ+8pEFCa76/nvdc9qj1WsI6VUvr+4KovBRlVZ4P/uF0rVLVo+OWPFZZGKw942PIzKy5zLMSiz0sEKumwY9S6spO3c7ec01u0bWVEf4SI5lijk/QaRoodwpxO3lP1pF7URpsr2qTGiOtNPSnVJcfyYDMk8tcSFJYHoewJCcbbNbSiMmCObXjEPlBmRaurweJhl9pjui2QpkB043FZxwqhYgnwi1thxRZFEZfGIIsKa7aEuOdKP+QJCmsTlYLyezHLdXihqrqeGvEj/5mi5tyxGaX3aKYwcPb3sHhW6P3Gb8Q6wMP7tmIDYrSoQvfrsf9wdANb4cUheiQjlurIteb94/NH6dpTA0R18ExZIN04s81GZXvzmS1CI/Net3WsHsxYglC5nsetIKFVaawVqb1nI20xNXtVn9lObYUxlDqgBk/tfivxYdUE0QKFzgsVpo/tGtnOknMvmWOlVhQUB5GC2Gt5scLV947nrrfnI/1nj1WzUtKzH0vbt0SOFbvBvSYnNVV7q9KHWlRbQlg5WiPViLaUfmc0SwnrisJhLLr0OKd6iWHPUsIaRUk+5SEK1bCksHIdmluQP7tztSbKeN3m8yKsfRifbQTVUmubx3tWO+s7/l5dODmK3o/l/SJTtDxlnfps5Fv0lHjz2GhFSrdxx743m0MsmWOdoffC/GyC2njcHK2YK3FWEDO94C4EEStDa+2rtY41g6huubVCgFZOC0nlDXJXkbvelkfkrK+LRejJmeFv+EonL91W9a9EIXJ5wOXDFLNOk6EPWOGEXDHoc5a45NZksAdhgQkIC0wgx5qEUZOp2FafYmEpzQJX2tbjFawQTJjqz8ZvC0Uv9f5IWqF640EXrBBMQFhgAsICExAWmICwwIR/6YNGg9E+gEIAAAAASUVORK5CYII=",
+      "emis": null,
+      "guts": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAJYAAABoCAYAAAATmQmLAAAABHNCSVQICAgIfAhkiAAAAAFzUkdCAK7OHOkAAAQBSURBVHic7Z07cuMwEEQlly7gxJnvfzBlTnwEb+BiLUXjTwzRA7yXSiJBojE9GIDU/daJ94/Pn17HOvL99bxbHRtseBvdAJgThAUmNFuMpfWVgD1qQ8QCExAWmFBsJ6OtLwW2qAcRC0xAWGBC1EKUrS8H1jgeIhaYgLDABIQFJiAsMAFhgQkIC0xAWGDCY3QDekL9SodsR3gqlCIsHU51xAjRIR4fkGOBCd1GPw9TwB4iFpiAsMAEhAUmICwwAWGBCQgLTEBYYEJTfUhhmYfaljZELDBhqt0N8EpvZ6lxiWJhKdjfnn17sEU9sEIwASuchCscJXaOkGNkI9b7x+ePmg0eUW/fijRFrJBCrTo3lj8hJm2wQqcoDazQRIrkHUxAWGBCkxVuoe/q+pFS+Ic0RCwwQV5YRCmf8MCqUxT7ZX//p3hr8sZKwtqj0DfHe19khQoNL8FLO1fArRV+fz3vNWtXK2LRd6X3Vj55T4GA0nx/Pe+97lHtsYJ1rJTS9wdXfSnIqDob/MftWqGqRcMvf6ywNFp5wMOWn1lxmWMhFn1eIlBJhx2j1pWdvJ275Zzeom0rI/ojRDTHGp2k1zBS7BDmdPKeqif1ojbaXNEmNUZcb+pJqS45lgebIZG/lqCwPAhlT0gw3q6hFZUBc2zDI/aBMitaXQ0WD7vUHtNtgTQFohuPyzpWCBVLgF/cCiu2KIq4NAZZVFizJcQ9V/ohT1BYm6gUlN+LWa7DC1XV9dSIH/nPFDXnjs0ovUczhYGzv4fFs0LvN34j1gEe3rcVGxCjRRW6X4/9h6Mb2AovDtEjGbFUR6417x+fP0rXnhogqoNnygLpxpltNirbm89sERqZ97qtY/VgxhKEyvU8bgUJrUpjrUjtPRtpi6nZq/rMdmorjKHUATV4avdbiQ+rJogWKHReqDB9bNfIdpace8kcK7WioDiIFMRey4sVrr53PHe9PR/pP3usmpWSnv1Y2r4lcqzYDe41Oamp2luVPtSi2hLCytEaqUa0pfQ7o1lKWFcUDmPRpcc51UsMe5YS1ihK8ikPUaiGJYWV69DcgvzZnas1UcbrNp8XYe3D+GwjqJZa2zzes9pZ3/H36sLJUfR+LO8XmaLlKevUZyPfoqfEm8dGK1K6jTv2vdkcYskc6wy9F+ZnE9TG4+ZoxVyJs4KY6QV3IYhYGVprX611rBlEdcutFQK0clpIKm+Qu4rc9bY8Imd9XSxCT84Mf8NXOnnptqp/JQqRywMuH6aYdZoMfcAKJ+SKQZ+zxCW3JoM9CAtMQFhgAjnWJIyaTMW2+hQLS2kWuNK2Hq9ghWDCVH82flsoeqn3R9IK1RsPumCFYALCAhMQFpiAsMAEhAUm/ANcAkh7h9MSxQAAAABJRU5ErkJggg=="
+    }
+  ],
+  "asset_id": "custom-c9e05ab8-d59b-4a5a-bdba-3d606eb4b412",
+  "state_key": ""
+}

@@ -1,0 +1,150 @@
+{
+  "assets": [
+    {
+      "code": "D01",
+      "size": [
+        76,
+        128
+      ],
+      "base": 127,
+      "scale": 1,
+      "binaryAlpha": true
+    },
+    {
+      "code": "D02",
+      "size": [
+        184,
+        62
+      ],
+      "base": 61,
+      "scale": 1,
+      "binaryAlpha": true
+    },
+    {
+      "code": "D03",
+      "size": [
+        208,
+        150
+      ],
+      "base": 149,
+      "scale": 1,
+      "binaryAlpha": true
+    },
+    {
+      "code": "D04",
+      "size": [
+        150,
+        104
+      ],
+      "base": 103,
+      "scale": 1,
+      "binaryAlpha": true
+    },
+    {
+      "code": "D05",
+      "size": [
+        138,
+        90
+      ],
+      "base": 89,
+      "scale": 1,
+      "binaryAlpha": true
+    },
+    {
+      "code": "D06",
+      "size": [
+        216,
+        108
+      ],
+      "base": 107,
+      "scale": 1,
+      "binaryAlpha": true
+    },
+    {
+      "code": "R01",
+      "size": [
+        240,
+        120
+      ],
+      "base": 119,
+      "scale": 1,
+      "binaryAlpha": true
+    },
+    {
+      "code": "R02",
+      "size": [
+        240,
+        120
+      ],
+      "base": 119,
+      "scale": 1,
+      "binaryAlpha": true
+    },
+    {
+      "code": "R03",
+      "size": [
+        240,
+        120
+      ],
+      "base": 119,
+      "scale": 1,
+      "binaryAlpha": true
+    },
+    {
+      "code": "R04",
+      "size": [
+        240,
+        120
+      ],
+      "base": 119,
+      "scale": 1,
+      "binaryAlpha": true
+    },
+    {
+      "code": "B01",
+      "size": [
+        252,
+        340
+      ],
+      "base": 339,
+      "scale": 1,
+      "binaryAlpha": true
+    },
+    {
+      "code": "B02",
+      "size": [
+        440,
+        216
+      ],
+      "base": 215,
+      "scale": 1,
+      "binaryAlpha": true
+    },
+    {
+      "code": "B03",
+      "size": [
+        496,
+        180
+      ],
+      "base": 179,
+      "scale": 1,
+      "binaryAlpha": true
+    }
+  ],
+  "shoreJoint": {
+    "codes": [
+      "R01",
+      "R02",
+      "R03",
+      "R04"
+    ],
+    "width": 4,
+    "topRow": 104,
+    "baseline": 119,
+    "layers": [
+      "body",
+      "guts"
+    ],
+    "passed": true
+  }
+}

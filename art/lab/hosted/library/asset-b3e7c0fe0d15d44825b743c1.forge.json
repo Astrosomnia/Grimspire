@@ -1,0 +1,33 @@
+{
+  "forge": 1,
+  "code": "D02",
+  "name": "D02 · Fallen masonry slab",
+  "w": 184,
+  "h": 62,
+  "base": 61,
+  "fps": 8,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "grip": null,
+    "muzzle": null,
+    "pivot": null
+  },
+  "ready": false,
+  "checks": {
+    "visual": false,
+    "tested": false
+  },
+  "notes": "design: D02\nplace: sump\nband: foreground\nbase: 61\nfootprint: 27–157\nclear: 0\nsink: 0.30–0.38\nweight: 0.8\nlimit: 2\nzones: any\nfaction: none\nsolid: none\nflip: yes\nlight: none\n\none low tilted fallen masonry slab, a massive broken cathedral cornice with a chunky stepped moulding profile, irregular snapped ends, several large distinct voids under its bottom edge. Native size 184×62, game_scale 1. Flat silhouette body; depth haze/top-edge/reflection belong to the renderer. Bottom third intended underwater.  Built-in image-generation source encoded at native grid with palette/alpha edits; source preserved. New design code awaiting Claude renderer/slot wiring; generic Forge placement preview only. No production integration claimed. Final native cleanup, exact-art and in-scene approval pending.",
+  "frames": [
+    {
+      "trim": null,
+      "cloth": null,
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALgAAAA+CAYAAACY2tECAAAABHNCSVQICAgIfAhkiAAAAAFzUkdCAK7OHOkAAAIeSURBVHic7dy7csIwEIVhO0NJQcX7Px8VhXtSMDBg5ItsrXS8+38lmQRfjk7WxkPfZThfro/U68P91uf8HaCWv9YbAFgi4HBtdrSYGkm2YIxBCzQ4XHu3asm2nkKLo7aqAX8h6KjlVDPYQG3M4HCNgMO1XnlEYVbHXj8BUgo8Acde0gFfi4WAKczgcI2AwzUXI0oOxplYfhqcAMCTZJi9t/gWLPxjYgaHazS4ERpfAw0O12jwhmh5ezQ4XFtsENpcA22/DQ0O1xYDTnPgyFaFlzFFE+WzjBEFrtHgTtHuTwQcXed4QTCiwDUaHNmO1PY0OFw7pV6ksbHF+XJ9qLU7D1vBjELYGVHg2tcKo7lhrXarE3BIsAo+Iwpco8FxSGsbP3mbMLq5g0cJHAsjClwL99VtKXsvcCIeM2Wf5/NnRHn9sPRJWwpRi5AofBABW4woBQz3W89i0fFZlmEuMglgTDINTgvCwmSDj8O2ZUYmsGgtzIiCGMalahZwlfauuR1T78VtxDpSx38x4LknRyXY0fFp7JPciPJ5YiKdCGw3t5iLf/lm6QbfG3Kl/yjWCzZnX72Ux9I+yzV4KUrBRjtuA455US6IiwSctmzrCMc/tY01FtNXwL2tXuQb7re+Vg5KvNf494vfB7dsDxbcPOXmXrtt1gtKdgYvtbIVQmBxAhX2S9H4WMs8bIW4LB+0eze4yjigsh1ReTv+NDhc+wcQtfY9E76trgAAAABJRU5ErkJggg==",
+      "emis": null,
+      "guts": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALgAAAA+CAYAAACY2tECAAAABHNCSVQICAgIfAhkiAAAAAFzUkdCAK7OHOkAAAIfSURBVHic7dw7csJAEIRhycUFSMi4/8HISHQEHFBQIFaPlXZ2WzP/F+Ky0aO3PRIq+i7D+XJ9pF4f7rc+5+8Atfy13gDAEgGHa7OjxdRIsgVjDFqgweHau1VLtvUUWhy1VQ34C0FHLaeawQZqYwaHawQcrvXKIwqzOvb6CZBS4Ak49pIO+FosBExhBodrBByuuRhRcjDOxPLT4AQAniTD7L3Ft2DhHxMzOFyjwY3Q+BpocLhGgzdEy9ujweHaYoPQ5hpo+21ocLi2GHCaA0e2KryMKZoon2WMKHCNBneKdn8i4Og6xwuCEQWu0eDIdqS2p8Hh2in1Io2NLc6X60Ot3XnYCmYUws6IAte+VhjNDWu1W52AQ4JV8BlR4BoNjkNa2/jJ24TRzR08SuBYGFHgWrivbkvZe4ET8Zgp+zyfPyPK64elT9pSiFqEROGDCNhiRClguN96FouOz7IMc5FJAGOSaXBaEBYmG3wcti0zMoFFa2FGFMQwLlWzgKu0d83tmHovbiPWkTr+iwHPPTkqwY6OT2Of5EaUzxMT6URgu7nFXPzLN0s3+N6QK/1HsV6wOfvqpTyW9lmuwUtRCjbacRtwzItyQVwk4LRlW0c4/qltrLGYvgLubfUi33C/9bVyUOK9xr9f/D64ZXuw4OYpN/fabbNeULIzeKmVrRACixOosF+Kxsda5mErxGX5oN27wVXGAZXtiMrb8afB4do/bqn1ZXEP7s8AAAAASUVORK5CYII="
+    }
+  ],
+  "asset_id": "custom-9ab0609a-14ee-4783-b48c-a0564ddb5a9a",
+  "state_key": ""
+}

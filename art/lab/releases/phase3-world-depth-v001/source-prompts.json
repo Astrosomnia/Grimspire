@@ -1,0 +1,106 @@
+[
+  {
+    "key": "D01",
+    "w": 76,
+    "h": 128,
+    "name": "Broken fluted column",
+    "subject": "one broken gothic fluted stone column, leaning slightly, broad shattered capital, jagged top, squat plinth, missing chunk on right. Near-black filled silhouette with readable flutes only at outer profile",
+    "prompt": "Use case: stylized-concept. Asset type: a SINGLE isolated 2D side-view pixel-art game asset for GRIMSPIRE, a drowned gothic industrial cathedral-city. Subject: one broken gothic fluted stone column, leaning slightly, broad shattered capital, jagged top, squat plinth, missing chunk on right. Near-black filled silhouette with readable flutes only at outer profile. Target native canvas 76×128 art pixels; draw large clean pixel clusters, strong readable silhouette at small game size, front elevation with no perspective floor. Flat ONE-VALUE dark charcoal filled body; no interior shading, no texture noise. Negative-space openings clearly transparent. Entire object visible with a small transparent margin, true transparent background. No water, reflections, sky, ground plane, shadows, labels, text, border, glow, haze, people or extra objects. No coloured lights, no neon. Crisp pixel edges, chunky forms, no antialiasing, no hairline shards."
+  },
+  {
+    "key": "D02",
+    "w": 184,
+    "h": 62,
+    "name": "Fallen masonry slab",
+    "subject": "one low tilted fallen masonry slab, a massive broken cathedral cornice with a chunky stepped moulding profile, irregular snapped ends, several large distinct voids under its bottom edge",
+    "prompt": "Use case: stylized-concept. Asset type: a SINGLE isolated 2D side-view pixel-art game asset for GRIMSPIRE, a drowned gothic industrial cathedral-city. Subject: one low tilted fallen masonry slab, a massive broken cathedral cornice with a chunky stepped moulding profile, irregular snapped ends, several large distinct voids under its bottom edge. Target native canvas 184×62 art pixels; draw large clean pixel clusters, strong readable silhouette at small game size, front elevation with no perspective floor. Flat ONE-VALUE dark charcoal filled body; no interior shading, no texture noise. Negative-space openings clearly transparent. Entire object visible with a small transparent margin, true transparent background. No water, reflections, sky, ground plane, shadows, labels, text, border, glow, haze, people or extra objects. No coloured lights, no neon. Crisp pixel edges, chunky forms, no antialiasing, no hairline shards."
+  },
+  {
+    "key": "D03",
+    "w": 208,
+    "h": 150,
+    "name": "Half-sunk broken arch",
+    "subject": "one broken pointed gothic arch rising from two uneven stumps, asymmetric missing upper-right voussoirs, thick arch ring and one large open arch hole, chunky broken stone",
+    "prompt": "Use case: stylized-concept. Asset type: a SINGLE isolated 2D side-view pixel-art game asset for GRIMSPIRE, a drowned gothic industrial cathedral-city. Subject: one broken pointed gothic arch rising from two uneven stumps, asymmetric missing upper-right voussoirs, thick arch ring and one large open arch hole, chunky broken stone. Target native canvas 208×150 art pixels; draw large clean pixel clusters, strong readable silhouette at small game size, front elevation with no perspective floor. Flat ONE-VALUE dark charcoal filled body; no interior shading, no texture noise. Negative-space openings clearly transparent. Entire object visible with a small transparent margin, true transparent background. No water, reflections, sky, ground plane, shadows, labels, text, border, glow, haze, people or extra objects. No coloured lights, no neon. Crisp pixel edges, chunky forms, no antialiasing, no hairline shards."
+  },
+  {
+    "key": "D04",
+    "w": 150,
+    "h": 104,
+    "name": "Chained mooring posts",
+    "subject": "two unequal stout iron mooring posts with broad caps connected by ONE heavy drooping chain, visible chunky oval links and open sky between chain and posts, one loose chain tail, dark near-black silhouette",
+    "prompt": "Use case: stylized-concept. Asset type: a SINGLE isolated 2D side-view pixel-art game asset for GRIMSPIRE, a drowned gothic industrial cathedral-city. Subject: two unequal stout iron mooring posts with broad caps connected by ONE heavy drooping chain, visible chunky oval links and open sky between chain and posts, one loose chain tail, dark near-black silhouette. Target native canvas 150×104 art pixels; draw large clean pixel clusters, strong readable silhouette at small game size, front elevation with no perspective floor. Flat ONE-VALUE dark charcoal filled body; no interior shading, no texture noise. Negative-space openings clearly transparent. Entire object visible with a small transparent margin, true transparent background. No water, reflections, sky, ground plane, shadows, labels, text, border, glow, haze, people or extra objects. No coloured lights, no neon. Crisp pixel edges, chunky forms, no antialiasing, no hairline shards."
+  },
+  {
+    "key": "D05",
+    "w": 138,
+    "h": 90,
+    "name": "Toppled saint hand",
+    "subject": "one colossal toppled stone statue's hand and partial forearm rising from a broken cuff, palm half upward, two curled fingers broken, index reaching sideways, bold readable asymmetrical hand silhouette, never a creature",
+    "prompt": "Use case: stylized-concept. Asset type: a SINGLE isolated 2D side-view pixel-art game asset for GRIMSPIRE, a drowned gothic industrial cathedral-city. Subject: one colossal toppled stone statue's hand and partial forearm rising from a broken cuff, palm half upward, two curled fingers broken, index reaching sideways, bold readable asymmetrical hand silhouette, never a creature. Target native canvas 138×90 art pixels; draw large clean pixel clusters, strong readable silhouette at small game size, front elevation with no perspective floor. Flat ONE-VALUE dark charcoal filled body; no interior shading, no texture noise. Negative-space openings clearly transparent. Entire object visible with a small transparent margin, true transparent background. No water, reflections, sky, ground plane, shadows, labels, text, border, glow, haze, people or extra objects. No coloured lights, no neon. Crisp pixel edges, chunky forms, no antialiasing, no hairline shards."
+  },
+  {
+    "key": "D06",
+    "w": 216,
+    "h": 108,
+    "name": "Capsized barge ribs",
+    "subject": "one capsized old iron barge hull skeleton lying on its side, six unequal thick curved ribs attached to a long keel, big open gaps between ribs, broken prow, low wide silhouette",
+    "prompt": "Use case: stylized-concept. Asset type: a SINGLE isolated 2D side-view pixel-art game asset for GRIMSPIRE, a drowned gothic industrial cathedral-city. Subject: one capsized old iron barge hull skeleton lying on its side, six unequal thick curved ribs attached to a long keel, big open gaps between ribs, broken prow, low wide silhouette. Target native canvas 216×108 art pixels; draw large clean pixel clusters, strong readable silhouette at small game size, front elevation with no perspective floor. Flat ONE-VALUE dark charcoal filled body; no interior shading, no texture noise. Negative-space openings clearly transparent. Entire object visible with a small transparent margin, true transparent background. No water, reflections, sky, ground plane, shadows, labels, text, border, glow, haze, people or extra objects. No coloured lights, no neon. Crisp pixel edges, chunky forms, no antialiasing, no hairline shards."
+  },
+  {
+    "key": "R01",
+    "w": 240,
+    "h": 120,
+    "name": "Stratified shore shelf",
+    "subject": "one low wide angular natural black-rock shore shelf, horizontal stratified cleavage slabs, a broad flat-ish uneven walkable top, sloping broken sides, chunky cliff mass below; natural geology not cut masonry",
+    "prompt": "Use case: stylized-concept. Asset type: a SINGLE isolated 2D side-view pixel-art game asset for GRIMSPIRE, a drowned gothic industrial cathedral-city. Subject: one low wide angular natural black-rock shore shelf, horizontal stratified cleavage slabs, a broad flat-ish uneven walkable top, sloping broken sides, chunky cliff mass below; natural geology not cut masonry. Target native canvas 240×120 art pixels; draw large clean pixel clusters, strong readable silhouette at small game size, front elevation with no perspective floor. Wet charcoal natural stone, six neutral cold-grey values, very few large stepped facets. Flat paint; no baked lighting, no bright edge rim. Base is thick rock mass. Keep both side edges low and joinable near lower quarter. Entire object visible with a small transparent margin, true transparent background. No water, reflections, sky, ground plane, shadows, labels, text, border, glow, haze, people or extra objects. No coloured lights, no neon. Crisp pixel edges, chunky forms, no antialiasing, no hairline shards."
+  },
+  {
+    "key": "R02",
+    "w": 240,
+    "h": 120,
+    "name": "Basalt tooth outcrop",
+    "subject": "one natural black basalt outcrop with a broad low flat-ish walkable shelf and three unequal broken upright basalt teeth rising on its rear side, thick chunky columnar fracture, uneven angular side slopes; geology not buildings",
+    "prompt": "Use case: stylized-concept. Asset type: a SINGLE isolated 2D side-view pixel-art game asset for GRIMSPIRE, a drowned gothic industrial cathedral-city. Subject: one natural black basalt outcrop with a broad low flat-ish walkable shelf and three unequal broken upright basalt teeth rising on its rear side, thick chunky columnar fracture, uneven angular side slopes; geology not buildings. Target native canvas 240×120 art pixels; draw large clean pixel clusters, strong readable silhouette at small game size, front elevation with no perspective floor. Wet charcoal natural stone, six neutral cold-grey values, very few large stepped facets. Flat paint; no baked lighting, no bright edge rim. Base is thick rock mass. Keep both side edges low and joinable near lower quarter. Entire object visible with a small transparent margin, true transparent background. No water, reflections, sky, ground plane, shadows, labels, text, border, glow, haze, people or extra objects. No coloured lights, no neon. Crisp pixel edges, chunky forms, no antialiasing, no hairline shards."
+  },
+  {
+    "key": "R03",
+    "w": 240,
+    "h": 120,
+    "name": "Split boulder shore",
+    "subject": "one low wide natural angular fractured boulder shore, a large split descending diagonally through mass with a short natural overhang, usable flat-ish shelves on both sides, broken broad base, NOT a masonry arch",
+    "prompt": "Use case: stylized-concept. Asset type: a SINGLE isolated 2D side-view pixel-art game asset for GRIMSPIRE, a drowned gothic industrial cathedral-city. Subject: one low wide natural angular fractured boulder shore, a large split descending diagonally through mass with a short natural overhang, usable flat-ish shelves on both sides, broken broad base, NOT a masonry arch. Target native canvas 240×120 art pixels; draw large clean pixel clusters, strong readable silhouette at small game size, front elevation with no perspective floor. Wet charcoal natural stone, six neutral cold-grey values, very few large stepped facets. Flat paint; no baked lighting, no bright edge rim. Base is thick rock mass. Keep both side edges low and joinable near lower quarter. Entire object visible with a small transparent margin, true transparent background. No water, reflections, sky, ground plane, shadows, labels, text, border, glow, haze, people or extra objects. No coloured lights, no neon. Crisp pixel edges, chunky forms, no antialiasing, no hairline shards."
+  },
+  {
+    "key": "R04",
+    "w": 240,
+    "h": 120,
+    "name": "Tumbled talus bank",
+    "subject": "one wide low shore bank of three interlocked massive angular natural boulders and chunky talus, stepped flat-ish standable top, jagged sides, full broad dark rock mass below, few big facets not gravel noise",
+    "prompt": "Use case: stylized-concept. Asset type: a SINGLE isolated 2D side-view pixel-art game asset for GRIMSPIRE, a drowned gothic industrial cathedral-city. Subject: one wide low shore bank of three interlocked massive angular natural boulders and chunky talus, stepped flat-ish standable top, jagged sides, full broad dark rock mass below, few big facets not gravel noise. Target native canvas 240×120 art pixels; draw large clean pixel clusters, strong readable silhouette at small game size, front elevation with no perspective floor. Wet charcoal natural stone, six neutral cold-grey values, very few large stepped facets. Flat paint; no baked lighting, no bright edge rim. Base is thick rock mass. Keep both side edges low and joinable near lower quarter. Entire object visible with a small transparent margin, true transparent background. No water, reflections, sky, ground plane, shadows, labels, text, border, glow, haze, people or extra objects. No coloured lights, no neon. Crisp pixel edges, chunky forms, no antialiasing, no hairline shards."
+  },
+  {
+    "key": "B01",
+    "w": 252,
+    "h": 340,
+    "name": "Colossal drowned saint",
+    "subject": "one colossal hooded praying stone saint statue with broken radial halo, bowed head, hands held together, heavy robe descending to a fractured base; entirely flat silhouette with readable gaps around hands and halo; only a SINGLE tiny magenta reliquary slit at chest",
+    "prompt": "Use case: stylized-concept. Asset type: a SINGLE isolated 2D side-view pixel-art game asset for GRIMSPIRE, a drowned gothic industrial cathedral-city. Subject: one colossal hooded praying stone saint statue with broken radial halo, bowed head, hands held together, heavy robe descending to a fractured base; entirely flat silhouette with readable gaps around hands and halo; only a SINGLE tiny magenta reliquary slit at chest. Target native canvas 252×340 art pixels; draw large clean pixel clusters, strong readable silhouette at small game size, front elevation with no perspective floor. Flat ONE-VALUE dark charcoal filled body; no interior shading, no texture noise. Negative-space openings clearly transparent. Entire object visible with a small transparent margin, true transparent background. No water, reflections, sky, ground plane, shadows, labels, text, border, glow, haze, people or extra objects. Restrained pinpoints of actual light ONLY at specified window slits, no other colour. Crisp pixel edges, chunky forms, no antialiasing, no hairline shards."
+  },
+  {
+    "key": "B02",
+    "w": 440,
+    "h": 216,
+    "name": "Drowned broken dome",
+    "subject": "one low wide ruined gothic domed shrine, shallow ribbed dome with a large missing wedge on right, squat drum, asymmetric broken turrets, little lancet cutouts; flat silhouette, only three widely spaced tiny magenta window slits; no ornate surface details",
+    "prompt": "Use case: stylized-concept. Asset type: a SINGLE isolated 2D side-view pixel-art game asset for GRIMSPIRE, a drowned gothic industrial cathedral-city. Subject: one low wide ruined gothic domed shrine, shallow ribbed dome with a large missing wedge on right, squat drum, asymmetric broken turrets, little lancet cutouts; flat silhouette, only three widely spaced tiny magenta window slits; no ornate surface details. Target native canvas 440×216 art pixels; draw large clean pixel clusters, strong readable silhouette at small game size, front elevation with no perspective floor. Flat ONE-VALUE dark charcoal filled body; no interior shading, no texture noise. Negative-space openings clearly transparent. Entire object visible with a small transparent margin, true transparent background. No water, reflections, sky, ground plane, shadows, labels, text, border, glow, haze, people or extra objects. Restrained pinpoints of actual light ONLY at specified window slits, no other colour. Crisp pixel edges, chunky forms, no antialiasing, no hairline shards."
+  },
+  {
+    "key": "B03",
+    "w": 496,
+    "h": 180,
+    "name": "Broken horizon bridge",
+    "subject": "one very wide broken gothic aqueduct bridge with unequal thick piers, three open pointed arches and a major collapsed gap near right third, low jagged parapet, flat silhouette, only two tiny cyan window slits on far left pier; no water or scenery",
+    "prompt": "Use case: stylized-concept. Asset type: a SINGLE isolated 2D side-view pixel-art game asset for GRIMSPIRE, a drowned gothic industrial cathedral-city. Subject: one very wide broken gothic aqueduct bridge with unequal thick piers, three open pointed arches and a major collapsed gap near right third, low jagged parapet, flat silhouette, only two tiny cyan window slits on far left pier; no water or scenery. Target native canvas 496×180 art pixels; draw large clean pixel clusters, strong readable silhouette at small game size, front elevation with no perspective floor. Flat ONE-VALUE dark charcoal filled body; no interior shading, no texture noise. Negative-space openings clearly transparent. Entire object visible with a small transparent margin, true transparent background. No water, reflections, sky, ground plane, shadows, labels, text, border, glow, haze, people or extra objects. Restrained pinpoints of actual light ONLY at specified window slits, no other colour. Crisp pixel edges, chunky forms, no antialiasing, no hairline shards."
+  }
+]
