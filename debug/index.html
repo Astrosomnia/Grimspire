@@ -600,7 +600,8 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
   // counts were tuned on the 2000 px map: scale them with the width, so a narrower map has less, not the same crammed in
   const MK=W/W0,nW=(n,min=0)=>Math.max(min,Math.round(n*MK));
   // half of all maps are the drowned district; the rest share the generated layouts as before
-  const L0=['drowned','drowned','drowned','drowned','drowned','spires','islands','canyon','ruins','ruins'][Math.random()*10|0],L=NS.drowned?'drowned':L0;S.layout=L;
+  // layout weights: the drowned district comes up more often than any one other, not half the time (Jarred, 3 Nov)
+  const LW=[['drowned',1.75],['spires',1],['islands',1],['canyon',1],['ruins',1]],L0=(()=>{let u=Math.random()*LW.reduce((a,o)=>a+o[1],0);for(const[l,k]of LW){u-=k;if(u<0)return l}return'ruins'})(),L=NS.drowned?'drowned':L0;S.layout=L;
   const base=L==='islands'?H*.8:L==='canyon'?H*.56:H*.66, amp=L==='islands'?.55:L==='canyon'?1.2:1;
   const p=Array.from({length:5},()=>rnd(0,9)),ccx=rnd(.4,.6)*W,cwid=rnd(80,120);
   const hs=new Float32Array(W+1);
@@ -872,9 +873,10 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
       // building sits) and rough sloping flanks down to the water at the open ends, so there is ground beside and
       // below the masonry. A tall one may have a cave cut in at the waterline: somewhere low to hide.
       const rockMass=(x0,x1,top,lf,rt)=>{const pts=[[x0-(lf?60:0),H]];
-        if(lf){const fw=rnd(30,70);for(let i=0;i<=6;i++){const f=i/6;pts.push([x0-fw+fw*f+rnd(-3,3),sump+12-(sump+12-top)*Math.pow(f,.7)+(i&&i<6?rnd(-6,6):0)])}}else pts.push([x0,top]);
-        pts.push([x0+4,top+3],[x1-4,top+3]);
-        if(rt){const fw=rnd(30,70);for(let i=0;i<=6;i++){const f=i/6;pts.push([x1+fw*f+rnd(-3,3),top+(sump+12-top)*Math.pow(f,1.4)+(i&&i<6?rnd(-6,6):0)])}}else pts.push([x1,top]);
+        if(lf){const fw=rnd(30,70);for(let i=0;i<=6;i++){const f=i/6;pts.push([x0-fw+fw*f+rnd(-3,3),sump+12-(sump+13-top)*Math.pow(f,.7)+(i&&i<6?rnd(-6,6):0)])}}else pts.push([x0,top-1]);
+        // the top runs a pixel above the building's baseline, so the masonry sits on the rock with no seam
+        pts.push([x0+4,top-1],[x1-4,top-1]);
+        if(rt){const fw=rnd(30,70);for(let i=0;i<=6;i++){const f=i/6;pts.push([x1+fw*f+rnd(-3,3),top-1+(sump+13-top)*Math.pow(f,1.4)+(i&&i<6?rnd(-6,6):0)])}}else pts.push([x1,top]);
         pts.push([x1+(rt?80:0),H]);poly(g,pts);
         // broken rock (R01–R04) piled against the open flanks, so the foot of the mass reads as shore, not a slab
         if(RK.length){if(lf)rockArt(x0-RW*rnd(.75,.95),1,rnd(0,22));if(rt)rockArt(x1-RW*rnd(.05,.25),1,rnd(0,22))}
@@ -1033,7 +1035,8 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
     if(Math.random()<.85){const side=Math.random()<.5?-1:1,y=s.top+rnd(30,Math.max(40,s.base-s.top-50));add({k:'bar',x:s.cx+side*(s.w/2+4),y,ax:s.cx+side*(s.w/2-4),ay:y})}
     if(Math.random()<.65)add({k:'cross',x:s.cx,y:s.top-s.roof*.45,ax:s.cx,ay:s.top-s.roof*.25})}
   for(const h of hangs){let y=Math.max(0,h.cy-10),k=0;while(!isSolid(h.cx,y)&&k<60){y++;k++}while(isSolid(h.cx,y)&&k<260){y++;k++}
-    if(k<260)add({k:'lamp',x:h.cx,y:y+16,ax:h.cx,ay:y-3})}
+    // only under a real ceiling: open air for the lamp's whole drop, above the water (not in a seam or crack)
+    if(k<260&&y+34<sump&&![6,14,22,30].some(d=>isSolid(h.cx,y+d)))add({k:'lamp',x:h.cx,y:y+16,ax:h.cx,ay:y-3})}
   for(let i=0;i<nW(6,3);i++){const x=rnd(120,W-120),y=surf(x);if(y>60&&y<sump-70)add({k:'post',x,y,ax:x,ay:y+3})}
   for(const e of eyes)add({k:'eye',x:e.x,y:e.y,ax:e.ax,ay:e.ay,c:e.c,faulty:Math.random()<.3});
   if(L==='drowned')sump=Math.round(H*.6);// the drowned district starts with the water high
@@ -3496,7 +3499,7 @@ function netCatchUp(){if(S.mode!=='online'||NET.role!=='watch')return;const behi
   if(behind>300&&!NET.skip)for(let i=0;i<Math.min(6,behind-240);i++)tick()}
 function netGameOver(){if(NET.role!=='act')clearNet()}
 function netLeave(){document.title=TITLE0;chatStop();if(NET.unC)NET.unC();if(NET.unM)NET.unM();NET.unC=NET.unM=null;NET.role=null;NET.started=false;S.mode='hot';$('#netBar').hidden=true}
-const GV=30;// bump on every release that changes the sim
+const GV=31;// bump on every release that changes the sim
 function startOnline(code,me,d){BE.update(code,{['vers.'+me]:GV,['arts.'+me]:window.GRIMSPIRE_ART_SIM||''}).catch(()=>{});NET.code=code;NET.me=me;NET.round=d.round||0;NET.snapK=-1;NET.snap=null;NET.matchAtt=d.att||'';NET.started=true;NET.leaving=false;saveNet();
   $('#net').hidden=true;if(!CHAT.un)chatStart();const cfg=Object.assign(mkCfg('online',d.seats,d.mode==='teams'),{mode:'online'});newGame('online',d.seed,cfg);S.genOK=true;
   const base=NET.round*1e5,has=d.snapK!=null&&d.snapK>=base&&d.snap;

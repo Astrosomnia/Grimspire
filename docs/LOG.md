@@ -6,6 +6,12 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-03 · Claude · Drowned less often; landmarks flush on their rock; lanterns only under real ceilings (GV 31)
+- **Layout odds (Jarred):** drowned 1.75 against 1 each for spires, islands, canyon and ruins (about 1 map in 3.3, was 1 in 2; ruins drops from 2 to 1). Over 300 seeds: drowned 101, islands 58, ruins 48, canyon 47, spires 46.
+- **Seams:** the rock mass under lifted landmarks and the cathedral front sat 3 px below the building's baseline, leaving a strip of air under the dome, belfry and church. The rock top now runs a pixel above the baseline; measured gaps under K10–K13 on lifted pieces are zero.
+- **Lanterns:** a hanging lamp is placed only under a real ceiling, with open air for its whole drop and above the water. They no longer hang in seams or cracks.
+- Tests: dsim, dsim2, dsimart identical; generated and drowned maps identical across fresh browsers; all layouts and phone load with no errors.
+
 ## 2026-11-03 · Claude · Map width rolls per match (GV 30)
 - Each match now rolls its width from the seed, weighted toward the middle (Jarred): 100% 20%, 75% 30%, 67% 30%, 50% 20% of matches (`MAP_WS`, Balance Sheet "Map widths"). Online players all get the same width from the shared seed. Over 200 seeds: 2000 px 36, 1500 px 54, 1340 px 73, 1000 px 37.
 - The TEST panel's Width button now starts at "random" and cycles fixed widths; `#w=60` in the URL still forces one.
