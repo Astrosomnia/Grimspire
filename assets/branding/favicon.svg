@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <title>Grimspire</title>
+  <rect width="64" height="64" rx="12" fill="#101014"/>
+  <g fill="#3ff3ff">
+    <path d="M32 3 37 25 35 29 35 45 39 49 35 49 35 55 32 61 29 55 29 49 25 49 29 45 29 29 27 25Z"/>
+    <path fill-rule="evenodd" d="M32 15a20 20 0 1 1 0 40 20 20 0 1 1 0-40Zm0 4a16 16 0 1 0 0 32 16 16 0 1 0 0-32Z"/>
+    <path d="m12 32-7 3 7 2Zm40 0 7 3-7 2ZM16 19l-4-7 8 5Zm28-2 8-5-4 7ZM16 49l-4 8 8-5Zm28 3 8 5-4-8Z"/>
+  </g>
+</svg>

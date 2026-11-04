@@ -17,6 +17,7 @@
 <style>body{margin:0}</style>
 <script>window.GS_DEBUG=1</script>
 <title>Grimspire Test</title>
+<link rel="icon" type="image/svg+xml" href="assets/branding/favicon.svg">
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -303,11 +304,11 @@ body.intitle #dbg{display:none}
  .ui-clock-frame{width:150px;height:38px;left:calc(50% - 75px);clip-path:inset(0 28%)}
  #timer{font-size:28px;line-height:32px;height:32px;transform:translateY(-3px)}
  .ui-digit-slot{height:32px}
- .ui-wind-slot{width:48px;height:18px}
+ .ui-wind-slot{width:112px;height:20px;margin-inline:-20px}
  .wind{gap:3px}.wind span{font-size:6px;line-height:8px;letter-spacing:1.4px}
- .wbar{width:48px;height:6px}.wbar i{height:3px;top:2px}
+ .wbar{width:112px;height:7px}.wbar i{height:4px;top:1.5px}
  #uiRetreat{font-size:7px;letter-spacing:1px}
- .tbtns{position:absolute;left:48px;top:32px;transform:none}
+ .tbtns{position:fixed;left:auto;right:max(12px,env(safe-area-inset-right,0px));top:calc(env(safe-area-inset-top,0px) + 58px);transform:none}
  #hud .tbtns #chatBtn{right:calc(100% + 24px);top:0}
  .tname{font-size:clamp(13px,4.1vw,18px);letter-spacing:.1px}
  .team.sm .tname{font-size:clamp(11px,3.6vw,15px)}

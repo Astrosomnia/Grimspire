@@ -6,6 +6,12 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-03 · Claude · Reviewed and shipped the UI pass (PR #8); pause moved on phones; favicon
+- **Review:** Codex's interim HUD and icons (PR #8) approved by Jarred, reviewed by Claude: presentation only, no sim change (map hashes match, dsim identical), GV stays 33. Arsenal, selected-weapon tile, pause and resume checked on phone with no errors.
+- **Icons:** the 22 PNGs were 1254 px squares (10.3 MB for icons drawn at 26–54 px). Downscaled to 160 px: 247 KB in total, same look. Still interim; Jarred wants a new icon direction later.
+- **Pause (phone portrait):** moved out of the clock row to the top-right corner under the right squad, so the wind meter gets the centre. Wind bar widened from 48 to 112 px. Online chat sits beside pause.
+- **Favicon:** Jarred's spire-and-ring mark in Neon Choir cyan (`assets/branding/favicon.svg`).
+
 ## 2026-11-03 · Codex · Interim UI pass and requested PNG corrections — draft
 - Jarred asked to push the UI with his attached icon edits, noting most icons are unsatisfactory and the design should restart later. This is an **interim set**, not a settled art direction. [Submitted decisions and revised asset receipt](../art/ui/ui-pass/README.md).
 - Implemented Clock 1 with per-digit fades, faction wind without numbers and a retreat crossfade; open serif team names with thin health lines; no redundant Your turn label; a smaller 50%-opaque selected-weapon tile, stronger dark icon shadow and readable ammo beside its name; neutral PNG arsenal icons and restrained selected-state neon. Rope/wet/second-shot/placement/sudden-death cues remain available separately.
