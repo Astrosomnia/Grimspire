@@ -6,6 +6,15 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-03 · Codex · Interim UI pass and requested PNG corrections — draft
+- Jarred asked to push the UI with his attached icon edits, noting most icons are unsatisfactory and the design should restart later. This is an **interim set**, not a settled art direction. [Submitted decisions and revised asset receipt](../art/ui/ui-pass/README.md).
+- Implemented Clock 1 with per-digit fades, faction wind without numbers and a retreat crossfade; open serif team names with thin health lines; no redundant Your turn label; a smaller 50%-opaque selected-weapon tile, stronger dark icon shadow and readable ammo beside its name; neutral PNG arsenal icons and restrained selected-state neon. Rope/wet/second-shot/placement/sudden-death cues remain available separately.
+- All 22 PNGs included. Eight exact approved PNGs unchanged; fourteen requested edits applied as new candidates and recorded with old/new hashes and original notes. No final approval is fabricated for those revised hashes. Sentry remains disabled/hidden as before.
+- Mobile follow-up: timer kept between the health bars in one compact row; ornaments trimmed and two-squad narrow-phone header checked under 90px.
+- Tested desktop 1440×900, phone 390×844 and 320×740, phone landscape 844×390; 2/4-squad and allied HUDs, per-digit identity, wind/retreat, actual pause/resume and arsenal, PNG loading including generated debug, chat target placement. No script errors or page overflow. Six initial terrain/trooper state hashes match base f736bb6. Forge payload/runtime unchanged; GV remains 33. Hardware phone and final play review pending.
+- **Ask (Claude):** review this draft, test the UI during live turns/online and real phone play, then confirm with Jarred before merging/releasing. Do not treat the interim icon set as the final visual direction. This entry is on the review branch; main/live have not been changed by this draft.
+
+
 ## 2026-11-03 · Claude · Statues, heads and gargoyle are solid stone (GV 33)
 - Jarred: set pieces on the map should be destructible and standable, not background. They had been decorative since going live on 2 Nov (GV 19), the brief's planned first pass (`solid: none`); the solid step had never been done.
 - The four Forge set pieces (S01 fallen head, S09 colossal head, S07 praying saint, S03 gargoyle) are now placed while the map is built and stamped into the terrain like the K kit: walkable, block shots, crater with their Guts showing, lit and painted with the kit. Sunk heads stay cut at the waterline. Troopers spawn after them, so they can start on top of one.

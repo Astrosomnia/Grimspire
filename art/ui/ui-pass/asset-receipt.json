@@ -1,0 +1,288 @@
+[
+  {
+    "id": "mortar",
+    "name": "Plasma Mortar",
+    "sha256": "130a0f1d7ae9895b1f3a3cf2f9d5760653545cb704739b99de866c720e59e01f",
+    "previousSha256": "130a0f1d7ae9895b1f3a3cf2f9d5760653545cb704739b99de866c720e59e01f",
+    "state": "approved-unchanged",
+    "requestedEdit": "",
+    "optical": {
+      "scale": 0.991,
+      "x": 49.528,
+      "y": 52.8
+    }
+  },
+  {
+    "id": "frag",
+    "name": "Frag Charge",
+    "sha256": "de11ec6bf743b3b47aee2c20d2e4c2c2ec1e13b4e4fe7825e02fecb6e1c19b34",
+    "previousSha256": "de11ec6bf743b3b47aee2c20d2e4c2c2ec1e13b4e4fe7825e02fecb6e1c19b34",
+    "state": "approved-unchanged",
+    "requestedEdit": "",
+    "optical": {
+      "scale": 1.20458,
+      "x": 50.817,
+      "y": 52.412
+    }
+  },
+  {
+    "id": "rail",
+    "name": "Rail Carbine",
+    "sha256": "33bed5398d7230f770cc0fa724fca66037fa024e0a3bf748e164d1ff39353211",
+    "previousSha256": "33bed5398d7230f770cc0fa724fca66037fa024e0a3bf748e164d1ff39353211",
+    "state": "approved-unchanged",
+    "requestedEdit": "",
+    "optical": {
+      "scale": 1.03016,
+      "x": 48.556,
+      "y": 50.236
+    }
+  },
+  {
+    "id": "scatter",
+    "name": "Scatter Gun",
+    "sha256": "179ed995a16797ad8e5aef3d07957674c2804e7c375a2af3f39590e0682f8789",
+    "previousSha256": "dafb7d3ce8d7a397f8dde522e28e465f42f5e06d854df6ecae176f5f7311c695",
+    "state": "requested-edit-applied-final-review-pending",
+    "requestedEdit": "The peak on top of this is too distorting of the shape. Simplify.",
+    "optical": {
+      "scale": 0.99201,
+      "x": 49.363,
+      "y": 57.073
+    }
+  },
+  {
+    "id": "bolter",
+    "name": "Dakka Bolter",
+    "sha256": "26de7d09ac3f677e937f3bac76556382a42cdfa427fe343aeec2c770ed9e3247",
+    "previousSha256": "4b8cd551327c6646675bdd8b51117a503494594e519bee9a06c0608afb1856f8",
+    "state": "requested-edit-applied-final-review-pending",
+    "requestedEdit": "Shape is weird. Go more like a standard Warhammer boltgun. The top is strange. ",
+    "optical": {
+      "scale": 0.987,
+      "x": 49.674,
+      "y": 55.181
+    }
+  },
+  {
+    "id": "las",
+    "name": "Las Burner",
+    "sha256": "40e7dde641ef607c85c57e54c4d930f781cc0509d7df9b4260cb57762697f10a",
+    "previousSha256": "49ba5d3918d41f6eddfd1ddb4a18e158b4d5ca56ea420844cdc229242636bd51",
+    "state": "requested-edit-applied-final-review-pending",
+    "requestedEdit": "We need to differ more from the carbine. More dots along the barrel and body?",
+    "optical": {
+      "scale": 0.94871,
+      "x": 48.548,
+      "y": 53.948
+    }
+  },
+  {
+    "id": "flamer",
+    "name": "Promethium Flamer",
+    "sha256": "cbe40f9ffbf663c1ee0d6e33448d669985388fb74c5a990216745681f8f00aa9",
+    "previousSha256": "398dd82b71358c5cdd25f678b10b09ba699e3e7859027dcea405ea0e37aeb96d",
+    "state": "requested-edit-applied-final-review-pending",
+    "requestedEdit": "Let's put a flame out the front. Lose the spire on top.",
+    "optical": {
+      "scale": 0.8679,
+      "x": 49.476,
+      "y": 54.656
+    }
+  },
+  {
+    "id": "chain",
+    "name": "Chainblade",
+    "sha256": "8a81d1fcb4c414bffc1ed2817856609b5bc159fe32d3728ca7b2152551ce9933",
+    "previousSha256": "9ca6b6dc92f552c905b95421cc06729c2329bc8ceef54bccd7446241eec9f875",
+    "state": "requested-edit-applied-final-review-pending",
+    "requestedEdit": "More chainsaw shaped on the blade, less sword",
+    "optical": {
+      "scale": 0.95055,
+      "x": 49.811,
+      "y": 55.201
+    }
+  },
+  {
+    "id": "fist",
+    "name": "Thunder Fist",
+    "sha256": "3e65037c288c8ef34bd47c31fff62e6b388763eba0aa53917be1eb39791848d5",
+    "previousSha256": "757c7846265a19c06401cb0b406601ffda8d080057479a7ba2e79ecb8f7e9b52",
+    "state": "requested-edit-applied-final-review-pending",
+    "requestedEdit": "The hand is too human. It should be more like a power glove. More metal/forged/angular.",
+    "optical": {
+      "scale": 1.17563,
+      "x": 50.718,
+      "y": 51.251
+    }
+  },
+  {
+    "id": "sun",
+    "name": "Sun Grenade",
+    "sha256": "c4ead73b2006e5254829c9e862b059fa11acccc86cfe41eb6baf5c1cbbb5c9a6",
+    "previousSha256": "c4ead73b2006e5254829c9e862b059fa11acccc86cfe41eb6baf5c1cbbb5c9a6",
+    "state": "approved-unchanged",
+    "requestedEdit": "",
+    "optical": {
+      "scale": 1.0796,
+      "x": 50.292,
+      "y": 49.566
+    }
+  },
+  {
+    "id": "mine",
+    "name": "Fusion Mine",
+    "sha256": "f19177df339c9f9b0ed7aad3635bebc70e2aeb7836f8144710262fdbe15f9586",
+    "previousSha256": "c8abcd1e8a4210507c52fb0a2e49efea8b8d0b9f32bf052bf2304918a392ed14",
+    "state": "requested-edit-applied-final-review-pending",
+    "requestedEdit": "This just looks like a temple dome. Can we add blast sparks? ",
+    "optical": {
+      "scale": 1.06782,
+      "x": 49.953,
+      "y": 52.903
+    }
+  },
+  {
+    "id": "lance",
+    "name": "Orbital Lance",
+    "sha256": "67d94a7c0175edfd1e3bc6a5e64f254fce6f1207e23049da97219041c124dae1",
+    "previousSha256": "67d94a7c0175edfd1e3bc6a5e64f254fce6f1207e23049da97219041c124dae1",
+    "state": "approved-unchanged",
+    "requestedEdit": "",
+    "optical": {
+      "scale": 0.9991,
+      "x": 49.955,
+      "y": 49.537
+    }
+  },
+  {
+    "id": "nuke",
+    "name": "Doomsday Shell",
+    "sha256": "db8765c817002c3be19de84ea89b47d3551094bc164fd083aa5fb9b138d828b2",
+    "previousSha256": "6a9be6d86eaae2369d270b8d74f0996cc6038c73410be758972f6ef1d57ff958",
+    "state": "requested-edit-applied-final-review-pending",
+    "requestedEdit": "Maybe turn it sideways ",
+    "optical": {
+      "scale": 1.03505,
+      "x": 49.011,
+      "y": 53.203
+    }
+  },
+  {
+    "id": "minigun",
+    "name": "Minigun",
+    "sha256": "5278e146894e253641be4a4cb9827cc66c5a001d883ba6b6ef0b4986705db620",
+    "previousSha256": "cd44fa512e538d322b2cbd22ff487f00966234267a9db0deebc306a6650e4d2b",
+    "state": "requested-edit-applied-final-review-pending",
+    "requestedEdit": "lengthen barrel a bit. Change the circle dangly bit to something more recognizable like a bandolier or row of bullets.",
+    "optical": {
+      "scale": 0.91584,
+      "x": 49.88,
+      "y": 55.41
+    }
+  },
+  {
+    "id": "sentry",
+    "name": "Sentry Turret",
+    "sha256": "733f2e1d6b9d05ed02673fb572a8bbc53bf51db199047104dcfe0eb6ec0496a9",
+    "previousSha256": "733f2e1d6b9d05ed02673fb572a8bbc53bf51db199047104dcfe0eb6ec0496a9",
+    "state": "approved-unchanged",
+    "requestedEdit": "",
+    "optical": {
+      "scale": 1.10898,
+      "x": 50.119,
+      "y": 50.646
+    }
+  },
+  {
+    "id": "drone",
+    "name": "Tracked Drone",
+    "sha256": "b4c6b7527eceda4cfbf0fb34ead2b39b0a0ba094b8776e3e46e3f6fed1a85079",
+    "previousSha256": "b4c6b7527eceda4cfbf0fb34ead2b39b0a0ba094b8776e3e46e3f6fed1a85079",
+    "state": "approved-unchanged",
+    "requestedEdit": "",
+    "optical": {
+      "scale": 1.19283,
+      "x": 50.713,
+      "y": 55.141
+    }
+  },
+  {
+    "id": "pod",
+    "name": "Godfall",
+    "sha256": "d312478c79e2a193943cb122731b269f3604a361228d96f380fcf4c23f5ea1cb",
+    "previousSha256": "d64832806a5da14c5c14431476dff02d6b98259275476ad81e63615dcb54c2d3",
+    "state": "requested-edit-applied-final-review-pending",
+    "requestedEdit": "Have it facing down. Maybe with similar impact marks to the Orbital Lance.",
+    "optical": {
+      "scale": 0.88119,
+      "x": 49.961,
+      "y": 49.861
+    }
+  },
+  {
+    "id": "rope",
+    "name": "Rappel Wire",
+    "sha256": "a73326f1ca38519097094cc5fef7bf6bcb9c3b16ce4a1b5eb74b19308a807ccf",
+    "previousSha256": "05d19475675baf34d191da25bb93e3ca17a55d036f44d22d09676a03f74435e5",
+    "state": "requested-edit-applied-final-review-pending",
+    "requestedEdit": "Let's focus on the wire, not the weapon. More spool and thread.",
+    "optical": {
+      "scale": 0.98008,
+      "x": 47.045,
+      "y": 52.563
+    }
+  },
+  {
+    "id": "jet",
+    "name": "Jump Pack",
+    "sha256": "a1c4784951dcae3c3afa78dc698146114bcc1673c3c8c5b6092306c5d9e78d5a",
+    "previousSha256": "e40416945e3a3202906f9076ef822b45e2ea03f7eda7e5539ba535d017319e1f",
+    "state": "requested-edit-applied-final-review-pending",
+    "requestedEdit": "This needs to be more recognizably jetpack. Bring them closer together and add some flame points.",
+    "optical": {
+      "scale": 1.26372,
+      "x": 49.926,
+      "y": 55.227
+    }
+  },
+  {
+    "id": "cutter",
+    "name": "Plasma Cutter",
+    "sha256": "580e06c0b2eb8e029d6cee0fa55961b16e9219ba831347bc89c7149fefd99c8e",
+    "previousSha256": "580e06c0b2eb8e029d6cee0fa55961b16e9219ba831347bc89c7149fefd99c8e",
+    "state": "approved-unchanged",
+    "requestedEdit": "",
+    "optical": {
+      "scale": 1.05515,
+      "x": 47.571,
+      "y": 52.176
+    }
+  },
+  {
+    "id": "fab",
+    "name": "Fabricator",
+    "sha256": "d428b644a017b991ec4df6d5d60e87617d52823986b28b3d1cfe2b09c21b0847",
+    "previousSha256": "2c6db5ef957738b77ea4ce4451ef9434d4d2c5581b8283dbb37f4c6075c7d54c",
+    "state": "requested-edit-applied-final-review-pending",
+    "requestedEdit": "Simplify shape. More like a girder.",
+    "optical": {
+      "scale": 0.9552,
+      "x": 49.949,
+      "y": 55.243
+    }
+  },
+  {
+    "id": "warp",
+    "name": "Teleporter",
+    "sha256": "4954bed97d4446583106da17281e5716da240bb332d67d07043dbf8ec63afb4c",
+    "previousSha256": "cb7c10c8806c9ae5b24722e6c60993c1549dd58d40111771c19ca10efe53c7fd",
+    "state": "requested-edit-applied-final-review-pending",
+    "requestedEdit": "A simple human pictogram split by slices into two.",
+    "optical": {
+      "scale": 1.14266,
+      "x": 51.302,
+      "y": 54.41
+    }
+  }
+]

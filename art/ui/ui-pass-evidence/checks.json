@@ -1,0 +1,30 @@
+[
+  {
+    "width": 1440,
+    "height": 900,
+    "phone": false,
+    "errors": [],
+    "checks": "game load, PNG paths, per-digit animation, retreat/wind, actual pause/resume, arsenal open/close and 21 visible PNG items, 4 squads, no overflow"
+  },
+  {
+    "width": 390,
+    "height": 844,
+    "phone": true,
+    "errors": [],
+    "checks": "game load, PNG paths, per-digit animation, retreat/wind, actual pause/resume, arsenal open/close and 21 visible PNG items, 4 squads, no overflow"
+  },
+  {
+    "width": 320,
+    "height": 740,
+    "phone": true,
+    "errors": [],
+    "checks": "game load, PNG paths, per-digit animation, retreat/wind, actual pause/resume, arsenal open/close and 21 visible PNG items, 4 squads, no overflow"
+  },
+  {
+    "width": 844,
+    "height": 390,
+    "phone": true,
+    "errors": [],
+    "checks": "game load, PNG paths, per-digit animation, retreat/wind, actual pause/resume, arsenal open/close and 21 visible PNG items, 4 squads, no overflow"
+  }
+]

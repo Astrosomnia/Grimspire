@@ -1,0 +1,212 @@
+{
+  "schema": 1,
+  "suite": "grimspire-cathedral-arsenal-v1",
+  "exported": "2026-11-04T03:51:09.660Z",
+  "decisions": {
+    "clock": "1 / Reliquary",
+    "teams": "open serif, no Your turn",
+    "icons": "Cathedral off-white PNG",
+    "tile": "smaller, semi-opaque, outer border only",
+    "ammo": "beside name"
+  },
+  "assets": [
+    {
+      "id": "mortar",
+      "name": "Plasma Mortar",
+      "sha256": "130a0f1d7ae9895b1f3a3cf2f9d5760653545cb704739b99de866c720e59e01f",
+      "path": "icons/mortar.png",
+      "status": "approved",
+      "note": "",
+      "updated": "2026-11-04T03:49:07.690Z"
+    },
+    {
+      "id": "frag",
+      "name": "Frag Charge",
+      "sha256": "de11ec6bf743b3b47aee2c20d2e4c2c2ec1e13b4e4fe7825e02fecb6e1c19b34",
+      "path": "icons/frag.png",
+      "status": "approved",
+      "note": "",
+      "updated": "2026-11-04T03:49:09.702Z"
+    },
+    {
+      "id": "rail",
+      "name": "Rail Carbine",
+      "sha256": "33bed5398d7230f770cc0fa724fca66037fa024e0a3bf748e164d1ff39353211",
+      "path": "icons/rail.png",
+      "status": "approved",
+      "note": "",
+      "updated": "2026-11-04T03:49:19.704Z"
+    },
+    {
+      "id": "scatter",
+      "name": "Scatter Gun",
+      "sha256": "dafb7d3ce8d7a397f8dde522e28e465f42f5e06d854df6ecae176f5f7311c695",
+      "path": "icons/scatter.png",
+      "status": "edits",
+      "note": "The peak on top of this is too distorting of the shape. Simplify.",
+      "updated": "2026-11-04T03:44:09.747Z"
+    },
+    {
+      "id": "bolter",
+      "name": "Dakka Bolter",
+      "sha256": "4b8cd551327c6646675bdd8b51117a503494594e519bee9a06c0608afb1856f8",
+      "path": "icons/bolter.png",
+      "status": "edits",
+      "note": "Shape is weird. Go more like a standard Warhammer boltgun. The top is strange. ",
+      "updated": "2026-11-04T03:44:44.979Z"
+    },
+    {
+      "id": "las",
+      "name": "Las Burner",
+      "sha256": "49ba5d3918d41f6eddfd1ddb4a18e158b4d5ca56ea420844cdc229242636bd51",
+      "path": "icons/las.png",
+      "status": "edits",
+      "note": "We need to differ more from the carbine. More dots along the barrel and body?",
+      "updated": "2026-11-04T03:45:37.910Z"
+    },
+    {
+      "id": "flamer",
+      "name": "Promethium Flamer",
+      "sha256": "398dd82b71358c5cdd25f678b10b09ba699e3e7859027dcea405ea0e37aeb96d",
+      "path": "icons/flamer.png",
+      "status": "edits",
+      "note": "Let's put a flame out the front. Lose the spire on top.",
+      "updated": "2026-11-04T03:43:58.967Z"
+    },
+    {
+      "id": "chain",
+      "name": "Chainblade",
+      "sha256": "9ca6b6dc92f552c905b95421cc06729c2329bc8ceef54bccd7446241eec9f875",
+      "path": "icons/chain.png",
+      "status": "edits",
+      "note": "More chainsaw shaped on the blade, less sword",
+      "updated": "2026-11-04T03:45:58.240Z"
+    },
+    {
+      "id": "fist",
+      "name": "Thunder Fist",
+      "sha256": "757c7846265a19c06401cb0b406601ffda8d080057479a7ba2e79ecb8f7e9b52",
+      "path": "icons/fist.png",
+      "status": "edits",
+      "note": "The hand is too human. It should be more like a power glove. More metal/forged/angular.",
+      "updated": "2026-11-04T03:43:43.217Z"
+    },
+    {
+      "id": "sun",
+      "name": "Sun Grenade",
+      "sha256": "c4ead73b2006e5254829c9e862b059fa11acccc86cfe41eb6baf5c1cbbb5c9a6",
+      "path": "icons/sun.png",
+      "status": "approved",
+      "note": "",
+      "updated": "2026-11-04T03:49:20.998Z"
+    },
+    {
+      "id": "mine",
+      "name": "Fusion Mine",
+      "sha256": "c8abcd1e8a4210507c52fb0a2e49efea8b8d0b9f32bf052bf2304918a392ed14",
+      "path": "icons/mine.png",
+      "status": "edits",
+      "note": "This just looks like a temple dome. Can we add blast sparks? ",
+      "updated": "2026-11-04T03:46:35.906Z"
+    },
+    {
+      "id": "lance",
+      "name": "Orbital Lance",
+      "sha256": "67d94a7c0175edfd1e3bc6a5e64f254fce6f1207e23049da97219041c124dae1",
+      "path": "icons/lance.png",
+      "status": "approved",
+      "note": "",
+      "updated": "2026-11-04T03:49:22.280Z"
+    },
+    {
+      "id": "nuke",
+      "name": "Doomsday Shell",
+      "sha256": "6a9be6d86eaae2369d270b8d74f0996cc6038c73410be758972f6ef1d57ff958",
+      "path": "icons/nuke.png",
+      "status": "edits",
+      "note": "Maybe turn it sideways ",
+      "updated": "2026-11-04T03:49:47.829Z"
+    },
+    {
+      "id": "minigun",
+      "name": "Minigun",
+      "sha256": "cd44fa512e538d322b2cbd22ff487f00966234267a9db0deebc306a6650e4d2b",
+      "path": "icons/minigun.png",
+      "status": "edits",
+      "note": "lengthen barrel a bit. Change the circle dangly bit to something more recognizable like a bandolier or row of bullets.",
+      "updated": "2026-11-04T03:50:46.902Z"
+    },
+    {
+      "id": "sentry",
+      "name": "Sentry Turret",
+      "sha256": "733f2e1d6b9d05ed02673fb572a8bbc53bf51db199047104dcfe0eb6ec0496a9",
+      "path": "icons/sentry.png",
+      "status": "approved",
+      "note": "",
+      "updated": "2026-11-04T03:50:50.309Z"
+    },
+    {
+      "id": "drone",
+      "name": "Tracked Drone",
+      "sha256": "b4c6b7527eceda4cfbf0fb34ead2b39b0a0ba094b8776e3e46e3f6fed1a85079",
+      "path": "icons/drone.png",
+      "status": "approved",
+      "note": "",
+      "updated": "2026-11-04T03:50:58.558Z"
+    },
+    {
+      "id": "pod",
+      "name": "Godfall",
+      "sha256": "d64832806a5da14c5c14431476dff02d6b98259275476ad81e63615dcb54c2d3",
+      "path": "icons/pod.png",
+      "status": "edits",
+      "note": "Have it facing down. Maybe with similar impact marks to the Orbital Lance.",
+      "updated": "2026-11-04T03:47:10.623Z"
+    },
+    {
+      "id": "rope",
+      "name": "Rappel Wire",
+      "sha256": "05d19475675baf34d191da25bb93e3ca17a55d036f44d22d09676a03f74435e5",
+      "path": "icons/rope.png",
+      "status": "edits",
+      "note": "Let's focus on the wire, not the weapon. More spool and thread.",
+      "updated": "2026-11-04T03:47:43.746Z"
+    },
+    {
+      "id": "jet",
+      "name": "Jump Pack",
+      "sha256": "e40416945e3a3202906f9076ef822b45e2ea03f7eda7e5539ba535d017319e1f",
+      "path": "icons/jet.png",
+      "status": "edits",
+      "note": "This needs to be more recognizably jetpack. Bring them closer together and add some flame points.",
+      "updated": "2026-11-04T03:48:03.139Z"
+    },
+    {
+      "id": "cutter",
+      "name": "Plasma Cutter",
+      "sha256": "580e06c0b2eb8e029d6cee0fa55961b16e9219ba831347bc89c7149fefd99c8e",
+      "path": "icons/cutter.png",
+      "status": "approved",
+      "note": "",
+      "updated": "2026-11-04T03:50:59.782Z"
+    },
+    {
+      "id": "fab",
+      "name": "Fabricator",
+      "sha256": "2c6db5ef957738b77ea4ce4451ef9434d4d2c5581b8283dbb37f4c6075c7d54c",
+      "path": "icons/fab.png",
+      "status": "edits",
+      "note": "Simplify shape. More like a girder.",
+      "updated": "2026-11-04T03:48:26.111Z"
+    },
+    {
+      "id": "warp",
+      "name": "Teleporter",
+      "sha256": "cb7c10c8806c9ae5b24722e6c60993c1549dd58d40111771c19ca10efe53c7fd",
+      "path": "icons/warp.png",
+      "status": "edits",
+      "note": "A simple human pictogram split by slices into two.",
+      "updated": "2026-11-04T03:48:50.036Z"
+    }
+  ]
+}

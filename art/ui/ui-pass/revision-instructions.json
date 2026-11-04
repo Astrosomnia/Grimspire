@@ -1,0 +1,20 @@
+{
+  "tool": "built-in image generation editing",
+  "style": "flat off-white-grey, transparent, no glow/shadow baked into sources",
+  "changes": {
+    "scatter": "Remove the entire tall central peak/crown. Low flat simple receiver. Short heavy double scatter muzzle remains.",
+    "bolter": "Remove the odd arched top. Conventional chunky military boltgun silhouette: flat box receiver, short thick barrel, straight rectangular magazine, stock and angular trigger grip. No logo or copy of branded ornament.",
+    "las": "Clearly distinguish this energy rifle from the Rail Carbine: a thick continuous emitter body with FIVE large circular negative-space capacitor dots along body and barrel, a forked muzzle. No long parallel rail bars.",
+    "flamer": "Remove the entire top spire/steps. Low flat receiver. Add one unmistakable large graphic flame shape projecting from the muzzle at right. Keep fuel canister and hose simple.",
+    "chain": "Make the blade a rounded-end chainsaw guide bar, not a pointed sword. Broad straight sides, rounded nose, large chain teeth around guide-bar perimeter; simple machine housing at grip.",
+    "fist": "Make the fist a forged metal power gauntlet: heavy rectangular plated knuckles, angular articulated thumb and broad flared wrist cuff. No organic human finger outline.",
+    "mine": "Keep low mine body but remove temple/dome cues. Add THREE clear angular blast sparks above the mine so it reads as explosive equipment.",
+    "nuke": "Turn the warhead to a horizontal right-facing side profile. Retain broad heavy shell, pointed nose, tail fins and radiation-like opening.",
+    "minigun": "Lengthen the multi-barrel cluster toward right. Remove dangling circular drum. Replace it with a simple hanging curved belt/row of FOUR large rectangular ammunition cartridges.",
+    "pod": "Turn the armoured pod downward: point/nose faces toward bottom, tail at top. Add three broad impact spikes/marks beneath it like the Orbital Lance emblem.",
+    "rope": "Discard gun silhouette. Icon should be a large round wire spool with central hole and a single bold line of thread/wire unrolling into a simple loose curved loop. Main identity spool plus wire.",
+    "jet": "Two thruster tanks much closer together around narrow central harness. Recognisable compact jetpack, not separate towers. Add two pointed flame tongues emerging directly below nozzles.",
+    "fab": "Discard large cathedral building. Simple horizontal steel I/truss girder with three broad triangular cutouts, no roof or spire; recognisably a construction beam.",
+    "warp": "Replace portals with a simple front-facing human pictogram split into two displaced halves by three broad diagonal slices: head circle, shoulders, body, legs. Readable teleportation/sliced human symbol, no violence or gore."
+  }
+}
