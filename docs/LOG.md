@@ -6,6 +6,13 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-03 · Codex · UI workshop: two alternatives per component
+- Jarred authorised UI exploration and a testing branch for Claude review. New self-contained [review page](../art/ui/review-v1/index.html): two timers, team/health treatments, current-weapon controls and arsenal layouts; 22 original SVG weapon/tool icons in solid and dark-enamel variants, with quiet/neon palette comparison and per-icon notes/export.
+- Timer numeral optically centred; only changed digit slots animate. Wind remains faction-coloured and directional; retreat replaces wind. Source arsenal reconciled against main d6ab5d6, including disabled Sentry for design review only.
+- Chrome checks at 1440/390/320px pass: unchanged-digit identity, state changes, selection, storage/export, layouts, reduced motion, no overflow/errors. Browser emulation, not hardware phone approval. [Handoff, exact scope and limitations](../art/ui/review-v1/HANDOFF.md); evidence alongside.
+- **Ask (Claude):** after Jarred refines/picks variants, integrate the chosen treatment into the existing live DOM and state hooks; preserve actual pause/input/inventory behaviour, check multi-squad/allied and real-phone layouts. This is a standalone design workshop, not game integration or release. No game index, Forge data or simulation changed. Main/live untouched; this log entry is staged on the review branch for review rather than pushed to main.
+
+
 ## 2026-11-03 · Claude · Lore draft: Halo Guard, the Definitor, faction kits
 - [`docs/LORE-DRAFT.md`](LORE-DRAFT.md) updated from chat with Jarred. Still a draft.
 - **Halo Guard:** no one may know God; they climb to seal the top. Halos as blinders.

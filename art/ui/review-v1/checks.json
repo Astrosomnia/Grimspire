@@ -1,0 +1,23 @@
+[
+  {
+    "width": 1440,
+    "errors": [],
+    "overflow": false,
+    "componentOverflow": [],
+    "checks": "22 icons, 22 arsenal items, unchanged-digit identity, digit cleanup, retreat/pause, signed wind, health, long names, selection, notes persistence, treatments, arsenal layouts, disabled state, category filter, reduced motion"
+  },
+  {
+    "width": 390,
+    "errors": [],
+    "overflow": false,
+    "componentOverflow": [],
+    "checks": "22 icons, 22 arsenal items, unchanged-digit identity, digit cleanup, retreat/pause, signed wind, health, long names, selection, notes persistence, treatments, arsenal layouts, disabled state, category filter, reduced motion"
+  },
+  {
+    "width": 320,
+    "errors": [],
+    "overflow": false,
+    "componentOverflow": [],
+    "checks": "22 icons, 22 arsenal items, unchanged-digit identity, digit cleanup, retreat/pause, signed wind, health, long names, selection, notes persistence, treatments, arsenal layouts, disabled state, category filter, reduced motion"
+  }
+]
