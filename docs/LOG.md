@@ -6,6 +6,11 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-03 · Claude · Clock digits centred; multiplayer "Your turn" until you move
+- Timer digits sat 4–5 px high in the clock frame on phone and desktop; now centred (measured within 0.25 px). The — shown between turns and during supply drops overflowed its digit slot to the right; it is centred too.
+- Commanders and online: "Your turn" appears under the clock at the start of your turn and clears as soon as you move, aim or fire (`S.armed`). Not shown against the machine or for the other side online.
+- UI only; GV unchanged.
+
 ## 2026-11-03 · Claude · Reviewed and shipped the UI pass (PR #8); pause moved on phones; favicon
 - **Review:** Codex's interim HUD and icons (PR #8) approved by Jarred, reviewed by Claude: presentation only, no sim change (map hashes match, dsim identical), GV stays 33. Arsenal, selected-weapon tile, pause and resume checked on phone with no errors.
 - **Icons:** the 22 PNGs were 1254 px squares (10.3 MB for icons drawn at 26–54 px). Downscaled to 160 px: 247 KB in total, same look. Still interim; Jarred wants a new icon direction later.
