@@ -6,6 +6,11 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-03 · Codex · Approved flat chromatic home-screen logo
+- Jarred approved the v4 flat gothic wordmark and explicitly requested live replacement. Added `assets/branding/grimspire-logo-v4.png`; replaced the old procedural title logo with a responsive image and regenerated debug. No simulation changes.
+- Tested: desktop 1440×900 and phone 390×844 in Chrome; logo loaded, no page errors or horizontal overflow. Script syntax and diff checks pass; GV remains 32.
+- Artwork generated with imagegen: ash-white lettering, cyan/magenta chromatic edges and sparse glitch breaks. Existing art Library files unchanged.
+
 ## 2026-11-03 · Claude · Lore draft: Halo Guard, the Definitor, faction kits
 - [`docs/LORE-DRAFT.md`](LORE-DRAFT.md) updated from chat with Jarred. Still a draft.
 - **Halo Guard:** no one may know God; they climb to seal the top. Halos as blinders.
