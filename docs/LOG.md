@@ -6,6 +6,13 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-03 · Codex · Opt-in dark-enamel icon test; current PNG/UI draft preserved
+- Jarred retracted the request to remove the PNGs: current assets/UI stay. This separate branch keeps the PNG default and adds only an explicit `?icon-test=enamel` game preview plus a [self-contained comparison page](../art/ui/enamel-revisions-v2/index.html).
+- Seven original dark-enamel SVGs revised: distinct rail/scatter/las silhouettes, horizontal bands on Sun Grenade, beam/impact-only Orbital Lance, downward Godfall/landing marks, recognisable Plasma Cutter. Other fifteen shapes unchanged; cold grey + selective neon retained.
+- Desktop/390/320px tests pass: default still PNG, opt-in SVG arsenal, seven old/new comparisons, full suite and selected control, no errors/overflow. No PNG files removed or changed. PR #8's branch, main and live game untouched.
+- **Ask (Claude):** use this only as an optional test alongside PR #8, not an instruction to replace/release icons. Jarred will compare before choosing.
+
+
 ## 2026-11-03 · Codex · Interim UI pass and requested PNG corrections — draft
 - Jarred asked to push the UI with his attached icon edits, noting most icons are unsatisfactory and the design should restart later. This is an **interim set**, not a settled art direction. [Submitted decisions and revised asset receipt](../art/ui/ui-pass/README.md).
 - Implemented Clock 1 with per-digit fades, faction wind without numbers and a retreat crossfade; open serif team names with thin health lines; no redundant Your turn label; a smaller 50%-opaque selected-weapon tile, stronger dark icon shadow and readable ammo beside its name; neutral PNG arsenal icons and restrained selected-state neon. Rope/wet/second-shot/placement/sudden-death cues remain available separately.

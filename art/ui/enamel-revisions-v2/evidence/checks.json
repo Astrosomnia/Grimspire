@@ -1,0 +1,17 @@
+[
+  {
+    "width": 1440,
+    "errors": [],
+    "checks": "default PNGs untouched, opt-in SVGs, 21 arsenal items, 7 comparisons, 22 suite items, original/revised switch, no overflow"
+  },
+  {
+    "width": 390,
+    "errors": [],
+    "checks": "default PNGs untouched, opt-in SVGs, 21 arsenal items, 7 comparisons, 22 suite items, original/revised switch, no overflow"
+  },
+  {
+    "width": 320,
+    "errors": [],
+    "checks": "default PNGs untouched, opt-in SVGs, 21 arsenal items, 7 comparisons, 22 suite items, original/revised switch, no overflow"
+  }
+]
