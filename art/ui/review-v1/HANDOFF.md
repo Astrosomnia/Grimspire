@@ -26,6 +26,10 @@ Open `index.html` in a browser. No build step or external font/network dependenc
 
 Headless Chrome: desktop 1440px, phone 390px and narrow phone 320px. Verified all 22 suite and arsenal entries; stable identity and zero animation on unchanged tens digit; changed-digit cleanup; retreat/pause; signed wind direction; health and long names; suite/current/arsenal selection; notes surviving reload; palette/treatment changes; disabled items; category filtering; reduced motion; note export; no page or component overflow and no script errors. `check.cjs` repeats checks with Playwright; set PLAYWRIGHT_MODULE to its installed module path and BROWSER_PATH if Chrome is elsewhere. Real phone hardware/performance not tested.
 
+## Current decisions
+
+Jarred chose Timer 1 / Reliquary. Preserve that frame and the centred, per-digit transition. Weapon SVGs were not accepted; PNG icon studies are now being explored. Category-neon CSS was corrected to apply colour directly to the icon rather than inherit a shadowed per-card variable.
+
 ## Suggested first picks, pending Jarred
 
 Timer A, team A, dark-enamel icons in the quiet palette, current weapon B, arsenal A. This keeps ornament and glow concentrated around meaningful state. Team B and current A offer the more ceremonial alternative. Do not treat these suggestions as approved choices.

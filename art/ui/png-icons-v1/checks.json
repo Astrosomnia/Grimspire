@@ -1,0 +1,36 @@
+{
+  "alpha": [
+    {
+      "name": "painted",
+      "width": 1536,
+      "height": 1024,
+      "transparentPixels": 1050975
+    },
+    {
+      "name": "graphic",
+      "width": 1536,
+      "height": 1024,
+      "transparentPixels": 1066577
+    }
+  ],
+  "results": [
+    {
+      "width": 1200,
+      "errors": [],
+      "overflow": false,
+      "checks": "6 icons; style and surface toggles; current weapon; both images loaded"
+    },
+    {
+      "width": 390,
+      "errors": [],
+      "overflow": false,
+      "checks": "6 icons; style and surface toggles; current weapon; both images loaded"
+    },
+    {
+      "width": 320,
+      "errors": [],
+      "overflow": false,
+      "checks": "6 icons; style and surface toggles; current weapon; both images loaded"
+    }
+  ]
+}

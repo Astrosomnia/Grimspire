@@ -6,6 +6,12 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-03 · Codex · Timer 1 selected; PNG weapon icon studies
+- Jarred selected Timer 1 / Reliquary and rejected the SVG weapon direction. Added [PNG comparison page](../art/ui/png-icons-v1/index.html): six weapons in painted and graphic metal treatments, transparent source sheets, actual-size cell comparisons and a current-weapon test block. Draft style exploration; individual trimmed production exports pending.
+- Fixed category-neon being shadowed by per-card grey variables. Computed-colour regression assertions now cover suite, both current-weapon controls and arsenal. Existing SVG studies kept for reference and linked to PNG study.
+- PNG alpha and browser checks pass at 1200/390/320px; UI regression suite also passes desktop and phone widths. Timer selection recorded in page and handoff. No game code, Forge data, main or live release changed.
+
+
 ## 2026-11-03 · Codex · UI workshop: two alternatives per component
 - Jarred authorised UI exploration and a testing branch for Claude review. New self-contained [review page](../art/ui/review-v1/index.html): two timers, team/health treatments, current-weapon controls and arsenal layouts; 22 original SVG weapon/tool icons in solid and dark-enamel variants, with quiet/neon palette comparison and per-icon notes/export.
 - Timer numeral optically centred; only changed digit slots animate. Wind remains faction-coloured and directional; retreat replaces wind. Source arsenal reconciled against main d6ab5d6, including disabled Sentry for design review only.
