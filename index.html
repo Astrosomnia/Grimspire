@@ -1041,6 +1041,8 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
   for(let i=0;i<nW(6,3);i++){const x=rnd(120,W-120),y=surf(x);if(y>60&&y<sump-70)add({k:'post',x,y,ax:x,ay:y+3})}
   for(const e of eyes)add({k:'eye',x:e.x,y:e.y,ax:e.ax,ay:e.ay,c:e.c,faulty:Math.random()<.3});
   if(L==='drowned')sump=Math.round(H*.6);// the drowned district starts with the water high
+  // set pieces (heads, saint, gargoyle) are real stone: placed with the map and stamped into the terrain like the kit
+  if(window.GRIMSPIRE_SET_PIECES){window.GRIMSPIRE_SET_PIECES.seed=null;if(kitReady&&spStamp(g,hg)){const d3=g.getImageData(0,0,W,H).data;for(let i=0;i<W*H;i++)solid[i]=d3[i*4+3]>127?1:0}}
   paintTerrain();struct.width=1;struct.height=1;carv.width=1;carv.height=1;rimDirty=true;
   barrels=[];puddles=[];
   for(let i=0,k=0;i<60&&barrels.length<Math.max(3,Math.round(7*W/W0));i++){const x=rnd(100,W-100),y=surf(x);
@@ -1644,7 +1646,7 @@ function newGameInner(mode){
   crates=[];ships=[];fires=[];flames=[];mines=[];girders=[];zones=[];sentries=[];S.saw=S.mini=S.drone=S.pod=null;S.stag=false;S.turnN=0;S.rnd=0;S.events=[];S.ev=null;S.slow=null;S.cine=0;S.flame=null;
   const n0=S.order.length,first=Math.floor(Math.random()*n0);S.team=S.order[(first+n0-1)%n0];S.ptr=[-1,-1,-1,-1];S.weapon=['mortar','mortar','mortar','mortar'];S.lastAtk=['mortar','mortar','mortar','mortar'];S.deathCd=0;S.paused=false;
   $('#ov').hidden=true;$('#pause').hidden=true;document.body.classList.remove('intitle');
-  dressSeed=null;dressWard();if(window.GRIMSPIRE_SET_PIECES)setPiecesPlace(true);
+  dressSeed=null;dressWard();if(window.GRIMSPIRE_SET_PIECES)setPiecesPlace();
   nextTurn();
 }
 function pickNext(team){const list=troopers.filter(t=>t.team===team);
@@ -3377,12 +3379,14 @@ function chargeSound(){
 function rleEnc(a){const out=[];let cur=0,run=0;for(let i=0;i<a.length;i++){if(a[i]===cur)run++;else{out.push(run.toString(36));cur=a[i];run=1}}out.push(run.toString(36));return out.join('.')}
 function rleDec(str,a){let i=0,cur=0;for(const t of str.split('.')){const n=parseInt(t,36);a.fill(cur,i,i+n);i+=n;cur^=1}}
 const SKEYS=['rnd','swapped','order','ally','ctl','squad','gone','stag','armed','team','ptr','timer','phase','turnN','events','wind','ammo','weapon','lastAtk','shots','fuse','usedJet','rb','mobile','second','moved','fired','locked','deathCd','wait','ticked','lastBarrel','slow','deathCam','layout','retreat','target','rot'];
-function snapState(){const o={v:1,seed:S.seed,terr:rleEnc(solid),sump,time,rng:SR.s,act:troopers.indexOf(S.active),S:{}};
+function snapState(){const o={v:1,seed:S.seed,w:W,terr:rleEnc(solid),sump,time,rng:SR.s,act:troopers.indexOf(S.active),S:{}};
   for(const k of SKEYS)o.S[k]=S[k];
   Object.assign(o,{sentries,zones,troopers,mines,barrels,crates,fires,puddles,graves,corpses,girders,fx:fixtures.map(f=>f.alive?1:0).join('')});
   return JSON.stringify(o,(k,v)=>k[0]==='_'?undefined:v)}
 function loadState(str){const d=JSON.parse(str);
   // same map: keep this device's scorch marks and just apply the authoritative shape; new seed: rebuild from scratch
+  // the map width travels with the snapshot, so a joiner rebuilds the same map at the same size
+  if(d.w&&d.w!==W){setMapW(d.w/W0);S.genOK=false}
   if(S.seed!==d.seed||!S.genOK){S.seed=d.seed;SR.seed(d.seed);sump=H-40;inSim(()=>genTerrain());girders=[];S.genOK=true}
   for(const g of d.girders)if(!girders.some(q=>q.x===g.x&&q.y===g.y&&q.rot===g.rot))stampGirder(g);
   rleDec(d.terr,solid);
@@ -3497,7 +3501,7 @@ function netCatchUp(){if(S.mode!=='online'||NET.role!=='watch')return;const behi
   if(behind>300&&!NET.skip)for(let i=0;i<Math.min(6,behind-240);i++)tick()}
 function netGameOver(){if(NET.role!=='act')clearNet()}
 function netLeave(){document.title=TITLE0;chatStop();if(NET.unC)NET.unC();if(NET.unM)NET.unM();NET.unC=NET.unM=null;NET.role=null;NET.started=false;S.mode='hot';$('#netBar').hidden=true}
-const GV=32;// bump on every release that changes the sim
+const GV=33;// bump on every release that changes the sim
 function startOnline(code,me,d){BE.update(code,{['vers.'+me]:GV,['arts.'+me]:window.GRIMSPIRE_ART_SIM||''}).catch(()=>{});NET.code=code;NET.me=me;NET.round=d.round||0;NET.snapK=-1;NET.snap=null;NET.matchAtt=d.att||'';NET.started=true;NET.leaving=false;saveNet();
   $('#net').hidden=true;if(!CHAT.un)chatStart();const cfg=Object.assign(mkCfg('online',d.seats,d.mode==='teams'),{mode:'online'});newGame('online',d.seed,cfg);S.genOK=true;
   const base=NET.round*1e5,has=d.snapK!=null&&d.snapK>=base&&d.snap;
@@ -3993,7 +3997,7 @@ function spFits(doc,R,x,y,face,sinkK){
 // test builds, the debug build, or with #setpieces in the URL.
 const SP_LIVE=true;
 const spOn=()=>SP_LIVE||location.pathname==='/api/game'||/(^#|&)(setpieces|sockets)\b/.test(location.hash)||(typeof DBG!=='undefined'&&DBG.on);
-function setPiecesPlace(force){
+function setPiecesPlace(force,inGen){
   if(!force&&SPS.seed===S.seed)return;SPS.seed=S.seed;SPS.pieces=[];SPS.sockets=[];
   if(typeof labDocs==='undefined'||!spOn())return;
   const docs=[...labDocs.entries()].filter(([k,d])=>SP_SLOT.test(k)&&d&&d.frames&&d.frames.length&&d.w>0&&d.h>0);
@@ -4006,8 +4010,8 @@ function setPiecesPlace(force){
   const busy=(g,slot,x)=>{
     if(SPS.pieces.some(p=>g.x0<p.x1+24&&g.x1>p.x0-24&&g.y0<p.y1+24&&g.y1>p.y0-24))return true;
     if(SPS.pieces.some(p=>p.slot===slot&&Math.abs(p.x-x)<(test?220:600)))return true;
-    if(troopers.some(t=>t.alive&&t.x>g.x0-26&&t.x<g.x1+26&&t.y>g.y0-10&&t.y-30<g.y1+10))return true;
-    if(barrels.some(b=>b.x>g.x0-14&&b.x<g.x1+14&&b.y>g.y0&&b.y-20<g.y1))return true;
+    if(!inGen&&troopers.some(t=>t.alive&&t.x>g.x0-26&&t.x<g.x1+26&&t.y>g.y0-10&&t.y-30<g.y1+10))return true;
+    if(!inGen&&barrels.some(b=>b.x>g.x0-14&&b.x<g.x1+14&&b.y>g.y0&&b.y-20<g.y1))return true;
     if(fixtures.some(f=>(f.k==='lamp'||f.k==='post')&&f.x>g.x0-20&&f.x<g.x1+20&&f.y>g.y0-30&&f.y<g.y1+30))return true;
     return false};
   for(let tries=0;tries<240&&SPS.pieces.length<want;tries++){
@@ -4021,9 +4025,18 @@ function setPiecesPlace(force){
         x=hi<lo?(s.x0+s.x1)/2:lo+(hi-lo)*R();y=s.y}
       const g=spFits(doc,Rl,x,y,face,sinkK);if(!g||busy(g,slot,x))continue;
       // cloth: the squad whose ground it stands on dresses it; anywhere else it hangs in neutral grey
-      let team=-1;if(doc.frames.some(f=>f.cloth)){let best=260;for(const t of troopers){const d=Math.hypot(t.x-x,t.y-y);if(d<best){best=d;team=t.team}}}
+      let team=-1;if(!inGen&&doc.frames.some(f=>f.cloth)){let best=260;for(const t of troopers){const d=Math.hypot(t.x-x,t.y-y);if(d<best){best=d;team=t.team}}}
       SPS.pieces.push({slot,doc,R:Rl,x,y,face,team,...g,broken:false});count[slot]=(count[slot]||0)+1;break}}
 }
+// Solid set pieces: body into the terrain mask, Guts behind it, and an entry in the kit list so the stone is
+// painted, lit, carved and shattered exactly like the architecture. Returns true when anything was stamped.
+function spStamp(g,hg){setPiecesPlace(true,true);let n=0;
+  for(const p of SPS.pieces){const a=labArt.get(p.slot),f=a&&a.frames[0];if(!f||!f.body)continue;
+    const w=p.doc.w*p.z,h=p.doc.h*p.z,x=p.x0,y=p.y0,flip=p.face<0,clip=p.sink>0?[p.x0-4,p.y0-4,p.x1-p.x0+8,p.y-p.y0+4.5]:null;
+    for(const[c,img]of[[g,f.body],[hg,f.guts]]){if(!img)continue;c.save();c.imageSmoothingEnabled=false;if(clip){c.beginPath();c.rect(...clip);c.clip()}
+      if(flip){c.translate(x+w,y);c.scale(-1,1);c.drawImage(img,0,0,w,h)}else c.drawImage(img,x,y,w,h);c.restore()}
+    NS.kit.push({id:p.slot,x,y,w,h,flip,body:f.body,solid:f.body,emis:f.emis||null,light:null,clip});p.stamped=true;n++}
+  return n>0}
 // Bakes per animation frame and squad: darkened body (cloth tinted), crisp emissive, and the edge masks rims draw from.
 function spBake(p){const a=labArt.get(p.slot);if(!a||!a.frames.length)return null;const d=a.doc,fi=Math.floor(time*Math.max(1,d.fps||8))%a.frames.length,f=a.frames[fi];if(!f.body)return null;
   p.bk=p.bk||{};const ns=typeof NS!=='undefined'&&NS.on,key=fi+':'+p.team+(ns?':n':'');if(p.bk[key])return p.bk[key];
@@ -4041,7 +4054,7 @@ function setPiecesDraw(lights){
   if(/(^#|&)sockets\b/.test(location.hash))spDrawSockets();
   if(typeof labArt==='undefined')return;
   const sky=[0,1,2].map(i=>Math.round([150,175,220][i]+([230,60,60][i]-[150,175,220][i])*BLEED));
-  for(const p of SPS.pieces){if(p.broken)continue;const b=spBake(p);if(!b)continue;
+  for(const p of SPS.pieces){if(p.broken||p.stamped)continue;const b=spBake(p);if(!b)continue;
     const z=p.z,cx=(p.x0+p.x1)/2,cy=(p.y0+p.y1)/2;
     ctx.save();
     // sunk pieces are cut at the surface they sit in
@@ -4078,7 +4091,7 @@ function spSupported(p){const sol=(x,y)=>{x=Math.round(x);y=Math.round(y);return
   const f0=p.x+(p.R.footprint[0]-p.ax)*p.z*p.face,f1=p.x+(p.R.footprint[1]+1-p.ax)*p.z*p.face,a=Math.min(f0,f1),b=Math.max(f0,f1);let ok=0,n=0;
   for(let x=a+.5;x<b;x+=1){n++;let hit=false;for(let d=-2;d<=4&&!hit;d++)hit=p.R.place==='hang'?sol(x,p.y-1-d):sol(x,p.y+d);if(hit)ok++}
   return n?ok/n>=.5:true}
-function setPiecesHit(cx,cy,r){for(const p of SPS.pieces){if(p.broken)continue;
+function setPiecesHit(cx,cy,r){for(const p of SPS.pieces){if(p.broken||p.stamped)continue;
   const nx=clamp(cx,p.x0,p.x1),ny=clamp(cy,p.y0,p.y1),d=Math.hypot(cx-nx,cy-ny);
   if(d<r*.85)spShatter(p,cx,cy,140+r*4);else if(d<r+30&&!spSupported(p))spShatter(p,cx,cy,40)}}
 function setPiecesHitLine(x0,y0,x1,y1,r){const n=Math.max(1,Math.ceil(Math.hypot(x1-x0,y1-y0)/Math.max(6,r)));for(let i=0;i<=n;i++)setPiecesHit(x0+(x1-x0)*i/n,y0+(y1-y0)*i/n,r)}

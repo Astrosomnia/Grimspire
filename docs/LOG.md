@@ -6,6 +6,13 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-03 · Claude · Statues, heads and gargoyle are solid stone (GV 33)
+- Jarred: set pieces on the map should be destructible and standable, not background. They had been decorative since going live on 2 Nov (GV 19), the brief's planned first pass (`solid: none`); the solid step had never been done.
+- The four Forge set pieces (S01 fallen head, S09 colossal head, S07 praying saint, S03 gargoyle) are now placed while the map is built and stamped into the terrain like the K kit: walkable, block shots, crater with their Guts showing, lit and painted with the kit. Sunk heads stay cut at the waterline. Troopers spawn after them, so they can start on top of one.
+- The old whole-piece shatter and the overlay draw are skipped for stamped pieces. If the art isn't loaded when a map is built, they fall back to the old decorative behaviour.
+- Fix found on the way: an online snapshot didn't carry the map width, so a joiner on a different width rebuilt the wrong map art under the right collision. Snapshots now include `w`.
+- Tests: dsim, dsim2, dsimart identical; 8 seeds across all layouts place and stamp identically across fresh browsers; host snapshot → joiner gives identical state hash, set pieces and kit; art tests pass; phone loads with no errors.
+
 ## 2026-11-03 · Codex · Approved flat chromatic home-screen logo
 - Jarred approved the v4 flat gothic wordmark and explicitly requested live replacement. Added `assets/branding/grimspire-logo-v4.png`; replaced the old procedural title logo with a responsive image and regenerated debug. No simulation changes.
 - Tested: desktop 1440×900 and phone 390×844 in Chrome; logo loaded, no page errors or horizontal overflow. Script syntax and diff checks pass; GV remains 32.
