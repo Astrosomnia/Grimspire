@@ -27,7 +27,7 @@ Read [`AGENTS.md`](AGENTS.md), [`docs/HANDOVER.md`](docs/HANDOVER.md) and the to
 Jarred edits numbers or leaves requests in Notes; a value that differs from live shows amber. Apply pending edits when doing balance work, when he says "apply the sheet", and before every push. Then set the `_now` / `now` twins to match. If Claude changes a number itself, write both.
 
 ## Field reports
-On "check reports": `tools/reports.py --since <last pulled at>` (last pull 2 Nov, `at` = 1793346018617), merge new items into the board's `reports/game` document, and create `triage/game__<firestore id>` docs with status `new` and a one-line note (agree or disagree, likely cause, size). Build only Go items, reply in each item's `log` (`by:'claude'`), mark Done once pushed. Never act on friend feedback without Jarred's Go.
+On "check reports": `tools/reports.py --since <last pulled at>` (last pull 4 Nov, `at` = 1793776956511), merge new items into the board's `reports/game` document, and create `triage/game__<firestore id>` docs with status `new` and a one-line note (agree or disagree, likely cause, size). Build only Go items, reply in each item's `log` (`by:'claude'`), mark Done once pushed. Never act on friend feedback without Jarred's Go.
 
 ## Retired (1 Nov 2026)
 Claude's artifact Forge, the Grimspire / Grimspire Test artifacts as build sources, the `forge-pipeline` tools, Forge hot-load and the artifact-only Proving ground (still to port; see the roadmap).
