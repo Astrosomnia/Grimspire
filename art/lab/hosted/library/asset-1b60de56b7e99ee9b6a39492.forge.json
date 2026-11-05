@@ -1,0 +1,41 @@
+{
+  "forge": 1,
+  "game_scale": 1,
+  "asset_id": "asset-c01",
+  "state_key": "symbol_arms_mask",
+  "source_version": "asset-da24488ea285a2ab2a1f74f1",
+  "code": "C01",
+  "name": "Crate arms symbol · category colour",
+  "w": 8,
+  "h": 8,
+  "fps": 8,
+  "base": 7,
+  "pixel_scale": 12,
+  "markers": {
+    "grip": null,
+    "muzzle": null,
+    "pivot": null,
+    "shoulder": null,
+    "elbow": null,
+    "hand": null,
+    "hip": null,
+    "knee": null,
+    "thrust": null
+  },
+  "ready": false,
+  "notes": "Restores the existing game category colour: arms (143, 179, 220). Original mark silhouette, canvas and scale retained. Separate material/emissive layers. Match this colour when Claude integrates category variants.",
+  "review": null,
+  "ghostOff": null,
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAJElEQVR4AdzKMQ0AAAwCwQYPXbrVv0hwADuf/HbYe7oxoQ4gAAAA//9S0yrHAAAABklEQVQDAB7WConhK9FOAAAAAElFTkSuQmCC",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAUUlEQVR4AXSNgQkAIQwD/Z/l1/lhnMRhXMddlBMSgqAQTNNr+5Z4rY+JIioGaNT/exBe0AYIaCjEk1FvAHOTASZSGjCg4PwNcDcl0ECuxwtYAAAA///olVWkAAAABklEQVQDAIfRMr/8CUCHAAAAAElFTkSuQmCC",
+      "trim": null,
+      "cloth": null,
+      "guts": null,
+      "note": ""
+    }
+  ],
+  "updated": 1793860127908,
+  "by": "jarred"
+}
