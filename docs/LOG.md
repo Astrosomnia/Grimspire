@@ -6,6 +6,13 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-04 · Claude · Crates spread out, jump pack falls hurt again, flamer panic (GV 35)
+- **Crates (Jarred: 80 px):** each drop takes the first good spot at least 80 px from any trooper (`CRATE_CLEAR`, sheet rule "Crates land at least"), instead of the farthest of six. With three survivors bunched on one side, 30 maps × 25 drops: crates on the far half went from 98% to 60%, median distance to the nearest trooper 780 → 413 px; none within 80 px.
+- **Jump pack:** falls don't hurt while you're thrusting, but after 0.6 s falling without thrust (`JET_GRACE`, sheet rule "Jump pack fall cushion") a landing hurts like a normal fall. A parked pack no longer cushions walking off a ledge. Cutting thrust 450 px up: 0 → 7 damage; short hops unchanged.
+- **Flamer:** a trooper caught in fire first panics for 0.45 s, stumbling back and forth (`PANIC`), then runs. Standing in a patch of fire: 9 → 9–12 over 6 s. Hose (wtest): 40 px 31 → 31, 110 px 32 → 34, 180 px 26 → 24, group of three 31/32/31 → 31/34/36. Not OP.
+- `__G.dropSpot` added for tests.
+- Tests: det map hashes match; dsim, dsim2, dsimart identical.
+
 ## 2026-11-04 · Claude · Field reports 4 Nov: lighter phone HUD, full screen, deaths get their moment (GV 34)
 - **HUD (phone):** selected-weapon tile about 30% smaller with a fainter fill (also covers Louis's "weapon icons too big"); the flamer shows as **Flamer** so it no longer runs into the ammo; fuse button smaller and tucked beside the tile; team health lines pulled 14 px back from the clock; chat sits in a square like pause.
 - **Top line:** no more trooper and weapon name. It only shows cues you need: "Sump rises in N rounds", sudden death, second shot, 1 shot left, tap to place, rope and swim help, and "Your turn" in multiplayer.

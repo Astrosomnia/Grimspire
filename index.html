@@ -2205,7 +2205,8 @@ function updTrooper(t,dt){
       else t.x=nx}
     const ny=t.y+sy;
     if(sy>0){if(isSolid(t.x,ny)||isSolid(t.x-3,ny)||isSolid(t.x+3,ny)){const v=t.vy;
-        const jetting=S.jet&&t===S.active;
+        // the pack only cushions a landing you're steering: after JET_GRACE s of free fall without thrust, falls hurt again (Jarred 4 Nov)
+        const jetting=S.jet&&!S.jet.parked&&t===S.active&&!((S.jet.free||0)>JET_GRACE);
         if(v>480&&!jetting)hurt(t,Math.round((v-480)*.055));
         t.sq=Math.min(.6,v/700);puff(t.x,t.y);
         if(v>360){shake=Math.min(16,shake+v/140);sfx('thud')}
@@ -2684,8 +2685,11 @@ function flee(t,dt){
   if(t===S.active&&(S.phase==='aim'||S.phase==='retreat'||(S.phase==='resolve'&&S.mobile)))return;
   let n=0,sx=0;for(const f of fires)if(Math.abs(f.x-t.x)<20&&f.y>t.y-28&&f.y<t.y+8){n++;sx+=f.x}
   if(!n){t.fleeing=0;return}
-  if(!t.fleeing){t.fleeing=Math.sign(t.x-sx/n)||(Math.random()<.5?1:-1);texts.push({x:t.x,y:t.y-44,txt:'!',life:.8,col:'#ffb21e'})}
+  if(!t.fleeing){t.fleeing=Math.sign(t.x-sx/n)||(Math.random()<.5?1:-1);t.panic=PANIC;texts.push({x:t.x,y:t.y-44,txt:'!',life:.8,col:'#ffb21e'})}
+  // first a short panic: stumbling back and forth in the flames (Jarred 4 Nov: they ran out too fast), then run
+  if(t.panic>0){t.panic-=dt;const d=(Math.floor(t.panic/PANIC_STEP)%2?1:-1)*t.fleeing;t.face=d;walk(t,d,dt,.55);return}
   const bx=t.x;t.face=t.fleeing;walk(t,t.fleeing,dt,1.2);if(t.x===bx&&!t.air)t.fleeing*=-1}
+const PANIC=.45,PANIC_STEP=.15;
 const CRATE={arms:{col:'#8fb3dc',rgb:[143,179,220]},heavy:{col:'#ffb21e',rgb:[255,178,30]},med:{col:'#a0ff46',rgb:[160,255,70]},tool:{col:'#3ff3ff',rgb:[63,243,255]}};
 function collect(c,t){
   let txt;
@@ -2698,10 +2702,12 @@ function collect(c,t){
 const DROP={chance:.33,superChance:.25,superN:4};
 const CRATEMIX={med:20,heavy:30,arms:35,tool:15};// % from the balance sheet
 const crateType=()=>{let r=Math.random()*100;for(const k of['med','heavy','arms','tool']){if(r<CRATEMIX[k])return k;r-=CRATEMIX[k]}return'tool'};
-// a crate lands clear of the troopers: of a few good spots, the one farthest from anyone
-const CRATE_PICKS=6;
+// a crate lands clear of the troopers: the first good spot at least CRATE_CLEAR px from anyone (random across the map,
+// not always the farthest, Jarred 4 Nov); if none turns up, the farthest of the good spots tried
+const JET_GRACE=.6;
+const CRATE_CLEAR=80,CRATE_PICKS=12;
 function dropSpot(avoid){const clear=(c,y)=>{let m=1e9;for(const t of troopers)if(t.alive)m=Math.min(m,Math.hypot(t.x-c,t.y-y));return m};let best=null,bd=-1,n=0;
-  for(let i=0;i<60&&n<CRATE_PICKS;i++){const c=rnd(140,W-140),y=surf(c);if(y>80&&y<sump-70&&!isSolid(c,y-30)&&!avoid.some(a=>Math.abs(a-c)<160)){n++;const d=clear(c,y);if(d>bd){bd=d;best=c}}}return best}
+  for(let i=0;i<60&&n<CRATE_PICKS;i++){const c=rnd(140,W-140),y=surf(c);if(y>80&&y<sump-70&&!isSolid(c,y-30)&&!avoid.some(a=>Math.abs(a-c)<160)){n++;const d=clear(c,y);if(d>=CRATE_CLEAR)return c;if(d>bd){bd=d;best=c}}}return best}
 function startEvent(k){
   if(k==='rise'){S.ev={k,t:0,from:sump,to:sump-13*S.order.length};banner('The sump rises','Sudden death','#9fb4d8');sfx('rise')}
   else{const big=Math.random()<DROP.superChance,dir=Math.random()<.5?1:-1,xs=[];
@@ -2927,7 +2933,7 @@ function update(dt){
       else if(S.cut){if(ay)t.aim=clamp(t.aim+ay*1.2*dt,-1.52,1.45);if(pressed('fire'))S.cut.t=0}
       else if(S.drone){if(ax)S.drone.dir=Math.sign(ax);if(pressed('jump'))droneHop();if(pressed('fire'))droneBlow()}
       else if(S.pod){}
-      else if(S.jet&&!S.jet.parked&&S.phase==='aim'){const j=S.jet;j.age+=dt;const thrust=(key('fire')||ay<-.3)&&j.fuel>0;
+      else if(S.jet&&!S.jet.parked&&S.phase==='aim'){const j=S.jet;j.age+=dt;const thrust=(key('fire')||ay<-.3)&&j.fuel>0;j.free=thrust||!t.air?0:(j.free||0)+dt;
         if(thrust){j.fuel-=dt;t.vy=Math.max(t.vy-1150*dt,-230);if(!t.air){t.air=true;t.y-=1}
           for(let i=0;i<2;i++)parts.push({k:'fire',x:t.x-t.face*7,y:t.y-8,vx:rnd(-20,20),vy:rnd(80,160),life:rnd(.15,.3),max:.7,s:rnd(2,4)});sfx('jet')}
         if(ax){t.vx=clamp(t.vx+ax*520*dt,-170,170);t.face=Math.sign(ax);if(!t.air&&j.age>.1){t.air=true;t.y-=1}}
@@ -3559,7 +3565,7 @@ function netCatchUp(){if(S.mode!=='online'||NET.role!=='watch')return;const behi
   if(behind>300&&!NET.skip)for(let i=0;i<Math.min(6,behind-240);i++)tick()}
 function netGameOver(){if(NET.role!=='act')clearNet()}
 function netLeave(){document.title=TITLE0;chatStop();if(NET.unC)NET.unC();if(NET.unM)NET.unM();NET.unC=NET.unM=null;NET.role=null;NET.started=false;S.mode='hot';$('#netBar').hidden=true}
-const GV=34;// bump on every release that changes the sim
+const GV=35;// bump on every release that changes the sim
 function startOnline(code,me,d){BE.update(code,{['vers.'+me]:GV,['arts.'+me]:window.GRIMSPIRE_ART_SIM||''}).catch(()=>{});NET.code=code;NET.me=me;NET.round=d.round||0;NET.snapK=-1;NET.snap=null;NET.matchAtt=d.att||'';NET.started=true;NET.leaving=false;saveNet();
   $('#net').hidden=true;if(!CHAT.un)chatStart();const cfg=Object.assign(mkCfg('online',d.seats,d.mode==='teams'),{mode:'online'});newGame('online',d.seed,cfg);S.genOK=true;
   const base=NET.round*1e5,has=d.snapK!=null&&d.snapK>=base&&d.snap;
@@ -4175,7 +4181,7 @@ window.GRIMSPIRE_ART_SIM=labSimKey;
 // END GRIMSPIRE_ART_RUNTIME
 requestAnimationFrame(frame);
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(resize);
-window.__G={get W(){return W},S,NET,stateHash,dress:()=>({tags,scan:(c,x,y,r)=>{const g=c==="g"?gfx:c==="t"?tctx:c==="b"?bctx:mctx;const d=g.getImageData(x-r|0,y-r|0,2*r,2*r).data;let m=0,n=0;for(let j=0;j<2*r;j++)for(let i=0;i<2*r;i++){if((i-r)**2+(j-r)**2>(r-2)**2)continue;const a=d[(j*2*r+i)*4+3];if(a>m)m=a;if(a>40)n++}return [m,n]},px:(c,x,y)=>{const g=c==="g"?gfx:c==="t"?tctx:c==="b"?bctx:mctx;return [...g.getImageData(x|0,y|0,1,1).data]}}),simStep:f=>simStep(f),DROP,OW,MINI,kill:t=>killTrooper(t),get corpses(){return corpses},get graves(){return graves},AI,mines:()=>mines,blds:()=>genTerrain.blds||[],maskURL:()=>{const c=mk(W/2,H/2),x=c.getContext("2d");x.fillStyle="#123";x.fillRect(0,0,W/2,H/2);x.drawImage(back,0,0,W/2,H/2);x.drawImage(terr,0,0,W/2,H/2);x.fillStyle="rgba(60,120,255,.5)";x.fillRect(0,sump/2,W/2,H);return c.toDataURL()},bus:()=>bus(),camSet:(x,y)=>{cam.x=x;cam.y=y},scr:(x,y)=>[(x-cam.x)*scale,(y-cam.y)*scale],base:()=>baseScale,setSump:v=>{sump=v},spawnShell:(x,y)=>projs.push({w:WP.mortar,x,y,vx:0,vy:200,owner:null,age:1,fuse:0,rest:false}),MUS,get AC(){return AC},initAudio,setMusicMode,ammo:(tm,id)=>S.ammo[tm][id],surfY:surf,press:k=>{press.add(k);held.add(k)},release:k=>held.delete(k),dropRopeT:t=>dropRope(t),isSolid,explode,shove,switchTo,addFire,hurtT:(t,d)=>hurt(t,d),jumpT:t=>jump(t),get projs(){return projs},get troopers(){return troopers},get barrels(){return barrels},get crates(){return crates},get fires(){return fires},get puddles(){return puddles},sump:()=>sump,newGame,update,render,tryFire,launch,selectWeapon,WP,blowBarrel,sky,mkCfg,get order(){return S.order},testWall:(x,y0,y1)=>{for(let yy=y0;yy<y1;yy++)for(let xx=x;xx<x+4;xx++)solid[yy*W+xx]=1},testFlat:(x0,x1,y)=>{for(let yy=y-140;yy<y+30;yy++)for(let x=x0;x<x1;x++)solid[yy*W+x]=yy>=y?1:0},get sentries(){return sentries},get zones(){return zones},get texts(){return texts},cutChutes,nextTurn};
+window.__G={get W(){return W},S,NET,stateHash,dress:()=>({tags,scan:(c,x,y,r)=>{const g=c==="g"?gfx:c==="t"?tctx:c==="b"?bctx:mctx;const d=g.getImageData(x-r|0,y-r|0,2*r,2*r).data;let m=0,n=0;for(let j=0;j<2*r;j++)for(let i=0;i<2*r;i++){if((i-r)**2+(j-r)**2>(r-2)**2)continue;const a=d[(j*2*r+i)*4+3];if(a>m)m=a;if(a>40)n++}return [m,n]},px:(c,x,y)=>{const g=c==="g"?gfx:c==="t"?tctx:c==="b"?bctx:mctx;return [...g.getImageData(x|0,y|0,1,1).data]}}),simStep:f=>simStep(f),DROP,OW,MINI,kill:t=>killTrooper(t),get corpses(){return corpses},get graves(){return graves},AI,mines:()=>mines,blds:()=>genTerrain.blds||[],maskURL:()=>{const c=mk(W/2,H/2),x=c.getContext("2d");x.fillStyle="#123";x.fillRect(0,0,W/2,H/2);x.drawImage(back,0,0,W/2,H/2);x.drawImage(terr,0,0,W/2,H/2);x.fillStyle="rgba(60,120,255,.5)";x.fillRect(0,sump/2,W/2,H);return c.toDataURL()},bus:()=>bus(),camSet:(x,y)=>{cam.x=x;cam.y=y},scr:(x,y)=>[(x-cam.x)*scale,(y-cam.y)*scale],base:()=>baseScale,setSump:v=>{sump=v},dropSpot:a=>dropSpot(a||[]),spawnShell:(x,y)=>projs.push({w:WP.mortar,x,y,vx:0,vy:200,owner:null,age:1,fuse:0,rest:false}),MUS,get AC(){return AC},initAudio,setMusicMode,ammo:(tm,id)=>S.ammo[tm][id],surfY:surf,press:k=>{press.add(k);held.add(k)},release:k=>held.delete(k),dropRopeT:t=>dropRope(t),isSolid,explode,shove,switchTo,addFire,hurtT:(t,d)=>hurt(t,d),jumpT:t=>jump(t),get projs(){return projs},get troopers(){return troopers},get barrels(){return barrels},get crates(){return crates},get fires(){return fires},get puddles(){return puddles},sump:()=>sump,newGame,update,render,tryFire,launch,selectWeapon,WP,blowBarrel,sky,mkCfg,get order(){return S.order},testWall:(x,y0,y1)=>{for(let yy=y0;yy<y1;yy++)for(let xx=x;xx<x+4;xx++)solid[yy*W+xx]=1},testFlat:(x0,x1,y)=>{for(let yy=y-140;yy<y+30;yy++)for(let x=x0;x<x1;x++)solid[yy*W+x]=yy>=y?1:0},get sentries(){return sentries},get zones(){return zones},get texts(){return texts},cutChutes,nextTurn};
 })();
 </script>
 

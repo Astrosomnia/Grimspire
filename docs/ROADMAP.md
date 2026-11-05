@@ -65,6 +65,8 @@ Prototype in HTML/canvas to nail the loop, weapons and feel, then rebuild in **G
 
 **Field reports 4 Nov (GV 34):** lighter phone HUD (smaller weapon tile, Flamer short name, compact fuse, chat square, health lines off the clock), no name line, full screen toggle, longer death camera, idle music score detached.
 
+**Field reports 4 Nov, round 2 (GV 35):** crates land at a random spot 80 px+ clear, jump pack only cushions steered falls, flamer panic before fleeing.
+
 ## Backlog
 **Content:** terrain materials (rubble, armour plate), objectives beyond last-man-standing, hand-designed set pieces mixed into generated maps, per-faction sprites or trims, faction-specific weapons (long term).
 **Feel:** hit-stop on big impacts, barks on hits and kills, instant replay of big hits (parked).
