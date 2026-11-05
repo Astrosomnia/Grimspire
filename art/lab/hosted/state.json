@@ -556,6 +556,15 @@
       "approved_at": "2026-11-03T05:39:28.000Z",
       "pr": null,
       "status": "main updated by Claude (kit on every map, diagonals and big rock)"
+    },
+    {
+      "revision": "20261105T062850Z-30246e68",
+      "main_commit": "72789591b9533c0bef84ac0bb7341c9224855621",
+      "game_sha256": "0f58ca1395fbb95472a011af18bc7659d880a0ac8794809c86fb3fa2b1f1985a",
+      "approved_by": "Astrosomnia",
+      "approved_at": "2026-11-05T06:33:49.867Z",
+      "pr": "https://github.com/Astrosomnia/Grimspire/pull/10",
+      "status": "main updated; deployment unverified"
     }
   ]
 }
