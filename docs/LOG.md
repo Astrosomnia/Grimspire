@@ -6,6 +6,11 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-04 · Claude · Invisible troopers and dropship: rebuild art bakes after a phone drops canvases
+- Jarred saw some troopers and the dropship go invisible on his phone. Couldn't reproduce on desktop or phone emulation; nothing in today's game changes touches drawing. Likely cause: phones can drop the contents of cached canvases (going full screen, which arrived today, switching apps, GPU memory pressure), and the troopers, dropship and other Forge art draw from baked canvases.
+- New `labFlush` throws the bakes away after full screen changes, returning to the tab, page restore, and canvas context restores (checked every second); they rebuild from the source images on the next draw. Render only; GV unchanged.
+- **Ask (Jarred):** if it happens again, note what came just before (full screen, app switch, long match).
+
 ## 2026-11-04 · Claude · Flamer as a pressure hose that melts stone; Jarred's sheet edits (GV 37)
 - **Balance sheet (Jarred):** Thunder Fist 20 → 30; Scatter Gun pellet 6 → 5; Sun Grenade and Fusion Mine radius 80 → 88; Godfall radius 60 → 70; supply run 25% → 20% of drops; flamer 6 → 8 hits (see below).
 - **Pressure hose:** anyone in the stream is driven back at 42 px/s (`FLAMER.push`, sheet rule) and doesn't run while it's on them, so you can walk them off a ledge or into the sump. Hose 2.4 → 2.8 s (`FLAMER.time`). Panic and flight start once the stream leaves them.
