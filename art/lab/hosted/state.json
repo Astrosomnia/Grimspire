@@ -573,6 +573,15 @@
       "approved_at": "2026-11-05T06:33:49.867Z",
       "pr": "https://github.com/Astrosomnia/Grimspire/pull/10",
       "status": "main updated; deployment unverified"
+    },
+    {
+      "revision": "20261105T150303Z-cc0008e0",
+      "main_commit": "048f65ae994624a47d82a785e62b15bffce8950d",
+      "game_sha256": "a937f1ae263ee79255f99aed17dc0977ead78a5cde5c826635007156ccaa1739",
+      "approved_by": "Astrosomnia",
+      "approved_at": "2026-11-05T15:04:27.584Z",
+      "pr": "https://github.com/Astrosomnia/Grimspire/pull/11",
+      "status": "main updated; deployment unverified"
     }
   ]
 }
