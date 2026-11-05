@@ -3709,7 +3709,26 @@ const labImage = src => src ? new Promise((resolve,reject)=>{const i=new Image()
 const labReady = Promise.all(Object.entries(LAB_PAYLOAD.assets).map(async ([slot,doc])=>{
   const frames=await Promise.all(doc.frames.map(async f=>({body:await labImage(f.body),trim:await labImage(f.trim),emis:await labImage(f.emis),cloth:await labImage(f.cloth),guts:await labImage(f.guts)})));
   const k=labSlots[slot]||slot;labArt.set(k,{doc,frames});
-})).then(()=>{window.GRIMSPIRE_ART_READY=true}).catch(e=>{window.GRIMSPIRE_ART_ERROR=e.message;console.error(e)});
+})).then(()=>{labComposeCrates();window.GRIMSPIRE_ART_READY=true}).catch(e=>{window.GRIMSPIRE_ART_ERROR=e.message;console.error(e)});
+// Crates are a casing plus a category symbol. A crate slot may hold a whole crate (36×18, symbol drawn in) or
+// just the symbol mask (an 8×8 state of C01, as the Forge released on 5 Nov). A symbol is set into a casing taken
+// from a whole-crate slot: the casing's centre glyph is cleared, its side lamps take the category colour, and the
+// symbol (its dark plate in the body, the mark in the emissive) sits in the centre panel. Built once on CPU-backed
+// canvases so phones can't drop them.
+const LAB_CRATE_COL={crate_arms:[143,179,220],crate_heavy:[255,178,30],crate_med:[160,255,70],crate_tool:[63,243,255]};
+function labComposeCrates(){
+  const keys=Object.keys(LAB_CRATE_COL),whole=k=>{const a=labArt.get(k);return a&&a.doc.w>=30&&a.frames[0]?.body?a:null};
+  const casing=['crate_med','crate_tool','crate_arms','crate_heavy'].map(whole).find(Boolean);
+  // no whole crate released at all: drop the symbol-only slots so those crates use the old built-in crate and symbol
+  if(!casing){for(const k of keys)if(labArt.get(k)&&!whole(k))labArt.delete(k);return}
+  const cv=(w,h)=>{const c=document.createElement('canvas');c.width=w;c.height=h;return[c,c.getContext('2d',{willReadFrequently:true})]};
+  for(const k of keys){const a=labArt.get(k);if(!a||whole(k))continue;const sym=a.frames[0];if(!sym?.body&&!sym?.emis)continue;
+    const cd=casing.doc,cf=casing.frames[0],W=cd.w,H=cd.h,sw=a.doc.w,sh=a.doc.h,sx=Math.round(W/2-sw/2),sy=Math.round(9.5-sh/2),col=LAB_CRATE_COL[k];
+    const[b,bg]=cv(W,H);bg.drawImage(cf.body,0,0);if(sym.body)bg.drawImage(sym.body,sx,sy);
+    const[e,eg]=cv(W,H);if(cf.emis){eg.drawImage(cf.emis,0,0);eg.clearRect(sx-1,sy-1,sw+2,sh+2);
+      eg.globalCompositeOperation='source-in';eg.fillStyle=`rgb(${col})`;eg.fillRect(0,0,W,H);eg.globalCompositeOperation='source-over'}
+    if(sym.emis)eg.drawImage(sym.emis,sx,sy);
+    labArt.set(k,{doc:{...cd,name:cd.name+' + '+a.doc.name,composed:true},frames:[{body:b,emis:e,trim:null,cloth:null,guts:null}]})}}
 // Old payloads retain their shared scale; the foreground arm was always human-sized.
 const labAssetScale=d=>d.game_scale??(d===labDocs.get('ARM')?1:labSettings.scale);
 // Cloth layer: painted in greys, coloured per faction by luminance (mid grey 128 = the faction's cloth colour),
@@ -3943,7 +3962,7 @@ const labPartBake=new Map();
 // whenever that may have happened; they rebuild from the source images on the next draw.
 function labFlush(){labPartBake.clear();for(const a of labArt.values())for(const f of a.frames){for(const k in f)if(k.startsWith('dark'))delete f[k];delete f.clothD;
   for(const im of[f.body,f.trim,f.cloth,f.emis,f.guts])if(im&&im._cloth)delete im._cloth}}
-{const sen=mk(1,1),sg=sen.getContext('2d');sg.fillRect(0,0,1,1);let lostSeen=false;
+if(typeof document.addEventListener==='function'){const sen=document.createElement('canvas'),sg=sen.getContext('2d');sg.fillRect(0,0,1,1);let lostSeen=false;
   for(const el of[sen,$('#cv')])el.addEventListener('contextrestored',labFlush);
   for(const ev of['fullscreenchange','webkitfullscreenchange'])document.addEventListener(ev,()=>setTimeout(labFlush,300));window.addEventListener('pageshow',()=>setTimeout(labFlush,300));
   document.addEventListener('visibilitychange',()=>{if(!document.hidden)setTimeout(labFlush,300)});

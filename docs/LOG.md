@@ -6,6 +6,14 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-05 · Claude · Crates: symbols set into the casing, so a symbol-only release draws a whole crate
+- **Cause (confirms ChatGPT's read):** release `20261105T062850Z-30246e68` put the 8×8 `symbol_arms_mask` and `symbol_heavy_mask` states of C01 into `CRATE_ARMS` and `CRATE_HEAVY`. Those slots expect a whole 36×18 crate, so the game drew a lone symbol with no casing. The Forge's Test target guesses the slot from the name ("arms", "heavy"), so testing a symbol offers the crate slot. `CRATE_MED` and `CRATE_TOOL` are whole crates whose symbol is drawn in (tool still the X); the old built-in X overlay is not drawn when Forge art exists.
+- **Fix (art runtime, `labComposeCrates`):** when a crate slot holds only a symbol, the game builds the crate: casing from a whole-crate slot, its centre glyph cleared, side lamps in the category colour, and the symbol (dark plate + emissive mark) in the centre panel. Built once on CPU-backed canvases. If no whole crate is released at all, those crates fall back to the old built-in crate. No sim change; GV unchanged.
+- Checked in game: arms (Jarred's new mark), heavy (new mark), med and tool draw as whole crates. Art tests (alignment, render, categories) pass; det map hashes match; dsim identical; phone loads with no errors.
+- Also fixed: the 4 Nov `labFlush` hook assumed browser globals and stopped the art tests running; now guarded.
+- **Ask (Jarred):** the tool crate still shows the X because the release used a whole tool crate. To use your new tool symbol, test the **tool symbol** as Crate · tools in the Forge and go live; it'll be set into the casing now. Same for medical if you redraw it.
+- **Ask (Claude, later):** give the Forge proper symbol slots (or stop it offering crate slots for symbol states) so this can't recur.
+
 ## 2026-11-05 · ChatGPT · Crate art release regression (reported by Jarred)
 - **Broken live release:** Forge `20261105T062850Z-30246e68`, commit `7278959`. Jarred reports Health and Tool show crate bodies but retain the old X/tool symbol; Heavy and Arms show their new symbols but crate bodies are invisible. Release was confirmed on `main`, **not visually verified**; do not treat the four crates as correct.
 - **Confirmed by source inspection:** released `payload.json` has `CRATE_ARMS` and `CRATE_HEAVY` as 8×8 `symbol_*_mask` documents, not full crates (36×18). `CRATE_MED` and `CRATE_TOOL` are 36×18 full crate documents. Game crate draw code skips the old `SPR.sym` overlay whenever category Forge art exists (`cart?null:SPR.sym[c.type]`), so the visible old X on Medical/Tools is likely baked into those sprite images, not an extra runtime overlay. Replace with complete crate artwork per category, clean of old X; verify visually.
