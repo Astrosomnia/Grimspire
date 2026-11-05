@@ -2677,6 +2677,20 @@
       "h": 8,
       "frame_count": 1,
       "category": "Other art"
+    },
+    {
+      "id": "asset-eec4aa1df4a6149e28bb8fdb",
+      "path": "art/lab/hosted/library/asset-eec4aa1df4a6149e28bb8fdb.forge.json",
+      "sha256": "eec4aa1df4a6149e28bb8fdb1b371a72b6be1e19a16bdb1e200db436ad905190",
+      "asset_id": "asset-c01",
+      "state_key": "symbol_arms_mask",
+      "asset_name": "Supply Crate",
+      "code": "C01",
+      "name": "Crate arms symbol · category colour",
+      "w": 8,
+      "h": 8,
+      "frame_count": 1,
+      "category": "Other art"
     }
   ]
 }
