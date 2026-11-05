@@ -6,6 +6,10 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-05 · ChatGPT · Crate art release regression (reported by Jarred)
+- **Broken live release:** Forge `20261105T062850Z-30246e68`, commit `7278959`. Jarred reports Health and Tool show crate bodies but retain the old X/tool symbol; Heavy and Arms show their new symbols but crate bodies are invisible. Release was confirmed on `main`, **not visually verified**; do not treat the four crates as correct.
+- **Ask (Claude):** inspect the four `CRATE_MED`, `CRATE_TOOL`, `CRATE_HEAVY`, `CRATE_ARMS` payloads and game art renderer. Check whether crate base and category symbol are separate layered assets, whether the legacy X overlay is still drawn, and whether Forge export/release drops the base or misroutes layers. Fix and test all four in-game, including phone, before any further release. Preserve the new category symbols; do not blindly republish the same payload. Report the cause and evidence; seek Jarred's approval before live code changes.
+
 ## 2026-11-05 · Forge · Art release 20261105T062850Z-30246e68
 - Test Crate arms symbol · category colour as C01 ARMS · Crate · arms
 - Slots: W01, W02, W03, W04, W05, W06, W07, W08, ARM, TORSO, THIGH, SHIN, W09, W10, W11, W12, W13, W14, W15, W16, W18, W19, W20, W21, M01, C02, C04, CRATE_ARMS, CRATE_HEAVY, CRATE_MED, CRATE_TOOL, C03, C06, S01, S09, S07, S03, K01, K02, K03, K04, K05, K06, K07, K08, K09, K01a, K01b, K05a, K05b, K07a, K07b, K01c, K01d, K02a, K02b, K05c, K05d, K07c, K07d, B01, B02, B03, D01, D02, D03, D04, D05, D06, R01, R02, R03, R04, D01a, D03a, D06a, SKY01, SKY02, SKY03, SKY04, SKY05, SKY06, SKY07, SKY08, SKY09, SKY10, SKY11, SKY12, K10, K11, K12, K13, K14, K15, K16, K17, R05, R06, R07, R08, R09. Released by Astrosomnia. Receipt: `art/integrations/20261105T062850Z-30246e68.json`
