@@ -2719,6 +2719,20 @@
       "h": 8,
       "frame_count": 1,
       "category": "Other art"
+    },
+    {
+      "id": "asset-47396e87f6fa1fe40042865f",
+      "path": "art/lab/hosted/library/asset-47396e87f6fa1fe40042865f.forge.json",
+      "sha256": "47396e87f6fa1fe40042865fb5d8e73ec5c58a7a608bd82aa9a2302c674c55a8",
+      "asset_id": "asset-c01",
+      "state_key": "symbol_heavy_mask",
+      "asset_name": "Supply Crate",
+      "code": "C01",
+      "name": "Crate heavy symbol · category colour",
+      "w": 8,
+      "h": 8,
+      "frame_count": 1,
+      "category": "Other art"
     }
   ]
 }

@@ -1,0 +1,41 @@
+{
+  "forge": 1,
+  "game_scale": 1,
+  "asset_id": "asset-c01",
+  "state_key": "symbol_heavy_mask",
+  "source_version": "asset-4528a4dead63fa30f4f20af7",
+  "code": "C01",
+  "name": "Crate heavy symbol · category colour",
+  "w": 8,
+  "h": 8,
+  "fps": 8,
+  "base": 7,
+  "pixel_scale": 12,
+  "markers": {
+    "grip": null,
+    "muzzle": null,
+    "pivot": null,
+    "shoulder": null,
+    "elbow": null,
+    "hand": null,
+    "hip": null,
+    "knee": null,
+    "thrust": null
+  },
+  "ready": true,
+  "notes": "Restores the existing game category colour: heavy (255, 178, 30). Original mark silhouette, canvas and scale retained. Separate material/emissive layers. Match this colour when Claude integrates category variants.",
+  "review": null,
+  "ghostOff": null,
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAJElEQVR4AdzKMQ0AAAwCwYZURQXUv0NwADuf/Hb4W7oxoQ4gAAAA//80CQOQAAAABklEQVQDAMM3CilL46l1AAAAAElFTkSuQmCC",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAQElEQVR4AYSMgQkAIAgE00EaqWEbqUWMEwQRROER7k/V7rbVDJ3mDkAyc6FChGAuALrMgpwn3TXd/IFrTHZOsA8AAP//lYI12QAAAAZJREFUAwASExWtzcDQEgAAAABJRU5ErkJggg==",
+      "trim": null,
+      "cloth": null,
+      "guts": null,
+      "note": ""
+    }
+  ],
+  "updated": 1793860037740,
+  "by": "jarred"
+}

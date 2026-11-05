@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "current": "20261103T053858Z-23130bb7",
+  "current": "20261105T062720Z-2573c759",
   "revisions": [
     {
       "id": "20261031T210936Z-6c67f2da",
@@ -353,6 +353,14 @@
       "slot": "W04",
       "variant": "custom",
       "author": "Claude"
+    },
+    {
+      "id": "20261105T062720Z-2573c759",
+      "created": "2026-11-05T06:27:21.609Z",
+      "notes": "Test Crate heavy symbol · category colour as C01 HEAVY · Crate · heavy",
+      "slot": "CRATE_HEAVY",
+      "variant": "custom",
+      "author": "Astrosomnia"
     }
   ],
   "integrations": [
