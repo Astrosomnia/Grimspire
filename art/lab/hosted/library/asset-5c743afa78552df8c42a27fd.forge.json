@@ -1,0 +1,41 @@
+{
+  "forge": 1,
+  "game_scale": 1,
+  "asset_id": "asset-c01",
+  "state_key": "",
+  "source_version": "asset-e90897d0d2f2ff53e143f417",
+  "code": "C01",
+  "name": "Supply Crate · tool · bright category glyph",
+  "w": 36,
+  "h": 18,
+  "fps": 8,
+  "base": 17,
+  "pixel_scale": 12,
+  "markers": {
+    "grip": null,
+    "muzzle": null,
+    "pivot": null,
+    "shoulder": null,
+    "elbow": null,
+    "hand": null,
+    "hip": null,
+    "knee": null,
+    "thrust": null
+  },
+  "ready": false,
+  "notes": "Category review import, 1 Nov 2026. Original abstract devotional machine glyph replaces winged military decal. Glyph is a proposed shared equipment mark, not established faction lore. Generated sheet extracted to a 12-source-pixel art grid, 24-colour native interpretation; source and small details may differ after reduction. Separate material/emissive layers; no baked bloom. Native pixel cleanup and game-scale, anchor and animation review pending. Red is the dominant equipment light; neutral charcoal materials, amber heat. Draft saved for review only, not approved or integrated. Placement role: ground.\nComplete tool crate variant with canonical category colour (63, 243, 255). Frames and geometry retained; functional mark fitted into central panel. Other category variants are versions in the same crate family; coloured masks remain separate existing states. Category spawning is runtime work for Claude.\nReadability revision: central category symbol redrawn at 9×9 with 2–3 px strokes and full 255-alpha emission. Arms: paired cartridges; heavy: shell; medical: cross; tools: crossed implements. Canonical category hues retained; casing, baseline, scale and side lamps unchanged. Uses current category-coloured bloom renderer.",
+  "review": null,
+  "ghostOff": null,
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAASCAYAAAAzI3woAAAFF0lEQVR4AaRVXU+cRRR+5t1lFzC2iRK4sLUxaKEUylc0Ai3eeWFMavwNtrTpL9Ar703sYtIW6qV3xhjLnXdG5KOtu7AsH13UlK8mQrDUFtqysO/4PGc/WIzpjZN9dmbOnHPmmXPOzBvghc35wEU8VQR2/+tnvhyCF/qqJETFwMvAkYQwlBjExYuXMJT4CpEgznV4yWFOA84FWC+5bIHCXDqOeqUDyYd83UgkABeYn8Ka8456KDYj5Cjghtw4ARl8dP5jOAA//jSKTCZjvff7uDRwBTeuXjW9oUSC88vEFeIyBkh8YKAw15ogXyIh39MLWfOl3vEI2uO6+RqEc06gFDBC3BsXLnyCb779zrCyuorQh9jYWMfz3Rw0dy6K9fUNIyeiguY3bw5hmBgavo6h4Wv/qSP/Opj6u78mEQRV5lv7iaCIeaNTQUjKJWxubthwYmIMyeQkplJ3kQ93kZpKmiMRFURUxHt7+tDXew6Bixxal45sZDs2/jMmJ28jVfS19mDN9tChRMrB2dwiJHI65dj4KMYnRrG6ssy0DOI8U6fcl/q11QdcHyOkN4ZU8g6dOIyP/4LUxp+INzZinIcoYYwkZCMfSve1L7+w1GouudZv3foeirJX6dGbEWIP5VSnbG3t4FJoqZHy4PDXGBkZsVRKT9Ho7TkH63vPMjJn0dX9jpbQcvQVdHW9bdB6X2+/RVbp1aZKkdKqPvQ5dHe/C9WYgIoIeedCaHNFZ3ZuGmqaH3/9BBazizh2/DUofZJv/rWJh1tbhzD/90MtQb3w9OkOpKe0RIK4+W5qbmH0RtHU1GK+Ahez9ImoAIT04bxFKHBxqLAaamohUXNzK0Smq7Mbb77VCPWORS1itEIsFkM0GjUs7e1KdAhai8XiqK6uNvuQFftefz/kt+7VOvMtA+/zqK+pNog4GCUjpKL7/LNPoRZSKQzzqKurxw/M7++//WEnVIiPHDnKTWqkxpsSGGxS/DvmqvBh7ctleYFUDSK8VUrVwsKsFXZt7UsW9aJZRechQs6xwHve/wBCW1snRGJ/f89qobWtFadbzxj3IJD6gX0YhuVJ/d4+crlnmH72vCwr6esw7e3daG/vgvwpgisr93HqVJvt2djRjbzfo513xR0iaGiot/dGTvLhHtNRZbconda7EcAzx9FoFWZmUnj0aIvGBz9FJharYfSqTSii83Pz1J02Pybk32xmlrIUR0DAGtJAT0N9fQO4gaYoEGKO9R5Ux2Mm1J8i5KkVYVGKiEMAyeRIqUOxiUwH60AIQ1eUAi2nWzguRNDRFhVNqfR8+SV6/OSJujIKhIrT7Z0dGzlXcOyYKBWyiPhihEqOFAVFUwZKk6BxNHpQW54HlUy20pcv750dTG9fyFoVOek4/RFlQgqdjBQNyqGxcwW1kiyX22XMwG/SlFQMqptKxHgDc7kcddIs5jj0BDhGqETeOWe+wRbjTWRnrzso17hMSHmUgqIhGhqH/J7p1ZZMyiJ08mSTvSUai6heXK2pFyTTvKmp2a68xoqQeq0HfD40LkFlor09b7dkRkgGeo1LG2tBOHHiDbSd6bDCdDwl/tW2tx8jLNaC0hHyMigiSkWlqqOtIt7R2Qk1HbZETDWkvQGFAdSENZfnxzM9M4V0eoqbeH5Ub2N5+b7Nk/xmhYxWNruAbPaeYZG94ClfXl6i7hLT6XFvYa68Ll29Pd57pnCaPu8gT9L6YIt8JpPGLJEPcyTB4gLwDwAAAP//lAIhVQAAAAZJREFUAwB0cfVe4hQ3yQAAAABJRU5ErkJggg==",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAASCAYAAAAzI3woAAAAuElEQVR4AeyRUQrDMAxD1/3vTDv7zrQDdLwPBc0E7HgM+pGCcC27kprcbxd7dqDsQvYJ/e2Enu/zBDMDeDCbZdzPVxaNY58FiPN2oNfjOCSmEKrwPqev4iuQC1YE3NS/dT7T4TugvRHISQ0rNZrHvqLhOyMQQsCHlff4I7HPNPAE2huBRKxUN3dR51f02G0HclOFUUXY5/RVtAPJwEPAxR5uBe1AGIOZGTyYzTKuHSgT7s53oOzkPgAAAP//mmU01gAAAAZJREFUAwAqGUwlfdJohQAAAABJRU5ErkJggg==",
+      "trim": null,
+      "cloth": null,
+      "guts": null,
+      "note": ""
+    }
+  ],
+  "updated": 1793860106272,
+  "by": "jarred"
+}
