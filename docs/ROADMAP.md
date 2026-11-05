@@ -69,6 +69,8 @@ Prototype in HTML/canvas to nail the loop, weapons and feel, then rebuild in **G
 
 **Rappel on fire (GV 36):** no accidental ropes from walking off a ledge; fire hops off the lip and the wire catches.
 
+**Flamer reborn (GV 37):** pressure hose that drives troopers back, fire melts stone; sheet edits (fist 30, scatter 5, sun and mine 88, Godfall 70, supply run 20%).
+
 ## Backlog
 **Content:** terrain materials (rubble, armour plate), objectives beyond last-man-standing, hand-designed set pieces mixed into generated maps, per-faction sprites or trims, faction-specific weapons (long term).
 **Feel:** hit-stop on big impacts, barks on hits and kills, instant replay of big hits (parked).

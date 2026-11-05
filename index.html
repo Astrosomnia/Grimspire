@@ -477,15 +477,15 @@ const ARS=[
   {id:'las',name:'Las Burner',cat:'Guns',kind:'beam',ammo:2,desc:'A beam that burns straight through cover.'},
   {id:'flamer',name:'Promethium Flamer',short:'Flamer',cat:'Guns',kind:'flame',ammo:2,desc:'A wide hose of burning promethium. Washes over groups and sets the ground alight.'},
   {id:'chain',name:'Chainblade',cat:'Melee',kind:'saw',ammo:-1,dmg:4,desc:'Revs for 3s while you walk. Corner them. Last bite staggers.'},
-  {id:'fist',name:'Thunder Fist',cat:'Melee',kind:'melee',ammo:-1,dmg:20,knock:620,desc:'Light damage. An uppercut that launches them skyward.'},
-  {id:'sun',name:'Sun Grenade',cat:'Heavy',kind:'grenade',ammo:1,charge:true,speed:560,fuse:4,r:80,dmg:72,desc:'A small star. Same adjustable fuse.'},
-  {id:'mine',name:'Fusion Mine',cat:'Heavy',kind:'mine',ammo:1,r:80,dmg:72,desc:'Drop it and run. Arms in 3s, then blows when anyone comes close.'},
+  {id:'fist',name:'Thunder Fist',cat:'Melee',kind:'melee',ammo:-1,dmg:30,knock:620,desc:'An uppercut that launches them skyward.'},
+  {id:'sun',name:'Sun Grenade',cat:'Heavy',kind:'grenade',ammo:1,charge:true,speed:560,fuse:4,r:88,dmg:72,desc:'A small star. Same adjustable fuse.'},
+  {id:'mine',name:'Fusion Mine',cat:'Heavy',kind:'mine',ammo:1,r:88,dmg:72,desc:'Drop it and run. Arms in 3s, then blows when anyone comes close.'},
   {id:'lance',name:'Orbital Lance',cat:'Heavy',kind:'target',ammo:0,r:52,dmg:55,desc:'Pick a spot. The sky answers.'},
   {id:'nuke',name:'Doomsday Shell',cat:'Heavy',kind:'shell',ammo:0,charge:true,speed:760,wind:true,r:125,dmg:80,nuke:true,desc:'Ends arguments. Raises the sump and poisons the crater.'},
   {id:'minigun',name:'Minigun',cat:'Heavy',kind:'mini',ammo:0,dmg:1,desc:'Seventy-five rounds that spray and riddle. Climbs a little, so keep it down.'},
   {id:'sentry',name:'Sentry Turret',cat:'Heavy',kind:'sentry',ammo:0,off:true,dmg:4,desc:'Overwatch. Each turn: one burst at the nearest enemy in sight, and one at anyone who walks into it.'},
   {id:'drone',name:'Tracked Drone',cat:'Heavy',kind:'drone',ammo:0,r:62,dmg:65,desc:'Rolls on its own for 8s. Steer it, jump to hop. Fire to detonate.'},
-  {id:'pod',name:'Godfall',cat:'Heavy',kind:'pod',ammo:0,r:60,dmg:55,desc:'Climb in. A slow rocket launch at high angles, then a hard fall. Land on them.'},
+  {id:'pod',name:'Godfall',cat:'Heavy',kind:'pod',ammo:0,r:70,dmg:55,desc:'Climb in. A slow rocket launch at high angles, then a hard fall. Land on them.'},
   {id:'rope',name:'Rappel Wire',cat:'Tools',kind:'rope',ammo:5,desc:'Walk off a ledge on a charged wire. Reel, swing, fire to release.'},
   {id:'jet',name:'Jump Pack',cat:'Tools',kind:'jet',ammo:2,desc:'Hold fire to thrust. Does not end your turn.'},
   {id:'cutter',name:'Plasma Cutter',cat:'Tools',kind:'cutter',ammo:5,desc:'Bores a tunnel in the aim direction. Burns anyone in front of the torch.'},
@@ -1965,7 +1965,7 @@ function tryFire(){
   else if(w.kind==='burst'){S.burst={n:14,t:0,owner:t}}
   else if(w.kind==='beam'){lasShot(t,ox,oy,dx,dy);sfx('las')}
   else if(w.kind==='melee'){melee(t,w)}
-  else if(w.kind==='flame'){S.flame={t:2.4,owner:t};sfx('flame')}
+  else if(w.kind==='flame'){S.flame={t:FLAMER.time,owner:t};sfx('flame')}
   S.moved=true;
   if(w.shots){S.shots--;S.fired=true;updWeapUI();if(S.shots<=0){S.locked=true;S.phase='resolve';S.second=false}else{S.second=true;S.locked=false}return}
   finish();
@@ -1987,11 +1987,12 @@ function knock(o,dx,dy,f){shove(o,dx*f*1.15,dy*f*.5-f*.22)}
 function railShot(t,ox,oy,dx,dy){const r=ray(t,ox,oy,dx,dy,720);
   tracers.push({x0:ox,y0:oy,x1:r.x,y1:r.y,life:.35,max:.35,col:TEAM[t.team].rgb,w:1.8});muzzle(ox,oy,TEAM[t.team].col);
   if(r.barrel)ignite(r.barrel);if(r.sentry)hurtSentry(r.sentry,8);if(r.victim)hurt(r.victim,8);if(r.solid||r.victim)explode(r.x,r.y,15,22)}
+const SCATTER_DMG=5;// per pellet (sheet)
 function scatterShot(t,ox,oy,dx,dy){const a0=Math.atan2(dy,dx);muzzle(ox,oy,'#ffd27a');flashes.push({x:ox,y:oy,r:90,c:FIRE,life:.12,max:.12,i:1});
   for(let i=0;i<7;i++){const a=a0+rnd(-.13,.13),ex=Math.cos(a),ey=Math.sin(a),r=ray(t,ox,oy,ex,ey,rnd(230,280));
     tracers.push({x0:ox,y0:oy,x1:r.x,y1:r.y,life:.16,max:.16,col:[255,210,140],w:1});
     if(r.barrel){ignite(r.barrel);sparks(r.x,r.y,4)}if(r.sentry){hurtSentry(r.sentry,6);sparks(r.x,r.y,3)}
-    if(r.victim){hurt(r.victim,6);knock(r.victim,ex,ey,70);sparks(r.x,r.y,4)}else if(r.solid){carve(r.x,r.y,7);sparks(r.x,r.y,3)}}
+    if(r.victim){hurt(r.victim,SCATTER_DMG);knock(r.victim,ex,ey,70);sparks(r.x,r.y,4)}else if(r.solid){carve(r.x,r.y,7);sparks(r.x,r.y,3)}}
   shake=Math.min(20,shake+5)}
 const BOLT={dmg:5};
 function boltRound(t){const[ox,oy,dx,dy]=origin(t),a=Math.atan2(dy,dx)+rnd(-.09,.09),ex=Math.cos(a),ey=Math.sin(a),r=ray(t,ox,oy,ex,ey,460);
@@ -2689,6 +2690,7 @@ function burnTrooper(t,d){if(!t.alive)return;if(time>(t.fcd||0)){hurt(t,d);t.fcd
 function flee(t,dt){
   if(!t.alive||t.air||t.wet||t.rope||t.skid||t.crouch>0)return;
   if(t===S.active&&(S.phase==='aim'||S.phase==='retreat'||(S.phase==='resolve'&&S.mobile)))return;
+  if(time-(t.hoseT??-9)<.12)return;// pinned by the hose: it drives them, they don't run
   let n=0,sx=0;for(const f of fires)if(Math.abs(f.x-t.x)<20&&f.y>t.y-28&&f.y<t.y+8){n++;sx+=f.x}
   if(!n){t.fleeing=0;return}
   if(!t.fleeing){t.fleeing=Math.sign(t.x-sx/n)||(Math.random()<.5?1:-1);t.panic=PANIC;texts.push({x:t.x,y:t.y-44,txt:'!',life:.8,col:'#ffb21e'})}
@@ -2705,7 +2707,7 @@ function collect(c,t){
     S.ammo[t.team][id]=(S.ammo[t.team][id]||0)+n;txt='+'+WP[id].name+(n>1?' ×'+n:'')}
   texts.push({x:c.x,y:c.y-30,txt,life:2.2,col:CRATE[c.type].col,small:true});sparks(c.x,c.y-8,10);sfx('pickup');updWeapUI();
 }
-const DROP={chance:.33,superChance:.25,superN:4};
+const DROP={chance:.33,superChance:.2,superN:4};
 const CRATEMIX={med:20,heavy:30,arms:35,tool:15};// % from the balance sheet
 const crateType=()=>{let r=Math.random()*100;for(const k of['med','heavy','arms','tool']){if(r<CRATEMIX[k])return k;r-=CRATEMIX[k]}return'tool'};
 // a crate lands clear of the troopers: the first good spot at least CRATE_CLEAR px from anyone (random across the map,
@@ -2831,13 +2833,16 @@ function updWard(dt){
     if(t&&t.alive){const[ox,oy,dx,dy]=origin(t);for(let i=0;i<FLAMER.per;i++){const a=Math.atan2(dy,dx)+rnd(-FLAMER.cone,FLAMER.cone),sp=rnd(FLAMER.sp0,FLAMER.sp1);
       flames.push({x:ox+dx*4,y:oy+dy*4,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,life:rnd(.65,.95),age:0,owner:t,big:Math.random()<.35})}}
     if(f.t<=0||!t||!t.alive)S.flame=null}
+  const hosed=new Map();
   for(let i=flames.length-1;i>=0;i--){const f=flames[i];f.age+=dt;f.life-=dt;f.vy+=260*dt;f.vx*=Math.pow(.5,dt);
     const nx=f.x+f.vx*dt,ny=f.y+f.vy*dt;let gone=f.life<=0;
-    if(!gone&&isSolid(nx,ny)){addFire(f.x,f.y+2);if(Math.random()<.45)addFire(f.x+Math.sign(f.vx||1)*rnd(10,30),f.y-8);gone=true}
-    if(!gone){const w=7+f.age*FLAMER.grow;for(const v of troopers)if(v.alive&&v!==f.owner&&Math.abs(v.x-nx)<w&&ny>v.y-BH-w*.4&&ny<v.y+2)burnTrooper(v,FLAMER.dmg)}
+    if(!gone&&isSolid(nx,ny)){if(Math.random()<MELT.flameP)carve(nx,ny+1,MELT.flameR);addFire(f.x,f.y+2);if(Math.random()<.45)addFire(f.x+Math.sign(f.vx||1)*rnd(10,30),f.y-8);gone=true}
+    if(!gone){const w=7+f.age*FLAMER.grow;for(const v of troopers)if(v.alive&&v!==f.owner&&Math.abs(v.x-nx)<w&&ny>v.y-BH-w*.4&&ny<v.y+2){burnTrooper(v,FLAMER.dmg);if(f.vx)hosed.set(v,Math.sign(f.vx))}}
     if(!gone){const bb=barrelAt(nx,ny);if(bb){ignite(bb);gone=true}}
     if(!gone&&ny>sump){steam(nx,sump,1);gone=true}
     if(gone){flames.splice(i,1);continue}f.x=nx;f.y=ny}
+  // pressure hose: anyone in the stream is driven back, once per frame (off ledges, into the sump)
+  for(const[v,d]of hosed){v.hoseT=time;if(v.rope||v.wet)continue;if(v.air)v.vx+=d*FLAMER.push*2*dt;else if(!v.skid&&!(v.down>0)){const m=v.moving;walk(v,d,dt,FLAMER.push/52);v.moving=m;if(v.air)v.vx=d*FLAMER.push}}
   // ground fires
   for(let i=fires.length-1;i>=0;i--){const f=fires[i];f.life-=dt;
     if(f.air||!isSolid(f.x,f.y+1)){f.vy=(f.vy||0)+G*dt;const n=Math.max(1,Math.ceil(Math.abs(f.vy)*dt));
@@ -2846,7 +2851,7 @@ function updWard(dt){
     if(f.life<=0){steam(f.x,f.y,1);fires.splice(i,1);continue}
     if(Math.random()<.55)parts.push({k:'fire',x:f.x+rnd(-4,4),y:f.y-rnd(0,4),vx:rnd(-8,8),vy:rnd(-50,-20),life:rnd(.2,.45),max:.7,s:rnd(1.6,3.4)*Math.min(1,f.life/3+.3)});
     if(Math.random()<.04)parts.push({k:'ember',x:f.x,y:f.y-4,vx:rnd(-30,30),vy:rnd(-140,-60),life:rnd(.6,1.2),max:1.2});
-    f.tick-=dt;if(f.tick<=0){f.tick=.5;
+    f.tick-=dt;if(f.tick<=0){f.tick=.5;if((f.bit||0)<MELT.groundMax&&Math.random()<MELT.groundP&&isSolid(f.x,f.y+2)){f.bit=(f.bit||0)+1;carve(f.x,f.y+2,MELT.groundR)}
       for(const t of troopers)if(t.alive&&Math.abs(t.x-f.x)<10&&f.y>t.y-BH&&f.y<t.y+6)burnTrooper(t,3);
       for(const b of barrels)if(b.alive&&Math.abs(b.x-f.x)<12&&Math.abs(b.y-f.y)<14)ignite(b)}}
   // burning troopers
@@ -2898,7 +2903,9 @@ function drawWard(lights){
     if(!sh.dropped){ctx.fillStyle=INK;ctx.strokeStyle=CRATE[sh.type].col;ctx.beginPath();ctx.rect(-2,13,12,9);ctx.fill();ctx.stroke()}
     ctx.restore()}
 }
-const FLAMER={per:7,cone:.36,sp0:230,sp1:380,grow:22,dmg:5};// a wide hose: ~41° cone, flames swell as they fly and burn everyone they wash over
+const FLAMER={per:7,cone:.36,sp0:230,sp1:380,grow:22,dmg:5,time:2.8,push:42};// time: hose seconds; push: px/s a trooper in the stream is driven back (sheet)
+// fire eats stone (Jarred 4 Nov): a hose flame that hits ground bites it now and then; burning ground slowly chars a pit
+const MELT={flameP:.012,flameR:4,groundP:.015,groundR:4,groundMax:1};// groundMax: bites per fire, so a fire chars a pit rather than drilling down// a wide hose: ~41° cone, flames swell as they fly and burn everyone they wash over
 function drawFlames(){
   for(const f of flames){const a=Math.min(1,f.life)*.42,s=(2+f.age*14)*(f.big?1.4:1);ctx.fillStyle=f.age<.08?`rgba(255,235,190,${a})`:f.age<.3?`rgba(255,150,35,${a*.95})`:`rgba(230,55,20,${a*.75})`;ctx.beginPath();ctx.arc(f.x,f.y,s,0,Math.PI*2);ctx.fill()}
 }
@@ -3571,7 +3578,7 @@ function netCatchUp(){if(S.mode!=='online'||NET.role!=='watch')return;const behi
   if(behind>300&&!NET.skip)for(let i=0;i<Math.min(6,behind-240);i++)tick()}
 function netGameOver(){if(NET.role!=='act')clearNet()}
 function netLeave(){document.title=TITLE0;chatStop();if(NET.unC)NET.unC();if(NET.unM)NET.unM();NET.unC=NET.unM=null;NET.role=null;NET.started=false;S.mode='hot';$('#netBar').hidden=true}
-const GV=36;// bump on every release that changes the sim
+const GV=37;// bump on every release that changes the sim
 function startOnline(code,me,d){BE.update(code,{['vers.'+me]:GV,['arts.'+me]:window.GRIMSPIRE_ART_SIM||''}).catch(()=>{});NET.code=code;NET.me=me;NET.round=d.round||0;NET.snapK=-1;NET.snap=null;NET.matchAtt=d.att||'';NET.started=true;NET.leaving=false;saveNet();
   $('#net').hidden=true;if(!CHAT.un)chatStart();const cfg=Object.assign(mkCfg('online',d.seats,d.mode==='teams'),{mode:'online'});newGame('online',d.seed,cfg);S.genOK=true;
   const base=NET.round*1e5,has=d.snapK!=null&&d.snapK>=base&&d.snap;

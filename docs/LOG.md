@@ -6,6 +6,13 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-04 · Claude · Flamer as a pressure hose that melts stone; Jarred's sheet edits (GV 37)
+- **Balance sheet (Jarred):** Thunder Fist 20 → 30; Scatter Gun pellet 6 → 5; Sun Grenade and Fusion Mine radius 80 → 88; Godfall radius 60 → 70; supply run 25% → 20% of drops; flamer 6 → 8 hits (see below).
+- **Pressure hose:** anyone in the stream is driven back at 42 px/s (`FLAMER.push`, sheet rule) and doesn't run while it's on them, so you can walk them off a ledge or into the sump. Hose 2.4 → 2.8 s (`FLAMER.time`). Panic and flight start once the stream leaves them.
+- **Damage (wtest):** 40 px 31 → 50, 110 px 34 → 44, 180 px 24 → 35; group of three at 70 px 31/34/36 → 47/47/42. Above the mortar's 48 only up close and on groups; two uses from arms crates.
+- **Fire melts stone:** hose flames bite the ground now and then (1.2%, r 4), and each ground fire chars one small pit at most (1.5% per half-second, r 4) (`MELT`). Barrel fire too. A full hose into 30 px of floor, then every fire burnt out: pitted on average 3 px, deepest 29, nowhere through. Earlier tuning ate straight through, so this is deliberately light; easy to turn up.
+- Tests: det map hashes match; dsim, dsim2, dsimart identical; phone loads with no errors.
+
 ## 2026-11-04 · Claude · Rappel wire only on fire, with a hop off the lip (GV 36)
 - Walking off a ledge with the wire selected no longer shoots it; you just drop, and the wire isn't used. The CPU still ropes as it walks off big drops (unchanged).
 - Fire with a ledge within 30 px ahead: the trooper hops off the lip (`ropeHop`) and the wire catches on it about 0.3 s later. No ledge ahead: "No ledge here" as before. Getting hit mid-hop cancels it.
