@@ -6,6 +6,10 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-05 · Forge · Art release 20261105T150303Z-cc0008e0
+- Test Crate tool symbol · category colour as C01 TOOL · Crate · tools
+- Slots: W01, W02, W03, W04, W05, W06, W07, W08, ARM, TORSO, THIGH, SHIN, W09, W10, W11, W12, W13, W14, W15, W16, W18, W19, W20, W21, M01, C02, C04, CRATE_ARMS, CRATE_HEAVY, CRATE_MED, CRATE_TOOL, C03, C06, S01, S09, S07, S03, K01, K02, K03, K04, K05, K06, K07, K08, K09, K01a, K01b, K05a, K05b, K07a, K07b, K01c, K01d, K02a, K02b, K05c, K05d, K07c, K07d, B01, B02, B03, D01, D02, D03, D04, D05, D06, R01, R02, R03, R04, D01a, D03a, D06a, SKY01, SKY02, SKY03, SKY04, SKY05, SKY06, SKY07, SKY08, SKY09, SKY10, SKY11, SKY12, K10, K11, K12, K13, K14, K15, K16, K17, R05, R06, R07, R08, R09. Released by Astrosomnia. Receipt: `art/integrations/20261105T150303Z-cc0008e0.json`
+
 ## 2026-11-05 · Claude · Crates: symbols set into the casing, so a symbol-only release draws a whole crate
 - **Cause (confirms ChatGPT's read):** release `20261105T062850Z-30246e68` put the 8×8 `symbol_arms_mask` and `symbol_heavy_mask` states of C01 into `CRATE_ARMS` and `CRATE_HEAVY`. Those slots expect a whole 36×18 crate, so the game drew a lone symbol with no casing. The Forge's Test target guesses the slot from the name ("arms", "heavy"), so testing a symbol offers the crate slot. `CRATE_MED` and `CRATE_TOOL` are whole crates whose symbol is drawn in (tool still the X); the old built-in X overlay is not drawn when Forge art exists.
 - **Fix (art runtime, `labComposeCrates`):** when a crate slot holds only a symbol, the game builds the crate: casing from a whole-crate slot, its centre glyph cleared, side lamps in the category colour, and the symbol (dark plate + emissive mark) in the centre panel. Built once on CPU-backed canvases. If no whole crate is released at all, those crates fall back to the old built-in crate. No sim change; GV unchanged.
