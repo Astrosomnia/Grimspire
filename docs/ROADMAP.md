@@ -63,6 +63,8 @@ Prototype in HTML/canvas to nail the loop, weapons and feel, then rebuild in **G
 
 **Drowned district plays, kit on every map (2–3 Nov, GV 19–26):** north look everywhere, drowned district from ChatGPT's kit, skyline plates, world depth, landmarks K10–K13 on rock, up-and-over decks and stubs, diagonals K14–K17 and big rock R05–R09, kit towers and landmarks on the generated maps, spawns through the levels.
 
+**Field reports 4 Nov (GV 34):** lighter phone HUD (smaller weapon tile, Flamer short name, compact fuse, chat square, health lines off the clock), no name line, full screen toggle, longer death camera, idle music score detached.
+
 ## Backlog
 **Content:** terrain materials (rubble, armour plate), objectives beyond last-man-standing, hand-designed set pieces mixed into generated maps, per-faction sprites or trims, faction-specific weapons (long term).
 **Feel:** hit-stop on big impacts, barks on hits and kills, instant replay of big hits (parked).

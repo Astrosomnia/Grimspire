@@ -314,6 +314,18 @@ body.intitle #dbg{display:none}
  .team.sm .tname{font-size:clamp(11px,3.6vw,15px)}
  .tcount{font-size:7px;letter-spacing:.6px}
 }
+/* 4 Nov field reports (phone): smaller, lighter weapon tile; compact fuse beside it; chat in a square like pause; health lines clear of the clock */
+#bArs{width:96px;height:76px}
+#bArs .ui-weapon-tile{width:56px;height:46px}
+#bArs .ui-weapon-tile>svg{fill:#0a0f174d;stroke-opacity:.8}
+#bArs .ui-weapon-tile .ico{width:38px!important;height:38px!important;opacity:.9}
+#bArs .ui-weapon-caption{gap:6px}
+#bArs .ui-weapon-ammo em{font-size:15px!important;line-height:18px!important}
+#bFuse{right:calc(max(16px,env(safe-area-inset-right,0px)) + 94px)!important;bottom:calc(env(safe-area-inset-bottom,0px) + 157px)!important;min-height:30px;padding:5px 8px;font-size:9px;letter-spacing:.08em;background:#0a0f1780}
+#chatBtn:before{content:'';position:absolute;inset:12px;border:1px solid color-mix(in srgb,var(--ui-faction,var(--mag)) 35%,transparent);clip-path:polygon(3px 0,100% 0,100% calc(100% - 3px),calc(100% - 3px) 100%,0 100%,0 3px);pointer-events:none}
+#chatBtn svg{width:12px;height:12px}
+#chatBtn.ping{box-shadow:none}#chatBtn.ping:before{border-color:var(--bone)}
+@media(max-width:640px){#tl .bar{margin-right:14px}#tr .bar{margin-left:14px}}
 /* END GRIMSPIRE_UI_PASS */
 </style>
 
@@ -365,6 +377,7 @@ body.intitle #dbg{display:none}
       <button class="go alt" id="pRestart" type="button">Restart this battle</button>
       <label class="vol" for="vSfx"><span>Effects</span><input type="range" id="vSfx" min="0" max="100" step="1" value="100"><output id="oSfx">100%</output></label>
       <label class="vol" for="vMus"><span>Music</span><input type="range" id="vMus" min="0" max="100" step="1" value="75"><output id="oMus">75%</output></label>
+      <button class="go alt" id="pFull" type="button" hidden>Full screen</button>
       <button class="go alt" id="pLevers" type="button" hidden>Reset controls</button>
       <button class="go alt" id="pReport" type="button">Report a bug or idea</button>
       <button class="go alt" id="pForfeit" type="button" hidden>Forfeit and leave</button>
@@ -463,7 +476,7 @@ const ARS=[
   {id:'scatter',name:'Scatter Gun',cat:'Guns',kind:'scatter',ammo:2,shots:2,desc:'Two blasts of buckshot. Nasty up close.'},
   {id:'bolter',name:'Dakka Bolter',cat:'Guns',kind:'burst',ammo:2,desc:'Fourteen-round burst with plenty of spray.'},
   {id:'las',name:'Las Burner',cat:'Guns',kind:'beam',ammo:2,desc:'A beam that burns straight through cover.'},
-  {id:'flamer',name:'Promethium Flamer',cat:'Guns',kind:'flame',ammo:2,desc:'A wide hose of burning promethium. Washes over groups and sets the ground alight.'},
+  {id:'flamer',name:'Promethium Flamer',short:'Flamer',cat:'Guns',kind:'flame',ammo:2,desc:'A wide hose of burning promethium. Washes over groups and sets the ground alight.'},
   {id:'chain',name:'Chainblade',cat:'Melee',kind:'saw',ammo:-1,dmg:4,desc:'Revs for 3s while you walk. Corner them. Last bite staggers.'},
   {id:'fist',name:'Thunder Fist',cat:'Melee',kind:'melee',ammo:-1,dmg:20,knock:620,desc:'Light damage. An uppercut that launches them skyward.'},
   {id:'sun',name:'Sun Grenade',cat:'Heavy',kind:'grenade',ammo:1,charge:true,speed:560,fuse:4,r:80,dmg:72,desc:'A small star. Same adjustable fuse.'},
@@ -1523,7 +1536,7 @@ function startMusic(){
   const out=AC.createGain();out.gain.setValueAtTime(0,t0);out.gain.linearRampToValueAtTime(MVOL*VOL.mus,t0+6);out.connect(AC.destination);MUS.out=out;
   const comp=AC.createDynamicsCompressor();comp.threshold.value=-30;comp.ratio.value=4;comp.connect(out);
   const bat=AC.createGain(),tit=AC.createGain();MUS.mode=(S.phase==='title'||S.phase==='over')?'title':'battle';
-  bat.gain.value=MUS.mode==='battle'?1:0;tit.gain.value=MUS.mode==='title'?1:0;bat.connect(comp);tit.connect(comp);MUS.bat=bat;MUS.tit=tit;
+  bat.gain.value=MUS.mode==='battle'?1:0;tit.gain.value=MUS.mode==='title'?1:0;(MUS.mode==='battle'?bat:tit).connect(comp);MUS.bat=bat;MUS.tit=tit;MUS.comp=comp;
   const bus=AC.createGain();bus.gain.value=.22;bus.connect(bat);MUS.bus=bus;
   initChoir(tit);
   // echo
@@ -1598,7 +1611,9 @@ function schedChoir(){
   if(MUS.bNext<now+1){bell(Math.max(MUS.bNext,now+.05));MUS.bNext=Math.max(MUS.bNext,now)+rnd(11,17)}
 }
 function setMusicMode(m){if(!AC||!MUS.bat){MUS.mode=m;return}if(MUS.mode===m)return;MUS.mode=m;const t=AC.currentTime;
-  MUS.bat.gain.setTargetAtTime(m==='battle'?1:0,t,1.2);MUS.tit.gain.setTargetAtTime(m==='title'?1:0,t,1.2);if(m==='title'){MUS.tNext=t+1.5;MUS.bNext=t+3}}
+  MUS.bat.gain.setTargetAtTime(m==='battle'?1:0,t,1.2);MUS.tit.gain.setTargetAtTime(m==='title'?1:0,t,1.2);if(m==='title'){MUS.tNext=t+1.5;MUS.bNext=t+3}
+  // only the playing score stays attached: the silent one (the title's 5 s cathedral reverb in battle) otherwise keeps the audio thread busy, which can crackle on phones
+  (m==='battle'?MUS.bat:MUS.tit).connect(MUS.comp);clearTimeout(MUS.cut);MUS.cut=setTimeout(()=>{if(MUS.mode!==m)return;try{(m==='battle'?MUS.tit:MUS.bat).disconnect()}catch(e){}},7000)}
 function setMusicVol(v){VOL.mus=v;if(MUS.out&&AC)MUS.out.gain.setTargetAtTime(MVOL*v,AC.currentTime,.15)}
 function setSfxVol(v){VOL.sfx=v;if(sfxBus&&AC)sfxBus.gain.setTargetAtTime(v,AC.currentTime,.05)}
 function bus(){if(!sfxBus){sfxBus=AC.createGain();sfxBus.gain.value=VOL.sfx;sfxBus.connect(AC.destination)}return sfxBus}
@@ -1774,7 +1789,7 @@ const ICONS={
 const UI_ICON_BASE=/\/debug\//.test(location.pathname)?'../':'';
 const UI_ICONS_DATA={"mortar":{"scale":0.991,"x":49.528,"y":52.8,"path":"assets/ui/icons/mortar.png"},"frag":{"scale":1.20458,"x":50.817,"y":52.412,"path":"assets/ui/icons/frag.png"},"rail":{"scale":1.03016,"x":48.556,"y":50.236,"path":"assets/ui/icons/rail.png"},"scatter":{"scale":0.99201,"x":49.363,"y":57.073,"path":"assets/ui/icons/scatter.png"},"bolter":{"scale":0.987,"x":49.674,"y":55.181,"path":"assets/ui/icons/bolter.png"},"las":{"scale":0.94871,"x":48.548,"y":53.948,"path":"assets/ui/icons/las.png"},"flamer":{"scale":0.8679,"x":49.476,"y":54.656,"path":"assets/ui/icons/flamer.png"},"chain":{"scale":0.95055,"x":49.811,"y":55.201,"path":"assets/ui/icons/chain.png"},"fist":{"scale":1.17563,"x":50.718,"y":51.251,"path":"assets/ui/icons/fist.png"},"sun":{"scale":1.0796,"x":50.292,"y":49.566,"path":"assets/ui/icons/sun.png"},"mine":{"scale":1.06782,"x":49.953,"y":52.903,"path":"assets/ui/icons/mine.png"},"lance":{"scale":0.9991,"x":49.955,"y":49.537,"path":"assets/ui/icons/lance.png"},"nuke":{"scale":1.03505,"x":49.011,"y":53.203,"path":"assets/ui/icons/nuke.png"},"minigun":{"scale":0.91584,"x":49.88,"y":55.41,"path":"assets/ui/icons/minigun.png"},"sentry":{"scale":1.10898,"x":50.119,"y":50.646,"path":"assets/ui/icons/sentry.png"},"drone":{"scale":1.19283,"x":50.713,"y":55.141,"path":"assets/ui/icons/drone.png"},"pod":{"scale":0.88119,"x":49.961,"y":49.861,"path":"assets/ui/icons/pod.png"},"rope":{"scale":0.98008,"x":47.045,"y":52.563,"path":"assets/ui/icons/rope.png"},"jet":{"scale":1.26372,"x":49.926,"y":55.227,"path":"assets/ui/icons/jet.png"},"cutter":{"scale":1.05515,"x":47.571,"y":52.176,"path":"assets/ui/icons/cutter.png"},"fab":{"scale":0.9552,"x":49.949,"y":55.243,"path":"assets/ui/icons/fab.png"},"warp":{"scale":1.14266,"x":51.302,"y":54.41,"path":"assets/ui/icons/warp.png"}};
 const icon=id=>{const a=UI_ICONS_DATA[id];return a?`<span class="ico ui-png" aria-hidden="true" style="--ui-scale:${a.scale};--ui-x:${a.x};--ui-y:${a.y}"><img src="${UI_ICON_BASE+a.path}" alt="" draggable="false"></span>`:`<svg class="ico" viewBox="0 0 24 24" aria-hidden="true">${ICONS[id]||''}</svg>`};
-function uiSelectedWeapon(w,ammo){return `<span class="ui-weapon-tile"><svg viewBox="0 0 80 66" aria-hidden="true"><path d="M10 2H69L78 11V55L69 64H10L2 56V11Z"/></svg>${icon(w.id)}</span><span class="ui-weapon-caption"><span class="ui-weapon-name">${w.name}</span><span class="ui-weapon-ammo"><b>AMMO</b><em>${ammo}</em></span></span>`}
+function uiSelectedWeapon(w,ammo){return `<span class="ui-weapon-tile"><svg viewBox="0 0 80 66" aria-hidden="true"><path d="M10 2H69L78 11V55L69 64H10L2 56V11Z"/></svg>${icon(w.id)}</span><span class="ui-weapon-caption"><span class="ui-weapon-name">${w.short||w.name}</span><span class="ui-weapon-ammo"><b>AMMO</b><em>${ammo}</em></span></span>`}
 
 function buildArsenal(){
   const root=$('#agrid');root.innerHTML='';
@@ -1832,7 +1847,8 @@ function shove(o,vx,vy){if(!o.alive)return;
   else{o.vx=0;o.vy=0}}
 function hurt(t,d,soft){if(d<=0||!t.alive)return;const was=t.hp;t.hp=Math.max(0,t.hp-d);if(was>0&&t.hp===0)slowmo(1.4);sfx('clank');
   if(!soft&&t===S.active&&(S.phase==='aim'||S.phase==='retreat')){if(S.phase==='aim')texts.push({x:t.x,y:t.y-58,txt:'Turn lost',life:1.6,col:BONE,small:true});S.phase='end';S.charging=false;S.jet=null;S.wait=0}const prev=texts.find(x=>x.who===t&&x.life>.85);if(prev){prev.dmg+=d;prev.txt='-'+prev.dmg;prev.life=1.5}else texts.push({x:t.x,y:t.y-38,txt:'-'+d,life:1.5,col:TEAM[t.team].col,who:t,dmg:d})}
-function deathCam(x,y){S.deathCam={x:clamp(x,20,W-20),y:Math.min(y,sump-10),t:1.7}}
+function deathCam(x,y,d=1.7){S.deathCam={x:clamp(x,20,W-20),y:Math.min(y,sump-10),t:d}}
+const DEATH_HOLD=3.2; // a killed trooper keeps the camera through their last act and the grave rising (grave at 1.75 s)
 function abyss(t){deathCam(t.x,t.y);t.alive=false;t.hp=0;t.wet=false;slowmo(1);texts.push({x:clamp(t.x,40,W-40),y:sump-40,txt:t.name+' · lost to the abyss',life:2.4,col:BONE,small:true});sfx('splash')}
 const WADE=28;
 function floorBelow(x){for(let y=Math.floor(sump);y<=sump+WADE;y+=2)if(isSolid(x,y)||isSolid(x-3,y)||isSolid(x+3,y))return true;return false}
@@ -1883,7 +1899,7 @@ function updRope(t,dt,ctrl){const r=t.rope;
 let corpses=[],zones=[],sentries=[];
 const FALLOUT={dmg:8,turns:10},RAD=[150,255,60];
 const LAST=[['kneel',.3],['stagger',.25],['salute',.2],['martyr',.25]];
-function killTrooper(t){t.alive=false;t.rope=null;deathCam(t.x,t.y);let r=Math.random(),k='kneel';for(const[n,p]of LAST){if(r<p){k=n;break}r-=p}
+function killTrooper(t){t.alive=false;t.rope=null;deathCam(t.x,t.y,DEATH_HOLD);let r=Math.random(),k='kneel';for(const[n,p]of LAST){if(r<p){k=n;break}r-=p}
   corpses.push({x:t.x,y:t.y,face:t.face,team:t.team,aim:t.aim,kind:k,t:0,done:false,anim:0,moving:false,tilt:0,sq:0});
   texts.push({x:t.x,y:t.y-44,txt:t.name+' falls',life:2,col:BONE,small:true})}
 // pose for each moment of each last act: tilt (+ is forward), squash (kneeling), aim
@@ -3380,7 +3396,9 @@ function updHud(){netHud();{const tc=S.phase==='aim'||S.phase==='retreat'?TEAM[S
   const t=S.active,w=curW();
   if(S.phase==='aim'){setT('timer',String(Math.max(0,Math.ceil(S.timer))));
     const rl=SD_ROUND-(S.rnd||0),sd=rl<=0?' · sudden death':rl<=2?` · sump rises in ${rl} round${rl>1?'s':''}`:'';
-    setT('turn',t&&t.rope?'Rappel wire · ↑↓ reel · ←→ swing · fire to release · jump to leap':t&&t.wet?`${t.name} · in the sump · swim to shore`:S.second?`${t?t.name:''} · second shot`:(S.jet?`${t?t.name:''} · jump pack`:`${t?t.name:''} · ${w.name}${S.shots>1&&S.fired?' · 1 shot left':''}${w.kind==='target'||w.kind==='build'?(coarse?' · tap to place':' · click to place'):''}`)+sd)}
+    // no trooper or weapon name (Jarred: too much on screen); only cues the player needs
+    const cue=t&&t.rope?['Rappel wire','↑↓ reel','←→ swing','fire to release','jump to leap']:t&&t.wet?['In the sump','swim to shore']:S.second?['Second shot']:S.jet?[]:[S.shots>1&&S.fired?'1 shot left':'',w.kind==='target'||w.kind==='build'?(coarse?'Tap to place':'Click to place'):''];
+    if(sd)cue.push(sd.slice(3));const ct=cue.filter(Boolean).join(' · ');setT('turn',ct&&ct[0].toUpperCase()+ct.slice(1))}
   else if(S.phase==='retreat'){setT('timer',String(Math.ceil(S.retreat)));setT('turn','Get to cover')}
   else{setT('timer','—');setT('turn',S.cut&&!isCPU()?'Cutting · aim to steer · fire to stop':S.mobile&&S.phase==='resolve'&&!isCPU()?'Get clear':'')}
   const gren=S.phase==='aim'&&!isCPU()&&w.kind==='grenade',ft=`Fuse ${S.fuse}s`;
@@ -3542,7 +3560,7 @@ function netCatchUp(){if(S.mode!=='online'||NET.role!=='watch')return;const behi
   if(behind>300&&!NET.skip)for(let i=0;i<Math.min(6,behind-240);i++)tick()}
 function netGameOver(){if(NET.role!=='act')clearNet()}
 function netLeave(){document.title=TITLE0;chatStop();if(NET.unC)NET.unC();if(NET.unM)NET.unM();NET.unC=NET.unM=null;NET.role=null;NET.started=false;S.mode='hot';$('#netBar').hidden=true}
-const GV=33;// bump on every release that changes the sim
+const GV=34;// bump on every release that changes the sim
 function startOnline(code,me,d){BE.update(code,{['vers.'+me]:GV,['arts.'+me]:window.GRIMSPIRE_ART_SIM||''}).catch(()=>{});NET.code=code;NET.me=me;NET.round=d.round||0;NET.snapK=-1;NET.snap=null;NET.matchAtt=d.att||'';NET.started=true;NET.leaving=false;saveNet();
   $('#net').hidden=true;if(!CHAT.un)chatStart();const cfg=Object.assign(mkCfg('online',d.seats,d.mode==='teams'),{mode:'online'});newGame('online',d.seed,cfg);S.genOK=true;
   const base=NET.round*1e5,has=d.snapK!=null&&d.snapK>=base&&d.snap;
@@ -3600,6 +3618,11 @@ function chatShow(m){const T=TEAM[m.f]||{name:'?',col:'#ccc'},p=document.createE
 function chatOpen(){if(S.mode!=='online'||!NET.code)return;CHAT.open=true;document.body.classList.add('chatting');$('#chatBox').hidden=false;LH.clear();setTimeout(()=>$('#chatIn').focus(),0)}
 function chatClose(){CHAT.open=false;document.body.classList.remove('chatting');$('#chatBox').hidden=true;const i=$('#chatIn');i.value='';i.blur()}
 $('#chatBtn').addEventListener('click',()=>CHAT.open?chatClose():chatOpen());
+// full screen (phones: hides the browser bars). Not offered where the browser can't do it (iPhone Safari)
+{const de=document.documentElement,fsOn=()=>!!(document.fullscreenElement||document.webkitFullscreenElement),b=$('#pFull'),lab=()=>{b.textContent=fsOn()?'Exit full screen':'Full screen'};
+  if(document.fullscreenEnabled||document.webkitFullscreenEnabled){b.hidden=false;lab();
+    b.addEventListener('click',()=>{try{const r=fsOn()?(document.exitFullscreen||document.webkitExitFullscreen).call(document):(de.requestFullscreen||de.webkitRequestFullscreen).call(de,{navigationUI:'hide'});if(r&&r.catch)r.catch(()=>{})}catch(e){}});
+    for(const ev of['fullscreenchange','webkitfullscreenchange'])document.addEventListener(ev,()=>{lab();window.dispatchEvent(new Event('resize'))})}}
 $('#chatIn').addEventListener('keydown',e=>{e.stopPropagation();if(e.key==='Escape')chatClose()});
 $('#chatIn').addEventListener('keyup',e=>e.stopPropagation());
 $('#chatBox').addEventListener('submit',e=>{e.preventDefault();const t=$('#chatIn').value.trim().slice(0,140);if(!t){chatClose();return}

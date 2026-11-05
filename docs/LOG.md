@@ -6,6 +6,15 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-04 · Claude · Field reports 4 Nov: lighter phone HUD, full screen, deaths get their moment (GV 34)
+- **HUD (phone):** selected-weapon tile about 30% smaller with a fainter fill (also covers Louis's "weapon icons too big"); the flamer shows as **Flamer** so it no longer runs into the ammo; fuse button smaller and tucked beside the tile; team health lines pulled 14 px back from the clock; chat sits in a square like pause.
+- **Top line:** no more trooper and weapon name. It only shows cues you need: "Sump rises in N rounds", sudden death, second shot, 1 shot left, tap to place, rope and swim help, and "Your turn" in multiplayer.
+- **Full screen:** pause menu button (Android Chrome and desktop). Hidden where the browser can't do it (iPhone Safari).
+- **Deaths:** the camera holds 3.2 s on a killed trooper (was 1.7 s) so you see the last act and the grave rise. Next turn's timer doesn't run during the hold. Sim change, so GV 34.
+- **Scratchy music (likely fix, needs a phone check):** the title score's 5 s cathedral reverb kept running silently through every battle. The silent score is now detached once it has faded, which takes load off the audio thread. Music code itself hasn't changed in this window, so if it's still scratchy the cause is probably overall CPU load from the heavier maps.
+- Tests: det map hashes match; dsim, dsim2, dsimart identical; no page errors on 360×718 and 411×796; every weapon name fits the smaller tile.
+- Triaged the other 4 Nov reports on the board (rappel on fire, flamer run-off, crate spread, jump pack fall immunity, minigun arm, slo-mo, fall and stand poses, Louis's scenery balance). Waiting on Jarred.
+
 ## 2026-11-03 · Claude · Clock digits centred; multiplayer "Your turn" until you move
 - Timer digits sat 4–5 px high in the clock frame on phone and desktop; now centred (measured within 0.25 px). The — shown between turns and during supply drops overflowed its digit slot to the right; it is centred too.
 - Commanders and online: "Your turn" appears under the clock at the start of your turn and clears as soon as you move, aim or fire (`S.armed`). Not shown against the machine or for the other side online.
