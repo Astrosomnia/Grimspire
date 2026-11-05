@@ -2789,6 +2789,20 @@
       "h": 8,
       "frame_count": 1,
       "category": "Other art"
+    },
+    {
+      "id": "asset-5971af3400d1e91dc36244ce",
+      "path": "art/lab/hosted/library/asset-5971af3400d1e91dc36244ce.forge.json",
+      "sha256": "5971af3400d1e91dc36244cea3c9d74f269e37b8efa4136bde61b20c6279e97c",
+      "asset_id": "asset-c01",
+      "state_key": "symbol_tool_mask",
+      "asset_name": "Supply Crate",
+      "code": "C01",
+      "name": "Crate tool symbol · category colour",
+      "w": 8,
+      "h": 8,
+      "frame_count": 1,
+      "category": "Other art"
     }
   ]
 }
