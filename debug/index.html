@@ -1827,7 +1827,8 @@ function walk(t,dir,dt,sp){if(t===S.active&&S.stag&&S.phase==='aim')return;
   t.x=nx;t.y=ny;t.moving=true;t.anim+=dt*14*sp;
   if(t===S.active&&t.anim-(t.stepA||0)>Math.PI){t.stepA=t.anim;sfx('step')}
   if(d>=8){
-    if(t===S.active&&S.phase==='aim'&&curW().kind==='rope'&&hasAmmo(curW())&&(!isCPU()||dropDepth(nx,ny)>120)){attachRope(t,ox,oy,dir);return}
+    // players fire to rope (Jarred 4 Nov: walking off a ledge shot it by accident); the CPU still ropes as it walks off a big drop
+    if(t===S.active&&S.phase==='aim'&&curW().kind==='rope'&&hasAmmo(curW())&&isCPU()&&dropDepth(nx,ny)>120){attachRope(t,ox,oy,dir);return}
     t.air=true;t.vx=dir*40;t.vy=0}
 }
 function jump(t){
@@ -1883,6 +1884,8 @@ function attachRope(t,ax,ay,dir){
   const r={x:ax,y:ay,L:16,a:dir*.5,v:dir*1.4};let k=0;while(ropeHits(r,r.a,r.L)&&k<30){r.a+=dir*.05;k++}
   if(t===S.active&&curW().kind==='rope'){useAmmo(curW());updWeapUI()}
   t.rope=r;t.air=false;t.skid=false;t.vx=t.vy=0;t.face=dir;S.moved=true;[t.x,t.y]=ropePos(r,r.a,r.L);sfx('rope')}
+// fire with the wire: a short hop off the lip, then the wire catches on it
+function ropeHop(t,x,y,dir){t.ropeHop={x,y,dir,t:0};t.air=true;t.crouch=0;t.vx=dir*115;t.vy=-115;t.y-=1;t.face=dir;S.moved=true;puff(t.x,t.y);sfx('jump')}
 function dropRope(t){t.rope=null;t.air=true;t.y-=1;if(t===S.active&&curW().kind==='rope'&&!hasAmmo(curW())){S.weapon[S.team]=S.lastAtk[S.team];S.shots=curW().shots||1;updWeapUI()}}
 function ropeRelease(t){const r=t.rope;t.vx=r.L*Math.cos(r.a)*r.v;t.vy=-r.L*Math.sin(r.a)*r.v;dropRope(t);sfx('zap')}
 function ropeJump(t){const r=t.rope;t.vx=r.L*Math.cos(r.a)*r.v;t.vy=-r.L*Math.sin(r.a)*r.v-200;dropRope(t);sfx('jump')}
@@ -1939,7 +1942,7 @@ function tryFire(){
     case'target':if(!S.target)return;useAmmo(w);S.strike={x:S.target.x,t:0,fired:false};S.lastAtk[S.team]='mortar';finish();sfx('lance');return;
     case'build':if(!fabValid())return;useAmmo(w);builds.push({x:S.target.x,y:S.target.y,rot:S.rot,t:0});finish();sfx('fab');return;
     case'rope':{if(t.air)return;for(let k=4;k<=30;k+=2){const x=t.x+t.face*k;if(isSolid(x,t.y+1)||isSolid(x,t.y-6))continue;
-        if(!isSolid(x,t.y+10)&&!isSolid(x,t.y+18)){attachRope(t,x-t.face*2,t.y,t.face);return}}
+        if(!isSolid(x,t.y+10)&&!isSolid(x,t.y+18)){ropeHop(t,x-t.face*2,t.y,t.face);return}}
       texts.push({x:t.x,y:t.y-50,txt:'No ledge here',life:1.2,col:BONE,small:true});return}
     case'mine':{if(t.air)return;useAmmo(w);mines.push({x:t.x+t.face*9,y:t.y-3,vy:0,rest:false,arm:3,armed:false,trig:-1,age:0});
       sfx('mineDrop');S.mobile=true;S.rb=2;S.lastAtk[S.team]=S.lastAtk[S.team]||'mortar';finish();return}
@@ -2194,6 +2197,9 @@ function updTrooper(t,dt){
           if(Math.abs(t.vx)<14){t.vx=0;t.skid=false;t.knocked=false;t.recover=Math.max(t.recover||0,.35)}}}
       else if(t.down>0){t.down-=dt;t.recover=Math.max(t.recover||0,.3);if(t.down<=0)sfx('step')}
       return}}
+  if(t.ropeHop){const h=t.ropeHop;h.t+=dt;
+    if(t.knocked||t!==S.active||S.phase!=='aim')t.ropeHop=null;
+    else if(((t.x-h.x)*h.dir>=6&&t.vy>-30)||h.t>.45){t.ropeHop=null;if(curW().kind==='rope'&&hasAmmo(curW())){attachRope(t,h.x,h.y,h.dir);return}}}
   t.vy+=G*1.08*dt;t.vx*=Math.pow(t.knocked?.85:.6,dt);
   const n=Math.max(1,Math.ceil(Math.max(Math.abs(t.vx),Math.abs(t.vy))*dt)),sx=t.vx*dt/n,sy=t.vy*dt/n;
   for(let i=0;i<n;i++){
@@ -3403,7 +3409,7 @@ function updHud(){netHud();{const tc=S.phase==='aim'||S.phase==='retreat'?TEAM[S
   if(S.phase==='aim'){setT('timer',String(Math.max(0,Math.ceil(S.timer))));
     const rl=SD_ROUND-(S.rnd||0),sd=rl<=0?' · sudden death':rl<=2?` · sump rises in ${rl} round${rl>1?'s':''}`:'';
     // no trooper or weapon name (Jarred: too much on screen); only cues the player needs
-    const cue=t&&t.rope?['Rappel wire','↑↓ reel','←→ swing','fire to release','jump to leap']:t&&t.wet?['In the sump','swim to shore']:S.second?['Second shot']:S.jet?[]:[S.shots>1&&S.fired?'1 shot left':'',w.kind==='target'||w.kind==='build'?(coarse?'Tap to place':'Click to place'):''];
+    const cue=t&&t.rope?['Rappel wire','↑↓ reel','←→ swing','fire to release','jump to leap']:t&&t.wet?['In the sump','swim to shore']:S.second?['Second shot']:S.jet?[]:[S.shots>1&&S.fired?'1 shot left':'',w.kind==='target'||w.kind==='build'?(coarse?'Tap to place':'Click to place'):w.kind==='rope'?'Face a ledge and fire':''];
     if(sd)cue.push(sd.slice(3));const ct=cue.filter(Boolean).join(' · ');setT('turn',ct&&ct[0].toUpperCase()+ct.slice(1))}
   else if(S.phase==='retreat'){setT('timer',String(Math.ceil(S.retreat)));setT('turn','Get to cover')}
   else{setT('timer','—');setT('turn',S.cut&&!isCPU()?'Cutting · aim to steer · fire to stop':S.mobile&&S.phase==='resolve'&&!isCPU()?'Get clear':'')}
@@ -3416,7 +3422,7 @@ function updHud(){netHud();{const tc=S.phase==='aim'||S.phase==='retreat'?TEAM[S
   setT('wlab','WIND');
   const mid=$('#hud .mid'),retreat=S.phase==='retreat';mid.classList.toggle('ui-retreat',retreat);mid.style.setProperty('--ui-faction',S.phase==='aim'||retreat?TEAM[S.team].col:'var(--ash)');$('#uiWind').setAttribute('aria-hidden',String(retreat));$('#uiRetreat').setAttribute('aria-hidden',String(!retreat));
   if(hc.windVisual!==wd){hc.windVisual=wd;hudEls.wfill.style.setProperty('--ui-wind-speed',(1.9-Math.min(1,Math.abs(wd))*1.55).toFixed(2)+'s');hudEls.wfill.style.setProperty('--ui-wind-direction',wd<0?'reverse':'normal');hudEls.wfill.classList.toggle('ui-left',wd<0);$('#uiWind').setAttribute('aria-label',wd===0?'Wind calm':`Wind ${wd<0?'left':'right'}, ${Math.abs(wd)<.35?'light':Math.abs(wd)<.7?'moderate':'strong'}`)}
-  if(retreat||(S.phase==='aim'&&!(t&&t.rope)&&!(t&&t.wet)&&!S.second&&!S.jet&&!['target','build'].includes(w.kind)&&SD_ROUND-(S.rnd||0)>2))setT('turn','');
+  if(retreat||(S.phase==='aim'&&!(t&&t.rope)&&!(t&&t.wet)&&!S.second&&!S.jet&&!['target','build','rope'].includes(w.kind)&&SD_ROUND-(S.rnd||0)>2))setT('turn','');
   // multiplayer: "Your turn" under the clock until the player first moves, aims or fires
   if(S.phase==='aim'&&!S.armed&&(S.mode==='online'?S.team===NET.me&&NET.role:S.mode==='hot'&&!isCPU()))setT('turn','Your turn');
   const rc=$('#recenter'),rv=S.camFree&&S.phase!=='title'&&S.phase!=='over';if(rc.hidden===rv)rc.hidden=!rv;
@@ -3566,7 +3572,7 @@ function netCatchUp(){if(S.mode!=='online'||NET.role!=='watch')return;const behi
   if(behind>300&&!NET.skip)for(let i=0;i<Math.min(6,behind-240);i++)tick()}
 function netGameOver(){if(NET.role!=='act')clearNet()}
 function netLeave(){document.title=TITLE0;chatStop();if(NET.unC)NET.unC();if(NET.unM)NET.unM();NET.unC=NET.unM=null;NET.role=null;NET.started=false;S.mode='hot';$('#netBar').hidden=true}
-const GV=35;// bump on every release that changes the sim
+const GV=36;// bump on every release that changes the sim
 function startOnline(code,me,d){BE.update(code,{['vers.'+me]:GV,['arts.'+me]:window.GRIMSPIRE_ART_SIM||''}).catch(()=>{});NET.code=code;NET.me=me;NET.round=d.round||0;NET.snapK=-1;NET.snap=null;NET.matchAtt=d.att||'';NET.started=true;NET.leaving=false;saveNet();
   $('#net').hidden=true;if(!CHAT.un)chatStart();const cfg=Object.assign(mkCfg('online',d.seats,d.mode==='teams'),{mode:'online'});newGame('online',d.seed,cfg);S.genOK=true;
   const base=NET.round*1e5,has=d.snapK!=null&&d.snapK>=base&&d.snap;

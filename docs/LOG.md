@@ -6,6 +6,12 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-04 · Claude · Rappel wire only on fire, with a hop off the lip (GV 36)
+- Walking off a ledge with the wire selected no longer shoots it; you just drop, and the wire isn't used. The CPU still ropes as it walks off big drops (unchanged).
+- Fire with a ledge within 30 px ahead: the trooper hops off the lip (`ropeHop`) and the wire catches on it about 0.3 s later. No ledge ahead: "No ledge here" as before. Getting hit mid-hop cancels it.
+- Top line hint while the wire is selected: "Face a ledge and fire".
+- Tests: walk-off → falls with 5 wires left; fire → hop, then on the rope with 4. det map hashes match; dsim, dsim2, dsimart identical.
+
 ## 2026-11-04 · Claude · Crates spread out, jump pack falls hurt again, flamer panic (GV 35)
 - **Crates (Jarred: 80 px):** each drop takes the first good spot at least 80 px from any trooper (`CRATE_CLEAR`, sheet rule "Crates land at least"), instead of the farthest of six. With three survivors bunched on one side, 30 maps × 25 drops: crates on the far half went from 98% to 60%, median distance to the nearest trooper 780 → 413 px; none within 80 px.
 - **Jump pack:** falls don't hurt while you're thrusting, but after 0.6 s falling without thrust (`JET_GRACE`, sheet rule "Jump pack fall cushion") a landing hurts like a normal fall. A parked pack no longer cushions walking off a ledge. Cutting thrust 450 px up: 0 → 7 damage; short hops unchanged.
