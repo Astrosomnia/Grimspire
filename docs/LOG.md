@@ -6,6 +6,10 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-05 · Forge · Art release 20261105T062850Z-30246e68
+- Test Crate arms symbol · category colour as C01 ARMS · Crate · arms
+- Slots: W01, W02, W03, W04, W05, W06, W07, W08, ARM, TORSO, THIGH, SHIN, W09, W10, W11, W12, W13, W14, W15, W16, W18, W19, W20, W21, M01, C02, C04, CRATE_ARMS, CRATE_HEAVY, CRATE_MED, CRATE_TOOL, C03, C06, S01, S09, S07, S03, K01, K02, K03, K04, K05, K06, K07, K08, K09, K01a, K01b, K05a, K05b, K07a, K07b, K01c, K01d, K02a, K02b, K05c, K05d, K07c, K07d, B01, B02, B03, D01, D02, D03, D04, D05, D06, R01, R02, R03, R04, D01a, D03a, D06a, SKY01, SKY02, SKY03, SKY04, SKY05, SKY06, SKY07, SKY08, SKY09, SKY10, SKY11, SKY12, K10, K11, K12, K13, K14, K15, K16, K17, R05, R06, R07, R08, R09. Released by Astrosomnia. Receipt: `art/integrations/20261105T062850Z-30246e68.json`
+
 ## 2026-11-04 · Claude · Invisible troopers and dropship: rebuild art bakes after a phone drops canvases
 - Jarred saw some troopers and the dropship go invisible on his phone. Couldn't reproduce on desktop or phone emulation; nothing in today's game changes touches drawing. Likely cause: phones can drop the contents of cached canvases (going full screen, which arrived today, switching apps, GPU memory pressure), and the troopers, dropship and other Forge art draw from baked canvases.
 - New `labFlush` throws the bakes away after full screen changes, returning to the tab, page restore, and canvas context restores (checked every second); they rebuild from the source images on the next draw. Render only; GV unchanged.

@@ -1,0 +1,8 @@
+{
+  "revision": "20261105T062850Z-30246e68",
+  "base_main": "3fcd21b8ca1533f7e1d870063339670c94f8970d",
+  "game_sha256": "0f58ca1395fbb95472a011af18bc7659d880a0ac8794809c86fb3fa2b1f1985a",
+  "notes": "Test Crate arms symbol · category colour as C01 ARMS · Crate · arms",
+  "source_lab_commit": "92b1b83a9e6888be376d1ec406c7c7be8bc79a26",
+  "status": "prepared; deployment unverified"
+}
