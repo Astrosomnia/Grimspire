@@ -1,0 +1,41 @@
+{
+  "forge": 1,
+  "game_scale": 1,
+  "asset_id": "asset-c01",
+  "state_key": "symbol_tool_mask",
+  "source_version": "asset-54acb032f56b7cf53fd84e70",
+  "code": "C01",
+  "name": "Crate tool symbol · category colour",
+  "w": 8,
+  "h": 8,
+  "fps": 8,
+  "base": 7,
+  "pixel_scale": 12,
+  "markers": {
+    "grip": null,
+    "muzzle": null,
+    "pivot": null,
+    "shoulder": null,
+    "elbow": null,
+    "hand": null,
+    "hip": null,
+    "knee": null,
+    "thrust": null
+  },
+  "ready": false,
+  "notes": "Restores the existing game category colour: tool (63, 243, 255). Original mark silhouette, canvas and scale retained. Separate material/emissive layers. Match this colour when Claude integrates category variants.",
+  "review": null,
+  "ghostOff": null,
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAI0lEQVR4AdzKMQ0AAAwCwYatPpr6dwgOYOeT3w57Tzcm1AEEAAD//2x2hucAAAAGSURBVAMANY4KocECLoMAAAAASUVORK5CYII=",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAgAAAAICAYAAADED76LAAAAR0lEQVR4AYSMwQkAIAwDtX9ncnZncgAlhZPQj0Ix3sVGszP3ORpD7RVceM6CA37DgrBG70iyXG4AUNANC4JgHbncUIW/v4ULAAD//3p/dcIAAAAGSURBVAMA9U8ecY9fOXMAAAAASUVORK5CYII=",
+      "trim": null,
+      "cloth": null,
+      "guts": null,
+      "note": ""
+    }
+  ],
+  "updated": 1793859470419,
+  "by": "jarred"
+}
