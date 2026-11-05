@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "current": "20261105T062720Z-2573c759",
+  "current": "20261105T062805Z-f4a60b82",
   "revisions": [
     {
       "id": "20261031T210936Z-6c67f2da",
@@ -359,6 +359,14 @@
       "created": "2026-11-05T06:27:21.609Z",
       "notes": "Test Crate heavy symbol · category colour as C01 HEAVY · Crate · heavy",
       "slot": "CRATE_HEAVY",
+      "variant": "custom",
+      "author": "Astrosomnia"
+    },
+    {
+      "id": "20261105T062805Z-f4a60b82",
+      "created": "2026-11-05T06:28:06.367Z",
+      "notes": "Test Supply Crate · tool · bright category glyph as C01 TOOL · Crate · tools",
+      "slot": "CRATE_TOOL",
       "variant": "custom",
       "author": "Astrosomnia"
     }
