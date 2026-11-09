@@ -6,6 +6,16 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-08 · Claude · Collapse sandbox, first pass (private test page)
+- Throwaway test, separate from the game: [`experiments/collapse.html`](../experiments/collapse.html), published as a private artifact (https://claude.ai/artifact/J2n2Frj9jSZ81awCrpSWpS). `index.html` untouched.
+- One tall nave built from bricks. Stone stands on what's below it, can hang up to 28 bricks below its support and reach out 36 sideways; past that it falls as a chunk, crushes troopers (they squeeze out sideways or die), sheds bricks on a hard landing and becomes rubble you can stand on. Blasts remove whole bricks rather than circles.
+- Set pieces: a bell hanging on a stone chain, three galleries on pillars, a statue on a plinth, wall ledges, and a stair block from the floor (blow it up and that route's gone).
+- Squad phase (each of three troopers moves and fires once, in any order), then every Hollow throws at once. Sump rises each round; more Hollow climb out of the water every second round. Reach the belfry gate at the top; kills optional.
+- Nerve: shaken (aim wobbles), bloodlust after a kill (next shot ×1.5), broken (bolts next phase).
+- Weapons: mortar, frag, breaching charge (small blast, big bite into stone), jump pack (movement: spends 70 of 160 walking, not the shot).
+- Tested: phone 390×844 and desktop, no errors; climbing, collapse (bell, gallery C), drag-aim and several full rounds.
+- **Ask (Jarred):** play it and answer one question: is fighting in a building that falls apart more fun than fighting on terrain that gets holes punched in it?
+
 ## 2026-11-08 · Claude · Roguelike direction (exploring, not decided); lore: the tide and the motes
 - Talked through the roguelike with Jarred, building on his ChatGPT chat "Game Identity Comparison" (connected rooms, "keep the artillery, question the arena"). Nothing decided. Working pitch: *Worms meets Spelunky in a cathedral that's falling down.*
   - **Collapse:** masonry with supports instead of circle craters. Break a pillar and what it holds comes down. Jarred is fine losing the Worms feel for this; it's the bet.
