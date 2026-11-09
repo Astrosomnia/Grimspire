@@ -1,6 +1,6 @@
 # Lore: draft
 
-> Scratch version, 3 Nov 2026. Something to chew on, not canon. Nothing here is decided.
+> Scratch version, 3 Nov 2026, with the tide and the motes added 8 Nov. Something to chew on, not canon. Nothing here is decided.
 
 ## The Flood
 
@@ -9,6 +9,17 @@ The world was already at war long before the water came. The question at the hea
 Then God sent the Flood. In Genesis the flood comes because the earth was filled with violence, and here that's the point: the war is *why* it rained.
 
 The game is set **during** the Flood, not after it. The water is still rising.
+
+## The tide (8 Nov)
+
+The sea that drowned the world is so vast it has tides on the scale of the spire. The water doesn't sit at one level; it breathes.
+
+- **A run is one tide coming in.** Every climb starts at low tide. As the squad climbs, the tide floods in behind them, which is why the sump rises during a run and why no one can wait it out.
+- **When the squad dies, the tide goes back out.** The ark settles at the foot of the spire again and the next squad decants from the same place. That's why every run starts at the bottom.
+- **The twist, for later:** the tide isn't only natural. The spire's old sump engines wake when someone climbs and drive the water up faster. The spire doesn't want to be climbed. Something to discover in play, not explain up front.
+- **Possible meta-progression:** each zone's boss shuts down one engine for good, so the floors you've cleared stop flooding. A permanent shortcut without a doom clock.
+
+What it looks like: wet, not seaside. Neon catching on wet black stone, slicks on ledges, drips off overhangs, puddles holding the faction glow, and a dark tide line showing how high the water reached. Lower rooms glisten, upper rooms are dry, so you can read how high you've climbed. No barnacles, weed or sea life: that's colour and clutter the restricted palette doesn't allow.
 
 The survivors all agree God sent it. They can't agree on who or what that God is, and that's what turned the old factions into zealots. The ones who survived are, almost by definition, the most militarised people left: whoever was inside the fortresses, bunkers and war-citadels when the water came. The Flood didn't end the war. It shrank the battlefield to one tower.
 
@@ -30,7 +41,8 @@ There are no armies left; the population is a rounding error. But the old war in
 
 Why send them up:
 
-- **The water is still rising.** The vats sit at the base of the spire. If no one reaches the top before the sea takes the vats, the faction ends. That's the urgency behind every run.
+- **The arks float.** Each faction's ark is a vat-ship riding the tide at the foot of the spire. Every high tide could be the one that finally takes it, and if no one reaches the top first, the faction ends. That's the urgency behind every run.
+- **The dead go home as light.** When a trooper dies, their body breaks into their squad's neon motes, and the motes go back down to the ark. That's what the game's "materialise, don't pop" rule means in the fiction: troopers are decanted from light and return to it. The vats read what each trooper lived through, and that's where the next squad's gene mutations come from.
 - **The Definitor only answers whoever reaches it.** You can't send the whole faction, because there's no whole faction left. You send four.
 - **To the zealots, cloning is resurrection.** A dead trooper is re-decanted; the faithful literally rise again. Permadeath still stings: the person is gone even if their copy walks out of the vat.
 - **Meta-progression is relic logic.** What a dead squad learned comes back down in their blood: recovered genetic material, mutations from the climb. The next batch inherits it. Gene samples treated like saints' bones.
@@ -114,7 +126,7 @@ Two pairs: **Halo builds, the Hollow rots. Ash outguns, the Choir outmanoeuvres.
 
 ## Open questions
 
-- After or during? Leaning during. Note the title screen currently says the flood is gone ("The flood is gone. This is what it left."), which reads as after. If we go with during, that line changes.
+- After or during? Leaning during, and the tide makes it concrete: the water is always coming back. Note the title screen currently says the flood is gone ("The flood is gone. This is what it left."), which reads as after. If we go with during, that line changes.
 - Is the Flood literally the biblical one, or a second Flood in a high-tech world? A second Flood lets the old faiths, scripture and tech all survive with nobody agreeing what any of it means.
 - Do clones have souls? Each faction probably answers differently.
 - Is the Definitor alive, a machine, or a corpse running on old orders? Each changes the ending's tone.

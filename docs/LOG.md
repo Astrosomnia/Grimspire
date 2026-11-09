@@ -6,6 +6,18 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-08 · Claude · Roguelike direction (exploring, not decided); lore: the tide and the motes
+- Talked through the roguelike with Jarred, building on his ChatGPT chat "Game Identity Comparison" (connected rooms, "keep the artillery, question the arena"). Nothing decided. Working pitch: *Worms meets Spelunky in a cathedral that's falling down.*
+  - **Collapse:** masonry with supports instead of circle craters. Break a pillar and what it holds comes down. Jarred is fine losing the Worms feel for this; it's the bet.
+  - **Climb, don't clear:** each floor is a few tall connected rooms (Spelunky-style templates), exits up, left and right, and down through floors you break. The sump rises across the floor; killing everything is optional.
+  - **Squad phase:** all your troopers move and act in your phase; all enemies fire together in theirs.
+  - **Nerve:** shaken, bloodlust, rarely broken.
+  - **Builds:** at shrines and floor exits, pick one of three, one each from Arms, Rites and Squad, plus a founding relic.
+  - **The rest:** permadeath with graves; the ark as the hub between runs; the Definitor as the one camera-turn titan moment; friend mode stays the current game.
+- Ruled out: telegraphed enemy shots (Jarred: no), backtracking and rooms that remember their state.
+- [`LORE-DRAFT.md`](LORE-DRAFT.md): the flood is tidal (a run is one tide coming in; the squad dies and the tide goes out, so runs start at the bottom); arks float on it; the dead return to the ark as neon motes; wet stone and tide lines rather than sea life. Still a draft.
+- **Next:** a throwaway collapse sandbox (separate private test page, not `index.html`) to answer one question: is fighting in a building that falls apart more fun than fighting on terrain that gets holes punched in it?
+
 ## 2026-11-05 · Forge · Art release 20261105T150303Z-cc0008e0
 - Test Crate tool symbol · category colour as C01 TOOL · Crate · tools
 - Slots: W01, W02, W03, W04, W05, W06, W07, W08, ARM, TORSO, THIGH, SHIN, W09, W10, W11, W12, W13, W14, W15, W16, W18, W19, W20, W21, M01, C02, C04, CRATE_ARMS, CRATE_HEAVY, CRATE_MED, CRATE_TOOL, C03, C06, S01, S09, S07, S03, K01, K02, K03, K04, K05, K06, K07, K08, K09, K01a, K01b, K05a, K05b, K07a, K07b, K01c, K01d, K02a, K02b, K05c, K05d, K07c, K07d, B01, B02, B03, D01, D02, D03, D04, D05, D06, R01, R02, R03, R04, D01a, D03a, D06a, SKY01, SKY02, SKY03, SKY04, SKY05, SKY06, SKY07, SKY08, SKY09, SKY10, SKY11, SKY12, K10, K11, K12, K13, K14, K15, K16, K17, R05, R06, R07, R08, R09. Released by Astrosomnia. Receipt: `art/integrations/20261105T150303Z-cc0008e0.json`
