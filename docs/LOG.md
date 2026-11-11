@@ -6,6 +6,11 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-10 · Claude · Antimatter Grenade; steadier neon (GV 41, branch `lit`)
+- **Antimatter Grenade** (was the Sun Grenade; id `sun` unchanged, same damage, radius and fuse). When the fuse runs out it stops and collapses inward for 0.32 s (a shrinking black core with a bright rim, motes and light pulled in, a rising suck sound), then bursts with an electric pulse instead of a bang. For a split second after, the screen goes pure black and white, then ultraviolet. The collapse delays the blast, so **GV 41**. The Forge's W13 art name still says Sun Grenade; rename it there.
+- **Neon fixtures** burn steady and only flicker in occasional bad patches (faulty ones more often), instead of dipping several times a second. Lit mode lets a flicker snap rather than fade.
+- `det.py` matches `main`; `dsim.py` and `dsim2.py` identical. Balance Sheet: rename the Sun Grenade at merge.
+
 ## 2026-11-10 · Claude · Grapple on the rappel wire; cutter walks (GV 40, branch `lit`)
 - **Rappel Wire:** aim up (more than about 17° above level) and fire to grapple: the wire flies up to 230 px and bites into the first stone it hits, and the trooper hangs from it at that length. Reel, swing and release work as before. Aimed level or down it rappels off a ledge as before. Same ammo (5). The CPU doesn't use the grapple yet. **GV 40.**
 - **Plasma cutter:** the trooper plays the walk cycle while boring instead of sliding.
