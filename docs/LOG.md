@@ -6,6 +6,14 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-10 · Claude · Lit look, first stop (branch `lit`, not on `main`)
+- **What:** an experimental renderer switch. Add `#lit` to the address and a WebGL layer under the game canvas draws the sky, skyline, back walls, stone and water with per-pixel light: moonlight with direction and cast shadow, neon and fire lighting the stone around them, cyan light coming up off the water, grime (drips, pitting, tide line, moss) generated on the art's pixel grid, reflections, bloom and a grade. Troopers, shots, effects, name tags and the HUD still draw on the 2D canvas on top, unchanged.
+- **Where:** `index.html`, the block headed "lit look (experimental)" after the `NS` definition, plus `LITF` switches in `render()` and `litDirty` calls in `carve`, `carveLine` and `stampGirder`. It reads the classic renderer's own canvases (`terr`, kit paint, `graf`, guts, back wall, skyline), so the art pipeline and the Forge are untouched.
+- **Sim:** not touched; GV stays 37. Without `#lit`, or without WebGL2, the game draws exactly as before. `det.py` map hashes match `main` for four seeds; `dsim.py` runs identical.
+- **Heights are guessed** from the art's brightness and each shape's edges. Authored height layers, higher pixel density, jagged holes and falling chunks are deliberately not in this stop.
+- **Known gaps in lit mode:** troopers and props are lit the old way (flat, on top); anything below the waterline is faded out rather than drawn under water; sky ships, the far war and searchlights are not drawn; phone frame rate still needs Jarred's read on a real device.
+- **Ask (Jarred):** play it on desktop and phone and say whether it's worth the second stop (troopers, props and effects lit by the same shader).
+
 ## 2026-11-08 · Claude · Collapse sandbox, first pass (private test page)
 - Throwaway test, separate from the game: [`experiments/collapse.html`](../experiments/collapse.html), published as a private artifact (https://claude.ai/artifact/J2n2Frj9jSZ81awCrpSWpS). `index.html` untouched.
 - One tall nave built from bricks. Stone stands on what's below it, can hang up to 28 bricks below its support and reach out 36 sideways; past that it falls as a chunk, crushes troopers (they squeeze out sideways or die), sheds bricks on a hard landing and becomes rubble you can stand on. Blasts remove whole bricks rather than circles.
