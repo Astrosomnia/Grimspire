@@ -1,0 +1,8 @@
+{
+  "revision": "20261111T223113Z-561e9a24",
+  "base_main": "f05558acb279eb1c13b3135d9a652603419b0852",
+  "game_sha256": "847929533e63ea9c96e88a4cb12dd44a3e443c4c6e6538bc0f15984ddd549a96",
+  "notes": "Height maps for the whole kit and rocks (K01\u2013K17 with variants, R01\u2013R09): latest Library version of each. Written by Claude at Jarred's request, outside the Forge UI; Body and all other layers unchanged.",
+  "source_lab_commit": "e6530f68e3e09b253241a197ad830ebd2139b3a7",
+  "status": "written to main by Claude at Jarred's request; not a Forge Go live"
+}

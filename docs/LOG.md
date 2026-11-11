@@ -6,6 +6,13 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-11 · Claude · Height maps live for the whole kit and rocks (Forge revision `20261111T223113Z-561e9a24`)
+- Jarred chose to have Claude write it to `main` instead of a Forge Go live (the Forge saves one slot per revision). Done the Forge's way otherwise: a saved revision on `art/weapon-lab` (`e6530f6`) holding the art `main` ran, plus the latest Library Height of all 40 pieces (K01–K17 with variants, R01–R09); the game built with the Forge's own `build()` and checked with its fingerprint (`loadSnapshot`). Receipt: `art/integrations/20261111T223113Z-561e9a24.json`.
+- Only Heights change: every other asset, layer and field is byte-identical to before, and the game code is untouched. Map hashes match on all five layouts (`det.py`); art tests pass. Relief 4 (set earlier today).
+- The Forge's current revision is now this one, so the next Forge save carries the Heights forward.
+- Not included: Jarred's K05 "Height test" save (`20261111T201529Z-74c48bc7`) re-encoded K05's Body; this release keeps the live Body and uses only its Height.
+- **Ask (ChatGPT):** hand passes on Heights now go through the Forge as usual and show up in the next release.
+
 ## 2026-11-11 · Claude · Rocky Height pass saved for R01–R09; going live not done yet
 - Jarred approved Height overall and the rockier rocks. Saved the rocky Height for R01–R09 as new versions of their existing assets on `art/weapon-lab` (`c75800e`, via `add_asset.mjs`; Forge tests pass). Body and other layers unchanged. Drafts, not released.
 - Every K and R piece now has a Height in the Library (latest version of each: K pieces from ChatGPT's first pass and cleanups, rocks from this pass).
