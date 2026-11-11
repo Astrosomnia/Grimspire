@@ -6,6 +6,11 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-11 · Claude · Rocky Height pass saved for R01–R09; going live not done yet
+- Jarred approved Height overall and the rockier rocks. Saved the rocky Height for R01–R09 as new versions of their existing assets on `art/weapon-lab` (`c75800e`, via `add_asset.mjs`; Forge tests pass). Body and other layers unchanged. Drafts, not released.
+- Every K and R piece now has a Height in the Library (latest version of each: K pieces from ChatGPT's first pass and cleanups, rocks from this pass).
+- **Not live.** The Forge saves one slot per revision and only Jarred can Go live, so there is no saved build holding all 40 Heights yet. Waiting on Jarred's choice of route.
+
 ## 2026-11-11 · Claude · Height relief set to 4; rockier rock heights in the test build
 - **Relief:** Jarred tried the slider in the test build and picked **4** "for now" (was 6.5). In the stone normal, where a Height pixel exists: surface term 4.0, silhouette bevel 2.05. Still nothing on screen on `main` until a Height is released. No sim change.
 - **Rocks (test build only):** Jarred likes Height on rocks and wants them rockier, catching more light. R01–R09 in the test build use a rule-made Height of angular chunks, each at its own depth and tilt, with the painted cracks kept deep. Not saved to the Forge. Limit: the lit look has no shadows from Height, so chunks shade but don't shadow each other.
