@@ -6,6 +6,9 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-11 · Claude · Trooper glow always on in the lit look
+- Each trooper's own faction glow now has a reserved light slot (up to 16 troopers), separate from the shared light list. Before, it competed with lamps, fire and blasts for the 10 (phone) or 24 (desktop) slots and dropped out when zoomed out or near bright lights. No sim change.
+
 ## 2026-11-11 · Claude · Lit look on phones: glow survives zoom-out, lighter frame
 - **Bloom keeps small bright pixels:** the first bloom step now keeps the brightest of each 2×2 block instead of only the average, so visors, rims and small lamps keep their glow when zoomed out or at phone resolution (they were averaging below the bloom threshold and switching off).
 - **Phones only:** draws about 650k pixels (was 850k), uses 10 lights (was 14), and the water's reflection skips per-pixel lights and haze noise in the mirrored world. Desktop unchanged. No sim change.

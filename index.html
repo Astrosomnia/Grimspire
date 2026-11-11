@@ -1167,7 +1167,7 @@ float fbm(vec2 p){float a=.5,s=0.;for(int i=0;i<4;i++){s+=a*vn(p);p=p*2.03+7.1;a
   const FS_SCENE=COMMON+`
 uniform sampler2D uAlb,uGuts,uGraf,uEmis,uBack,uSoot,uBlur,uBake,uSkyT,uMoonT,uCloudT,uFarT,uFx,uDyn,uHeight,uDet,uDetH;uniform float uDetOn,uDetHOn;
 uniform vec2 uRes,uCam;uniform float uScale,uTime,uSump,uBleed,uHz;uniform vec4 uSp[2];
-uniform vec4 uL[${NL}];uniform vec3 uLC[${NL}];uniform int uNL;
+uniform vec4 uL[${NL}];uniform vec3 uLC[${NL}];uniform int uNL;uniform vec4 uTL[16];uniform vec3 uTC[16];uniform int uNT;
 out vec4 o;
 const vec3 MOOND=vec3(-.39,-.87,.3);
 const vec3 CYA=vec3(.08,.62,.72);
@@ -1286,6 +1286,8 @@ vec3 world(vec2 w){
   for(int i=0;i<${NL};i++){if(i>=uNL||LOWR)break;vec2 d=uL[i].xy-w;float r=uL[i].z,qq=dot(d,d)/(r*r);if(qq<1.){float a=1.-qq,a2=a*a;
     flt+=uLC[i]*a2;air+=uLC[i]*a2*a;
     if(P>.5)lit+=uLC[i]*a2*max(dot(N,normalize(vec3(d,r*.2))),0.)*1.7;}}
+  for(int i=0;i<16;i++){if(i>=uNT||LOWR)break;vec2 d=uTL[i].xy-w;float r=uTL[i].z,qq=dot(d,d)/(r*r);if(qq<1.){float a=1.-qq,a2=a*a;
+    flt+=uTC[i]*a2;air+=uTC[i]*a2*a;if(P>.5)lit+=uTC[i]*a2*max(dot(N,normalize(vec3(d,r*.2))),0.)*1.7;}}
   vec4 bw=textureLod(uBack,w/WH,0.)*inb(w);
   if(bw.a>.02&&P<.5){float csh=smoothstep(.12,.55,blr(q+ML*9.));
     vec3 bl=vec3(.055,.075,.115)+CYA*.3*pow(smoothstep(130.,0.,uSump-w.y),2.)+MOONC*.16*(1.-csh)+flt*.35;
@@ -1490,7 +1492,10 @@ function litFrame(lights,shx,shy){const gl=LIT.gl,T=LIT.T;
     if(!s){s={x:L.x,y:L.y,r:L.r,c:L.c,i:0,tg:-1};M.set(key,s)}
     if(s.tg<0){s.tg=L.i;s.x+=(L.x-s.x)*.4;s.y+=(L.y-s.y)*.4;s.r=L.r;s.c=L.c}else{s.tg=Math.min(1.5,s.tg+L.i*.2);s.r=Math.max(s.r,L.r)}}
   for(const[k,s]of M){const tg=Math.max(0,s.tg);s.i+=(tg-s.i)*Math.min(1,dtL*(tg>s.i?18:s.tg<0?7:14));if(s.tg<0&&s.i<.02)M.delete(k)}
-  const Ls=[...M.values()].filter(L=>L.i>.01&&Math.hypot(L.x-vx,L.y-vy)<vr+L.r*1.7+140).sort((a,b)=>b.i*b.r-a.i*a.r).slice(0,NL);
+  {const ta=new Float32Array(64),tc=new Float32Array(48);let n=0;for(const t of troopers){if(!t.alive||n>=16)continue;const c=TEAM[t.team].rgb,m=.45*1.6/255;
+      ta.set([t.x+t.face*3,t.y-21,46*1.7,0],n*4);tc.set([c[0]*m,c[1]*m,c[2]*m],n*3);n++}
+    gl.uniform4fv(S.u.uTL,ta);gl.uniform3fv(S.u.uTC,tc);gl.uniform1i(S.u.uNT,n)}
+  const Ls=[...M.values()].filter(L=>!(L.r===46&&L.c&&TEAM.some(T=>T.rgb===L.c))&&L.i>.01&&Math.hypot(L.x-vx,L.y-vy)<vr+L.r*1.7+140).sort((a,b)=>b.i*b.r-a.i*a.r).slice(0,NL);
   const la=new Float32Array(NL*4),lc=new Float32Array(NL*3);Ls.forEach((L,i)=>{la[i*4]=L.x;la[i*4+1]=L.y;la[i*4+2]=L.r*1.7;const m=L.i*1.6/255;lc[i*3]=L.c[0]*m;lc[i*3+1]=L.c[1]*m;lc[i*3+2]=L.c[2]*m});
   {const sa=new Float32Array(8);let n=0;for(const sh of ships){if(n>1)break;const d=Math.sign(sh.vx)||1;sa.set([sh.x+6*d,sh.y+8,0,1.4],n*4);n++}gl.uniform4fv(S.u.uSp,sa)}
   gl.uniform4fv(S.u.uL,la);gl.uniform3fv(S.u.uLC,lc);gl.uniform1i(S.u.uNL,Ls.length);
