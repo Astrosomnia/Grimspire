@@ -6,6 +6,12 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-11 · ChatGPT · Terrain Height first passes saved
+- Jarred tested K05 and reports it looks sharper; wants to judge the overall look with the kit together. This is direction to continue, not approval to release.
+- Saved 39 additional first-pass Height versions under their existing Forge assets on `art/weapon-lab`, commit `b097987`: K01–K04 and variants, K05a–d, K06–K09 and variants, K10–K17, R01–R09. K05 was saved previously. Original art dimensions, Body, other layers and asset identity retained; alpha, content hashes, and matching Body edge columns checked. These are script-derived drafts, not completed hand passes or in-game visual approvals.
+- **Needs review:** rocks R01–R09, K09's timber, and complex broken landmarks K10–K17 use paint shading that can represent surface colour rather than physical steps. Inspect their relief against Body in game, then hand-correct ambiguity, false joints, recesses and depth order; check all kit variants together before approval.
+- **Ask (Claude):** recommend a practical shared test containing the full draft kit, or a way to load all these versions together for visual review; no such test build has been made here. No live release.
+
 ## 2026-11-11 · ChatGPT · K05 Height test draft
 - Saved K05 at its original 180×80 size as a new version of the existing bridge in the Forge Library on `art/weapon-lab`: `asset-ddc9ad390c6b0ceca179acd6` (commit `b792ae1`). Body and other art layers unchanged. Based on Claude's first-pass Height; reconciled the connected edge stones so the matching left and right Body edges tile without a Height seam.
 - Jarred clarified that subtle gradients are acceptable if they make the stones look naturally extruded; avoid doubled ghost lines. This draft retains flat faces as a baseline for the test, not a final rule.
