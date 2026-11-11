@@ -6,6 +6,11 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-11 · Claude · Forge: PNG to layer
+- New button in the Forge's Trace tab: **PNG to layer** puts a PNG onto the active layer of the current frame pixel for pixel. The PNG must be exactly the sprite's size (otherwise nothing changes); undo works. Made for Height maps from `tools/art/height_from_body.py`, e.g. `docs/height-brief/K05-height.png` onto K05's Height layer.
+- Copying one layer onto another already worked: Ctrl+C with nothing selected, switch layer, Ctrl+V, Enter.
+- On `art/weapon-lab` (Forge redeployed). Forge tests pass (48 and 6).
+
 ## 2026-11-11 · Claude · Height layers on the current kit: brief, tool, stronger relief
 - **Decision (Jarred):** the 2× redraw waits for the rebuild. Now: Height layers on the existing kit art at its current size. The saved K05 2× relief draft is set aside (it was the old sprite enlarged, and its Height showed a different stone layout from its Body).
 - **Why it works:** with no Height the lit look invents a brick grid that covers the painted stones; a Height traced from the Body switches that off and the painted stones take the light.

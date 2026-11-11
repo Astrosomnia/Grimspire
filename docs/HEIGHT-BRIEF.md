@@ -21,7 +21,7 @@ The earlier 2× relief draft failed for two reasons worth avoiding: its Height s
 8. **Leave Body, Guts and Emissive untouched.**
 
 ## Workflow
-1. **First pass by rule.** `tools/art/height_from_body.py` builds a Height from any Body under rules 1–6 (`python3 tools/art/height_from_body.py asset.forge.json out.png`). `height-brief/K05-height.png` came from it and is ready to go onto K05's Height layer. In the Forge the same start is: select the Body layer, Ctrl+C (copies the whole frame), switch to Height, Ctrl+V, Enter. That gives the exact pixels to repaint in greys.
+1. **First pass by rule.** `tools/art/height_from_body.py` builds a Height from any Body under rules 1–6 (`python3 tools/art/height_from_body.py asset.forge.json out.png`). `height-brief/K05-height.png` came from it and is ready to go onto K05's Height layer. In the Forge the same start is: select the Body layer, Ctrl+C (copies the whole frame), switch to Height, Ctrl+V, Enter. That gives the exact pixels to repaint in greys. To load a finished map from a file, use **PNG to layer** in the Forge's Trace tab with the Height layer active (same-size PNG, placed pixel for pixel).
 2. **Hand pass (the part that needs an eye).** Fix what the rule can't know:
    - parts the paint shade gets wrong (a dark stone that should still sit proud, a light patch that is only weathering);
    - stones the Body splits with a stray shade pixel;
