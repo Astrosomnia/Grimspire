@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "current": "20261111T201529Z-74c48bc7",
+  "current": "20261111T223113Z-561e9a24",
   "revisions": [
     {
       "id": "20261031T210936Z-6c67f2da",
@@ -401,6 +401,14 @@
       "slot": "K05",
       "variant": "custom",
       "author": "Astrosomnia"
+    },
+    {
+      "id": "20261111T223113Z-561e9a24",
+      "created": "2026-11-11T22:31:13.596Z",
+      "notes": "Height maps for the whole kit and rocks (K01–K17 with variants, R01–R09): latest Library version of each. Written by Claude at Jarred's request, outside the Forge UI; Body and all other layers unchanged.",
+      "slot": "K05",
+      "variant": "custom",
+      "author": "claude"
     }
   ],
   "integrations": [
