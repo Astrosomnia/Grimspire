@@ -1160,7 +1160,7 @@ vec2 cellC(vec2 w,vec2 g){float row=floor(w.y/g.y);float ox=mod(row,2.)*g.x*.5;v
 float fbm(vec2 p){float a=.5,s=0.;for(int i=0;i<4;i++){s+=a*vn(p);p=p*2.03+7.1;a*=.5;}return s;}
 `;
   const FS_SCENE=COMMON+`
-uniform sampler2D uAlb,uGuts,uGraf,uEmis,uBack,uSoot,uBlur,uBake,uSkyT,uMoonT,uCloudT,uFarT,uFx,uDyn;
+uniform sampler2D uAlb,uGuts,uGraf,uEmis,uBack,uSoot,uBlur,uBake,uSkyT,uMoonT,uCloudT,uFarT,uFx,uDyn,uHeight;
 uniform vec2 uRes,uCam;uniform float uScale,uTime,uSump,uBleed,uHz;uniform vec4 uSp[2];
 uniform vec4 uL[${NL}];uniform vec3 uLC[${NL}];uniform int uNL;
 out vec4 o;
@@ -1171,6 +1171,10 @@ vec3 HOR,MOONC;
 float lum(vec3 c){return dot(c,vec3(.3,.59,.11));}
 float inb(vec2 w){return step(0.,w.x)*step(w.x,WH.x)*step(0.,w.y)*step(w.y,WH.y);}
 vec4 alb(vec2 w){return textureLod(uAlb,w/WH,0.)*inb(w);}
+// A zero-alpha height pixel means there is no authored height here.  Preserve
+// the existing albedo-derived normals for old assets and uncovered pixels.
+vec4 heightAt(vec2 w){return textureLod(uHeight,w/WH,0.)*inb(w);}
+float relief(vec4 albedo,vec4 height){return mix(lum(albedo.rgb),height.r,step(.5/255.,height.a))*albedo.a;}
 float blr(vec2 w){return textureLod(uBlur,w/WH,0.).r*inb(w);}
 float brick(vec2 w,out float tone){float row=floor(w.y/7.);vec2 p=vec2(w.x+mod(row,2.)*7.,w.y);vec2 id=floor(p/vec2(14.,7.));vec2 f=p-id*vec2(14.,7.);tone=h1(id+.5);return step(.75,f.x)*step(.75,f.y);}
 vec3 sky(vec2 w){
@@ -1223,10 +1227,11 @@ vec3 world(vec2 w){
     float soot=textureLod(uSoot,q/WH,0.).a;vec2 cc=cellC(q,GR);
     float l0=lum(A.rgb);
     vec4 ax=alb(q+vec2(.5,0)),bx=alb(q-vec2(.5,0)),ay=alb(q+vec2(0,.5)),by=alb(q-vec2(0,.5));
-    vec2 gd=vec2(lum(ax.rgb)*ax.a-lum(bx.rgb)*bx.a,lum(ay.rgb)*ay.a-lum(by.rgb)*by.a);
+    vec4 H0=heightAt(q);
+    vec2 gd=vec2(relief(ax,heightAt(q+vec2(.5,0)))-relief(bx,heightAt(q-vec2(.5,0))),relief(ay,heightAt(q+vec2(0,.5)))-relief(by,heightAt(q-vec2(0,.5))));
     float hit=smoothstep(.05,.4,soot);
     vec2 ge=hit>.01?mix(blurG(q,2.5),blurG(cc,3.5)*1.7,hit):blurG(q,2.5);
-    float fw=smoothstep(.05,.0,length(gd))*smoothstep(.55,.8,e);float tn,tn2;
+    float fw=smoothstep(.05,.0,length(gd))*smoothstep(.55,.8,e)*(1.-step(.5/255.,H0.a));float tn,tn2;
     float b0=brick(q,tn);vec2 gb=vec2(brick(q+vec2(.5,0),tn2)-brick(q-vec2(.5,0),tn2),brick(q+vec2(0,.5),tn2)-brick(q-vec2(0,.5),tn2));
     N=normalize(vec3(-(gd*2.6+ge*3.4+gb*.5*fw),1.));
     float edge=1.-smoothstep(.52,.9,e);
@@ -1377,6 +1382,32 @@ function litStone(x0,y0,w,h){const K=2,c=LIT.sc||(LIT.sc=document.createElement(
   g.setTransform(K,0,0,K,-x0*K,-y0*K);g.drawImage(terr,0,0);const kit=NS.kit&&NS.kit.length;if(kit)nsKitPaint(g);
   if(NS.lip){g.save();g.clip(NS.lip);g.drawImage(terr,0,0);g.restore()}
   g.globalCompositeOperation='destination-in';g.drawImage(kit?unionC:terr,0,0);g.globalCompositeOperation='source-over';return c}
+// Height layers are visual only. Paint in exactly the same placement order as
+// the kit body and remove an older map under any later overlapping body, even
+// if that later asset has no authored map. Clip the result to surviving terrain.
+function litMaskedHeight(body,height){
+  const cache=LIT.heightCache||(LIT.heightCache=new WeakMap());let hit=cache.get(height);
+  if(hit&&hit.body===body)return hit.canvas;
+  const c=mk(body.width,body.height),g=c.getContext('2d');g.imageSmoothingEnabled=false;
+  g.drawImage(height,0,0,body.width,body.height);g.globalCompositeOperation='destination-in';g.drawImage(body,0,0);
+  cache.set(height,{body,canvas:c});return c;
+}
+function litHeightPatch(x0,y0,w,h){const K=2,c=LIT.hc||(LIT.hc=document.createElement('canvas'));c.width=w*K;c.height=h*K;
+  const g=c.getContext('2d');g.imageSmoothingEnabled=false;g.setTransform(K,0,0,K,-x0*K,-y0*K);
+  for(const p of(NS.kit||[])){
+    if(p.x+p.w<x0||p.y+p.h<y0||p.x>x0+w||p.y>y0+h)continue;
+    const height=labArt.get(p.id)?.frames?.[0]?.height;
+    g.save();if(p.clip){g.beginPath();g.rect(...p.clip);g.clip()}
+    if(p.flip){g.translate(p.x+p.w,p.y);g.scale(-1,1)}else g.translate(p.x,p.y);
+    g.globalCompositeOperation='destination-out';g.drawImage(p.body,0,0,p.w,p.h);
+    if(height){g.globalCompositeOperation='source-over';g.drawImage(litMaskedHeight(p.body,height),0,0,p.w,p.h)}
+    g.restore();
+  }
+  // litStone paints the generated terrain over the kit at the walkable lip.
+  if(NS.lip){g.save();g.clip(NS.lip);g.globalCompositeOperation='destination-out';g.drawImage(terr,0,0);g.restore()}
+  g.globalCompositeOperation='destination-in';g.drawImage(NS.kit&&NS.kit.length?unionC:terr,0,0);
+  g.globalCompositeOperation='source-over';return c;
+}
 function litPatch(src,x0,y0,w,h){const c=LIT.sc2||(LIT.sc2=document.createElement('canvas'));c.width=w;c.height=h;const g=c.getContext('2d');g.globalCompositeOperation='copy';g.drawImage(src,x0,y0,w,h,0,0,w,h);return c}
 function litDerive(rect){const gl=LIT.gl,B=LIT.P.blur,K=LIT.P.bake;gl.disable(gl.BLEND);
   gl.useProgram(B.p);gl.uniform2f(B.u.WH,W,H);litBind(B,'t',0,LIT.T.alb);gl.uniform1f(B.u.uA,1);gl.uniform2f(B.u.uDir,1.6/W,0);litQuad(LIT.blA);
@@ -1386,6 +1417,10 @@ function litDerive(rect){const gl=LIT.gl,B=LIT.P.blur,K=LIT.P.bake;gl.disable(gl
 function litBuild(){const gl=LIT.gl,T=LIT.T;for(const k in T){gl.deleteTexture(T[k]);delete T[k]}litFree(LIT.blA);litFree(LIT.blB);litFree(LIT.bake);
   LIT.W=W;LIT.H=H;const K=2;
   T.alb=litTex(litStone(0,0,W,H),true);
+  LIT.hasHeight=!!(NS.kit||[]).some(p=>labArt.get(p.id)?.frames?.[0]?.height);
+  // Keep legacy payloads cheap: only allocate a full-world atlas when a placed
+  // asset actually provides a height map.
+  T.height=litTex(LIT.hasHeight?litHeightPatch(0,0,W,H):mk(1,1),true);
   const gc=mk(W,H),gg=gc.getContext('2d');gg.drawImage(hollow,0,0);gg.drawImage(gutsC,0,0);T.guts=litTex(gc,true);
   T.graf=litTex(litPatch(graf,0,0,W,H),false);T.soot=litTex(litPatch(scorchC,0,0,W,H),false);
   const ec=mk(W*K,H*K),eg=ec.getContext('2d');eg.imageSmoothingEnabled=false;eg.setTransform(K,0,0,K,0,0);
@@ -1396,6 +1431,7 @@ function litBuild(){const gl=LIT.gl,T=LIT.T;for(const k in T){gl.deleteTexture(T
 function litFlush(){const gl=LIT.gl,d=LIT.dirty;if(!d)return;LIT.dirty=null;
   const x0=Math.max(0,Math.floor(d[0])-2),y0=Math.max(0,Math.floor(d[1])-2),x1=Math.min(W,Math.ceil(d[2])+2),y1=Math.min(H,Math.ceil(d[3])+2),w=x1-x0,h=y1-y0;if(w<1||h<1)return;
   gl.bindTexture(gl.TEXTURE_2D,LIT.T.alb);gl.texSubImage2D(gl.TEXTURE_2D,0,x0*2,y0*2,gl.RGBA,gl.UNSIGNED_BYTE,litStone(x0,y0,w,h));
+  if(LIT.hasHeight){gl.bindTexture(gl.TEXTURE_2D,LIT.T.height);gl.texSubImage2D(gl.TEXTURE_2D,0,x0*2,y0*2,gl.RGBA,gl.UNSIGNED_BYTE,litHeightPatch(x0,y0,w,h))}
   gl.bindTexture(gl.TEXTURE_2D,LIT.T.graf);gl.texSubImage2D(gl.TEXTURE_2D,0,x0,y0,gl.RGBA,gl.UNSIGNED_BYTE,litPatch(graf,x0,y0,w,h));
   gl.bindTexture(gl.TEXTURE_2D,LIT.T.soot);gl.texSubImage2D(gl.TEXTURE_2D,0,x0,y0,gl.RGBA,gl.UNSIGNED_BYTE,litPatch(scorchC,x0,y0,w,h));
   const m=48,bx=Math.max(0,x0-m),by=Math.max(0,y0-m);litDerive([bx,by,Math.min(W,x1+m)-bx,Math.min(H,y1+m)-by])}
@@ -1408,6 +1444,7 @@ function litFrame(lights,shx,shy){const gl=LIT.gl,T=LIT.T;
   gl.disable(gl.BLEND);const S=LIT.P.scene;gl.useProgram(S.p);gl.uniform2f(S.u.WH,W,H);
   litBind(S,'uAlb',0,T.alb);litBind(S,'uGuts',1,T.guts);litBind(S,'uGraf',2,T.graf);litBind(S,'uEmis',3,T.emis);litBind(S,'uBack',4,T.back);
   litBind(S,'uSoot',5,T.soot);litBind(S,'uBlur',6,LIT.blB.t);litBind(S,'uBake',7,LIT.bake.t);
+  litBind(S,'uHeight',8,T.height);
   const G=LIT.bg;litBind(S,'uSkyT',10,G.sky);litBind(S,'uMoonT',11,G.moon);litBind(S,'uCloudT',12,G.clouds);litBind(S,'uFarT',13,G.far);
   litBind(S,'uFx',14,G.fx);litBind(S,'uDyn',15,G.dyn);gl.uniform1f(S.u.uHz,Math.min(sump,H*.66));
   const k=DPR*scale*rs,cx=cam.x-shx/scale,cy=cam.y-shy/scale;
@@ -4049,7 +4086,7 @@ const labDocs=new Map(Object.entries(LAB_PAYLOAD.assets).map(([slot,doc])=>[labS
 const labOriginalProp = prop;
 const labImage = src => src ? new Promise((resolve,reject)=>{const i=new Image();i.onload=()=>resolve(i);i.onerror=()=>reject(new Error('Weapon image failed to load'));i.src=src}) : Promise.resolve(null);
 const labReady = Promise.all(Object.entries(LAB_PAYLOAD.assets).map(async ([slot,doc])=>{
-  const frames=await Promise.all(doc.frames.map(async f=>({body:await labImage(f.body),trim:await labImage(f.trim),emis:await labImage(f.emis),cloth:await labImage(f.cloth),guts:await labImage(f.guts)})));
+  const frames=await Promise.all(doc.frames.map(async f=>({body:await labImage(f.body),trim:await labImage(f.trim),emis:await labImage(f.emis),cloth:await labImage(f.cloth),guts:await labImage(f.guts),height:await labImage(f.height).catch(e=>{console.warn('Height map unavailable:',e.message);return null})})));
   const k=labSlots[slot]||slot;labArt.set(k,{doc,frames});
 })).then(()=>{labComposeCrates();window.GRIMSPIRE_ART_READY=true}).catch(e=>{window.GRIMSPIRE_ART_ERROR=e.message;console.error(e)});
 // Crates are a casing plus a category symbol. A crate slot may hold a whole crate (36×18, symbol drawn in) or
