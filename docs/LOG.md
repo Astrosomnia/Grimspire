@@ -6,6 +6,12 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-11 · Claude · Lit look and today's gameplay changes merged to `main` (GV 42)
+- Jarred approved pushing everything from the `lit` branch except the 2× bridge (not drawn yet). The lit look is now **on by default**; `#classic` in the address brings back the old renderer, and browsers without WebGL2 fall back to it automatically.
+- Gameplay on `main` is now GV 42: jagged blast holes, shockwaves, grapple, Antimatter Grenade, Doomsday sudden death and continuous fallout. Online players on an older build are told to refresh.
+- **Balance Sheet not updated:** it's public, so Claude can't write to it. Pending: rename Sun → Antimatter Grenade (and its notes), Doomsday notes (zone 1.45× radius, starts sudden death), Rappel Wire notes (grapple), fallout damage 3 HP every 1.75 s (was 8 per turn), new rule shockwave reach 3.1× radius (was 2.6×).
+- The Forge's art name for W13 still says Sun Grenade.
+
 ## 2026-11-11 · Claude · Height maps reviewed and merged; 2× kit support (branch `lit`)
 - **Reviewed ChatGPT's work.** `codex/lit-height-layer-20261110` (authored height maps in lit terrain) fast-forwarded onto `lit`: looks right, its test `tools/test/art/lit-height.cjs` passes. `codex/forge-height-layer-20261110` (the Forge's Height layer) merged into `art/weapon-lab` after `node --test art/lab/hosted/test.mjs` passed; that push redeploys the Forge.
 - **2× kit art works in map generation.** A kit piece with `game_scale` below 1 is laid out in today's units: its size, base row, top and bottom profiles and automatic deck band are read at its scale, so maps lay out exactly as before while the drawing keeps every pixel. Checked by upscaling every K05 bridge 2× with a fake height map and `game_scale: .5`: map hashes match the original art on eight seeds across all five layouts. A `deck: N` note on 2× art counts the 2× rows.

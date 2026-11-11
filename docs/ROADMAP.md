@@ -33,6 +33,9 @@ Prototype in HTML/canvas to nail the loop, weapons and feel, then rebuild in **G
 - The roguelike prototype (expect big changes to core systems)
 
 ## Done
+- **Lit look (11 Nov):** WebGL lighting layer (moon, neon, fire, blasts, cyan water uplight), grime, water reflections, bloom; troopers and effects lit; live skyline plus a painted far background. On by default, `#classic` for the old look
+- **Gameplay (11 Nov, GV 42):** jagged blast holes, stronger shockwaves, rappel wire grapples when aimed up, Antimatter Grenade (was Sun), Doomsday Shell starts sudden death with continuous fallout
+- **Height maps (11 Nov):** Forge Height layer; authored heights and 2× kit art supported in map generation and the lit renderer
 **Phases 1–5:** feel and controls, the original 17-weapon arsenal, rising sump, supply drops, promethium tanks, fire, knockback and knockdowns, rappel wire, procedural maps (Spires, Islands, Canyon, Ruins) with gothic architecture, a planning CPU, death camera and animations, group slow-mo.
 
 **Phase 6, online (28 Oct):** match codes like ASH-4721, no accounts. Async turns that feel live: the active device streams inputs, the others replay about a second behind. Deterministic sim with a full snapshot at every handover. Version check (`GV`).

@@ -1142,12 +1142,12 @@ function rebuildRim(){
 // Render only: nothing here touches the sim or its random numbers. #classic in the URL (or L, or the TEST
 // panel) switches back to the previous look for side-by-side checks.
 const NS={on:!/(^#|&)classic\b/.test(location.hash),drowned:/(^#|&)drowned\b/.test(location.hash),layers:null,backN:null,backGen:-1,reflect:null};
-/* ================= lit look (experimental) =================
-   Add #lit to the address. A WebGL layer under the 2D canvas draws the sky, skyline, back walls, stone and water with
+/* ================= lit look =================
+   On by default; add #classic to the address for the old renderer. A WebGL layer under the 2D canvas draws the sky, skyline, back walls, stone and water with
    per-pixel light; the 2D canvas keeps troopers, shots, effects and UI. It reads the same canvases the classic renderer
    uses, so nothing in the sim changes and GV stays put. Without #lit (or without WebGL2) the game draws as before. */
 let AMX=0;
-const LIT={on:/(^#|&)lit\b/.test(location.hash),ok:false,key:null,dirty:null,gl:null,P:{},T:{},rt:null,rb:[],W:0,H:0};
+const LIT={on:!/(^#|&)classic\b/.test(location.hash),ok:false,key:null,dirty:null,gl:null,P:{},T:{},rt:null,rb:[],W:0,H:0};
 function litDirty(x0,y0,x1,y1){if(!LIT.ok)return;const d=LIT.dirty;if(!d)LIT.dirty=[x0,y0,x1,y1];else{d[0]=Math.min(d[0],x0);d[1]=Math.min(d[1],y0);d[2]=Math.max(d[2],x1);d[3]=Math.max(d[3],y1)}}
 function litInit(){
   const c=document.createElement('canvas');c.id='glc';c.style.cssText='position:fixed;inset:0;width:100%;height:100%;display:block';
