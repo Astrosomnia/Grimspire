@@ -10,6 +10,11 @@ What this means for art:
 - **The shader guesses depth from brightness.** Today it reads each pixel's brightness as a rough height, which is why the stone looks embossed. A real height map per asset (below) is the single biggest quality jump available.
 - **Dark art is a problem now.** The shader darkens what isn't lit. Art drawn near-black, like the current kit, goes muddy and needs a code lift to stay readable. Draw at mid value and let the light do the darkening.
 
+## The target
+[`art/reference/lit-vibe-phone-20261110.jpg`](../art/reference/lit-vibe-phone-20261110.jpg) is Jarred's pick for the look at its best: cyan light under the bridge, a blue light on a building's side fading to dark, a rocky outcrop with real form, a darker sky, clear windows, and not too much bright land. Every piece should help that, not fight it.
+
+**Depth is the priority.** Jarred's main note on the current art is that it needs more depth, so the Height layer matters more than any detail on the Body.
+
 ## Rules for every asset in this push
 
 ### Pixel density: 2×
@@ -118,7 +123,7 @@ Integration: cheap. Weapons are existing slots; icons are a file swap.
 ### 8. Props
 At 2×, with Body, Emissive and Guts:
 - **CRATE_ARMS, CRATE_HEAVY, CRATE_MED, CRATE_TOOL**
-- **C04** promethium brazier
+- **C04** promethium brazier: Jarred flags it as weak now. Redraw it as a heavy iron bowl on clawed legs with chains, about 50 art px, the fire left to the engine. A bigger, darker silhouette that the firelight catches
 - **C03, C06** (existing props)
 - **New C07–C10** light fixtures to replace the code-drawn ones: a hanging lamp, a wall bar light, a neon cross, a street post. Each is one piece with an Emissive layer.
 

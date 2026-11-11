@@ -1160,7 +1160,7 @@ float fbm(vec2 p){float a=.5,s=0.;for(int i=0;i<4;i++){s+=a*vn(p);p=p*2.03+7.1;a
 `;
   const FS_SCENE=COMMON+`
 uniform sampler2D uAlb,uGuts,uGraf,uEmis,uBack,uSoot,uBlur,uBake,uSkyT,uMoonT,uCloudT,uFarT,uFx,uDyn;
-uniform vec2 uRes,uCam;uniform float uScale,uTime,uSump,uBleed,uHz;
+uniform vec2 uRes,uCam;uniform float uScale,uTime,uSump,uBleed,uHz;uniform vec4 uSp[2];
 uniform vec4 uL[${NL}];uniform vec3 uLC[${NL}];uniform int uNL;
 out vec4 o;
 const vec3 MOOND=vec3(-.39,-.87,.3);
@@ -1194,9 +1194,9 @@ vec3 sky(vec2 w){
       fc=mix(fc,c,.42+.3*smoothstep(.5,.0,fy));c=mix(c,fc,t.a*(1.-below)*.9);}
     c=mix(c,mix(c,vec3(.15,.16,.22),.7),below);}
   // the game's skyline, haze, sky ships, far war and searchlights, drawn by the game as on the live site
-  if(sp.x>0.&&sp.x<1.&&sp.y>0.&&sp.y<1.){vec4 f=textureLod(uFx,sp,0.);c=mix(c,f.rgb,f.a);}
-  // the moon's light carries through the haze in front of it
-  c+=MOONC*(.2*smoothstep(56.,50.,md)+.12*exp(-max(md-54.,0.)/34.)+.05*exp(-max(md-54.,0.)/140.));
+  float fa=0.;if(sp.x>0.&&sp.x<1.&&sp.y>0.&&sp.y<1.){vec4 f=textureLod(uFx,sp,0.);c=mix(c,f.rgb,f.a);fa=f.a;}
+  // the moon's light carries through the haze in front of it, but not through buildings
+  c+=(1.-smoothstep(.5,.9,fa))*MOONC*(.2*smoothstep(56.,50.,md)+.12*exp(-max(md-54.,0.)/34.)+.05*exp(-max(md-54.,0.)/140.));
   return c;
 }
 vec3 backdrop(vec2 w){
@@ -1204,6 +1204,12 @@ vec3 backdrop(vec2 w){
   c+=vec3(.015,.075,.095)*exp(-abs(w.y-uSump+24.)/58.);
   return c;
 }
+float spot(vec2 p,vec3 N,float sh){float s=0.;
+  for(int i=0;i<2;i++){vec4 L=uSp[i];if(L.w<=0.)continue;vec2 d=p-L.xy;if(d.y<4.||d.y>340.)continue;float half_=8.+d.y*.13;if(abs(d.x-d.y*.03)>half_)continue;
+    float k=L.w*(1.-smoothstep(half_*.55,half_,abs(d.x-d.y*.03)))*(1.-d.y/340.);
+    if(sh>0.){float occ=0.,j=h1(floor(p*2.)*.37);for(int m=1;m<20;m++){vec2 q=p-d*((float(m)+j)/20.);occ+=step(.5,textureLod(uAlb,q/WH,0.).a);}k*=clamp(1.-occ*.5,0.,1.);}
+    s+=k*mix(1.,max(dot(N,normalize(vec3(-d,30.))),0.)*1.6,step(.5,sh));}
+  return s;}
 vec2 blurG(vec2 p,float r){return vec2(blr(p+vec2(r,0))-blr(p-vec2(r,0)),blr(p+vec2(0,r))-blr(p-vec2(0,r)));}
 vec3 world(vec2 w){
   vec3 c=backdrop(w);
@@ -1257,7 +1263,8 @@ vec3 world(vec2 w){
       float ndm=max(dot(N,MOOND),0.);base=vec3(.06,.085,.13)+MOONC*(.9*ndm*ndm)*(1.-.8*textureLod(uBake,q/WH,0.).r);}
   }
   // ---- one pass over the lights serves the stone, the back wall and the air ----
-  vec3 lit=vec3(0.),flt=vec3(0.),air=vec3(0.);
+  vec3 lit=vec3(0.),flt=vec3(0.),air=vec3(0.);const vec3 SPC=vec3(.75,.85,1.);
+  if(P>.5)lit+=SPC*spot(q,N,1.)*1.1;flt+=SPC*spot(w,vec3(0,0,1),0.)*.5;
   for(int i=0;i<${NL};i++){if(i>=uNL)break;vec2 d=uL[i].xy-w;float r=uL[i].z,qq=dot(d,d)/(r*r);if(qq<1.){float a=1.-qq,a2=a*a;
     flt+=uLC[i]*a2;air+=uLC[i]*a2*a;
     if(P>.5)lit+=uLC[i]*a2*max(dot(N,normalize(vec3(d,r*.2))),0.)*1.7;}}
@@ -1271,8 +1278,8 @@ vec3 world(vec2 w){
   vec2 sp=(w-uCam)*uScale/uRes;
   if(sp.x>0.&&sp.x<1.&&sp.y>0.&&sp.y<1.){vec4 d=textureLod(uDyn,sp,0.);
     if(d.a>.01){float mx=max(d.r,max(d.g,d.b)),mn=min(d.r,min(d.g,d.b));
-      float emi=max(smoothstep(.5,.8,mx)*smoothstep(.18,.42,mx-mn),smoothstep(.8,.97,mn));
-      vec3 dl=vec3(.34,.38,.48)+MOONC*.18+flt*.9+CYA*.5*pow(smoothstep(110.,0.,uSump-w.y),2.);
+      float emi=max(smoothstep(.5,.8,mx)*smoothstep(.18,.42,mx-mn),smoothstep(.93,.99,mn));
+      vec3 dl=vec3(.28,.32,.42)+MOONC*.18+flt*.9+CYA*.5*pow(smoothstep(110.,0.,uSump-w.y),2.);
       vec3 dc=mix(d.rgb*min(dl,vec3(1.5))*1.25,d.rgb*1.75,emi);
       float au=textureLod(uDyn,sp-vec2(0.,1.6/uRes.y),0.).a;dc+=mix(MOONC,vec3(.5,.6,.8),.5)*.3*step(.6,d.a)*(1.-step(.3,au))*(1.-emi);
       c=mix(c,dc,d.a);}}
@@ -1410,6 +1417,7 @@ function litFrame(lights,shx,shy){const gl=LIT.gl,T=LIT.T;
   for(const[k,s]of M){const tg=Math.max(0,s.tg);s.i+=(tg-s.i)*Math.min(1,dtL*(tg>s.i?16:s.tg<0?7:2.2));if(s.tg<0&&s.i<.02)M.delete(k)}
   const Ls=[...M.values()].filter(L=>L.i>.01&&Math.hypot(L.x-vx,L.y-vy)<vr+L.r*1.7+140).sort((a,b)=>b.i*b.r-a.i*a.r).slice(0,NL);
   const la=new Float32Array(NL*4),lc=new Float32Array(NL*3);Ls.forEach((L,i)=>{la[i*4]=L.x;la[i*4+1]=L.y;la[i*4+2]=L.r*1.7;const m=L.i*1.6/255;lc[i*3]=L.c[0]*m;lc[i*3+1]=L.c[1]*m;lc[i*3+2]=L.c[2]*m});
+  {const sa=new Float32Array(8);let n=0;for(const sh of ships){if(n>1)break;const d=Math.sign(sh.vx)||1;sa.set([sh.x+6*d,sh.y+8,0,1.4],n*4);n++}gl.uniform4fv(S.u.uSp,sa)}
   gl.uniform4fv(S.u.uL,la);gl.uniform3fv(S.u.uLC,lc);gl.uniform1i(S.u.uNL,Ls.length);
   litQuad(LIT.rt);
   const D=LIT.P.down;gl.useProgram(D.p);let src=LIT.rt;for(let i=0;i<4;i++){litBind(D,'t',0,src.t);gl.uniform2f(D.u.uTx,.5/src.w,.5/src.h);gl.uniform1f(D.u.uThr,i?0:1.1);litQuad(LIT.rb[i]);src=LIT.rb[i]}
@@ -1431,12 +1439,12 @@ function nsLayerDraw(Ly,shx,shy){const gy=Ly.ground,ty=((Math.min(sump,H*.66)-Ly
       gr.addColorStop(0,rgba(q.c,a));gr.addColorStop(1,rgba(q.c,0));ctx.fillStyle=gr;ctx.fillRect(q.x-q.r,q.y-q.r,q.r*2,q.r*2)}ctx.restore()}
   ctx.drawImage(Ly.c,0,0,W,H);
   // its reflection, faint and soft, then the water darkening away from the horizon
-  ctx.save();ctx.beginPath();ctx.rect(-W,gy,W*3,H);ctx.clip();ctx.fillStyle=Ly.water;ctx.fillRect(-W,gy,W*3,H+1800);
+  ctx.save();ctx.beginPath();ctx.rect(-W,gy,W*3,H);ctx.clip();if(LIT.ok){const wg=ctx.createLinearGradient(0,gy-30,0,gy+90);wg.addColorStop(0,Ly.water+'00');wg.addColorStop(1,Ly.water);ctx.fillStyle=wg;ctx.fillRect(-W,gy-30,W*3,H+1800)}else{ctx.fillStyle=Ly.water;ctx.fillRect(-W,gy,W*3,H+1800)}
   ctx.globalAlpha=.16;ctx.translate(0,gy*2);ctx.scale(1,-1);ctx.drawImage(Ly.c,0,0,W,H);ctx.restore();
   const hc=[1,3,5].map(i=>parseInt(Ly.haze.slice(i,i+2),16));
-  const hz=ctx.createLinearGradient(0,gy-260,0,gy+40);hz.addColorStop(0,mixa(hc,[120,32,40],BLEED,0));hz.addColorStop(.86,mixa(hc,[120,32,40],BLEED,Ly.ha));hz.addColorStop(1,mixa(hc,[120,32,40],BLEED,Ly.ha*.5));
-  ctx.fillStyle=hz;ctx.fillRect(-W,gy-260,W*3,300);
-  ctx.fillStyle=mixa(hc,[120,32,40],BLEED,.35);ctx.fillRect(-W,gy,W*3,1.5)}
+  const hb=LIT.ok?140:40,hz=ctx.createLinearGradient(0,gy-260,0,gy+hb);hz.addColorStop(0,mixa(hc,[120,32,40],BLEED,0));hz.addColorStop(LIT.ok?.62:.86,mixa(hc,[120,32,40],BLEED,Ly.ha));hz.addColorStop(1,mixa(hc,[120,32,40],BLEED,LIT.ok?0:Ly.ha*.5));
+  ctx.fillStyle=hz;ctx.fillRect(-W,gy-260,W*3,260+hb);
+  if(!LIT.ok){ctx.fillStyle=mixa(hc,[120,32,40],BLEED,.35);ctx.fillRect(-W,gy,W*3,1.5)}}
 // Decoration off the action plane (north look). Foreground: dark wreckage standing in the water nearer the camera
 // (broken columns, fallen masonry, a sunk arch, chain posts), moving faster than the play layer. Background: the
 // Forge set pieces again, hazed and half-sunk at the near horizon, moving slower. Cosmetic only, built from the
@@ -1505,8 +1513,8 @@ function nsKitGlass(WT){if(!NS.kit.some(p=>p.emis))return;if(!NS.glass||NS.glass
 // Fresh damage: a scorched ring burnt into the stone around every cut (drawn over the kit art too), and embers
 // glowing along the broken edge for a few seconds. Cosmetic: plain random, never the sim's.
 const scorchC=mk(W,H),cuts=[];
-function freshCut(cx,cy,r,noEmbers){
-  const jr=r>=9?r*1.45:r,g=scorchC.getContext('2d'),gr=g.createRadialGradient(cx,cy,Math.max(1,r*.6),cx,cy,jr+9);gr.addColorStop(0,'rgba(6,4,4,.92)');gr.addColorStop(.45,'rgba(14,8,6,.6)');gr.addColorStop(1,'rgba(14,8,6,0)');
+function freshCut(cx,cy,r,noEmbers,jagged){
+  const jr=jagged&&r>=9?r*1.45:r,g=scorchC.getContext('2d'),gr=g.createRadialGradient(cx,cy,Math.max(1,r*.6),cx,cy,jr+9);gr.addColorStop(0,'rgba(6,4,4,.92)');gr.addColorStop(.45,'rgba(14,8,6,.6)');gr.addColorStop(1,'rgba(14,8,6,0)');
   g.fillStyle=gr;g.fillRect(cx-jr-10,cy-jr-10,jr*2+20,jr*2+20);
   if(noEmbers||r<5)return;const pts=[],n=Math.min(90,Math.round(r*2.4));
   for(let k=0;k<n;k++){const a=k/n*6.2832+RR()*.12,ca=Math.cos(a),sa=Math.sin(a);let d=r*.45;while(d<jr+5&&!isSolid(Math.round(cx+ca*d),Math.round(cy+sa*d)))d+=1;d+=RR()*2;const x=Math.round(cx+ca*d),y=Math.round(cy+sa*d);if(isSolid(x,y)&&RR()<.85)pts.push([x,y,.5+RR()*.5,RR()*9])}
@@ -1681,15 +1689,15 @@ function jagCarve(cx,cy,r){const R=Math.ceil(r*1.45)+8,X0=Math.floor(cx)-R,Y0=Ma
         for(let j=0;j<3&&!inn;j++){const L=lb[j],ex=x+.5-L[0],ey=y+.5-L[1];inn=true;for(let k=0;k<6;k++){if(ex*JAG_D[k*2][0]+ey*JAG_D[k*2][1]>L[2][k]+jt){inn=false;break}}}}
       if(inn){q[(j*n+i)*4+3]=255;if(x>=0&&x<W&&y>=0&&y<H)solid[y*W+x]=0}}}
   jg.putImageData(im,0,0);return[X0,Y0,R]}
-function carve(cx,cy,r,scorch=true){
-  const jag=r>=9?jagCarve(cx,cy,r):null;
+function carve(cx,cy,r,scorch=true,jagged=false){
+  const jag=jagged&&r>=9?jagCarve(cx,cy,r):null;
   if(!jag){const x0=Math.max(0,cx-r|0),x1=Math.min(W-1,cx+r|0),y0=Math.max(0,cy-r|0),y1=Math.min(H-1,cy+r|0),r2=r*r;
   for(let y=y0;y<=y1;y++){const dy=y-cy;for(let x=x0;x<=x1;x++){const dx=x-cx;if(dx*dx+dy*dy<=r2)solid[y*W+x]=0}}}
   if(scorch){tctx.globalCompositeOperation='source-atop';
     const rg=tctx.createRadialGradient(cx,cy,r*.7,cx,cy,r+12);rg.addColorStop(0,'rgba(8,6,6,.95)');rg.addColorStop(.6,'rgba(30,14,8,.6)');rg.addColorStop(1,'rgba(0,0,0,0)');
     tctx.fillStyle=rg;tctx.fillRect(cx-r-14,cy-r-14,r*2+28,r*2+28)}
   for(const g of[tctx,mctx,gfx,decoC.getContext('2d')]){g.globalCompositeOperation='destination-out';if(jag)g.drawImage(jagC,jag[0],jag[1]);else{g.fillStyle='#000';g.beginPath();g.arc(cx,cy,r,0,Math.PI*2);g.fill()}g.globalCompositeOperation='source-over'}
-  rimDirty=true;toplMark(cx-r*1.45-10,cx+r*1.45+10);freshCut(cx,cy,r);checkFixtures();scarTags(cx,cy,r);litDirty(cx-r*1.45-24,cy-r*1.45-24,cx+r*1.45+24,cy+r*1.45+24);
+  rimDirty=true;toplMark(cx-r*1.45-10,cx+r*1.45+10);freshCut(cx,cy,r,false,!!jag);checkFixtures();scarTags(cx,cy,r);litDirty(cx-r*1.45-24,cy-r*1.45-24,cx+r*1.45+24,cy+r*1.45+24);
   if(window.GRIMSPIRE_SET_PIECES)setPiecesHit(cx,cy,r);
 }
 function carveLine(x0,y0,x1,y1,r,col){
@@ -2324,16 +2332,16 @@ function fabValid(){const t=S.active,b=S.target;if(!t||!b)return false;if(Math.h
   for(const o of troopers){if(!o.alive)continue;for(const oy of[o.y-2,o.y-12,o.y-22]){const dx=o.x-b.x,dy=oy-b.y,lx=dx*c+dy*s,ly=-dx*s+dy*c;if(Math.abs(lx)<54&&Math.abs(ly)<12)return false}}
   return b.y<sump-6}
 function explode(x,y,r,dmg,o={}){
-  carve(x,y,r);
+  carve(x,y,r,true,true);
   // blast: full damage inside ~1.2r. Shockwave: shoves out to ~2.6r, with a sting of damage just past the blast edge
-  const R=r*1.2,SW=r*2.6,STING=r*.6;let bigHits=0,bigTotal=0;
+  const R=r*1.2,SW=r*3.1,STING=r*.6;let bigHits=0,bigTotal=0;
   for(const q of sentries){const d=Math.hypot(q.x-x,q.y-8-y);if(d<r*1.2)hurtSentry(q,Math.round(dmg*Math.min(1,(1-d/(r*1.2))*1.3)))}
   for(const t of troopers){if(!t.alive||t.podded)continue;const cy=t.y-11,d=Math.hypot(t.x-x,cy-y);if(d>=SW)continue;
     if(d<R){const h=Math.round(dmg*(1-.55*Math.pow(d/R,1.3)));hurt(t,h);if(h>=15){bigHits++;bigTotal+=h}}
     else if(d<R+STING)hurt(t,Math.max(1,Math.round(12*(1-(d-R)/STING))),true);
-    const f=Math.pow(1-d/SW,1.2),imp=(190+r*5.5)*f;let a=Math.atan2(cy-y,t.x-x);
+    const f=Math.pow(1-d/SW,1.1),imp=(235+r*6.8)*f;let a=Math.atan2(cy-y,t.x-x);
     if(o.v){const sp=Math.hypot(o.v[0],o.v[1]);if(sp>60&&d<R){const k=(1-d/R)*.75;a=Math.atan2(Math.sin(a)*(1-k)+o.v[1]/sp*k,Math.cos(a)*(1-k)+o.v[0]/sp*k)}}
-    shove(t,Math.cos(a)*imp*1.15,Math.min(0,Math.sin(a)*imp*.5)-70*f);
+    shove(t,Math.cos(a)*imp*1.15,Math.min(0,Math.sin(a)*imp*.5)-100*f);
     if(f>.15)for(let i=0;i<4;i++)parts.push({k:'smoke',x:t.x+rnd(-5,5),y:t.y-1,vx:Math.sign(t.x-x)*rnd(20,60),vy:rnd(-30,-5),life:rnd(.4,.8),max:.8,s:rnd(2,4),c:70})}
   // a blast that catches a group hard gets the slow-motion treatment too
   if(bigHits>=2&&bigTotal>=65)slowmo(1.2);
@@ -3877,7 +3885,7 @@ function netCatchUp(){if(S.mode!=='online'||NET.role!=='watch')return;const behi
   if(behind>300&&!NET.skip)for(let i=0;i<Math.min(6,behind-240);i++)tick()}
 function netGameOver(){if(NET.role!=='act')clearNet()}
 function netLeave(){document.title=TITLE0;chatStop();if(NET.unC)NET.unC();if(NET.unM)NET.unM();NET.unC=NET.unM=null;NET.role=null;NET.started=false;S.mode='hot';$('#netBar').hidden=true}
-const GV=38;// bump on every release that changes the sim
+const GV=39;// bump on every release that changes the sim
 function startOnline(code,me,d){BE.update(code,{['vers.'+me]:GV,['arts.'+me]:window.GRIMSPIRE_ART_SIM||''}).catch(()=>{});NET.code=code;NET.me=me;NET.round=d.round||0;NET.snapK=-1;NET.snap=null;NET.matchAtt=d.att||'';NET.started=true;NET.leaving=false;saveNet();
   $('#net').hidden=true;if(!CHAT.un)chatStart();const cfg=Object.assign(mkCfg('online',d.seats,d.mode==='teams'),{mode:'online'});newGame('online',d.seed,cfg);S.genOK=true;
   const base=NET.round*1e5,has=d.snapK!=null&&d.snapK>=base&&d.snap;

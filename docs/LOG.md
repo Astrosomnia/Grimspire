@@ -6,6 +6,12 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-10 · Claude · Lit look, fifth pass: shockwaves (GV 39), cutter fixed, dropship light
+- Branch `lit`. **Sim (GV 39):** only explosions break jagged now; the plasma cutter, the fist and bullet holes carve round again, so the cutter cuts clean tunnels. Shockwaves reach 3.1× the blast radius (was 2.6×), shove about 25% harder, and a close blast pops a trooper off their feet. `det.py` matches `main`; `dsim.py` and `dsim2.py` run identical. **Balance Sheet not yet updated** for the shockwave numbers.
+- **Look:** the moon's glow no longer shows through buildings in front of it; the skyline bands' water and haze fade in instead of ending on a hard line; the dropship's searchlight is a real spotlight that lights stone and casts shadows; pale metal like the dropship no longer counts as glowing, so it reads darker.
+- Brief: Jarred's phone screenshot saved as the target look (`art/reference/lit-vibe-phone-20261110.jpg`); depth called out as the priority; the brazier added as a redraw.
+- **Open (Jarred):** a shootable grappling rope, as an alt of the rappel cable. Proposal in chat; not built.
+
 ## 2026-11-10 · Claude · Lit look, fourth pass; art brief for the big push
 - Branch `lit`. Embers and scorch now follow a blast's real jagged edge, not the blast circle (cosmetic, no sim change; GV 38). Moon pushed back to a dim rose light. The sky is rendered in code; ChatGPT's gradient is no longer loaded (the moon, clouds and far city images still are).
 - [`ART-BRIEF-LIT.md`](ART-BRIEF-LIT.md): the full art brief for the lit look. 2× pixel density, a new Height layer, mid-value flat art, seams, and a prioritised list: terrain kit, tiles, water heads and statues, depth-of-field foreground, set pieces, troopers, weapons and icons, props, far background.
