@@ -1153,7 +1153,7 @@ function litInit(){
   const c=document.createElement('canvas');c.id='glc';c.style.cssText='position:fixed;inset:0;width:100%;height:100%;display:block';
   const gl=c.getContext('webgl2',{antialias:false,alpha:false,powerPreference:'high-performance'});if(!gl||!NS.on){LIT.on=false;return}
   LIT.gl=gl;LIT.cv=c;LIT.hdr=!!gl.getExtension('EXT_color_buffer_float');gl.getExtension('OES_texture_float_linear');
-  LIT.coarse=matchMedia('(pointer:coarse)').matches;const NL=LIT.NL=LIT.coarse?10:24;
+  LIT.coarse=matchMedia('(pointer:coarse)').matches;const NL=LIT.NL=LIT.coarse?6:12;
   const VS=`#version 300 es
 in vec2 p;out vec2 vUv;void main(){vUv=p*.5+.5;gl_Position=vec4(p,0.,1.);}`;
   const COMMON=`#version 300 es
@@ -1166,9 +1166,9 @@ vec2 cellC(vec2 w,vec2 g){float row=floor(w.y/g.y);float ox=mod(row,2.)*g.x*.5;v
 float fbm(vec2 p){float a=.5,s=0.;for(int i=0;i<4;i++){s+=a*vn(p);p=p*2.03+7.1;a*=.5;}return s;}
 `;
   const FS_SCENE=COMMON+`
-uniform sampler2D uAlb,uGuts,uGraf,uEmis,uBack,uSoot,uBlur,uBake,uSkyT,uMoonT,uCloudT,uFarT,uFx,uDyn,uHeight,uDet,uDetH;uniform float uDetOn,uDetHOn;
+uniform sampler2D uAlb,uGuts,uGraf,uEmis,uBack,uSoot,uBlur,uBake,uAtlas,uLM,uFx,uDyn,uHeight,uDet,uDetH;uniform float uDetOn,uDetHOn,uLMs;
 uniform vec2 uRes,uCam;uniform float uScale,uTime,uSump,uBleed,uHz;uniform vec4 uSp[2];
-uniform vec4 uL[${NL}];uniform vec3 uLC[${NL}];uniform int uNL;uniform vec4 uTL[16];uniform vec3 uTC[16];uniform int uNT;
+uniform vec4 uL[${NL}];uniform vec3 uLC[${NL}];uniform int uNL;
 out vec4 o;
 const vec3 MOOND=vec3(-.39,-.87,.3);
 const vec3 CYA=vec3(.08,.62,.72);
@@ -1187,6 +1187,9 @@ float insc(vec2 s){return step(0.,s.x)*step(s.x,1.)*step(0.,s.y)*step(s.y,1.);}
 float drel(vec2 s){vec4 D=textureLod(uDet,s,0.);vec4 Hh=uDetHOn>.5?textureLod(uDetH,s,0.):vec4(0.);return relief(D,Hh);}
 float blr(vec2 w){return textureLod(uBlur,w/WH,0.).r*inb(w);}
 float brick(vec2 w,out float tone){float row=floor(w.y/7.);vec2 p=vec2(w.x+mod(row,2.)*7.,w.y);vec2 id=floor(p/vec2(14.,7.));vec2 f=p-id*vec2(14.,7.);tone=h1(id+.5);return step(.75,f.x)*step(.75,f.y);}
+const vec2 AT=vec2(1774.,1215.);
+float mr(float x){float f=fract(x*.5)*2.;return f<1.?f:2.-f;}
+vec3 LMs(vec2 w){return textureLod(uLM,w/WH,0.).rgb*uLMs;}
 vec3 sky(vec2 w){
   // painted sky: fixed to the screen, so it never slides
   vec2 sp=(w-uCam)*uScale/uRes;
@@ -1198,14 +1201,14 @@ vec3 sky(vec2 w){
   c=mix(c,lum(c)*vec3(2.1,.3,.24),uBleed*.75);
   // the moon is a light: a soft bright disc, little surface detail
   vec2 l=w-uCam*.98;vec2 mc=l-vec2(230.,92.);vec2 m=mc/118.+.5;float md=length(mc);
-  if(m.x>0.&&m.x<1.&&m.y>0.&&m.y<1.){vec4 t=textureLod(uMoonT,m,0.);vec3 mcol=mix(vec3(.82,.3,.42),vec3(.9,.2,.14),uBleed);c=mix(c,mix(t.rgb,mcol,.4)*1.,t.a);}
+  if(m.x>0.&&m.x<1.&&m.y>0.&&m.y<1.){vec4 t=textureLod(uAtlas,(vec2(1186.,624.)+m*384.)/AT,0.);vec3 mcol=mix(vec3(.82,.3,.42),vec3(.9,.2,.14),uBleed);c=mix(c,mix(t.rgb,mcol,.4)*1.,t.a);}
   c+=MOONC*(.18*exp(-max(md-54.,0.)/26.)+.1*exp(-max(md-54.,0.)/120.));
   vec2 lc=w-uCam*.95;vec2 cu=vec2((lc.x+uTime*1.1)/1500.,(lc.y+150.)/750.);
-  if(cu.y>0.&&cu.y<1.){vec4 t=textureLod(uCloudT,cu,0.);c=mix(c,mix(vec3(lum(t.rgb)),t.rgb,.7)*.74,t.a*.8);}
+  if(cu.y>0.&&cu.y<1.){vec4 t=textureLod(uAtlas,vec2(mr(cu.x)*1182.,624.+cu.y*591.)/AT,0.);c=mix(c,mix(vec3(lum(t.rgb)),t.rgb,.7)*.74,t.a*.8);}
   // far city: stands behind the game's own skyline, on the same horizon, hazed and faded
   float fs=.52,fy=1.-(uHz-150.-w.y)/(622.*fs);
   if(fy>0.){float below=smoothstep(.8,.97,fy);
-    if(fy<1.){vec4 t=textureLod(uFarT,vec2((w.x-uCam.x*.93)/(1774.*fs)+.18,fy),0.);vec3 fc=mix(vec3(lum(t.rgb)),t.rgb,.4)*.72;
+    if(fy<1.){vec4 t=textureLod(uAtlas,vec2(mr((w.x-uCam.x*.93)/(1774.*fs)+.18)*1774.,min(fy,.995)*622.)/AT,0.);vec3 fc=mix(vec3(lum(t.rgb)),t.rgb,.4)*.72;
       fc=mix(fc,c,.42+.3*smoothstep(.5,.0,fy));c=mix(c,fc,t.a*(1.-below)*.9);}
     c=mix(c,mix(c,vec3(.15,.16,.22),.7),below);}
   // the game's skyline, haze, sky ships, far war and searchlights, drawn by the game as on the live site
@@ -1284,11 +1287,9 @@ vec3 world(vec2 w){
   // ---- one pass over the lights serves the stone, the back wall and the air ----
   vec3 lit=vec3(0.),flt=vec3(0.),air=vec3(0.);const vec3 SPC=vec3(.75,.85,1.);
   if(P>.5)lit+=SPC*spot(q,N,1.)*1.1;flt+=SPC*spot(w,vec3(0,0,1),0.)*.5;
-  for(int i=0;i<${NL};i++){if(i>=uNL||LOWR)break;vec2 d=uL[i].xy-w;float r=uL[i].z,qq=dot(d,d)/(r*r);if(qq<1.){float a=1.-qq,a2=a*a;
-    flt+=uLC[i]*a2;air+=uLC[i]*a2*a;
-    if(P>.5)lit+=uLC[i]*a2*max(dot(N,normalize(vec3(d,r*.2))),0.)*1.7;}}
-  for(int i=0;i<16;i++){if(i>=uNT||LOWR)break;vec2 d=uTL[i].xy-w;float r=uTL[i].z,qq=dot(d,d)/(r*r);if(qq<1.){float a=1.-qq,a2=a*a;
-    flt+=uTC[i]*a2;air+=uTC[i]*a2*a;if(P>.5)lit+=uTC[i]*a2*max(dot(N,normalize(vec3(d,r*.2))),0.)*1.7;}}
+  {vec3 lm=LMs(w);flt+=lm;air+=lm*.55;
+    if(P>.5){float L0=lum(lm);if(L0>.002){if(LOWR)lit+=lm*.9;else{vec2 g=vec2(lum(LMs(q+vec2(3.,0.)))-lum(LMs(q-vec2(3.,0.))),lum(LMs(q+vec2(0.,3.)))-lum(LMs(q-vec2(0.,3.))));
+      vec3 dir=normalize(vec3(g/L0*6.,.3));lit+=lm*max(dot(N,dir),0.)*1.7;}}}}
   vec4 bw=textureLod(uBack,w/WH,0.)*inb(w);
   if(bw.a>.02&&P<.5){float csh=smoothstep(.12,.55,blr(q+ML*9.));
     vec3 bl=vec3(.055,.075,.115)+CYA*.3*pow(smoothstep(130.,0.,uSump-w.y),2.)+MOONC*.16*(1.-csh)+flt*.35;
@@ -1362,14 +1363,21 @@ void main(){vec3 c=textureLod(tC,vUv,0.).rgb;
   const prog=fs=>{const p=gl.createProgram();gl.attachShader(p,sh(gl.VERTEX_SHADER,VS));gl.attachShader(p,sh(gl.FRAGMENT_SHADER,fs));gl.bindAttribLocation(p,0,'p');gl.linkProgram(p);
     if(!gl.getProgramParameter(p,gl.LINK_STATUS))throw new Error(gl.getProgramInfoLog(p));const u={},n=gl.getProgramParameter(p,gl.ACTIVE_UNIFORMS);
     for(let i=0;i<n;i++){const a=gl.getActiveUniform(p,i);u[a.name.replace('[0]','')]=gl.getUniformLocation(p,a.name)}return{p,u}};
-  try{LIT.P={scene:prog(FS_SCENE),blur:prog(FS_BLUR),bake:prog(FS_BAKE),down:prog(FS_DOWN),final:prog(FS_FINAL)}}catch(e){console.warn('lit look unavailable:',e.message);LIT.on=false;return}
+  const VS_L=`#version 300 es
+in vec2 p;uniform vec3 uLt;uniform vec2 WH;out vec2 vd;void main(){vd=p;vec2 w=uLt.xy+p*uLt.z;gl_Position=vec4(w.x/WH.x*2.-1.,w.y/WH.y*2.-1.,0.,1.);}`;
+  const FS_L=`#version 300 es
+precision highp float;in vec2 vd;uniform vec3 uC;out vec4 o;void main(){float q=dot(vd,vd);if(q>=1.)discard;float a=1.-q;o=vec4(uC*a*a,1.);}`;
+  const progL=()=>{const p=gl.createProgram();gl.attachShader(p,sh(gl.VERTEX_SHADER,VS_L));gl.attachShader(p,sh(gl.FRAGMENT_SHADER,FS_L));gl.bindAttribLocation(p,0,'p');gl.linkProgram(p);
+    if(!gl.getProgramParameter(p,gl.LINK_STATUS))throw new Error(gl.getProgramInfoLog(p));return{p,u:{uLt:gl.getUniformLocation(p,'uLt'),WH:gl.getUniformLocation(p,'WH'),uC:gl.getUniformLocation(p,'uC')}}};
+  try{LIT.P={lmap:progL(),scene:prog(FS_SCENE),blur:prog(FS_BLUR),bake:prog(FS_BAKE),down:prog(FS_DOWN),final:prog(FS_FINAL)}}catch(e){console.warn('lit look unavailable:',e.message);LIT.on=false;return}
   const b=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,b);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,3,-1,-1,3]),gl.STATIC_DRAW);gl.enableVertexAttribArray(0);gl.vertexAttribPointer(0,2,gl.FLOAT,false,0,0);
   gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL,false);
   c.addEventListener('webglcontextlost',e=>{e.preventDefault();LIT.ok=false;c.remove()});
   const one=()=>{const t=gl.createTexture();gl.bindTexture(gl.TEXTURE_2D,t);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,1,1,0,gl.RGBA,gl.UNSIGNED_BYTE,new Uint8Array([20,14,30,0]));return t};
-  LIT.bg={sky:one(),moon:one(),clouds:one(),far:one(),fx:one(),dyn:one(),det:one(),deth:one()};for(const k of['det','deth']){gl.bindTexture(gl.TEXTURE_2D,LIT.bg[k]);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.NEAREST);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.NEAREST);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE)}for(const k of['fx','dyn']){gl.bindTexture(gl.TEXTURE_2D,LIT.bg[k]);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE)}
-  for(const[k,f,rp]of[['moon','moon.webp',0],['clouds','clouds.webp',1],['far','far.webp',1]]){const im=new Image();im.onload=()=>{if(!LIT.ok)return;gl.deleteTexture(LIT.bg[k]);const t=LIT.bg[k]=litTex(im,false);
-      if(rp){gl.bindTexture(gl.TEXTURE_2D,t);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.MIRRORED_REPEAT)}};im.src='assets/bg/'+f}
+  LIT.bg={atlas:one(),fx:one(),dyn:one(),det:one(),deth:one()};for(const k of['det','deth']){gl.bindTexture(gl.TEXTURE_2D,LIT.bg[k]);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.NEAREST);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.NEAREST);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE)}for(const k of['fx','dyn']){gl.bindTexture(gl.TEXTURE_2D,LIT.bg[k]);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE)}
+  {const ims={},at=document.createElement('canvas');at.width=1774;at.height=1215;let n=0;
+    for(const[k,f]of[['far','far.webp'],['clouds','clouds.webp'],['moon','moon.webp']]){const im=new Image();im.onload=()=>{ims[k]=im;if(++n<3||!LIT.ok)return;const g=at.getContext('2d');
+        g.drawImage(ims.far,0,0,1774,622);g.drawImage(ims.clouds,0,624,1182,591);g.drawImage(ims.moon,1186,624,384,384);gl.deleteTexture(LIT.bg.atlas);LIT.bg.atlas=litTex(at,false)};im.src='assets/bg/'+f}}
   cv.parentNode.insertBefore(c,cv);LIT.ok=true;
 }
 // The game draws in two lifts. First its skyline, haze, sky ships, far war and searchlights; then everything in the world
@@ -1461,6 +1469,7 @@ function litBuild(){const gl=LIT.gl,T=LIT.T;for(const k in T){gl.deleteTexture(T
   const ec=mk(W*K,H*K),eg=ec.getContext('2d');eg.imageSmoothingEnabled=false;eg.setTransform(K,0,0,K,0,0);
   for(const p of(NS.kit||[]))if(p.emis){eg.save();if(p.flip){eg.translate(p.x+p.w,p.y);eg.scale(-1,1);eg.drawImage(p.emis,0,0,p.w,p.h)}else eg.drawImage(p.emis,p.x,p.y,p.w,p.h);eg.restore()}
   T.emis=litTex(ec,true);T.back=litTex(litPatch(nsBack(),0,0,W,H),true);
+  litFree(LIT.lmT);LIT.lmT=litTarget(W>>1,H>>1,true,false);
   LIT.blA=litTarget(W>>1,H>>1,false,false);LIT.blB=litTarget(W>>1,H>>1,false,false);LIT.bake=litTarget(W,H,false,true);
   litDerive(null);LIT.dirty=null}
 function litFlush(){const gl=LIT.gl,d=LIT.dirty;if(!d)return;LIT.dirty=null;
@@ -1482,7 +1491,7 @@ function litFrame(lights,shx,shy){const gl=LIT.gl,T=LIT.T;
   litBind(S,'uHeight',8,T.height);
   {const k0=DPR*scale*rs,on=!!LIT.fine;if(on){litDetail(gw,gh,k0,cam.x-shx/scale,cam.y-shy/scale);gl.useProgram(S.p);litBind(S,'uAlb',0,T.alb)}
     litBind(S,'uDet',9,LIT.bg.det);litBind(S,'uDetH',10,LIT.bg.deth);gl.uniform1f(S.u.uDetOn,on?1:0);gl.uniform1f(S.u.uDetHOn,on&&LIT.hasHeight?1:0)}
-  const G=LIT.bg;litBind(S,'uMoonT',11,G.moon);litBind(S,'uCloudT',12,G.clouds);litBind(S,'uFarT',13,G.far);
+  const G=LIT.bg;litBind(S,'uAtlas',11,G.atlas);
   litBind(S,'uFx',14,G.fx);litBind(S,'uDyn',15,G.dyn);gl.uniform1f(S.u.uHz,Math.min(sump,H*.66));
   const k=DPR*scale*rs,cx=cam.x-shx/scale,cy=cam.y-shy/scale;
   gl.uniform2f(S.u.uRes,gw,gh);gl.uniform2f(S.u.uCam,cx,cy);gl.uniform1f(S.u.uScale,k);gl.uniform1f(S.u.uTime,time);gl.uniform1f(S.u.uSump,sump);gl.uniform1f(S.u.uBleed,BLEED);gl.uniform1f(S.u.uLow,LIT.coarse?1:0);
@@ -1493,10 +1502,12 @@ function litFrame(lights,shx,shy){const gl=LIT.gl,T=LIT.T;
     if(!s){s={x:L.x,y:L.y,r:L.r,c:L.c,i:0,tg:-1};M.set(key,s)}
     if(s.tg<0){s.tg=L.i;s.x+=(L.x-s.x)*.4;s.y+=(L.y-s.y)*.4;s.r=L.r;s.c=L.c}else{s.tg=Math.min(1.5,s.tg+L.i*.2);s.r=Math.max(s.r,L.r)}}
   for(const[k,s]of M){const tg=Math.max(0,s.tg);s.i+=(tg-s.i)*Math.min(1,dtL*(tg>s.i?18:s.tg<0?7:14));if(s.tg<0&&s.i<.02)M.delete(k)}
-  {const ta=new Float32Array(64),tc=new Float32Array(48);let n=0;for(const t of troopers){if(!t.alive||n>=16)continue;const c=TEAM[t.team].rgb,m=.45*1.6/255;
-      ta.set([t.x+t.face*3,t.y-21,46*1.7,0],n*4);tc.set([c[0]*m,c[1]*m,c[2]*m],n*3);n++}
-    gl.uniform4fv(S.u.uTL,ta);gl.uniform3fv(S.u.uTC,tc);gl.uniform1i(S.u.uNT,n)}
-  const Ls=[...M.values()].filter(L=>!(L.r===46&&L.c&&TEAM.some(T=>T.rgb===L.c))&&L.i>.01&&Math.hypot(L.x-vx,L.y-vy)<vr+L.r*1.7+140).sort((a,b)=>b.i*b.r-a.i*a.r).slice(0,NL);
+  const all=[...M.values()].filter(L=>L.i>.01&&Math.hypot(L.x-vx,L.y-vy)<vr+L.r*1.7+140);
+  {const Lp=LIT.P.lmap,T_=LIT.lmT,ls=LIT.hdr?1:.25;gl.useProgram(Lp.p);gl.bindFramebuffer(gl.FRAMEBUFFER,T_.f);gl.viewport(0,0,T_.w,T_.h);gl.clearColor(0,0,0,0);gl.clear(gl.COLOR_BUFFER_BIT);
+    gl.enable(gl.BLEND);gl.blendFunc(gl.ONE,gl.ONE);gl.uniform2f(Lp.u.WH,W,H);
+    for(const L of all){const m=L.i*1.6/255*ls;gl.uniform3f(Lp.u.uLt,L.x,L.y,L.r*1.7);gl.uniform3f(Lp.u.uC,L.c[0]*m,L.c[1]*m,L.c[2]*m);gl.drawArrays(gl.TRIANGLES,0,3)}
+    gl.disable(gl.BLEND);gl.useProgram(S.p);litBind(S,'uLM',12,T_.t);gl.uniform1f(S.u.uLMs,1/ls)}
+  const Ls=all.filter(L=>L.y<sump).sort((a,b)=>b.i*b.r-a.i*a.r).slice(0,NL);
   const la=new Float32Array(NL*4),lc=new Float32Array(NL*3);Ls.forEach((L,i)=>{la[i*4]=L.x;la[i*4+1]=L.y;la[i*4+2]=L.r*1.7;const m=L.i*1.6/255;lc[i*3]=L.c[0]*m;lc[i*3+1]=L.c[1]*m;lc[i*3+2]=L.c[2]*m});
   {const sa=new Float32Array(8);let n=0;for(const sh of ships){if(n>1)break;const d=Math.sign(sh.vx)||1;sa.set([sh.x+6*d,sh.y+8,0,1.4],n*4);n++}gl.uniform4fv(S.u.uSp,sa)}
   gl.uniform4fv(S.u.uL,la);gl.uniform3fv(S.u.uLC,lc);gl.uniform1i(S.u.uNL,Ls.length);

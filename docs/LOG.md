@@ -6,6 +6,12 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-11 · Claude · Lit look: light map instead of a capped light list
+- Every light (lamps, graffiti, troopers, fire, shots, blasts) is now drawn each frame into a half-resolution light map, and the shader reads it once per pixel; light direction for the stone comes from the map's gradient. No more cap on lights, so nothing drops out when a shot or blast adds light (the flicker on phones) and graffiti and trooper glows stay on at any zoom. Per-pixel cost no longer grows with the number of lights.
+- A short list of the brightest lights remains only for the streaks on the water (6 on phones, 12 on desktop).
+- The moon, clouds and far city now share one texture (an atlas), which freed the texture slot the light map needed.
+- No sim change.
+
 ## 2026-11-11 · Claude · Trooper glow always on in the lit look
 - Each trooper's own faction glow now has a reserved light slot (up to 16 troopers), separate from the shared light list. Before, it competed with lamps, fire and blasts for the 10 (phone) or 24 (desktop) slots and dropped out when zoomed out or near bright lights. No sim change.
 
