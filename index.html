@@ -1142,7 +1142,6 @@ const NS={on:!/(^#|&)classic\b/.test(location.hash),drowned:/(^#|&)drowned\b/.te
    uses, so nothing in the sim changes and GV stays put. Without #lit (or without WebGL2) the game draws as before. */
 const LIT={on:/(^#|&)lit\b/.test(location.hash),ok:false,key:null,dirty:null,gl:null,P:{},T:{},rt:null,rb:[],W:0,H:0};
 function litDirty(x0,y0,x1,y1){if(!LIT.ok)return;const d=LIT.dirty;if(!d)LIT.dirty=[x0,y0,x1,y1];else{d[0]=Math.min(d[0],x0);d[1]=Math.min(d[1],y0);d[2]=Math.max(d[2],x1);d[3]=Math.max(d[3],y1)}}
-function litSump(){ctx.save();ctx.globalCompositeOperation='destination-out';const g=ctx.createLinearGradient(0,sump,0,sump+14);g.addColorStop(0,'rgba(0,0,0,.5)');g.addColorStop(1,'rgba(0,0,0,.94)');ctx.fillStyle=g;ctx.fillRect(-3000,sump,W+6000,H+2400);ctx.restore()}
 function litInit(){
   const c=document.createElement('canvas');c.id='glc';c.style.cssText='position:fixed;inset:0;width:100%;height:100%;display:block';
   const gl=c.getContext('webgl2',{antialias:false,alpha:false,powerPreference:'high-performance'});if(!gl||!NS.on){LIT.on=false;return}
@@ -1160,10 +1159,9 @@ vec2 cellC(vec2 w,vec2 g){float row=floor(w.y/g.y);float ox=mod(row,2.)*g.x*.5;v
 float fbm(vec2 p){float a=.5,s=0.;for(int i=0;i<4;i++){s+=a*vn(p);p=p*2.03+7.1;a*=.5;}return s;}
 `;
   const FS_SCENE=COMMON+`
-uniform sampler2D uAlb,uGuts,uGraf,uEmis,uBack,uSky1,uSky2,uSoot,uBlur,uBake,uSkyT,uMoonT,uCloudT,uFarT,uFx;
-uniform vec2 uRes,uCam;uniform float uScale,uTime,uSump,uBleed;
+uniform sampler2D uAlb,uGuts,uGraf,uEmis,uBack,uSoot,uBlur,uBake,uSkyT,uMoonT,uCloudT,uFarT,uFx,uDyn;
+uniform vec2 uRes,uCam;uniform float uScale,uTime,uSump,uBleed,uHz;
 uniform vec4 uL[${NL}];uniform vec3 uLC[${NL}];uniform int uNL;
-uniform vec3 uSkyP[2];
 out vec4 o;
 const vec3 MOOND=vec3(-.39,-.87,.3);
 const vec3 CYA=vec3(.08,.62,.72);
@@ -1177,39 +1175,28 @@ float brick(vec2 w,out float tone){float row=floor(w.y/7.);vec2 p=vec2(w.x+mod(r
 vec3 sky(vec2 w){
   // painted sky: fixed to the screen, so it never slides
   vec2 sp=(w-uCam)*uScale/uRes;
-  vec3 c=textureLod(uSkyT,clamp(sp,0.,1.),0.).rgb*.82;
+  vec3 c=textureLod(uSkyT,clamp(sp,0.,1.),0.).rgb*.8;
   c=mix(c,lum(c)*vec3(2.1,.3,.24),uBleed*.75);
-  // moon and clouds: all but fixed
-  vec2 l=w-uCam*.98;vec2 mc=l-vec2(250.,100.);vec2 m=mc/168.+.5;
-  if(m.x>0.&&m.x<1.&&m.y>0.&&m.y<1.){vec4 t=textureLod(uMoonT,m,0.);c=mix(c,mix(t.rgb,lum(t.rgb)*vec3(1.9,.3,.22),uBleed*.6)*.95,t.a);}
-  c+=MOONC*.1*exp(-max(length(mc)-80.,0.)/42.);
+  // the moon is a light: a soft bright disc, little surface detail
+  vec2 l=w-uCam*.98;vec2 mc=l-vec2(230.,92.);vec2 m=mc/118.+.5;float md=length(mc);
+  if(m.x>0.&&m.x<1.&&m.y>0.&&m.y<1.){vec4 t=textureLod(uMoonT,m,0.);vec3 mcol=mix(vec3(1.,.5,.62),vec3(1.,.3,.2),uBleed);c=mix(c,mix(t.rgb,mcol,.62)*1.3,t.a);}
+  c+=MOONC*(.3*exp(-max(md-54.,0.)/26.)+.15*exp(-max(md-54.,0.)/120.));
   vec2 lc=w-uCam*.95;vec2 cu=vec2((lc.x+uTime*1.1)/1500.,(lc.y+150.)/750.);
-  if(cu.y>0.&&cu.y<1.){vec4 t=textureLod(uCloudT,cu,0.);c=mix(c,t.rgb*.78,t.a*.85);}
-  // far city: barely moves with the camera
-  vec2 lf=vec2(w.x-uCam.x*.95,w.y-uCam.y*.72);float fs=.6,baseL=uSump*.6+36.;
-  float fy=1.-(baseL-lf.y)/(622.*fs);
-  if(fy>0.){vec3 hz=mix(vec3(.17,.15,.23),vec3(.3,.07,.1),uBleed);float below=smoothstep(.84,.99,fy);
-    if(fy<1.){vec4 t=textureLod(uFarT,vec2(lf.x/(1774.*fs)+.18,fy),0.);c=mix(c,mix(t.rgb,lum(t.rgb)*vec3(1.7,.4,.35),uBleed*.6)*.74,t.a*(1.-below));}
-    c=mix(c,hz,below);}
-  // sky ships, the far war and searchlights, drawn by the game
+  if(cu.y>0.&&cu.y<1.){vec4 t=textureLod(uCloudT,cu,0.);c=mix(c,mix(vec3(lum(t.rgb)),t.rgb,.7)*.74,t.a*.8);}
+  // far city: stands behind the game's own skyline, on the same horizon, hazed and faded
+  float fs=.52,fy=1.-(uHz-150.-w.y)/(622.*fs);
+  if(fy>0.){float below=smoothstep(.8,.97,fy);
+    if(fy<1.){vec4 t=textureLod(uFarT,vec2((w.x-uCam.x*.93)/(1774.*fs)+.18,fy),0.);vec3 fc=mix(vec3(lum(t.rgb)),t.rgb,.4)*.72;
+      fc=mix(fc,c,.42+.3*smoothstep(.5,.0,fy));c=mix(c,fc,t.a*(1.-below)*.9);}
+    c=mix(c,mix(c,vec3(.15,.16,.22),.7),below);}
+  // the game's skyline, haze, sky ships, far war and searchlights, drawn by the game as on the live site
   if(sp.x>0.&&sp.x<1.&&sp.y>0.&&sp.y<1.){vec4 f=textureLod(uFx,sp,0.);c=mix(c,f.rgb,f.a);}
+  // the moon's light carries through the haze in front of it
+  c+=MOONC*(.5*smoothstep(56.,50.,md)+.22*exp(-max(md-54.,0.)/34.)+.08*exp(-max(md-54.,0.)/140.));
   return c;
 }
-vec4 band(sampler2D tx,vec3 P,vec2 w,float k,float off,float sc){
-  vec2 l=vec2(w.x-uCam.x*(1.-P.x),w.y-uCam.y*(1.-P.x)*.3);
-  float up=(uSump-off-l.y)/sc;
-  vec3 haze=mix(HOR*.6,vec3(.03,.17,.22),.42*(1.-uBleed));
-  if(up<=0.)return vec4(mix(haze*.5,vec3(.008,.012,.024),k),smoothstep(0.,-10.,up*sc));
-  float row=P.y-up;if(row<0.)return vec4(0.);
-  float a=textureLod(tx,vec2(fract(l.x/sc/WH.x),row/WH.y),0.).a;
-  vec3 sil=mix(haze,vec3(.014,.012,.03),k);
-  sil=mix(sil,haze*.8,smoothstep(70.,0.,up*sc)*.55);
-  return vec4(sil,a);
-}
 vec3 backdrop(vec2 w){
-  vec3 c=sky(w);vec4 b;
-  b=band(uSky1,uSkyP[0],w,.52,74.,2.1);c=mix(c,b.rgb,b.a);
-  b=band(uSky2,uSkyP[1],w,.84,34.,1.55);c=mix(c,b.rgb,b.a);
+  vec3 c=sky(w);
   c+=vec3(.015,.075,.095)*exp(-abs(w.y-uSump+24.)/58.);
   return c;
 }
@@ -1232,7 +1219,8 @@ vec3 world(vec2 w){
     float b0=brick(q,tn);vec2 gb=vec2(brick(q+vec2(.5,0),tn2)-brick(q-vec2(.5,0),tn2),brick(q+vec2(0,.5),tn2)-brick(q-vec2(0,.5),tn2));
     N=normalize(vec3(-(gd*2.6+ge*3.4+gb*.5*fw),1.));
     float edge=1.-smoothstep(.52,.9,e);
-    stone=pow(A.rgb,vec3(1.55))*vec3(.78,.76,.92);
+    stone=pow(A.rgb,vec3(1.25))*vec3(.8,.8,.94);
+    {float sl=lum(stone);stone=mix(stone,vec3(.27,.29,.36)*(.82+.36*h1(floor(q/2.)+3.)),smoothstep(.3,.04,sl));}
     stone*=mix(1.,(.78+.34*tn)*mix(.5,1.,b0),fw);
     // grit and grime, on the art's own pixel grid
     vec2 gp=floor(q);
@@ -1246,22 +1234,23 @@ vec3 world(vec2 w){
     stone+=vec3(.05,.055,.06)*step(abs(hw-tl),.5)*step(.3,h1(vec2(gp.x,1.)));
     stone=mix(stone,vec3(.025,.085,.075),step(td,3.5)*step(.62,vn(q*.12+5.))*step(.35,h1(gp+2.))*.6);
     float up=clamp(-N.y,0.,1.),dn=clamp(N.y,0.,1.);
-    base=(vec3(.03,.052,.082)*(.6+.8*up)+vec3(.035,.012,.045))*(1.-.4*sh);
+    base=(vec3(.07,.1,.155)*(.7+.6*up)+vec3(.03,.02,.04))*(1.-.25*sh);
+    base+=vec3(.05,.07,.11)*edge+vec3(.17,.19,.27)*edge*step(td,2.6);
     base+=vec3(.012,.07,.085)*dn*smoothstep(150.,0.,hw);
     float upl=smoothstep(140.,0.,hw);
     base+=CYA*upl*upl*(.5+1.5*dn+1.3*openB*edge)*(.8+.2*sin(uTime*1.3+q.x*.07));
     float ndm=max(dot(N,MOOND),0.);
-    base+=MOONC*(vis*(.03+1.5*ndm*ndm)+.35*ndm*ndm)*(1.-.85*sh);
+    base+=MOONC*(vis*(.03+1.25*ndm*ndm)+.3*ndm*ndm)*(1.-.8*sh);
     vec3 Hh=normalize(MOOND+vec3(0,0,1));add=MOONC*pow(max(dot(N,Hh),0.),22.)*.07*vis*l0*(1.-sh);
-    vec4 g=textureLod(uGraf,q/WH,0.);add+=g.rgb*g.a*(.5+.12*sin(uTime*2.3+q.x*.05));
-    vec4 em=textureLod(uEmis,q/WH,0.);add+=em.rgb*em.a*1.3;
+    vec4 g=textureLod(uGraf,q/WH,0.);add+=g.rgb*g.a*(.65+.08*sin(uTime*1.1+q.x*.05));
+    vec4 em=textureLod(uEmis,q/WH,0.);add+=em.rgb*em.a*1.7;
   }else if(ok>.5&&e>.4){
     // broken stone left standing inside a hole
     vec4 g=textureLod(uGuts,q/WH,0.);
     if(g.a>.3){P=1.;vec2 cc=cellC(q,GR);float tn=h1(cc*.31);
       stone=mix(vec3(.11,.1,.13),g.rgb,.5)*(.5+.6*tn);
       vec2 gg=blurG(cc,3.5);N=normalize(vec3(gg*5.,1.));
-      float ndm=max(dot(N,MOOND),0.);base=vec3(.03,.05,.075)+MOONC*(.9*ndm*ndm)*(1.-.8*textureLod(uBake,q/WH,0.).r);}
+      float ndm=max(dot(N,MOOND),0.);base=vec3(.06,.085,.13)+MOONC*(.9*ndm*ndm)*(1.-.8*textureLod(uBake,q/WH,0.).r);}
   }
   // ---- one pass over the lights serves the stone, the back wall and the air ----
   vec3 lit=vec3(0.),flt=vec3(0.),air=vec3(0.);
@@ -1270,32 +1259,42 @@ vec3 world(vec2 w){
     if(P>.5)lit+=uLC[i]*a2*max(dot(N,normalize(vec3(d,r*.2))),0.)*1.7;}}
   vec4 bw=textureLod(uBack,w/WH,0.)*inb(w);
   if(bw.a>.02&&P<.5){float csh=smoothstep(.12,.55,blr(q+ML*9.));
-    vec3 bl=vec3(.03,.045,.07)+CYA*.3*pow(smoothstep(130.,0.,uSump-w.y),2.)+MOONC*.16*(1.-csh)+flt*.35;
+    vec3 bl=vec3(.055,.075,.115)+CYA*.3*pow(smoothstep(130.,0.,uSump-w.y),2.)+MOONC*.16*(1.-csh)+flt*.35;
     float bt;float bm=brick(w+vec2(3.,2.),bt);vec3 bc=mix(bw.rgb*(.7+.4*bt)*mix(.45,1.,bm)*bl*1.3,HOR*.14,.08);c=mix(c,bc,bw.a);}
   air=air*.06+CYA*.2*exp(-(uSump-w.y)/30.);
   c+=air;
   if(P>.5)c=stone*(base+lit)+add+air*.3;
+  vec2 sp=(w-uCam)*uScale/uRes;
+  if(sp.x>0.&&sp.x<1.&&sp.y>0.&&sp.y<1.){vec4 d=textureLod(uDyn,sp,0.);
+    if(d.a>.01){float mx=max(d.r,max(d.g,d.b)),mn=min(d.r,min(d.g,d.b));
+      float emi=max(smoothstep(.5,.8,mx)*smoothstep(.18,.42,mx-mn),smoothstep(.8,.97,mn));
+      vec3 dl=vec3(.34,.38,.48)+MOONC*.18+flt*.9+CYA*.5*pow(smoothstep(110.,0.,uSump-w.y),2.);
+      vec3 dc=mix(d.rgb*min(dl,vec3(1.5))*1.25,d.rgb*1.75,emi);
+      float au=textureLod(uDyn,sp-vec2(0.,1.6/uRes.y),0.).a;dc+=mix(MOONC,vec3(.5,.6,.8),.5)*.3*step(.6,d.a)*(1.-step(.3,au))*(1.-emi);
+      c=mix(c,dc,d.a);}}
   return c;
 }
 void main(){
-  HOR=mix(vec3(.5,.045,.24),vec3(.62,.05,.06),uBleed);MOONC=mix(vec3(.9,.2,.48),vec3(1.,.16,.12),uBleed);
+  HOR=mix(vec3(.4,.07,.24),vec3(.62,.05,.06),uBleed);MOONC=mix(vec3(.74,.33,.5),vec3(1.,.2,.14),uBleed);
   vec2 w=uCam+vec2(gl_FragCoord.x,uRes.y-gl_FragCoord.y)/uScale;
   vec3 c;
-  if(w.y<uSump){c=world(w);}
+  float wl=uSump+sin(w.x*.043+uTime*1.2)*.9+sin(w.x*.117-uTime*.8)*.45;
+  if(w.y<wl){c=world(w);}
   else{
-    float d=w.y-uSump;
+    float d=w.y-wl;
     float row=floor(d);
     float jit=(h1(vec2(row,floor(uTime*5.)))-.5)*(1.5+d*.05)+sin(d*.55+uTime*1.7+w.x*.035)*(.6+d*.02);
-    vec2 m=vec2(w.x+jit,uSump-d*1.12-.5);
-    vec3 r=world(m)*vec3(.78,.92,1.05);
-    float k=.5*exp(-d/140.);
-    float brk=.62+.38*step(.36,h1(vec2(floor(w.x/5.+row*.37),row+floor(uTime*3.))));
-    c=vec3(.002,.005,.011)+r*k*brk;
+    vec2 m=vec2(w.x+jit,wl-d*1.12-.5);
+    vec3 r=world(m)*vec3(.82,.94,1.08);
+    float k=.7*exp(-d/190.);
+    float brk=.72+.28*step(.34,h1(vec2(floor(w.x/5.+row*.37),row+floor(uTime*3.))));
+    c=vec3(.006,.015,.032)+r*k*brk;
     for(int i=0;i<${NL};i++){if(i>=uNL)break;float ly=uL[i].y;if(ly>uSump)continue;float dx=abs(uL[i].x-w.x);
-      float hgt=uSump-ly;c+=uLC[i]*exp(-dx/(5.+d*.1))*exp(-d/(60.+hgt*.2))*exp(-hgt/240.)*.42*brk;}
+      float hgt=uSump-ly;c+=uLC[i]*exp(-dx/(6.+d*.12))*exp(-d/(70.+hgt*.2))*exp(-hgt/260.)*.6*brk;}
     float hg=h1(vec2(floor(w.x*.5),row+floor(uTime*4.)));c+=mix(HOR,CYA,step(.9975,hg))*step(.995,hg)*exp(-d/90.)*.8;
-    float mx_=330.+uCam.x*.92;c+=MOONC*exp(-abs(w.x-mx_)/(26.+d*.6))*step(.6,h1(vec2(floor(w.x/3.),row+floor(uTime*3.5))))*.18*exp(-d/260.);
-    if(d<1.6)c+=(r*.5+CYA*.05)*step(.5,alb(vec2(w.x,uSump-1.)).a);
+    float mx_=230.+uCam.x*.98;c+=MOONC*exp(-abs(w.x-mx_)/(30.+d*.7))*step(.55,h1(vec2(floor(w.x/3.),row+floor(uTime*3.5))))*.3*exp(-d/260.);
+    if(d<1.6)c+=(r*.5+CYA*.08)*step(.5,alb(vec2(w.x,uSump-1.5)).a);
+    vec2 sp=(w-uCam)*uScale/uRes;if(sp.x>0.&&sp.x<1.&&sp.y>0.&&sp.y<1.){vec4 dd=textureLod(uDyn,sp,0.);c=mix(c,dd.rgb*vec3(.25,.42,.6),dd.a*.55*exp(-d/22.));}
   }
   c+=vec3(.01,.05,.065)*fbm(vec2(w.x*.012-uTime*.02,w.y*.03))*exp(-abs(w.y-uSump)/55.);
   o=vec4(c,1.);
@@ -1321,7 +1320,7 @@ vec3 aces(vec3 x){return clamp((x*(2.51*x+.03))/(x*(2.43*x+.59)+.14),0.,1.);}
 void main(){vec3 c=textureLod(tC,vUv,0.).rgb;
   c+=(textureLod(tB1,vUv,0.).rgb*.6+textureLod(tB2,vUv,0.).rgb*.4+textureLod(tB3,vUv,0.).rgb*.18+textureLod(tB4,vUv,0.).rgb*.07)*.3;
   vec2 v=vUv-.5;c*=1.-dot(v,v)*1.05;
-  c=aces(c*1.02);c=pow(c,vec3(1.08,1.04,1.02));
+  c=aces(c*1.1);c=pow(c,vec3(1.05,1.03,1.01));c=mix(vec3(dot(c,vec3(.3,.59,.11))),c,.93);
   c+=(h1(gl_FragCoord.xy+fract(uTime)*91.)-.5)*.022;
   o=vec4(c,1.);}`;
   const sh=(t,s)=>{const x=gl.createShader(t);gl.shaderSource(x,s);gl.compileShader(x);if(!gl.getShaderParameter(x,gl.COMPILE_STATUS))throw new Error(gl.getShaderInfoLog(x));return x};
@@ -1333,14 +1332,20 @@ void main(){vec3 c=textureLod(tC,vUv,0.).rgb;
   gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL,false);
   c.addEventListener('webglcontextlost',e=>{e.preventDefault();LIT.ok=false;c.remove()});
   const one=()=>{const t=gl.createTexture();gl.bindTexture(gl.TEXTURE_2D,t);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,1,1,0,gl.RGBA,gl.UNSIGNED_BYTE,new Uint8Array([20,14,30,0]));return t};
-  LIT.bg={sky:one(),moon:one(),clouds:one(),far:one(),fx:one()};gl.bindTexture(gl.TEXTURE_2D,LIT.bg.fx);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);
+  LIT.bg={sky:one(),moon:one(),clouds:one(),far:one(),fx:one(),dyn:one()};for(const k of['fx','dyn']){gl.bindTexture(gl.TEXTURE_2D,LIT.bg[k]);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE)}
   for(const[k,f,rp]of[['sky','sky.jpg',0],['moon','moon.webp',0],['clouds','clouds.webp',1],['far','far.webp',1]]){const im=new Image();im.onload=()=>{if(!LIT.ok)return;gl.deleteTexture(LIT.bg[k]);const t=LIT.bg[k]=litTex(im,false);
       if(rp){gl.bindTexture(gl.TEXTURE_2D,t);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.MIRRORED_REPEAT)}};im.src='assets/bg/'+f}
   cv.parentNode.insertBefore(c,cv);LIT.ok=true;
 }
-// the game draws its sky ships, far war and searchlights on the 2D canvas first; this lifts them off into a texture the shader places behind the skyline
-function litSky(){const c=LIT.fxC||(LIT.fxC=document.createElement('canvas')),w=cv.width>>1,h=cv.height>>1;if(c.width!==w||c.height!==h){c.width=w;c.height=h}
-  const g=c.getContext('2d');g.globalCompositeOperation='copy';g.drawImage(cv,0,0,w,h);ctx.setTransform(1,0,0,1,0,0);ctx.globalCompositeOperation='source-over';ctx.globalAlpha=1;ctx.clearRect(0,0,cv.width,cv.height)}
+// The game draws in two lifts. First its skyline, haze, sky ships, far war and searchlights; then everything in the world
+// (props, troopers, shots, fire, smoke). Each lift is taken off the 2D canvas into a texture, so the shader can place it at
+// the right depth, light it and reflect it. What is left on the 2D canvas is the foreground, name tags, aim marks and rain.
+function litGrab(t){const gl=LIT.gl;gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,t);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,cv);
+  ctx.setTransform(1,0,0,1,0,0);ctx.globalCompositeOperation='source-over';ctx.globalAlpha=1;ctx.shadowBlur=0;ctx.clearRect(0,0,cv.width,cv.height)}
+function litSky(){litGrab(LIT.bg.fx)}
+function litLift(shx,shy){litGrab(LIT.bg.dyn);
+  // wreckage close to the camera, out of focus where the browser can blur
+  ctx.save();try{ctx.filter='blur('+(1.6*DPR).toFixed(1)+'px)'}catch(e){}nsDrawForeground(shx,shy);ctx.restore();ctx.filter='none'}
 function litTex(src,near){const gl=LIT.gl,t=gl.createTexture();gl.bindTexture(gl.TEXTURE_2D,t);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,src);
   const f=near?gl.NEAREST:gl.LINEAR;gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,f);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,f);
   gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);return t}
@@ -1371,7 +1376,6 @@ function litBuild(){const gl=LIT.gl,T=LIT.T;for(const k in T){gl.deleteTexture(T
   const ec=mk(W*K,H*K),eg=ec.getContext('2d');eg.imageSmoothingEnabled=false;eg.setTransform(K,0,0,K,0,0);
   for(const p of(NS.kit||[]))if(p.emis){eg.save();if(p.flip){eg.translate(p.x+p.w,p.y);eg.scale(-1,1);eg.drawImage(p.emis,0,0,p.w,p.h)}else eg.drawImage(p.emis,p.x,p.y,p.w,p.h);eg.restore()}
   T.emis=litTex(ec,true);T.back=litTex(litPatch(nsBack(),0,0,W,H),true);
-  const Ls=nsLayers();LIT.sky=[];for(let i=1;i<3;i++){const L=Ls[Math.min(i,Ls.length-1)];T['sky'+i]=litTex(L.c,false);LIT.sky.push(L.par,L.ground||L.c.height*.8,L.horizon||0)}
   LIT.blA=litTarget(W>>1,H>>1,false,false);LIT.blB=litTarget(W>>1,H>>1,false,false);LIT.bake=litTarget(W,H,false,true);
   litDerive(null);LIT.dirty=null}
 function litFlush(){const gl=LIT.gl,d=LIT.dirty;if(!d)return;LIT.dirty=null;
@@ -1381,22 +1385,27 @@ function litFlush(){const gl=LIT.gl,d=LIT.dirty;if(!d)return;LIT.dirty=null;
   gl.bindTexture(gl.TEXTURE_2D,LIT.T.soot);gl.texSubImage2D(gl.TEXTURE_2D,0,x0,y0,gl.RGBA,gl.UNSIGNED_BYTE,litPatch(scorchC,x0,y0,w,h));
   const m=48,bx=Math.max(0,x0-m),by=Math.max(0,y0-m);litDerive([bx,by,Math.min(W,x1+m)-bx,Math.min(H,y1+m)-by])}
 function litFrame(lights,shx,shy){const gl=LIT.gl,T=LIT.T;
-  const key=genTerrain.n+'|'+W+'|'+H+'|'+(NS.kit?NS.kit.length:0)+'|'+dressSeed+'|'+!!window.GRIMSPIRE_ART_READY+'|'+NS.backGen;
+  const key=genTerrain.n+'|'+W+'|'+H+'|'+(NS.kit?NS.kit.length:0)+'|'+dressSeed+'|'+!!window.GRIMSPIRE_ART_READY+'|'+NS.backGen;if(W!==LIT.W||H!==LIT.H)LIT.lm=null;
   if(key!==LIT.key){LIT.key=key;litBuild()}else litFlush();
   // the frame is drawn a little smaller than the screen on phones and stretched; the 2D canvas above stays sharp
   const cap=LIT.coarse?8.5e5:2.3e6,px=cv.width*cv.height,rs=px>cap?Math.sqrt(cap/px):1,gw=Math.round(cv.width*rs),gh=Math.round(cv.height*rs),c=LIT.cv;
   if(c.width!==gw||c.height!==gh||!LIT.rt){c.width=gw;c.height=gh;litFree(LIT.rt);LIT.rb.forEach(litFree);LIT.rt=litTarget(gw,gh,true,false);LIT.rb=[];let bw=gw,bh=gh;for(let i=0;i<4;i++){bw=Math.max(2,bw>>1);bh=Math.max(2,bh>>1);LIT.rb.push(litTarget(bw,bh,true,false))}}
   gl.disable(gl.BLEND);const S=LIT.P.scene;gl.useProgram(S.p);gl.uniform2f(S.u.WH,W,H);
   litBind(S,'uAlb',0,T.alb);litBind(S,'uGuts',1,T.guts);litBind(S,'uGraf',2,T.graf);litBind(S,'uEmis',3,T.emis);litBind(S,'uBack',4,T.back);
-  litBind(S,'uSky1',5,T.sky1);litBind(S,'uSky2',6,T.sky2);litBind(S,'uSoot',7,T.soot);litBind(S,'uBlur',8,LIT.blB.t);litBind(S,'uBake',9,LIT.bake.t);
+  litBind(S,'uSoot',5,T.soot);litBind(S,'uBlur',6,LIT.blB.t);litBind(S,'uBake',7,LIT.bake.t);
   const G=LIT.bg;litBind(S,'uSkyT',10,G.sky);litBind(S,'uMoonT',11,G.moon);litBind(S,'uCloudT',12,G.clouds);litBind(S,'uFarT',13,G.far);
-  gl.activeTexture(gl.TEXTURE14);gl.bindTexture(gl.TEXTURE_2D,G.fx);if(LIT.fxC)gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,LIT.fxC);gl.uniform1i(S.u.uFx,14);
+  litBind(S,'uFx',14,G.fx);litBind(S,'uDyn',15,G.dyn);gl.uniform1f(S.u.uHz,Math.min(sump,H*.66));
   const k=DPR*scale*rs,cx=cam.x-shx/scale,cy=cam.y-shy/scale;
   gl.uniform2f(S.u.uRes,gw,gh);gl.uniform2f(S.u.uCam,cx,cy);gl.uniform1f(S.u.uScale,k);gl.uniform1f(S.u.uTime,time);gl.uniform1f(S.u.uSump,sump);gl.uniform1f(S.u.uBleed,BLEED);
-  gl.uniform3fv(S.u.uSkyP,new Float32Array(LIT.sky));
   const NL=LIT.NL,vx=cx+gw/k/2,vy=cy+gh/k/2,vr=Math.hypot(gw,gh)/k/2;
-  const Ls=lights.filter(L=>L.i>0&&Math.hypot(L.x-vx,L.y-vy)<vr+L.r*1.7+140).sort((a,b)=>b.i*b.r-a.i*a.r).slice(0,NL);
-  const la=new Float32Array(NL*4),lc=new Float32Array(NL*3);Ls.forEach((L,i)=>{la[i*4]=L.x;la[i*4+1]=L.y;la[i*4+2]=L.r*1.7;const m=L.i*1.9/255;lc[i*3]=L.c[0]*m;lc[i*3+1]=L.c[1]*m;lc[i*3+2]=L.c[2]*m});
+  const M=LIT.lm||(LIT.lm=new Map()),dtL=Math.min(.1,Math.max(.001,time-(LIT.t0===undefined?time:LIT.t0)));LIT.t0=time;
+  for(const s of M.values())s.tg=-1;
+  for(const L of lights){if(!(L.i>0))continue;const key=(L.x/30|0)+','+(L.y/30|0)+','+(L.c[0]>>6)+(L.c[1]>>6)+(L.c[2]>>6);let s=M.get(key);
+    if(!s){s={x:L.x,y:L.y,r:L.r,c:L.c,i:0,tg:-1};M.set(key,s)}
+    if(s.tg<0){s.tg=L.i;s.x+=(L.x-s.x)*.4;s.y+=(L.y-s.y)*.4;s.r=L.r;s.c=L.c}else{s.tg=Math.min(1.5,s.tg+L.i*.2);s.r=Math.max(s.r,L.r)}}
+  for(const[k,s]of M){const tg=Math.max(0,s.tg);s.i+=(tg-s.i)*Math.min(1,dtL*(tg>s.i?16:s.tg<0?7:2.2));if(s.tg<0&&s.i<.02)M.delete(k)}
+  const Ls=[...M.values()].filter(L=>L.i>.01&&Math.hypot(L.x-vx,L.y-vy)<vr+L.r*1.7+140).sort((a,b)=>b.i*b.r-a.i*a.r).slice(0,NL);
+  const la=new Float32Array(NL*4),lc=new Float32Array(NL*3);Ls.forEach((L,i)=>{la[i*4]=L.x;la[i*4+1]=L.y;la[i*4+2]=L.r*1.7;const m=L.i*1.6/255;lc[i*3]=L.c[0]*m;lc[i*3+1]=L.c[1]*m;lc[i*3+2]=L.c[2]*m});
   gl.uniform4fv(S.u.uL,la);gl.uniform3fv(S.u.uLC,lc);gl.uniform1i(S.u.uNL,Ls.length);
   litQuad(LIT.rt);
   const D=LIT.P.down;gl.useProgram(D.p);let src=LIT.rt;for(let i=0;i<4;i++){litBind(D,'t',0,src.t);gl.uniform2f(D.u.uTx,.5/src.w,.5/src.h);gl.uniform1f(D.u.uThr,i?0:1.1);litQuad(LIT.rb[i]);src=LIT.rb[i]}
@@ -3529,7 +3538,6 @@ function render(dt){
   {const LS=NS.on?nsLayers():layers;for(let li=0;li<LS.length;li++){const Ly=LS[li];
     ctx.setTransform(DPR*scale,0,0,DPR*scale,(-cam.x*Ly.par*scale+shx*Ly.par)*DPR,(-cam.y*Ly.par*scale+shy*Ly.par)*DPR);
     skyShips(li===0?dt:0,li===0?0:1);
-    if(LITF)continue;
     if(Ly.full){nsLayerDraw(Ly,shx,shy);if(li===LS.length-1){ctx.save();ctx.setTransform(1,0,0,1,0,0);nsDrawBackPieces(shx,shy);ctx.restore()}continue}
     ctx.drawImage(Ly.c,0,0,W,H);ctx.fillStyle=Ly.col;ctx.fillRect(0,H-1,W,1800);
     for(const n of Ly.signs){if(Math.sin(time*19+n.ph*7)>.96)continue;ctx.shadowColor=n.col;ctx.shadowBlur=14;ctx.fillStyle=n.col;ctx.globalAlpha=Ly.par<.3?.5:.75;
@@ -3621,7 +3629,7 @@ function render(dt){
   if(!LITF)for(const L of lights){if(!L.h||L.i<=0)continue;const r=L.r*1.2,gr=ctx.createRadialGradient(L.x,L.y,0,L.x,L.y,r);gr.addColorStop(0,rgba(L.c,L.h*L.i));gr.addColorStop(1,rgba(L.c,0));ctx.fillStyle=gr;ctx.fillRect(L.x-r,L.y-r,r*2,r*2)}
   ctx.globalCompositeOperation='source-over';
   // sump
-  if(LITF){litSump()}else if(NS.on){nsWater(lights,WT);ctx.save();nsDrawForeground(shx,shy);ctx.restore();ctx.setTransform(...WT)}else{
+  if(LITF){litLift(shx,shy);ctx.setTransform(...WT)}else if(NS.on){nsWater(lights,WT);ctx.save();nsDrawForeground(shx,shy);ctx.restore();ctx.setTransform(...WT)}else{
   ctx.fillStyle='#030406';ctx.fillRect(0,sump,W,H+1600);
   ctx.strokeStyle='rgba(150,180,235,.45)';ctx.lineWidth=1.3;ctx.beginPath();
   for(let x=0;x<=W;x+=10){const y=sump+Math.sin(x*.03+time*2)*1.8+Math.sin(x*.011-time*1.3)*1.2;x===0?ctx.moveTo(x,y):ctx.lineTo(x,y)}ctx.stroke();

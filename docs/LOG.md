@@ -16,6 +16,15 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
   - **Jagged blast holes, in the sim.** `carve` with radius 9 or more now breaks along an angular outline with three bitten-out lobes and stepped notches (`jagCarve`), not a circle. This changes every map for every renderer, so **GV is 38**. It uses integer hashing and a fixed direction table only (no trig); `dsim.py` and `dsim2.py` run identical, `det.py` still matches `main` (map generation doesn't carve). Small carves and `carveLine` are unchanged. Blast damage still uses the plain radius.
   - **Painted far background** from ChatGPT's stacked layers (sky, moon, clouds, far city), stored as small files in `assets/bg/` and loaded only in lit mode. The sky is fixed to the screen; the moon, clouds and far city barely move with the camera. The game's own pixel skyline is now two bands, drawn larger and higher in front of the far city.
   - **Sky ships, the far war and searchlights** are back in lit mode: the game draws them as before and the shader places them behind the skyline.
+- **Third pass, same day (still GV 38, no sim change):** a step back after Jarred's playtest.
+  - **Readable land:** dark stone is lifted to a mid value before lighting, ambient is cooler and stronger, and every edge facing open air gets a pale rim (brighter on tops you can stand on). The hill maps no longer go black.
+  - **Calmer colour:** moonlight and haze are less saturated so windows, lamps and graffiti stand apart again; slight overall desaturation in the grade.
+  - **Skyline is the live game's own:** lit mode now lets the game draw its skyline bands, haze, back pieces, sky ships, far war and searchlights exactly as on `main`, lifts them into a texture and puts them behind the stone. ChatGPT's far city sits behind that on the same horizon, hazed, desaturated and faded; it no longer rises when zoomed out. The moon is a soft bright disc whose glow carries through the haze.
+  - **Everything in the world is lit:** props, troopers, shots, fire and smoke are lifted off the 2D canvas into a second texture; the shader lights them, rims them, reflects them in the water and blooms the bright ones. Name tags, aim marks, rain and the foreground stay on the 2D canvas.
+  - **Water:** a slight swell on the waterline, deeper blue body, stronger reflections and light streaks; things under the surface show faintly.
+  - **Lights:** merged by place and colour and eased over time, so fixtures and fire no longer strobe or pop in and out.
+  - **Foreground:** the game's existing foreground wreckage is back in lit mode, blurred where the browser supports canvas blur. Heads and statues in the water need art (see Ask).
+- **Ask (ChatGPT):** foreground pieces for the water at set-piece size: two fallen saint heads, a toppled statue, two rock or rubble clusters. Flat near-black body, no painted light, baseline and sink depth in the notes.
 - **Ask (Jarred):** play it on desktop and phone and say whether it's worth the second stop (troopers, props and effects lit by the same shader).
 
 ## 2026-11-08 · Claude · Collapse sandbox, first pass (private test page)
