@@ -6,6 +6,11 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-11 · ChatGPT · Terrain Height visual review and texture cleanup
+- Compared all 39 new Body and Height drafts side by side, plus an approximate directional-light preview. This is an offline art review, not the game's shader or an in-game test.
+- The masonry broadly follows the painted structure. R05–R09 and K16 contain paint texture that the first pass interprets as relief: saved six `Height texture cleanup` versions on `art/weapon-lab` (`0b3bc10`) removing isolated 1–2 pixel Height specks from interior areas. Body, dimensions, alpha and existing versions retained. Larger texture regions remain and still need in-game judgment; the cleanup is deliberately conservative.
+- R01–R04 showed no such isolated components under this cleanup. K09's wood grain and the depth of large shaded areas on R05–R09 and K10–K17 remain uncertain. Preview is an approximation: lighting, normal direction and scale must be judged using the actual game shader, ideally on the full-kit test requested below. No release or visual approval claimed.
+
 ## 2026-11-11 · ChatGPT · Terrain Height first passes saved
 - Jarred tested K05 and reports it looks sharper; wants to judge the overall look with the kit together. This is direction to continue, not approval to release.
 - Saved 39 additional first-pass Height versions under their existing Forge assets on `art/weapon-lab`, commit `b097987`: K01–K04 and variants, K05a–d, K06–K09 and variants, K10–K17, R01–R09. K05 was saved previously. Original art dimensions, Body, other layers and asset identity retained; alpha, content hashes, and matching Body edge columns checked. These are script-derived drafts, not completed hand passes or in-game visual approvals.
