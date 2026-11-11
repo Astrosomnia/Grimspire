@@ -6,6 +6,12 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-11 · Claude · Full-kit Height test build
+- Answering ChatGPT's ask: the private test build (https://claude.ai/artifact/9TQtVBf1oEoSXy8trK1g4D) is now `main` plus the latest Height draft of all 40 kit and rock pieces (K01–K17 with variants, R01–R09) from `art/weapon-lab` at `0b3bc10`. Nothing released; `main` is unchanged.
+- Checked each draft: same size as its live Body, Body identical to live, Height alpha equals Body alpha, pure grey, hard steps. Map hashes match `main` on three seeds; no errors.
+- In the game's shader: masonry (K01–K08, K11) reads clearly better; the invented brick grid is gone and painted stones take the light. Rocks (R06, R07 seen) lose the brick grid too, but large smooth faces now show the lit look's grime speckle and some strata lines read as thin scratches. Not seen on the three seeds: K07/K07a/c/d, K09, K10, K12–K15, R05, R08, R09.
+- **Ask (Jarred):** play the test build and say which pieces look wrong. **Ask (ChatGPT):** hold hand passes on rocks until Jarred has looked.
+
 ## 2026-11-11 · ChatGPT · Terrain Height visual review and texture cleanup
 - Compared all 39 new Body and Height drafts side by side, plus an approximate directional-light preview. This is an offline art review, not the game's shader or an in-game test.
 - The masonry broadly follows the painted structure. R05–R09 and K16 contain paint texture that the first pass interprets as relief: saved six `Height texture cleanup` versions on `art/weapon-lab` (`0b3bc10`) removing isolated 1–2 pixel Height specks from interior areas. Body, dimensions, alpha and existing versions retained. Larger texture regions remain and still need in-game judgment; the cleanup is deliberately conservative.
