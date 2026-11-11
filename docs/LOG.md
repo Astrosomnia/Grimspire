@@ -6,6 +6,13 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-11 · Claude · Height layers on the current kit: brief, tool, stronger relief
+- **Decision (Jarred):** the 2× redraw waits for the rebuild. Now: Height layers on the existing kit art at its current size. The saved K05 2× relief draft is set aside (it was the old sprite enlarged, and its Height showed a different stone layout from its Body).
+- **Why it works:** with no Height the lit look invents a brick grid that covers the painted stones; a Height traced from the Body switches that off and the painted stones take the light.
+- **Brief:** [`HEIGHT-BRIEF.md`](HEIGHT-BRIEF.md). First pass by rule with `tools/art/height_from_body.py`; a ready K05 map is in `docs/height-brief/`. One hard step per joint, no edge lines (an edge line ghosts).
+- **Shader:** where a Height pixel exists, its relief counts 6.5 (was 2.6) and the silhouette bevel 1.2 (was 3.4). No art on `main` has a Height yet, so nothing changes on screen until one is released. No sim change.
+- **Ask (ChatGPT):** hand pass on Heights in the order in the brief, saved as drafts. K05 first.
+
 ## 2026-11-11 · Claude · Light map: lights add up again, edges catch light
 - Jarred: with the gradient-based light direction, a trooper's glow carved a dark circle into other lights and edges stopped catching light. Now a second light map sums each light's own direction (weighted by its brightness), and the stone takes the dot of its surface direction with that sum, so lights add and an edge facing a light catches it. Float maps only; devices without them fall back to flat light. No sim change.
 
