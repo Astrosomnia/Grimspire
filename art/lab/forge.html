@@ -273,8 +273,8 @@ dialog.wide{max-width:min(1180px,96vw);width:96vw}
       <p id="askOut" class="review" hidden></p>
     </section>
     <section class="pan" data-tab="trace">
-      <header><h2>Trace</h2><div class="row"><button id="tLoad">Load image</button></div></header>
-      <input id="tFile" type="file" accept="image/*" hidden>
+      <header><h2>Trace</h2><div class="row"><button id="tLoad">Load image</button><button id="tExact" title="Put a PNG onto the active layer pixel for pixel. It must be exactly the sprite's size. Undo works.">PNG to layer</button></div></header>
+      <input id="tFile" type="file" accept="image/*" hidden><input id="tExactFile" type="file" accept="image/png" hidden>
       <div id="traceCtl" class="palgrp" hidden>
         <div class="row"><span class="lbl">Opacity</span><input id="tOp" type="range" min="0" max="1" step="0.01" style="flex:1"></div>
         <div class="row"><span class="lbl">Scale</span><input id="tScale" type="range" min="-4" max="3" step="0.01" style="flex:1"><span class="num" id="tScaleLbl"></span></div>
@@ -286,6 +286,7 @@ dialog.wide{max-width:min(1180px,96vw);width:96vw}
         <p class="note" style="margin:0">With the trace tool (T): drag to move, Shift-drag to rotate, Alt-drag to scale. Bake samples the image into Body, Guts or Height (when active) inside the selection.</p>
       </div>
       <p class="note" id="traceHint" style="margin:0">Drop or paste a reference image onto the plate to trace over it.</p>
+        <p class="note" style="margin:0">PNG to layer replaces the active layer of this frame with a PNG of the same size, pixel for pixel (no scaling or recolouring). To copy one layer onto another: Ctrl+C with nothing selected, switch layer, Ctrl+V, Enter.</p>
     </section>
   </aside>
 </div>
@@ -1128,7 +1129,15 @@ function wire(){
   $('#xFile').onchange=async e=>{const f=e.target.files[0];if(!f)return;try{await deserialise(JSON.parse(await f.text()));$('#dExport').close();status('Imported '+doc.name)}catch(err){status(err.message)}e.target.value=''};
   $('#xPasteGo').onclick=async()=>{try{await deserialise(JSON.parse($('#xPaste').value));$('#dExport').close();status('Imported '+doc.name)}catch(err){status('Couldn’t read that: '+err.message)}};
   // trace
-  $('#tLoad').onclick=()=>$('#tFile').click();$('#tFile').onchange=e=>{const f=e.target.files[0];if(f)setTraceFromBlob(f);e.target.value=''};
+  // exact import: a PNG of the sprite's own size goes onto the active layer untouched
+    $('#tExact').onclick=()=>$('#tExactFile').click();
+    $('#tExactFile').onchange=async e=>{const f=e.target.files[0];e.target.value='';if(!f)return;
+      try{const bmp=await createImageBitmap(f,{premultiplyAlpha:'none',colorSpaceConversion:'none'});
+        if(bmp.width!==doc.w||bmp.height!==doc.h){status(`That PNG is ${bmp.width}×${bmp.height}; this sprite is ${doc.w}×${doc.h}. Nothing changed`);return}
+        const c=document.createElement('canvas');c.width=doc.w;c.height=doc.h;const g=c.getContext('2d',{willReadFrequently:true});g.drawImage(bmp,0,0);
+        const d=g.getImageData(0,0,doc.w,doc.h).data;commitFloat();pushPx([layer]);const px=doc.frames[fi][layer];px.set(d);touch(px);
+        status(`PNG placed on ${LAYERS.find(l=>l.k===layer)?.n||layer}, pixel for pixel. Ctrl+Z undoes it`)}catch(err){status('Couldn’t read that PNG: '+err.message)}};
+    $('#tLoad').onclick=()=>$('#tFile').click();$('#tFile').onchange=e=>{const f=e.target.files[0];if(f)setTraceFromBlob(f);e.target.value=''};
   $('#tOp').oninput=e=>{trace.op=+e.target.value;need()};$('#tOp').onchange=()=>saveTraceMeta();
   $('#tScale').oninput=e=>{trace.s=2**+e.target.value;$('#tScaleLbl').textContent=trace.s.toFixed(3);need()};$('#tScale').onchange=()=>saveTraceMeta();
   $('#tRot').oninput=e=>{trace.r=+e.target.value;$('#tRotLbl').textContent=Math.round(trace.r)+'°';need()};$('#tRot').onchange=()=>saveTraceMeta();
