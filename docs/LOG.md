@@ -6,6 +6,10 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-11 · Claude · Lit look on phones: glow survives zoom-out, lighter frame
+- **Bloom keeps small bright pixels:** the first bloom step now keeps the brightest of each 2×2 block instead of only the average, so visors, rims and small lamps keep their glow when zoomed out or at phone resolution (they were averaging below the bloom threshold and switching off).
+- **Phones only:** draws about 650k pixels (was 850k), uses 10 lights (was 14), and the water's reflection skips per-pixel lights and haze noise in the mirrored world. Desktop unchanged. No sim change.
+
 ## 2026-11-11 · Claude · `#fps` frame counter
 - Add `#fps` to the address (combine with others as `#fps&classic`) for a small counter under the left health bar: frames per second, the worst frame in each half second, which renderer is running, and the pixel size it draws at. Display only; no sim change.
 

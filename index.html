@@ -1152,7 +1152,7 @@ function litInit(){
   const c=document.createElement('canvas');c.id='glc';c.style.cssText='position:fixed;inset:0;width:100%;height:100%;display:block';
   const gl=c.getContext('webgl2',{antialias:false,alpha:false,powerPreference:'high-performance'});if(!gl||!NS.on){LIT.on=false;return}
   LIT.gl=gl;LIT.cv=c;LIT.hdr=!!gl.getExtension('EXT_color_buffer_float');gl.getExtension('OES_texture_float_linear');
-  LIT.coarse=matchMedia('(pointer:coarse)').matches;const NL=LIT.NL=LIT.coarse?14:24;
+  LIT.coarse=matchMedia('(pointer:coarse)').matches;const NL=LIT.NL=LIT.coarse?10:24;
   const VS=`#version 300 es
 in vec2 p;out vec2 vUv;void main(){vUv=p*.5+.5;gl_Position=vec4(p,0.,1.);}`;
   const COMMON=`#version 300 es
@@ -1172,7 +1172,7 @@ out vec4 o;
 const vec3 MOOND=vec3(-.39,-.87,.3);
 const vec3 CYA=vec3(.08,.62,.72);
 const vec2 GR=vec2(8.,5.);
-vec3 HOR,MOONC;
+vec3 HOR,MOONC;bool LOWR=false;uniform float uLow;
 float lum(vec3 c){return dot(c,vec3(.3,.59,.11));}
 float inb(vec2 w){return step(0.,w.x)*step(w.x,WH.x)*step(0.,w.y)*step(w.y,WH.y);}
 vec4 alb(vec2 w){return textureLod(uAlb,w/WH,0.)*inb(w);}
@@ -1193,7 +1193,7 @@ vec3 sky(vec2 w){
   vec3 c=mix(vec3(.018,.022,.05),vec3(.1,.05,.14),smoothstep(.0,.62,t));
   c=mix(c,vec3(.3,.09,.2),smoothstep(.5,1.,t)*(1.-.35*smoothstep(.2,.9,abs(hx))));
   c=mix(c,c*vec3(.7,.95,1.25),smoothstep(.45,1.,sp.x)*.5);
-  c+=vec3(.012,.008,.02)*(fbm(vec2(sp.x*3.,sp.y*9.)+uTime*.01)-.5);
+  if(!LOWR)c+=vec3(.012,.008,.02)*(fbm(vec2(sp.x*3.,sp.y*9.)+uTime*.01)-.5);
   c=mix(c,lum(c)*vec3(2.1,.3,.24),uBleed*.75);
   // the moon is a light: a soft bright disc, little surface detail
   vec2 l=w-uCam*.98;vec2 mc=l-vec2(230.,92.);vec2 m=mc/118.+.5;float md=length(mc);
@@ -1283,7 +1283,7 @@ vec3 world(vec2 w){
   // ---- one pass over the lights serves the stone, the back wall and the air ----
   vec3 lit=vec3(0.),flt=vec3(0.),air=vec3(0.);const vec3 SPC=vec3(.75,.85,1.);
   if(P>.5)lit+=SPC*spot(q,N,1.)*1.1;flt+=SPC*spot(w,vec3(0,0,1),0.)*.5;
-  for(int i=0;i<${NL};i++){if(i>=uNL)break;vec2 d=uL[i].xy-w;float r=uL[i].z,qq=dot(d,d)/(r*r);if(qq<1.){float a=1.-qq,a2=a*a;
+  for(int i=0;i<${NL};i++){if(i>=uNL||LOWR)break;vec2 d=uL[i].xy-w;float r=uL[i].z,qq=dot(d,d)/(r*r);if(qq<1.){float a=1.-qq,a2=a*a;
     flt+=uLC[i]*a2;air+=uLC[i]*a2*a;
     if(P>.5)lit+=uLC[i]*a2*max(dot(N,normalize(vec3(d,r*.2))),0.)*1.7;}}
   vec4 bw=textureLod(uBack,w/WH,0.)*inb(w);
@@ -1314,7 +1314,7 @@ void main(){
     float row=floor(d);
     float jit=(h1(vec2(row,floor(uTime*5.)))-.5)*(1.5+d*.05)+sin(d*.55+uTime*1.7+w.x*.035)*(.6+d*.02);
     vec2 m=vec2(w.x+jit,wl-d*1.12-.5);
-    vec3 r=world(m)*vec3(.82,.94,1.08);
+    LOWR=uLow>.5;vec3 r=world(m)*vec3(.82,.94,1.08);LOWR=false;
     float k=.7*exp(-d/190.);
     float brk=.72+.28*step(.34,h1(vec2(floor(w.x/5.+row*.37),row+floor(uTime*3.))));
     c=vec3(.006,.015,.032)+r*k*brk;
@@ -1342,8 +1342,8 @@ void main(){vec2 q=floor(vUv*WH)+.5;float air=0.,sh=0.;
   float td=1.;for(int k=1;k<9;k++){if(msk(q-vec2(0.,float(k)*3.))<.5){td=float(k)*3./27.;break;}}
   o=vec4(sh,vis,td,1.-blr(q+vec2(0.,7.)));}`;
   const FS_DOWN=COMMON+`uniform sampler2D t;uniform vec2 uTx;uniform float uThr;in vec2 vUv;out vec4 o;
-void main(){vec3 c=(textureLod(t,vUv+uTx*vec2(-1,-1),0.).rgb+textureLod(t,vUv+uTx*vec2(1,-1),0.).rgb+textureLod(t,vUv+uTx*vec2(-1,1),0.).rgb+textureLod(t,vUv+uTx*vec2(1,1),0.).rgb)*.25;
-  if(uThr>0.){float l=max(c.r,max(c.g,c.b));c*=smoothstep(uThr,uThr+.5,l);}o=vec4(c,1.);}`;
+void main(){vec3 a=textureLod(t,vUv+uTx*vec2(-1,-1),0.).rgb,b=textureLod(t,vUv+uTx*vec2(1,-1),0.).rgb,d=textureLod(t,vUv+uTx*vec2(-1,1),0.).rgb,e=textureLod(t,vUv+uTx*vec2(1,1),0.).rgb;vec3 c=(a+b+d+e)*.25;
+  if(uThr>0.){vec3 m=max(max(a,b),max(d,e));float l=max(m.r,max(m.g,m.b));c=mix(c,m,.6)*smoothstep(uThr,uThr+.5,l);}o=vec4(c,1.);}`;
   const FS_FINAL=COMMON+`uniform sampler2D tC,tB1,tB2,tB3,tB4;uniform float uTime,uAM;in vec2 vUv;out vec4 o;
 vec3 aces(vec3 x){return clamp((x*(2.51*x+.03))/(x*(2.43*x+.59)+.14),0.,1.);}
 void main(){vec3 c=textureLod(tC,vUv,0.).rgb;
@@ -1471,7 +1471,7 @@ function litFrame(lights,shx,shy){const gl=LIT.gl,T=LIT.T;
   const key=genTerrain.n+'|'+W+'|'+H+'|'+(NS.kit?NS.kit.length:0)+'|'+dressSeed+'|'+!!window.GRIMSPIRE_ART_READY+'|'+NS.backGen;if(W!==LIT.W||H!==LIT.H)LIT.lm=null;
   if(key!==LIT.key){LIT.key=key;litBuild()}else litFlush();
   // the frame is drawn a little smaller than the screen on phones and stretched; the 2D canvas above stays sharp
-  const cap=LIT.coarse?8.5e5:2.3e6,px=cv.width*cv.height,rs=px>cap?Math.sqrt(cap/px):1,gw=Math.round(cv.width*rs),gh=Math.round(cv.height*rs),c=LIT.cv;
+  const cap=LIT.coarse?6.5e5:2.3e6,px=cv.width*cv.height,rs=px>cap?Math.sqrt(cap/px):1,gw=Math.round(cv.width*rs),gh=Math.round(cv.height*rs),c=LIT.cv;
   if(c.width!==gw||c.height!==gh||!LIT.rt){c.width=gw;c.height=gh;litFree(LIT.rt);LIT.rb.forEach(litFree);LIT.rt=litTarget(gw,gh,true,false);LIT.rb=[];let bw=gw,bh=gh;for(let i=0;i<4;i++){bw=Math.max(2,bw>>1);bh=Math.max(2,bh>>1);LIT.rb.push(litTarget(bw,bh,true,false))}}
   gl.disable(gl.BLEND);const S=LIT.P.scene;gl.useProgram(S.p);gl.uniform2f(S.u.WH,W,H);
   litBind(S,'uAlb',0,T.alb);litBind(S,'uGuts',1,T.guts);litBind(S,'uGraf',2,T.graf);litBind(S,'uEmis',3,T.emis);litBind(S,'uBack',4,T.back);
@@ -1482,7 +1482,7 @@ function litFrame(lights,shx,shy){const gl=LIT.gl,T=LIT.T;
   const G=LIT.bg;litBind(S,'uMoonT',11,G.moon);litBind(S,'uCloudT',12,G.clouds);litBind(S,'uFarT',13,G.far);
   litBind(S,'uFx',14,G.fx);litBind(S,'uDyn',15,G.dyn);gl.uniform1f(S.u.uHz,Math.min(sump,H*.66));
   const k=DPR*scale*rs,cx=cam.x-shx/scale,cy=cam.y-shy/scale;
-  gl.uniform2f(S.u.uRes,gw,gh);gl.uniform2f(S.u.uCam,cx,cy);gl.uniform1f(S.u.uScale,k);gl.uniform1f(S.u.uTime,time);gl.uniform1f(S.u.uSump,sump);gl.uniform1f(S.u.uBleed,BLEED);
+  gl.uniform2f(S.u.uRes,gw,gh);gl.uniform2f(S.u.uCam,cx,cy);gl.uniform1f(S.u.uScale,k);gl.uniform1f(S.u.uTime,time);gl.uniform1f(S.u.uSump,sump);gl.uniform1f(S.u.uBleed,BLEED);gl.uniform1f(S.u.uLow,LIT.coarse?1:0);
   const NL=LIT.NL,vx=cx+gw/k/2,vy=cy+gh/k/2,vr=Math.hypot(gw,gh)/k/2;
   const M=LIT.lm||(LIT.lm=new Map()),dtL=Math.min(.1,Math.max(.001,time-(LIT.t0===undefined?time:LIT.t0)));LIT.t0=time;
   for(const s of M.values())s.tg=-1;
