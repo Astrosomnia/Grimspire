@@ -6,6 +6,13 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-10 · Claude · Doomsday Shell starts sudden death; fallout burns continuously; antimatter tweaks (GV 42, branch `lit`)
+- **Doomsday Shell:** detonating it starts sudden death on the spot (sky bleeds, the sump rises every round from now on) and raises the sump one sudden-death step at once (13 px per squad, was a flat 26). Its fallout zone is 1.45× the blast radius (was 1.02×) and its centre sits a quarter-radius below the blast, so it reaches the ground under an airburst.
+- **Fallout** now hurts all the time: 3 damage every 1.75 s to anyone inside (scaled down as the zone decays over its 10 turns), with a Geiger crackle, instead of 8 once at the start of your turn. Tunable: `FALLOUT.tick`, `RAD_TICK`.
+- **Antimatter Grenade:** the pulse is now a short sine WHUM with no noise, and the sound and music dip to near silence for a second afterwards. The flash holds black and white for 0.3 s, then colour seeps back through ultraviolet over 0.8 s (classic look: desaturated, then violet).
+- **Forge height layer:** branch `codex/forge-height-layer-20261110` exists but has no commits beyond `art/weapon-lab` yet.
+- `det.py` matches `main`; `dsim.py`, `dsim2.py` identical. Balance Sheet at merge: Doomsday zone size and fallout tick.
+
 ## 2026-11-10 · Claude · Antimatter Grenade; steadier neon (GV 41, branch `lit`)
 - **Antimatter Grenade** (was the Sun Grenade; id `sun` unchanged, same damage, radius and fuse). When the fuse runs out it stops and collapses inward for 0.32 s (a shrinking black core with a bright rim, motes and light pulled in, a rising suck sound), then bursts with an electric pulse instead of a bang. For a split second after, the screen goes pure black and white, then ultraviolet. The collapse delays the blast, so **GV 41**. The Forge's W13 art name still says Sun Grenade; rename it there.
 - **Neon fixtures** burn steady and only flicker in occasional bad patches (faulty ones more often), instead of dipping several times a second. Lit mode lets a flicker snap rather than fade.

@@ -1334,8 +1334,9 @@ void main(){vec3 c=textureLod(tC,vUv,0.).rgb;
   c+=(textureLod(tB1,vUv,0.).rgb*.6+textureLod(tB2,vUv,0.).rgb*.4+textureLod(tB3,vUv,0.).rgb*.18+textureLod(tB4,vUv,0.).rgb*.07)*.3;
   vec2 v=vUv-.5;c*=1.-dot(v,v)*1.05;
   c=aces(c*1.1);c=pow(c,vec3(1.05,1.03,1.01));c=mix(vec3(dot(c,vec3(.3,.59,.11))),c,.93);
-  if(uAM>0.){float l=dot(c,vec3(.3,.59,.11));
-    if(uAM>.22)c=vec3(step(.3,l));else c=mix(c,vec3(.45,.22,1.)*smoothstep(.02,.5,l)*1.6+vec3(.9,.85,1.)*step(.6,l),uAM/.22);}
+  if(uAM>0.){float l=dot(c,vec3(.3,.59,.11)),k=clamp(uAM/.8,0.,1.);
+    vec3 bw=vec3(smoothstep(.24,.34,l));vec3 uv=vec3(.42,.24,1.)*smoothstep(.03,.45,l)*1.5+vec3(.85,.8,1.)*step(.55,l);
+    c=uAM>.8?bw:mix(c,mix(uv,bw,k*k),smoothstep(0.,.6,k));}
   c+=(h1(gl_FragCoord.xy+fract(uTime)*91.)-.5)*.022;
   o=vec4(c,1.);}`;
   const sh=(t,s)=>{const x=gl.createShader(t);gl.shaderSource(x,s);gl.compileShader(x);if(!gl.getShaderParameter(x,gl.COMPILE_STATUS))throw new Error(gl.getShaderInfoLog(x));return x};
@@ -1936,7 +1937,14 @@ function sfx(k,r){
   switch(k){
     case'boom':noise(1.1,380+r*8,.9);tone(95,28,.7,.55);break;
     case'amSuck':tone(90,900,.3,.16,'sawtooth');tone(45,180,.3,.2);noise(.3,7000,.12,'highpass');break;
-    case'amPulse':tone(38,160,.16,.7);tone(160,30,.9,.6);tone(220,55,.5,.16,'square');tone(1700,120,.35,.06,'sawtooth');noise(.5,900,.35,'bandpass');break;
+    case'amPulse':{if(!AC||!soundOn())break;const t0=AC.currentTime,o=AC.createOscillator(),o2=AC.createOscillator(),g=AC.createGain(),lp=AC.createBiquadFilter();
+      lp.type='lowpass';lp.frequency.value=420;o.type='sine';o2.type='triangle';
+      o.frequency.setValueAtTime(52,t0);o.frequency.exponentialRampToValueAtTime(130,t0+.045);o.frequency.exponentialRampToValueAtTime(30,t0+.2);
+      o2.frequency.setValueAtTime(104,t0);o2.frequency.exponentialRampToValueAtTime(260,t0+.045);o2.frequency.exponentialRampToValueAtTime(60,t0+.2);
+      g.gain.setValueAtTime(.0001,t0);g.gain.exponentialRampToValueAtTime(1,t0+.035);g.gain.exponentialRampToValueAtTime(.0001,t0+.22);
+      o.connect(g);o2.connect(lp).connect(g);g.connect(bus());o.start(t0);o2.start(t0);o.stop(t0+.24);o2.stop(t0+.24);
+      const b=bus().gain;b.cancelScheduledValues(t0);b.setValueAtTime(VOL.sfx,t0+.22);b.linearRampToValueAtTime(VOL.sfx*.1,t0+.27);b.linearRampToValueAtTime(VOL.sfx,t0+1.3);
+      if(MUS.out){const m=MUS.out.gain;m.cancelScheduledValues(t0);m.setTargetAtTime(MVOL*VOL.mus*.08,t0+.2,.02);m.setTargetAtTime(MVOL*VOL.mus,t0+.8,.3)}break}
     case'nuke':noise(2.6,240,1);tone(70,18,2.2,.8);break;
     case'launch':noise(.25,1600,.35);tone(320,110,.22,.12,'square');break;
     case'rail':noise(.09,7000,.35);tone(1500,180,.14,.1,'sawtooth');break;
@@ -1955,6 +1963,7 @@ function sfx(k,r){
     case'lance':tone(80,1200,.95,.12,'sawtooth');break;
     case'flame':noise(1.7,1400,.35,'bandpass');noise(1.7,500,.25);break;
     case'rise':tone(55,38,2.4,.35,'sawtooth');noise(2.4,200,.3);break;
+    case'geiger':for(let i=0;i<5;i++)setTimeout(()=>noise(.012,5200,.22,'highpass'),i*38+RR()*30);break;
     case'ship':noise(3.2,300,.35);tone(90,70,3,.12,'sawtooth');break;
     case'pickup':tone(520,1040,.18,.08,'triangle');setTimeout(()=>tone(780,1560,.2,.06,'triangle'),90);break;
     case'chute':noise(.4,2500,.1,'highpass');break;
@@ -2023,7 +2032,6 @@ function beginTurn(){
   S.moved=false;S.swapped=false;S.second=false;S.ticked=false;S.mobile=false;S.rb=0;S.saw=S.mini=S.drone=S.pod=null;S.stag=!!(S.active&&S.active.stag);if(S.active)S.active.stag=false;S.armed=isCPU()||(S.mode!=='online'&&S.mode!=='hot');
   if(!hasAmmo(curW())||WP[S.weapon[S.team]].kind==='jet'||WP[S.weapon[S.team]].kind==='rope')S.weapon[S.team]=S.lastAtk[S.team];
   S.shots=curW().shots||1;S.wind=Math.round(rnd(-1,1)*10)/10;AI.stage=0;AI.t=0;AI.gen=null;AI.plan=null;AI.cover=null;AI.replanned=false;AI.noised=false;AI.err=null;AI.stuck=0;AI.roped=false;
-  for(const o of troopers)if(o.alive&&o.team===S.team&&zones.some(z=>inZone(o,z)))irradiate(o);
   if(S.stag)texts.push({x:S.active.x,y:S.active.y-58,txt:'Staggered · no moving this turn',life:2.4,col:BONE,small:true});
   // Faction and trooper intro; active UI colour carries turn ownership.
   {const al=S.cfg&&S.cfg.teams?S.order.find(f=>f!==S.team&&S.ally[f]===S.ally[S.team]):undefined,with_=al!==undefined?' · with '+TEAM[al].name:'';
@@ -2214,7 +2222,7 @@ function updRope(t,dt,ctrl){const r=t.rope;
   [t.x,t.y]=ropePos(r,r.a,r.L);
   if(t.y>sump-2){t.rope=null;enterWater(t)}}
 let corpses=[],zones=[],sentries=[];
-const FALLOUT={dmg:8,turns:10},RAD=[150,255,60];
+const FALLOUT={dmg:8,tick:3,turns:10},RAD=[150,255,60];
 const LAST=[['kneel',.3],['stagger',.25],['salute',.2],['martyr',.25]];
 function killTrooper(t){t.alive=false;t.rope=null;deathCam(t.x,t.y,DEATH_HOLD);let r=Math.random(),k='kneel';for(const[n,p]of LAST){if(r<p){k=n;break}r-=p}
   corpses.push({x:t.x,y:t.y,face:t.face,team:t.team,aim:t.aim,kind:k,t:0,done:false,anim:0,moving:false,tilt:0,sq:0});
@@ -2228,7 +2236,10 @@ function corpsePose(c){const t=c.t,f=c.face,ease=(a,b,u)=>a+(b-a)*Math.max(0,Mat
 const zoneR=z=>z.r0;const zoneK=z=>.35+.65*z.left/FALLOUT.turns;
 const inZone=(t,z)=>Math.hypot(t.x-z.x,(t.y-8)-z.y)<zoneR(z);
 function irradiate(t){if(t.radT===S.turnN||!t.alive)return;t.radT=S.turnN;hurt(t,FALLOUT.dmg,true);for(let i=0;i<8;i++)parts.push({k:'mote',x:t.x+rnd(-6,6),y:t.y-rnd(0,20),vx:rnd(-10,10),vy:rnd(-40,-10),life:rnd(.5,1),max:1,col:'#9dff3c'})}
-function updZones(dt){for(const z of zones){const R=zoneR(z);if(Math.random()<.5)parts.push({k:'mote',x:z.x+rnd(-R,R),y:z.y+rnd(-R*.5,R*.5),vx:rnd(-6,6),vy:rnd(-22,-6),life:rnd(.8,1.8),max:1.8,col:'#9dff3c'});
+const RAD_TICK=1.75;
+function updZones(dt){for(const t of troopers){if(!t.alive)continue;const z=zones.find(z=>inZone(t,z));if(!z){t.radAcc=0;continue}
+    t.radAcc=(t.radAcc||0)+dt;if(t.radAcc>=RAD_TICK){t.radAcc-=RAD_TICK;hurt(t,Math.max(1,Math.round(FALLOUT.tick*zoneK(z))),true);sfx('geiger');
+      for(let i=0;i<6;i++)parts.push({k:'mote',x:t.x+rnd(-6,6),y:t.y-rnd(0,20),vx:rnd(-10,10),vy:rnd(-40,-10),life:rnd(.5,1),max:1,col:'#9dff3c'})}}for(const z of zones){const R=zoneR(z);if(Math.random()<.5)parts.push({k:'mote',x:z.x+rnd(-R,R),y:z.y+rnd(-R*.5,R*.5),vx:rnd(-6,6),vy:rnd(-22,-6),life:rnd(.8,1.8),max:1.8,col:'#9dff3c'});
   const a=S.active;if(a&&a.alive&&(S.phase==='aim'||S.phase==='retreat')&&inZone(a,z))irradiate(a)}}
 function updCorpses(dt){for(const c of corpses){if(c.done)continue;c.t+=dt;corpsePose(c);
   if(c.kind==='martyr'){if(c.t>.5&&Math.random()<.4)sparks(c.x,c.y-14,1);if(c.t>=1.3){c.done=true;explode(c.x,c.y-6,30,20,{col:TEAM[c.team].rgb,ring:TEAM[c.team].rgb});graves.push({x:c.x,y:c.y,vy:0,team:c.team,rise:0})}}
@@ -2548,7 +2559,7 @@ function updTrooper(t,dt){
   if(t.y>sump-2)enterWater(t);
 }
 function hitTrooper(x,y,p){return troopers.some(t=>t.alive&&!(t===p.owner&&p.age<.3)&&Math.abs(t.x-x)<6&&y>t.y-BH&&y<t.y+1)}
-const AM_COLLAPSE=.32;
+const AM_COLLAPSE=.32,AM_FLASH=1.1,AM_BW=.3;
 // cosmetic: motes and light pulled into the grenade before it bursts
 function amCollapse(p){sfx('amSuck');for(let i=0;i<46;i++){const a=rnd(0,6.283),d=rnd(40,95),s=d/AM_COLLAPSE*rnd(.85,1.1);
     parts.push({k:'mote',x:p.x+Math.cos(a)*d,y:p.y+Math.sin(a)*d,vx:-Math.cos(a)*s,vy:-Math.sin(a)*s,life:AM_COLLAPSE*rnd(.8,1),max:AM_COLLAPSE,col:Math.random()<.5?'#cfe9ff':'#9b7bff'})}}
@@ -2556,9 +2567,10 @@ function fizzle(p){const big=p.w.nuke||p.w.id==='sun';splash(p.x,sump);bubbles(p
   flashes.push({x:p.x,y:sump,r:big?160:80,c:p.w.id==='sun'?[150,220,255]:[255,170,90],life:.35,max:.35,i:.6})}
 function detonate(p){const w=p.w;
   if(w.nuke){explode(p.x,p.y,w.r,w.dmg,{big:true,col:[255,230,180]});for(let i=0;i<40;i++)parts.push({k:'smoke',x:p.x+rnd(-40,40),y:p.y-rnd(0,60),vx:rnd(-30,30),vy:rnd(-140,-40),life:rnd(2,4),max:4,s:rnd(14,30),c:rnd(28,60)|0});
-    zones.push({x:p.x,y:p.y,r0:w.r*1.02,left:FALLOUT.turns});
-    sump-=26;flash=1.6;texts.push({x:p.x,y:p.y-60,txt:'The sump rises',life:2.4,col:BONE,small:true})}
-  else if(w.id==='sun'){explode(p.x,p.y,w.r,w.dmg,{col:[170,150,255],ring:[220,210,255],hot:true,v:[p.vx,p.vy],am:true});AMX=.34}
+    {const R=w.r*1.45;zones.push({x:p.x,y:p.y+R*.25,r0:R,left:FALLOUT.turns})}
+    flash=1.6;if((S.rnd||0)<SD_ROUND){S.rnd=SD_ROUND;banner('The sump rises','Sudden death','#9fb4d8')}else texts.push({x:p.x,y:p.y-60,txt:'The sump rises',life:2.4,col:BONE,small:true});
+    sump-=13*S.order.length;sfx('rise')}
+  else if(w.id==='sun'){explode(p.x,p.y,w.r,w.dmg,{col:[170,150,255],ring:[220,210,255],hot:true,v:[p.vx,p.vy],am:true});AMX=AM_FLASH}
   else explode(p.x,p.y,w.r,w.dmg,{v:[p.vx,p.vy]})}
 function updProjs(dt){
   for(let i=projs.length-1;i>=0;i--){const p=projs[i];p.age+=dt;
@@ -3713,7 +3725,7 @@ function render(dt){
   ctx.strokeStyle='rgba(150,170,210,.14)';ctx.lineWidth=1;ctx.beginPath();const wx=windAcc()/300*.7;
   for(const r of rain){r.y+=dt*r.s*1.4;r.x+=dt*wx*.4;if(r.y>1)r.y-=1;if(r.x>1)r.x-=1;if(r.x<0)r.x+=1;const x=r.x*cw,y=r.y*ch;ctx.moveTo(x,y);ctx.lineTo(x+wx*r.l,y+r.l)}ctx.stroke();
   if(S.cine>.01){const bh=ch*.07*S.cine;ctx.fillStyle='#000';ctx.fillRect(0,0,cw,bh);ctx.fillRect(0,ch-bh,cw,bh)}
-  if(AMX>0){if(!LITF){ctx.save();ctx.setTransform(1,0,0,1,0,0);if(AMX>.22){ctx.globalCompositeOperation='difference';ctx.fillStyle='#fff';ctx.fillRect(0,0,cv.width,cv.height)}else{ctx.globalCompositeOperation='color';ctx.fillStyle=`rgba(120,60,255,${AMX/.22})`;ctx.fillRect(0,0,cv.width,cv.height)}ctx.restore()}AMX=Math.max(0,AMX-dt)}
+  if(AMX>0){if(!LITF){ctx.save();ctx.setTransform(1,0,0,1,0,0);const k=Math.min(1,AMX/(AM_FLASH-AM_BW));ctx.globalCompositeOperation='saturation';ctx.fillStyle=`rgba(128,128,128,${k})`;ctx.fillRect(0,0,cv.width,cv.height);ctx.globalCompositeOperation='color';ctx.fillStyle=`rgba(110,60,255,${k*k*.5})`;ctx.fillRect(0,0,cv.width,cv.height);ctx.restore()}AMX=Math.max(0,AMX-dt)}
   if(flash>0){ctx.fillStyle=flash>1?`rgba(255,250,240,${Math.min(1,(flash-1)*1.5)})`:`rgba(255,140,30,${flash*.16})`;ctx.fillRect(0,0,cw,ch)}
   if(!LITF){const vg=ctx.createRadialGradient(cw/2,ch/2,Math.min(cw,ch)*.35,cw/2,ch/2,Math.max(cw,ch)*.8);vg.addColorStop(0,'rgba(0,0,0,0)');vg.addColorStop(1,'rgba(0,0,0,.72)');ctx.fillStyle=vg;ctx.fillRect(0,0,cw,ch);
   if(grainPat){ctx.globalAlpha=.06;ctx.translate(-Math.random()*160,-Math.random()*160);ctx.fillStyle=grainPat;ctx.fillRect(0,0,cw+160,ch+160);ctx.globalAlpha=1}}
@@ -3909,7 +3921,7 @@ function netCatchUp(){if(S.mode!=='online'||NET.role!=='watch')return;const behi
   if(behind>300&&!NET.skip)for(let i=0;i<Math.min(6,behind-240);i++)tick()}
 function netGameOver(){if(NET.role!=='act')clearNet()}
 function netLeave(){document.title=TITLE0;chatStop();if(NET.unC)NET.unC();if(NET.unM)NET.unM();NET.unC=NET.unM=null;NET.role=null;NET.started=false;S.mode='hot';$('#netBar').hidden=true}
-const GV=41;// bump on every release that changes the sim
+const GV=42;// bump on every release that changes the sim
 function startOnline(code,me,d){BE.update(code,{['vers.'+me]:GV,['arts.'+me]:window.GRIMSPIRE_ART_SIM||''}).catch(()=>{});NET.code=code;NET.me=me;NET.round=d.round||0;NET.snapK=-1;NET.snap=null;NET.matchAtt=d.att||'';NET.started=true;NET.leaving=false;saveNet();
   $('#net').hidden=true;if(!CHAT.un)chatStart();const cfg=Object.assign(mkCfg('online',d.seats,d.mode==='teams'),{mode:'online'});newGame('online',d.seed,cfg);S.genOK=true;
   const base=NET.round*1e5,has=d.snapK!=null&&d.snapK>=base&&d.snap;
