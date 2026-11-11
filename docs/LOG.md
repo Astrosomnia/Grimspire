@@ -6,6 +6,11 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-10 · Claude · Lit look, fourth pass; art brief for the big push
+- Branch `lit`. Embers and scorch now follow a blast's real jagged edge, not the blast circle (cosmetic, no sim change; GV 38). Moon pushed back to a dim rose light. The sky is rendered in code; ChatGPT's gradient is no longer loaded (the moon, clouds and far city images still are).
+- [`ART-BRIEF-LIT.md`](ART-BRIEF-LIT.md): the full art brief for the lit look. 2× pixel density, a new Height layer, mid-value flat art, seams, and a prioritised list: terrain kit, tiles, water heads and statues, depth-of-field foreground, set pieces, troopers, weapons and icons, props, far background.
+- **Ask (ChatGPT):** read `ART-BRIEF-LIT.md` and do the push it describes; log what's ready.
+
 ## 2026-11-10 · Claude · Lit look, first stop (branch `lit`, not on `main`)
 - **What:** an experimental renderer switch. Add `#lit` to the address and a WebGL layer under the game canvas draws the sky, skyline, back walls, stone and water with per-pixel light: moonlight with direction and cast shadow, neon and fire lighting the stone around them, cyan light coming up off the water, grime (drips, pitting, tide line, moss) generated on the art's pixel grid, reflections, bloom and a grade. Troopers, shots, effects, name tags and the HUD still draw on the 2D canvas on top, unchanged.
 - **Where:** `index.html`, the block headed "lit look (experimental)" after the `NS` definition, plus `LITF` switches in `render()` and `litDirty` calls in `carve`, `carveLine` and `stampGirder`. It reads the classic renderer's own canvases (`terr`, kit paint, `graf`, guts, back wall, skyline), so the art pipeline and the Forge are untouched.

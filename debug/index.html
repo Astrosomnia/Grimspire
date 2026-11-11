@@ -1176,12 +1176,16 @@ float brick(vec2 w,out float tone){float row=floor(w.y/7.);vec2 p=vec2(w.x+mod(r
 vec3 sky(vec2 w){
   // painted sky: fixed to the screen, so it never slides
   vec2 sp=(w-uCam)*uScale/uRes;
-  vec3 c=textureLod(uSkyT,clamp(sp,0.,1.),0.).rgb*.8;
+  float t=clamp(sp.y,0.,1.),hx=sp.x-.3;
+  vec3 c=mix(vec3(.018,.022,.05),vec3(.1,.05,.14),smoothstep(.0,.62,t));
+  c=mix(c,vec3(.3,.09,.2),smoothstep(.5,1.,t)*(1.-.35*smoothstep(.2,.9,abs(hx))));
+  c=mix(c,c*vec3(.7,.95,1.25),smoothstep(.45,1.,sp.x)*.5);
+  c+=vec3(.012,.008,.02)*(fbm(vec2(sp.x*3.,sp.y*9.)+uTime*.01)-.5);
   c=mix(c,lum(c)*vec3(2.1,.3,.24),uBleed*.75);
   // the moon is a light: a soft bright disc, little surface detail
   vec2 l=w-uCam*.98;vec2 mc=l-vec2(230.,92.);vec2 m=mc/118.+.5;float md=length(mc);
-  if(m.x>0.&&m.x<1.&&m.y>0.&&m.y<1.){vec4 t=textureLod(uMoonT,m,0.);vec3 mcol=mix(vec3(1.,.5,.62),vec3(1.,.3,.2),uBleed);c=mix(c,mix(t.rgb,mcol,.62)*1.3,t.a);}
-  c+=MOONC*(.3*exp(-max(md-54.,0.)/26.)+.15*exp(-max(md-54.,0.)/120.));
+  if(m.x>0.&&m.x<1.&&m.y>0.&&m.y<1.){vec4 t=textureLod(uMoonT,m,0.);vec3 mcol=mix(vec3(.82,.3,.42),vec3(.9,.2,.14),uBleed);c=mix(c,mix(t.rgb,mcol,.4)*1.,t.a);}
+  c+=MOONC*(.18*exp(-max(md-54.,0.)/26.)+.1*exp(-max(md-54.,0.)/120.));
   vec2 lc=w-uCam*.95;vec2 cu=vec2((lc.x+uTime*1.1)/1500.,(lc.y+150.)/750.);
   if(cu.y>0.&&cu.y<1.){vec4 t=textureLod(uCloudT,cu,0.);c=mix(c,mix(vec3(lum(t.rgb)),t.rgb,.7)*.74,t.a*.8);}
   // far city: stands behind the game's own skyline, on the same horizon, hazed and faded
@@ -1193,7 +1197,7 @@ vec3 sky(vec2 w){
   // the game's skyline, haze, sky ships, far war and searchlights, drawn by the game as on the live site
   if(sp.x>0.&&sp.x<1.&&sp.y>0.&&sp.y<1.){vec4 f=textureLod(uFx,sp,0.);c=mix(c,f.rgb,f.a);}
   // the moon's light carries through the haze in front of it
-  c+=MOONC*(.5*smoothstep(56.,50.,md)+.22*exp(-max(md-54.,0.)/34.)+.08*exp(-max(md-54.,0.)/140.));
+  c+=MOONC*(.2*smoothstep(56.,50.,md)+.12*exp(-max(md-54.,0.)/34.)+.05*exp(-max(md-54.,0.)/140.));
   return c;
 }
 vec3 backdrop(vec2 w){
@@ -1334,7 +1338,7 @@ void main(){vec3 c=textureLod(tC,vUv,0.).rgb;
   c.addEventListener('webglcontextlost',e=>{e.preventDefault();LIT.ok=false;c.remove()});
   const one=()=>{const t=gl.createTexture();gl.bindTexture(gl.TEXTURE_2D,t);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,1,1,0,gl.RGBA,gl.UNSIGNED_BYTE,new Uint8Array([20,14,30,0]));return t};
   LIT.bg={sky:one(),moon:one(),clouds:one(),far:one(),fx:one(),dyn:one()};for(const k of['fx','dyn']){gl.bindTexture(gl.TEXTURE_2D,LIT.bg[k]);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE)}
-  for(const[k,f,rp]of[['sky','sky.jpg',0],['moon','moon.webp',0],['clouds','clouds.webp',1],['far','far.webp',1]]){const im=new Image();im.onload=()=>{if(!LIT.ok)return;gl.deleteTexture(LIT.bg[k]);const t=LIT.bg[k]=litTex(im,false);
+  for(const[k,f,rp]of[['moon','moon.webp',0],['clouds','clouds.webp',1],['far','far.webp',1]]){const im=new Image();im.onload=()=>{if(!LIT.ok)return;gl.deleteTexture(LIT.bg[k]);const t=LIT.bg[k]=litTex(im,false);
       if(rp){gl.bindTexture(gl.TEXTURE_2D,t);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.MIRRORED_REPEAT)}};im.src='assets/bg/'+f}
   cv.parentNode.insertBefore(c,cv);LIT.ok=true;
 }
@@ -1503,10 +1507,10 @@ function nsKitGlass(WT){if(!NS.kit.some(p=>p.emis))return;if(!NS.glass||NS.glass
 // glowing along the broken edge for a few seconds. Cosmetic: plain random, never the sim's.
 const scorchC=mk(W,H),cuts=[];
 function freshCut(cx,cy,r,noEmbers){
-  const g=scorchC.getContext('2d'),gr=g.createRadialGradient(cx,cy,Math.max(1,r-1),cx,cy,r+9);gr.addColorStop(0,'rgba(6,4,4,.92)');gr.addColorStop(.45,'rgba(14,8,6,.6)');gr.addColorStop(1,'rgba(14,8,6,0)');
-  g.fillStyle=gr;g.fillRect(cx-r-10,cy-r-10,r*2+20,r*2+20);
+  const jr=r>=9?r*1.45:r,g=scorchC.getContext('2d'),gr=g.createRadialGradient(cx,cy,Math.max(1,r*.6),cx,cy,jr+9);gr.addColorStop(0,'rgba(6,4,4,.92)');gr.addColorStop(.45,'rgba(14,8,6,.6)');gr.addColorStop(1,'rgba(14,8,6,0)');
+  g.fillStyle=gr;g.fillRect(cx-jr-10,cy-jr-10,jr*2+20,jr*2+20);
   if(noEmbers||r<5)return;const pts=[],n=Math.min(90,Math.round(r*2.4));
-  for(let k=0;k<n;k++){const a=k/n*6.2832+RR()*.12,d=r+1+RR()*2.5,x=Math.round(cx+Math.cos(a)*d),y=Math.round(cy+Math.sin(a)*d);if(isSolid(x,y)&&RR()<.85)pts.push([x,y,.5+RR()*.5,RR()*9])}
+  for(let k=0;k<n;k++){const a=k/n*6.2832+RR()*.12,ca=Math.cos(a),sa=Math.sin(a);let d=r*.45;while(d<jr+5&&!isSolid(Math.round(cx+ca*d),Math.round(cy+sa*d)))d+=1;d+=RR()*2;const x=Math.round(cx+ca*d),y=Math.round(cy+sa*d);if(isSolid(x,y)&&RR()<.85)pts.push([x,y,.5+RR()*.5,RR()*9])}
   if(pts.length){cuts.push({x:cx,y:cy,r,t0:time,pts});if(cuts.length>24)cuts.shift()}}
 function drawEmbers(L){for(let i=cuts.length-1;i>=0;i--){const c=cuts[i],age=time-c.t0;if(age>4.5){cuts.splice(i,1);continue}
     const k=Math.max(0,1-age/4.5);
