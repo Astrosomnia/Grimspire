@@ -2817,6 +2817,20 @@
       "h": 160,
       "frame_count": 1,
       "category": "Other art"
+    },
+    {
+      "id": "asset-34eb672a9b3bec2df9bfc97d",
+      "path": "art/lab/hosted/library/asset-34eb672a9b3bec2df9bfc97d.forge.json",
+      "sha256": "34eb672a9b3bec2df9bfc97d3bad34ffa1af9505d161a90bf382b741df41b82c",
+      "asset_id": "custom-294887fc-1769-4d04-ab6c-7b02deff39f3",
+      "state_key": "",
+      "asset_name": "Bridge span · pointed open arch",
+      "code": "K05",
+      "name": "Bridge span · 2× relief draft",
+      "w": 360,
+      "h": 160,
+      "frame_count": 1,
+      "category": "Other art"
     }
   ]
 }
