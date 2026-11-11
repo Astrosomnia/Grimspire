@@ -85,6 +85,11 @@ test('Single arm saves beside weapons and survives the next weapon-only build',a
  const index=JSON.parse(await g.file(ROOT+'/library.json',next.commit));assert(index.entries.some(e=>e.code==='A01'));
 });
 
+await import('./height.test.mjs');
+test('Height editor preserves maps across its editing and export paths',async()=>{
+ const {runChecks}=await import('../../../tests/forge-height-editor.test.mjs');
+ await runChecks();
+});
 await import('./catalog.test.mjs');
 
 test('Selected asset scale is independent; legacy shared sizing and human-scale arm migrate without modifying history',async()=>{

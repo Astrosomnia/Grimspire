@@ -235,7 +235,7 @@ dialog.wide{max-width:min(1180px,96vw);width:96vw}
     </section>
 
     <section class="pan" data-tab="paint">
-      <header><h2>Layers</h2><span class="note">1 · 2 · 3 · 4</span></header>
+      <header><h2>Layers</h2><span class="note">1 · 2 · 3 · 4 · 5 · 6</span></header>
       <div id="layers" style="display:flex;flex-direction:column;gap:4px"></div>
       <div class="row"><span class="lbl">Faction</span><select id="trimTint" aria-label="Trim tint faction"></select></div>
     </section>
@@ -283,7 +283,7 @@ dialog.wide{max-width:min(1180px,96vw);width:96vw}
         <div class="row"><span class="lbl">Bake as</span><select id="bkMode" aria-label="Bake style"><option value="stone">Stone ramp (dark, flat)</option><option value="pal">Nearest game colour</option><option value="raw">As is</option></select></div>
         <div class="row"><button id="bkNeon" class="on" title="Bright saturated colour goes to the emissive layer">Neon to emissive</button><button id="bkClean" class="on" title="Drop lone pixels and soft edges">Clean edges</button></div>
         <div class="row"><span class="lbl">Cut-off</span><input id="bkCut" type="range" min="20" max="240" value="128" style="flex:1" aria-label="Transparency cut-off"></div>
-        <p class="note" style="margin:0">With the trace tool (T): drag to move, Shift-drag to rotate, Alt-drag to scale. Bake samples the image into the body layer (or Guts, if that's active) inside the selection.</p>
+        <p class="note" style="margin:0">With the trace tool (T): drag to move, Shift-drag to rotate, Alt-drag to scale. Bake samples the image into Body, Guts or Height (when active) inside the selection.</p>
       </div>
       <p class="note" id="traceHint" style="margin:0">Drop or paste a reference image onto the plate to trace over it.</p>
     </section>
@@ -318,7 +318,7 @@ dialog.wide{max-width:min(1180px,96vw);width:96vw}
   <div class="palgrp">
     <div class="row"><span class="lbl">Image</span>
       <select id="xWhat" aria-label="What to export"><option value="frame">This frame</option><option value="sheet">Sprite sheet (all frames)</option></select>
-      <select id="xLayer" aria-label="Layers"><option value="comp">Body + emissive</option><option value="body">Body only</option><option value="emis">Emissive only</option><option value="trim">Trim only</option><option value="cloth">Cloth only</option><option value="guts">Guts only</option></select>
+      <select id="xLayer" aria-label="Layers"><option value="comp">Body + emissive</option><option value="body">Body only</option><option value="emis">Emissive only</option><option value="trim">Trim only</option><option value="cloth">Cloth only</option><option value="guts">Guts only</option><option value="height">Height only</option></select>
       <select id="xScale" aria-label="Scale"><option value="1">×1 (art px)</option><option value="4">×4</option><option value="12">×12 (kit scale)</option></select>
       <button id="xPng">Save PNG</button></div>
     <div class="row"><span class="lbl">Kit</span><button id="xKit">Save kit (.zip)</button><span class="note">×12 body, emissive and trim sheets, ×1 natives and manifest.json</span></div>
@@ -360,7 +360,7 @@ dialog.wide{max-width:min(1180px,96vw);width:96vw}
     <kbd>M V</kbd><span>Select, move. Arrows nudge</span>
     <kbd>P T H</kbd><span>Points, trace image, pan (or hold Space)</span>
     <kbd>[ ]</kbd><span>Brush size</span>
-    <kbd>1 2 3</kbd><span>Body, emissive, trim layer</span>
+    <kbd>1–6</kbd><span>Body, emissive, trim, cloth, guts, height</span>
     <kbd>X</kbd><span>Swap to the last colour</span>
     <kbd>Ctrl C X V</kbd><span>Copy, cut, paste (paste works across frames and sprites)</span>
     <kbd>Del  Enter  Esc</kbd><span>Clear selection, drop pasted pixels, cancel</span>
@@ -394,8 +394,8 @@ const PAL=[
 const FACTIONS=[['Ash Legion','#ff2e88'],['Neon Choir','#3ff3ff'],['The Hollow','#3dff8b'],['Halo Guard','#ffd84a'],['None (grey)','']];
 // Faction cloth colours, as in the game's TEAM table: mid grey (128) on the Cloth layer becomes this colour.
 const CLOTH={'#ff2e88':[86,24,34],'#3ff3ff':[36,40,50],'#3dff8b':[88,82,70],'#ffd84a':[190,176,140]};
-const LAYERS=[{k:'body',n:'Body',d:'Dark, flat, no baked light'},{k:'emis',n:'Emissive',d:'Glows: visors, lights, plasma'},{k:'trim',n:'Trim',d:'Squad colour mask, paints grey'},{k:'cloth',n:'Cloth',d:'Faction cloth, paints grey'},{k:'guts',n:'Guts',d:'Revealed by blasts: rebar, rubble'}];
-const LK=['body','emis','trim','cloth','guts'];
+const LAYERS=[{k:'body',n:'Body',d:'Dark, flat, no baked light'},{k:'emis',n:'Emissive',d:'Glows: visors, lights, plasma'},{k:'trim',n:'Trim',d:'Squad colour mask, paints grey'},{k:'cloth',n:'Cloth',d:'Faction cloth, paints grey'},{k:'guts',n:'Guts',d:'Revealed by blasts: rebar, rubble'},{k:'height',n:'Height',d:'Greyscale relief: white raised, black recessed'}];
+const LK=['body','emis','trim','cloth','guts','height'];
 const MARKS=[{k:'grip',n:'Grip',c:'#ff3b3b'},{k:'muzzle',n:'Muzzle',c:'#3dff8b'},{k:'pivot',n:'Pivot',c:'#ffd84a'},{k:'shoulder',n:'Shoulder',c:'#3ff3ff'},{k:'elbow',n:'Elbow',c:'#ff2e88'},{k:'hand',n:'Hand',c:'#ffb21e'},{k:'hip',n:'Hip',c:'#a0ff46'},{k:'knee',n:'Knee',c:'#9fb4d8'},{k:'thrust',n:'Thrust',c:'#ff7a1e'}];
 const noMarks=()=>({grip:null,muzzle:null,pivot:null,shoulder:null,elbow:null,hand:null,hip:null,knee:null,thrust:null});
 const PRESETS=[
@@ -436,7 +436,7 @@ const store={get(k){try{return localStorage.getItem(k)}catch(e){return null}},se
 let doc=null;      // {id,name,w,h,fps,base,markers:{grip:[x,y]|null,...},frames:[{body,emis,trim}]} pixel arrays are Uint8ClampedArray
 let fi=0, layer='body';
 const emptyPx=()=>new Uint8ClampedArray(doc.w*doc.h*4);
-const newFrame=()=>({body:emptyPx(),emis:emptyPx(),trim:emptyPx(),cloth:emptyPx(),guts:emptyPx(),note:''});
+const newFrame=()=>({body:emptyPx(),emis:emptyPx(),trim:emptyPx(),cloth:emptyPx(),guts:emptyPx(),height:emptyPx(),note:''});
 function newDoc(name,w,h,base,code){doc={id:null,game_scale:1,code:code||'',name,w,h,fps:8,base:base??null,markers:noMarks(),notes:'',review:null,frames:[]};doc.frames.push(newFrame());fi=0;cache.clear();undoS=[];redoS=[];float=null;sel=null;}
 // canvases for each frame layer, rebuilt when dirty
 const cache=new Map(); // key: pixel array -> {c, dirty}
@@ -461,13 +461,13 @@ function drawFrame(g,f,s,opt={}){g.imageSmoothingEnabled=false;const W=doc.w*s,H
     else g.drawImage(trimCol?tintCanvas(t,trimCol):t,0,0,W,H)}
   if(opt.emis!==false&&vis.emis){const e=layerCanvas(f.emis);g.drawImage(e,0,0,W,H);
     if(opt.glow){g.save();g.globalCompositeOperation='lighter';g.globalAlpha=.55;g.filter=`blur(${Math.max(1,s*1.2)}px)`;g.drawImage(e,0,0,W,H);g.restore()}}}
-const vis={body:true,emis:true,trim:true,cloth:true};
+const vis={body:true,emis:true,trim:true,cloth:true,guts:false,height:false};
 
 // ---------- undo ----------
 let undoS=[],redoS=[];
 const cp=a=>new Uint8ClampedArray(a);
 function pushPx(keys,frameIdx=fi){const before={};for(const k of keys)before[k]=cp(doc.frames[frameIdx][k]);undoS.push({t:'px',fi:frameIdx,data:before});if(undoS.length>120)undoS.shift();redoS=[];}
-function snapDoc(){return{w:doc.w,h:doc.h,base:doc.base,markers:JSON.parse(JSON.stringify(doc.markers)),fi,frames:doc.frames.map(f=>({body:cp(f.body),emis:cp(f.emis),trim:cp(f.trim),cloth:cp(f.cloth),guts:cp(f.guts),note:f.note||''}))}}
+function snapDoc(){return{w:doc.w,h:doc.h,base:doc.base,markers:JSON.parse(JSON.stringify(doc.markers)),fi,frames:doc.frames.map(f=>({body:cp(f.body),emis:cp(f.emis),trim:cp(f.trim),cloth:cp(f.cloth),guts:cp(f.guts),height:cp(f.height),note:f.note||''}))}}
 function pushDoc(){undoS.push({t:'doc',data:snapDoc()});if(undoS.length>120)undoS.shift();redoS=[]}
 function applyEntry(e){ // swaps state with entry, returns the inverse
   if(e.t==='px'){const f=doc.frames[e.fi];if(!f)return e;const inv={};for(const k in e.data){inv[k]=f[k];f[k]=e.data[k]}fi=e.fi;cache.clear();return{t:'px',fi:e.fi,data:inv}}
@@ -504,7 +504,7 @@ let trace=null; // {img,x,y,s,r,op,on,above,src}
 
 // ---------- pixel ops ----------
 const idx=(x,y)=>(y*doc.w+x)*4;
-function paintCol(){if(layer!=='trim'&&layer!=='cloth')return hex2rgb(col);const[r,g,b]=hex2rgb(col);const y=Math.round(.299*r+.587*g+.114*b);return[y,y,y]}
+function paintCol(){if(layer!=='trim'&&layer!=='cloth'&&layer!=='height')return hex2rgb(col);const[r,g,b]=hex2rgb(col);const y=Math.round(.299*r+.587*g+.114*b);return[y,y,y]}
 function plot(px,x,y,rgba){const h=Math.floor((bsize-1)/2);for(let j=0;j<bsize;j++)for(let i=0;i<bsize;i++){let xx=x-h+i,yy=y-h+j;if(wrap){xx=((xx%doc.w)+doc.w)%doc.w;yy=((yy%doc.h)+doc.h)%doc.h}if(!inDoc(xx,yy))continue;if(sel&&!(xx>=sel.x&&yy>=sel.y&&xx<sel.x+sel.w&&yy<sel.y+sel.h))continue;const k=idx(xx,yy);px[k]=rgba[0];px[k+1]=rgba[1];px[k+2]=rgba[2];px[k+3]=rgba[3]}}
 function plotM(px,x,y,rgba){plot(px,x,y,rgba);if(mirror)plot(px,doc.w-1-x+(bsize%2?0:1)*0,y,rgba)}
 function lineCells(x0,y0,x1,y1){const out=[];let dx=Math.abs(x1-x0),dy=-Math.abs(y1-y0),sx=x0<x1?1:-1,sy=y0<y1?1:-1,e=dx+dy;for(;;){out.push([x0,y0]);if(x0===x1&&y0===y1)break;const e2=2*e;if(e2>=dy){e+=dy;x0+=sx}if(e2<=dx){e+=dx;y0+=sy}}return out}
@@ -713,18 +713,18 @@ function buildStrip(){const s=$('#strip');s.textContent='';doc.frames.forEach((f
   const sp=document.createElement('span');sp.textContent=i+1;d.append(c,sp);d.onclick=()=>goFrame(i);s.append(d)});}
 function markStrip(){$$('.cel').forEach((d,i)=>d.classList.toggle('cur',i===fi))}
 function goFrame(i){commitFloat();sel=null;fi=clamp(i,0,doc.frames.length-1);markStrip();updNotes();need();needsPv=true;const c=$$('.cel')[fi];c&&c.scrollIntoView({block:'nearest',inline:'nearest'})}
-function addFrame(dup){commitFloat();pushDoc();const f0=doc.frames[fi],f=dup?{body:cp(f0.body),emis:cp(f0.emis),trim:cp(f0.trim),cloth:cp(f0.cloth),guts:cp(f0.guts),note:f0.note||''}:newFrame();doc.frames.splice(fi+1,0,f);fi++;buildStrip();changed()}
+function addFrame(dup){commitFloat();pushDoc();const f0=doc.frames[fi],f=dup?{body:cp(f0.body),emis:cp(f0.emis),trim:cp(f0.trim),cloth:cp(f0.cloth),guts:cp(f0.guts),height:cp(f0.height),note:f0.note||''}:newFrame();doc.frames.splice(fi+1,0,f);fi++;buildStrip();changed()}
 function delFrame(){if(doc.frames.length<2){status('A sprite needs at least one frame');return}commitFloat();pushDoc();doc.frames.splice(fi,1);fi=clamp(fi,0,doc.frames.length-1);buildStrip();changed()}
 function moveFrame(d){const j=fi+d;if(j<0||j>=doc.frames.length)return;commitFloat();pushDoc();const t=doc.frames[fi];doc.frames[fi]=doc.frames[j];doc.frames[j]=t;fi=j;buildStrip();changed()}
 function togglePlay(){playing=!playing;$('#fPlay').classList.toggle('on',playing);$('#fPlay').textContent=playing?'Stop':'Play';if(playing){commitFloat();sel=null;pvFrame=fi}need()}
 
 // ---------- colour UI ----------
 function setCol(h,keepLast){h=h.toLowerCase();if(h!==col&&!keepLast)lastCol=col;col=h;updCol()}
-function useCol(){if(layer==='trim'||layer==='cloth')return;recent=[col,...recent.filter(c=>c!==col)].slice(0,12);buildRecent();store.set('grimspire.artlab.v001.recent',JSON.stringify(recent))}
+function useCol(){if(layer==='trim'||layer==='cloth'||layer==='height')return;recent=[col,...recent.filter(c=>c!==col)].slice(0,12);buildRecent();store.set('grimspire.artlab.v001.recent',JSON.stringify(recent))}
 function updCol(){$('#curSw i').style.background=col;$('#colIn').value=col;if(document.activeElement!==$('#hexIn'))$('#hexIn').value=col;
   const r=$('#ramp');r.textContent='';ramp(col).forEach((h,i)=>{const b=swatch(h);if(i===2)b.classList.add('base');r.append(b)});
   $$('#gamePal .sw').forEach(b=>b.classList.toggle('sel',b.dataset.c===col));buildMini();
-  const onP=nearPal(...hex2rgb(col));$('#colNote').innerHTML=layer==='trim'?'Trim paints grey':layer==='cloth'?'Cloth paints grey: mid grey is the faction colour':onP?'':'<span class="warnTxt">Off palette</span>';need()}
+  const onP=nearPal(...hex2rgb(col));$('#colNote').innerHTML=layer==='trim'?'Trim paints grey':layer==='cloth'?'Cloth paints grey: mid grey is the faction colour':layer==='height'?'Height paints grey: white is raised, black is recessed':onP?'':'<span class="warnTxt">Off palette</span>';need()}
 function swatch(h){const b=document.createElement('button');b.className='sw';b.style.background=h;b.dataset.c=h;b.title=h;b.setAttribute('aria-label','Colour '+h);b.onclick=()=>setCol(h);return b}
 function buildPal(){const g=$('#gamePal');g.textContent='';for(const[n,cs]of PAL){const d=document.createElement('div');d.className='palgrp';const l=document.createElement('span');l.className='lbl';l.textContent=n;const r=document.createElement('div');r.className='swrow';cs.forEach(c=>r.append(swatch(c)));d.append(l,r);g.append(d)}}
 function buildRecent(){buildMini();const r=$('#recent');r.textContent='';recent.forEach(c=>r.append(swatch(c)));if(!recent.length){const s=document.createElement('span');s.className='note';s.textContent='Colours you use land here';r.append(s)}}
@@ -740,7 +740,7 @@ function buildLayers(){const L=$('#layers');L.textContent='';LAYERS.forEach((l,i
   const e=document.createElement('button');e.className='eye'+(vis[l.k]?' on':'');e.textContent=vis[l.k]?'●':'○';e.title=vis[l.k]?'Hide':'Show';e.onclick=ev=>{ev.stopPropagation();vis[l.k]=!vis[l.k];buildLayers();need();needsPv=true;buildStrip()};
   const t=document.createElement('div');t.innerHTML=`<b>${l.n}</b><br><small>${l.d}</small>`;const k=document.createElement('span');k.className='num';k.style.color='var(--faint)';k.textContent=i+1;
   d.append(e,t,k);d.onclick=()=>setLayer(l.k);L.append(d)})}
-function setLayer(k){layer=k;buildLayers();updCol()}
+function setLayer(k){layer=k;if(k==='height'){vis.height=true;if(lit)setLit(false);if(tool==='blast')setTool('pen')}buildLayers();updCol();need()}
 // What each point means depends on the part. On a torso, Shoulder and Hip are sockets: where the arm and the legs attach.
 const MARK_HINT={grip:'Weapon: where the hand holds it',muzzle:'Weapon: where shots leave',pivot:'What it rotates around (older assets)',shoulder:'Arm: its shoulder joint. Torso: where the arm attaches',elbow:'Arm: the elbow',hand:'Arm: where the weapon grip attaches',hip:'Thigh: its hip joint. Torso: where it sits on the legs',knee:'Thigh: where the shin hangs. Shin: its knee joint',thrust:'Torso: where the jump pack flame starts (the pixel just under the nozzles)'};
 const isTorso=()=>/torso/i.test(doc.name||'')||/torso/i.test(doc.state_key||'');
@@ -784,10 +784,10 @@ function saveTraceMeta(withImg){if(!trace)return;const m={x:trace.x,y:trace.y,s:
 
 // ---------- serialise ----------
 function pxToURL(px){let any=false;for(let i=3;i<px.length;i+=4)if(px[i]){any=true;break}if(!any)return null;const c=mkc(doc.w,doc.h);c.getContext('2d').putImageData(new ImageData(cp(px),doc.w,doc.h),0,0);return c.toDataURL('image/png')}
-function serialise(){return{forge:1,...(doc.game_scale==null?{}:{game_scale:doc.game_scale}),asset_id:doc.asset_id||null,state_key:doc.state_key||'',source_version:doc.source_version||doc.id||null,legacy_hash:doc.legacy_hash||null,code:doc.code||'',name:doc.name,w:doc.w,h:doc.h,fps:doc.fps,base:doc.base,pixel_scale:ART,markers:doc.markers,ready:!!doc.ready,notes:doc.notes||'',review:doc.review||null,ghostOff:doc.ghostOff||null,frames:doc.frames.map(f=>({body:pxToURL(f.body),emis:pxToURL(f.emis),trim:pxToURL(f.trim),cloth:pxToURL(f.cloth),guts:pxToURL(f.guts),note:f.note||''})),updated:Date.now(),by:'jarred'}}
+function serialise(){return{forge:1,...(doc.game_scale==null?{}:{game_scale:doc.game_scale}),asset_id:doc.asset_id||null,state_key:doc.state_key||'',source_version:doc.source_version||doc.id||null,legacy_hash:doc.legacy_hash||null,code:doc.code||'',name:doc.name,w:doc.w,h:doc.h,fps:doc.fps,base:doc.base,pixel_scale:ART,markers:doc.markers,ready:!!doc.ready,notes:doc.notes||'',review:doc.review||null,ghostOff:doc.ghostOff||null,frames:doc.frames.map(f=>({body:pxToURL(f.body),emis:pxToURL(f.emis),trim:pxToURL(f.trim),cloth:pxToURL(f.cloth),guts:pxToURL(f.guts),height:pxToURL(f.height),note:f.note||''})),updated:Date.now(),by:'jarred'}}
 async function urlToPx(u,w,h){const a=new Uint8ClampedArray(w*h*4);if(!u)return a;const img=await loadImg(u);const c=mkc(w,h),g=c.getContext('2d');g.drawImage(img,0,0);a.set(g.getImageData(0,0,w,h).data);return a}
 async function deserialise(o,id){if(!o||!o.w||!o.h||!Array.isArray(o.frames))throw new Error('That isn’t Forge sprite data');
-  const frames=[];for(const f of o.frames)frames.push({body:await urlToPx(f.body,o.w,o.h),emis:await urlToPx(f.emis,o.w,o.h),trim:await urlToPx(f.trim,o.w,o.h),cloth:await urlToPx(f.cloth,o.w,o.h),guts:await urlToPx(f.guts,o.w,o.h)});
+  const frames=[];for(const f of o.frames)frames.push({body:await urlToPx(f.body,o.w,o.h),emis:await urlToPx(f.emis,o.w,o.h),trim:await urlToPx(f.trim,o.w,o.h),cloth:await urlToPx(f.cloth,o.w,o.h),guts:await urlToPx(f.guts,o.w,o.h),height:await urlToPx(f.height,o.w,o.h)});
   doc={id:id||null,game_scale:o.game_scale??null,asset_id:o.asset_id||null,state_key:o.state_key||'',source_version:o.source_version||id||null,legacy_hash:o.legacy_hash||null,name:o.name||'Untitled',w:o.w,h:o.h,fps:o.fps||8,base:o.base??null,markers:Object.assign(noMarks(),o.markers||{}),ready:!!o.ready,notes:o.notes||'',review:o.review||null,ghostOff:o.ghostOff||null,savedAt:o.updated||0,frames};
   frames.forEach((f,i)=>{f.note=(o.frames[i]&&o.frames[i].note)||''});
   {const pc=splitCode(o.code,o.name);doc.code=pc[0];doc.name=pc[1]}
@@ -843,8 +843,9 @@ function asepriteJson(n){const m=doc.markers,MC={grip:'#ff3b3bff',muzzle:'#3dff8
       layers:[{name:'body',opacity:255,blendMode:'normal'},{name:'emissive',opacity:255,blendMode:'normal'},{name:'trim',opacity:255,blendMode:'normal'}],
       slices:Object.entries(m).filter(([,p])=>p).map(([k,p])=>({name:k,color:MC[k]||'#ffffffff',keys:[{frame:0,bounds:{x:p[0],y:p[1],w:1,h:1}}]}))}}}
 async function exportKit(){commitFloat();if(!window.JSZip){status('The zip library didn’t load. Try again online.');return}const z=new JSZip(),n=fileBase();
-  const parts=[['body','body'],['emis','emissive'],['trim','trim']];if(doc.frames.some(f=>f.cloth&&f.cloth.some((v,i)=>i%4===3&&v)))parts.push(['cloth','cloth']);if(doc.frames.some(f=>f.guts.some((v,i)=>i%4===3&&v)))parts.push(['guts','guts']);
+  const parts=[['body','body'],['emis','emissive'],['trim','trim']];if(doc.frames.some(f=>f.cloth&&f.cloth.some((v,i)=>i%4===3&&v)))parts.push(['cloth','cloth']);if(doc.frames.some(f=>f.guts.some((v,i)=>i%4===3&&v)))parts.push(['guts','guts']);if(doc.frames.some(f=>f.height.some((v,i)=>i%4===3&&v)))parts.push(['height','height']);
   for(const[k,label]of parts){const big=sheetCanvas(k,ART,doc.frames);z.file(`${n}_${label}.png`,await toBlob(big));z.file(`native/${n}_${label}.png`,await toBlob(sheetCanvas(k,1,doc.frames)))}
+  if(parts.some(([k])=>k==='height')){const code=validCode(doc.code)?doc.code:n;for(let i=0;i<doc.frames.length;i++)z.file(`height/${code}${i?'.f'+(i+1):''}.height.png`,await toBlob(sheetCanvas('height',1,[doc.frames[i]])))}
   z.file(`${n}_preview.png`,await toBlob(sheetCanvas('comp',4,doc.frames)));z.file('manifest.json',JSON.stringify(manifest(),null,2));z.file(`${n}_aseprite.json`,JSON.stringify(asepriteJson(n),null,1));z.file(`${n}.forge.json`,JSON.stringify(serialise()));
   const blob=await z.generateAsync({type:'blob'});if(!await saveFile(`${n}_kit.zip`,blob))status('Saving files isn’t available here. Use Copy JSON instead.')}
 async function copyJson(){const t=JSON.stringify(serialise());try{await navigator.clipboard.writeText(t);status('Sprite JSON copied')}catch(e){const a=$('#xPaste');a.hidden=false;a.value=t;a.select();status('Select-all and copy the text box')}}
@@ -871,6 +872,7 @@ function buildMini(){const r=$('#miniRamp');r.textContent='';ramp(col).forEach((
 function pxCanvas(px,w,h){const c=mkc(w,h);if(px)c.getContext('2d').putImageData(new ImageData(cp(px),w,h),0,0);return c}
 function stageFrame(g,f,z){const W=doc.w*z,H=doc.h*z;g.imageSmoothingEnabled=false;
   if(lit){g.drawImage(litCanvas(f),0,0,W,H);if(vis.emis){const e=layerCanvas(f.emis);g.drawImage(e,0,0,W,H);g.save();g.globalCompositeOperation='lighter';g.globalAlpha=.6;g.filter=`blur(${Math.max(1,z*.9)}px)`;g.drawImage(e,0,0,W,H);g.restore()}return}
+  if(layer==='height'){g.save();g.globalAlpha=.2;drawFrame(g,f,z,{});g.restore();if(vis.height)g.drawImage(layerCanvas(f.height),0,0,W,H);return}
   if(holes.get(f)||tool==='blast'){g.drawImage(blastedCanvas(f),0,0,W,H);return}
   if(layer==='guts'){g.drawImage(layerCanvas(f.guts),0,0,W,H);g.save();g.globalAlpha=.25;drawFrame(g,f,z,{});g.restore();return}
   drawFrame(g,f,z,{})}
@@ -934,7 +936,7 @@ function scale2Sel(){if(!float)liftSelection();for(const k in float.data){float.
 let bkNeon=true,bkClean=true;
 function bakeTrace(){if(!trace)return;commitFloat();const W=doc.w,H=doc.h,c=mkc(W,H),g=c.getContext('2d');g.imageSmoothingEnabled=true;g.imageSmoothingQuality='high';
   g.translate(trace.x,trace.y);g.rotate(trace.r*Math.PI/180);g.scale(trace.s,trace.s);g.drawImage(trace.img,-trace.img.width/2,-trace.img.height/2);
-  const d=g.getImageData(0,0,W,H).data,cut=+$('#bkCut').value,mode=$('#bkMode').value,target=layer==='guts'?'guts':'body',useNeon=bkNeon&&target==='body';
+  const d=g.getImageData(0,0,W,H).data,cut=+$('#bkCut').value,mode=$('#bkMode').value,target=layer==='guts'?'guts':layer==='height'?'height':'body',useNeon=bkNeon&&target==='body';
   const inS=(x,y)=>!sel||insideR(sel,x,y);const keep=new Uint8Array(W*H),neon=new Uint8Array(W*H),lum=new Float32Array(W*H);const ls=[];
   for(let q=0;q<W*H;q++){const i=q*4,x=q%W,y=(q/W)|0;if(d[i+3]<cut||!inS(x,y))continue;keep[q]=1;const[h,s2,l]=rgb2hsl(d[i],d[i+1],d[i+2]);
     if(useNeon&&s2>.5&&l>.42&&Math.max(d[i],d[i+1],d[i+2])>170)neon[q]=1;lum[q]=.299*d[i]+.587*d[i+1]+.114*d[i+2];if(!neon[q])ls.push(lum[q])}
@@ -942,10 +944,11 @@ function bakeTrace(){if(!trace)return;commitFloat();const W=doc.w,H=doc.h,c=mkc(
     if(k2[q]&&n<=1)keep[q]=0;else if(!k2[q]&&n>=7&&inS(x,y)){keep[q]=1;lum[q]=-1}}}
   ls.sort((a,b)=>a-b);const lo=ls[Math.floor(ls.length*.05)]||0,hi=ls[Math.floor(ls.length*.95)]||255;const stone=PAL[0][1].map(hex2rgb),gpal=[];for(const[,cs]of PAL)for(const cc of cs)for(const h of ramp(cc))gpal.push(hex2rgb(h));
   const near=(r,g2,b)=>{let best=gpal[0],bd=1e9;for(const p of gpal){const rm=(r+p[0])/2,dd=(2+rm/256)*(r-p[0])**2+4*(g2-p[1])**2+(2+(255-rm)/256)*(b-p[2])**2;if(dd<bd){bd=dd;best=p}}return best};
-  pushPx(['body','emis','guts']);const P=doc.frames[fi][target],E=doc.frames[fi].emis;let nb=0,ne=0;
+  pushPx(['body','emis','guts','height']);const P=doc.frames[fi][target],E=doc.frames[fi].emis;let nb=0,ne=0;
   for(let q=0;q<W*H;q++){if(!keep[q])continue;const i=q*4;let rgb;
     if(lum[q]<0){const x=q%W,y=(q/W)|0;const nq=[q-1,q+1,q-W,q+W].find(v=>v>=0&&v<W*H&&keep[v]&&lum[v]>=0);if(nq==null)continue;rgb=[d[nq*4],d[nq*4+1],d[nq*4+2]];lum[q]=lum[nq]}else rgb=[d[i],d[i+1],d[i+2]];
-    if(neon[q]){const e=near(...rgb);E[i]=e[0];E[i+1]=e[1];E[i+2]=e[2];E[i+3]=255;ne++;rgb=[...stone[3]]}
+    if(target==='height'){const v=Math.round(lum[q]);rgb=[v,v,v]}
+    else if(neon[q]){const e=near(...rgb);E[i]=e[0];E[i+1]=e[1];E[i+2]=e[2];E[i+3]=255;ne++;rgb=[...stone[3]]}
     else if(mode==='stone'){const t=clamp((lum[q]-lo)/Math.max(1,hi-lo),0,1);rgb=[...stone[1+Math.round(t*5)]]}
     else if(mode==='pal')rgb=near(...rgb);
     P[i]=rgb[0];P[i+1]=rgb[1];P[i+2]=rgb[2];P[i+3]=255;nb++}
@@ -1147,7 +1150,7 @@ function wire(){
     if(e.shiftKey&&k==='n'){addFrame(false);return}if(e.shiftKey&&k==='d'){addFrame(true);return}if(k==='f'){flipSel(e.shiftKey);return}
     if(keyTool[k]&&!e.shiftKey){setTool(keyTool[k]);return}
     if(k==='['){setBsize(bsize-1);return}if(k===']'){setBsize(bsize+1);return}
-    if(k>='1'&&k<='4'){setLayer(LAYERS[+k-1].k);return}
+    if(k>='1'&&k<='6'){setLayer(LAYERS[+k-1].k);return}
     if(k==='x'){setCol(lastCol);return}
     if(k==='0'){fit();updZoom();return}if(k==='='||k==='+'){zoomStep(1);updZoom();return}if(k==='-'){zoomStep(-1);updZoom();return}
     if(k===','){goFrame(fi-1);return}if(k==='.'){goFrame(fi+1);return}

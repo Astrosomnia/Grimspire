@@ -44,11 +44,15 @@ export async function assetLibrary(g,ref){
  return organiseAssets(source,saved,migration);
 }
 export async function assetIndex(g,ref){return (await assetLibrary(g,ref)).docs}
-export async function openAsset(g,ref,id){
- const entry=(await assetIndex(g,ref)).find(e=>e.id===id);check(entry,'Asset no longer exists; refresh the Library');
+async function readIndexedAsset(g,ref,entry){
+ check(entry,'Asset no longer exists; refresh the Library');
  check(/^art\/lab\/hosted\/(catalog|library)\/[a-zA-Z0-9_.-]+\.forge\.json$/.test(entry.path),'Invalid asset path');
  const raw=await g.file(entry.path,ref);check(await sha(raw)===entry.sha256,'Asset hash mismatch');
  return {...sprite(JSON.parse(raw),'ASSET'),asset_id:entry.asset_id,state_key:entry.state_key,source_version:entry.id};
+}
+export async function openAsset(g,ref,id){
+ const entry=(await assetIndex(g,ref)).find(e=>e.id===id);
+ return readIndexedAsset(g,ref,entry);
 }
 export async function retainAsset(g,d,head,paths){
  const library=await assetLibrary(g,head);
@@ -62,6 +66,18 @@ export async function retainAsset(g,d,head,paths){
  const assetId=family?.id||'custom-'+crypto.randomUUID();
  const stateKey=family?(d.state_key||''):'';
  check(!family||family.states.some(s=>s.key===stateKey),'Choose an existing animation state before saving.');
+ // Old Forge tabs omit the Height field altogether. If the version they opened
+ // or the current version has authored height pixels, require an explicit
+ // field on every frame. New editors send null when the user clears a map.
+ // An omitted field on a legacy-only asset remains valid, as does a new asset.
+ if(family&&d.frames.some(f=>!Object.hasOwn(f,'height'))){
+  const current=family.states.find(s=>s.key===stateKey)?.current;
+  const source=library.docs.find(e=>e.id===d.source_version&&e.asset_id===assetId&&(e.state_key||'')===stateKey)?.id;
+  for(const id of new Set([current,source].filter(Boolean))){
+   const prior=await readIndexedAsset(g,head,library.docs.find(e=>e.id===id));
+   check(!prior.frames.some(f=>f.height),'This asset has a height map. Refresh the Forge before saving so it is not lost.');
+  }
+ }
  d={...d,asset_id:assetId,state_key:stateKey};delete d.legacy_hash;
  const raw=json(d),hash=await sha(raw),id='asset-'+hash.slice(0,24),path=ROOT+'/library/'+id+'.forge.json';
  const index=JSON.parse(await g.file(ROOT+'/library.json',head,true)||'{"schema":1,"entries":[]}');
