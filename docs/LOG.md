@@ -6,6 +6,9 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-11 · Claude · `#fps` frame counter
+- Add `#fps` to the address (combine with others as `#fps&classic`) for a small counter under the left health bar: frames per second, the worst frame in each half second, which renderer is running, and the pixel size it draws at. Display only; no sim change.
+
 ## 2026-11-11 · Claude · Lit look and today's gameplay changes merged to `main` (GV 42)
 - Jarred approved pushing everything from the `lit` branch except the 2× bridge (not drawn yet). The lit look is now **on by default**; `#classic` in the address brings back the old renderer, and browsers without WebGL2 fall back to it automatically.
 - Gameplay on `main` is now GV 42: jagged blast holes, shockwaves, grapple, Antimatter Grenade, Doomsday sudden death and continuous fallout. Online players on an older build are told to refresh.

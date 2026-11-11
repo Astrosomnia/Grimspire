@@ -4094,7 +4094,11 @@ const LERP=()=>[troopers,projs,crates,ships,mines,barrels,corpses,parts,flames];
 function markPrev(){for(const L of LERP())for(const o of L){o._px=o.x;o._py=o.y}}
 function simStep(f){markPrev();inSim(()=>{feed(f);let sc=1;if(S.slow&&!(S.paused&&S.mode!=='online')){S.slow.t-=STEP;sc=.3;if(S.slow.t<=0)S.slow=null}time+=STEP*sc;update(STEP*sc)})}
 function tick(){if(S.mode==='online'&&S.phase!=='title'&&S.phase!=='over')return netTick();simStep(localFrame())}
-function frame(now){const real=Math.min(.1,(now-last)/1000);last=now;chargeSound();acc+=real;
+// #fps in the address: a small frame counter under the left health bar (frame rate, worst frame, renderer, pixels)
+const FPS=/(^#|&)fps\b/i.test(location.hash)?{el:null,n:0,t:0,worst:0}:null;
+function fpsTick(dt){const f=FPS;if(!f.el){f.el=document.createElement('div');f.el.style.cssText='position:fixed;left:max(16px,env(safe-area-inset-left,0px));top:calc(env(safe-area-inset-top,0px) + 82px);z-index:5;pointer-events:none;font:600 11px/1.3 "Chakra Petch",monospace;color:#cfd6e4;background:rgba(0,0,0,.55);padding:2px 6px;letter-spacing:.06em';document.body.appendChild(f.el)}
+  f.n++;f.t+=dt;f.worst=Math.max(f.worst,dt);if(f.t>=.5){const px=LIT.ok&&LIT.cv?LIT.cv.width+'×'+LIT.cv.height:cv.width+'×'+cv.height;f.el.textContent=Math.round(f.n/f.t)+' FPS · worst '+Math.round(f.worst*1000)+' ms · '+(LIT.ok?'lit':'classic')+' '+px;f.n=0;f.t=0;f.worst=0}}
+function frame(now){const real=Math.min(.1,(now-last)/1000);last=now;if(FPS)fpsTick((now-(FPS.last||now))/1000),FPS.last=now;chargeSound();acc+=real;
   const max=netMaxSteps();let n=0;while(acc>=STEP&&n<max){acc-=STEP;n++;tick()}if(n>=max)acc=Math.min(acc,STEP);netCatchUp();
   {const a=Math.min(1,acc/STEP),sw=[];
   if(a<.999)for(const L of LERP())for(const o of L)if(o._px!==undefined&&Math.abs(o.x-o._px)+Math.abs(o.y-o._py)<60){sw.push(o,o.x,o.y);o.x=o._px+(o.x-o._px)*a;o.y=o._py+(o.y-o._py)*a}
