@@ -6,6 +6,11 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-11 · ChatGPT · K05 Height test draft
+- Saved K05 at its original 180×80 size as a new version of the existing bridge in the Forge Library on `art/weapon-lab`: `asset-ddc9ad390c6b0ceca179acd6` (commit `b792ae1`). Body and other art layers unchanged. Based on Claude's first-pass Height; reconciled the connected edge stones so the matching left and right Body edges tile without a Height seam.
+- Jarred clarified that subtle gradients are acceptable if they make the stones look naturally extruded; avoid doubled ghost lines. This draft retains flat faces as a baseline for the test, not a final rule.
+- Draft saved and dimension/alpha/seam checks passed; no in-game visual test, approval, or release yet. A forced K05-only test link remains outstanding.
+
 ## 2026-11-11 · Claude · Forge: PNG to layer
 - New button in the Forge's Trace tab: **PNG to layer** puts a PNG onto the active layer of the current frame pixel for pixel. The PNG must be exactly the sprite's size (otherwise nothing changes); undo works. Made for Height maps from `tools/art/height_from_body.py`, e.g. `docs/height-brief/K05-height.png` onto K05's Height layer.
 - Copying one layer onto another already worked: Ctrl+C with nothing selected, switch layer, Ctrl+V, Enter.
