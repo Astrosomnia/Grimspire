@@ -6,6 +6,9 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-11 · Claude · Light map: lights add up again, edges catch light
+- Jarred: with the gradient-based light direction, a trooper's glow carved a dark circle into other lights and edges stopped catching light. Now a second light map sums each light's own direction (weighted by its brightness), and the stone takes the dot of its surface direction with that sum, so lights add and an edge facing a light catches it. Float maps only; devices without them fall back to flat light. No sim change.
+
 ## 2026-11-11 · Claude · Lit look: light map instead of a capped light list
 - Every light (lamps, graffiti, troopers, fire, shots, blasts) is now drawn each frame into a half-resolution light map, and the shader reads it once per pixel; light direction for the stone comes from the map's gradient. No more cap on lights, so nothing drops out when a shot or blast adds light (the flicker on phones) and graffiti and trooper glows stay on at any zoom. Per-pixel cost no longer grows with the number of lights.
 - A short list of the brightest lights remains only for the streaks on the water (6 on phones, 12 on desktop).

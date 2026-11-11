@@ -1165,7 +1165,7 @@ vec2 cellC(vec2 w,vec2 g){float row=floor(w.y/g.y);float ox=mod(row,2.)*g.x*.5;v
 float fbm(vec2 p){float a=.5,s=0.;for(int i=0;i<4;i++){s+=a*vn(p);p=p*2.03+7.1;a*=.5;}return s;}
 `;
   const FS_SCENE=COMMON+`
-uniform sampler2D uAlb,uGuts,uGraf,uEmis,uBack,uSoot,uBlur,uBake,uAtlas,uLM,uFx,uDyn,uHeight,uDet,uDetH;uniform float uDetOn,uDetHOn,uLMs;
+uniform sampler2D uAlb,uGuts,uGraf,uEmis,uBack,uSoot,uBlur,uBake,uAtlas,uLM,uLD,uFx,uDyn,uHeight,uDet,uDetH;uniform float uDetOn,uDetHOn,uLMs,uLDOn;
 uniform vec2 uRes,uCam;uniform float uScale,uTime,uSump,uBleed,uHz;uniform vec4 uSp[2];
 uniform vec4 uL[${NL}];uniform vec3 uLC[${NL}];uniform int uNL;
 out vec4 o;
@@ -1287,8 +1287,8 @@ vec3 world(vec2 w){
   vec3 lit=vec3(0.),flt=vec3(0.),air=vec3(0.);const vec3 SPC=vec3(.75,.85,1.);
   if(P>.5)lit+=SPC*spot(q,N,1.)*1.1;flt+=SPC*spot(w,vec3(0,0,1),0.)*.5;
   {vec3 lm=LMs(w);flt+=lm;air+=lm*.55;
-    if(P>.5){float L0=lum(lm);if(L0>.002){if(LOWR)lit+=lm*.9;else{vec2 g=vec2(lum(LMs(q+vec2(3.,0.)))-lum(LMs(q-vec2(3.,0.))),lum(LMs(q+vec2(0.,3.)))-lum(LMs(q-vec2(0.,3.))));
-      vec3 dir=normalize(vec3(g/L0*6.,.3));lit+=lm*max(dot(N,dir),0.)*1.7;}}}}
+    if(P>.5){float L0=lum(lm);if(L0>.002){if(LOWR||uLDOn<.5)lit+=lm*.9;else{vec3 L1=textureLod(uLD,w/WH,0.).xyz*uLMs;
+      lit+=lm/L0*max(0.,.3*L0+1.15*dot(N,L1));}}}}
   vec4 bw=textureLod(uBack,w/WH,0.)*inb(w);
   if(bw.a>.02&&P<.5){float csh=smoothstep(.12,.55,blr(q+ML*9.));
     vec3 bl=vec3(.055,.075,.115)+CYA*.3*pow(smoothstep(130.,0.,uSump-w.y),2.)+MOONC*.16*(1.-csh)+flt*.35;
@@ -1365,7 +1365,8 @@ void main(){vec3 c=textureLod(tC,vUv,0.).rgb;
   const VS_L=`#version 300 es
 in vec2 p;uniform vec3 uLt;uniform vec2 WH;out vec2 vd;void main(){vd=p;vec2 w=uLt.xy+p*uLt.z;gl_Position=vec4(w.x/WH.x*2.-1.,w.y/WH.y*2.-1.,0.,1.);}`;
   const FS_L=`#version 300 es
-precision highp float;in vec2 vd;uniform vec3 uC;out vec4 o;void main(){float q=dot(vd,vd);if(q>=1.)discard;float a=1.-q;o=vec4(uC*a*a,1.);}`;
+precision highp float;in vec2 vd;uniform vec3 uC;layout(location=0) out vec4 o;layout(location=1) out vec4 o2;void main(){float q=dot(vd,vd);if(q>=1.)discard;float a=1.-q;vec3 c=uC*a*a;o=vec4(c,1.);
+  float w=dot(c,vec3(.3,.59,.11));o2=vec4(normalize(vec3(-vd,.2))*w,w);}`;
   const progL=()=>{const p=gl.createProgram();gl.attachShader(p,sh(gl.VERTEX_SHADER,VS_L));gl.attachShader(p,sh(gl.FRAGMENT_SHADER,FS_L));gl.bindAttribLocation(p,0,'p');gl.linkProgram(p);
     if(!gl.getProgramParameter(p,gl.LINK_STATUS))throw new Error(gl.getProgramInfoLog(p));return{p,u:{uLt:gl.getUniformLocation(p,'uLt'),WH:gl.getUniformLocation(p,'WH'),uC:gl.getUniformLocation(p,'uC')}}};
   try{LIT.P={lmap:progL(),scene:prog(FS_SCENE),blur:prog(FS_BLUR),bake:prog(FS_BAKE),down:prog(FS_DOWN),final:prog(FS_FINAL)}}catch(e){console.warn('lit look unavailable:',e.message);LIT.on=false;return}
@@ -1468,7 +1469,11 @@ function litBuild(){const gl=LIT.gl,T=LIT.T;for(const k in T){gl.deleteTexture(T
   const ec=mk(W*K,H*K),eg=ec.getContext('2d');eg.imageSmoothingEnabled=false;eg.setTransform(K,0,0,K,0,0);
   for(const p of(NS.kit||[]))if(p.emis){eg.save();if(p.flip){eg.translate(p.x+p.w,p.y);eg.scale(-1,1);eg.drawImage(p.emis,0,0,p.w,p.h)}else eg.drawImage(p.emis,p.x,p.y,p.w,p.h);eg.restore()}
   T.emis=litTex(ec,true);T.back=litTex(litPatch(nsBack(),0,0,W,H),true);
-  litFree(LIT.lmT);LIT.lmT=litTarget(W>>1,H>>1,true,false);
+  litFree(LIT.lmT);if(LIT.lmD)gl.deleteTexture(LIT.lmD);LIT.lmT=litTarget(W>>1,H>>1,true,false);
+  // second target: each light's direction, weighted by its brightness, summed (float maps only: it goes negative)
+  LIT.lmD=null;if(LIT.hdr){const t=gl.createTexture();gl.bindTexture(gl.TEXTURE_2D,t);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA16F,W>>1,H>>1,0,gl.RGBA,gl.HALF_FLOAT,null);
+    for(const[p,v]of[[gl.TEXTURE_MIN_FILTER,gl.LINEAR],[gl.TEXTURE_MAG_FILTER,gl.LINEAR],[gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE],[gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE]])gl.texParameteri(gl.TEXTURE_2D,p,v);
+    gl.bindFramebuffer(gl.FRAMEBUFFER,LIT.lmT.f);gl.framebufferTexture2D(gl.FRAMEBUFFER,gl.COLOR_ATTACHMENT1,gl.TEXTURE_2D,t,0);LIT.lmD=t}
   LIT.blA=litTarget(W>>1,H>>1,false,false);LIT.blB=litTarget(W>>1,H>>1,false,false);LIT.bake=litTarget(W,H,false,true);
   litDerive(null);LIT.dirty=null}
 function litFlush(){const gl=LIT.gl,d=LIT.dirty;if(!d)return;LIT.dirty=null;
@@ -1502,10 +1507,10 @@ function litFrame(lights,shx,shy){const gl=LIT.gl,T=LIT.T;
     if(s.tg<0){s.tg=L.i;s.x+=(L.x-s.x)*.4;s.y+=(L.y-s.y)*.4;s.r=L.r;s.c=L.c}else{s.tg=Math.min(1.5,s.tg+L.i*.2);s.r=Math.max(s.r,L.r)}}
   for(const[k,s]of M){const tg=Math.max(0,s.tg);s.i+=(tg-s.i)*Math.min(1,dtL*(tg>s.i?18:s.tg<0?7:14));if(s.tg<0&&s.i<.02)M.delete(k)}
   const all=[...M.values()].filter(L=>L.i>.01&&Math.hypot(L.x-vx,L.y-vy)<vr+L.r*1.7+140);
-  {const Lp=LIT.P.lmap,T_=LIT.lmT,ls=LIT.hdr?1:.25;gl.useProgram(Lp.p);gl.bindFramebuffer(gl.FRAMEBUFFER,T_.f);gl.viewport(0,0,T_.w,T_.h);gl.clearColor(0,0,0,0);gl.clear(gl.COLOR_BUFFER_BIT);
+  {const Lp=LIT.P.lmap,T_=LIT.lmT,ls=LIT.hdr?1:.25;gl.useProgram(Lp.p);gl.bindFramebuffer(gl.FRAMEBUFFER,T_.f);gl.viewport(0,0,T_.w,T_.h);gl.drawBuffers(LIT.lmD?[gl.COLOR_ATTACHMENT0,gl.COLOR_ATTACHMENT1]:[gl.COLOR_ATTACHMENT0]);gl.clearColor(0,0,0,0);gl.clear(gl.COLOR_BUFFER_BIT);
     gl.enable(gl.BLEND);gl.blendFunc(gl.ONE,gl.ONE);gl.uniform2f(Lp.u.WH,W,H);
     for(const L of all){const m=L.i*1.6/255*ls;gl.uniform3f(Lp.u.uLt,L.x,L.y,L.r*1.7);gl.uniform3f(Lp.u.uC,L.c[0]*m,L.c[1]*m,L.c[2]*m);gl.drawArrays(gl.TRIANGLES,0,3)}
-    gl.disable(gl.BLEND);gl.useProgram(S.p);litBind(S,'uLM',12,T_.t);gl.uniform1f(S.u.uLMs,1/ls)}
+    gl.disable(gl.BLEND);gl.useProgram(S.p);litBind(S,'uLM',12,T_.t);if(LIT.lmD)litBind(S,'uLD',13,LIT.lmD);gl.uniform1f(S.u.uLDOn,LIT.lmD?1:0);gl.uniform1f(S.u.uLMs,1/ls)}
   const Ls=all.filter(L=>L.y<sump).sort((a,b)=>b.i*b.r-a.i*a.r).slice(0,NL);
   const la=new Float32Array(NL*4),lc=new Float32Array(NL*3);Ls.forEach((L,i)=>{la[i*4]=L.x;la[i*4+1]=L.y;la[i*4+2]=L.r*1.7;const m=L.i*1.6/255;lc[i*3]=L.c[0]*m;lc[i*3+1]=L.c[1]*m;lc[i*3+2]=L.c[2]*m});
   {const sa=new Float32Array(8);let n=0;for(const sh of ships){if(n>1)break;const d=Math.sign(sh.vx)||1;sa.set([sh.x+6*d,sh.y+8,0,1.4],n*4);n++}gl.uniform4fv(S.u.uSp,sa)}
