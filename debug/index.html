@@ -1250,7 +1250,7 @@ vec3 world(vec2 w){
     float fw=smoothstep(.05,.0,length(gd))*smoothstep(.55,.8,e)*(1.-step(.5/255.,H0.a));float tn,tn2;
     float b0=brick(q,tn);vec2 gb=vec2(brick(q+vec2(.5,0),tn2)-brick(q-vec2(.5,0),tn2),brick(q+vec2(0,.5),tn2)-brick(q-vec2(0,.5),tn2));
     float au=step(.5/255.,H0.a);// authored Height: its own relief leads, the silhouette bevel steps back
-    N=normalize(vec3(-(gd*mix(2.6,6.5,au)+ge*mix(3.4,1.2,au)+gb*.5*fw),1.));
+    N=normalize(vec3(-(gd*mix(2.6,4.,au)+ge*mix(3.4,2.05,au)+gb*.5*fw),1.));
     float edge=1.-smoothstep(.52,.9,e);
     stone=pow(A.rgb,vec3(1.25))*vec3(.8,.8,.94);
     {float sl=lum(stone);stone=mix(stone,vec3(.27,.29,.36)*(.82+.36*h1(floor(q/2.)+3.)),smoothstep(.3,.04,sl));}

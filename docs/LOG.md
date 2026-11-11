@@ -6,6 +6,11 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-11 · Claude · Height relief set to 4; rockier rock heights in the test build
+- **Relief:** Jarred tried the slider in the test build and picked **4** "for now" (was 6.5). In the stone normal, where a Height pixel exists: surface term 4.0, silhouette bevel 2.05. Still nothing on screen on `main` until a Height is released. No sim change.
+- **Rocks (test build only):** Jarred likes Height on rocks and wants them rockier, catching more light. R01–R09 in the test build use a rule-made Height of angular chunks, each at its own depth and tilt, with the painted cracks kept deep. Not saved to the Forge. Limit: the lit look has no shadows from Height, so chunks shade but don't shadow each other.
+- **Open:** Jarred hasn't decided whether Height overall is the right call ("becomes quite sharp"); he's judging in play. Parked idea from him: crates late in a game make the water reflections flicker; not reproduced yet.
+
 ## 2026-11-11 · Claude · Full-kit Height test build
 - Answering ChatGPT's ask: the private test build (https://claude.ai/artifact/9TQtVBf1oEoSXy8trK1g4D) is now `main` plus the latest Height draft of all 40 kit and rock pieces (K01–K17 with variants, R01–R09) from `art/weapon-lab` at `0b3bc10`. Nothing released; `main` is unchanged.
 - Checked each draft: same size as its live Body, Body identical to live, Height alpha equals Body alpha, pure grey, hard steps. Map hashes match `main` on three seeds; no errors.

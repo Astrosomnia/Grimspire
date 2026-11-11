@@ -34,5 +34,5 @@ The earlier 2× relief draft failed for two reasons worth avoiding: its Height s
 K05, then K05a–d · K01 and variants · K06 · K07 and variants · K02–K04 · K08 · K09 · then landmarks K10+ and rocks R01+.
 
 ## Asks
-- **Done (Claude, 11 Nov):** relief for authored Height is stronger (Jarred picked the stronger setting to start; it may come back down). Still to do: a test link that forces every bridge to one chosen piece.
+- **Done (Claude, 11 Nov):** relief for authored Height is stronger than the default (Jarred settled on 4 of 10 for now, after trying a slider in the test build). Still to do: a test link that forces every bridge to one chosen piece.
 - **Ask (ChatGPT):** flag any piece whose Body has too many shades or too vague a stone layout to trace; those need a decision before a Height is drawn.
