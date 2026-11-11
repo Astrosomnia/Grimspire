@@ -6,6 +6,11 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-10 · Claude · Grapple on the rappel wire; cutter walks (GV 40, branch `lit`)
+- **Rappel Wire:** aim up (more than about 17° above level) and fire to grapple: the wire flies up to 230 px and bites into the first stone it hits, and the trooper hangs from it at that length. Reel, swing and release work as before. Aimed level or down it rappels off a ledge as before. Same ammo (5). The CPU doesn't use the grapple yet. **GV 40.**
+- **Plasma cutter:** the trooper plays the walk cycle while boring instead of sliding.
+- `det.py` matches `main`; `dsim.py` and `dsim2.py` identical. Balance Sheet still to update (shockwaves, rope description) at merge.
+
 ## 2026-11-10 · Claude · Lit look, fifth pass: shockwaves (GV 39), cutter fixed, dropship light
 - Branch `lit`. **Sim (GV 39):** only explosions break jagged now; the plasma cutter, the fist and bullet holes carve round again, so the cutter cuts clean tunnels. Shockwaves reach 3.1× the blast radius (was 2.6×), shove about 25% harder, and a close blast pops a trooper off their feet. `det.py` matches `main`; `dsim.py` and `dsim2.py` run identical. **Balance Sheet not yet updated** for the shockwave numbers.
 - **Look:** the moon's glow no longer shows through buildings in front of it; the skyline bands' water and haze fade in instead of ending on a hard line; the dropship's searchlight is a real spotlight that lights stone and casts shadows; pale metal like the dropship no longer counts as glowing, so it reads darker.
