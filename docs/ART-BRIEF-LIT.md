@@ -19,7 +19,8 @@ What this means for art:
 
 ### Pixel density: 2×
 - Draw everything at **twice today's density**: about **3.7 art px per world px**, not 1.85. A trooper is about 100 art px tall instead of 50.
-- In the Forge, set the asset's **game scale to 0.5**, and 0.6 for weapons (today's 1.2× halved). The game already reads per-asset scale, so no code change is needed for slots that respect it.
+- In the Forge, set the asset's **game scale to 0.5**, and 0.6 for weapons (today's 1.2× halved). Kit pieces (K, R) honour it on the `lit` branch as of 11 Nov; a `deck: N` note counts rows of the 2× art.
+- **Height** now has its own layer in the Forge (11 Nov); ignore the separate-PNG fallback below.
 - Keep 12 source px per art px; the art canvas is simply bigger.
 - Pixel craft rules still hold: clusters of at least 2×2, no lone pixels except deliberate glints, judge at game size on a phone.
 

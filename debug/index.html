@@ -672,13 +672,18 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
     if(h<150||h>sump-70)continue;const sc=dl+dr;if(!best||sc<best.sc)best={x,sc};if(sc<12)break}const x=best?best.x:rnd(220,W-220);used.push(x);return x};
   // ---- the architecture kit (ChatGPT's K pieces, R rock) for every layout ----
   const kitReady=!!window.GRIMSPIRE_ART_READY&&typeof labArt!=='undefined',kitHas=k=>kitReady&&labArt.has(k)&&!!labArt.get(k).frames[0]?.body;
-  const z=PX,hg=gutsC.getContext('2d');// kit Guts: shown only as a thin broken rim inside holes (see rebuildRim)
+  const z=PX,hg=gutsC.getContext('2d');
+  // Kit drawn at a higher pixel density (2×, game_scale .5) is laid out in today's units: sizes, base rows and the
+  // top and bottom profiles are scaled down here, while the drawing keeps every pixel of the finer art.
+  const kS=id=>{const d=labArt.get(id).doc,s=+d.game_scale;return s>0?s:1};
+  const kD=id=>{const d=labArt.get(id).doc,s=kS(id);if(s===1)return d;return d._kd||(d._kd=Object.assign({},d,{w:d.w*s,h:d.h*s,base:Number.isFinite(d.base)?(d.base+1)*s-1:undefined}))};
+  const kRes=(t,s)=>{const n=Math.max(1,Math.round(t.length*s)),o=new Float32Array(n);for(let x=0;x<n;x++){const v=t[Math.min(t.length-1,Math.floor(x/s))];o[x]=v<0?-1:Math.floor(v*s)}return o};// kit Guts: shown only as a thin broken rim inside holes (see rebuildRim)
   // a slot's variants (K01, K01a, K01b…) share size and joints; pick one per piece
   // the open X-frame shaft, X-truss span and scaffold cloister read as shipyard, not gothic: kept rare
   const KW_CAP={K01c:.06,K05c:.08,K07c:.2,K01d:.35};
-  const kW=n=>{const m=String(labArt.get(n).doc.notes||'').match(/^\s*weight\s*:\s*([\d.]+)/im),w=m?Math.max(0,+m[1]):1;return n in KW_CAP?Math.min(w,KW_CAP[n]):w};
+  const kW=n=>{const m=String(kD(n).notes||'').match(/^\s*weight\s*:\s*([\d.]+)/im),w=m?Math.max(0,+m[1]):1;return n in KW_CAP?Math.min(w,KW_CAP[n]):w};
   const pickK=k=>{const v=[...labArt.keys()].filter(n=>n===k||(n.length===4&&n.startsWith(k)&&/[a-z]$/.test(n)));let sum=0;for(const n of v)sum+=kW(n);let u=Math.random()*sum;for(const n of v){u-=kW(n);if(u<=0)return n}return v[0]};
-  const put=(k,x,yb,flip,vid)=>{const id=vid||pickK(k),a=labArt.get(id),d=a.doc,f=a.frames[0],w=d.w*z,h=d.h*z,y=yb-((Number.isFinite(d.base)?d.base:d.h-1)+1)*z;
+  const put=(k,x,yb,flip,vid)=>{const id=vid||pickK(k),a=labArt.get(id),d=kD(id),f=a.frames[0],w=d.w*z,h=d.h*z,y=yb-((Number.isFinite(d.base)?d.base:d.h-1)+1)*z;
     const draw=(c,img)=>{if(!img)return;c.save();c.imageSmoothingEnabled=false;if(flip){c.translate(x+w,y);c.scale(-1,1);c.drawImage(img,0,0,w,h)}else c.drawImage(img,x,y,w,h);c.restore()};
     // stacked tower shafts would make columns of glass: only some windows are lit, and only the big glass casts light
     const lit=f.emis&&(k!=='K01'||Math.random()<.3),sp=kitSplit(f.body,k,d);draw(g,sp.solid);if(sp.deco)draw(decoC.getContext('2d'),sp.deco);draw(hg,f.guts);NS.kit.push({id,x,y,w,h,flip,body:f.body,solid:sp.solid,emis:lit?f.emis:null,light:lit&&(k==='K08'||k==='K07')?[x+w/2,y+h*(k==='K08'?.42:.3),k==='K08'?150:110]:null});return{x,y,w,h}};
@@ -695,12 +700,12 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
   const kTop=id=>{const b=labArt.get(id).frames[0].body;if(b._top)return b._top;const c=mk(b.width,b.height),cg=c.getContext('2d');cg.drawImage(b,0,0);
     const d=cg.getImageData(0,0,b.width,b.height).data,t=new Int16Array(b.width).fill(-1);let x0=-1,x1=-1;
     for(let x=0;x<b.width;x++)for(let y=0;y<b.height;y++)if(d[(y*b.width+x)*4+3]>127){t[x]=y;if(x0<0)x0=x;x1=x;break}
-    return b._top={t,x0,x1,w:b.width}};
+    const s=kS(id);return b._top=s===1?{t,x0,x1,w:b.width}:{t:kRes(t,s),x0:Math.floor(x0*s),x1:Math.floor(x1*s),w:Math.round(b.width*s)}};
   const occW=id=>{const k=kTop(id);return(k.x1-k.x0+1)*z};
   // put a piece so its occupied columns start at world x `ox`, its bottom row on `yb`
   const putOcc=(code,id,ox,yb,flip)=>{const k=kTop(id),lead=flip?k.w-1-k.x1:k.x0;return put(code,ox-lead*z,yb,flip,id)};
   // world y of a piece's top surface at a fraction of its occupied width, once placed with bottom row on yb
-  const seatY=(id,f,yb,flip)=>{const k=kTop(id),d=labArt.get(id).doc,c=Math.round(k.x0+(k.x1-k.x0)*(flip?1-f:f));return yb-((Number.isFinite(d.base)?d.base:d.h-1)+1-Math.max(0,k.t[c]))*z};
+  const seatY=(id,f,yb,flip)=>{const k=kTop(id),d=kD(id),c=Math.round(k.x0+(k.x1-k.x0)*(flip?1-f:f));return yb-((Number.isFinite(d.base)?d.base:d.h-1)+1-Math.max(0,k.t[c]))*z};
   const freeOcc=(x0,x1)=>!occ.some(o=>Math.min(x1,o[1])-Math.max(x0,o[0])>Math.min(x1-x0,o[1]-o[0])*.3);
   // a kit tower: shafts from a buried foot up to `top`, then a crown
   const kTower=(x,foot,top)=>{let yb=foot;while(yb-SHk>top){put('K01',x,yb);yb-=SHk}const r=Math.random();put(r<.5?'K02':r<.75?'K03':'K04',x,yb+Jk,Math.random()<.5);genT.push({x,top:yb});occ.push([x,x+TW]);seats.push({x0:x,x1:x+TW,bot:()=>H});return yb};
@@ -708,7 +713,7 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
   // arches stay open), and the list of placed pieces to seat once the ground is done (see seatAll)
   const seats=[],kBot=id=>{const b=labArt.get(id).frames[0].body;if(b._bot)return b._bot;const c=mk(b.width,b.height),cg=c.getContext('2d');cg.drawImage(b,0,0);
     const d=cg.getImageData(0,0,b.width,b.height).data,t=new Int16Array(b.width).fill(-1),lim=Math.floor(b.height*.7);
-    for(let x=0;x<b.width;x++)for(let y=b.height-1;y>=lim;y--)if(d[(y*b.width+x)*4+3]>127){t[x]=y;break}return b._bot=t};
+    for(let x=0;x<b.width;x++)for(let y=b.height-1;y>=lim;y--)if(d[(y*b.width+x)*4+3]>127){t[x]=y;break}{const s=kS(id);return b._bot=s===1?t:kRes(t,s)}};
   const seatPiece=(id,r,flip)=>{const t=kBot(id),k=kTop(id),dw=t.length,col=x=>{const c=Math.floor((x-r.x)/z);return flip?dw-1-c:c};
     const x0=r.x+(flip?dw-1-k.x1:k.x0)*z,x1=r.x+(flip?dw-1-k.x0:k.x1+1)*z;seats.push({x0,x1,bot:x=>{const c=col(x);return c>=0&&c<dw&&t[c]>=0?r.y+(t[c]+1)*z:null}})};
   // Up and over: builds above whatever already stands, so troopers end up over and under each other: high spans
@@ -885,7 +890,7 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
       const DGK=['K14','K15','K16'].filter(kitHas),CRK=['R05','R06','R07','R08'].filter(kitHas);
       // Landmarks (K10–K12: collapsed nave, breached belfry, fallen arch): big multi-level ruins kept whole, with their
       // slopes, broken floors and lower arches, standing on rock above the water. Up to two per map, each code once.
-      const LMK=['K10','K11','K12','K13'].filter(k=>labArt.has(k)&&labArt.get(k).frames[0]?.body),lmW=k=>labArt.get(k).doc.w*z,lmUsed=new Set();
+      const LMK=['K10','K11','K12','K13'].filter(k=>labArt.has(k)&&labArt.get(k).frames[0]?.body),lmW=k=>kD(k).w*z,lmUsed=new Set();
       // how far a piece stands above the water on its rock: level, a step up, or high
       const lift=()=>{const r=Math.random();return r<.3?0:r<.65?rnd(30,60):rnd(70,115)};
       const tower=()=>{lay.push(['T',x,rnd(115,330)]);x+=TW;last='T'};
@@ -943,11 +948,11 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
           // K15 rises to its left end (meets the tower before it), K14 and K16 to their right (the tower after)
           const flip=mir,yb=code==='K14'?sump+rnd(14,26):code==='K15'?wl-rnd(0,14):wl-rnd(18,44);
           if(code==='K16'){const k=kTop(id);rockMass(ox+w*.06,ox+w*.94,yb,false,false)}putOcc(code,id,ox,yb,flip)}
-        else if(k==='CRAG'){const[_,x0,id,code,w]=L2,ox=mir?W-x0-w:x0,h=labArt.get(id).doc.h*z;putOcc(code,id,ox,sump+rnd(16,40)+(code==='R06'?rnd(0,40):0),Math.random()<.5)}
+        else if(k==='CRAG'){const[_,x0,id,code,w]=L2,ox=mir?W-x0-w:x0,h=kD(id).h*z;putOcc(code,id,ox,sump+rnd(16,40)+(code==='R06'?rnd(0,40):0),Math.random()<.5)}
         else if(k==='LM'){const[_,x0,code,lf]=L2,w=lmW(code),xs=fx(x0,w),fl=Math.random()<.5;rockMass(xs,xs+w,wl-lf,true,true);
           // half the time a rock-to-masonry footing (R09) or crag (R05) under the middle, its seat at the landmark's foot
           if(Math.random()<.5){const fc=['R09','R05'].filter(kitHas);if(fc.length){const fid=pickK(fc[Math.random()*fc.length|0]),fw=occW(fid),ff=Math.random()<.5,fo=xs+w/2-fw/2,
-            d=labArt.get(fid).doc,kk=kTop(fid),cc=Math.round((kk.x0+kk.x1)/2),seat=Math.max(0,kk.t[cc]),fyb=(wl-lf)+((Number.isFinite(d.base)?d.base:d.h-1)+1-seat)*z-2;putOcc(fid.slice(0,3),fid,fo,fyb,ff)}}
+            d=kD(fid),kk=kTop(fid),cc=Math.round((kk.x0+kk.x1)/2),seat=Math.max(0,kk.t[cc]),fyb=(wl-lf)+((Number.isFinite(d.base)?d.base:d.h-1)+1-seat)*z-2;putOcc(fid.slice(0,3),fid,fo,fyb,ff)}}
           const c=put(code,xs,wl-lf,fl,code),a=labArt.get(code);if(c&&a.frames[0].emis)NS.kit[NS.kit.length-1].light=[c.x+c.w*(fl?.3:.7),c.y+c.h*.35,120];hangs.push({cx:c.x+c.w*.5,cy:c.y+c.h*.4})}
         else if(k==='B'){const[_,x0,n,deck,vid]=L2,w=n*SPAN,xs=fx(x0,w),yb=deck+80*z;for(let i=0;i<n;i++)put('K05',xs+i*SPAN,yb,mir,vid);
           for(let i=0;i<=n;i++){let py=yb+PH;while(py-PH<H+20){put('K06',xs+i*SPAN-PIER/2,py);py+=PH}}hangs.push({cx:xs+w*rnd(.3,.7),cy:deck});
@@ -1036,7 +1041,7 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
       {const pts=[[best.x-6,yb-4]];for(let xx=best.x-6;xx<=best.x+w+6;xx+=8)pts.push([xx,Math.max(yb-4,hAt(xx)+14)]);pts.push([best.x+w+6,yb-4]);poly(g,pts)}
       const c=putOcc(id.slice(0,3),id,best.x,yb,flip);occ.push([best.x,best.x+w]);seatPiece(id,c,flip);hangs.push({cx:best.x+w/2,cy:c.y+c.h*.4})}
     const rk=['R05','R06','R07','R08','R09'].filter(kitHas),nr=rk.length?nW((L==='islands'?3:2)+(Math.random()<.5?1:0),1):0;
-    for(let i=0;i<nr;i++){const code=L==='islands'&&Math.random()<.6&&kitHas('R06')?'R06':rk[Math.random()*rk.length|0],id=pickK(code),w=occW(id),h=labArt.get(id).doc.h*z;
+    for(let i=0;i<nr;i++){const code=L==='islands'&&Math.random()<.6&&kitHas('R06')?'R06':rk[Math.random()*rk.length|0],id=pickK(code),w=occW(id),h=kD(id).h*z;
       let x=-1;for(let k=0;k<30;k++){const t=rnd(30,W-30-w);if(freeOcc(t,t+w)){x=t;break}}if(x<0)continue;
       // sunk a third to a half into the ground (or the water, where there's no ground)
       const gnd=Math.min(hAt(x+w*.5),H-30),yb=Math.min(H+20,gnd+h*rnd(.25,.45));if(yb-h*.9>sump-30)continue;
@@ -1161,7 +1166,7 @@ vec2 cellC(vec2 w,vec2 g){float row=floor(w.y/g.y);float ox=mod(row,2.)*g.x*.5;v
 float fbm(vec2 p){float a=.5,s=0.;for(int i=0;i<4;i++){s+=a*vn(p);p=p*2.03+7.1;a*=.5;}return s;}
 `;
   const FS_SCENE=COMMON+`
-uniform sampler2D uAlb,uGuts,uGraf,uEmis,uBack,uSoot,uBlur,uBake,uSkyT,uMoonT,uCloudT,uFarT,uFx,uDyn;
+uniform sampler2D uAlb,uGuts,uGraf,uEmis,uBack,uSoot,uBlur,uBake,uSkyT,uMoonT,uCloudT,uFarT,uFx,uDyn,uHeight,uDet,uDetH;uniform float uDetOn,uDetHOn;
 uniform vec2 uRes,uCam;uniform float uScale,uTime,uSump,uBleed,uHz;uniform vec4 uSp[2];
 uniform vec4 uL[${NL}];uniform vec3 uLC[${NL}];uniform int uNL;
 out vec4 o;
@@ -1172,6 +1177,14 @@ vec3 HOR,MOONC;
 float lum(vec3 c){return dot(c,vec3(.3,.59,.11));}
 float inb(vec2 w){return step(0.,w.x)*step(w.x,WH.x)*step(0.,w.y)*step(w.y,WH.y);}
 vec4 alb(vec2 w){return textureLod(uAlb,w/WH,0.)*inb(w);}
+// A zero-alpha height pixel means there is no authored height here.  Preserve
+// the existing albedo-derived normals for old assets and uncovered pixels.
+vec4 heightAt(vec2 w){return textureLod(uHeight,w/WH,0.)*inb(w);}
+float relief(vec4 albedo,vec4 height){return mix(lum(albedo.rgb),height.r,step(.5/255.,height.a))*albedo.a;}
+// Screen-resolution stone: finer kit art (2×) keeps all its pixels instead of being squeezed into the world atlas.
+vec2 dsp(vec2 w){return (w-uCam)*uScale/uRes;}
+float insc(vec2 s){return step(0.,s.x)*step(s.x,1.)*step(0.,s.y)*step(s.y,1.);}
+float drel(vec2 s){vec4 D=textureLod(uDet,s,0.);vec4 Hh=uDetHOn>.5?textureLod(uDetH,s,0.):vec4(0.);return relief(D,Hh);}
 float blr(vec2 w){return textureLod(uBlur,w/WH,0.).r*inb(w);}
 float brick(vec2 w,out float tone){float row=floor(w.y/7.);vec2 p=vec2(w.x+mod(row,2.)*7.,w.y);vec2 id=floor(p/vec2(14.,7.));vec2 f=p-id*vec2(14.,7.);tone=h1(id+.5);return step(.75,f.x)*step(.75,f.y);}
 vec3 sky(vec2 w){
@@ -1224,10 +1237,14 @@ vec3 world(vec2 w){
     float soot=textureLod(uSoot,q/WH,0.).a;vec2 cc=cellC(q,GR);
     float l0=lum(A.rgb);
     vec4 ax=alb(q+vec2(.5,0)),bx=alb(q-vec2(.5,0)),ay=alb(q+vec2(0,.5)),by=alb(q-vec2(0,.5));
-    vec2 gd=vec2(lum(ax.rgb)*ax.a-lum(bx.rgb)*bx.a,lum(ay.rgb)*ay.a-lum(by.rgb)*by.a);
+    vec4 H0=heightAt(q);
+    vec2 gd=vec2(relief(ax,heightAt(q+vec2(.5,0)))-relief(bx,heightAt(q-vec2(.5,0))),relief(ay,heightAt(q+vec2(0,.5)))-relief(by,heightAt(q-vec2(0,.5))));
+    if(uDetOn>.5){vec2 s0=dsp(w);if(insc(s0)>.5){vec4 D=textureLod(uDet,s0,0.);if(D.a>.5){A=D;l0=lum(A.rgb);
+      vec2 o=vec2(max(1.,.5*uScale))/uRes;gd=vec2(drel(s0+vec2(o.x,0.))-drel(s0-vec2(o.x,0.)),drel(s0+vec2(0.,o.y))-drel(s0-vec2(0.,o.y)));
+      if(uDetHOn>.5)H0=textureLod(uDetH,s0,0.);}}}
     float hit=smoothstep(.05,.4,soot);
     vec2 ge=hit>.01?mix(blurG(q,2.5),blurG(cc,3.5)*1.7,hit):blurG(q,2.5);
-    float fw=smoothstep(.05,.0,length(gd))*smoothstep(.55,.8,e);float tn,tn2;
+    float fw=smoothstep(.05,.0,length(gd))*smoothstep(.55,.8,e)*(1.-step(.5/255.,H0.a));float tn,tn2;
     float b0=brick(q,tn);vec2 gb=vec2(brick(q+vec2(.5,0),tn2)-brick(q-vec2(.5,0),tn2),brick(q+vec2(0,.5),tn2)-brick(q-vec2(0,.5),tn2));
     N=normalize(vec3(-(gd*2.6+ge*3.4+gb*.5*fw),1.));
     float edge=1.-smoothstep(.52,.9,e);
@@ -1348,7 +1365,7 @@ void main(){vec3 c=textureLod(tC,vUv,0.).rgb;
   gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL,false);
   c.addEventListener('webglcontextlost',e=>{e.preventDefault();LIT.ok=false;c.remove()});
   const one=()=>{const t=gl.createTexture();gl.bindTexture(gl.TEXTURE_2D,t);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,1,1,0,gl.RGBA,gl.UNSIGNED_BYTE,new Uint8Array([20,14,30,0]));return t};
-  LIT.bg={sky:one(),moon:one(),clouds:one(),far:one(),fx:one(),dyn:one()};for(const k of['fx','dyn']){gl.bindTexture(gl.TEXTURE_2D,LIT.bg[k]);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE)}
+  LIT.bg={sky:one(),moon:one(),clouds:one(),far:one(),fx:one(),dyn:one(),det:one(),deth:one()};for(const k of['det','deth']){gl.bindTexture(gl.TEXTURE_2D,LIT.bg[k]);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.NEAREST);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.NEAREST);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE)}for(const k of['fx','dyn']){gl.bindTexture(gl.TEXTURE_2D,LIT.bg[k]);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE)}
   for(const[k,f,rp]of[['moon','moon.webp',0],['clouds','clouds.webp',1],['far','far.webp',1]]){const im=new Image();im.onload=()=>{if(!LIT.ok)return;gl.deleteTexture(LIT.bg[k]);const t=LIT.bg[k]=litTex(im,false);
       if(rp){gl.bindTexture(gl.TEXTURE_2D,t);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.MIRRORED_REPEAT)}};im.src='assets/bg/'+f}
   cv.parentNode.insertBefore(c,cv);LIT.ok=true;
@@ -1378,6 +1395,51 @@ function litStone(x0,y0,w,h){const K=2,c=LIT.sc||(LIT.sc=document.createElement(
   g.setTransform(K,0,0,K,-x0*K,-y0*K);g.drawImage(terr,0,0);const kit=NS.kit&&NS.kit.length;if(kit)nsKitPaint(g);
   if(NS.lip){g.save();g.clip(NS.lip);g.drawImage(terr,0,0);g.restore()}
   g.globalCompositeOperation='destination-in';g.drawImage(kit?unionC:terr,0,0);g.globalCompositeOperation='source-over';return c}
+// Height layers are visual only. Paint in exactly the same placement order as
+// the kit body and remove an older map under any later overlapping body, even
+// if that later asset has no authored map. Clip the result to surviving terrain.
+function litMaskedHeight(body,height){
+  const cache=LIT.heightCache||(LIT.heightCache=new WeakMap());let hit=cache.get(height);
+  if(hit&&hit.body===body)return hit.canvas;
+  const c=mk(body.width,body.height),g=c.getContext('2d');g.imageSmoothingEnabled=false;
+  g.drawImage(height,0,0,body.width,body.height);g.globalCompositeOperation='destination-in';g.drawImage(body,0,0);
+  cache.set(height,{body,canvas:c});return c;
+}
+function litHeightPatch(x0,y0,w,h){const K=2,c=LIT.hc||(LIT.hc=document.createElement('canvas'));c.width=w*K;c.height=h*K;
+  const g=c.getContext('2d');g.imageSmoothingEnabled=false;g.setTransform(K,0,0,K,-x0*K,-y0*K);
+  for(const p of(NS.kit||[])){
+    if(p.x+p.w<x0||p.y+p.h<y0||p.x>x0+w||p.y>y0+h)continue;
+    const height=labArt.get(p.id)?.frames?.[0]?.height;
+    g.save();if(p.clip){g.beginPath();g.rect(...p.clip);g.clip()}
+    if(p.flip){g.translate(p.x+p.w,p.y);g.scale(-1,1)}else g.translate(p.x,p.y);
+    g.globalCompositeOperation='destination-out';g.drawImage(p.body,0,0,p.w,p.h);
+    if(height){g.globalCompositeOperation='source-over';g.drawImage(litMaskedHeight(p.body,height),0,0,p.w,p.h)}
+    g.restore();
+  }
+  // litStone paints the generated terrain over the kit at the walkable lip.
+  if(NS.lip){g.save();g.clip(NS.lip);g.globalCompositeOperation='destination-out';g.drawImage(terr,0,0);g.restore()}
+  g.globalCompositeOperation='destination-in';g.drawImage(NS.kit&&NS.kit.length?unionC:terr,0,0);
+  g.globalCompositeOperation='source-over';return c;
+}
+// The stone as it stands this frame, drawn at the GL canvas's own resolution (k px per world px from cx,cy).
+function litDetail(gw,gh,k,cx,cy){const gl=LIT.gl,G=LIT.bg;
+  const c=LIT.dc||(LIT.dc=document.createElement('canvas'));if(c.width!==gw||c.height!==gh){c.width=gw;c.height=gh}
+  const g=c.getContext('2d');g.setTransform(1,0,0,1,0,0);g.globalCompositeOperation='source-over';g.clearRect(0,0,gw,gh);g.imageSmoothingEnabled=false;
+  g.setTransform(k,0,0,k,-cx*k,-cy*k);g.drawImage(terr,0,0);const kit=NS.kit&&NS.kit.length;if(kit)nsKitPaint(g);
+  if(NS.lip){g.save();g.clip(NS.lip);g.drawImage(terr,0,0);g.restore()}
+  g.globalCompositeOperation='destination-in';g.drawImage(kit?unionC:terr,0,0);g.globalCompositeOperation='source-over';
+  gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,G.det);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,c);
+  if(!LIT.hasHeight)return;
+  const h=LIT.dh||(LIT.dh=document.createElement('canvas'));if(h.width!==gw||h.height!==gh){h.width=gw;h.height=gh}
+  const hg=h.getContext('2d');hg.setTransform(1,0,0,1,0,0);hg.globalCompositeOperation='source-over';hg.clearRect(0,0,gw,gh);hg.imageSmoothingEnabled=false;
+  hg.setTransform(k,0,0,k,-cx*k,-cy*k);
+  for(const p of(NS.kit||[])){const height=labArt.get(p.id)?.frames?.[0]?.height;hg.save();if(p.clip){hg.beginPath();hg.rect(...p.clip);hg.clip()}
+    if(p.flip){hg.translate(p.x+p.w,p.y);hg.scale(-1,1)}else hg.translate(p.x,p.y);
+    hg.globalCompositeOperation='destination-out';hg.drawImage(p.body,0,0,p.w,p.h);
+    if(height){hg.globalCompositeOperation='source-over';hg.drawImage(litMaskedHeight(p.body,height),0,0,p.w,p.h)}hg.restore()}
+  if(NS.lip){hg.save();hg.clip(NS.lip);hg.globalCompositeOperation='destination-out';hg.drawImage(terr,0,0);hg.restore()}
+  hg.globalCompositeOperation='destination-in';hg.drawImage(NS.kit&&NS.kit.length?unionC:terr,0,0);hg.globalCompositeOperation='source-over';
+  gl.bindTexture(gl.TEXTURE_2D,G.deth);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,h)}
 function litPatch(src,x0,y0,w,h){const c=LIT.sc2||(LIT.sc2=document.createElement('canvas'));c.width=w;c.height=h;const g=c.getContext('2d');g.globalCompositeOperation='copy';g.drawImage(src,x0,y0,w,h,0,0,w,h);return c}
 function litDerive(rect){const gl=LIT.gl,B=LIT.P.blur,K=LIT.P.bake;gl.disable(gl.BLEND);
   gl.useProgram(B.p);gl.uniform2f(B.u.WH,W,H);litBind(B,'t',0,LIT.T.alb);gl.uniform1f(B.u.uA,1);gl.uniform2f(B.u.uDir,1.6/W,0);litQuad(LIT.blA);
@@ -1387,6 +1449,11 @@ function litDerive(rect){const gl=LIT.gl,B=LIT.P.blur,K=LIT.P.bake;gl.disable(gl
 function litBuild(){const gl=LIT.gl,T=LIT.T;for(const k in T){gl.deleteTexture(T[k]);delete T[k]}litFree(LIT.blA);litFree(LIT.blB);litFree(LIT.bake);
   LIT.W=W;LIT.H=H;const K=2;
   T.alb=litTex(litStone(0,0,W,H),true);
+  LIT.hasHeight=!!(NS.kit||[]).some(p=>labArt.get(p.id)?.frames?.[0]?.height);
+  LIT.fine=LIT.hasHeight||(NS.kit||[]).some(p=>{const s=+labArt.get(p.id)?.doc?.game_scale;return s>0&&s<1});
+  // Keep legacy payloads cheap: only allocate a full-world atlas when a placed
+  // asset actually provides a height map.
+  T.height=litTex(LIT.hasHeight?litHeightPatch(0,0,W,H):mk(1,1),true);
   const gc=mk(W,H),gg=gc.getContext('2d');gg.drawImage(hollow,0,0);gg.drawImage(gutsC,0,0);T.guts=litTex(gc,true);
   T.graf=litTex(litPatch(graf,0,0,W,H),false);T.soot=litTex(litPatch(scorchC,0,0,W,H),false);
   const ec=mk(W*K,H*K),eg=ec.getContext('2d');eg.imageSmoothingEnabled=false;eg.setTransform(K,0,0,K,0,0);
@@ -1397,6 +1464,7 @@ function litBuild(){const gl=LIT.gl,T=LIT.T;for(const k in T){gl.deleteTexture(T
 function litFlush(){const gl=LIT.gl,d=LIT.dirty;if(!d)return;LIT.dirty=null;
   const x0=Math.max(0,Math.floor(d[0])-2),y0=Math.max(0,Math.floor(d[1])-2),x1=Math.min(W,Math.ceil(d[2])+2),y1=Math.min(H,Math.ceil(d[3])+2),w=x1-x0,h=y1-y0;if(w<1||h<1)return;
   gl.bindTexture(gl.TEXTURE_2D,LIT.T.alb);gl.texSubImage2D(gl.TEXTURE_2D,0,x0*2,y0*2,gl.RGBA,gl.UNSIGNED_BYTE,litStone(x0,y0,w,h));
+  if(LIT.hasHeight){gl.bindTexture(gl.TEXTURE_2D,LIT.T.height);gl.texSubImage2D(gl.TEXTURE_2D,0,x0*2,y0*2,gl.RGBA,gl.UNSIGNED_BYTE,litHeightPatch(x0,y0,w,h))}
   gl.bindTexture(gl.TEXTURE_2D,LIT.T.graf);gl.texSubImage2D(gl.TEXTURE_2D,0,x0,y0,gl.RGBA,gl.UNSIGNED_BYTE,litPatch(graf,x0,y0,w,h));
   gl.bindTexture(gl.TEXTURE_2D,LIT.T.soot);gl.texSubImage2D(gl.TEXTURE_2D,0,x0,y0,gl.RGBA,gl.UNSIGNED_BYTE,litPatch(scorchC,x0,y0,w,h));
   const m=48,bx=Math.max(0,x0-m),by=Math.max(0,y0-m);litDerive([bx,by,Math.min(W,x1+m)-bx,Math.min(H,y1+m)-by])}
@@ -1409,7 +1477,10 @@ function litFrame(lights,shx,shy){const gl=LIT.gl,T=LIT.T;
   gl.disable(gl.BLEND);const S=LIT.P.scene;gl.useProgram(S.p);gl.uniform2f(S.u.WH,W,H);
   litBind(S,'uAlb',0,T.alb);litBind(S,'uGuts',1,T.guts);litBind(S,'uGraf',2,T.graf);litBind(S,'uEmis',3,T.emis);litBind(S,'uBack',4,T.back);
   litBind(S,'uSoot',5,T.soot);litBind(S,'uBlur',6,LIT.blB.t);litBind(S,'uBake',7,LIT.bake.t);
-  const G=LIT.bg;litBind(S,'uSkyT',10,G.sky);litBind(S,'uMoonT',11,G.moon);litBind(S,'uCloudT',12,G.clouds);litBind(S,'uFarT',13,G.far);
+  litBind(S,'uHeight',8,T.height);
+  {const k0=DPR*scale*rs,on=!!LIT.fine;if(on){litDetail(gw,gh,k0,cam.x-shx/scale,cam.y-shy/scale);gl.useProgram(S.p);litBind(S,'uAlb',0,T.alb)}
+    litBind(S,'uDet',9,LIT.bg.det);litBind(S,'uDetH',10,LIT.bg.deth);gl.uniform1f(S.u.uDetOn,on?1:0);gl.uniform1f(S.u.uDetHOn,on&&LIT.hasHeight?1:0)}
+  const G=LIT.bg;litBind(S,'uMoonT',11,G.moon);litBind(S,'uCloudT',12,G.clouds);litBind(S,'uFarT',13,G.far);
   litBind(S,'uFx',14,G.fx);litBind(S,'uDyn',15,G.dyn);gl.uniform1f(S.u.uHz,Math.min(sump,H*.66));
   const k=DPR*scale*rs,cx=cam.x-shx/scale,cy=cam.y-shy/scale;
   gl.uniform2f(S.u.uRes,gw,gh);gl.uniform2f(S.u.uCam,cx,cy);gl.uniform1f(S.u.uScale,k);gl.uniform1f(S.u.uTime,time);gl.uniform1f(S.u.uSump,sump);gl.uniform1f(S.u.uBleed,BLEED);
@@ -1540,7 +1611,8 @@ function kitSplit(img,k,doc){if(img._split)return img._split;const w=img.width,h
   const broken=/^\s*state\s*:\s*broken/im.test(String(doc?.notes||''));
   if(m)deck=Math.min(h-1,+m[1]);else if(/^K0[357]/.test(k)&&!broken){const c=mk(w,h),g=c.getContext('2d');g.drawImage(img,0,0);const d=g.getImageData(0,0,w,h).data,x0=Math.round(w*.08),x1=Math.round(w*.92),full=[];
     for(let y=0;y<h;y++){let n=0;for(let x=x0;x<x1;x++)if(d[(y*w+x)*4+3]>127)n++;full.push(n>=(x1-x0)*.85)}
-    for(let y=0;y<h-8&&y<Math.min(h*.4,40);y++){let ok=true;for(let q=0;q<8;q++)if(!full[y+q]){ok=false;break}if(ok){deck=y;break}}}
+    const ds=+doc?.game_scale>0?1/+doc.game_scale:1,bt=Math.round(8*ds);// finer art: the same band, counted in its own rows
+    for(let y=0;y<h-bt&&y<Math.min(h*.4,40*ds);y++){let ok=true;for(let q=0;q<bt;q++)if(!full[y+q]){ok=false;break}if(ok){deck=y;break}}}
   const solidC=mk(w,h),sg=solidC.getContext('2d');sg.drawImage(img,0,0);sg.clearRect(0,0,w,deck);
   const deco=deck?mk(w,h):null;if(deco){const dg=deco.getContext('2d');dg.drawImage(img,0,0);dg.clearRect(0,deck,w,h-deck)}
   return img._split={solid:solidC,deco,deck}}
@@ -4050,7 +4122,7 @@ const labDocs=new Map(Object.entries(LAB_PAYLOAD.assets).map(([slot,doc])=>[labS
 const labOriginalProp = prop;
 const labImage = src => src ? new Promise((resolve,reject)=>{const i=new Image();i.onload=()=>resolve(i);i.onerror=()=>reject(new Error('Weapon image failed to load'));i.src=src}) : Promise.resolve(null);
 const labReady = Promise.all(Object.entries(LAB_PAYLOAD.assets).map(async ([slot,doc])=>{
-  const frames=await Promise.all(doc.frames.map(async f=>({body:await labImage(f.body),trim:await labImage(f.trim),emis:await labImage(f.emis),cloth:await labImage(f.cloth),guts:await labImage(f.guts)})));
+  const frames=await Promise.all(doc.frames.map(async f=>({body:await labImage(f.body),trim:await labImage(f.trim),emis:await labImage(f.emis),cloth:await labImage(f.cloth),guts:await labImage(f.guts),height:await labImage(f.height).catch(e=>{console.warn('Height map unavailable:',e.message);return null})})));
   const k=labSlots[slot]||slot;labArt.set(k,{doc,frames});
 })).then(()=>{labComposeCrates();window.GRIMSPIRE_ART_READY=true}).catch(e=>{window.GRIMSPIRE_ART_ERROR=e.message;console.error(e)});
 // Crates are a casing plus a category symbol. A crate slot may hold a whole crate (36×18, symbol drawn in) or

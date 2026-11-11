@@ -6,6 +6,12 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-11 · Claude · Height maps reviewed and merged; 2× kit support (branch `lit`)
+- **Reviewed ChatGPT's work.** `codex/lit-height-layer-20261110` (authored height maps in lit terrain) fast-forwarded onto `lit`: looks right, its test `tools/test/art/lit-height.cjs` passes. `codex/forge-height-layer-20261110` (the Forge's Height layer) merged into `art/weapon-lab` after `node --test art/lab/hosted/test.mjs` passed; that push redeploys the Forge.
+- **2× kit art works in map generation.** A kit piece with `game_scale` below 1 is laid out in today's units: its size, base row, top and bottom profiles and automatic deck band are read at its scale, so maps lay out exactly as before while the drawing keeps every pixel. Checked by upscaling every K05 bridge 2× with a fake height map and `game_scale: .5`: map hashes match the original art on eight seeds across all five layouts. A `deck: N` note on 2× art counts the 2× rows.
+- **Lit mode keeps the detail.** When any placed kit piece is finer than 1× or carries a height map, the stone is also drawn each frame at the screen's own resolution and the shader takes colour and relief from that, so 2× art isn't squeezed into the world atlas. Costs one extra canvas upload per frame (two with heights), only when such art is on the map.
+- **Don't release 2× kit art to `main` yet:** `main` has neither change, so a `game_scale: .5` bridge would draw at the right size but lay out at double size there. Test it on the `lit` branch until `lit` merges.
+
 ## 2026-11-10 · Claude · Doomsday Shell starts sudden death; fallout burns continuously; antimatter tweaks (GV 42, branch `lit`)
 - **Doomsday Shell:** detonating it starts sudden death on the spot (sky bleeds, the sump rises every round from now on) and raises the sump one sudden-death step at once (13 px per squad, was a flat 26). Its fallout zone is 1.45× the blast radius (was 1.02×) and its centre sits a quarter-radius below the blast, so it reaches the ground under an airburst.
 - **Fallout** now hurts all the time: 3 damage every 1.75 s to anyone inside (scaled down as the zone decays over its 10 turns), with a Geiger crackle, instead of 8 once at the start of your turn. Tunable: `FALLOUT.tick`, `RAD_TICK`.
