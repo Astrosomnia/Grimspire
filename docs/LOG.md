@@ -6,6 +6,13 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-12 · Claude · Fist ring, camera follows flung troopers; sewers off on main, second pass in the test build (GV 46)
+- **Power Claw:** one ring on a hit, smaller (28 px; was a 40 px ring plus a 64 px one); the moment's flash smaller too.
+- **Camera follows the flung:** a trooper thrown hard (over 420 px/s, rising faster than 380 px/s, or already at 0 HP) takes the camera until they land, leading them slightly so you see where they're going. Death cam and the claw moment still come first.
+- **Sewers off on `main`** until the second round of design (Jarred: push everything except sewers if they need more back and forth). On with `#sewers` in the address and in Jarred's test build.
+- **Sewers, second pass (test build only):** far more common (cut through buried rock and tower feet, keep clear only of landmarks K10–K13 and the cathedral front; shallower, narrower and hillier sites), so nearly every non-drowned map has room and 85% of those get one; much darker: the back wall is the rock's usual interior stone (no painted brick), one or two strip lights (some amber, some faulty), dim greenish grime, falls drawn dark like the sump with fine glints and lit faintly.
+- **Still to design with Jarred:** more modules (square rooms, stairs, different sump areas, more pipe designs) so it doesn't get samey; where a sewer meets the surface, a grate or cover (open and closed variants), or an outlet pipe on a vertical wall; then catacombs as the other half of the roll.
+
 ## 2026-11-12 · Claude · Power Claw moment, death cam waits for the grave, sewers first pass (GV 45)
 - **Power Claw moment:** every connecting claw hit freezes the world for 0.17 s (impact ring held mid-pulse), snaps the camera in about 3.4× with heavy letterbox bars, then releases in slow-mo as the target flies while the camera eases back out (~1.2 s). Part of the sim (`S.hitstop`, `S.punch`), so online stays in step. Jarred first asked for big hits only, then for it more often.
 - **Death cam:** the hold now counts down only once that trooper's grave is up, then lingers 1.2 s; the camera pans to the body faster; a second death waits 2.9 s (was 1.9) so each grave is seen. Jarred: the camera left before the grave rose, mostly when the body was far from the camera.
