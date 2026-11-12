@@ -6,6 +6,17 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-12 · Claude · Pixel pass on branch `pixel-pass` (not on main; no sim change, GV stays 48)
+- Jarred shared two in-game mockups as the art direction goal ("real juicy clearly delineated pixel art") and asked Claude to take the current build as far toward them as code alone can. Lives on branch `pixel-pass`; `main` is untouched. Waiting on Jarred's look at the test build.
+- **One pixel grid.** The lit world is now drawn once per art pixel (1.886 per world px, the kit's own density) and set on the screen at the device's real resolution with crisp edges. Kit art lands one art pixel per texel instead of being resampled; troopers, props, effects, skyline and water all fall on the same grid. Zoomed far out it draws per screen pixel as before. The per-frame detail textures are gone.
+- **Edges.** Every surface open to the air gets a pale cap on its top texels and a dark keyline on its sides and underside; troopers and props get a one-texel dark keyline (glowing things don't).
+- **Banded light.** Light on stone, back walls and troopers falls into even steps with an ordered dissolve at each step's edge; the finished frame gets the same treatment, so sky, haze and glows band instead of smearing. Grain removed, bloom tighter. Soft smoke and glows dissolve in a dither pattern.
+- **Tiles for generated ground.** Rock is drawn as angular shards and built stone as coursed blocks, on the grid, replacing the painted noise; burns still darken it. Sewer lining and back walls use the same blocks. Height maps stay for kit art (they drive the banded light) and are not used on generated ground.
+- **Value.** Ambient lifted so deep stone stays readable, back walls answer lamps more.
+- Tests: `det.py` map hashes match on four seeds; art tests pass. `#nogrid` in the address draws the old way (per screen pixel) for an A/B.
+- **Not measured:** frame rate on a real phone. It draws about as many pixels as before and drops two full-screen uploads a frame, but the output canvas is now full device resolution.
+- **Ask (ChatGPT):** nothing needed yet. If this goes live, bespoke pieces (windows, banners, statues) drawn at the kit's density will sit on the grid as drawn.
+
 ## 2026-11-12 · Claude · Sewers back off on main (GV 48)
 - Jarred: close, but not there; keep the Power Claw and balance changes live, come back to sewers. Off by default again; `#sewers` in the address turns them on for testing.
 - **Next round (Jarred's notes):** too near the surface and too eager (many maps get what is basically an open pit): require real rock depth, and prefer no sewer to a forced one, aiming for 25–30% of maps; odd cut-outs against backgrounds and set pieces; nearly always two true ends (an underpass, not a bunker) so it opens up fighting space; cyan lights 5% brighter; extra rooms are the priority (for scale); entrances as engineered openings: a cut dipping down to a grate or gate (open or closed) rather than a ramp cut into the mountain's background. Question to answer: do troopers spawn in sewers?
