@@ -6,6 +6,16 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-12 · Claude · Small tweaks: Power Claw push, mid-air wire, wall bounces, Fabricator span, red windows (GV 43)
+- **Power Claw (Thunder Fist):** sideways launch 134 → 149, so a target flies about 20% further (measured 200 → 241 px on flat ground, with the new bounces).
+- **Rappel Wire mid-air:** fires while jumping or falling; grapples along the aim (up or sideways, not down) and the swing keeps your momentum.
+- **Bounces:** a flung (knocked) trooper who hits a wall above 160 px/s rebounds at half speed with a thud, rubble and shake (slams over 420 px/s chip a few HP); ceilings bounce them back down; hard landings bounce twice (30%, then 22%). Normal jumps into walls unchanged.
+- **Fabricator span:** fuse-style button reads Span ×1 / ×2 (keys 1–2); ×2 prints a 192 px girder. Synced online (`S.span`, action `g`).
+- **Windows:** red-dominant emissive pushed toward red in the lit look (green ×0.5, blue ×0.38); far-skyline lit windows #ff2e88 → #ff2a44. Cyan untouched.
+- Tests: `det.py` maps match; `dsim.py`, `dsim2.py`, `dsimart.py` identical. Balance Sheet synced (fist, fab, rope notes).
+- Answered: the colossal fallen head (S09) already exists and can be stood on; rare (one per map at most, weight 0.3).
+- **Next (Jarred):** Power Claw impact moment (hitstop, punch-in, letterbox) on big hits only; sewers on large islands as a set piece (solid grates, ramps, manholes, open sump pits).
+
 ## 2026-11-11 · Claude · Height maps live for the whole kit and rocks (Forge revision `20261111T223113Z-561e9a24`)
 - Jarred chose to have Claude write it to `main` instead of a Forge Go live (the Forge saves one slot per revision). Done the Forge's way otherwise: a saved revision on `art/weapon-lab` (`e6530f6`) holding the art `main` ran, plus the latest Library Height of all 40 pieces (K01–K17 with variants, R01–R09); the game built with the Forge's own `build()` and checked with its fingerprint (`loadSnapshot`). Receipt: `art/integrations/20261111T223113Z-561e9a24.json`.
 - Only Heights change: every other asset, layer and field is byte-identical to before, and the game code is untouched. Map hashes match on all five layouts (`det.py`); art tests pass. Relief 4 (set earlier today).
