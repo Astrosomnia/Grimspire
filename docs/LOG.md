@@ -6,6 +6,25 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-12 · Claude · Sewers pass 3: islands, more water, more holes, brighter (test link; branch `sewers-pass3`, GV 50)
+- Jarred's notes on v2, on the test link (`Grimspire: lit look test build`) and branch `sewers-pass3`. Not on `main` yet.
+- **Islands:** a culvert can sit just above the water (floor down to 14 px over the sump, was 36). Near the water it needs only 36 px of roof (46 over 80% of it) and can be shorter (160 px tunnel, 180 px of mass). Islands go from 6 to 10 of 23 maps; all maps 36 of 120 (30%).
+- **New water pieces:**
+  - a **cistern** (a deep pool, four steps down on each side; wade in, climb out)
+  - a **bridged pool** (a stone deck on two piers over a deep pool; blow the deck and you're in)
+  - Half the time a sewer tries a deep-water piece first.
+- **More sump holes:** a **drain shaft** (a straight drop to the sump) joins the modules, and the grate chamber opens to the sump 85% of the time it can (was 65%). Over 160 seeds, 13 of 43 sewers have a hole.
+- **Brighter** (Jarred: pitch black on a phone):
+  - Back wall lifted from `#0b0e15` to `#161b28`, piers and caps with it.
+  - Sewer lamps cast at 70% and 85% radius in the lit looks (other fixtures stay 45% and 55%).
+  - Pools throw more light (0.3, deep 0.42), plus a second light under the roof over each pool.
+- **Caustics:** thin wavering filaments of light on the roof over every pool, a soft wash under it and glints on the wall above the water. Drawn in `drawFalls` (the shared overlay), so both looks get them; no renderer changed.
+- **Props in mountainsides:** not the sewers; it shows with sewers off. Ruined facades on the back-wall layer use the same dark brick blocks as playable rock, so props in front of them look buried. **Ask (Jarred):** confirm that's what you saw; the fix would make facades read as background.
+- **Tests:**
+  - `dsim`, `dsim2` and `dsimart` identical; 10 sewer maps generate identically twice.
+  - Walk test over 8 sewers with the new pieces, both ways: all get through, wading the cisterns and crossing the bridges.
+  - Lit and `#pixel` checked by eye.
+
 ## 2026-11-12 · Claude (Fable, then Opus) · Sewers v2 live: underpasses and modules (GV 49)
 - **Live on `main`, on by default** (Jarred: "basically perfect"). `#nosewers` in the address turns them off.
 - **Generator rewritten** (the `// ---- sewers` block in `genTerrain`). It's an underpass now: at least `SEW_ROOF` = 60 px of rock over the tunnel nearly all the way, no caves broken into, and two true ends. An end is a pipe mouth on a near-vertical wall, a gated portal on a hillside, or a lined stair cut climbing to the surface. Mouth-to-mouth is preferred; stair cuts are the fallback. A site that has to be forced is skipped.

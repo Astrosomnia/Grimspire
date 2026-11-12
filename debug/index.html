@@ -1102,7 +1102,7 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
       while(st.length){const c=st.pop(),cx=c%OW,cy=c/OW|0;for(const[dx,dy]of[[1,0],[-1,0],[0,1],[0,-1]]){const nx=cx+dx,ny=cy+dy;if(nx<0||ny<0||nx>=OW||ny>=OH)continue;const n=ny*OW+nx;if(!out[n]&&!sol(nx*Q+3,ny*Q+3)){out[n]=1;st.push(n)}}}}
     const outside=(x,y)=>x>=0&&x<W&&y>=0&&y<H&&out[(y/Q|0)*OW+(x/Q|0)]===1;
     const cands={mm:[],md:[],dd:[]};
-    for(let fy=170;fy<=sump-36;fy+=10){const cy=fy-TH,N=Math.ceil(W/Q),cls=new Uint8Array(N),P60=new Int16Array(N+1),P36=new Int16Array(N+1),P46=new Int16Array(N+1),Pb=new Int32Array(N+1),Pf=new Int32Array(N+1);
+    for(let fy=170;fy<=sump-14;fy+=10){const cy=fy-TH,N=Math.ceil(W/Q),cls=new Uint8Array(N),P60=new Int16Array(N+1),P36=new Int16Array(N+1),P46=new Int16Array(N+1),Pb=new Int32Array(N+1),Pf=new Int32Array(N+1);
       for(let i=0;i<N;i++){const x=i*Q,n=sol(x,cy+7)+sol(x,cy+20)+sol(x,fy-5);cls[i]=n>=2?2:n?1:0;const rf=n?roofAt(x,cy,ROOF):0;// no caves in the way: a tunnel that breaks into one is a trap
         P60[i+1]=P60[i]+(rf<ROOF?1:0);P46[i+1]=P46[i]+(rf<46?1:0);P36[i+1]=P36[i]+(rf<36?1:0);Pb[i+1]=Pb[i]+n+sol(x,cy+13)+sol(x,cy+27)+sol(x,fy-12);Pf[i+1]=Pf[i]+sol(x,fy+5)+sol(x,fy+14)}
       const ix=x=>Math.max(0,Math.min(N,Math.round(x/Q))),cnt=(P,a,b)=>P[ix(b)]-P[ix(a)];
@@ -1113,11 +1113,12 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
         for(let k=14;k<=130;k+=4)if(roofAt(c-d*k,cy,40)>=36&&roofAt(c-d*(k+12),cy,40)>=36)return{t:'portal',x:c,in:c-d*k,core:50};return null};
       let x=60;while(x<W-60){while(x<W-60&&!cls[x/Q|0])x+=Q;const a=x;let b=x,gap=0,open=false;
         while(x<W-60){if(!cls[x/Q|0]){gap+=Q;if(gap>54){open=true;break}}else{gap=0;b=x}x+=Q}
-        if(b-a<240)continue;
+        if(b-a<(fy>sump-60?180:240))continue;// (pass 2) a culvert just above the water can be shorter
         const lefts=[],rights=[];{const m=a>66?mouth(a,-1):null;if(m)lefts.push(m);const m2=open?mouth(b,1):null;if(m2)rights.push(m2);}
         for(let xd=a+66;xd<b-66;xd+=30){lefts.push({t:'dip',x:xd,d:-1});rights.push({t:'dip',x:xd,d:1})}
-        for(const e0 of lefts)for(const e1 of rights){const xa=e0.t==='dip'?e0.x:e0.in,xb=e1.t==='dip'?e1.x:e1.in,len=xb-xa;if(len<210||len>640)continue;
-          const ca=xa+(e0.core||0),cb=xb-(e1.core||0),n=ix(xb)-ix(xa);if(cnt(P46,ca,cb)||cnt(P60,ca,cb)>(ix(cb)-ix(ca))*.12)continue;// the full depth of rock nearly all the way, never much less
+        for(const e0 of lefts)for(const e1 of rights){const xa=e0.t==='dip'?e0.x:e0.in,xb=e1.t==='dip'?e1.x:e1.in,len=xb-xa;if(len<(fy>sump-60?160:210)||len>640)continue;
+          const ca=xa+(e0.core||0),cb=xb-(e1.core||0),n=ix(xb)-ix(xa);const low=fy>sump-60;// (pass 2) just above the water (islands): a culvert, so a lighter roof will do, never under 36
+          if(low?cnt(P36,ca,cb)||cnt(P46,ca,cb)>(ix(cb)-ix(ca))*.2:cnt(P46,ca,cb)||cnt(P60,ca,cb)>(ix(cb)-ix(ca))*.12)continue;// the full depth of rock nearly all the way, never much less
           if(cnt(P36,xa+(e0.m36||0),xb-(e1.m36||0)))continue;if(cnt(Pb,xa,xb)<n*6*.8)continue;if(cnt(Pf,xa,xb)<n*2*.97)continue;
           if(kitHit(LANDMARK,Math.min(xa,e0.x)-10,cy-12,Math.max(xb,e1.x)+10,fy+24))continue;
           if(e0.t==='dip'){if(e0.p===undefined)e0.p=dipPlan(e0.x,-1,fy);if(!e0.p)continue}if(e1.t==='dip'){if(e1.p===undefined)e1.p=dipPlan(e1.x,1,fy);if(!e1.p)continue}
@@ -1166,15 +1167,28 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
           rec.y0=Math.min(rec.y0,cy-raise);walls.push(['room',l,r,cy-raise,fy]);feats.push({t:'room',x:c,y:cy-raise,l,r});return true},
         chamber:(a,b)=>{const chw=Math.min((b-a)/2-14,ri(58,84))|0,c=(a+b)/2+rr(-8,8)|0;if(chw<50)return false;const rise=Math.min(34,roofMin(c-chw,c+chw)-28);if(rise<16)return false;
           cg.beginPath();cg.ellipse(c,cy+6,chw,rise+6,0,Math.PI,0);cg.fill();grow(c-chw,cy-rise,c+chw,fy);box(c-chw,cy,c+chw,fy);
-          let pit=sump-fy<300&&R()<.65;for(let y=fy;y<sump&&pit;y+=6)if(!sol(c,y)||!sol(c-20,y)||!sol(c+20,y))pit=false;
+          let pit=sump-fy<300&&R()<.85;// (pass 2, Jarred: more holes down to the sump)for(let y=fy;y<sump&&pit;y+=6)if(!sol(c,y)||!sol(c-20,y)||!sol(c+20,y))pit=false;
           if(pit){box(c-21,fy-2,c+21,sump+16);rec.pit=true;rec.keep.push([c-40,fy,c+40,sump])}else if(deepOK(c-44,c+44,9)){box(c-44,fy-2,c+44,fy+9);NS.pools.push({x:c-44,y:fy+3,w:88,h:6})}// no pool over a cave: it would drain
           rec.y0=Math.min(rec.y0,cy-rise);walls.push(['grate',c,chw,rise,pit]);feats.push({t:'chamber',x:c,y:cy,l:c-chw,r:c+chw,off:chw+34});return true},
         channel:(a,b)=>{const w=Math.min(b-a-20,ri(110,160)),c=(a+b)/2+rr(-10,10),l=c-w/2|0,r=l+w;if(w<90||!deepOK(l,r,6))return false;
           box(l,fy-2,r,fy+6);NS.pools.push({x:l,y:fy+2,w,h:4});walls.push(['drains',l,r]);feats.push({t:'channel',x:c,y:cy,l,r});return true},
         basin:(a,b)=>{const w=Math.min(b-a-20,ri(118,150)),c=(a+b)/2+rr(-10,10),l=c-w/2|0,r=l+w;if(w<104||!deepOK(l,r,RI*2))return false;
           box(l,fy-2,r,fy+RI);box(l+TR,fy-2,r-TR,fy+RI*2);const pw=ri(12,18),px=(c-pw/2+rr(-14,14))|0;keep(px,fy+5,px+pw,fy+RI*2+1);// a stepping stone just clear of the water
-          NS.pools.push({x:l+TR,y:fy+6,w:w-TR*2,h:RI*2-6});rec.y1=Math.max(rec.y1,fy+RI*2);walls.push(['basin',l,r]);feats.push({t:'basin',x:c,y:cy,l,r});return true}};
-      {const A=xa+26,B=xb-26;let order=['room','chamber','channel','basin'];for(let i=order.length-1;i>0;i--){const j=R()*(i+1)|0;[order[i],order[j]]=[order[j],order[i]]}
+          NS.pools.push({x:l+TR,y:fy+6,w:w-TR*2,h:RI*2-6});rec.y1=Math.max(rec.y1,fy+RI*2);walls.push(['basin',l,r]);feats.push({t:'basin',x:c,y:cy,l,r});return true},
+        // (pass 2, Jarred: more water) a cistern: a deep pool stepped down on both sides, wade in and climb out
+        cistern:(a,b)=>{const w=Math.min(b-a-20,ri(120,160)),c=(a+b)/2+rr(-10,10),l=c-w/2|0,r=l+w,D=RI*4,st=10;if(w<112||!deepOK(l,r,D))return false;
+          for(let i=1;i<=4;i++)box(l+(i-1)*st,fy-2,r-(i-1)*st,fy+i*RI);NS.pools.push({x:l+st,y:fy+9,w:w-st*2,h:D-9,deep:1});
+          rec.y1=Math.max(rec.y1,fy+D);walls.push(['basin',l,r]);feats.push({t:'cistern',x:c,y:cy,l,r});return true},
+        // a pool with a stone bridge over it: the bridge carries the floor; blow it and the water's yours
+        bridge:(a,b)=>{const w=Math.min(b-a-20,ri(130,180)),c=(a+b)/2+rr(-10,10),l=c-w/2|0,r=l+w,D=RI*4+4,st=9;if(w<120||!deepOK(l,r,D))return false;
+          for(let i=1;i<=4;i++)box(l+(i-1)*st,fy+5,r-(i-1)*st,fy+i*RI+6);box(l+st,fy+5,r-st,fy+D);keep(l-2,fy,r+2,fy+6);
+          NS.pools.push({x:l+st,y:fy+12,w:w-st*2,h:D-12,deep:1});const p1=l+(w*.33|0),p2=r-(w*.33|0);keep(p1-3,fy+6,p1+3,fy+D);keep(p2-3,fy+6,p2+3,fy+D);
+          rec.y1=Math.max(rec.y1,fy+D);walls.push(['posts',p1,p2,fy+6,fy+D]);walls.push(['drains',l,r]);feats.push({t:'bridge',x:c,y:cy,l,r});return true},
+        // a drain shaft: a straight drop to the sump, under a ring of broken grate
+        drain:(a,b)=>{const c=(a+b)/2+rr(-16,16)|0,hw=ri(13,17);if(b-a<70||sump-fy>300||R()<.45)return false;for(let y=fy;y<sump;y+=6)if(!sol(c,y)||!sol(c-hw-6,y)||!sol(c+hw+6,y))return false;
+          box(c-hw,fy-2,c+hw,sump+16);rec.pit=true;rec.keep.push([c-hw-20,fy,c+hw+20,sump]);walls.push(['basin',c-hw-14,c+hw+14]);feats.push({t:'drain',x:c,y:cy,l:c-hw-14,r:c+hw+14});return true}};
+      {const A=xa+26,B=xb-26;let order=['room','chamber','channel','basin','cistern','bridge','drain'];for(let i=order.length-1;i>0;i--){const j=R()*(i+1)|0;[order[i],order[j]]=[order[j],order[i]]}
+        if(R()<.55){const wk=R()<.5?'bridge':'cistern';order.splice(order.indexOf(wk),1);order.unshift(wk)}// (pass 2) deep water first, half the time
         const fill=(a,b)=>{if(b-a<96)return;for(let i=0;i<order.length;i++)if(make[order[i]](a,b)){order.splice(i,1);return}};
         if(len>=330&&R()<.6&&deepOK(A+40,B-40,RI*5)){const hw=Math.min(B-A,len>=520?300:len),ha=(A+B)/2-hw/2,hb=ha+hw;
           if(make.hall(ha,hb)){const h=feats[0];fill(A,h.l-18);fill(h.r+18,B)}}
@@ -1188,6 +1202,7 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
       bx0=Math.max(0,(bx0|0)-16);bx1=Math.min(W,(bx1|0)+30);by0=Math.max(0,(by0|0)-14);by1=Math.min(H,(by1|0)+26);const bw=bx1-bx0,bh=by1-by0,X=x=>x-bx0,Y=y=>y-by0;
       g.globalCompositeOperation='destination-out';g.drawImage(cm,0,0);g.globalCompositeOperation='source-over';
       const resolid=()=>{const d=g.getImageData(0,0,W,H).data;for(let i=0;i<W*H;i++)solid[i]=d[i*4+3]>127?1:0};resolid();
+      for(const p of NS.pools){p.rf=[];for(let x=p.x;x<p.x+p.w;x+=3){let y=p.y-2;while(y>p.y-120&&!sol(x+1,y))y--;p.rf.push(y)}p.roof=Math.min(...p.rf)}// (pass 2) the roof over each pool, for its light and caustics
       // lining: the stone within 7 px of the cut, in brick, each brick a shade of its own
       const brick=(c,x,y,w,h,base,kw,kh)=>{for(let yy=y,r=0;yy<y+h;yy+=kh,r++)for(let xx=x-(r%2)*(kw>>1);xx<x+w;xx+=kw){const v=R()*.35-.12;
           c.fillStyle=`rgb(${base[0]*(1+v)|0},${base[1]*(1+v)|0},${base[2]*(1+v)|0})`;c.fillRect(xx+1,yy+1,kw-1,kh-1);if(R()<.18){c.fillStyle='rgba(0,0,0,.35)';c.fillRect(xx+1+(R()*(kw-3)|0),yy+1,2,1)}}};
@@ -1196,8 +1211,8 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
         bg.globalCompositeOperation='destination-in';bg.drawImage(mask,-bx0,-by0);lg.globalCompositeOperation='destination-in';lg.drawImage(band,0,0);lg.globalCompositeOperation='source-over'}
       NS.kit.push({id:'SEWER',x:bx0,y:by0,w:bw,h:bh,flip:false,body:lin,solid:lin,emis:null,light:null});
       // ---- back wall: the rock's own interior stone, dressed with piers, arches, the grate and drains; grime off the roof
-      const bk=mk(bw,bh),kg=bk.getContext('2d');kg.fillStyle='#0b0e15';kg.fillRect(0,0,bw,bh);
-      const PIER='rgb(27,25,38)',CAP='rgb(36,32,48)',DARK='rgb(7,9,14)',IRON='rgb(24,28,37)';
+      const bk=mk(bw,bh),kg=bk.getContext('2d');kg.fillStyle='#161b28';kg.fillRect(0,0,bw,bh);// (pass 2) lifted from #0b0e15: it read pitch black on a phone
+      const PIER='rgb(38,35,54)',CAP='rgb(52,47,70)',DARK='rgb(8,10,16)',IRON='rgb(30,35,46)';
       const pier=(x,y0,y1)=>{kg.fillStyle=PIER;kg.fillRect(X(x-5),Y(y0),10,y1-y0);kg.fillStyle=CAP;kg.fillRect(X(x-7),Y(y0),14,4);kg.fillRect(X(x-7),Y(y1-4),14,4);kg.fillStyle='rgba(0,0,0,.4)';kg.fillRect(X(x+3),Y(y0+4),2,y1-y0-8)};
       const arch=(x,w,h,y1)=>{kg.fillStyle='rgba(0,0,0,.36)';kg.beginPath();kg.ellipse(X(x),Y(y1-h+w*.8),w,w*.8,0,Math.PI,0);kg.lineTo(X(x+w),Y(y1));kg.lineTo(X(x-w),Y(y1));kg.fill()};
       const hole=(x,y,r,bars)=>{kg.fillStyle=DARK;kg.beginPath();kg.arc(X(x),Y(y),r,0,Math.PI*2);kg.fill();kg.strokeStyle=CAP;kg.lineWidth=Math.max(2,r/5);kg.beginPath();kg.arc(X(x),Y(y),r,0,Math.PI*2);kg.stroke();
@@ -3974,10 +3989,11 @@ function updCamera(dt){
 function gatherLights(){
   const L=[];
   for(const f of NS.falls||[])if(!f.drip)L.push({x:f.x,y:fallEnd(f)-8,r:f.w<6?46:74,c:[63,243,255],i:f.w<6?.16:.26,h:.04});
-  for(const p of NS.pools||[])L.push({x:p.x+p.w/2,y:p.y-4,r:Math.min(84,p.w*.6),c:[63,243,255],i:.2,h:.03});
+  for(const p of NS.pools||[]){L.push({x:p.x+p.w/2,y:p.y-4,r:Math.min(p.deep?120:96,p.w*.75),c:[63,243,255],i:p.deep?.42:.3,h:.03});// (pass 2, Jarred: far too dark on a phone) water throws light
+    if(p.roof!==undefined)L.push({x:p.x+p.w/2,y:p.roof+10,r:Math.min(110,p.w*.8),c:[90,230,255],i:p.deep?.3:.2,h:.12})}// and lights the roof over it
   for(const f of fixtures){if(!f.alive)continue;let i=.95;const ep=Math.sin(time*.31+f.ph*3.1)*Math.sin(time*.17+f.ph*1.9);if(ep>(f.faulty?.72:.9)&&Math.sin(time*29+f.ph*5)+Math.sin(time*11.3+f.ph)>.4)i=.18;
-    f.i=i;const nk=NS.on&&f.k!=='eye'?.45:1,cb=f.sw&&f.c==='cyan'?1.05:1;// sewer cyan a touch brighter (Jarred 12 Nov)
-    L.push({x:f.x,y:f.y,r:(f.k==='eye'?42:f.k==='strip'?92:f.k==='post'||f.k==='lamp'?150:175)*(NS.on&&f.k!=='eye'?.55:1)*cb,c:NEON[f.c],i:(f.k==='eye'?i*.8:i)*nk*cb,h:(f.k==='eye'?.05:.09)*(NS.on?.8:1)})}
+    f.i=i;const nk=NS.on&&f.k!=='eye'?(f.sw?.7:.45):1,cb=f.sw&&f.c==='cyan'?1.05:1;// sewer cyan a touch brighter (Jarred 12 Nov); sewer lamps cast further (pass 2)
+    L.push({x:f.x,y:f.y,r:(f.k==='eye'?42:f.k==='strip'?92:f.k==='post'||f.k==='lamp'?150:175)*(NS.on&&f.k!=='eye'?(f.sw?.85:.55):1)*cb,c:NEON[f.c],i:(f.k==='eye'?i*.8:i)*nk*cb,h:(f.k==='eye'?.05:.09)*(NS.on?.8:1)})}
   for(const t of troopers)if(t.alive)L.push({x:t.x+t.face*3,y:t.y-21,r:46,c:TEAM[t.team].rgb,i:.45,h:0});
   wardLights(L);tagLights(L);
   for(const m of mines){const hot=m.trig>=0;L.push({x:m.x,y:m.y-8,r:hot?90:40,c:hot||m.armed?[255,60,60]:[255,178,30],i:hot?.9:.5,h:hot?.08:0})}
@@ -4009,6 +4025,16 @@ function drawFalls(){if(!(NS.falls&&NS.falls.length)&&!(NS.pools&&NS.pools.lengt
   // standing water in a sewer pool or channel: dark like the sump, a thin glint along the top; gone where its floor has been blown out
   for(const p of NS.pools||[])for(let x=p.x;x<p.x+p.w;x+=8){const w=Math.min(8,p.x+p.w-x);if(!isSolid(x+w/2,p.y+p.h+1)||isSolid(x+w/2,p.y+1)||p.y>=sump)continue;
     ctx.fillStyle='rgba(12,34,46,.82)';ctx.fillRect(x,p.y,w,p.h);ctx.fillStyle=`rgba(110,200,215,${.2+.12*Math.sin(time*1.7+x*.21)})`;ctx.fillRect(x,p.y,w,1)}
+  // (pass 2, Jarred) caustics: light off the water dancing on the roof over it, and dappling the wall just above it
+  ctx.globalCompositeOperation='lighter';
+  for(const p of NS.pools||[]){if(!p.rf||p.y>=sump)continue;const a=p.deep?1:.6,t=time;
+    for(let i=0;i<p.rf.length;i++){const x0=p.x+i*3,ry=p.rf[i];if(ry<=p.y-119||!isSolid(x0+1,p.y+p.h+1)||isSolid(x0+1,p.y+1))continue;// gone with the pool's floor
+      {const w=.035*a*(1+.5*Math.sin(x0*.05+t*.8));ctx.fillStyle=`rgba(60,180,220,${w})`;ctx.fillRect(x0,ry+1,3,8);ctx.fillStyle=`rgba(60,180,220,${w*.5})`;ctx.fillRect(x0,ry+9,3,8)}// a soft wash under the roof, fading down
+      for(let x=x0;x<x0+3;x++)for(let k=0;k<3;k++){// thin wavering filaments, three crossing sets: the web of light off moving water
+        const ph=k*2.1,y=ry+3+k*4+2.2*Math.sin(x*.23+t*(1.7+k*.4)+ph)+1.5*Math.sin(x*.07-t*.9+ph),f=Math.sin(x*.11+t*(1.3-k*.3)+ph*1.7)+Math.sin(x*.047-t*.7+ph);
+        if(f>.35){ctx.fillStyle=`rgba(150,240,255,${Math.min(.5,(f-.35)*.45)*a*(1-k*.25)})`;ctx.fillRect(x,y|0,1,f>1.1?2:1)}}
+      const d=Math.sin(x0*.19-t*2.1)+Math.sin(x0*.083+t*1.3);if(d>1.05){ctx.fillStyle=`rgba(120,225,245,${.2*a})`;ctx.fillRect(x0,p.y-4-((x0*7)%7),1,1)}}}
+  ctx.globalCompositeOperation='source-over';
   for(const f of NS.falls||[]){const y1=fallEnd(f),h=y1-f.y0;if(h<4)continue;
     if(f.drip){// a regular drip: a bead swells on the lip, lets go, and falls
       const T=1.9,u=((time+f.ph)%T)/T;ctx.fillStyle='rgba(130,205,220,.75)';
@@ -4553,7 +4579,7 @@ function netCatchUp(){if(S.mode!=='online'||NET.role!=='watch')return;const behi
   if(behind>300&&!NET.skip)for(let i=0;i<Math.min(6,behind-240);i++)tick()}
 function netGameOver(){if(NET.role!=='act')clearNet()}
 function netLeave(){document.title=TITLE0;chatStop();if(NET.unC)NET.unC();if(NET.unM)NET.unM();NET.unC=NET.unM=null;NET.role=null;NET.started=false;S.mode='hot';$('#netBar').hidden=true}
-const GV=49;// bump on every release that changes the sim
+const GV=50;// bump on every release that changes the sim
 function startOnline(code,me,d){BE.update(code,{['vers.'+me]:GV,['arts.'+me]:window.GRIMSPIRE_ART_SIM||''}).catch(()=>{});NET.code=code;NET.me=me;NET.round=d.round||0;NET.snapK=-1;NET.snap=null;NET.matchAtt=d.att||'';NET.started=true;NET.leaving=false;saveNet();
   $('#net').hidden=true;if(!CHAT.un)chatStart();const cfg=Object.assign(mkCfg('online',d.seats,d.mode==='teams'),{mode:'online'});newGame('online',d.seed,cfg);S.genOK=true;
   const base=NET.round*1e5,has=d.snapK!=null&&d.snapK>=base&&d.snap;
