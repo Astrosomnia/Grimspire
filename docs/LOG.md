@@ -6,6 +6,13 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-12 · Claude · Sewers live: no more jutting edges, shafts keep out of buildings, a touch brighter (GV 47)
+- **Live on `main`** (Jarred: push once the jutting edge is fixed). About 4 in 5 generated maps get one; `#nosewers` turns them off.
+- **Jutting edges fixed:** the sewer's dark interior is painted only where the game already shows rock interior (below the ground line), so where a ramp or tunnel cuts through rock above that line it shows sky like any other hole; and a roof over the ramp thinner than 90 px (30 px over the tunnel) is opened to the sky, so the ramp is a cutting into the hill, not a slab sticking out.
+- **Shafts and ramps keep out of buildings:** the manhole tries four spots along the tunnel for a column clear of masonry (K pieces) and is left out if none; the ramp is left out if masonry stands over it. Buried rock (R) is still just ground.
+- **A touch brighter (~5%):** interior colour, strip-light reach and fall glow nudged up.
+- **Second pass (next, agreed with Jarred):** decorative grates and covers where a sewer meets the surface; a real outlet pipe sticking out of near-vertical walls with a regular drip; more modules (square rooms, stair runs, different sump areas, more pipe designs), Claude's pick; then catacombs as the other half of the roll.
+
 ## 2026-11-12 · Claude · Fist ring, camera follows flung troopers; sewers off on main, second pass in the test build (GV 46)
 - **Power Claw:** one ring on a hit, smaller (28 px; was a 40 px ring plus a 64 px one); the moment's flash smaller too.
 - **Camera follows the flung:** a trooper thrown hard (over 420 px/s, rising faster than 380 px/s, or already at 0 HP) takes the camera until they land, leading them slightly so you see where they're going. Death cam and the claw moment still come first.

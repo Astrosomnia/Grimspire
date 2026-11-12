@@ -1101,24 +1101,32 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
       const cm=mk(W,H),cg=cm.getContext('2d');cg.fillStyle='#fff';const box=(a,b,c,d)=>cg.fillRect(Math.min(a,c),Math.min(b,d),Math.abs(c-a),Math.abs(d-b));
       // ramp down from the surface
       const rx0=dir>0?x0+14:x1-14,s0=ground(rx0),rl=Math.max(70,(fy-s0)/.62),rx1=rx0+dir*rl;
-      cg.beginPath();cg.moveTo(rx0,s0+3);cg.lineTo(rx1,fy);cg.lineTo(rx1,fy-46);cg.lineTo(rx0,s0-46);cg.closePath();cg.fill();
+      const rampOK=!NS.kit.some(p=>/^K/.test(p.id)&&p.x<Math.max(rx0,rx1)&&p.x+p.w>Math.min(rx0,rx1)&&p.y<fy&&p.y+p.h>s0-50);
+      if(rampOK){cg.beginPath();cg.moveTo(rx0,s0+3);cg.lineTo(rx1,fy);cg.lineTo(rx1,fy-46);cg.lineTo(rx0,s0-46);cg.closePath();cg.fill()}
       const cA=dir>0?rx1-12:x0+40,cB=dir>0?x1-40:rx1+12;box(cA,cy,cB,fy);
       // chamber with a vaulted roof
       const cx=(cA+cB)/2,chw=Math.min(84,(cB-cA)/2-30);cg.beginPath();cg.ellipse(cx,cy+6,chw,34,0,Math.PI,0);cg.fill();box(cx-chw,cy,cx+chw,fy);
       // manhole shaft at the far end
-      const xm=dir>0?cB-46:cA+46;box(xm-11,ground(xm)-3,xm+11,cy+2);
+      const clearCol=(a,b,y0,y1)=>!NS.kit.some(p=>/^K/.test(p.id)&&p.x<b&&p.x+p.w>a&&p.y<y1&&p.y+p.h>y0);
+      let xm=null;for(const o of[46,90,130,170]){const x=dir>0?cB-o:cA+o;if((dir>0?x>cx+chw+20:x<cx-chw-20)&&clearCol(x-14,x+14,ground(x)-60,cy)){xm=x;break}}
+      if(xm!==null)box(xm-11,ground(xm)-3,xm+11,cy+2);
       // the floor of the chamber: a pit straight down to the sump, or a shallow pool
       let pit=false;{let ok=sump-fy<300;for(let y=fy;y<sump&&ok;y+=6)if(!solid[y*W+(cx|0)])ok=false;
         if(ok){pit=true;box(cx-24,fy-2,cx+24,sump+16)}else{box(cx-46,fy-2,cx+46,fy+9);NS.sewers.push({pool:[cx-46,fy+2,92,7]})}}
       // where the far end meets a cliff: carry the tunnel out, block it with a grate, an outlet pipe below
       const end=dir>0?cB:cA,my=(cy+fy)/2;let cliff=null;for(let k=4;k<130;k+=2){const x=end+dir*k;if(x<4||x>W-4)break;if(!solid[(my|0)*W+(x|0)]&&!solid[((my+14)|0)*W+(x|0)]){cliff=x;break}}
       if(cliff!==null)box(end,cy,cliff+dir*2,fy);
+      // a roof thinner than a trooper is a sliver that reads as a slab sticking out: open it to the sky instead
+      {const cmd0=cg.getImageData(0,0,W,H).data,xa=Math.max(1,Math.min(x0,rx0,cliff??x0)-4|0),xb=Math.min(W-2,Math.max(x1,rx0,cliff??x1)+4|0);
+        for(let x=xa;x<=xb;x++){let c=-1;for(let y=Math.max(0,cy-60);y<fy;y++)if(cmd0[(y*W+x)*4+3]){c=y;break}if(c<0)continue;
+          let t=c;while(t>0&&solid[(t-1)*W+x])t--;const onRamp=rampOK&&x>=Math.min(rx0,rx1)-4&&x<=Math.max(rx0,rx1)+4;if(t<c&&c-t<(onRamp?90:30)&&t>0&&!solid[(t-1)*W+x])box(x,t-2,x+1,c+1)}}
+      const pre=mk(W,H);pre.getContext('2d').drawImage(mask,0,0);// the rock as it was, so the tunnel's back wall stops where the ground does
       g.globalCompositeOperation='destination-out';g.drawImage(cm,0,0);g.globalCompositeOperation='source-over';
       {const d=g.getImageData(0,0,W,H).data;for(let i=0;i<W*H;i++)solid[i]=d[i*4+3]>127?1:0}
       // brick: a pattern of courses with each brick a shade of its own
       const brick=(c,x,y,w,h,base,bw,bh)=>{for(let yy=y,r=0;yy<y+h;yy+=bh,r++)for(let xx=x-(r%2)*(bw>>1);xx<x+w;xx+=bw){const v=R()*.35-.12;
           c.fillStyle=`rgb(${base[0]*(1+v)|0},${base[1]*(1+v)|0},${base[2]*(1+v)|0})`;c.fillRect(xx+1,yy+1,bw-1,bh-1);if(R()<.18){c.fillStyle='rgba(0,0,0,.35)';c.fillRect(xx+1+(R()*(bw-3)|0),yy+1,2,1)}}};
-      const bx0=Math.max(0,Math.min(x0,cliff??x0)-14|0),bx1=Math.min(W,Math.max(x1,cliff??x1)+14|0),by0=Math.max(0,Math.min(ground(rx0),ground(xm))-50),by1=Math.min(H,pit?sump+18:fy+40),bw=bx1-bx0,bh=by1-by0;
+      const bx0=Math.max(0,Math.min(x0,cliff??x0)-14|0),bx1=Math.min(W,Math.max(x1,cliff??x1)+14|0),by0=Math.max(0,Math.min(ground(rx0),xm!==null?ground(xm):cy)-50),by1=Math.min(H,pit?sump+18:fy+40),bw=bx1-bx0,bh=by1-by0;
       // lining: the solid stone within 7 px of the cut, in brick
       const lin=mk(bw,bh),lg=lin.getContext('2d');lg.fillStyle='rgb(14,11,22)';lg.fillRect(0,0,bw,bh);brick(lg,0,0,bw,bh,[44,36,64],12,6);
       {const band=mk(bw,bh),bg=band.getContext('2d');for(let a=0;a<12;a++)for(const r of[3,7])bg.drawImage(cm,-bx0+Math.round(Math.cos(a*.5236)*r),-by0+Math.round(Math.sin(a*.5236)*r));
@@ -1126,7 +1134,7 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
       // the floor's top course a shade lighter, so the walking line reads
       NS.kit.push({id:'SEWER',x:bx0,y:by0,w:bw,h:bh,flip:false,body:lin,solid:lin,emis:null,light:null});
       // back wall: darker brick, pillars, arches, a round grate, strip lights, grime off the roof
-      const bk=mk(bw,bh),kg=bk.getContext('2d');kg.fillStyle='#090c12';kg.fillRect(0,0,bw,bh);// the rock's interior colour: the lit look draws its usual stone over it
+      const bk=mk(bw,bh),kg=bk.getContext('2d');kg.fillStyle='#0b0e15';kg.fillRect(0,0,bw,bh);// the rock's interior colour: the lit look draws its usual stone over it
       const X=x=>x-bx0,Y=y=>y-by0;
       kg.fillStyle='rgba(0,0,0,.35)';for(let x=cA+30;x<cB-30;x+=72){if(Math.abs(x-cx)<chw+20)continue;kg.beginPath();kg.ellipse(X(x),Y(cy+16),20,16,0,Math.PI,0);kg.lineTo(X(x+20),Y(fy));kg.lineTo(X(x-20),Y(fy));kg.fill()}
       for(const px of[cx-chw+8,cx+chw-8]){kg.fillStyle='rgb(26,24,36)';kg.fillRect(X(px-5),Y(cy-10),10,fy-cy+10);kg.fillStyle='rgb(34,30,46)';kg.fillRect(X(px-7),Y(cy-12),14,4);kg.fillRect(X(px-7),Y(fy-4),14,4);kg.fillStyle='rgba(0,0,0,.4)';kg.fillRect(X(px+3),Y(cy-8),2,fy-cy+6)}
@@ -1135,10 +1143,11 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
         if(pit)NS.falls.push({x:cx,y0:gy+gr-6,w:8})}
       // one or two strip lights, not a row of them
       for(const x of R()<.5?[cx+(R()<.5?-1:1)*(chw+40)]:[cA+40,cB-40])if(x>cA+10&&x<cB-10)sewFx.push({k:'strip',x,y:cy+12,ax:x,ay:cy-3,c:R()<.75?'cyan':'amber',alive:true,ph:rr(0,50),faulty:R()<.35})
-      sewFx.push({k:'post',x:rx0-dir*10,y:ground(rx0-dir*10),ax:rx0-dir*10,ay:ground(rx0-dir*10)+3,c:'amber',alive:true,ph:rr(0,50),faulty:false});
+      if(rampOK)sewFx.push({k:'post',x:rx0-dir*10,y:ground(rx0-dir*10),ax:rx0-dir*10,ay:ground(rx0-dir*10)+3,c:'amber',alive:true,ph:rr(0,50),faulty:false});
       const cmd=cg.getImageData(0,0,W,H).data;for(let x=bx0+2;x<bx1-2;x+=2){if(R()>.3)continue;let y=by0;while(y<by1&&!cmd[(y*W+x)*4+3])y++;if(y>=by1||y>fy-10)continue;
         const l=2+(R()*R()*16|0);kg.fillStyle=R()<.5?'rgba(58,70,34,.8)':'rgba(40,52,28,.8)';kg.fillRect(X(x),Y(y),1+(R()<.3?1:0),l);if(R()<.25){kg.fillStyle='rgba(90,110,52,.5)';kg.fillRect(X(x),Y(y+l),1,1)}}
-      kg.globalCompositeOperation='destination-in';kg.drawImage(cm,-bx0,-by0);kg.globalCompositeOperation='source-over';hollow.getContext('2d').drawImage(bk,bx0,by0);// underground the lit look shows the rock's interior layer
+      kg.globalCompositeOperation='destination-in';kg.drawImage(cm,-bx0,-by0);kg.drawImage(pre,-bx0,-by0);kg.drawImage(hollow,-bx0,-by0);/* only where the rock's interior already shows; above that, sky like any other hole */kg.globalCompositeOperation='source-over';{const hq=hollow.getContext('2d'),open=mk(bw,bh),oq=open.getContext('2d');oq.drawImage(cm,-bx0,-by0);oq.globalCompositeOperation='destination-out';oq.drawImage(pre,-bx0,-by0);
+        hq.globalCompositeOperation='destination-out';hq.drawImage(open,bx0,by0);hq.globalCompositeOperation='source-over';hq.drawImage(bk,bx0,by0)}// where the cut opens into air, no rock interior either// underground the lit look shows the rock's interior layer
       // the cliff end: a solid grate across the tunnel, an outlet pipe below it pouring into the water
       if(cliff!==null){const gx=cliff-dir*7,gw=8,gh=fy-cy,gc=mk(gw,gh),gg=gc.getContext('2d');gg.fillStyle='rgb(18,20,26)';gg.fillRect(0,0,gw,gh);
         gg.fillStyle='rgb(58,64,78)';for(let b=1;b<gw;b+=3)gg.fillRect(b,0,1,gh);gg.fillStyle='rgb(40,44,56)';for(let y=4;y<gh;y+=12)gg.fillRect(0,y,gw,2);
@@ -1146,9 +1155,9 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
         const py=fy+22,pc=mk(22,22),pg=pc.getContext('2d');pg.fillStyle='rgb(36,32,52)';pg.beginPath();pg.arc(11,11,11,0,Math.PI*2);pg.fill();pg.fillStyle='rgb(6,8,12)';pg.beginPath();pg.arc(11,11,6,0,Math.PI*2);pg.fill();
         pg.fillStyle='rgb(70,60,96)';pg.fillRect(0,9,3,4);pg.fillRect(19,9,3,4);g.drawImage(pc,cliff-11,py-11);NS.kit.push({id:'SEWER_PIPE',x:cliff-11,y:py-11,w:22,h:22,flip:false,body:pc,solid:pc,emis:null,light:null});
         NS.falls.push({x:cliff+dir*13,y0:py+2,w:7});{const d=g.getImageData(0,0,W,H).data;for(let i=0;i<W*H;i++)solid[i]=d[i*4+3]>127?1:0}}
-      NS.sewers.push({x0,x1,cy,fy,pit,cliff,ramp:[rx0,rx1],manhole:xm});
+      NS.sewers.push({x0,x1,cy,fy,pit,cliff,ramp:rampOK?[rx0,rx1]:null,manhole:xm});
       // a lid knocked off beside the manhole
-      {const lx=xm+dir*20,ly=ground(lx),lc=mk(18,5),lq=lc.getContext('2d');lq.fillStyle='rgb(48,44,60)';lq.fillRect(0,0,18,5);lq.fillStyle='rgb(26,24,34)';for(let k=2;k<18;k+=4)lq.fillRect(k,1,2,3);
+      if(xm!==null){const lx=xm+dir*20,ly=ground(lx),lc=mk(18,5),lq=lc.getContext('2d');lq.fillStyle='rgb(48,44,60)';lq.fillRect(0,0,18,5);lq.fillStyle='rgb(26,24,34)';for(let k=2;k<18;k+=4)lq.fillRect(k,1,2,3);
         if(ly<H&&!kitBox(lx-9,ly-6,lx+9,ly,true)){g.drawImage(lc,lx-9,ly-5);NS.kit.push({id:'SEWER_LID',x:lx-9,y:ly-5,w:18,h:5,flip:false,body:lc,solid:lc,emis:null,light:null});const d=g.getImageData(0,0,W,H).data;for(let i=0;i<W*H;i++)solid[i]=d[i*4+3]>127?1:0}}
     }}
   // neon fixtures
@@ -2333,7 +2342,7 @@ function shove(o,vx,vy){if(!o.alive)return;
 function hurt(t,d,soft){if(d<=0||!t.alive)return;const was=t.hp;t.hp=Math.max(0,t.hp-d);if(was>0&&t.hp===0)slowmo(1.4);sfx('clank');
   if(!soft&&t===S.active&&(S.phase==='aim'||S.phase==='retreat')){if(S.phase==='aim')texts.push({x:t.x,y:t.y-58,txt:'Turn lost',life:1.6,col:BONE,small:true});S.phase='end';S.charging=false;S.jet=null;S.wait=0}const prev=texts.find(x=>x.who===t&&x.life>.85);if(prev){prev.dmg+=d;prev.txt='-'+prev.dmg;prev.life=1.5}else texts.push({x:t.x,y:t.y-38,txt:'-'+d,life:1.5,col:TEAM[t.team].col,who:t,dmg:d})}
 function deathCam(x,y,d=1.7){S.deathCam={x:clamp(x,20,W-20),y:Math.min(y,sump-10),t:d}}
-const SEWERS_ON=/(^#|&)sewers\b/.test(location.hash),SEWER_CHANCE=.85,DEATH_HOLD=3.2,DEATH_LINGER=1.2;// the hold counts down only once the grave is up (Jarred 12 Nov: the camera left before it rose) // a killed trooper keeps the camera through their last act and the grave rising (grave at 1.75 s)
+const SEWERS_ON=!/(^#|&)nosewers\b/.test(location.hash),SEWER_CHANCE=.85,DEATH_HOLD=3.2,DEATH_LINGER=1.2;// the hold counts down only once the grave is up (Jarred 12 Nov: the camera left before it rose) // a killed trooper keeps the camera through their last act and the grave rising (grave at 1.75 s)
 function abyss(t){deathCam(t.x,t.y);t.alive=false;t.hp=0;t.wet=false;slowmo(1);texts.push({x:clamp(t.x,40,W-40),y:sump-40,txt:t.name+' · lost to the abyss',life:2.4,col:BONE,small:true});sfx('splash')}
 const WADE=28;
 function floorBelow(x){for(let y=Math.floor(sump);y<=sump+WADE;y+=2)if(isSolid(x,y)||isSolid(x-3,y)||isSolid(x+3,y))return true;return false}
@@ -3544,9 +3553,9 @@ function updCamera(dt){
 }
 function gatherLights(){
   const L=[];
-  for(const f of NS.falls||[])L.push({x:f.x,y:fallEnd(f)-8,r:70,c:[63,243,255],i:.22,h:.04});
+  for(const f of NS.falls||[])L.push({x:f.x,y:fallEnd(f)-8,r:74,c:[63,243,255],i:.26,h:.04});
   for(const f of fixtures){if(!f.alive)continue;let i=.95;const ep=Math.sin(time*.31+f.ph*3.1)*Math.sin(time*.17+f.ph*1.9);if(ep>(f.faulty?.72:.9)&&Math.sin(time*29+f.ph*5)+Math.sin(time*11.3+f.ph)>.4)i=.18;
-    f.i=i;const nk=NS.on&&f.k!=='eye'?.45:1;L.push({x:f.x,y:f.y,r:(f.k==='eye'?42:f.k==='strip'?85:f.k==='post'||f.k==='lamp'?150:175)*(NS.on&&f.k!=='eye'?.55:1),c:NEON[f.c],i:(f.k==='eye'?i*.8:i)*nk,h:(f.k==='eye'?.05:.09)*(NS.on?.8:1)})}
+    f.i=i;const nk=NS.on&&f.k!=='eye'?.45:1;L.push({x:f.x,y:f.y,r:(f.k==='eye'?42:f.k==='strip'?92:f.k==='post'||f.k==='lamp'?150:175)*(NS.on&&f.k!=='eye'?.55:1),c:NEON[f.c],i:(f.k==='eye'?i*.8:i)*nk,h:(f.k==='eye'?.05:.09)*(NS.on?.8:1)})}
   for(const t of troopers)if(t.alive)L.push({x:t.x+t.face*3,y:t.y-21,r:46,c:TEAM[t.team].rgb,i:.45,h:0});
   wardLights(L);tagLights(L);
   for(const m of mines){const hot=m.trig>=0;L.push({x:m.x,y:m.y-8,r:hot?90:40,c:hot||m.armed?[255,60,60]:[255,178,30],i:hot?.9:.5,h:hot?.08:0})}
@@ -4114,7 +4123,7 @@ function netCatchUp(){if(S.mode!=='online'||NET.role!=='watch')return;const behi
   if(behind>300&&!NET.skip)for(let i=0;i<Math.min(6,behind-240);i++)tick()}
 function netGameOver(){if(NET.role!=='act')clearNet()}
 function netLeave(){document.title=TITLE0;chatStop();if(NET.unC)NET.unC();if(NET.unM)NET.unM();NET.unC=NET.unM=null;NET.role=null;NET.started=false;S.mode='hot';$('#netBar').hidden=true}
-const GV=46;// bump on every release that changes the sim
+const GV=47;// bump on every release that changes the sim
 function startOnline(code,me,d){BE.update(code,{['vers.'+me]:GV,['arts.'+me]:window.GRIMSPIRE_ART_SIM||''}).catch(()=>{});NET.code=code;NET.me=me;NET.round=d.round||0;NET.snapK=-1;NET.snap=null;NET.matchAtt=d.att||'';NET.started=true;NET.leaving=false;saveNet();
   $('#net').hidden=true;if(!CHAT.un)chatStart();const cfg=Object.assign(mkCfg('online',d.seats,d.mode==='teams'),{mode:'online'});newGame('online',d.seed,cfg);S.genOK=true;
   const base=NET.round*1e5,has=d.snapK!=null&&d.snapK>=base&&d.snap;
