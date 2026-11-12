@@ -6,6 +6,13 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-12 · Claude · Pixel look on main behind `#pixel` (render only, GV stays 48)
+- Jarred wants to ask friends which look they prefer, online. The pixel pass (entry below) is now on `main`, off by default: add `#pixel` to the address. The default look is unchanged. Render only, so players on either look can share a match.
+- Both renderers ship side by side for now (old as `litFrame0` and friends, pixel as `litFrame1`; shared helpers kept single). When Jarred picks, delete the loser. Until then, a lighting tweak has to be made in both, so hold lighting changes.
+- `#nogrid` (with `#pixel`) keeps the pixel look's tiles, edges and bands but draws per screen pixel.
+- Tests: `det.py` maps match on four seeds; art tests pass; default and `#pixel` checked by eye on three maps.
+- **Ask (Jarred):** say which look wins. No pause-menu toggle (Jarred: not now).
+
 ## 2026-11-12 · Claude · Pixel pass on branch `pixel-pass` (not on main; no sim change, GV stays 48)
 - Jarred shared two in-game mockups as the art direction goal ("real juicy clearly delineated pixel art") and asked Claude to take the current build as far toward them as code alone can. Lives on branch `pixel-pass`; `main` is untouched. Waiting on Jarred's look at the test build.
 - **One pixel grid.** The lit world is now drawn once per art pixel (1.886 per world px, the kit's own density) and set on the screen at the device's real resolution with crisp edges. Kit art lands one art pixel per texel instead of being resampled; troopers, props, effects, skyline and water all fall on the same grid. Zoomed far out it draws per screen pixel as before. The per-frame detail textures are gone.
