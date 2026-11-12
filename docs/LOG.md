@@ -18,7 +18,7 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
   - Back wall lifted from `#0b0e15` to `#161b28`, piers and caps with it.
   - Sewer lamps cast at 70% and 85% radius in the lit looks (other fixtures stay 45% and 55%).
   - Pools throw more light (0.3, deep 0.42), plus a second light under the roof over each pool.
-- **Caustics:** thin wavering filaments of light on the roof over every pool, a soft wash under it and glints on the wall above the water. Drawn in `drawFalls` (the shared overlay), so both looks get them; no renderer changed.
+- **Water surface:** a gentle flow on each pool's surface, like the sump's waterline in miniature: a faint wavy line and a couple of drifting glints, in `drawFalls` (shared by both looks). Roof caustics were tried first and cut (Jarred: "demented"); the soft light pools throw on the roof stays.
 - **Props in mountainsides:** not the sewers; it shows with sewers off. Ruined facades on the back-wall layer use the same dark brick blocks as playable rock, so props in front of them look buried. **Ask (Jarred):** confirm that's what you saw; the fix would make facades read as background.
 - **Tests:**
   - `dsim`, `dsim2` and `dsimart` identical; 10 sewer maps generate identically twice.

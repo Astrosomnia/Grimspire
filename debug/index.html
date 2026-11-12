@@ -4025,16 +4025,11 @@ function drawFalls(){if(!(NS.falls&&NS.falls.length)&&!(NS.pools&&NS.pools.lengt
   // standing water in a sewer pool or channel: dark like the sump, a thin glint along the top; gone where its floor has been blown out
   for(const p of NS.pools||[])for(let x=p.x;x<p.x+p.w;x+=8){const w=Math.min(8,p.x+p.w-x);if(!isSolid(x+w/2,p.y+p.h+1)||isSolid(x+w/2,p.y+1)||p.y>=sump)continue;
     ctx.fillStyle='rgba(12,34,46,.82)';ctx.fillRect(x,p.y,w,p.h);ctx.fillStyle=`rgba(110,200,215,${.2+.12*Math.sin(time*1.7+x*.21)})`;ctx.fillRect(x,p.y,w,1)}
-  // (pass 2, Jarred) caustics: light off the water dancing on the roof over it, and dappling the wall just above it
-  ctx.globalCompositeOperation='lighter';
-  for(const p of NS.pools||[]){if(!p.rf||p.y>=sump)continue;const a=p.deep?1:.6,t=time;
-    for(let i=0;i<p.rf.length;i++){const x0=p.x+i*3,ry=p.rf[i];if(ry<=p.y-119||!isSolid(x0+1,p.y+p.h+1)||isSolid(x0+1,p.y+1))continue;// gone with the pool's floor
-      {const w=.035*a*(1+.5*Math.sin(x0*.05+t*.8));ctx.fillStyle=`rgba(60,180,220,${w})`;ctx.fillRect(x0,ry+1,3,8);ctx.fillStyle=`rgba(60,180,220,${w*.5})`;ctx.fillRect(x0,ry+9,3,8)}// a soft wash under the roof, fading down
-      for(let x=x0;x<x0+3;x++)for(let k=0;k<3;k++){// thin wavering filaments, three crossing sets: the web of light off moving water
-        const ph=k*2.1,y=ry+3+k*4+2.2*Math.sin(x*.23+t*(1.7+k*.4)+ph)+1.5*Math.sin(x*.07-t*.9+ph),f=Math.sin(x*.11+t*(1.3-k*.3)+ph*1.7)+Math.sin(x*.047-t*.7+ph);
-        if(f>.35){ctx.fillStyle=`rgba(150,240,255,${Math.min(.5,(f-.35)*.45)*a*(1-k*.25)})`;ctx.fillRect(x,y|0,1,f>1.1?2:1)}}
-      const d=Math.sin(x0*.19-t*2.1)+Math.sin(x0*.083+t*1.3);if(d>1.05){ctx.fillStyle=`rgba(120,225,245,${.2*a})`;ctx.fillRect(x0,p.y-4-((x0*7)%7),1,1)}}}
-  ctx.globalCompositeOperation='source-over';
+  // (pass 3, Jarred: the roof caustics were too much) a gentle flow on each pool's surface, the sump's waterline in miniature
+  for(const p of NS.pools||[]){if(p.y>=sump)continue;let on=false;ctx.strokeStyle='rgba(170,200,225,.3)';ctx.lineWidth=1;ctx.beginPath();
+    for(let x=p.x;x<=p.x+p.w;x+=4){const ok=isSolid(x+1,p.y+p.h+1)&&!isSolid(x+1,p.y+1),y=p.y+Math.sin(x*.09+time*2)*.6+Math.sin(x*.04-time*1.3)*.4;
+      if(ok){on?ctx.lineTo(x,y):ctx.moveTo(x,y);on=true}else on=false}ctx.stroke();
+    ctx.fillStyle='rgba(150,225,245,.35)';for(let k=0;k<Math.max(1,p.w/50|0);k++){const gx=p.x+p.w*(.5+.45*Math.sin(time*.35+k*2.4+p.x*.01));if(isSolid(gx+1,p.y+p.h+1)&&!isSolid(gx+1,p.y+1))ctx.fillRect(gx-3,p.y+1+(k%2),6,1)}}
   for(const f of NS.falls||[]){const y1=fallEnd(f),h=y1-f.y0;if(h<4)continue;
     if(f.drip){// a regular drip: a bead swells on the lip, lets go, and falls
       const T=1.9,u=((time+f.ph)%T)/T;ctx.fillStyle='rgba(130,205,220,.75)';
