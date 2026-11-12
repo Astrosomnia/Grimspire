@@ -6,6 +6,13 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-12 · Claude · Power Claw moment, death cam waits for the grave, sewers first pass (GV 45)
+- **Power Claw moment:** every connecting claw hit freezes the world for 0.17 s (impact ring held mid-pulse), snaps the camera in about 3.4× with heavy letterbox bars, then releases in slow-mo as the target flies while the camera eases back out (~1.2 s). Part of the sim (`S.hitstop`, `S.punch`), so online stays in step. Jarred first asked for big hits only, then for it more often.
+- **Death cam:** the hold now counts down only once that trooper's grave is up, then lingers 1.2 s; the camera pans to the body faster; a second death waits 2.9 s (was 1.9) so each grave is seen. Jarred: the camera left before the grave rose, mostly when the body was far from the camera.
+- **Sewers (first pass):** on non-drowned maps, a land mass with room (≈480–640 px wide, rock under it) gets a sewer 75% of the time; about 1 map in 5 qualifies today. A ramp down at the low end, a brick-lined tunnel with cyan strip lights, a vaulted chamber with a round grate, a manhole shaft, hanging grime, and in the chamber floor a pit straight down to the sump (or a shallow pool when the sump is far). Where the tunnel meets a cliff it carries out and is blocked by a solid grate, with an outlet pipe pouring into the water. Outflow waterfalls are cosmetic and light the water they land in. All real terrain: blasts carve it, falls into the pit drown. Set pieces stay out of it. Own seeded random numbers, so maps without a sewer are identical to before (`det.py` matches). Reference: `docs/sewers/reference.png`; first look: `docs/sewers/first-pass.png`.
+- Tests: `det.py` maps match; `dsim.py`, `dsim2.py`, `dsimart.py` identical; walked a trooper down the ramp, along the tunnel and into the pit.
+- **Next:** catacombs as the other half of the roll (Jarred: 50/50 sewer or catacomb); a sewer art kit for ChatGPT (brick, grates, pipes, pool edges, height maps) against the reference; sewers reaching more land masses (today they need fairly level rock).
+
 ## 2026-11-12 · Claude · Small tweaks: Power Claw push, mid-air wire, wall bounces, Fabricator span, red windows (GV 43)
 - **Power Claw (Thunder Fist):** sideways launch 134 → 149, so a target flies about 20% further (measured 200 → 241 px on flat ground, with the new bounces).
 - **Rappel Wire mid-air:** fires while jumping or falling; grapples along the aim (up or sideways, not down) and the swing keeps your momentum.
