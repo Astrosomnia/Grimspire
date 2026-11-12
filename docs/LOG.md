@@ -6,6 +6,30 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-12 · Claude (Fable, then Opus) · Sewers v2 live: underpasses and modules (GV 49)
+- **Live on `main`, on by default** (Jarred: "basically perfect"). `#nosewers` in the address turns them off.
+- **Generator rewritten** (the `// ---- sewers` block in `genTerrain`). It's an underpass now: at least `SEW_ROOF` = 60 px of rock over the tunnel nearly all the way, no caves broken into, and two true ends. An end is a pipe mouth on a near-vertical wall, a gated portal on a hillside, or a lined stair cut climbing to the surface. Mouth-to-mouth is preferred; stair cuts are the fallback. A site that has to be forced is skipped.
+- **Modules between the ends:**
+  - a square room with a stone step
+  - a vaulted grate chamber over a sump pit or a pool
+  - a flooded channel under ceiling drains
+  - a stepped basin with a stepping stone
+  - a sunken hall with stairs and a walkway across
+  - an occasional manhole
+- **Gates and lights.** About 1 in 5 has one shut gate (bars as real terrain; a blast opens it). Open gates are decoration. One or two lights; cyan sewer strips are 5% brighter.
+- **Pass 2 (Opus):**
+  - The outlet pipe is a round pipe seen side-on (shaded walls, flanges at the rock and lip, a dark bore on the interior layer, a drip off the lip), replacing two thin collars that read as slabs.
+  - The open gate is bigger, with a header beam.
+  - `NS.sewerFit` resets per map.
+- **Spawns:** no reserved spot. Sewer floors are ordinary spawn ground, per Jarred: 0–2 of 8 troopers start in one.
+- **Frequency:** 32 of 120 seeds get a sewer (27%), with `SEWER_CHANCE` = 1 (the depth rule does the filtering; drowned never gets one).
+- **Tests:**
+  - `det.py` matches on four seeds; `dsim`, `dsim2` and `dsimart` are identical.
+  - Sewer maps generate identically twice (10 seeds).
+  - Walk test over 19 sewers, both ways: clean except at central pits (intended), one shut gate (intended) and one test-placement artefact. Lit and `#pixel` checked by eye.
+- **Known:** 2 of 32 sewers get no module (shallow islands). Tunnels are dark by design.
+- **Next (Jarred, 12 Nov):** sewers low on islands just above the water; more water (a deeper pool, a pool with a bridge); more sump holes; far too dark on a phone (lights should light, water should throw light and caustics on the roof); props drawn inside mountainsides again (seen on the test link).
+
 ## 2026-11-12 · Claude · Sewer handoff doc
 - `docs/SEWERS-HANDOFF.md`: where the sewer work stands (off on `main`, `#sewers` to test), how the generator works and where it lives, Jarred's feedback in order, the proposed next round, and what's for later. Test scripts saved to `tools/test/sewers/`.
 

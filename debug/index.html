@@ -1077,89 +1077,182 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
       const type=['cross','angel','angel','saint'][Math.random()*4|0],broken=Math.random()<.3,fallen=Math.random()<.12,tilt=fallen?(Math.random()<.5?-1:1)*rnd(1.25,1.45):rnd(-.3,.3),sc=rnd(1,1.25),fl=Math.random()<.5?-1:1;
       for(const c of[g,cctx]){c.save();c.fillStyle='#fff';c.translate(x,y+(fallen?-3:1));c.rotate(tilt);c.scale(fl*sc,sc);statue(c,type,broken);c.restore()}}
     const d2=g.getImageData(0,0,W,H).data;for(let i=0;i<W*H;i++)solid[i]=d2[i*4+3]>127?1:0}
-  // ---- sewers (Jarred 12 Nov): a land mass big enough may have a sewer cut through it. Just more ground, like any
-  // hole or module: a ramp down from the surface, a tunnel lined in brick, a chamber with a round grate, a manhole
-  // shaft, an open pit to the sump (or a shallow pool), and where the tunnel meets a cliff a solid grate with an
-  // outlet pipe pouring into the water. Own seeded numbers, so maps without one are exactly as before.
-  NS.falls=[];NS.sewers=[];const sewFx=[];
-  if(SEWERS_ON&&L!=='drowned'){const R=hrand((S.seed^0x5e3e7)|0),rr=(a,b)=>a+R()*(b-a);
-    const top=x=>{x=Math.max(0,Math.min(W-1,x|0));for(let y=0;y<H;y++)if(solid[y*W+x])return y;return H};
-    // the ground: the top of the mass that stands up from the water, climbing over caves but not up to floating islands
-    const ground=x=>{x=Math.max(0,Math.min(W-1,x|0));let y=Math.min(H-1,sump-1),k0=0;while(k0<160&&!solid[y*W+x]){y--;k0++}if(k0>=160)return H;
-      for(;;){while(y>0&&solid[(y-1)*W+x])y--;let k=1;while(k<=90&&y-k>0&&!solid[(y-k)*W+x])k++;if(k>90||y-k<=0)return y;y-=k}};
-    const kitBox=(a,b,c,d,all)=>NS.kit.some(p=>(all||/^K(08|1[0-3])/.test(p.id))&&p.x<c&&p.x+p.w>a&&p.y<d&&p.y+p.h>b);// buried rock and tower feet are just ground; keep clear of landmarks
-    const runs=[];
-    for(let x0=90;x0<W-380;x0+=30)for(const wr of[600,500,420,360]){const x1=x0+wr;if(x1>W-100)continue;
-      let ok=true;const ts=[];for(let x=x0;x<=x1;x+=6)ts.push(ground(x));ts.sort((a,b)=>a-b);const tmax=ts[Math.floor(ts.length*.88)],tmin=ts[0];
-      // hills, towers and spires over it don't matter (the tunnel runs under the lowest ground); open water does, and one
-      // end has to be near that lowest ground so the ramp in stays short
-      if(tmax>=sump-88||tmax<80||Math.max(ground(x0+14),ground(x1-14))<tmax-150)continue;const cy=tmax+26,fy=cy+40;if(fy+16>sump-6)continue;
-      // mostly rock (a cave or two it cuts through is fine), with a floor under the tunnel the whole way
-      {let n=0,m=0,fl=0,fm=0;for(let x=x0;x<=x1;x+=5){for(let y=tmax+6;y<fy;y+=4){m++;if(solid[y*W+x])n++}for(let y=fy+4;y<=fy+18;y+=4){fm++;if(solid[y*W+x])fl++}}ok=n>=m*.6&&fl>=fm*.7}
-      if(!ok||kitBox(x0,tmax-10,x1,fy+24))continue;runs.push({x0,x1,cy,fy});break}
-    if(runs.length&&R()<SEWER_CHANCE){const sw=runs[R()*runs.length|0],{x0,x1,cy,fy}=sw,dir=ground(x0+14)>=ground(x1-14)?1:-1;R();
-      const cm=mk(W,H),cg=cm.getContext('2d');cg.fillStyle='#fff';const box=(a,b,c,d)=>cg.fillRect(Math.min(a,c),Math.min(b,d),Math.abs(c-a),Math.abs(d-b));
-      // ramp down from the surface
-      const rx0=dir>0?x0+14:x1-14,s0=ground(rx0),rl=Math.max(70,(fy-s0)/.62),rx1=rx0+dir*rl;
-      const rampOK=!NS.kit.some(p=>/^K/.test(p.id)&&p.x<Math.max(rx0,rx1)&&p.x+p.w>Math.min(rx0,rx1)&&p.y<fy&&p.y+p.h>s0-50);
-      if(rampOK){cg.beginPath();cg.moveTo(rx0,s0+3);cg.lineTo(rx1,fy);cg.lineTo(rx1,fy-46);cg.lineTo(rx0,s0-46);cg.closePath();cg.fill()}
-      const cA=dir>0?rx1-12:x0+40,cB=dir>0?x1-40:rx1+12;box(cA,cy,cB,fy);
-      // chamber with a vaulted roof
-      const cx=(cA+cB)/2,chw=Math.min(84,(cB-cA)/2-30);cg.beginPath();cg.ellipse(cx,cy+6,chw,34,0,Math.PI,0);cg.fill();box(cx-chw,cy,cx+chw,fy);
-      // manhole shaft at the far end
-      const clearCol=(a,b,y0,y1)=>!NS.kit.some(p=>/^K/.test(p.id)&&p.x<b&&p.x+p.w>a&&p.y<y1&&p.y+p.h>y0);
-      let xm=null;for(const o of[46,90,130,170]){const x=dir>0?cB-o:cA+o;if((dir>0?x>cx+chw+20:x<cx-chw-20)&&clearCol(x-14,x+14,ground(x)-60,cy)){xm=x;break}}
-      if(xm!==null)box(xm-11,ground(xm)-3,xm+11,cy+2);
-      // the floor of the chamber: a pit straight down to the sump, or a shallow pool
-      let pit=false;{let ok=sump-fy<300;for(let y=fy;y<sump&&ok;y+=6)if(!solid[y*W+(cx|0)])ok=false;
-        if(ok){pit=true;box(cx-24,fy-2,cx+24,sump+16)}else{box(cx-46,fy-2,cx+46,fy+9);NS.sewers.push({pool:[cx-46,fy+2,92,7]})}}
-      // where the far end meets a cliff: carry the tunnel out, block it with a grate, an outlet pipe below
-      const end=dir>0?cB:cA,my=(cy+fy)/2;let cliff=null;for(let k=4;k<130;k+=2){const x=end+dir*k;if(x<4||x>W-4)break;if(!solid[(my|0)*W+(x|0)]&&!solid[((my+14)|0)*W+(x|0)]){cliff=x;break}}
-      if(cliff!==null)box(end,cy,cliff+dir*2,fy);
-      // a roof thinner than a trooper is a sliver that reads as a slab sticking out: open it to the sky instead
-      {const cmd0=cg.getImageData(0,0,W,H).data,xa=Math.max(1,Math.min(x0,rx0,cliff??x0)-4|0),xb=Math.min(W-2,Math.max(x1,rx0,cliff??x1)+4|0);
-        for(let x=xa;x<=xb;x++){let c=-1;for(let y=Math.max(0,cy-60);y<fy;y++)if(cmd0[(y*W+x)*4+3]){c=y;break}if(c<0)continue;
-          let t=c;while(t>0&&solid[(t-1)*W+x])t--;const onRamp=rampOK&&x>=Math.min(rx0,rx1)-4&&x<=Math.max(rx0,rx1)+4;if(t<c&&c-t<(onRamp?90:30)&&t>0&&!solid[(t-1)*W+x])box(x,t-2,x+1,c+1)}}
-      const pre=mk(W,H);pre.getContext('2d').drawImage(mask,0,0);// the rock as it was, so the tunnel's back wall stops where the ground does
+  // ---- sewers (Jarred 12 Nov): a land mass with enough rock in it may have a sewer run through it. Just more ground,
+  // like any hole or module, but an underpass, not a bunker: a tunnel at least SEW_ROOF px under the surface with two
+  // true ends. An end is a mouth where the tunnel breaks out of the mass (an outlet pipe on a near-vertical wall, a
+  // gated portal on a hillside) or a lined stair cut dipping down from the surface to a gate. Between the ends, a
+  // chain of pieces: runs, a square room, a vaulted grate chamber over a pit or pool, a flooded channel, a stepped
+  // basin, a sunken hall with stairs. A site that has to be forced is skipped. Own seeded numbers, so maps without
+  // one are exactly as before.
+  NS.falls=[];NS.sewers=[];NS.pools=[];NS.sewerFit=0;const sewFx=[];
+  if(SEWERS_ON&&L!=='drowned'){const R=hrand((S.seed^0x5e3e7)|0),rr=(a,b)=>a+R()*(b-a),ri=(a,b)=>a+(R()*(b-a+1)|0);
+    const Q=6,TH=40,ROOF=SEW_ROOF,TR=8,RI=7;// sample step, tunnel height, rock over the tunnel, stair tread and riser
+    const sol=(x,y)=>x>=0&&x<W&&y>=0&&y<H&&solid[(y|0)*W+(x|0)]===1?1:0;
+    const upTop=(x,y)=>{while(y>0&&sol(x,y-1))y--;return y};// the top of the rock standing at x,y
+    const roofAt=(x,cy,max)=>{let k=0;while(k<max&&sol(x,cy-1-k))k++;return k};
+    const kitHit=(re,a,b,c,d)=>NS.kit.some(p=>re.test(p.id)&&p.x<c&&p.x+p.w>a&&p.y<d&&p.y+p.h>b);
+    const LANDMARK=/^K(08|1[0-3])/,MASONRY=/^K/;// buried rock and tower feet are just ground; landmarks are kept clear
+    // a stair cut from the tunnel floor up to the surface, going outward from xe: how many steps, or null if it can't be made
+    const dipPlan=(xe,d,fy)=>{for(let n=1;n<=25;n++){const xb=xe+d*n*TR,xm=xb-d*TR/2,fl=fy-n*RI;if(xb<50||xb>W-50)return null;if(!sol(xm,fl+3))return null;
+        const t=upTop(xm,fl);if(fl-t<=5){if(n<4||!outside(xm,t-9)||sol(xm,t-30))return null;// has to come up under open sky
+          let gy=t-30;while(gy<t+40&&!sol(xb+d*22,gy))gy++;if(gy-t>26||gy-t<-26)return null;// and onto ground that carries on
+          const xa=Math.min(xe,xb),xz=Math.max(xe,xb);if(kitHit(MASONRY,xa-6,t-50,xz+6,fy))return null;return{n,top:t,x1:xb}}}return null};
+    // air that joins the open sky (a coarse flood from the top of the map), so an end comes out into the world, not into a sealed cave
+    const OW=Math.ceil(W/Q),OH=Math.ceil(H/Q),out=new Uint8Array(OW*OH);{const st=[];for(let i=0;i<OW;i++)if(!sol(i*Q+3,3)){out[i]=1;st.push(i)}
+      while(st.length){const c=st.pop(),cx=c%OW,cy=c/OW|0;for(const[dx,dy]of[[1,0],[-1,0],[0,1],[0,-1]]){const nx=cx+dx,ny=cy+dy;if(nx<0||ny<0||nx>=OW||ny>=OH)continue;const n=ny*OW+nx;if(!out[n]&&!sol(nx*Q+3,ny*Q+3)){out[n]=1;st.push(n)}}}}
+    const outside=(x,y)=>x>=0&&x<W&&y>=0&&y<H&&out[(y/Q|0)*OW+(x/Q|0)]===1;
+    const cands={mm:[],md:[],dd:[]};
+    for(let fy=170;fy<=sump-36;fy+=10){const cy=fy-TH,N=Math.ceil(W/Q),cls=new Uint8Array(N),P60=new Int16Array(N+1),P36=new Int16Array(N+1),P46=new Int16Array(N+1),Pb=new Int32Array(N+1),Pf=new Int32Array(N+1);
+      for(let i=0;i<N;i++){const x=i*Q,n=sol(x,cy+7)+sol(x,cy+20)+sol(x,fy-5);cls[i]=n>=2?2:n?1:0;const rf=n?roofAt(x,cy,ROOF):0;// no caves in the way: a tunnel that breaks into one is a trap
+        P60[i+1]=P60[i]+(rf<ROOF?1:0);P46[i+1]=P46[i]+(rf<46?1:0);P36[i+1]=P36[i]+(rf<36?1:0);Pb[i+1]=Pb[i]+n+sol(x,cy+13)+sol(x,cy+27)+sol(x,fy-12);Pf[i+1]=Pf[i]+sol(x,fy+5)+sol(x,fy+14)}
+      const ix=x=>Math.max(0,Math.min(N,Math.round(x/Q))),cnt=(P,a,b)=>P[ix(b)]-P[ix(a)];
+      // where the tunnel would break out of the mass, and what kind of face it meets there
+      const mouth=(xe,d)=>{let c=null;for(let k=0;k<Q+2;k++){const x=xe+d*k;if(!sol(x,cy+7)&&!sol(x,cy+20)&&!sol(x,fy-5)){c=x;break}}if(c===null)return null;
+        for(let k=10;k<=46;k+=6)if(sol(c+d*k,cy+10)||sol(c+d*k,cy+24))return null;if(!outside(c+d*16,cy+18))return null;// open air beyond it, not a crack or a sealed cave
+        if(roofAt(c-d*12,cy,60)>=44)return{t:'pipe',x:c,in:c-d*4,core:40,m36:16};
+        for(let k=14;k<=130;k+=4)if(roofAt(c-d*k,cy,40)>=36&&roofAt(c-d*(k+12),cy,40)>=36)return{t:'portal',x:c,in:c-d*k,core:50};return null};
+      let x=60;while(x<W-60){while(x<W-60&&!cls[x/Q|0])x+=Q;const a=x;let b=x,gap=0,open=false;
+        while(x<W-60){if(!cls[x/Q|0]){gap+=Q;if(gap>54){open=true;break}}else{gap=0;b=x}x+=Q}
+        if(b-a<240)continue;
+        const lefts=[],rights=[];{const m=a>66?mouth(a,-1):null;if(m)lefts.push(m);const m2=open?mouth(b,1):null;if(m2)rights.push(m2);}
+        for(let xd=a+66;xd<b-66;xd+=30){lefts.push({t:'dip',x:xd,d:-1});rights.push({t:'dip',x:xd,d:1})}
+        for(const e0 of lefts)for(const e1 of rights){const xa=e0.t==='dip'?e0.x:e0.in,xb=e1.t==='dip'?e1.x:e1.in,len=xb-xa;if(len<210||len>640)continue;
+          const ca=xa+(e0.core||0),cb=xb-(e1.core||0),n=ix(xb)-ix(xa);if(cnt(P46,ca,cb)||cnt(P60,ca,cb)>(ix(cb)-ix(ca))*.12)continue;// the full depth of rock nearly all the way, never much less
+          if(cnt(P36,xa+(e0.m36||0),xb-(e1.m36||0)))continue;if(cnt(Pb,xa,xb)<n*6*.8)continue;if(cnt(Pf,xa,xb)<n*2*.97)continue;
+          if(kitHit(LANDMARK,Math.min(xa,e0.x)-10,cy-12,Math.max(xb,e1.x)+10,fy+24))continue;
+          if(e0.t==='dip'){if(e0.p===undefined)e0.p=dipPlan(e0.x,-1,fy);if(!e0.p)continue}if(e1.t==='dip'){if(e1.p===undefined)e1.p=dipPlan(e1.x,1,fy);if(!e1.p)continue}
+          cands[e0.t!=='dip'&&e1.t!=='dip'?'mm':e0.t==='dip'&&e1.t==='dip'?'dd':'md'].push({fy,cy,xa,xb,e0,e1})}}}
+    // through-and-through underpasses first; a stair cut at both ends is the fallback
+    const klass=(()=>{const ws=[['mm',5],['md',3],['dd',1.3]].filter(k=>cands[k[0]].length);let u=R()*ws.reduce((s,k)=>s+k[1],0);for(const k of ws){u-=k[1];if(u<0)return k[0]}return ws.length?ws[0][0]:null})();
+    NS.sewerFit=klass?1:0;
+    if(klass&&R()<SEWER_CHANCE){const pool=cands[klass];let sw=pool[R()*pool.length|0];for(let i=0;i<3;i++){const o=pool[R()*pool.length|0];if(o.xb-o.xa>sw.xb-sw.xa)sw=o}// of a few, the longest: room for rooms
+      const{fy,cy,xa,xb,e0,e1}=sw;
+      const cm=mk(W,H),cg=cm.getContext('2d'),sk=mk(W,H),sg=sk.getContext('2d');cg.fillStyle='#fff';sg.fillStyle='#fff';
+      let bx0=W,bx1=0,by0=H,by1=0;const grow=(a,b,c,d)=>{bx0=Math.min(bx0,a,c);bx1=Math.max(bx1,a,c);by0=Math.min(by0,b,d);by1=Math.max(by1,b,d)};
+      const box=(a,b,c,d)=>{cg.fillRect(Math.min(a,c),Math.min(b,d),Math.abs(c-a),Math.abs(d-b));grow(a,b,c,d)};
+      const sky=(a,b,c,d)=>{box(a,b,c,d);sg.fillRect(Math.min(a,c),Math.min(b,d),Math.abs(c-a),Math.abs(d-b))};// a cut open to the sky: no back wall behind it
+      const keep=(a,b,c,d)=>cg.clearRect(Math.min(a,c),Math.min(b,d),Math.abs(c-a),Math.abs(d-b));// stone left standing inside a cut
+      const rec={x0:xa,x1:xb,ix0:xa,ix1:xb,cy,fy,y0:cy,y1:fy,keep:[],parts:[],ends:[e0.t,e1.t],pit:false,gate:null};
+      const walls=[];// back-wall dressing, drawn once the cut is known: [kind,...]
+      box(xa,cy,xb,fy);
+      // ---- the two ends
+      let closed=R()<.22?(R()<.5?0:1):-1;// now and then one gate is shut: thin bars, real terrain, a blast opens it
+      [e0,e1].forEach((e,k)=>{const d=k?1:-1;
+        if(e.t==='dip'){const p=e.p,SH=TH+RI;// a stair under its own roof, climbing to the surface; only its last few steps, where the
+          // rock over it thins to nothing, are an open cut (lined, sky behind it), with the gate where the roof begins
+          const thin=i=>{const x=e.x+d*(i-.5)*TR,c=fy-i*RI-SH;return c-upTop(x,c)<30};let io=p.n;while(io>1&&thin(io-1))io--;
+          for(let i=1;i<=p.n;i++)for(const h of[0,TR/2]){const x=e.x+d*((i-1)*TR+h),fl=fy-i*RI;
+            if(i>=io)sky(x,Math.min(upTop(x+d,fl),upTop(x+d*(TR/2-1),fl))-3,x+d*TR/2,fl);else box(x,fl-SH,x+d*TR/2,fl)}
+          e.gx=e.x+d*(io-1)*TR;e.gy=fy-(io-1)*RI-SH;e.gh=SH;
+          rec.keep.push([Math.min(e.x,p.x1)-24,p.top-60,Math.max(e.x,p.x1)+24,fy+30]);e.out=p.x1;
+          if(k===(R()<.5?0:1)||e0.t!==e1.t)sewFx.push({k:'post',x:p.x1+d*12,y:p.top-40,ax:p.x1+d*12,ay:0,c:'amber',alive:true,ph:rr(0,50),faulty:false,sw:1,dip:1})}
+        else if(e.t==='portal'){box(e.in,cy,e.x+d*2,fy);e.gx=e.in;e.gy=cy;e.gh=TH;e.out=e.x;// the approach: what little roof there is comes off
+          for(let x=Math.min(e.in+d*2,e.x+d*2)|0;x<=Math.max(e.in+d*2,e.x+d*2);x++){const t=upTop(x,cy);if(cy-t<46)sky(x,t-3,x+1,fy)}}
+        else{box(e.in,cy,e.x+d*2,fy);e.gx=null;e.out=e.x+d*22}
+        rec.x0=Math.min(rec.x0,e.out);rec.x1=Math.max(rec.x1,e.out)});
+      if(closed>=0&&[e0,e1][closed].gx===null)closed=-1;
+      // ---- the pieces between them
+      const len=xb-xa,deepOK=(a,b,drop)=>{if(fy+drop>sump-14)return false;for(let x=a;x<=b;x+=Q)if(!sol(x,fy+drop+3)||!sol(x,fy+drop+12))return false;return true};// sound rock under a sunken floor
+      const roofMin=(a,b)=>{let r=200;for(let x=a;x<=b;x+=Q)r=Math.min(r,roofAt(x,cy,200));return r};
+      const slots=[];const feats=[];
+      const make={
+        hall:(a,b)=>{const w=Math.min(b-a-16,ri(196,270)),drop=RI*(deepOK(a,b,48)?ri(5,6):5),c=(a+b)/2,l=c-w/2|0,r=l+w,ns=drop/RI,st=9;if(w<170||!deepOK(l,r,drop))return false;
+          for(let i=1;i<=ns;i++){box(l+(i-1)*st,cy,r-(i-1)*st,fy+i*RI)}const fl=fy+drop,ml=l+(ns-1)*st,mr=r-(ns-1)*st;
+          const raise=Math.min(20,roofMin(l,r)-34);if(raise>=8)box(l+10,cy-raise,r-10,cy+1);
+          if(mr-ml>=70){const sw=Math.min(84,(mr-ml)*.55)|0,sx=(c-sw/2+rr(-8,8))|0;keep(sx,fy,sx+sw,fy+6);walls.push(['posts',sx+5,sx+sw-5,fy+6,fl])}
+          rec.y1=Math.max(rec.y1,fl);rec.y0=Math.min(rec.y0,cy-Math.max(0,raise));walls.push(['bays',l,r,cy-Math.max(0,raise),fy]);feats.push({t:'hall',x:c,y:cy-Math.max(0,raise),l,r});return true},
+        room:(a,b)=>{const w=Math.min(b-a-20,ri(92,128)),c=(a+b)/2+rr(-10,10),l=c-w/2|0,r=l+w,raise=Math.min(34,roofMin(l,r)-30);if(w<80||raise<14)return false;
+          box(l,cy-raise,r,fy);const bx=R()<.5?l+ri(14,26):r-ri(32,44);keep(bx,fy-9,bx+18,fy+1);if(R()<.6){const o=R()<.5?0:8;keep(bx+o,fy-18,bx+o+10,fy-9)}
+          rec.y0=Math.min(rec.y0,cy-raise);walls.push(['room',l,r,cy-raise,fy]);feats.push({t:'room',x:c,y:cy-raise,l,r});return true},
+        chamber:(a,b)=>{const chw=Math.min((b-a)/2-14,ri(58,84))|0,c=(a+b)/2+rr(-8,8)|0;if(chw<50)return false;const rise=Math.min(34,roofMin(c-chw,c+chw)-28);if(rise<16)return false;
+          cg.beginPath();cg.ellipse(c,cy+6,chw,rise+6,0,Math.PI,0);cg.fill();grow(c-chw,cy-rise,c+chw,fy);box(c-chw,cy,c+chw,fy);
+          let pit=sump-fy<300&&R()<.65;for(let y=fy;y<sump&&pit;y+=6)if(!sol(c,y)||!sol(c-20,y)||!sol(c+20,y))pit=false;
+          if(pit){box(c-21,fy-2,c+21,sump+16);rec.pit=true;rec.keep.push([c-40,fy,c+40,sump])}else if(deepOK(c-44,c+44,9)){box(c-44,fy-2,c+44,fy+9);NS.pools.push({x:c-44,y:fy+3,w:88,h:6})}// no pool over a cave: it would drain
+          rec.y0=Math.min(rec.y0,cy-rise);walls.push(['grate',c,chw,rise,pit]);feats.push({t:'chamber',x:c,y:cy,l:c-chw,r:c+chw,off:chw+34});return true},
+        channel:(a,b)=>{const w=Math.min(b-a-20,ri(110,160)),c=(a+b)/2+rr(-10,10),l=c-w/2|0,r=l+w;if(w<90||!deepOK(l,r,6))return false;
+          box(l,fy-2,r,fy+6);NS.pools.push({x:l,y:fy+2,w,h:4});walls.push(['drains',l,r]);feats.push({t:'channel',x:c,y:cy,l,r});return true},
+        basin:(a,b)=>{const w=Math.min(b-a-20,ri(118,150)),c=(a+b)/2+rr(-10,10),l=c-w/2|0,r=l+w;if(w<104||!deepOK(l,r,RI*2))return false;
+          box(l,fy-2,r,fy+RI);box(l+TR,fy-2,r-TR,fy+RI*2);const pw=ri(12,18),px=(c-pw/2+rr(-14,14))|0;keep(px,fy+5,px+pw,fy+RI*2+1);// a stepping stone just clear of the water
+          NS.pools.push({x:l+TR,y:fy+6,w:w-TR*2,h:RI*2-6});rec.y1=Math.max(rec.y1,fy+RI*2);walls.push(['basin',l,r]);feats.push({t:'basin',x:c,y:cy,l,r});return true}};
+      {const A=xa+26,B=xb-26;let order=['room','chamber','channel','basin'];for(let i=order.length-1;i>0;i--){const j=R()*(i+1)|0;[order[i],order[j]]=[order[j],order[i]]}
+        const fill=(a,b)=>{if(b-a<96)return;for(let i=0;i<order.length;i++)if(make[order[i]](a,b)){order.splice(i,1);return}};
+        if(len>=330&&R()<.6&&deepOK(A+40,B-40,RI*5)){const hw=Math.min(B-A,len>=520?300:len),ha=(A+B)/2-hw/2,hb=ha+hw;
+          if(make.hall(ha,hb)){const h=feats[0];fill(A,h.l-18);fill(h.r+18,B)}}
+        if(!feats.length){const n=len<270?1:len<430?2:3,w=(B-A)/n;for(let i=0;i<n;i++)fill(A+i*w+6,A+(i+1)*w-6)}}
+      feats.sort((p,q)=>p.x-q.x);rec.parts=feats.map(f=>f.t);
+      // an occasional manhole: a shaft up from a plain stretch, only through a column clear of masonry
+      let xm=null;if(R()<.45){const spans=[];let p=xa+30;for(const f of feats){if(f.l-p>60)spans.push([p+26,f.l-26]);p=f.r}if(xb-30-p>60)spans.push([p+26,xb-56]);
+        for(const[a,b]of spans){const x=rr(a,b)|0,t=upTop(x,cy);if(cy-t<=190&&!sol(x,t-8)&&!sol(x,t-40)&&!kitHit(MASONRY,x-14,t-60,x+14,cy)){xm=x;sky(x-10,Math.min(upTop(x-9,cy),upTop(x+9,cy))-3,x+10,cy+2);rec.keep.push([x-30,t-60,x+30,cy]);break}}}
+      rec.manhole=xm;
+      // ---- cut it
+      bx0=Math.max(0,(bx0|0)-16);bx1=Math.min(W,(bx1|0)+30);by0=Math.max(0,(by0|0)-14);by1=Math.min(H,(by1|0)+26);const bw=bx1-bx0,bh=by1-by0,X=x=>x-bx0,Y=y=>y-by0;
       g.globalCompositeOperation='destination-out';g.drawImage(cm,0,0);g.globalCompositeOperation='source-over';
-      {const d=g.getImageData(0,0,W,H).data;for(let i=0;i<W*H;i++)solid[i]=d[i*4+3]>127?1:0}
-      // brick: a pattern of courses with each brick a shade of its own
-      const brick=(c,x,y,w,h,base,bw,bh)=>{for(let yy=y,r=0;yy<y+h;yy+=bh,r++)for(let xx=x-(r%2)*(bw>>1);xx<x+w;xx+=bw){const v=R()*.35-.12;
-          c.fillStyle=`rgb(${base[0]*(1+v)|0},${base[1]*(1+v)|0},${base[2]*(1+v)|0})`;c.fillRect(xx+1,yy+1,bw-1,bh-1);if(R()<.18){c.fillStyle='rgba(0,0,0,.35)';c.fillRect(xx+1+(R()*(bw-3)|0),yy+1,2,1)}}};
-      const bx0=Math.max(0,Math.min(x0,cliff??x0)-14|0),bx1=Math.min(W,Math.max(x1,cliff??x1)+14|0),by0=Math.max(0,Math.min(ground(rx0),xm!==null?ground(xm):cy)-50),by1=Math.min(H,pit?sump+18:fy+40),bw=bx1-bx0,bh=by1-by0;
-      // lining: the solid stone within 7 px of the cut, in brick
+      const resolid=()=>{const d=g.getImageData(0,0,W,H).data;for(let i=0;i<W*H;i++)solid[i]=d[i*4+3]>127?1:0};resolid();
+      // lining: the stone within 7 px of the cut, in brick, each brick a shade of its own
+      const brick=(c,x,y,w,h,base,kw,kh)=>{for(let yy=y,r=0;yy<y+h;yy+=kh,r++)for(let xx=x-(r%2)*(kw>>1);xx<x+w;xx+=kw){const v=R()*.35-.12;
+          c.fillStyle=`rgb(${base[0]*(1+v)|0},${base[1]*(1+v)|0},${base[2]*(1+v)|0})`;c.fillRect(xx+1,yy+1,kw-1,kh-1);if(R()<.18){c.fillStyle='rgba(0,0,0,.35)';c.fillRect(xx+1+(R()*(kw-3)|0),yy+1,2,1)}}};
       const lin=mk(bw,bh),lg=lin.getContext('2d');lg.fillStyle='rgb(14,11,22)';lg.fillRect(0,0,bw,bh);brick(lg,0,0,bw,bh,[44,36,64],12,6);
       {const band=mk(bw,bh),bg=band.getContext('2d');for(let a=0;a<12;a++)for(const r of[3,7])bg.drawImage(cm,-bx0+Math.round(Math.cos(a*.5236)*r),-by0+Math.round(Math.sin(a*.5236)*r));
         bg.globalCompositeOperation='destination-in';bg.drawImage(mask,-bx0,-by0);lg.globalCompositeOperation='destination-in';lg.drawImage(band,0,0);lg.globalCompositeOperation='source-over'}
-      // the floor's top course a shade lighter, so the walking line reads
       NS.kit.push({id:'SEWER',x:bx0,y:by0,w:bw,h:bh,flip:false,body:lin,solid:lin,emis:null,light:null});
-      // back wall: darker brick, pillars, arches, a round grate, strip lights, grime off the roof
-      const bk=mk(bw,bh),kg=bk.getContext('2d');kg.fillStyle='#0b0e15';kg.fillRect(0,0,bw,bh);// the rock's interior colour: the lit look draws its usual stone over it
-      const X=x=>x-bx0,Y=y=>y-by0;
-      kg.fillStyle='rgba(0,0,0,.35)';for(let x=cA+30;x<cB-30;x+=72){if(Math.abs(x-cx)<chw+20)continue;kg.beginPath();kg.ellipse(X(x),Y(cy+16),20,16,0,Math.PI,0);kg.lineTo(X(x+20),Y(fy));kg.lineTo(X(x-20),Y(fy));kg.fill()}
-      for(const px of[cx-chw+8,cx+chw-8]){kg.fillStyle='rgb(26,24,36)';kg.fillRect(X(px-5),Y(cy-10),10,fy-cy+10);kg.fillStyle='rgb(34,30,46)';kg.fillRect(X(px-7),Y(cy-12),14,4);kg.fillRect(X(px-7),Y(fy-4),14,4);kg.fillStyle='rgba(0,0,0,.4)';kg.fillRect(X(px+3),Y(cy-8),2,fy-cy+6)}
-      {const gr=Math.min(24,(fy-cy)/2+4),gy=fy-gr-3;kg.fillStyle='rgb(8,10,16)';kg.beginPath();kg.arc(X(cx),Y(gy),gr,0,Math.PI*2);kg.fill();
-        kg.strokeStyle='rgb(34,30,46)';kg.lineWidth=4;kg.beginPath();kg.arc(X(cx),Y(gy),gr,0,Math.PI*2);kg.stroke();kg.fillStyle='rgb(22,26,34)';for(let b=-gr+5;b<gr;b+=6)kg.fillRect(X(cx+b)-1,Y(gy-gr),2,gr*2);
-        if(pit)NS.falls.push({x:cx,y0:gy+gr-6,w:8})}
-      // one or two strip lights, not a row of them
-      for(const x of R()<.5?[cx+(R()<.5?-1:1)*(chw+40)]:[cA+40,cB-40])if(x>cA+10&&x<cB-10)sewFx.push({k:'strip',x,y:cy+12,ax:x,ay:cy-3,c:R()<.75?'cyan':'amber',alive:true,ph:rr(0,50),faulty:R()<.35})
-      if(rampOK)sewFx.push({k:'post',x:rx0-dir*10,y:ground(rx0-dir*10),ax:rx0-dir*10,ay:ground(rx0-dir*10)+3,c:'amber',alive:true,ph:rr(0,50),faulty:false});
-      const cmd=cg.getImageData(0,0,W,H).data;for(let x=bx0+2;x<bx1-2;x+=2){if(R()>.3)continue;let y=by0;while(y<by1&&!cmd[(y*W+x)*4+3])y++;if(y>=by1||y>fy-10)continue;
+      // ---- back wall: the rock's own interior stone, dressed with piers, arches, the grate and drains; grime off the roof
+      const bk=mk(bw,bh),kg=bk.getContext('2d');kg.fillStyle='#0b0e15';kg.fillRect(0,0,bw,bh);
+      const PIER='rgb(27,25,38)',CAP='rgb(36,32,48)',DARK='rgb(7,9,14)',IRON='rgb(24,28,37)';
+      const pier=(x,y0,y1)=>{kg.fillStyle=PIER;kg.fillRect(X(x-5),Y(y0),10,y1-y0);kg.fillStyle=CAP;kg.fillRect(X(x-7),Y(y0),14,4);kg.fillRect(X(x-7),Y(y1-4),14,4);kg.fillStyle='rgba(0,0,0,.4)';kg.fillRect(X(x+3),Y(y0+4),2,y1-y0-8)};
+      const arch=(x,w,h,y1)=>{kg.fillStyle='rgba(0,0,0,.36)';kg.beginPath();kg.ellipse(X(x),Y(y1-h+w*.8),w,w*.8,0,Math.PI,0);kg.lineTo(X(x+w),Y(y1));kg.lineTo(X(x-w),Y(y1));kg.fill()};
+      const hole=(x,y,r,bars)=>{kg.fillStyle=DARK;kg.beginPath();kg.arc(X(x),Y(y),r,0,Math.PI*2);kg.fill();kg.strokeStyle=CAP;kg.lineWidth=Math.max(2,r/5);kg.beginPath();kg.arc(X(x),Y(y),r,0,Math.PI*2);kg.stroke();
+        if(bars){kg.save();kg.beginPath();kg.arc(X(x),Y(y),r-1,0,Math.PI*2);kg.clip();kg.fillStyle=IRON;for(let b=-r+5;b<r;b+=6)kg.fillRect(X(x+b)-1,Y(y-r),2,r*2);kg.restore()}};
+      {let p=xa+34;const run=(a,b)=>{for(let x=a+36;x<b-30;x+=72)arch(x,20,TH-8,fy)};for(const f of feats){run(p,f.l);p=f.r}run(p,xb-10)}
+      for(const w of walls){
+        if(w[0]==='room'){const[,l,r,ty]=w;pier(l+8,ty,fy);pier(r-8,ty,fy);kg.fillStyle='rgba(0,0,0,.3)';for(let x=l+24;x<r-34;x+=30)kg.fillRect(X(x),Y(ty+12),18,fy-ty-24);kg.fillStyle=CAP;kg.fillRect(X(l+14),Y(ty+6),r-l-28,2)}
+        else if(w[0]==='bays'){const[,l,r,ty]=w;for(let x=l+22;x<r-10;x+=(r-l-44)/3)pier(x,ty,fy+60);kg.fillStyle=CAP;kg.fillRect(X(l+10),Y(ty+8),r-l-20,2)}
+        else if(w[0]==='posts'){const[,a,b,y0,y1]=w;for(const x of[a,b]){kg.fillStyle=PIER;kg.fillRect(X(x-3),Y(y0),6,y1-y0);kg.fillStyle=CAP;kg.fillRect(X(x-5),Y(y0),10,3)}}
+        else if(w[0]==='grate'){const[,c,chw,rise,pit]=w;pier(c-chw+8,cy-10,fy);pier(c+chw-8,cy-10,fy);const gr=Math.min(24,(fy-cy)/2+4),gy=fy-gr-3;hole(c,gy,gr,true);NS.falls.push({x:c,y0:gy+gr-6,w:pit?8:6})}
+        else if(w[0]==='drains'){const[,l,r]=w,n=r-l>130?3:2;for(let i=0;i<n;i++){const x=l+(r-l)*(i+.5)/n+rr(-8,8)|0;hole(x,cy+15,6,false);if(R()<.75)NS.falls.push({x,y0:cy+18,w:3});else NS.falls.push({x,y0:cy+21,drip:1,ph:rr(0,9)})}}
+        else if(w[0]==='basin'){const[,l,r]=w;pier(l+2,cy,fy);pier(r-2,cy,fy);const x=(l+r)/2+rr(-20,20)|0;hole(x,cy+14,7,true);NS.falls.push({x,y0:cy+19,drip:1,ph:rr(0,9)})}}
+      // an open gate: the portcullis drawn up into its slot, on the back wall, with the frame around the opening
+      const cmd=cg.getImageData(0,0,W,H).data,skd=sg.getImageData(0,0,W,H).data;
+      for(let x=bx0+2;x<bx1-2;x+=2){if(R()>.3)continue;let y=by0;while(y<by1&&(!cmd[(y*W+x)*4+3]||skd[(y*W+x)*4+3]))y++;if(y>=by1||y>fy-10)continue;
         const l=2+(R()*R()*16|0);kg.fillStyle=R()<.5?'rgba(58,70,34,.8)':'rgba(40,52,28,.8)';kg.fillRect(X(x),Y(y),1+(R()<.3?1:0),l);if(R()<.25){kg.fillStyle='rgba(90,110,52,.5)';kg.fillRect(X(x),Y(y+l),1,1)}}
-      kg.globalCompositeOperation='destination-in';kg.drawImage(cm,-bx0,-by0);kg.drawImage(pre,-bx0,-by0);kg.drawImage(hollow,-bx0,-by0);/* only where the rock's interior already shows; above that, sky like any other hole */kg.globalCompositeOperation='source-over';{const hq=hollow.getContext('2d'),open=mk(bw,bh),oq=open.getContext('2d');oq.drawImage(cm,-bx0,-by0);oq.globalCompositeOperation='destination-out';oq.drawImage(pre,-bx0,-by0);
-        hq.globalCompositeOperation='destination-out';hq.drawImage(open,bx0,by0);hq.globalCompositeOperation='source-over';hq.drawImage(bk,bx0,by0)}// where the cut opens into air, no rock interior either// underground the lit look shows the rock's interior layer
-      // the cliff end: a solid grate across the tunnel, an outlet pipe below it pouring into the water
-      if(cliff!==null){const gx=cliff-dir*7,gw=8,gh=fy-cy,gc=mk(gw,gh),gg=gc.getContext('2d');gg.fillStyle='rgb(18,20,26)';gg.fillRect(0,0,gw,gh);
-        gg.fillStyle='rgb(58,64,78)';for(let b=1;b<gw;b+=3)gg.fillRect(b,0,1,gh);gg.fillStyle='rgb(40,44,56)';for(let y=4;y<gh;y+=12)gg.fillRect(0,y,gw,2);
-        g.drawImage(gc,gx-gw/2,cy);NS.kit.push({id:'SEWER_GRATE',x:gx-gw/2,y:cy,w:gw,h:gh,flip:false,body:gc,solid:gc,emis:null,light:null});
-        const py=fy+22,pc=mk(22,22),pg=pc.getContext('2d');pg.fillStyle='rgb(36,32,52)';pg.beginPath();pg.arc(11,11,11,0,Math.PI*2);pg.fill();pg.fillStyle='rgb(6,8,12)';pg.beginPath();pg.arc(11,11,6,0,Math.PI*2);pg.fill();
-        pg.fillStyle='rgb(70,60,96)';pg.fillRect(0,9,3,4);pg.fillRect(19,9,3,4);g.drawImage(pc,cliff-11,py-11);NS.kit.push({id:'SEWER_PIPE',x:cliff-11,y:py-11,w:22,h:22,flip:false,body:pc,solid:pc,emis:null,light:null});
-        NS.falls.push({x:cliff+dir*13,y0:py+2,w:7});{const d=g.getImageData(0,0,W,H).data;for(let i=0;i<W*H;i++)solid[i]=d[i*4+3]>127?1:0}}
-      NS.sewers.push({x0,x1,cy,fy,pit,cliff,ramp:rampOK?[rx0,rx1]:null,manhole:xm});
-      // a lid knocked off beside the manhole
-      if(xm!==null){const lx=xm+dir*20,ly=ground(lx),lc=mk(18,5),lq=lc.getContext('2d');lq.fillStyle='rgb(48,44,60)';lq.fillRect(0,0,18,5);lq.fillStyle='rgb(26,24,34)';for(let k=2;k<18;k+=4)lq.fillRect(k,1,2,3);
-        if(ly<H&&!kitBox(lx-9,ly-6,lx+9,ly,true)){g.drawImage(lc,lx-9,ly-5);NS.kit.push({id:'SEWER_LID',x:lx-9,y:ly-5,w:18,h:5,flip:false,body:lc,solid:lc,emis:null,light:null});const d=g.getImageData(0,0,W,H).data;for(let i=0;i<W*H;i++)solid[i]=d[i*4+3]>127?1:0}}
-    }}
+      // the back wall goes wherever the tunnel runs under its roof (it is inside the mass, whatever was drawn there
+      // before); a cut open to the sky shows sky, so the stair reads as a cutting, not a ramp carved into the hillside
+      {const hq=hollow.getContext('2d');kg.globalCompositeOperation='destination-in';kg.drawImage(cm,-bx0,-by0);kg.globalCompositeOperation='destination-out';kg.drawImage(sk,-bx0,-by0);kg.globalCompositeOperation='source-over';
+        hq.globalCompositeOperation='destination-out';hq.drawImage(sk,0,0);hq.globalCompositeOperation='source-over';hq.drawImage(bk,bx0,by0);
+        const gq=gutsC.getContext('2d');gq.globalCompositeOperation='destination-out';gq.drawImage(cm,0,0);gq.globalCompositeOperation='source-over'}
+      // ---- fittings. Solid ones are stamped into the terrain; the rest are decoration (the deco layer), there to be blasted
+      const piece=(id,c,x,y,isSolid)=>{x=Math.round(x);y=Math.round(y);(isSolid?g:decoC.getContext('2d')).drawImage(c,x,y);NS.kit.push({id,x,y,w:c.width,h:c.height,flip:false,body:c,solid:isSolid?c:mk(1,1),emis:null,light:null})};
+      [e0,e1].forEach((e,k)=>{const d=k?1:-1;
+        if(e.t==='pipe'){// an outlet pipe standing out of the wall: a collar over and under the mouth, banded, dripping off its lip
+          // (12 Nov, pass 2) a round pipe seen side-on, not two collars: walls shaded round, a flange where it leaves the rock
+          // and at the lip, a dark bore and the rim of the opening. Walls and flange ends are solid; bore and rim are decoration
+          const pl=34,po=26,PH=TH+20,c=mk(pl,PH),q=c.getContext('2d'),dc=mk(pl,PH),dq=dc.getContext('2d'),L=x=>d>0?x:pl-x;// L: local x measured from the rock face outward
+          const wall=(y,h,top)=>{const gr=q.createLinearGradient(0,y,0,y+h);gr.addColorStop(0,top?'rgb(78,70,104)':'rgb(52,46,70)');gr.addColorStop(.4,'rgb(40,36,56)');gr.addColorStop(1,'rgb(15,14,22)');q.fillStyle=gr;q.fillRect(0,y,pl,h)};
+          wall(2,8,1);wall(TH+10,8,0);
+          dq.fillStyle='#07090e';dq.fillRect(0,10,pl,TH);const bg=dq.createLinearGradient(0,10,0,TH+10);bg.addColorStop(0,'rgba(40,52,64,.35)');bg.addColorStop(.25,'rgba(0,0,0,0)');bg.addColorStop(1,'rgba(30,40,48,.3)');dq.fillStyle=bg;dq.fillRect(0,10,pl,TH);
+          const flange=(lx,w)=>{const x=d>0?lx:pl-lx-w;q.fillStyle='rgb(34,31,46)';q.fillRect(x,0,w,10);q.fillRect(x,TH+10,w,10);q.fillStyle='rgb(84,76,110)';q.fillRect(x,0,w,1);q.fillRect(x,TH+10,w,1);
+            q.fillStyle='rgb(20,19,28)';q.fillRect(x,9,w,1);q.fillRect(x,PH-1,w,1);q.fillStyle='rgb(96,88,120)';for(const y of[4,TH+14])q.fillRect(x+(w>>1),y,1,1)};// rivets
+          flange(pl-po,5);flange(pl-5,5);q.fillStyle='rgb(30,28,40)';q.fillRect(d>0?21:pl-23,2,2,8);q.fillRect(d>0?21:pl-23,TH+10,2,8);// a band between them
+          {const rx=L(pl-3);dq.strokeStyle='rgba(92,84,118,.55)';dq.lineWidth=1;dq.beginPath();dq.ellipse(rx,10+TH/2,3,TH/2,0,0,Math.PI*2);dq.stroke();
+            dq.strokeStyle='rgba(140,150,170,.18)';dq.beginPath();dq.ellipse(rx,10+TH/2,3,TH/2,0,d>0?-Math.PI/2:Math.PI/2,d>0?Math.PI/2:Math.PI*1.5);dq.stroke()}// the rim, its near edge catching the light
+          const px=d>0?e.x+po-pl:e.x-po;piece('SEWER_PIPE',c,px,cy-10,true);hollow.getContext('2d').drawImage(dc,px,cy-10);// the bore goes on the interior layer, dark like the tunnel's back wall (deco would take a stone texture)
+          NS.falls.push({x:e.x+d*(po-2),y0:fy+10,drip:1,ph:rr(0,9)});if(R()<.4)NS.falls.push({x:e.x+d*(po+1),y0:fy-1,w:4,thin:1})}
+        else if(k===closed){const gw=5,GH=e.gh+2,c=mk(gw,GH),q=c.getContext('2d');q.fillStyle='rgb(40,44,56)';for(let y=5;y<GH;y+=11)q.fillRect(0,y,gw,2);q.fillStyle='rgb(58,64,78)';for(const bx of[0,2,4])q.fillRect(bx,0,1,GH);
+          piece('SEWER_GRATE',c,e.gx-d*4-gw/2,e.gy,true);rec.gate=e.gx}
+        else if(e.gx!==null){// an open gate: the portcullis drawn up into the roof, its spikes hanging in the opening. Decoration only
+          // (pass 2) bigger, so the gate line reads: a header beam with bolts, the portcullis drawn up under it, spikes hanging
+          const c=mk(17,16),q=c.getContext('2d');q.fillStyle='rgb(30,32,42)';q.fillRect(0,0,17,4);q.fillStyle='rgb(78,84,102)';q.fillRect(0,0,17,1);q.fillRect(2,2,1,1);q.fillRect(14,2,1,1);
+          for(const bx of[2,6,10,14]){q.fillStyle='rgb(58,64,80)';q.fillRect(bx,4,2,bx===6||bx===10?11:9);q.fillStyle='rgb(92,100,120)';q.fillRect(bx,4,1,bx===6||bx===10?10:8)}
+          q.fillStyle='rgb(40,44,56)';q.fillRect(1,8,15,2);
+          piece('SEWER_GATE',c,e.gx-d*8-8,e.gy,false)}});
+      resolid();
+      if(xm!==null){const lx=xm+(R()<.5?-22:22);let ly=upTop(xm-12,cy)-24;while(ly<cy&&!sol(lx,ly))ly++;const lc=mk(18,4),lq=lc.getContext('2d');lq.fillStyle='rgb(48,44,60)';lq.fillRect(0,0,18,4);lq.fillStyle='rgb(26,24,34)';for(let k=2;k<18;k+=4)lq.fillRect(k,1,2,2);
+        if(sol(lx,ly)&&!sol(lx,ly-6)&&!kitHit(/./,lx-9,ly-6,lx+9,ly))piece('SEWER_LID',lc,lx-9,ly-4,false)}
+      // ---- one or two lights, not a row of them; the lamp at the head of a stair
+      {const spots=feats.map(f=>f.off?[f.x+(R()<.5?-1:1)*f.off,cy+12]:[f.x,f.y+12]);if(!spots.length)spots.push([(xa+xb)/2,cy+12]);if(spots.length<2||len>420)spots.push([R()<.5?xa+44:xb-44,cy+12]);
+        const n=R()<.5?1:2,i0=R()*spots.length|0;for(let i=0;i<n&&i<spots.length;i++){const[x,y]=spots[(i0+i*Math.max(1,spots.length-1))%spots.length];
+          sewFx.push({k:'strip',x,y,ax:x,ay:y-15,c:R()<.75?'cyan':'amber',alive:true,ph:rr(0,50),faulty:R()<.35,sw:1})}
+        for(const f of sewFx)if(f.dip){let y=f.y;while(y<H-1&&!sol(f.x,y))y++;f.y=y;f.ay=y+3;if(y>fy)f.alive=false}}
+      rec.keep.push([rec.x0-20,rec.y0-70,rec.x1+20,rec.y1+30]);NS.sewers.push(rec)}}
   // neon fixtures
   fixtures=[...sewFx];
   const pc=()=>{const r=Math.random();return r<.34?'cyan':r<.68?'mag':r<.82?'amber':r<.92?'acid':'ice'};
@@ -2503,8 +2596,9 @@ function newGameInner(mode){
   const gap=S.order.length*S.squad>10?95:110;
   for(const team of S.order)for(let i=0;i<S.squad;i++){
     // any standable surface in the column, not only the top one, so squads start spread through the levels
-    // (under arches, on lower decks, within 95 px of the top so nobody starts sealed in a cavern) rather than all along the roofline
-    let x,y,tries=0;do{x=rnd(90,W-90);tries++;const top=surf(x),st=stands(x,70,sump-70).filter(v=>v-top<95);y=st.length?st[Math.random()*st.length|0]:top}
+    // (under arches, on lower decks, within 95 px of the top so nobody starts sealed in a cavern) rather than all along the roofline.
+    // A sewer is the exception: it has two ways out, so its floors count however deep they are (Jarred 12 Nov)
+    let x,y,tries=0;do{x=rnd(90,W-90);tries++;const top=surf(x),st=stands(x,70,sump-70).filter(v=>v-top<95||NS.sewers.some(w=>x>w.ix0+12&&x<w.ix1-12&&v>w.y0&&v<=w.y1+1));y=st.length?st[Math.random()*st.length|0]:top}
       while(tries<400&&(xs.some(o=>Math.abs(o-x)<gap)||y>sump-70||y<70||isSolid(x,y-BH)));
     xs.push(x);troopers.push({team,name:roll[team][i],x,y,vx:0,vy:0,hp:100,alive:true,face:x<W/2?1:-1,aim:-.45,air:false,anim:0,moving:false,lastPow:{}});
   }
@@ -2668,7 +2762,7 @@ function shove(o,vx,vy){if(!o.alive)return;
 function hurt(t,d,soft){if(d<=0||!t.alive)return;const was=t.hp;t.hp=Math.max(0,t.hp-d);if(was>0&&t.hp===0)slowmo(1.4);sfx('clank');
   if(!soft&&t===S.active&&(S.phase==='aim'||S.phase==='retreat')){if(S.phase==='aim')texts.push({x:t.x,y:t.y-58,txt:'Turn lost',life:1.6,col:BONE,small:true});S.phase='end';S.charging=false;S.jet=null;S.wait=0}const prev=texts.find(x=>x.who===t&&x.life>.85);if(prev){prev.dmg+=d;prev.txt='-'+prev.dmg;prev.life=1.5}else texts.push({x:t.x,y:t.y-38,txt:'-'+d,life:1.5,col:TEAM[t.team].col,who:t,dmg:d})}
 function deathCam(x,y,d=1.7){S.deathCam={x:clamp(x,20,W-20),y:Math.min(y,sump-10),t:d}}
-const SEWERS_ON=/(^#|&)sewers\b/.test(location.hash),SEWER_CHANCE=.85,DEATH_HOLD=3.2,DEATH_LINGER=1.2;// the hold counts down only once the grave is up (Jarred 12 Nov: the camera left before it rose) // a killed trooper keeps the camera through their last act and the grave rising (grave at 1.75 s)
+const SEWERS_ON=!/(^#|&)nosewers\b/.test(location.hash),SEWER_CHANCE=1,SEW_ROOF=60,DEATH_HOLD=3.2,DEATH_LINGER=1.2;// the hold counts down only once the grave is up (Jarred 12 Nov: the camera left before it rose) // a killed trooper keeps the camera through their last act and the grave rising (grave at 1.75 s)
 function abyss(t){deathCam(t.x,t.y);t.alive=false;t.hp=0;t.wet=false;slowmo(1);texts.push({x:clamp(t.x,40,W-40),y:sump-40,txt:t.name+' · lost to the abyss',life:2.4,col:BONE,small:true});sfx('splash')}
 const WADE=28;
 function floorBelow(x){for(let y=Math.floor(sump);y<=sump+WADE;y+=2)if(isSolid(x,y)||isSolid(x-3,y)||isSolid(x+3,y))return true;return false}
@@ -3879,9 +3973,11 @@ function updCamera(dt){
 }
 function gatherLights(){
   const L=[];
-  for(const f of NS.falls||[])L.push({x:f.x,y:fallEnd(f)-8,r:74,c:[63,243,255],i:.26,h:.04});
+  for(const f of NS.falls||[])if(!f.drip)L.push({x:f.x,y:fallEnd(f)-8,r:f.w<6?46:74,c:[63,243,255],i:f.w<6?.16:.26,h:.04});
+  for(const p of NS.pools||[])L.push({x:p.x+p.w/2,y:p.y-4,r:Math.min(84,p.w*.6),c:[63,243,255],i:.2,h:.03});
   for(const f of fixtures){if(!f.alive)continue;let i=.95;const ep=Math.sin(time*.31+f.ph*3.1)*Math.sin(time*.17+f.ph*1.9);if(ep>(f.faulty?.72:.9)&&Math.sin(time*29+f.ph*5)+Math.sin(time*11.3+f.ph)>.4)i=.18;
-    f.i=i;const nk=NS.on&&f.k!=='eye'?.45:1;L.push({x:f.x,y:f.y,r:(f.k==='eye'?42:f.k==='strip'?92:f.k==='post'||f.k==='lamp'?150:175)*(NS.on&&f.k!=='eye'?.55:1),c:NEON[f.c],i:(f.k==='eye'?i*.8:i)*nk,h:(f.k==='eye'?.05:.09)*(NS.on?.8:1)})}
+    f.i=i;const nk=NS.on&&f.k!=='eye'?.45:1,cb=f.sw&&f.c==='cyan'?1.05:1;// sewer cyan a touch brighter (Jarred 12 Nov)
+    L.push({x:f.x,y:f.y,r:(f.k==='eye'?42:f.k==='strip'?92:f.k==='post'||f.k==='lamp'?150:175)*(NS.on&&f.k!=='eye'?.55:1)*cb,c:NEON[f.c],i:(f.k==='eye'?i*.8:i)*nk*cb,h:(f.k==='eye'?.05:.09)*(NS.on?.8:1)})}
   for(const t of troopers)if(t.alive)L.push({x:t.x+t.face*3,y:t.y-21,r:46,c:TEAM[t.team].rgb,i:.45,h:0});
   wardLights(L);tagLights(L);
   for(const m of mines){const hot=m.trig>=0;L.push({x:m.x,y:m.y-8,r:hot?90:40,c:hot||m.armed?[255,60,60]:[255,178,30],i:hot?.9:.5,h:hot?.08:0})}
@@ -3909,10 +4005,18 @@ function gatherLights(){
 }
 // sewer outflow: a sheet of water falling to the first stone or the sump, scrolling streaks and a foam line where it lands
 function fallEnd(f){let y=f.y0+2;while(y<sump&&!isSolid(f.x,y))y+=2;return y}
-function drawFalls(){if(!NS.falls||!NS.falls.length)return;ctx.save();
-  for(const f of NS.falls){const y1=fallEnd(f),h=y1-f.y0;if(h<4)continue;const x0=f.x-f.w/2;
-    const gr=ctx.createLinearGradient(0,f.y0,0,y1);gr.addColorStop(0,'rgba(30,70,84,.55)');gr.addColorStop(1,'rgba(14,40,52,.35)');ctx.fillStyle=gr;ctx.fillRect(x0+1,f.y0,f.w-2,h);
-    for(let i=1;i<f.w-1;i++){const sp=120+((i*53)%40),ph=(time*sp+i*29)%31;ctx.fillStyle=i%3?'rgba(90,170,190,.22)':'rgba(150,215,230,.32)';for(let y=f.y0+ph;y<y1-2;y+=31)ctx.fillRect(x0+i,y,1,Math.min(12,y1-y))}
+function drawFalls(){if(!(NS.falls&&NS.falls.length)&&!(NS.pools&&NS.pools.length))return;ctx.save();
+  // standing water in a sewer pool or channel: dark like the sump, a thin glint along the top; gone where its floor has been blown out
+  for(const p of NS.pools||[])for(let x=p.x;x<p.x+p.w;x+=8){const w=Math.min(8,p.x+p.w-x);if(!isSolid(x+w/2,p.y+p.h+1)||isSolid(x+w/2,p.y+1)||p.y>=sump)continue;
+    ctx.fillStyle='rgba(12,34,46,.82)';ctx.fillRect(x,p.y,w,p.h);ctx.fillStyle=`rgba(110,200,215,${.2+.12*Math.sin(time*1.7+x*.21)})`;ctx.fillRect(x,p.y,w,1)}
+  for(const f of NS.falls||[]){const y1=fallEnd(f),h=y1-f.y0;if(h<4)continue;
+    if(f.drip){// a regular drip: a bead swells on the lip, lets go, and falls
+      const T=1.9,u=((time+f.ph)%T)/T;ctx.fillStyle='rgba(130,205,220,.75)';
+      if(u<.45)ctx.fillRect(f.x-.5,f.y0,1.4,1+u*5);else{const q=(u-.45)/.55,y=f.y0+2+q*q*Math.min(h,170);if(y<y1-1)ctx.fillRect(f.x-.5,y,1.4,3+q*3);else if(q<.98){ctx.fillStyle='rgba(130,205,220,.35)';ctx.fillRect(f.x-3,y1-1,6,1)}}
+      continue}
+    const x0=f.x-f.w/2;
+    const gr=ctx.createLinearGradient(0,f.y0,0,y1);gr.addColorStop(0,'rgba(30,70,84,.55)');gr.addColorStop(1,'rgba(14,40,52,.35)');ctx.fillStyle=gr;ctx.fillRect(x0+(f.w>4?1:0),f.y0,f.w-(f.w>4?2:0),h);
+    for(let i=f.w>4?1:0;i<f.w-(f.w>4?1:0);i++){const sp=120+((i*53)%40),ph=(time*sp+i*29+f.x*7)%31;ctx.fillStyle=i%3?'rgba(90,170,190,.22)':'rgba(150,215,230,.32)';for(let y=f.y0+ph;y<y1-2;y+=31)ctx.fillRect(x0+i,y,1,Math.min(12,y1-y))}
     ctx.fillStyle='rgba(120,190,205,.18)';for(let k=0;k<4;k++){const a=time*2.3+k*1.7;ctx.fillRect(f.x-f.w/2-3+((Math.sin(a)*.5+.5)*(f.w+6)|0),y1-2-(k%2),2,1)}}
   ctx.restore()}
 function drawFixture(f){
@@ -4449,7 +4553,7 @@ function netCatchUp(){if(S.mode!=='online'||NET.role!=='watch')return;const behi
   if(behind>300&&!NET.skip)for(let i=0;i<Math.min(6,behind-240);i++)tick()}
 function netGameOver(){if(NET.role!=='act')clearNet()}
 function netLeave(){document.title=TITLE0;chatStop();if(NET.unC)NET.unC();if(NET.unM)NET.unM();NET.unC=NET.unM=null;NET.role=null;NET.started=false;S.mode='hot';$('#netBar').hidden=true}
-const GV=48;// bump on every release that changes the sim
+const GV=49;// bump on every release that changes the sim
 function startOnline(code,me,d){BE.update(code,{['vers.'+me]:GV,['arts.'+me]:window.GRIMSPIRE_ART_SIM||''}).catch(()=>{});NET.code=code;NET.me=me;NET.round=d.round||0;NET.snapK=-1;NET.snap=null;NET.matchAtt=d.att||'';NET.started=true;NET.leaving=false;saveNet();
   $('#net').hidden=true;if(!CHAT.un)chatStart();const cfg=Object.assign(mkCfg('online',d.seats,d.mode==='teams'),{mode:'online'});newGame('online',d.seed,cfg);S.genOK=true;
   const base=NET.round*1e5,has=d.snapK!=null&&d.snapK>=base&&d.snap;
@@ -4995,7 +5099,7 @@ function setPiecesPlace(force,inGen){
   const want=test?8:Math.max(2,Math.round((3+(R()*4|0))*W/W0)),count={};
   const busy=(g,slot,x)=>{
     if(SPS.pieces.some(p=>g.x0<p.x1+24&&g.x1>p.x0-24&&g.y0<p.y1+24&&g.y1>p.y0-24))return true;
-    if((NS.sewers||[]).some(w=>w.x0!==undefined&&g.x1>Math.min(w.x0,w.cliff??w.x0)-20&&g.x0<Math.max(w.x1,w.cliff??w.x1)+20&&g.y1>w.cy-70&&g.y0<w.fy+30))return true;// keep sewers clear
+    if((NS.sewers||[]).some(w=>w.keep.some(k=>g.x1>k[0]&&g.x0<k[2]&&g.y1>k[1]&&g.y0<k[3])))return true;// keep sewers clear
     if(SPS.pieces.some(p=>p.slot===slot&&Math.abs(p.x-x)<(test?220:600)))return true;
     if(!inGen&&troopers.some(t=>t.alive&&t.x>g.x0-26&&t.x<g.x1+26&&t.y>g.y0-10&&t.y-30<g.y1+10))return true;
     if(!inGen&&barrels.some(b=>b.x>g.x0-14&&b.x<g.x1+14&&b.y>g.y0&&b.y-20<g.y1))return true;
