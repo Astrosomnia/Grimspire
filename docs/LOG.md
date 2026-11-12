@@ -6,6 +6,9 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-12 · Claude · Sewer handoff doc
+- `docs/SEWERS-HANDOFF.md`: where the sewer work stands (off on `main`, `#sewers` to test), how the generator works and where it lives, Jarred's feedback in order, the proposed next round, and what's for later. Test scripts saved to `tools/test/sewers/`.
+
 ## 2026-11-12 · Claude · Pixel look on main behind `#pixel` (render only, GV stays 48)
 - Jarred wants to ask friends which look they prefer, online. The pixel pass (entry below) is now on `main`, off by default: add `#pixel` to the address. The default look is unchanged. Render only, so players on either look can share a match.
 - Both renderers ship side by side for now (old as `litFrame0` and friends, pixel as `litFrame1`; shared helpers kept single). When Jarred picks, delete the loser. Until then, a lighting tweak has to be made in both, so hold lighting changes.
