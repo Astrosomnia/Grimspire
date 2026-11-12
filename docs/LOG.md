@@ -19,6 +19,7 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
   - Sewer lamps cast at 70% and 85% radius in the lit looks (other fixtures stay 45% and 55%).
   - Pools throw more light (0.3, deep 0.42), plus a second light under the roof over each pool.
 - **Water surface:** a gentle flow on each pool's surface, like the sump's waterline in miniature: a faint wavy line and a couple of drifting glints, in `drawFalls` (shared by both looks). Roof caustics were tried first and cut (Jarred: "demented"); the soft light pools throw on the roof stays.
+- **Manhole shafts get the back wall** (Jarred): a shaft is underground, so it shows brick, not sky. Only the true ends (stair cuts, portal approaches) stay open to the sky. GV 51.
 - **Props in mountainsides:** not the sewers; it shows with sewers off. Ruined facades on the back-wall layer use the same dark brick blocks as playable rock, so props in front of them look buried. **Ask (Jarred):** confirm that's what you saw; the fix would make facades read as background.
 - **Tests:**
   - `dsim`, `dsim2` and `dsimart` identical; 10 sewer maps generate identically twice.
