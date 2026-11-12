@@ -1247,10 +1247,15 @@ float h1(vec2 p){vec3 q=fract(vec3(p.xyx)*.1031);q+=dot(q,q.yzx+33.33);return fr
 float vn(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(h1(i),h1(i+vec2(1,0)),f.x),mix(h1(i+vec2(0,1)),h1(i+vec2(1,1)),f.x),f.y);}
 vec2 cellC(vec2 w,vec2 g){float row=floor(w.y/g.y);float ox=mod(row,2.)*g.x*.5;vec2 id=floor(vec2(w.x+ox,w.y)/g);return (id+.5)*g-vec2(ox,0.);}
 float fbm(vec2 p){float a=.5,s=0.;for(int i=0;i<4;i++){s+=a*vn(p);p=p*2.03+7.1;a*=.5;}return s;}
+// ordered 4x4 dissolve, and light gathered into even steps of value with that dissolve at each step's edge
+const float BM[16]=float[16](0.,8.,2.,10.,12.,4.,14.,6.,3.,11.,1.,9.,15.,7.,13.,5.);
+float bay(ivec2 t){return (BM[(t.y&3)*4+(t.x&3)]+.5)/16.;}
+vec3 band(vec3 L,ivec2 t,float n){float l=max(L.r,max(L.g,L.b));if(l<.0005)return L;float x=sqrt(l)*n,i=floor(x),f=x-i;const float Z=.26;
+  float q=max(i+(f>1.-Z?step(bay(t),(f-(1.-Z))/Z):0.),.6)/n;return L*(q*q/l);}
 `;
   const FS_SCENE=COMMON+`
-uniform sampler2D uAlb,uGuts,uGraf,uEmis,uBack,uSoot,uBlur,uBake,uAtlas,uLM,uLD,uFx,uDyn,uHeight,uDet,uDetH;uniform float uDetOn,uDetHOn,uLMs,uLDOn;
-uniform vec2 uRes,uCam;uniform float uScale,uTime,uSump,uBleed,uHz;uniform vec4 uSp[2];
+uniform sampler2D uAlb,uGuts,uGraf,uEmis,uBack,uSoot,uBlur,uBake,uAtlas,uLM,uLD,uFx,uDyn,uHeight,uMat;uniform float uLMs,uLDOn;
+uniform vec2 uRT,uCam,uOrg,uDS,uAWH;uniform float uK,uG,uTime,uSump,uBleed,uHz;uniform vec4 uSp[2];
 uniform vec4 uL[${NL}];uniform vec3 uLC[${NL}];uniform int uNL;
 out vec4 o;
 const vec3 MOOND=vec3(-.39,-.87,.3);
@@ -1259,23 +1264,36 @@ const vec2 GR=vec2(8.,5.);
 vec3 HOR,MOONC;bool LOWR=false;uniform float uLow;
 float lum(vec3 c){return dot(c,vec3(.3,.59,.11));}
 float inb(vec2 w){return step(0.,w.x)*step(w.x,WH.x)*step(0.,w.y)*step(w.y,WH.y);}
-vec4 alb(vec2 w){return textureLod(uAlb,w/WH,0.)*inb(w);}
-// A zero-alpha height pixel means there is no authored height here.  Preserve
-// the existing albedo-derived normals for old assets and uncovered pixels.
-vec4 heightAt(vec2 w){return textureLod(uHeight,w/WH,0.)*inb(w);}
-float relief(vec4 albedo,vec4 height){return mix(lum(albedo.rgb),height.r,step(.5/255.,height.a))*albedo.a;}
-// Screen-resolution stone: finer kit art (2×) keeps all its pixels instead of being squeezed into the world atlas.
-vec2 dsp(vec2 w){return (w-uCam)*uScale/uRes;}
-float insc(vec2 s){return step(0.,s.x)*step(s.x,1.)*step(0.,s.y)*step(s.y,1.);}
-float drel(vec2 s){vec4 D=textureLod(uDet,s,0.);vec4 Hh=uDetHOn>.5?textureLod(uDetH,s,0.):vec4(0.);return relief(D,Hh);}
+// ---- one pixel grid: everything in the world is worked out once per art texel (uG texels per world px) ----
+ivec2 tx(vec2 w){return ivec2(floor(w*uG));}
+vec4 albT(ivec2 t){if(t.x<0||t.y<0||t.x>=int(uAWH.x)||t.y>=int(uAWH.y))return vec4(0.);return texelFetch(uAlb,t,0);}
+vec4 alb(vec2 w){return albT(tx(w));}
+vec4 hgtT(ivec2 t){if(t.x<0||t.y<0||t.x>=int(uAWH.x)||t.y>=int(uAWH.y))return vec4(0.);return texelFetch(uHeight,t,0);}
+// A zero-alpha height texel means there is no authored height here: fall back to the art's own brightness.
+float reliefT(ivec2 t){vec4 a=albT(t),h=hgtT(t);return mix(lum(a.rgb),h.r,step(.5/255.,h.a))*step(.5,a.a);}
 float blr(vec2 w){return textureLod(uBlur,w/WH,0.).r*inb(w);}
-float brick(vec2 w,out float tone){float row=floor(w.y/7.);vec2 p=vec2(w.x+mod(row,2.)*7.,w.y);vec2 id=floor(p/vec2(14.,7.));vec2 f=p-id*vec2(14.,7.);tone=h1(id+.5);return step(.75,f.x)*step(.75,f.y);}
+// generated stone, drawn as tiles on the grid. Rock: angular shards, each a flat facet with its own tilt and tone,
+// dark cracks between. Masonry: coursed blocks with a lit top and left edge and dark joints.
+vec2 h2(vec2 p){return vec2(h1(p),h1(p+17.3));}
+void rock(vec2 t,out float tone,out vec3 N,out float crack){
+  const vec2 CS=vec2(30.,9.);vec2 p=vec2(t.x+t.y*.9,t.y)/CS,ip=floor(p),fp=p-ip;float d1=99.,d2=99.;vec2 id=vec2(0.);
+  for(int j=-1;j<=1;j++)for(int i=-1;i<=1;i++){vec2 g=vec2(float(i),float(j)),r=(g+.15+.7*h2(ip+g)-fp)*CS;float d=abs(r.x)+abs(r.y)*1.6;
+    if(d<d1){d2=d1;d1=d;id=ip+g;}else if(d<d2)d2=d;}
+  float k=h1(id+5.);tone=k>.9?1.3:k>.68?1.05:.82;
+  crack=step(d2-d1,1.3)*step(.45,h1(id*.7+1.));
+  float a=h1(id*1.7+3.),b=h1(id*2.3+9.);N=normalize(vec3((a-.5)*.7,(b-.5)*.7-.1,1.));}
+void bricks(vec2 t,vec2 sz,out float tone,out vec3 N,out float joint){
+  float row=floor(t.y/sz.y),x=t.x+mod(row,2.)*floor(sz.x*.5);vec2 id=vec2(floor(x/sz.x),row),f=vec2(x-id.x*sz.x,t.y-row*sz.y);
+  joint=(f.x<1.||f.y<1.)?1.:0.;float h=h1(id+.5);tone=.8+.13*floor(h*3.);
+  vec2 n=vec2(0.);if(f.y<2.)n.y=-1.;else if(f.y>=sz.y-1.)n.y=.8;if(f.x<2.)n.x=-.8;else if(f.x>=sz.x-1.)n.x=.8;
+  if(h1(id*3.1+2.)>.88){tone*=.62;n*=-.6;}
+  N=normalize(vec3(n*.85,1.));}
 const vec2 AT=vec2(1774.,1215.);
 float mr(float x){float f=fract(x*.5)*2.;return f<1.?f:2.-f;}
 vec3 LMs(vec2 w){return textureLod(uLM,w/WH,0.).rgb*uLMs;}
 vec3 sky(vec2 w){
   // painted sky: fixed to the screen, so it never slides
-  vec2 sp=(w-uCam)*uScale/uRes;
+  vec2 sp=(w-uCam)*uDS;
   float t=clamp(sp.y,0.,1.),hx=sp.x-.3;
   vec3 c=mix(vec3(.018,.022,.05),vec3(.1,.05,.14),smoothstep(.0,.62,t));
   c=mix(c,vec3(.3,.09,.2),smoothstep(.5,1.,t)*(1.-.35*smoothstep(.2,.9,abs(hx))));
@@ -1308,58 +1326,63 @@ vec3 backdrop(vec2 w){
 float spot(vec2 p,vec3 N,float sh){float s=0.;
   for(int i=0;i<2;i++){vec4 L=uSp[i];if(L.w<=0.)continue;vec2 d=p-L.xy;if(d.y<4.||d.y>340.)continue;float half_=8.+d.y*.13;if(abs(d.x-d.y*.03)>half_)continue;
     float k=L.w*(1.-smoothstep(half_*.55,half_,abs(d.x-d.y*.03)))*(1.-d.y/340.);
-    if(sh>0.){float occ=0.,j=h1(floor(p*2.)*.37);for(int m=1;m<20;m++){vec2 q=p-d*((float(m)+j)/20.);occ+=step(.5,textureLod(uAlb,q/WH,0.).a);}k*=clamp(1.-occ*.5,0.,1.);}
+    if(sh>0.){float occ=0.,j=h1(floor(p*2.)*.37);for(int m=1;m<20;m++){vec2 q=p-d*((float(m)+j)/20.);occ+=step(.5,alb(q).a);}k*=clamp(1.-occ*.5,0.,1.);}
     s+=k*mix(1.,max(dot(N,normalize(vec3(-d,30.))),0.)*1.6,step(.5,sh));}
   return s;}
 vec2 blurG(vec2 p,float r){return vec2(blr(p+vec2(r,0))-blr(p-vec2(r,0)),blr(p+vec2(0,r))-blr(p-vec2(0,r)));}
+float solidDyn(vec4 v){return step(.85,v.a)*(1.-step(.72,max(v.r,max(v.g,v.b))));}
 vec3 world(vec2 w){
   vec3 c=backdrop(w);
-  vec2 q=(floor(w*2.)+.5)*.5;float ok=inb(q);
-  vec4 A=alb(q);float e=blr(q),hw=uSump-q.y;
-  // ---- what stone, if any, is at this pixel ----
+  ivec2 t=tx(w);vec2 tf=vec2(t),q=(tf+.5)/uG;float ok=inb(q);
+  vec4 A=albT(t);float e=blr(q),hw=uSump-q.y;
+  // ---- what stone, if any, is at this texel ----
   float P=0.;vec3 stone=vec3(0.),N=vec3(0.,0.,1.),base=vec3(0.),add=vec3(0.);
   if(A.a>.5){
     P=1.;vec4 BK=textureLod(uBake,q/WH,0.);float sh=BK.r,vis=BK.g,td=BK.b>.98?99.:BK.b*27.,openB=BK.a;
     float soot=textureLod(uSoot,q/WH,0.).a;vec2 cc=cellC(q,GR);
-    float l0=lum(A.rgb);
-    vec4 ax=alb(q+vec2(.5,0)),bx=alb(q-vec2(.5,0)),ay=alb(q+vec2(0,.5)),by=alb(q-vec2(0,.5));
-    vec4 H0=heightAt(q);
-    vec2 gd=vec2(relief(ax,heightAt(q+vec2(.5,0)))-relief(bx,heightAt(q-vec2(.5,0))),relief(ay,heightAt(q+vec2(0,.5)))-relief(by,heightAt(q-vec2(0,.5))));
-    if(uDetOn>.5){vec2 s0=dsp(w);if(insc(s0)>.5){vec4 D=textureLod(uDet,s0,0.);if(D.a>.5){A=D;l0=lum(A.rgb);
-      vec2 o=vec2(max(1.,.5*uScale))/uRes;gd=vec2(drel(s0+vec2(o.x,0.))-drel(s0-vec2(o.x,0.)),drel(s0+vec2(0.,o.y))-drel(s0-vec2(0.,o.y)));
-      if(uDetHOn>.5)H0=textureLod(uDetH,s0,0.);}}}
+    float l0=lum(A.rgb),kit=step(.9,A.a);// the atlas marks placed art with full alpha, generated ground with less
+    float aU=albT(t+ivec2(0,-1)).a,aD=albT(t+ivec2(0,1)).a,aL=albT(t+ivec2(-1,0)).a,aR=albT(t+ivec2(1,0)).a;
     float hit=smoothstep(.05,.4,soot);
     vec2 ge=hit>.01?mix(blurG(q,2.5),blurG(cc,3.5)*1.7,hit):blurG(q,2.5);
-    float fw=smoothstep(.05,.0,length(gd))*smoothstep(.55,.8,e)*(1.-step(.5/255.,H0.a));float tn,tn2;
-    float b0=brick(q,tn);vec2 gb=vec2(brick(q+vec2(.5,0),tn2)-brick(q-vec2(.5,0),tn2),brick(q+vec2(0,.5),tn2)-brick(q-vec2(0,.5),tn2));
-    float au=step(.5/255.,H0.a);// authored Height: its own relief leads, the silhouette bevel steps back
-    N=normalize(vec3(-(gd*mix(2.6,4.,au)+ge*mix(3.4,2.05,au)+gb*.5*fw),1.));
-    float edge=1.-smoothstep(.52,.9,e);
-    stone=pow(A.rgb,vec3(1.25))*vec3(.8,.8,.94);
-    {float sl=lum(stone);stone=mix(stone,vec3(.27,.29,.36)*(.82+.36*h1(floor(q/2.)+3.)),smoothstep(.3,.04,sl));}
-    stone*=mix(1.,(.78+.34*tn)*mix(.5,1.,b0),fw);
-    // grit and grime, on the art's own pixel grid
-    vec2 gp=floor(q);
-    float hc=h1(vec2(gp.x,3.)),len=5.+hc*hc*22.;
-    stone*=1.-.5*step(.5,h1(vec2(gp.x,7.)))*step(td,len)*(1.-td/len);
-    stone*=1.-.4*step(.93,h1(gp*.73+1.));
-    stone*=1.-.22*step(.8,h1(floor(q/3.)+9.));
-    float tl=22.+(vn(vec2(q.x*.11,2.))-.5)*12.;
-    float wet=smoothstep(tl,tl-3.,hw);stone*=mix(1.,.6,wet);
-    stone=mix(stone,vec3(.02,.1,.09),wet*.55*step(.45,h1(gp*.5+4.))*smoothstep(tl,0.,hw));
-    stone+=vec3(.05,.055,.06)*step(abs(hw-tl),.5)*step(.3,h1(vec2(gp.x,1.)));
-    stone=mix(stone,vec3(.025,.085,.075),step(td,3.5)*step(.62,vn(q*.12+5.))*step(.35,h1(gp+2.))*.6);
+    if(kit>.5){
+      float au=step(.5/255.,hgtT(t).a);// authored Height: its own relief leads, the silhouette bevel steps back
+      vec2 gd=vec2(reliefT(t+ivec2(1,0))-reliefT(t+ivec2(-1,0)),reliefT(t+ivec2(0,1))-reliefT(t+ivec2(0,-1)));
+      N=normalize(vec3(-(gd*mix(2.6,4.,au)+ge*mix(3.4,2.05,au)),1.));
+      stone=pow(A.rgb,vec3(1.25))*vec3(.8,.8,.94);
+      {float sl=lum(stone);stone=mix(stone,vec3(.27,.29,.36),smoothstep(.3,.04,sl));}
+    }else{
+      vec4 M=textureLod(uMat,q/WH,0.);float tone,cr;vec3 Nm;
+      if(M.r>.5){bricks(tf,vec2(20.,10.),tone,Nm,cr);stone=vec3(.33,.33,.43)*tone*mix(1.,.4,cr);}
+      else{rock(tf,tone,Nm,cr);float dp=clamp(td/27.,0.,1.);tone=mix(tone,.86,dp*.55)*mix(1.,.84,dp);stone=mix(vec3(.23,.2,.31),vec3(.29,.26,.36),M.g)*tone*mix(1.,.6,cr);}
+      N=normalize(vec3(Nm.xy-ge*2.4,Nm.z));
+      // burns and the dark of deep ground, painted into the terrain, carry through as plain darkening
+      stone*=mix(.5,1.,smoothstep(.05,.2,l0));
+    }
+    // streaks under ledges, the tide line and moss, all on the grid
+    float hc=h1(vec2(tf.x,3.)),len=5.+hc*hc*22.;
+    stone*=1.-.45*step(.6,h1(vec2(floor(tf.x/2.),7.)))*step(td,len)*(1.-td/len);
+    float tl=22.+floor((vn(vec2(q.x*.11,2.))-.5)*12.);
+    float wet=step(hw,tl);stone*=mix(1.,.62,wet);
+    stone=mix(stone,vec3(.02,.1,.09),wet*.5*step(.5,h1(floor(tf/2.)*.5+4.))*smoothstep(tl,0.,hw));
+    stone+=vec3(.05,.055,.06)*step(abs(hw-tl),.3)*step(.3,h1(vec2(floor(tf.x/2.),1.)));
+    stone=mix(stone,vec3(.03,.1,.085),step(td,3.5)*step(.62,vn(q*.12+5.))*step(.4,h1(floor(tf/2.)+2.))*.6);
+    // the edge: a pale cap on the top texels of every surface open to the air, a dark keyline on its sides and underside
+    float cth=1.+step(.35,h1(vec2(floor(tf.x/3.),5.)))+step(.8,h1(vec2(floor(tf.x/2.),8.)));
+    float cd=aU<.5?1.:albT(t+ivec2(0,-2)).a<.5?2.:albT(t+ivec2(0,-3)).a<.5?3.:0.;
+    float capK=(cd>0.&&cd<=cth)?(cd<1.5?1.:.6):0.;
+    float outl=(capK<.5&&(aD<.5||aL<.5||aR<.5))?1.:0.;
+    stone=mix(stone,vec3(.5,.52,.63),capK*.75);stone*=1.-.62*outl;
     float up=clamp(-N.y,0.,1.),dn=clamp(N.y,0.,1.);
-    base=(vec3(.07,.1,.155)*(.7+.6*up)+vec3(.03,.02,.04))*(1.-.25*sh);
-    base+=vec3(.05,.07,.11)*edge+vec3(.17,.19,.27)*edge*step(td,2.6);
+    base=(vec3(.1,.135,.21)*(.7+.6*up)+vec3(.045,.032,.065))*(1.-.25*sh);
+    base+=vec3(.1,.115,.16)*capK;
     base+=vec3(.012,.07,.085)*dn*smoothstep(150.,0.,hw);
-    float upl=smoothstep(140.,0.,hw);
-    base+=CYA*upl*upl*(.5+1.5*dn+1.3*openB*edge)*(.8+.2*sin(uTime*1.3+q.x*.07));
+    float upl=smoothstep(140.,0.,hw),edge=1.-smoothstep(.52,.9,e);
+    base+=CYA*upl*upl*(.5+1.5*dn+1.3*openB*edge)*(.8+.2*sin(floor(uTime*6.)/6.*1.3+q.x*.07));
     float ndm=max(dot(N,MOOND),0.);
     base+=MOONC*(vis*(.03+1.25*ndm*ndm)+.3*ndm*ndm)*(1.-.8*sh);
-    vec3 Hh=normalize(MOOND+vec3(0,0,1));add=MOONC*pow(max(dot(N,Hh),0.),22.)*.07*vis*l0*(1.-sh);
-    vec4 g=textureLod(uGraf,q/WH,0.);add+=g.rgb*g.a*(.65+.08*sin(uTime*1.1+q.x*.05));
-    vec4 em=textureLod(uEmis,q/WH,0.);vec3 ec=em.rgb;ec=mix(ec,vec3(ec.r,ec.g*.5,ec.b*.38),step(ec.b,ec.r)*step(ec.g,ec.r));add+=ec*em.a*1.7;
+    vec3 Hh=normalize(MOOND+vec3(0,0,1));add=MOONC*pow(max(dot(N,Hh),0.),22.)*.07*vis*l0*(1.-sh)*kit;
+    vec4 g=textureLod(uGraf,q/WH,0.);g.a=floor(g.a*3.+bay(t))/3.;add+=g.rgb*g.a*(.65+.08*sin(uTime*1.1+q.x*.05));
+    vec4 em=texelFetch(uEmis,t,0);vec3 ec=em.rgb;ec=mix(ec,vec3(ec.r,ec.g*.5,ec.b*.38),step(ec.b,ec.r)*step(ec.g,ec.r));add+=ec*em.a*1.7;
   }else if(ok>.5&&e>.4){
     // broken stone left standing inside a hole
     vec4 g=textureLod(uGuts,q/WH,0.);
@@ -1370,48 +1393,52 @@ vec3 world(vec2 w){
   }
   // ---- one pass over the lights serves the stone, the back wall and the air ----
   vec3 lit=vec3(0.),flt=vec3(0.),air=vec3(0.);const vec3 SPC=vec3(.75,.85,1.);
-  if(P>.5)lit+=SPC*spot(q,N,1.)*1.1;flt+=SPC*spot(w,vec3(0,0,1),0.)*.5;
-  {vec3 lm=LMs(w);flt+=lm;air+=lm*.55;
-    if(P>.5){float L0=lum(lm);if(L0>.002){if(LOWR||uLDOn<.5)lit+=lm*.9;else{vec3 L1=textureLod(uLD,w/WH,0.).xyz*uLMs;
+  if(P>.5)lit+=SPC*spot(q,N,1.)*1.1;flt+=SPC*spot(q,vec3(0,0,1),0.)*.5;
+  {vec3 lm=LMs(q);flt+=lm;air+=lm*.55;
+    if(P>.5){float L0=lum(lm);if(L0>.002){if(LOWR||uLDOn<.5)lit+=lm*.9;else{vec3 L1=textureLod(uLD,q/WH,0.).xyz*uLMs;
       lit+=lm/L0*max(0.,.3*L0+1.15*dot(N,L1));}}}}
-  vec4 bw=textureLod(uBack,w/WH,0.)*inb(w);
+  vec4 bw=textureLod(uBack,q/WH,0.)*inb(q);
   if(bw.a>.02&&P<.5){float csh=smoothstep(.12,.55,blr(q+ML*9.));
-    vec3 bl=vec3(.055,.075,.115)+CYA*.3*pow(smoothstep(130.,0.,uSump-w.y),2.)+MOONC*.16*(1.-csh)+flt*.35;
-    float bt;float bm=brick(w+vec2(3.,2.),bt);vec3 bc=mix(bw.rgb*(.7+.4*bt)*mix(.45,1.,bm)*bl*1.3,HOR*.14,.08);c=mix(c,bc,bw.a);}
-  air=air*.06+CYA*.2*exp(-(uSump-w.y)/30.);
+    vec3 bl=vec3(.06,.08,.125)+CYA*.3*pow(smoothstep(130.,0.,uSump-q.y),2.)+MOONC*.16*(1.-csh)+flt*.8;
+    float bt,bj;vec3 bN;bricks(tf+vec2(5.,3.),vec2(12.,6.),bt,bN,bj);
+    vec3 bc=mix(mix(bw.rgb,vec3(.2,.2,.28),.5)*bt*mix(1.,.5,bj)*band(bl,t,5.)*1.3,HOR*.14,.08);c=mix(c,bc,bw.a);}
+  air=air*.06+CYA*.2*exp(-(uSump-q.y)/30.);
   c+=air;
-  if(P>.5)c=stone*(base+lit)+add+air*.3;
-  vec2 sp=(w-uCam)*uScale/uRes;
-  if(sp.x>0.&&sp.x<1.&&sp.y>0.&&sp.y<1.){vec4 d=textureLod(uDyn,sp,0.);
+  if(P>.5)c=stone*band(base+lit,t,6.)+add+air*.3;
+  vec2 sp=(q-uCam)*uDS;
+  if(sp.x>0.&&sp.x<1.&&sp.y>0.&&sp.y<1.){vec4 d=textureLod(uDyn,sp,0.);vec2 px=uDS/uG;
     if(d.a>.01){float mx=max(d.r,max(d.g,d.b)),mn=min(d.r,min(d.g,d.b));
       float emi=max(smoothstep(.5,.8,mx)*smoothstep(.18,.42,mx-mn),smoothstep(.93,.99,mn));
-      vec3 dl=vec3(.28,.32,.42)+MOONC*.18+flt*.9+CYA*.5*pow(smoothstep(110.,0.,uSump-w.y),2.);
-      vec3 dc=mix(d.rgb*min(dl,vec3(1.5))*1.25,d.rgb*1.75,emi);
-      float au=textureLod(uDyn,sp-vec2(0.,1.6/uRes.y),0.).a;dc+=mix(MOONC,vec3(.5,.6,.8),.5)*.3*step(.6,d.a)*(1.-step(.3,au))*(1.-emi);
-      c=mix(c,dc,d.a);}}
+      vec3 dl=vec3(.28,.32,.42)+MOONC*.18+flt*.9+CYA*.5*pow(smoothstep(110.,0.,uSump-q.y),2.);
+      vec3 dc=mix(d.rgb*min(band(dl,t,5.),vec3(1.5))*1.25,d.rgb*1.75,emi);
+      float au=textureLod(uDyn,sp-vec2(0.,px.y),0.).a;dc+=mix(MOONC,vec3(.5,.6,.8),.5)*.3*step(.6,d.a)*(1.-step(.3,au))*(1.-emi);
+      c=mix(c,dc,floor(min(d.a,1.)*4.+bay(t))/4.);}
+    // a dark keyline round anything solid and unlit, so figures stand off the world
+    if(d.a<.5){float k=max(max(solidDyn(textureLod(uDyn,sp+vec2(px.x,0.),0.)),solidDyn(textureLod(uDyn,sp-vec2(px.x,0.),0.))),max(solidDyn(textureLod(uDyn,sp+vec2(0.,px.y),0.)),solidDyn(textureLod(uDyn,sp-vec2(0.,px.y),0.))));
+      c=mix(c,vec3(.012,.012,.03),k*.85*(1.-d.a));}}
   return c;
 }
 void main(){
   HOR=mix(vec3(.4,.07,.24),vec3(.62,.05,.06),uBleed);MOONC=mix(vec3(.74,.33,.5),vec3(1.,.2,.14),uBleed);
-  vec2 w=uCam+vec2(gl_FragCoord.x,uRes.y-gl_FragCoord.y)/uScale;
+  vec2 w=uOrg+vec2(gl_FragCoord.x,uRT.y-gl_FragCoord.y)/uK;vec2 tf=floor(w*uG);
   vec3 c;
-  float wl=uSump+sin(w.x*.043+uTime*1.2)*.9+sin(w.x*.117-uTime*.8)*.45;
+  float wl=floor((uSump+sin(w.x*.043+uTime*1.2)*.9+sin(w.x*.117-uTime*.8)*.45)*uG+.5)/uG;
   if(w.y<wl){c=world(w);}
   else{
     float d=w.y-wl;
-    float row=floor(d);
-    float jit=(h1(vec2(row,floor(uTime*5.)))-.5)*(1.5+d*.05)+sin(d*.55+uTime*1.7+w.x*.035)*(.6+d*.02);
-    vec2 m=vec2(w.x+jit,wl-d*1.12-.5);
+    float row=floor(d*uG);
+    float jit=(h1(vec2(row,floor(uTime*5.)))-.5)*(1.5+d*.05)+sin(d*.55+uTime*1.7+w.x*.035)*(.6+d*.02);jit=floor(jit*uG+.5)/uG;
+    vec2 m=vec2(w.x+jit,wl-(row+.5)*1.12/uG);
     LOWR=uLow>.5;vec3 r=world(m)*vec3(.82,.94,1.08);LOWR=false;
     float k=.7*exp(-d/190.);
-    float brk=.72+.28*step(.34,h1(vec2(floor(w.x/5.+row*.37),row+floor(uTime*3.))));
+    float brk=.72+.28*step(.34,h1(vec2(floor(tf.x/9.+row*.37),row+floor(uTime*3.))));
     c=vec3(.006,.015,.032)+r*k*brk;
     for(int i=0;i<${NL};i++){if(i>=uNL)break;float ly=uL[i].y;if(ly>uSump)continue;float dx=abs(uL[i].x-w.x);
       float hgt=uSump-ly;c+=uLC[i]*exp(-dx/(6.+d*.12))*exp(-d/(70.+hgt*.2))*exp(-hgt/260.)*.6*brk;}
-    float hg=h1(vec2(floor(w.x*.5),row+floor(uTime*4.)));c+=mix(HOR,CYA,step(.9975,hg))*step(.995,hg)*exp(-d/90.)*.8;
-    float mx_=230.+uCam.x*.98;c+=MOONC*exp(-abs(w.x-mx_)/(30.+d*.7))*step(.55,h1(vec2(floor(w.x/3.),row+floor(uTime*3.5))))*.3*exp(-d/260.);
-    if(d<1.6)c+=(r*.5+CYA*.08)*step(.5,alb(vec2(w.x,uSump-1.5)).a);
-    vec2 sp=(w-uCam)*uScale/uRes;if(sp.x>0.&&sp.x<1.&&sp.y>0.&&sp.y<1.){vec4 dd=textureLod(uDyn,sp,0.);c=mix(c,dd.rgb*vec3(.25,.42,.6),dd.a*.55*exp(-d/22.));}
+    float hg=h1(vec2(floor(tf.x/3.),row+floor(uTime*4.)));c+=mix(HOR,CYA,step(.9975,hg))*step(.995,hg)*exp(-d/90.)*.8;
+    float mx_=230.+uCam.x*.98;c+=MOONC*exp(-abs(w.x-mx_)/(30.+d*.7))*step(.55,h1(vec2(floor(tf.x/5.),row+floor(uTime*3.5))))*.3*exp(-d/260.);
+    if(row<2.)c+=(r*.5+CYA*.08)*step(.5,alb(vec2(w.x,uSump-1.5)).a);
+    vec2 sp=(w-uCam)*uDS;if(sp.x>0.&&sp.x<1.&&sp.y>0.&&sp.y<1.){vec4 dd=textureLod(uDyn,sp,0.);c=mix(c,dd.rgb*vec3(.25,.42,.6),dd.a*.55*exp(-d/22.));}
   }
   c+=vec3(.01,.05,.065)*fbm(vec2(w.x*.012-uTime*.02,w.y*.03))*exp(-abs(w.y-uSump)/55.);
   o=vec4(c,1.);
@@ -1429,20 +1456,28 @@ void main(){vec2 q=floor(vUv*WH)+.5;float air=0.,sh=0.;
   float vis=1.-.5*(blr(q+vec2(-5.,-11.))+blr(q+vec2(-9.,-24.)));
   float td=1.;for(int k=1;k<9;k++){if(msk(q-vec2(0.,float(k)*3.))<.5){td=float(k)*3./27.;break;}}
   o=vec4(sh,vis,td,1.-blr(q+vec2(0.,7.)));}`;
-  const FS_DOWN=COMMON+`uniform sampler2D t;uniform vec2 uTx;uniform float uThr;in vec2 vUv;out vec4 o;
-void main(){vec3 a=textureLod(t,vUv+uTx*vec2(-1,-1),0.).rgb,b=textureLod(t,vUv+uTx*vec2(1,-1),0.).rgb,d=textureLod(t,vUv+uTx*vec2(-1,1),0.).rgb,e=textureLod(t,vUv+uTx*vec2(1,1),0.).rgb;vec3 c=(a+b+d+e)*.25;
+  const FS_DOWN=COMMON+`uniform sampler2D t;uniform vec2 uTx,uSc,uMx;uniform float uThr;in vec2 vUv;out vec4 o;
+vec3 S(vec2 d){return textureLod(t,min(vUv*uSc+uTx*d,uMx),0.).rgb;}
+void main(){vec3 a=S(vec2(-1,-1)),b=S(vec2(1,-1)),d=S(vec2(-1,1)),e=S(vec2(1,1));vec3 c=(a+b+d+e)*.25;
   if(uThr>0.){vec3 m=max(max(a,b),max(d,e));float l=max(m.r,max(m.g,m.b));c=mix(c,m,.6)*smoothstep(uThr,uThr+.5,l);}o=vec4(c,1.);}`;
-  const FS_FINAL=COMMON+`uniform sampler2D tC,tB1,tB2,tB3,tB4;uniform float uTime,uAM;in vec2 vUv;out vec4 o;
+  // tone, grade and the palette step: value falls into even bands with an ordered dissolve between them, on the same grid as the art
+  const FS_FINAL=COMMON+`uniform sampler2D tC,tB1,tB2,tB3,tB4;uniform vec2 uS0,uS1,uS2,uS3,uS4,uTO;uniform float uTime,uAM,uRH,uPost;in vec2 vUv;out vec4 o;
 vec3 aces(vec3 x){return clamp((x*(2.51*x+.03))/(x*(2.43*x+.59)+.14),0.,1.);}
-void main(){vec3 c=textureLod(tC,vUv,0.).rgb;
-  c+=(textureLod(tB1,vUv,0.).rgb*.6+textureLod(tB2,vUv,0.).rgb*.4+textureLod(tB3,vUv,0.).rgb*.18+textureLod(tB4,vUv,0.).rgb*.07)*.3;
-  vec2 v=vUv-.5;c*=1.-dot(v,v)*1.05;
+void main(){vec3 c=textureLod(tC,vUv*uS0,0.).rgb;
+  c+=(textureLod(tB1,vUv*uS1,0.).rgb*.6+textureLod(tB2,vUv*uS2,0.).rgb*.4+textureLod(tB3,vUv*uS3,0.).rgb*.14+textureLod(tB4,vUv*uS4,0.).rgb*.05)*.22;
+  vec2 v=vUv-.5;c*=1.-dot(v,v)*.7;
   c=aces(c*1.1);c=pow(c,vec3(1.05,1.03,1.01));c=mix(vec3(dot(c,vec3(.3,.59,.11))),c,.93);
   if(uAM>0.){float l=dot(c,vec3(.3,.59,.11)),k=clamp(uAM/.8,0.,1.);
     vec3 bw=vec3(smoothstep(.24,.34,l));vec3 uv=vec3(.42,.24,1.)*smoothstep(.03,.45,l)*1.5+vec3(.85,.8,1.)*step(.55,l);
     c=uAM>.8?bw:mix(c,mix(uv,bw,k*k),smoothstep(0.,.6,k));}
-  c+=(h1(gl_FragCoord.xy+fract(uTime)*91.)-.5)*.022;
+  if(uPost>0.){ivec2 t=ivec2(int(gl_FragCoord.x+uTO.x),int(uTO.y+uRH-gl_FragCoord.y));
+    float l=max(c.r,max(c.g,c.b));if(l>.002){float x=sqrt(l)*uPost,i=floor(x),f=x-i;const float Z=.24;
+      float qv=max(i+(f>1.-Z?step(bay(t),(f-(1.-Z))/Z):0.),1.)/uPost;c*=qv*qv/l;}}
   o=vec4(c,1.);}`;
+  // the finished frame, one texel per art pixel, set on the screen with crisp edges and smooth scrolling
+  const FS_BLIT=COMMON+`uniform sampler2D t;uniform vec2 uA,uB,uTS,uMx;uniform float uPP;in vec2 vUv;out vec4 o;
+void main(){vec2 px=clamp(vec2(uB.x+vUv.x*uA.x,uB.y-(1.-vUv.y)*uA.y),vec2(.5),uMx)-.5;vec2 ip=floor(px),f=px-ip;f=clamp((f-.5)*uPP+.5,0.,1.);
+  o=vec4(textureLod(t,(ip+.5+f)/uTS,0.).rgb,1.);}`;
   const sh=(t,s)=>{const x=gl.createShader(t);gl.shaderSource(x,s);gl.compileShader(x);if(!gl.getShaderParameter(x,gl.COMPILE_STATUS))throw new Error(gl.getShaderInfoLog(x));return x};
   const prog=fs=>{const p=gl.createProgram();gl.attachShader(p,sh(gl.VERTEX_SHADER,VS));gl.attachShader(p,sh(gl.FRAGMENT_SHADER,fs));gl.bindAttribLocation(p,0,'p');gl.linkProgram(p);
     if(!gl.getProgramParameter(p,gl.LINK_STATUS))throw new Error(gl.getProgramInfoLog(p));const u={},n=gl.getProgramParameter(p,gl.ACTIVE_UNIFORMS);
@@ -1454,12 +1489,12 @@ precision highp float;in vec2 vd;uniform vec3 uC;layout(location=0) out vec4 o;l
   float w=dot(c,vec3(.3,.59,.11));o2=vec4(normalize(vec3(-vd,.2))*w,w);}`;
   const progL=()=>{const p=gl.createProgram();gl.attachShader(p,sh(gl.VERTEX_SHADER,VS_L));gl.attachShader(p,sh(gl.FRAGMENT_SHADER,FS_L));gl.bindAttribLocation(p,0,'p');gl.linkProgram(p);
     if(!gl.getProgramParameter(p,gl.LINK_STATUS))throw new Error(gl.getProgramInfoLog(p));return{p,u:{uLt:gl.getUniformLocation(p,'uLt'),WH:gl.getUniformLocation(p,'WH'),uC:gl.getUniformLocation(p,'uC')}}};
-  try{LIT.P={lmap:progL(),scene:prog(FS_SCENE),blur:prog(FS_BLUR),bake:prog(FS_BAKE),down:prog(FS_DOWN),final:prog(FS_FINAL)}}catch(e){console.warn('lit look unavailable:',e.message);LIT.on=false;return}
+  try{LIT.P={lmap:progL(),scene:prog(FS_SCENE),blur:prog(FS_BLUR),bake:prog(FS_BAKE),down:prog(FS_DOWN),final:prog(FS_FINAL),blit:prog(FS_BLIT)}}catch(e){console.warn('lit look unavailable:',e.message);LIT.on=false;return}
   const b=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,b);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,3,-1,-1,3]),gl.STATIC_DRAW);gl.enableVertexAttribArray(0);gl.vertexAttribPointer(0,2,gl.FLOAT,false,0,0);
   gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL,false);
   c.addEventListener('webglcontextlost',e=>{e.preventDefault();LIT.ok=false;c.remove()});
   const one=()=>{const t=gl.createTexture();gl.bindTexture(gl.TEXTURE_2D,t);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,1,1,0,gl.RGBA,gl.UNSIGNED_BYTE,new Uint8Array([20,14,30,0]));return t};
-  LIT.bg={atlas:one(),fx:one(),dyn:one(),det:one(),deth:one()};for(const k of['det','deth']){gl.bindTexture(gl.TEXTURE_2D,LIT.bg[k]);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.NEAREST);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.NEAREST);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE)}for(const k of['fx','dyn']){gl.bindTexture(gl.TEXTURE_2D,LIT.bg[k]);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE)}
+  LIT.bg={atlas:one(),fx:one(),dyn:one()};LIT.post=14;LIT.noGrid=/(^#|&)nogrid\b/.test(location.hash);for(const k of['fx','dyn']){gl.bindTexture(gl.TEXTURE_2D,LIT.bg[k]);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE)}
   {const ims={},at=document.createElement('canvas');at.width=1774;at.height=1215;let n=0;
     for(const[k,f]of[['far','far.webp'],['clouds','clouds.webp'],['moon','moon.webp']]){const im=new Image();im.onload=()=>{ims[k]=im;if(++n<3||!LIT.ok)return;const g=at.getContext('2d');
         g.drawImage(ims.far,0,0,1774,622);g.drawImage(ims.clouds,0,624,1182,591);g.drawImage(ims.moon,1186,624,384,384);gl.deleteTexture(LIT.bg.atlas);LIT.bg.atlas=litTex(at,false)};im.src='assets/bg/'+f}}
@@ -1483,13 +1518,26 @@ function litTarget(w,h,hdr,near){const gl=LIT.gl,t=gl.createTexture();gl.bindTex
   gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);
   const fb=gl.createFramebuffer();gl.bindFramebuffer(gl.FRAMEBUFFER,fb);gl.framebufferTexture2D(gl.FRAMEBUFFER,gl.COLOR_ATTACHMENT0,gl.TEXTURE_2D,t,0);return{t,f:fb,w,h}}
 function litFree(r){if(r){LIT.gl.deleteTexture(r.t);LIT.gl.deleteFramebuffer(r.f)}}
-function litQuad(tgt){const gl=LIT.gl;gl.bindFramebuffer(gl.FRAMEBUFFER,tgt?tgt.f:null);gl.viewport(0,0,tgt?tgt.w:LIT.cv.width,tgt?tgt.h:LIT.cv.height);gl.drawArrays(gl.TRIANGLES,0,3)}
+function litQuad(tgt,w,h){const gl=LIT.gl;gl.bindFramebuffer(gl.FRAMEBUFFER,tgt?tgt.f:null);gl.viewport(0,0,w||(tgt?tgt.w:LIT.cv.width),h||(tgt?tgt.h:LIT.cv.height));gl.drawArrays(gl.TRIANGLES,0,3)}
 function litBind(pr,name,unit,t){const gl=LIT.gl;gl.activeTexture(gl.TEXTURE0+unit);gl.bindTexture(gl.TEXTURE_2D,t);gl.uniform1i(pr.u[name],unit)}
-// the stone's colour for one patch of the map, at the art's own density (2 texels per world px), exactly as the classic renderer composes it
-function litStone(x0,y0,w,h){const K=2,c=LIT.sc||(LIT.sc=document.createElement('canvas'));c.width=w*K;c.height=h*K;const g=c.getContext('2d');g.imageSmoothingEnabled=false;
-  g.setTransform(K,0,0,K,-x0*K,-y0*K);g.drawImage(terr,0,0);const kit=NS.kit&&NS.kit.length;if(kit)nsKitPaint(g);
-  if(NS.lip){g.save();g.clip(NS.lip);g.drawImage(terr,0,0);g.restore()}
-  g.globalCompositeOperation='destination-in';g.drawImage(kit?unionC:terr,0,0);g.globalCompositeOperation='source-over';return c}
+// Where a world rectangle sits in the atlas, which holds the stone at the art's own density (LIT.G texels per world px).
+function litAR(x0,y0,w,h){const G=LIT.G,ax=Math.max(0,Math.floor(x0*G)),ay=Math.max(0,Math.floor(y0*G)),bx=Math.min(LIT.AW,Math.ceil((x0+w)*G)),by=Math.min(LIT.AH,Math.ceil((y0+h)*G));return[ax,ay,Math.max(1,bx-ax),Math.max(1,by-ay)]}
+// Each placed piece, set down on whole texels so its art lands one art pixel per texel, never resampled.
+function litKitEach(g,ax,ay,fn){const G=LIT.G;for(const p of(NS.kit||[])){const X=Math.round(p.x*G)-ax,Y=Math.round(p.y*G)-ay,w=Math.max(1,Math.round(p.w*G)),h=Math.max(1,Math.round(p.h*G));
+    if(X>g.canvas.width||Y>g.canvas.height||X+w<0||Y+h<0)continue;
+    g.save();g.setTransform(1,0,0,1,0,0);if(p.clip){g.beginPath();g.rect(p.clip[0]*G-ax,p.clip[1]*G-ay,p.clip[2]*G,p.clip[3]*G);g.clip()}
+    if(p.flip){g.translate(X+w,Y);g.scale(-1,1)}else g.translate(X,Y);fn(p,w,h);g.restore()}}
+// what survives of the stone, a touch generous at the edge so a piece keeps its own drawn outline where nothing has cut it
+function litMask(ax,ay,aw,ah){const G=LIT.G,c=LIT.mc||(LIT.mc=document.createElement('canvas'));c.width=aw;c.height=ah;const g=c.getContext('2d');g.imageSmoothingEnabled=false;
+  const src=NS.kit&&NS.kit.length?unionC:terr;for(const[dx,dy]of[[0,0],[1,0],[-1,0],[0,1],[0,-1]]){g.setTransform(G,0,0,G,-ax+dx,-ay+dy);g.drawImage(src,0,0)}return c}
+// The stone's colour for one patch of the map. Generated ground goes in at part alpha and placed art at full alpha:
+// that is how the shader tells them apart (it draws its own tiles on the ground and keeps the art as drawn).
+function litStone(x0,y0,w,h){const G=LIT.G,[ax,ay,aw,ah]=litAR(x0,y0,w,h),c=LIT.sc||(LIT.sc=document.createElement('canvas'));c.width=aw;c.height=ah;const g=c.getContext('2d');g.imageSmoothingEnabled=false;
+  const wt=()=>g.setTransform(G,0,0,G,-ax,-ay);
+  wt();g.globalAlpha=.75;g.drawImage(terr,0,0);g.globalAlpha=1;
+  if(NS.kit&&NS.kit.length){litKitEach(g,ax,ay,(p,w,h)=>{if(p.id==='SEWER')return;g.imageSmoothingEnabled=false;g.drawImage(nsKitBright(p.body),0,0,w,h)});wt();g.drawImage(scorchC,0,0)}
+  if(NS.lip){g.save();wt();g.clip(NS.lip);g.globalCompositeOperation='destination-out';g.drawImage(terr,0,0);g.globalCompositeOperation='source-over';g.globalAlpha=.75;g.drawImage(terr,0,0);g.restore();g.globalAlpha=1}
+  g.setTransform(1,0,0,1,0,0);g.globalCompositeOperation='destination-in';g.drawImage(litMask(ax,ay,aw,ah),0,0);g.globalCompositeOperation='source-over';return c}
 // Height layers are visual only. Paint in exactly the same placement order as
 // the kit body and remove an older map under any later overlapping body, even
 // if that later asset has no authored map. Clip the result to surviving terrain.
@@ -1500,41 +1548,22 @@ function litMaskedHeight(body,height){
   g.drawImage(height,0,0,body.width,body.height);g.globalCompositeOperation='destination-in';g.drawImage(body,0,0);
   cache.set(height,{body,canvas:c});return c;
 }
-function litHeightPatch(x0,y0,w,h){const K=2,c=LIT.hc||(LIT.hc=document.createElement('canvas'));c.width=w*K;c.height=h*K;
-  const g=c.getContext('2d');g.imageSmoothingEnabled=false;g.setTransform(K,0,0,K,-x0*K,-y0*K);
-  for(const p of(NS.kit||[])){
-    if(p.x+p.w<x0||p.y+p.h<y0||p.x>x0+w||p.y>y0+h)continue;
-    const height=labArt.get(p.id)?.frames?.[0]?.height;
-    g.save();if(p.clip){g.beginPath();g.rect(...p.clip);g.clip()}
-    if(p.flip){g.translate(p.x+p.w,p.y);g.scale(-1,1)}else g.translate(p.x,p.y);
-    g.globalCompositeOperation='destination-out';g.drawImage(p.body,0,0,p.w,p.h);
-    if(height){g.globalCompositeOperation='source-over';g.drawImage(litMaskedHeight(p.body,height),0,0,p.w,p.h)}
-    g.restore();
-  }
+function litHeightPatch(x0,y0,w,h){const G=LIT.G,[ax,ay,aw,ah]=litAR(x0,y0,w,h),c=LIT.hc||(LIT.hc=document.createElement('canvas'));c.width=aw;c.height=ah;
+  const g=c.getContext('2d');g.imageSmoothingEnabled=false;
+  litKitEach(g,ax,ay,(p,w,h)=>{const height=labArt.get(p.id)?.frames?.[0]?.height;g.imageSmoothingEnabled=false;
+    g.globalCompositeOperation='destination-out';g.drawImage(p.body,0,0,w,h);
+    if(height){g.globalCompositeOperation='source-over';g.drawImage(litMaskedHeight(p.body,height),0,0,w,h)}});
   // litStone paints the generated terrain over the kit at the walkable lip.
-  if(NS.lip){g.save();g.clip(NS.lip);g.globalCompositeOperation='destination-out';g.drawImage(terr,0,0);g.restore()}
-  g.globalCompositeOperation='destination-in';g.drawImage(NS.kit&&NS.kit.length?unionC:terr,0,0);
+  if(NS.lip){g.save();g.setTransform(G,0,0,G,-ax,-ay);g.clip(NS.lip);g.globalCompositeOperation='destination-out';g.drawImage(terr,0,0);g.restore()}
+  g.setTransform(1,0,0,1,0,0);g.globalCompositeOperation='destination-in';g.drawImage(litMask(ax,ay,aw,ah),0,0);
   g.globalCompositeOperation='source-over';return c;
 }
-// The stone as it stands this frame, drawn at the GL canvas's own resolution (k px per world px from cx,cy).
-function litDetail(gw,gh,k,cx,cy){const gl=LIT.gl,G=LIT.bg;
-  const c=LIT.dc||(LIT.dc=document.createElement('canvas'));if(c.width!==gw||c.height!==gh){c.width=gw;c.height=gh}
-  const g=c.getContext('2d');g.setTransform(1,0,0,1,0,0);g.globalCompositeOperation='source-over';g.clearRect(0,0,gw,gh);g.imageSmoothingEnabled=false;
-  g.setTransform(k,0,0,k,-cx*k,-cy*k);g.drawImage(terr,0,0);const kit=NS.kit&&NS.kit.length;if(kit)nsKitPaint(g);
-  if(NS.lip){g.save();g.clip(NS.lip);g.drawImage(terr,0,0);g.restore()}
-  g.globalCompositeOperation='destination-in';g.drawImage(kit?unionC:terr,0,0);g.globalCompositeOperation='source-over';
-  gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,G.det);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,c);
-  if(!LIT.hasHeight)return;
-  const h=LIT.dh||(LIT.dh=document.createElement('canvas'));if(h.width!==gw||h.height!==gh){h.width=gw;h.height=gh}
-  const hg=h.getContext('2d');hg.setTransform(1,0,0,1,0,0);hg.globalCompositeOperation='source-over';hg.clearRect(0,0,gw,gh);hg.imageSmoothingEnabled=false;
-  hg.setTransform(k,0,0,k,-cx*k,-cy*k);
-  for(const p of(NS.kit||[])){const height=labArt.get(p.id)?.frames?.[0]?.height;hg.save();if(p.clip){hg.beginPath();hg.rect(...p.clip);hg.clip()}
-    if(p.flip){hg.translate(p.x+p.w,p.y);hg.scale(-1,1)}else hg.translate(p.x,p.y);
-    hg.globalCompositeOperation='destination-out';hg.drawImage(p.body,0,0,p.w,p.h);
-    if(height){hg.globalCompositeOperation='source-over';hg.drawImage(litMaskedHeight(p.body,height),0,0,p.w,p.h)}hg.restore()}
-  if(NS.lip){hg.save();hg.clip(NS.lip);hg.globalCompositeOperation='destination-out';hg.drawImage(terr,0,0);hg.restore()}
-  hg.globalCompositeOperation='destination-in';hg.drawImage(NS.kit&&NS.kit.length?unionC:terr,0,0);hg.globalCompositeOperation='source-over';
-  gl.bindTexture(gl.TEXTURE_2D,G.deth);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,h)}
+// which generated ground is built stone (red) and which is carved (green); everything else is rock
+function litMat(){const c=mk(W,H),g=c.getContext('2d'),t=mk(W,H),tg=t.getContext('2d');g.fillStyle='#000';g.fillRect(0,0,W,H);
+  const add=(col,draw)=>{tg.globalCompositeOperation='source-over';tg.clearRect(0,0,W,H);draw(tg);tg.globalCompositeOperation='source-in';tg.fillStyle=col;tg.fillRect(0,0,W,H);g.globalCompositeOperation='lighter';g.drawImage(t,0,0)};
+  if(struct.width>1)add('#f00',q=>q.drawImage(struct,0,0));if(carv.width>1)add('#0f0',q=>q.drawImage(carv,0,0));
+  const sw=(NS.kit||[]).filter(p=>p.id==='SEWER');if(sw.length)add('#f00',q=>{for(const p of sw)q.drawImage(p.body,p.x,p.y,p.w,p.h)});
+  g.globalCompositeOperation='source-over';return c}
 function litPatch(src,x0,y0,w,h){const c=LIT.sc2||(LIT.sc2=document.createElement('canvas'));c.width=w;c.height=h;const g=c.getContext('2d');g.globalCompositeOperation='copy';g.drawImage(src,x0,y0,w,h,0,0,w,h);return c}
 function litDerive(rect){const gl=LIT.gl,B=LIT.P.blur,K=LIT.P.bake;gl.disable(gl.BLEND);
   gl.useProgram(B.p);gl.uniform2f(B.u.WH,W,H);litBind(B,'t',0,LIT.T.alb);gl.uniform1f(B.u.uA,1);gl.uniform2f(B.u.uDir,1.6/W,0);litQuad(LIT.blA);
@@ -1542,18 +1571,17 @@ function litDerive(rect){const gl=LIT.gl,B=LIT.P.blur,K=LIT.P.bake;gl.disable(gl
   gl.useProgram(K.p);gl.uniform2f(K.u.WH,W,H);litBind(K,'uAlb',0,LIT.T.alb);litBind(K,'uBlur',1,LIT.blB.t);
   if(rect){gl.enable(gl.SCISSOR_TEST);gl.scissor(rect[0],rect[1],rect[2],rect[3])}litQuad(LIT.bake);gl.disable(gl.SCISSOR_TEST)}
 function litBuild(){const gl=LIT.gl,T=LIT.T;for(const k in T){gl.deleteTexture(T[k]);delete T[k]}litFree(LIT.blA);litFree(LIT.blB);litFree(LIT.bake);
-  LIT.W=W;LIT.H=H;const K=2;
+  LIT.W=W;LIT.H=H;const G=LIT.G=1/PX;LIT.AW=Math.ceil(W*G);LIT.AH=Math.ceil(H*G);
   T.alb=litTex(litStone(0,0,W,H),true);
   LIT.hasHeight=!!(NS.kit||[]).some(p=>labArt.get(p.id)?.frames?.[0]?.height);
-  LIT.fine=LIT.hasHeight||(NS.kit||[]).some(p=>{const s=+labArt.get(p.id)?.doc?.game_scale;return s>0&&s<1});
   // Keep legacy payloads cheap: only allocate a full-world atlas when a placed
   // asset actually provides a height map.
   T.height=litTex(LIT.hasHeight?litHeightPatch(0,0,W,H):mk(1,1),true);
   const gc=mk(W,H),gg=gc.getContext('2d');gg.drawImage(hollow,0,0);gg.drawImage(gutsC,0,0);T.guts=litTex(gc,true);
-  T.graf=litTex(litPatch(graf,0,0,W,H),false);T.soot=litTex(litPatch(scorchC,0,0,W,H),false);
-  const ec=mk(W*K,H*K),eg=ec.getContext('2d');eg.imageSmoothingEnabled=false;eg.setTransform(K,0,0,K,0,0);
-  for(const p of(NS.kit||[]))if(p.emis){eg.save();if(p.flip){eg.translate(p.x+p.w,p.y);eg.scale(-1,1);eg.drawImage(p.emis,0,0,p.w,p.h)}else eg.drawImage(p.emis,p.x,p.y,p.w,p.h);eg.restore()}
-  T.emis=litTex(ec,true);T.back=litTex(litPatch(nsBack(),0,0,W,H),true);
+  T.graf=litTex(litPatch(graf,0,0,W,H),true);T.soot=litTex(litPatch(scorchC,0,0,W,H),false);
+  const ec=mk(LIT.AW,LIT.AH),eg=ec.getContext('2d');
+  litKitEach(eg,0,0,(p,w,h)=>{if(p.emis){eg.imageSmoothingEnabled=false;eg.drawImage(p.emis,0,0,w,h)}});
+  T.emis=litTex(ec,true);T.back=litTex(litPatch(nsBack(),0,0,W,H),true);T.mat=litTex(litMat(),true);
   litFree(LIT.lmT);if(LIT.lmD)gl.deleteTexture(LIT.lmD);LIT.lmT=litTarget(W>>1,H>>1,true,false);
   // second target: each light's direction, weighted by its brightness, summed (float maps only: it goes negative)
   LIT.lmD=null;if(LIT.hdr){const t=gl.createTexture();gl.bindTexture(gl.TEXTURE_2D,t);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA16F,W>>1,H>>1,0,gl.RGBA,gl.HALF_FLOAT,null);
@@ -1563,28 +1591,36 @@ function litBuild(){const gl=LIT.gl,T=LIT.T;for(const k in T){gl.deleteTexture(T
   litDerive(null);LIT.dirty=null}
 function litFlush(){const gl=LIT.gl,d=LIT.dirty;if(!d)return;LIT.dirty=null;
   const x0=Math.max(0,Math.floor(d[0])-2),y0=Math.max(0,Math.floor(d[1])-2),x1=Math.min(W,Math.ceil(d[2])+2),y1=Math.min(H,Math.ceil(d[3])+2),w=x1-x0,h=y1-y0;if(w<1||h<1)return;
-  gl.bindTexture(gl.TEXTURE_2D,LIT.T.alb);gl.texSubImage2D(gl.TEXTURE_2D,0,x0*2,y0*2,gl.RGBA,gl.UNSIGNED_BYTE,litStone(x0,y0,w,h));
-  if(LIT.hasHeight){gl.bindTexture(gl.TEXTURE_2D,LIT.T.height);gl.texSubImage2D(gl.TEXTURE_2D,0,x0*2,y0*2,gl.RGBA,gl.UNSIGNED_BYTE,litHeightPatch(x0,y0,w,h))}
+  const[ax,ay]=litAR(x0,y0,w,h);
+  gl.bindTexture(gl.TEXTURE_2D,LIT.T.alb);gl.texSubImage2D(gl.TEXTURE_2D,0,ax,ay,gl.RGBA,gl.UNSIGNED_BYTE,litStone(x0,y0,w,h));
+  if(LIT.hasHeight){gl.bindTexture(gl.TEXTURE_2D,LIT.T.height);gl.texSubImage2D(gl.TEXTURE_2D,0,ax,ay,gl.RGBA,gl.UNSIGNED_BYTE,litHeightPatch(x0,y0,w,h))}
   gl.bindTexture(gl.TEXTURE_2D,LIT.T.graf);gl.texSubImage2D(gl.TEXTURE_2D,0,x0,y0,gl.RGBA,gl.UNSIGNED_BYTE,litPatch(graf,x0,y0,w,h));
   gl.bindTexture(gl.TEXTURE_2D,LIT.T.soot);gl.texSubImage2D(gl.TEXTURE_2D,0,x0,y0,gl.RGBA,gl.UNSIGNED_BYTE,litPatch(scorchC,x0,y0,w,h));
   const m=48,bx=Math.max(0,x0-m),by=Math.max(0,y0-m);litDerive([bx,by,Math.min(W,x1+m)-bx,Math.min(H,y1+m)-by])}
+// a render target that only ever grows, so zooming never reallocates mid-move; each pass draws into the corner it needs
+function litNeed(name,w,h,hdr){const R=LIT.R||(LIT.R={});let r=R[name];if(!r||r.w<w||r.h<h){const nw=Math.max(r?r.w:0,Math.ceil(w/64)*64),nh=Math.max(r?r.h:0,Math.ceil(h/64)*64);litFree(r);r=R[name]=litTarget(nw,nh,hdr,false)}return r}
 function litFrame(lights,shx,shy){const gl=LIT.gl,T=LIT.T;
   const key=genTerrain.n+'|'+W+'|'+H+'|'+(NS.kit?NS.kit.length:0)+'|'+dressSeed+'|'+!!window.GRIMSPIRE_ART_READY+'|'+NS.backGen;if(W!==LIT.W||H!==LIT.H)LIT.lm=null;
   if(key!==LIT.key){LIT.key=key;litBuild()}else litFlush();
-  // the frame is drawn a little smaller than the screen on phones and stretched; the 2D canvas above stays sharp
-  const cap=LIT.coarse?6.5e5:2.3e6,px=cv.width*cv.height,rs=px>cap?Math.sqrt(cap/px):1,gw=Math.round(cv.width*rs),gh=Math.round(cv.height*rs),c=LIT.cv;
-  if(c.width!==gw||c.height!==gh||!LIT.rt){c.width=gw;c.height=gh;litFree(LIT.rt);LIT.rb.forEach(litFree);LIT.rt=litTarget(gw,gh,true,false);LIT.rb=[];let bw=gw,bh=gh;for(let i=0;i<4;i++){bw=Math.max(2,bw>>1);bh=Math.max(2,bh>>1);LIT.rb.push(litTarget(bw,bh,true,false))}}
+  // The world is drawn once per art texel and then set on the screen at the device's own resolution, so every pixel in
+  // the scene is the same size. Zoomed far out (texels smaller than a screen pixel, or too many to draw) it is drawn per screen pixel instead.
+  const G=LIT.G,c=LIT.cv,pd=Math.min(3,window.devicePixelRatio||1),kc=DPR*scale,vw=cv.width/kc,vh=cv.height/kc;
+  let dw=Math.round(cv.width/DPR*pd),dh=Math.round(cv.height/DPR*pd);{const cap=LIT.coarse?3.6e6:9e6;if(dw*dh>cap){const s=Math.sqrt(cap/(dw*dh));dw=Math.round(dw*s);dh=Math.round(dh*s)}}
+  if(c.width!==dw||c.height!==dh){c.width=dw;c.height=dh;for(const k in LIT.R||{})litFree(LIT.R[k]);LIT.R={}}
+  const cx=cam.x-shx/scale,cy=cam.y-shy/scale,cap=LIT.coarse?9.5e5:2.6e6;
+  let gw=Math.ceil(vw*G)+2,gh=Math.ceil(vh*G)+2,K=G,ox=Math.floor(cx*G)/G,oy=Math.floor(cy*G)/G;const grid=!LIT.noGrid&&dw/vw>=G*.999&&gw*gh<=cap;
+  if(!grid){K=Math.min(dw/vw,Math.sqrt(cap/(vw*vh)));gw=Math.max(2,Math.round(vw*K));gh=Math.max(2,Math.round(vh*K));K=gw/vw;ox=cx;oy=cy}
+  const rt=litNeed('rt',gw,gh,true),ld=litNeed('ld',gw,gh,false),rb=[];{let bw=gw,bh=gh;for(let i=0;i<4;i++){bw=Math.max(2,bw>>1);bh=Math.max(2,bh>>1);rb.push({t:litNeed('b'+i,bw,bh,true),w:bw,h:bh})}}
   gl.disable(gl.BLEND);const S=LIT.P.scene;gl.useProgram(S.p);gl.uniform2f(S.u.WH,W,H);
   litBind(S,'uAlb',0,T.alb);litBind(S,'uGuts',1,T.guts);litBind(S,'uGraf',2,T.graf);litBind(S,'uEmis',3,T.emis);litBind(S,'uBack',4,T.back);
   litBind(S,'uSoot',5,T.soot);litBind(S,'uBlur',6,LIT.blB.t);litBind(S,'uBake',7,LIT.bake.t);
-  litBind(S,'uHeight',8,T.height);
-  {const k0=DPR*scale*rs,on=!!LIT.fine;if(on){litDetail(gw,gh,k0,cam.x-shx/scale,cam.y-shy/scale);gl.useProgram(S.p);litBind(S,'uAlb',0,T.alb)}
-    litBind(S,'uDet',9,LIT.bg.det);litBind(S,'uDetH',10,LIT.bg.deth);gl.uniform1f(S.u.uDetOn,on?1:0);gl.uniform1f(S.u.uDetHOn,on&&LIT.hasHeight?1:0)}
-  const G=LIT.bg;litBind(S,'uAtlas',11,G.atlas);
-  litBind(S,'uFx',14,G.fx);litBind(S,'uDyn',15,G.dyn);gl.uniform1f(S.u.uHz,Math.min(sump,H*.66));
-  const k=DPR*scale*rs,cx=cam.x-shx/scale,cy=cam.y-shy/scale;
-  gl.uniform2f(S.u.uRes,gw,gh);gl.uniform2f(S.u.uCam,cx,cy);gl.uniform1f(S.u.uScale,k);gl.uniform1f(S.u.uTime,time);gl.uniform1f(S.u.uSump,sump);gl.uniform1f(S.u.uBleed,BLEED);gl.uniform1f(S.u.uLow,LIT.coarse?1:0);
-  const NL=LIT.NL,vx=cx+gw/k/2,vy=cy+gh/k/2,vr=Math.hypot(gw,gh)/k/2;
+  litBind(S,'uHeight',8,T.height);litBind(S,'uMat',9,T.mat);
+  const Gb=LIT.bg;litBind(S,'uAtlas',11,Gb.atlas);
+  litBind(S,'uFx',14,Gb.fx);litBind(S,'uDyn',15,Gb.dyn);{const f=grid?gl.NEAREST:gl.LINEAR;if(LIT.dynF!==f){LIT.dynF=f;for(const k of['fx','dyn']){gl.bindTexture(gl.TEXTURE_2D,Gb[k]);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,f);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,f)}}}
+  gl.uniform1f(S.u.uHz,Math.min(sump,H*.66));
+  gl.uniform2f(S.u.uRT,gw,gh);gl.uniform2f(S.u.uCam,cx,cy);gl.uniform2f(S.u.uOrg,ox,oy);gl.uniform2f(S.u.uDS,1/vw,1/vh);gl.uniform2f(S.u.uAWH,LIT.AW,LIT.AH);gl.uniform1f(S.u.uK,K);gl.uniform1f(S.u.uG,G);
+  gl.uniform1f(S.u.uTime,time);gl.uniform1f(S.u.uSump,sump);gl.uniform1f(S.u.uBleed,BLEED);gl.uniform1f(S.u.uLow,LIT.coarse?1:0);
+  const NL=LIT.NL,vx=cx+vw/2,vy=cy+vh/2,vr=Math.hypot(vw,vh)/2;
   const M=LIT.lm||(LIT.lm=new Map()),dtL=Math.min(.1,Math.max(.001,time-(LIT.t0===undefined?time:LIT.t0)));LIT.t0=time;
   for(const s of M.values())s.tg=-1;
   for(const L of lights){if(!(L.i>0))continue;const key=(L.x/30|0)+','+(L.y/30|0)+','+(L.c[0]>>6)+(L.c[1]>>6)+(L.c[2]>>6);let s=M.get(key);
@@ -1600,9 +1636,11 @@ function litFrame(lights,shx,shy){const gl=LIT.gl,T=LIT.T;
   const la=new Float32Array(NL*4),lc=new Float32Array(NL*3);Ls.forEach((L,i)=>{la[i*4]=L.x;la[i*4+1]=L.y;la[i*4+2]=L.r*1.7;const m=L.i*1.6/255;lc[i*3]=L.c[0]*m;lc[i*3+1]=L.c[1]*m;lc[i*3+2]=L.c[2]*m});
   {const sa=new Float32Array(8);let n=0;for(const sh of ships){if(n>1)break;const d=Math.sign(sh.vx)||1;sa.set([sh.x+6*d,sh.y+8,0,1.4],n*4);n++}gl.uniform4fv(S.u.uSp,sa)}
   gl.uniform4fv(S.u.uL,la);gl.uniform3fv(S.u.uLC,lc);gl.uniform1i(S.u.uNL,Ls.length);
-  litQuad(LIT.rt);
-  const D=LIT.P.down;gl.useProgram(D.p);let src=LIT.rt;for(let i=0;i<4;i++){litBind(D,'t',0,src.t);gl.uniform2f(D.u.uTx,.5/src.w,.5/src.h);gl.uniform1f(D.u.uThr,i?0:1.1);litQuad(LIT.rb[i]);src=LIT.rb[i]}
-  const F=LIT.P.final;gl.useProgram(F.p);litBind(F,'tC',0,LIT.rt.t);for(let i=0;i<4;i++)litBind(F,'tB'+(i+1),i+1,LIT.rb[i].t);gl.uniform1f(F.u.uTime,time);gl.uniform1f(F.u.uAM,AMX);litQuad(null);
+  litQuad(rt,gw,gh);
+  const D=LIT.P.down;gl.useProgram(D.p);let src={t:rt,w:gw,h:gh};for(let i=0;i<4;i++){const s=src.t;litBind(D,'t',0,s.t);gl.uniform2f(D.u.uTx,.5/s.w,.5/s.h);gl.uniform2f(D.u.uSc,src.w/s.w,src.h/s.h);gl.uniform2f(D.u.uMx,(src.w-.5)/s.w,(src.h-.5)/s.h);gl.uniform1f(D.u.uThr,i?0:1.1);litQuad(rb[i].t,rb[i].w,rb[i].h);src=rb[i]}
+  const F=LIT.P.final;gl.useProgram(F.p);litBind(F,'tC',0,rt.t);gl.uniform2f(F.u.uS0,gw/rt.w,gh/rt.h);for(let i=0;i<4;i++){litBind(F,'tB'+(i+1),i+1,rb[i].t.t);gl.uniform2f(F.u['uS'+(i+1)],rb[i].w/rb[i].t.w,rb[i].h/rb[i].t.h)}
+  gl.uniform1f(F.u.uTime,time);gl.uniform1f(F.u.uAM,AMX);gl.uniform1f(F.u.uRH,gh);gl.uniform2f(F.u.uTO,grid?Math.floor(cx*G):0,grid?Math.floor(cy*G):0);gl.uniform1f(F.u.uPost,LIT.post);litQuad(ld,gw,gh);
+  const B=LIT.P.blit;gl.useProgram(B.p);litBind(B,'t',0,ld.t);gl.uniform2f(B.u.uA,vw*K,vh*K);gl.uniform2f(B.u.uB,(cx-ox)*K,gh-(cy-oy)*K);gl.uniform2f(B.u.uTS,ld.w,ld.h);gl.uniform2f(B.u.uMx,gw-.5,gh-.5);gl.uniform1f(B.u.uPP,grid?Math.max(1,dw/vw/K):1);litQuad(null);
 }
 if(LIT.on)litInit();
 // Everything behind the play layer (sky, skyline, facades) is redrawn on a coarse pixel grid, so the city reads as
