@@ -6,6 +6,10 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-12 · Claude · Sewers back off on main (GV 48)
+- Jarred: close, but not there; keep the Power Claw and balance changes live, come back to sewers. Off by default again; `#sewers` in the address turns them on for testing.
+- **Next round (Jarred's notes):** too near the surface and too eager (many maps get what is basically an open pit): require real rock depth, and prefer no sewer to a forced one, aiming for 25–30% of maps; odd cut-outs against backgrounds and set pieces; nearly always two true ends (an underpass, not a bunker) so it opens up fighting space; cyan lights 5% brighter; extra rooms are the priority (for scale); entrances as engineered openings: a cut dipping down to a grate or gate (open or closed) rather than a ramp cut into the mountain's background. Question to answer: do troopers spawn in sewers?
+
 ## 2026-11-12 · Claude · Sewers live: no more jutting edges, shafts keep out of buildings, a touch brighter (GV 47)
 - **Live on `main`** (Jarred: push once the jutting edge is fixed). About 4 in 5 generated maps get one; `#nosewers` turns them off.
 - **Jutting edges fixed:** the sewer's dark interior is painted only where the game already shows rock interior (below the ground line), so where a ramp or tunnel cuts through rock above that line it shows sky like any other hole; and a roof over the ramp thinner than 90 px (30 px over the tunnel) is opened to the sky, so the ramp is a cutting into the hill, not a slab sticking out.

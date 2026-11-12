@@ -2342,7 +2342,7 @@ function shove(o,vx,vy){if(!o.alive)return;
 function hurt(t,d,soft){if(d<=0||!t.alive)return;const was=t.hp;t.hp=Math.max(0,t.hp-d);if(was>0&&t.hp===0)slowmo(1.4);sfx('clank');
   if(!soft&&t===S.active&&(S.phase==='aim'||S.phase==='retreat')){if(S.phase==='aim')texts.push({x:t.x,y:t.y-58,txt:'Turn lost',life:1.6,col:BONE,small:true});S.phase='end';S.charging=false;S.jet=null;S.wait=0}const prev=texts.find(x=>x.who===t&&x.life>.85);if(prev){prev.dmg+=d;prev.txt='-'+prev.dmg;prev.life=1.5}else texts.push({x:t.x,y:t.y-38,txt:'-'+d,life:1.5,col:TEAM[t.team].col,who:t,dmg:d})}
 function deathCam(x,y,d=1.7){S.deathCam={x:clamp(x,20,W-20),y:Math.min(y,sump-10),t:d}}
-const SEWERS_ON=!/(^#|&)nosewers\b/.test(location.hash),SEWER_CHANCE=.85,DEATH_HOLD=3.2,DEATH_LINGER=1.2;// the hold counts down only once the grave is up (Jarred 12 Nov: the camera left before it rose) // a killed trooper keeps the camera through their last act and the grave rising (grave at 1.75 s)
+const SEWERS_ON=/(^#|&)sewers\b/.test(location.hash),SEWER_CHANCE=.85,DEATH_HOLD=3.2,DEATH_LINGER=1.2;// the hold counts down only once the grave is up (Jarred 12 Nov: the camera left before it rose) // a killed trooper keeps the camera through their last act and the grave rising (grave at 1.75 s)
 function abyss(t){deathCam(t.x,t.y);t.alive=false;t.hp=0;t.wet=false;slowmo(1);texts.push({x:clamp(t.x,40,W-40),y:sump-40,txt:t.name+' · lost to the abyss',life:2.4,col:BONE,small:true});sfx('splash')}
 const WADE=28;
 function floorBelow(x){for(let y=Math.floor(sump);y<=sump+WADE;y+=2)if(isSolid(x,y)||isSolid(x-3,y)||isSolid(x+3,y))return true;return false}
@@ -4123,7 +4123,7 @@ function netCatchUp(){if(S.mode!=='online'||NET.role!=='watch')return;const behi
   if(behind>300&&!NET.skip)for(let i=0;i<Math.min(6,behind-240);i++)tick()}
 function netGameOver(){if(NET.role!=='act')clearNet()}
 function netLeave(){document.title=TITLE0;chatStop();if(NET.unC)NET.unC();if(NET.unM)NET.unM();NET.unC=NET.unM=null;NET.role=null;NET.started=false;S.mode='hot';$('#netBar').hidden=true}
-const GV=47;// bump on every release that changes the sim
+const GV=48;// bump on every release that changes the sim
 function startOnline(code,me,d){BE.update(code,{['vers.'+me]:GV,['arts.'+me]:window.GRIMSPIRE_ART_SIM||''}).catch(()=>{});NET.code=code;NET.me=me;NET.round=d.round||0;NET.snapK=-1;NET.snap=null;NET.matchAtt=d.att||'';NET.started=true;NET.leaving=false;saveNet();
   $('#net').hidden=true;if(!CHAT.un)chatStart();const cfg=Object.assign(mkCfg('online',d.seats,d.mode==='teams'),{mode:'online'});newGame('online',d.seed,cfg);S.genOK=true;
   const base=NET.round*1e5,has=d.snapK!=null&&d.snapK>=base&&d.snap;
