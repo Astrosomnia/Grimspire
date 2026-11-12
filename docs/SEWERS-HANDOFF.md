@@ -1,6 +1,6 @@
 # Sewers: handoff (12 Nov 2026)
 
-For a fresh chat picking up the sewer work. Read this, then the top of `docs/LOG.md` (the 12 Nov sewer entries hold the detail). Reference art: `docs/sewers/reference.png` (our HUD and palette, the look to aim for) and `docs/sewers/first-pass.png` (an early render).
+For a fresh chat picking up the sewer work. Read this, then the top of `docs/LOG.md` (the 12 Nov sewer entries hold the detail). Reference art: `docs/sewers/reference.png` (our HUD and palette, the look to aim for), `docs/sewers/first-pass.png` (an early render) and **`docs/sewers/entrance-markup.jpg`** (Jarred's marked-up entrances; see feedback item 6).
 
 ## Where it stands
 
@@ -43,7 +43,7 @@ For a fresh chat picking up the sewer work. Read this, then the top of `docs/LOG
 3. **Underpass, not bunker.** Almost always two true ends, both real outlets, so it opens up fighting space.
 4. **Cyan lights 5% brighter.** Cyan only.
 5. **Extra rooms are the priority**, for scale and so it doesn't get samey after three rounds. He's happy for Claude to pick: square rooms, stairs, different sump areas, more than one pipe design.
-6. **Entrances as engineered openings.** On his marked screenshot: a lined cut dipping down to a **grate or gate (open or closed variants; decorative only, no complicated mechanics)**. Remove the mountain background in the cut, so it doesn't read as a ramp carved into the hillside. Where a sewer comes out on a near-vertical wall, use a **real outlet pipe that sticks out, with a regular drip**.
+6. **Entrances as engineered openings.** On his marked screenshot, [`docs/sewers/entrance-markup.jpg`](sewers/entrance-markup.jpg): three ramp entrances, each with **red lines** where the grate or gate goes (at the foot of the cut, where it meets the tunnel) and **green hatching** over the mountain background above the cut, which should go entirely. That means a lined cut dipping down to a **grate or gate (open or closed variants; decorative only, no complicated mechanics)**. Remove the mountain background in the cut, so it doesn't read as a ramp carved into the hillside. Where a sewer comes out on a near-vertical wall, use a **real outlet pipe that sticks out, with a regular drip**.
 7. **Vertical shafts shouldn't cut through props.** They should stop at the foot of a building. Partly done: the shaft and ramp now avoid masonry, but this is not verified on Jarred's map.
 8. **Earlier notes, already handled:** dark and moody like natural holes, one or two lights; falls not cartoony; the back wall in the normal stone texture; jutting edges fixed.
 
