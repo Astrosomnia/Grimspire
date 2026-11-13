@@ -6,6 +6,21 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-13 · Claude · Sewers: flooded vaults, chasms with catwalks (GV 53)
+- Jarred (12 Nov): bridged pools looked odd; make them deeper, full and deadly, draining if blasted. Wider holes to the sump than a jump, some with a catwalk. Approved overnight; pushed live.
+- **Flooded vault** (replaces the bridged pool): a sealed tank 44 px deep under a stone deck on two piers, full to just under the deck.
+  - A trooper below the waterline drowns (`vaultDrown`, checked where the sump is checked for walkers, fallers and the rope), like the sump.
+  - Any cut that opens its floor or a wall below the waterline drains it for good (`vaultsAfterCut`, called from `carve` and `carveLine`, so it's sim, not render). The water drops away over a second.
+  - Water drawn with depth: clear at the top, black below, faint ripples.
+  - No spawns at the bottom of a vault.
+- **Chasm:** a hole to the sump 132–172 px wide (a jump covers about 115 px on the flat, less under a roof), so you rappel or girder across. Half get an iron catwalk (solid deck, rail and posts as decoration); a third of those are broken through the middle. On longer tunnels near the sump, 40% of the time a chasm takes the middle.
+- **Fixed:** a pass-2 comment had swallowed the check that a grate chamber's pit runs through solid rock all the way down (live since GV 50). Restored.
+- **Per 160 seeds:** 44 sewers; 4 vaults, 4 chasms, 9 drains, 11 chambers.
+- **Tests:**
+  - `dsim`, `dsim2` and `dsimart` identical; 10 sewer maps generate identically twice.
+  - Walk test over 4 vault maps, both ways: all cross on the deck.
+  - A trooper dropped through a broken deck drowns at the waterline; a blast under the floor drains the vault.
+
 ## 2026-11-13 · Claude · Procedural buildings reined in: no facades, no pile-ups (GV 52)
 - Jarred (12 Nov): black stone backdrops everywhere, notched tops, unreadable spires, "shambolic mishmashes". Approved overnight; pushed live.
 - **Cause:** the ruined facades (ruins about 4 a map, spires about 2) are near-black back slabs 140–300 px tall with a notch cut in the top. Their count hadn't changed since 28 Oct; the lit look (default since 11 Nov) draws them as solid lit brick, so they stood in front of the skyline like black towers. And `flatX`, when it found no spaced-out flat site, dropped a building at a random x, so tenements and twin towers landed on each other and on the kit.
