@@ -6,6 +6,35 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-13 · Claude · Volume water, depth rules, reservoir (branch `water`, GV 61; test link only)
+- Jarred: water as a volume that fills what it can reach, wider and shallower; chest-deep 5 HP/s, head under a 1 s breath; the volume version, not full pixel water; a reservoir module; new animation, not the white lines.
+- **Water bodies** (`NS.water`, `waterM` holds a body id per wet pixel):
+  - Each sewer pool is a body with a fixed volume (px²).
+  - On any change to nearby stone (`carve`, `carveLine`, a cracked roof falling, a girder) it's marked and settles at the start of the next sim step (`wSettleDirty` in `update`).
+  - Settling: sink the seed to the lowest open point under it, then flood-fill the open space no higher than a level. The highest level the volume reaches is found by binary search.
+  - Leaks: if the space reaches the sump or runs more than 260 px past the body's sides, the water that can't stay pours out (a falling stream for up to about 2 s). Sitting right on a drain empties it.
+  - Merging: a body that meets another merges (volumes add).
+  - Grates let water through. Volume never grows from rounding.
+  - Vaults' piers split them into bays, one body each, which merge when a pier goes.
+- **Depth rules** (`wadeCheck`), measured at the trooper:
+  - Feet or waist (2 or 6 px up): wade at 80% / 55% speed.
+  - Chest (13 px up): 5 HP a second.
+  - Head (22 px up) under: a 1 s breath, then drown. Falling into water is slowed.
+  - The channel current carries on. Vault instant drowning is gone.
+  - Spawns never chest-deep.
+- **Look:** each body drawn from its real shape as pixel water.
+  - A bright surface line and pale row under it; depth bands darkening at 1, 5, 12 and 22 px with a dithered edge.
+  - Pixel glints and two shimmer bands drifting along the surface; current streaks on channels.
+  - A 0.7 s crossfade when it settles, and a pour stream with splash pixels at a leak.
+  - Lights follow the water.
+  - Replaces the old flat rectangles and white lines.
+- **Reservoir module:** a deep pool (46 px of water, over a trooper's head) under a ceiling raised 38–44 px. A level jump needs about 76 px of headroom and lands 86–100 px out, so it has two or three 18 px stone piers 86 px apart (258 or 344 px wide). Rare so far: 1 sewer in about 50 (needs long, deep, high-roofed rock). Joins the deep-water-first pick.
+- **Tests:**
+  - `dsim`, `dsim2` and `dsimart` identical; 10 sewer maps generate identically twice.
+  - Merge conserves volume (1,440 + 1,476 = 2,916); opening a pocket beside a cistern spreads it (4 widenings, volume constant at 1,746, level 689→693).
+  - Blasting under it drains it (a pour of 1,746). A trooper at the bottom of the reservoir drowns after the breath.
+  - A scripted crossing of the reservoir hops floor, pier, pier, floor. Walk tests over 6 maps.
+
 ## 2026-11-13 · Claude · Sewer sites weighted by depth; fewer on islands, more on canyons (GV 60)
 - Jarred: low islands almost always got a sewer (a 36 px roof passes near the water) and need it least; tall canyons could use the space. Lower generally looks better, but weighted, not always lowest, and never cut off from the surface.
 - **Pick:** was "the longest of four random sites". Now every site is weighted by the rock over it (median of 6 columns): full at 90–200 px, 0.65 at 70–90, 0.3 under 70, 0.55 at 200–260, 0.25 beyond. Weight × √length.

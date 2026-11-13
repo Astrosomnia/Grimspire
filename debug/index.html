@@ -527,6 +527,46 @@ function isRung(x,y){x|=0;y|=0;return x>=0&&x<W&&y>=0&&y<H&&rungM[y*W+x]===1}
 const gratM=new Uint8Array(W*H);/* (13 Nov) iron grates: walk on them; shells, grenades and flames go through */
 function isGrate(x,y){x|=0;y|=0;return x>=0&&x<W&&y>=0&&y<H&&gratM[y*W+x]===1}
 function solidP(x,y){return isSolid(x,y)&&!isGrate(x,y)}
+/* (13 Nov, Jarred) water as volume. Every sewer pool is a body holding a set amount of water. When stone near it changes it
+   settles: floods the open space it can reach no higher than its level, fills from the bottom up, spills what it can't hold
+   (down a pit, out past its reach) and merges with any water it meets. Sim only, on the terrain grid, so every device agrees.
+   waterM holds the body id (index+1) of each wet pixel; grates let water through. */
+const waterM=new Uint8Array(W*H),wSeen=new Uint32Array(W*H),wQ=new Int32Array(W*H),WCAP=40000;let wGen=0;
+function wAt(x,y){x|=0;y|=0;return x>=0&&x<W&&y>=0&&y<H?waterM[y*W+x]:0}
+function wPass(i){return solid[i]===0||gratM[i]===1}
+function wFlood(b,sx,sy,L,px){if(++wGen>4e9){wSeen.fill(0);wGen=1}
+  const bot=Math.min(H-2,Math.floor(sump)-1);let h=0,t=0,n=0,leak=null;const oth=new Set(),s0=sy*W+sx;wSeen[s0]=wGen;wQ[t++]=s0;
+  while(h<t){const i=wQ[h++],x=i%W,y=(i-x)/W;n++;if(px){waterM[i]=b.id;px.push(i)}else{const o=waterM[i];if(o&&o!==b.id)oth.add(o)}
+    if(n>WCAP){leak=leak||[x,y];break}
+    for(let k=0;k<4;k++){const nx=k===0?x-1:k===1?x+1:x,ny=k===2?y-1:k===3?y+1:y;if(ny<L||nx<0||nx>=W)continue;const j=ny*W+nx;if(wSeen[j]===wGen||!wPass(j))continue;
+      if(nx<b.bx0||nx>b.bx1||ny>=bot){leak=leak||[nx,ny];continue}wSeen[j]=wGen;wQ[t++]=j}}
+  return{n,leak,oth}}
+function wSettle(b,depth=0){if(b.dead)return;for(const i of b.px)if(waterM[i]===b.id)waterM[i]=0;b.px=[];
+  let[sx,sy]=b.seed;sx|=0;sy|=0;let k=0;while(k<16&&!wPass(sy*W+sx)){sy--;k++}
+  if(b.vol<=0||!wPass(sy*W+sx)){b.vol=0;b.dry=true;b.ver++;return}
+  while(sy+1<Math.floor(sump)-1&&wPass((sy+1)*W+sx))sy++;b.seed=[sx,sy];/* sink to the lowest point under it */
+  const f=L=>wFlood(b,sx,sy,L,null);let r=f(sy);
+  if(r.leak){b.pour={x:r.leak[0],y:r.leak[1],v:b.vol};b.vol=0;b.dry=true;b.ver++;return}/* sitting on a drain: all of it goes */
+  let lo=Math.max(0,sy-300),hi=sy,rl=f(lo);
+  if(rl.leak){let leakAt=rl.leak;while(hi-lo>1){const m=(lo+hi)>>1,rm=f(m);if(rm.leak){lo=m;leakAt=rm.leak}else hi=m}/* hi: the highest level that holds */
+    const cap=f(hi).n;if(cap<b.vol){b.pour={x:leakAt[0],y:leakAt[1],v:b.vol-cap};b.vol=cap}lo=hi}
+  else hi=lo,lo=Math.max(0,sy-300);
+  let a=lo,c=sy;if(f(c).n>=b.vol)a=c;else while(c-a>1){const m=(a+c)>>1;if(f(m).n>=b.vol)a=m;else c=m}/* a: the highest water level the volume reaches */
+  r=f(a);if(r.oth.size&&depth<3){for(const id of r.oth){const o=NS.water[id-1];if(!o||o.dead)continue;b.vol+=o.vol;for(const i of o.px)if(waterM[i]===o.id)waterM[i]=0;o.px=[];o.dead=true;
+    b.bx0=Math.min(b.bx0,o.bx0);b.bx1=Math.max(b.bx1,o.bx1);b.flow=b.flow||o.flow}return wSettle(b,depth+1)}
+  const px=[];wFlood(b,sx,sy,a,px);b.px=px;b.vol=Math.min(b.vol,px.length);/* the volume never grows by rounding up a row */b.dry=!px.length;b.ver++;
+  let x0=W,x1=0,y0=H,y1=0;for(const i of px){const x=i%W;if(x<x0)x0=x;if(x>x1)x1=x;const y=(i-x)/W;if(y>y1)y1=y;if(y<y0)y0=y}b.x0=x0;b.x1=x1;b.y1=y1;b.level=y0;a=y0;
+  b.cx=(x0+x1)>>1;let ry=a-2;while(ry>a-120&&!isSolid(b.cx,ry))ry--;b.roof=ry}
+function wDirty(x0,y0,x1,y1){for(const b of NS.water||[])if(!b.dead&&!b.dry&&x1>=b.x0-8&&x0<=b.x1+8&&y1>=b.level-8&&y0<=b.y1+8)b.dirty=true}
+function wSettleDirty(){for(const b of NS.water||[])if(b.dirty){b.dirty=false;wSettle(b)}}
+/* in the water, by depth: feet and waist wade (slower), chest takes 5 HP a second, head under drowns after a 1 s breath */
+function wadeCheck(t,dt){const hd=wAt(t.x,t.y-22),ch=wAt(t.x,t.y-13),ft=wAt(t.x,t.y-2)||wAt(t.x,t.y-6);
+  if(hd){t.breath=(t.breath||0)+dt;if(t.breath>=1){const b=NS.water[hd-1];t.breath=0;splash(t.x,b?b.level:t.y-22);sinkDrown(t,'drowned',b?b.level:t.y-22);return true}}else t.breath=0;
+  if(ch){t.wdmg=(t.wdmg||0)+dt;if(t.wdmg>=1){t.wdmg-=1;hurt(t,5,true)}}else t.wdmg=0;
+  const any=ft||ch||hd;if(any&&!t.inW){const b=NS.water[any-1];splash(t.x,b?b.level:t.y)}t.inW=any?1:0;
+  if(ft&&!t.air){const b=NS.water[ft-1];if(b&&b.flow){const nx=t.x+b.flow*26*dt;if(!isSolid(nx+b.flow*3,t.y-8)&&!isSolid(nx+b.flow*3,t.y-16))t.x=nx}}/* a channel's current */
+  if(t.air&&t.vy>0&&(ch||hd))t.vy*=Math.pow(.12,dt);/* water slows a fall */
+  return false}
 let rimDirty=true;
 function isSolid(x,y){if(x<0||x>=W||y<0)return false;if(y>=H)return true;return solid[(y|0)*W+(x|0)]===1}
 
@@ -1092,7 +1132,7 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
   // chain of pieces: runs, a square room, a vaulted grate chamber over a pit or pool, a flooded channel, a stepped
   // basin, a sunken hall with stairs. A site that has to be forced is skipped. Own seeded numbers, so maps without
   // one are exactly as before.
-  NS.falls=[];NS.sewers=[];NS.pools=[];NS.gas=[];NS.cracks=[];NS.sewerFit=0;rungM.fill(0);gratM.fill(0);S.gasq=[];const sewFx=[];
+  NS.falls=[];NS.sewers=[];NS.pools=[];NS.water=[];NS.gas=[];NS.cracks=[];NS.sewerFit=0;rungM.fill(0);gratM.fill(0);waterM.fill(0);S.gasq=[];const sewFx=[];
   if(SEWERS_ON&&L!=='drowned'){const R=hrand((S.seed^0x5e3e7)|0),rr=(a,b)=>a+R()*(b-a),ri=(a,b)=>a+(R()*(b-a+1)|0);
     const Q=6,TH=40,ROOF=SEW_ROOF,TR=8,RI=7;// sample step, tunnel height, rock over the tunnel, stair tread and riser
     const sol=(x,y)=>x>=0&&x<W&&y>=0&&y<H&&solid[(y|0)*W+(x|0)]===1?1:0;
@@ -1197,6 +1237,12 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
           // (13 Nov, Jarred) a flooded vault: a sealed tank full to just under a stone deck. Fall in and drown; breach it and it drains
           box(l,fy+6,r,fy+D);NS.pools.push({x:l,y:fy+8,w,h:D-8,deep:1,vault:1});const p1=l+(w*.33|0),p2=r-(w*.33|0);keep(p1-3,fy+6,p1+3,fy+D);keep(p2-3,fy+6,p2+3,fy+D);
           rec.y1=Math.max(rec.y1,fy+D);walls.push(['posts',p1,p2,fy+6,fy+D]);walls.push(['drains',l,r]);feats.push({t:'bridge',x:c,y:cy,l,r});return true},
+        // (13 Nov, Jarred) a reservoir: a wide chamber under a raised vault, water well over a trooper's head. Cross on stone
+        // piers whose tops sit at the floor, gaps a jump wide; blow one and the gap opens up
+        reservoir:(a,b)=>{const np=R()<.6?2:3,w=(np+1)*86,c=(a+b)/2+rr(-10,10),l=c-w/2|0,r=l+w,D=46;if(w>b-a-20||!deepOK(l,r,D))return false;/* sized to the jump: a level jump lands about 86-100 px out */
+          const rise=Math.min(44,roofMin(l-8,r+8)-26);if(rise<38)return false;/* a jump needs about 76 px of headroom: 52 up plus a trooper's height */box(l-8,cy-rise,r+8,cy+2);box(l,fy-2,r,fy+D);
+          for(let k=1;k<=np;k++){const x=l+k*86;keep(x-9,fy,x+9,fy+D)}/* one jump, one pier */
+          NS.pools.push({x:l,y:fy+4,w,h:D-4,deep:1});rec.y0=Math.min(rec.y0,cy-Math.max(0,rise));rec.y1=Math.max(rec.y1,fy+D);walls.push(['drains',l,r]);feats.push({t:'reservoir',x:c,y:cy,l,r});return true},
         // (13 Nov, Jarred) a chasm: a hole to the sump wider than a jump (about 115 px on the flat, less under a roof). Rappel, girder,
         // or take the catwalk when there is one (half the time; a third of those are broken through the middle)
         chasm:(a,b)=>{const hw=ri(66,86),c=(a+b)/2+rr(-12,12)|0;if(b-a<hw*2+50||sump-fy>300)return false;for(let y=fy;y<sump;y+=6)if(!sol(c,y)||!sol(c-hw-8,y)||!sol(c+hw+8,y)||!sol(c-hw/2,y)||!sol(c+hw/2,y))return false;
@@ -1217,8 +1263,8 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
           rec.y1=Math.max(rec.y1,fy2+2);rec.gal={l:l2,r:r2,cy:cy2,fy:fy2};rec.keep.push([l2-24,cy2-10,r2+24,fy2+20]);
           if(R()<.6&&r2-l2>=150){const gw=ri(40,60),gx=rr(l2+46,r2-46-gw)|0;box(gx,fy-2,gx+gw,cy2+2);(rec.grates=rec.grates||[]).push({l:gx-3,r:gx+gw+3,y:fy})}/* a grate over the gallery: shoot down through it */
           break}}
-      {const A=xa+26,B=xb-26;let order=['room','chamber','channel','basin','cistern','bridge','drain','chasm'];for(let i=order.length-1;i>0;i--){const j=R()*(i+1)|0;[order[i],order[j]]=[order[j],order[i]]}
-        if(R()<.55){const wk=R()<.5?'bridge':'cistern';order.splice(order.indexOf(wk),1);order.unshift(wk)}// (pass 2) deep water first, half the time
+      {const A=xa+26,B=xb-26;let order=['room','chamber','channel','basin','cistern','bridge','drain','chasm','reservoir'];for(let i=order.length-1;i>0;i--){const j=R()*(i+1)|0;[order[i],order[j]]=[order[j],order[i]]}
+        if(R()<.55){const u=R(),wk=u<.36?'bridge':u<.68?'cistern':'reservoir';order.splice(order.indexOf(wk),1);order.unshift(wk)}// (pass 2) deep water first, half the time
         const fill=(a,b)=>{if(b-a<96)return;for(let i=0;i<order.length;i++)if(make[order[i]](a,b)){order.splice(i,1);return}};
         if(!rec.gal&&len>=330&&R()<.6&&deepOK(A+40,B-40,RI*5)){const hw=Math.min(B-A,len>=520?300:len),ha=(A+B)/2-hw/2,hb=ha+hw;
           if(make.hall(ha,hb)){const h=feats[0];fill(A,h.l-18);fill(h.r+18,B)}}
@@ -1320,6 +1366,13 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
         const hq=hollow.getContext('2d');hq.fillStyle='rgba(40,44,58,.9)';
         for(const[x,y]of rec.rungs||[]){piece('SEWER_RUNG',rc,x,y,true);for(let yy=y;yy<y+3;yy++)for(let xx=x;xx<x+11;xx++)if(xx>=0&&xx<W)rungM[yy*W+xx]=1;hq.fillRect(x+1,y-20,1,22);hq.fillRect(x+9,y-20,1,22)}}/* the stiles on the back wall */
       resolid();
+      // (13 Nov) the pools become water bodies: each holds what its basin held when it was cut, then settles into the real shape
+      // one body per open pocket of the basin (a vault's piers split it into bays), each holding what that pocket held
+      for(const p of NS.pools){const X0=p.x|0,X1=(p.x+p.w)|0,Y0=p.y|0,Y1=(p.y+p.h)|0,yb=Y1-1,seen=new Set();
+        for(let x=X0;x<X1;x++){if(sol(x,yb)||seen.has(yb*W+x)||waterM[yb*W+x])continue;let v=0;const q=[yb*W+x];seen.add(q[0]);
+          while(q.length){const i=q.pop(),xx=i%W,yy=(i-xx)/W;v++;for(const j of[i-1,i+1,i-W,i+W]){const jx=j%W,jy=(j-jx)/W;if(jx<X0||jx>=X1||jy<Y0||jy>=Y1||seen.has(j)||sol(jx,jy))continue;seen.add(j);q.push(j)}}
+          if(v<6)continue;const b={id:NS.water.length+1,px:[],ver:0,bx0:Math.max(0,X0-260),bx1:Math.min(W-1,X1+260),seed:[x,yb],flow:p.flow||0,vol:v,level:Y0,x0:X0,x1:X1,y1:Y1};
+          if(b.id>250)break;NS.water.push(b);wSettle(b);b.pour=null}}
       if(xm!==null){const lx=xm+(R()<.5?-22:22);let ly=upTop(xm-12,cy)-24;while(ly<cy&&!sol(lx,ly))ly++;const lc=mk(18,4),lq=lc.getContext('2d');lq.fillStyle='rgb(48,44,60)';lq.fillRect(0,0,18,4);lq.fillStyle='rgb(26,24,34)';for(let k=2;k<18;k+=4)lq.fillRect(k,1,2,2);
         if(sol(lx,ly)&&!sol(lx,ly-6)&&!kitHit(/./,lx-9,ly-6,lx+9,ly))piece('SEWER_LID',lc,lx-9,ly-4,false)}
       // ---- one or two lights, not a row of them; the lamp at the head of a stair
@@ -2375,7 +2428,7 @@ function carve(cx,cy,r,scorch=true,jagged=false){
   for(const g of[tctx,mctx,gfx,decoC.getContext('2d')]){g.globalCompositeOperation='destination-out';if(jag)g.drawImage(jagC,jag[0],jag[1]);else{g.fillStyle='#000';g.beginPath();g.arc(cx,cy,r,0,Math.PI*2);g.fill()}g.globalCompositeOperation='source-over'}
   rimDirty=true;toplMark(cx-r*1.45-10,cx+r*1.45+10);freshCut(cx,cy,r,false,!!jag);checkFixtures();scarTags(cx,cy,r);litDirty(cx-r*1.45-24,cy-r*1.45-24,cx+r*1.45+24,cy+r*1.45+24);
   if(window.GRIMSPIRE_SET_PIECES)setPiecesHit(cx,cy,r);
-  vaultsAfterCut(cx-r,cy-r,cx+r,cy+r);
+  wDirty(cx-r,cy-r,cx+r,cy+r);
 }
 function carveLine(x0,y0,x1,y1,r,col){
   const n=Math.ceil(Math.hypot(x1-x0,y1-y0)/2);
@@ -2386,10 +2439,10 @@ function carveLine(x0,y0,x1,y1,r,col){
   for(const g of[tctx,mctx,gfx,decoC.getContext('2d')]){g.globalCompositeOperation='destination-out';g.strokeStyle='#000';g.lineWidth=r*2;g.lineCap='round';g.beginPath();g.moveTo(x0,y0);g.lineTo(x1,y1);g.stroke();g.globalCompositeOperation='source-over'}
   litDirty(Math.min(x0,x1)-r-18,Math.min(y0,y1)-r-18,Math.max(x0,x1)+r+18,Math.max(y0,y1)+r+18);rimDirty=true;toplMark(Math.min(x0,x1)-r-2,Math.max(x0,x1)+r+2);{const n=Math.max(1,Math.ceil(Math.hypot(x1-x0,y1-y0)/Math.max(8,r*2)));for(let i=0;i<=n;i++)freshCut(x0+(x1-x0)*i/n,y0+(y1-y0)*i/n,r,i<n)}checkFixtures();for(const q of tags)if(q.left>0){const was=q.left;q.left=paintLeft(q)/q.a0}
   if(window.GRIMSPIRE_SET_PIECES)setPiecesHitLine(x0,y0,x1,y1,r);
-  vaultsAfterCut(Math.min(x0,x1)-r,Math.min(y0,y1)-r,Math.max(x0,x1)+r,Math.max(y0,y1)+r);
+  wDirty(Math.min(x0,x1)-r,Math.min(y0,y1)-r,Math.max(x0,x1)+r,Math.max(y0,y1)+r);
 }
 let girders=[];
-function stampGirder(b){girders.push({x:b.x,y:b.y,rot:b.rot,len:b.len||1});
+function stampGirder(b){girders.push({x:b.x,y:b.y,rot:b.rot,len:b.len||1});wDirty(b.x-110,b.y-30,b.x+110,b.y+30);
   const L=96*(b.len||1),T=10,c=Math.cos(b.rot),s=Math.sin(b.rot),ex=Math.abs(c)*L/2+Math.abs(s)*T/2,ey=Math.abs(s)*L/2+Math.abs(c)*T/2;
   for(let y=Math.max(0,b.y-ey|0);y<=Math.min(H-1,b.y+ey|0);y++)for(let x=Math.max(0,b.x-ex|0);x<=Math.min(W-1,b.x+ex|0);x++){
     const dx=x-b.x,dy=y-b.y,lx=dx*c+dy*s,ly=-dx*s+dy*c;if(Math.abs(lx)<=L/2&&Math.abs(ly)<=T/2)solid[y*W+x]=1}
@@ -2675,7 +2728,7 @@ function newGameInner(mode){
     // any standable surface in the column, not only the top one, so squads start spread through the levels
     // (under arches, on lower decks, within 95 px of the top so nobody starts sealed in a cavern) rather than all along the roofline.
     // A sewer is the exception: it has two ways out, so its floors count however deep they are (Jarred 12 Nov)
-    let x,y,tries=0;do{x=rnd(90,W-90);tries++;const top=surf(x),st=stands(x,70,sump-70).filter(v=>(v-top<95||NS.sewers.some(w=>x>w.ix0+12&&x<w.ix1-12&&v>w.y0&&v<=w.y1+1))&&!vaultAt(x,v)&&!NS.pools.some(p=>p.vault&&x>p.x-6&&x<p.x+p.w+6&&v>p.y));/* never at the bottom of a flooded vault */y=st.length?st[Math.random()*st.length|0]:top}
+    let x,y,tries=0;do{x=rnd(90,W-90);tries++;const top=surf(x),st=stands(x,70,sump-70).filter(v=>(v-top<95||NS.sewers.some(w=>x>w.ix0+12&&x<w.ix1-12&&v>w.y0&&v<=w.y1+1))&&!wAt(x,v-13));/* never chest-deep in water */y=st.length?st[Math.random()*st.length|0]:top}
       while(tries<400&&(xs.some(o=>Math.abs(o-x)<gap)||y>sump-70||y<70||isSolid(x,y-BH)));
     xs.push(x);troopers.push({team,name:roll[team][i],x,y,vx:0,vy:0,hp:100,alive:true,face:x<W/2?1:-1,aim:-.45,air:false,anim:0,moving:false,lastPow:{}});
   }
@@ -2810,6 +2863,7 @@ function setPause(p){if(S.phase==='title'||S.phase==='over')return;$('#pRestart'
 function dropDepth(x,y){let k=0;while(k<300&&!isSolid(x,y+k+1))k++;return k}
 function walk(t,dir,dt,sp){if(t===S.active&&S.stag&&S.phase==='aim')return;
   if(S.saw&&t===S.active&&troopers.some(o=>o.alive&&o!==t&&(o.x-t.x)*dir>0&&(o.x-t.x)*dir<14&&Math.abs(o.y-t.y)<20)){t.face=dir;return}// press the blade into them
+  sp*=wAt(t.x,t.y-6)?.55:wAt(t.x,t.y-2)?.8:1;/* wading */
   const ox=t.x,oy=t.y,nx=clamp(t.x+dir*52*sp*dt,4,W-4);let ny=t.y,k=0;
   while(isSolid(nx,ny)&&k<11){ny--;k++}
   if(k>=11||isSolid(nx,ny-18))return;
@@ -2848,19 +2902,11 @@ function bubbles(x,y,n){for(let i=0;i<n;i++)parts.push({k:'splash',x:x+rnd(-8,8)
   parts.push({k:'ring',x,y,vx:0,vy:0,life:.6,max:.6,r:26,col:[150,180,235]})}
 function sinkDrown(t,msg,wy=sump){if(!t.alive)return;deathCam(t.x,wy-30);t.alive=false;t.hp=0;t.wet=false;t.rope=null;bubbles(t.x,wy,14);sfx('gloomp');slowmo(1);
   texts.push({x:clamp(t.x,40,W-40),y:wy-36,txt:t.name+' · '+msg,life:2.4,col:'#9fb4d8',small:true})}
-// (13 Nov) flooded vaults: a sewer tank full to just under its deck. Fall in and you drown. A cut that opens its floor
-// or a wall below the waterline drains it for good. Decided in the sim (carve), never by the renderer
-function vaultAt(x,y){for(const p of NS.pools||[])if(p.vault&&!p.dry&&x>p.x&&x<p.x+p.w&&y>p.y+5&&y<p.y+p.h+6)return p;return null}
-function vaultDrown(t){const p=vaultAt(t.x,t.y);if(!p)return false;splash(t.x,p.y);sinkDrown(t,'drowned in the vault',p.y);return true}
-function vaultsAfterCut(x0,y0,x1,y1){for(const p of NS.pools||[]){if(!p.vault||p.dry||x1<p.x-6||x0>p.x+p.w+6||y1<p.y||y0>p.y+p.h+8)continue;let br=false;
-  for(let x=p.x+1;x<p.x+p.w&&!br;x+=2)if(!isSolid(x,p.y+p.h+2))br=true;
-  for(let y=p.y+6;y<p.y+p.h&&!br;y+=2)if(!isSolid(p.x-2,y)||!isSolid(p.x+p.w+1,y))br=true;
-  if(br){p.dry=1;p.drain=0;sfx('gloomp');for(let i=0;i<10;i++)parts.push({k:'splash',x:p.x+Math.random()*p.w,y:p.y,vx:rnd(-40,40),vy:rnd(-90,-30),life:.6,max:.7})}}}
 function crackHit(x,y,r,dmg){for(const k of NS.cracks||[]){if(k.gone)continue;const dx=Math.max(k.x0-x,0,x-k.x1),dy=Math.max(k.y0-y,0,y-k.y1),d=Math.hypot(dx,dy);if(d>r*1.5)continue;
   k.hp-=dmg*(d<r?1:.5);if(k.hp<=0){k.gone=true;crackFall(k)}}}
 function crackFall(k){for(let y=k.y0-6;y<=k.y1+2;y++)for(let x=k.x0;x<=k.x1;x++)if(x>=0&&x<W&&y>=0&&y<H)solid[y*W+x]=0;/* the slab goes whole */
   for(const g of[tctx,mctx,gfx,decoC.getContext('2d')]){g.globalCompositeOperation='destination-out';g.fillStyle='#000';g.fillRect(k.x0,k.y0-6,k.x1-k.x0+1,k.y1-k.y0+9);g.globalCompositeOperation='source-over'}
-  rimDirty=true;toplMark(k.x0-12,k.x1+12);litDirty(k.x0-30,k.y0-30,k.x1+30,k.y1+30);checkFixtures();vaultsAfterCut(k.x0,k.y0,k.x1,k.y1);
+  rimDirty=true;toplMark(k.x0-12,k.x1+12);litDirty(k.x0-30,k.y0-30,k.x1+30,k.y1+30);checkFixtures();wDirty(k.x0,k.y0-8,k.x1,k.y1+8);
   shake=Math.min(16,shake+8);sfx('thud');for(let i=0;i<22;i++)debris(rnd(k.x0,k.x1),rnd(k.y0,k.y1),.35);puff((k.x0+k.x1)/2,k.y1);
   for(const t of troopers)if(t.alive&&t.x>k.x0-4&&t.x<k.x1+4&&t.y>=k.y0-8&&t.y<=k.y1+2){t.air=true;t.vy=Math.max(t.vy,20)}}
 function gasCheck(x,y,r){for(const z of NS.gas||[])if(!z.lit&&x+r>z.x0&&x-r<z.x1&&y+r>z.y0&&y-r<z.y1)gasIgnite(z,clamp(x,z.x0,z.x1))}
@@ -2913,7 +2959,7 @@ function updRope(t,dt,ctrl){const r=t.rope;
   const na=r.a+r.v*dt;if(!ropeHits(r,na,r.L))r.a=na;else r.v*=-.3;
   if(ax)t.face=Math.sign(ax);t.anim+=Math.abs(r.v)*dt*3;
   [t.x,t.y]=ropePos(r,r.a,r.L);
-  if(t.y>sump-2){t.rope=null;enterWater(t)}else if(vaultAt(t.x,t.y)){t.rope=null;vaultDrown(t)}}
+  if(t.y>sump-2){t.rope=null;enterWater(t)}}
 let corpses=[],zones=[],sentries=[];
 const FALLOUT={dmg:8,tick:3,turns:10},RAD=[150,255,60];
 const LAST=[['kneel',.3],['stagger',.25],['salute',.2],['martyr',.25]];
@@ -3204,8 +3250,7 @@ function updTrooper(t,dt){
   if(t.recover>0)t.recover-=dt;
   if(t.crouch>0){t.crouch-=dt;t.sq=.35;if(t.crouch<=0)launchJump(t)}
   if(!t.air&&t.y>sump-2){enterWater(t);return}
-  if(vaultDrown(t))return;
-  if(!t.air)for(const p of NS.pools||[])if(p.flow&&t.x>p.x&&t.x<p.x+p.w&&Math.abs(t.y-(p.y+p.h))<=2){const nx=t.x+p.flow*26*dt;if(!isSolid(nx+p.flow*3,t.y-8)&&!isSolid(nx+p.flow*3,t.y-16))t.x=nx;break}/* (13 Nov) a channel's current carries you along */
+  if(wadeCheck(t,dt))return;
   if(!t.air){
     const ground=isSolid(t.x,t.y+1)||isSolid(t.x-3,t.y+1)||isSolid(t.x+3,t.y+1);
     if(!ground){t.air=true;t.vy=0;if(!t.skid)t.vx=0;t.skid=false}
@@ -3255,7 +3300,6 @@ function updTrooper(t,dt){
     else{if(isSolid(t.x,ny-BH+2)&&!isRung(t.x,ny-BH+2)){if(t.clawed&&t.vy<-220){t.clawed=false;clawMoment(t.x,t.y-BH)}if(t.knocked&&t.vy<-200){shake=Math.min(14,shake+3);sfx('thud');puff(t.x,t.y-BH);t.vy*=-.35;break}else t.vy=0}else t.y=ny}
   }
   if(t.y>sump-2)enterWater(t);
-  else vaultDrown(t);
 }
 function hitTrooper(x,y,p){return troopers.some(t=>t.alive&&!(t===p.owner&&p.age<.3)&&Math.abs(t.x-x)<6&&y>t.y-BH&&y<t.y+1)}
 const AM_COLLAPSE=.32,AM_FLASH=1.1,AM_BW=.3;
@@ -3982,6 +4026,7 @@ function wardLights(L){
 /* ================= update ================= */
 function update(dt){
   if(S.phase==='title'||S.phase==='over'){updParts(dt);press.clear();return}
+  wSettleDirty();
   if(S.paused&&S.mode!=='online'){press.clear();return}
   const t=S.active,w=curW();
   if((S.phase==='aim'||S.phase==='retreat')&&(!t||!t.alive||t.hp<=0)){S.phase='end';S.charging=false;S.jet=null}
@@ -4086,8 +4131,8 @@ function updCamera(dt){
 function gatherLights(){
   const L=[];
   for(const f of NS.falls||[])if(!f.drip)L.push({x:f.x,y:fallEnd(f)-8,r:f.w<6?46:74,c:[63,243,255],i:f.w<6?.16:.26,h:.04});
-  for(const p of NS.pools||[]){L.push({x:p.x+p.w/2,y:p.y-4,r:Math.min(p.deep?120:96,p.w*.75),c:[63,243,255],i:p.deep?.42:.3,h:.03});// (pass 2, Jarred: far too dark on a phone) water throws light
-    if(p.roof!==undefined)L.push({x:p.x+p.w/2,y:p.roof+10,r:Math.min(110,p.w*.8),c:[90,230,255],i:p.deep?.3:.2,h:.12})}// and lights the roof over it
+  for(const b of NS.water||[]){if(b.dead||b.dry)continue;const w=b.x1-b.x0,deep=b.y1-b.level>20;L.push({x:b.cx,y:b.level-4,r:Math.min(deep?120:96,w*.75),c:[63,243,255],i:deep?.42:.3,h:.03});/* water throws light */
+    if(b.roof>b.level-118)L.push({x:b.cx,y:b.roof+10,r:Math.min(110,w*.8),c:[90,230,255],i:deep?.3:.2,h:.12})}/* and lights the roof over it */
   for(const f of fixtures){if(!f.alive)continue;let i=.95;const ep=Math.sin(time*.31+f.ph*3.1)*Math.sin(time*.17+f.ph*1.9);if(ep>(f.faulty?.72:.9)&&Math.sin(time*29+f.ph*5)+Math.sin(time*11.3+f.ph)>.4)i=.18;
     f.i=i;const nk=NS.on&&f.k!=='eye'?(f.sw?.7:.45):1,cb=f.sw&&f.c==='cyan'?1.05:1;// sewer cyan a touch brighter (Jarred 12 Nov); sewer lamps cast further (pass 2)
     L.push({x:f.x,y:f.y,r:(f.k==='eye'?42:f.k==='strip'?92:f.k==='post'||f.k==='lamp'?150:175)*(NS.on&&f.k!=='eye'?(f.sw?.85:.55):1)*cb,c:NEON[f.c],i:(f.k==='eye'?i*.8:i)*nk*cb,h:(f.k==='eye'?.05:.09)*(NS.on?.8:1)})}
@@ -4118,29 +4163,33 @@ function gatherLights(){
 }
 // sewer outflow: a sheet of water falling to the first stone or the sump, scrolling streaks and a foam line where it lands
 function fallEnd(f){let y=f.y0+2;while(y<sump&&!isSolid(f.x,y))y+=2;return y}
-function drawFalls(){if(!(NS.falls&&NS.falls.length)&&!(NS.pools&&NS.pools.length)&&!(NS.gas&&NS.gas.length)&&!(NS.cracks&&NS.cracks.length))return;ctx.save();
+function wBuild(b){if(!b.px.length||b.dry){b.img=null;b.surf=[];return}let x0=W,x1=0,y0=H,y1=0;for(const i of b.px){const x=i%W,y=(i-x)/W;if(x<x0)x0=x;if(x>x1)x1=x;if(y<y0)y0=y;if(y>y1)y1=y}
+  const w=x1-x0+1,h=y1-y0+1,c=b.img&&b.img.width===w&&b.img.height===h?b.img:mk(w,h),g=c.getContext('2d'),im=g.createImageData(w,h),d=im.data,top=new Int32Array(w).fill(1e9);
+  for(const i of b.px){const x=i%W,y=(i-x)/W;if(y<top[x-x0])top[x-x0]=y}
+  const band=(dd,x,y)=>{const k=(x+y)&1;if(dd===0)return[118,214,232,235];if(dd===1)return[64,160,190,220];if(dd<5||(dd<6&&k))return[34,108,138,205];if(dd<12||(dd<13&&k))return[20,72,98,220];if(dd<22||(dd<23&&k))return[12,46,66,232];return[6,26,40,242]};
+  for(const i of b.px){const x=i%W,y=(i-x)/W,o=((y-y0)*w+(x-x0))*4,col=band(y-top[x-x0],x,y);d[o]=col[0];d[o+1]=col[1];d[o+2]=col[2];d[o+3]=col[3]}
+  g.putImageData(im,0,0);b.img=c;b.ix=x0;b.iy=y0;b.surf=[];for(let x=0;x<w;x++)if(top[x]<1e9&&!isSolid(x+x0,top[x]-1))b.surf.push([x+x0,top[x]])}
+function drawFalls(){if(!(NS.falls&&NS.falls.length)&&!(NS.water&&NS.water.length)&&!(NS.gas&&NS.gas.length)&&!(NS.cracks&&NS.cracks.length))return;ctx.save();
   // cracked roofs: dark cracks through the slab, dust sifting down from the tunnel ceiling under it
   for(const k of NS.cracks||[]){if(k.gone)continue;const hurt=1-Math.max(0,k.hp)/60;ctx.strokeStyle=`rgba(8,6,10,${.7+hurt*.3})`;ctx.lineWidth=1+hurt*1.5;
     for(const pts of k.cr){ctx.beginPath();pts.forEach(([x,y],i)=>i?ctx.lineTo(x,y):ctx.moveTo(x,y));ctx.stroke()}
     ctx.fillStyle='rgba(170,160,150,.5)';for(let i=0;i<3+hurt*6;i++){const x=k.x0+((i*29+time*13)%(k.x1-k.x0)),y=k.y1+((time*40+i*17)%38);ctx.fillRect(x,y,1,1)}}
-  // a channel's current: short bright streaks drifting with it
-  for(const p of NS.pools||[]){if(!p.flow||p.y>=sump)continue;ctx.fillStyle='rgba(170,220,235,.32)';for(let k=0;k<p.w/14;k++){const x=p.x+(((time*26*p.flow+k*23)%p.w)+p.w)%p.w;if(isSolid(x,p.y+p.h+1)&&!isSolid(x,p.y+1))ctx.fillRect(x,p.y+1+(k%3),5,1)}}
   // sewer gas: a low sickly haze pooled on the floor, a few slow wisps
   for(const z of NS.gas||[]){if(z.lit)continue;const w=z.x1-z.x0,h=z.y1-z.y0,gl=ctx.createLinearGradient(0,z.y1-h*.7,0,z.y1);gl.addColorStop(0,'rgba(110,170,60,0)');gl.addColorStop(1,'rgba(110,170,60,.13)');
     ctx.fillStyle=gl;for(let x=z.x0;x<z.x1;x+=4){ctx.globalAlpha=Math.max(0,Math.min(1,(x-z.x0)/30,(z.x1-x)/30));ctx.fillRect(x,z.y1-h*.7,4,h*.7)}ctx.globalAlpha=1;/* fades out at both ends */
     for(let k=0,n=Math.max(4,w/24|0);k<n;k++){const u=(k+.5)/n,px=z.x0+w*u+Math.sin(time*.23+k*1.7)*Math.min(30,w/n*.9),py=z.y1-10-h*.22*(1+Math.sin(time*.31+k*2.3)),a=.06+.05*(.5+.5*Math.sin(time*.4+k*1.3)),rr=16+5*Math.sin(time*.2+k);
       const rg=ctx.createRadialGradient(px,py,0,px,py,rr);rg.addColorStop(0,`rgba(140,200,80,${a})`);rg.addColorStop(1,'rgba(140,200,80,0)');ctx.fillStyle=rg;ctx.fillRect(px-rr,py-rr,rr*2,rr*2)}}/* wisps drift on slow sines and breathe in and out: nothing wraps or pops */
-  // standing water in a sewer pool or channel: dark like the sump, a thin glint along the top; gone where its floor has been blown out
-  for(const p of NS.pools||[]){let top=p.y;if(p.vault&&p.dry){p.drain=Math.min(1,(p.drain||0)+1/60);if(p.drain>=1)continue;top=p.y+p.h*p.drain*p.drain}// a vault drains away
-    for(let x=p.x;x<p.x+p.w;x+=8){const w=Math.min(8,p.x+p.w-x);if((!p.vault||!p.dry)&&!isSolid(x+w/2,p.y+p.h+1)||isSolid(x+w/2,p.y+1)||p.y>=sump)continue;
-    if(p.vault){const g=ctx.createLinearGradient(0,top,0,p.y+p.h);g.addColorStop(0,'rgba(34,92,112,.62)');g.addColorStop(.35,'rgba(14,44,58,.86)');g.addColorStop(1,'rgba(4,12,18,.96)');ctx.fillStyle=g;ctx.fillRect(x,top,w,p.y+p.h-top);
-      ctx.fillStyle='rgba(120,200,220,.08)';for(let yy=top+5;yy<p.y+p.h-4;yy+=7)ctx.fillRect(x+((yy*3+(time*6|0))%5),yy,w-4,1)}// depth: clear at the top, black below, faint drifting ripples
-    else{ctx.fillStyle='rgba(12,34,46,.82)';ctx.fillRect(x,top,w,p.y+p.h-top)}ctx.fillStyle=`rgba(110,200,215,${.2+.12*Math.sin(time*1.7+x*.21)})`;ctx.fillRect(x,top,w,1)}}
-  // (pass 3, Jarred: the roof caustics were too much) a gentle flow on each pool's surface, the sump's waterline in miniature
-  for(const p of NS.pools||[]){if(p.y>=sump||(p.vault&&p.dry))continue;let on=false;ctx.strokeStyle='rgba(170,200,225,.3)';ctx.lineWidth=1;ctx.beginPath();
-    for(let x=p.x;x<=p.x+p.w;x+=4){const ok=isSolid(x+1,p.y+p.h+1)&&!isSolid(x+1,p.y+1),y=p.y+Math.sin(x*.09+time*2)*.6+Math.sin(x*.04-time*1.3)*.4;
-      if(ok){on?ctx.lineTo(x,y):ctx.moveTo(x,y);on=true}else on=false}ctx.stroke();
-    ctx.fillStyle='rgba(150,225,245,.35)';for(let k=0;k<Math.max(1,p.w/50|0);k++){const gx=p.x+p.w*(.5+.45*Math.sin(time*.35+k*2.4+p.x*.01));if(isSolid(gx+1,p.y+p.h+1)&&!isSolid(gx+1,p.y+1))ctx.fillRect(gx-3,p.y+1+(k%2),6,1)}}
+  // (13 Nov) water bodies, drawn as pixel water from their real shape: a bright broken surface, depth bands darkening
+  // downward with a dithered edge, pixel shimmer moving along, streaks with a current, and a stream where water spills out
+  for(const b of NS.water||[]){if(b.dead)continue;const T=Math.floor(time*8),T2=Math.floor(time*5);
+    if(b.imgVer!==b.ver){if(b.img&&b.fadeOk)b.prev={img:b.img,x:b.ix,y:b.iy,t:time};b.imgVer=b.ver;b.fadeOk=true;wBuild(b)}
+    if(b.prev){const a=1-(time-b.prev.t)/.7;if(a<=0)b.prev=null;else{ctx.globalAlpha=a;ctx.drawImage(b.prev.img,b.prev.x,b.prev.y);ctx.globalAlpha=1}}
+    if(b.img){ctx.globalAlpha=b.prev?Math.min(1,(time-b.prev.t)/.7):1;ctx.drawImage(b.img,b.ix,b.iy);ctx.globalAlpha=1;
+      for(const[x,y]of b.surf){if(((x*13+T)%29)===0){ctx.fillStyle='rgba(225,250,255,.9)';ctx.fillRect(x,y,1,1)}
+        if(((x+T)%13)<3){ctx.fillStyle='rgba(140,220,235,.32)';ctx.fillRect(x,y+2,1,1)}if(((x-T2+400)%17)<2){ctx.fillStyle='rgba(110,200,225,.22)';ctx.fillRect(x,y+5,1,1)}
+        if(b.flow&&((x-b.flow*Math.floor(time*26)+600)%14)<3){ctx.fillStyle='rgba(180,230,240,.4)';ctx.fillRect(x,y+1,1,1)}}}
+    if(b.pour){const p=b.pour;p.t=(p.t||0)+1/60;const life=Math.min(2.2,.6+p.v/1500);if(p.t>life)b.pour=null;else{const y1=fallEnd({x:p.x,y0:p.y}),w=Math.max(1,Math.round(4*(1-p.t/life)));
+      ctx.fillStyle='rgba(120,200,225,.7)';ctx.fillRect(p.x-w/2|0,p.y,w,y1-p.y);ctx.fillStyle='rgba(220,250,255,.6)';for(let k=0;k<4;k++)ctx.fillRect(p.x-4+((k*5+T)%9),y1-1-(k%2),1,1)}}}
   for(const f of NS.falls||[]){const y1=fallEnd(f),h=y1-f.y0;if(h<4)continue;
     if(f.drip){// a regular drip: a bead swells on the lip, lets go, and falls
       const T=1.9,u=((time+f.ph)%T)/T;ctx.fillStyle='rgba(130,205,220,.75)';
@@ -4690,7 +4739,7 @@ function netCatchUp(){if(S.mode!=='online'||NET.role!=='watch')return;const behi
   if(behind>300&&!NET.skip)for(let i=0;i<Math.min(6,behind-240);i++)tick()}
 function netGameOver(){if(NET.role!=='act')clearNet()}
 function netLeave(){document.title=TITLE0;chatStop();if(NET.unC)NET.unC();if(NET.unM)NET.unM();NET.unC=NET.unM=null;NET.role=null;NET.started=false;S.mode='hot';$('#netBar').hidden=true}
-const GV=60;// bump on every release that changes the sim
+const GV=61;// bump on every release that changes the sim
 function startOnline(code,me,d){BE.update(code,{['vers.'+me]:GV,['arts.'+me]:window.GRIMSPIRE_ART_SIM||''}).catch(()=>{});NET.code=code;NET.me=me;NET.round=d.round||0;NET.snapK=-1;NET.snap=null;NET.matchAtt=d.att||'';NET.started=true;NET.leaving=false;saveNet();
   $('#net').hidden=true;if(!CHAT.un)chatStart();const cfg=Object.assign(mkCfg('online',d.seats,d.mode==='teams'),{mode:'online'});newGame('online',d.seed,cfg);S.genOK=true;
   const base=NET.round*1e5,has=d.snapK!=null&&d.snapK>=base&&d.snap;
