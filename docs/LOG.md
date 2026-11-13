@@ -6,6 +6,22 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-13 · Claude · Sewer sites weighted by depth; fewer on islands, more on canyons (GV 60)
+- Jarred: low islands almost always got a sewer (a 36 px roof passes near the water) and need it least; tall canyons could use the space. Lower generally looks better, but weighted, not always lowest, and never cut off from the surface.
+- **Pick:** was "the longest of four random sites". Now every site is weighted by the rock over it (median of 6 columns): full at 90–200 px, 0.65 at 70–90, 0.3 under 70, 0.55 at 200–260, 0.25 beyond. Weight × √length.
+- **Islands:** chance × 0.45.
+- **Canyons:** 2–3 caves instead of 5–8 (the caves sat right in the sewer band), and tunnels up to 900 px (was 640, a fourth module slot past 640).
+- **Over 200 seeds:**
+
+  | Layout | Before | After | Median roof before | Median roof after |
+  |---|---|---|---|---|
+  | Islands | 43% | 14% | — | — |
+  | Canyon | 25% | 35% | 108 | 108 |
+  | Ruins | 53% | 53% | 104 | 143 |
+  | Spires | 31% | 31% | — | — |
+
+- **Tests:** `dsim`, `dsim2` and `dsimart` identical; 10 sewer maps generate identically twice; walk test on 8 canyon sewers, both ways, all through.
+
 ## 2026-11-13 · Claude · Bunker Buster falls between drills, 200 px cap; gas clouds in blocks, smoother (GV 59)
 - Jarred: auto-det at 200 px; fall at normal speed when not drilling (through a thin bridge: slow, drop fast, then blow or drill on). Gas popped in and out; make clouds wider, built from blocks that peter out.
 - **Bunker Buster:**

@@ -1063,7 +1063,7 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
     seatAll();upOver(genT,false)}
   // caverns (the noise makes its own on ruins)
   g.globalCompositeOperation='destination-out';
-  for(let i=0,n=nW(L==='ruins'||L==='drowned'?0:5+(Math.random()*4|0));i<n;i++){const x=rnd(150,W-150),y=hAt(x)+rnd(70,200);g.beginPath();g.ellipse(x,y,rnd(30,72),rnd(18,38),rnd(-.4,.4),0,Math.PI*2);g.fill()}
+  for(let i=0,n=nW(L==='ruins'||L==='drowned'?0:L==='canyon'?2+(Math.random()*2|0):5+(Math.random()*4|0));i<n;i++){const x=rnd(150,W-150),y=hAt(x)+rnd(70,200);/* (13 Nov) canyons: fewer caves, so the big plateaus have room for a sewer */g.beginPath();g.ellipse(x,y,rnd(30,72),rnd(18,38),rnd(-.4,.4),0,Math.PI*2);g.fill()}
   g.globalCompositeOperation='source-over';
   const d=g.getImageData(0,0,W,H).data;for(let i=0;i<W*H;i++)solid[i]=d[i*4+3]>127?1:0;
   // ruins: hang lamps under natural overhangs
@@ -1123,7 +1123,7 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
         if(b-a<(fy>sump-60?180:240))continue;// (pass 2) a culvert just above the water can be shorter
         const lefts=[],rights=[];{const m=a>66?mouth(a,-1):null;if(m)lefts.push(m);const m2=open?mouth(b,1):null;if(m2)rights.push(m2);}
         for(let xd=a+66;xd<b-66;xd+=30){lefts.push({t:'dip',x:xd,d:-1});rights.push({t:'dip',x:xd,d:1})}
-        for(const e0 of lefts)for(const e1 of rights){const xa=e0.t==='dip'?e0.x:e0.in,xb=e1.t==='dip'?e1.x:e1.in,len=xb-xa;if(len<(fy>sump-60?160:210)||len>640)continue;
+        for(const e0 of lefts)for(const e1 of rights){const xa=e0.t==='dip'?e0.x:e0.in,xb=e1.t==='dip'?e1.x:e1.in,len=xb-xa;if(len<(fy>sump-60?160:210)||len>900)continue;/* (13 Nov) up to 900: canyon plateaus are wider than the old 640 cap */
           const ca=xa+(e0.core||0),cb=xb-(e1.core||0),n=ix(xb)-ix(xa);const low=fy>sump-60;// (pass 2) just above the water (islands): a culvert, so a lighter roof will do, never under 36
           if(low?cnt(P36,ca,cb)||cnt(P46,ca,cb)>(ix(cb)-ix(ca))*.2:cnt(P46,ca,cb)||cnt(P60,ca,cb)>(ix(cb)-ix(ca))*.12)continue;// the full depth of rock nearly all the way, never much less
           if(cnt(P36,xa+(e0.m36||0),xb-(e1.m36||0)))continue;if(cnt(Pb,xa,xb)<n*6*.8)continue;if(cnt(Pf,xa,xb)<n*2*.97)continue;
@@ -1133,7 +1133,12 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
     // through-and-through underpasses first; a stair cut at both ends is the fallback
     const klass=(()=>{const ws=[['mm',5],['md',3],['dd',1.3]].filter(k=>cands[k[0]].length);let u=R()*ws.reduce((s,k)=>s+k[1],0);for(const k of ws){u-=k[1];if(u<0)return k[0]}return ws.length?ws[0][0]:null})();
     NS.sewerFit=klass?1:0;
-    if(klass&&R()<SEWER_CHANCE){const pool=cands[klass];let sw=pool[R()*pool.length|0];for(let i=0;i<3;i++){const o=pool[R()*pool.length|0];if(o.xb-o.xa>sw.xb-sw.xa)sw=o}// of a few, the longest: room for rooms
+    // (13 Nov, Jarred) weighted by depth, not uniform: low islands needed only a 36 px roof and got most of the sewers. Islands
+    // keep under half their chance; every site is weighted by the rock over it (full at 90-200 px, less when shallow, tailing off
+    // past 260 so the tunnel never gets cut off from the fight), with a little for length (room for modules)
+    const chance=SEWER_CHANCE*(L==='islands'?.45:1),roofW=c=>{const v=[];for(let k=1;k<=6;k++){const x=c.xa+(c.xb-c.xa)*k/7;v.push(c.cy-upTop(x,c.cy))}v.sort((p,q)=>p-q);const r=v[3];
+      return r<70?.3:r<90?.65:r<=200?1:r<=260?.55:.25};
+    if(klass&&R()<chance){const pool=cands[klass],ws=pool.map(c=>roofW(c)*Math.sqrt(c.xb-c.xa));let u=R()*ws.reduce((p,q)=>p+q,0),sw=pool[0];for(let i=0;i<pool.length;i++){u-=ws[i];if(u<0){sw=pool[i];break}}
       const{fy,cy,xa,xb,e0,e1}=sw;
       const cm=mk(W,H),cg=cm.getContext('2d'),sk=mk(W,H),sg=sk.getContext('2d');cg.fillStyle='#fff';sg.fillStyle='#fff';
       let bx0=W,bx1=0,by0=H,by1=0;const grow=(a,b,c,d)=>{bx0=Math.min(bx0,a,c);bx1=Math.max(bx1,a,c);by0=Math.min(by0,b,d);by1=Math.max(by1,b,d)};
@@ -1219,7 +1224,7 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
         if(rec.gal){fill(A,rec.gal.l-34);fill(rec.gal.r+34,B)}/* the tunnel over a gallery stays plain but for its shafts */
         else{if(!feats.length&&len>=300&&sump-fy<300&&R()<.4){const cw=Math.min(B-A,240),ca=(A+B)/2-cw/2+rr(-30,30);// (13 Nov) a chasm takes the middle
           if(make.chasm(ca,ca+cw)){const h=feats[0];fill(A,h.l-18);fill(h.r+18,B)}}
-        if(!feats.length){const n=len<270?1:len<430?2:3,w=(B-A)/n;for(let i=0;i<n;i++)fill(A+i*w+6,A+(i+1)*w-6)}}}
+        if(!feats.length){const n=len<270?1:len<430?2:len<640?3:4,w=(B-A)/n;for(let i=0;i<n;i++)fill(A+i*w+6,A+(i+1)*w-6)}}}
       feats.sort((p,q)=>p.x-q.x);rec.parts=feats.map(f=>f.t);
       // (13 Nov, Jarred) a cracked roof: a slab of rotten street over the tunnel. Blasts wear it down; at nothing it drops out whole
       if(R()<.5){for(let k=0;k<10;k++){const w=ri(46,66),x0=rr(xa+40,xb-40-w)|0;let top=1e9;for(let x=x0;x<=x0+w;x+=3)top=Math.min(top,upTop(x,cy));if(cy-top>150||cy-top<30||kitHit(MASONRY,x0-4,top-20,x0+w+4,cy))continue;
@@ -4684,7 +4689,7 @@ function netCatchUp(){if(S.mode!=='online'||NET.role!=='watch')return;const behi
   if(behind>300&&!NET.skip)for(let i=0;i<Math.min(6,behind-240);i++)tick()}
 function netGameOver(){if(NET.role!=='act')clearNet()}
 function netLeave(){document.title=TITLE0;chatStop();if(NET.unC)NET.unC();if(NET.unM)NET.unM();NET.unC=NET.unM=null;NET.role=null;NET.started=false;S.mode='hot';$('#netBar').hidden=true}
-const GV=59;// bump on every release that changes the sim
+const GV=60;// bump on every release that changes the sim
 function startOnline(code,me,d){BE.update(code,{['vers.'+me]:GV,['arts.'+me]:window.GRIMSPIRE_ART_SIM||''}).catch(()=>{});NET.code=code;NET.me=me;NET.round=d.round||0;NET.snapK=-1;NET.snap=null;NET.matchAtt=d.att||'';NET.started=true;NET.leaving=false;saveNet();
   $('#net').hidden=true;if(!CHAT.un)chatStart();const cfg=Object.assign(mkCfg('online',d.seats,d.mode==='teams'),{mode:'online'});newGame('online',d.seed,cfg);S.genOK=true;
   const base=NET.round*1e5,has=d.snapK!=null&&d.snapK>=base&&d.snap;
