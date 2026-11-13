@@ -6,6 +6,16 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-13 · Claude · Bunker Buster falls between drills, 200 px cap; gas clouds in blocks, smoother (GV 59)
+- Jarred: auto-det at 200 px; fall at normal speed when not drilling (through a thin bridge: slow, drop fast, then blow or drill on). Gas popped in and out; make clouds wider, built from blocks that peter out.
+- **Bunker Buster:**
+  - Drills at 150 px/s in stone; in open air it falls under gravity (up to 700 px/s), so a thin bridge slows it, then it drops.
+  - Landing on stone armed blows it; landing unarmed resets and it drills on.
+  - Auto-detonates after 200 px of stone (was 150).
+  - Traced: a 3 px bridge, a fall at 160→315 px/s, landing unarmed at 0.37 s, drilling, breaking into the tunnel armed at 0.53 s, blowing on the floor.
+- **Gas clouds:** at least three 40 px blocks (120 px), then each has a 55% chance of another (seen 120–400 px over 160 seeds). Wisps spread along the cloud, drift on slow sines and breathe in and out; none wrap or pop.
+- **Tests:** `dsim`, `dsim2` and `dsimart` identical; 10 sewer maps generate identically twice.
+
 ## 2026-11-13 · Claude · Bunker Buster: arms after 0.5 s, bores at 150 px/s, its own launcher and icon (GV 58)
 - Jarred: arm it so it can't go off by accident; drill at 150 px/s; a mortar-type tube and a different icon. Pushed live.
 - **Arming:** for the first 0.5 s of drilling it can't detonate (no trooper hit, no cavity floor, no depth cap); it just keeps boring. Breaking into a cavity is remembered, so once armed it blows on the next stone. Bore 150 px/s (was 300).

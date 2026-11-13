@@ -1231,7 +1231,7 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
         if(lx!==null)rec.loot={x:lx|0,y:ly-14}}
       // (13 Nov) sewer gas: a low green haze over a stretch of tunnel. Any blast, flame or fire in it sets off a run of small blasts
       if(R()<.45){const segs=[[xa+30,xb-30,cy,fy]];if(rec.gal)segs.push([rec.gal.l+6,rec.gal.r-6,rec.gal.cy,rec.gal.fy]);const n=R()<.35?2:1;
-        for(let k=0;k<n;k++){const sg=segs[k&&segs.length>1?1:0],w=ri(80,150);if(sg[1]-sg[0]<w+10)continue;const x0=rr(sg[0],sg[1]-w)|0;if(NS.gas.some(z=>z.x0<x0+w&&z.x1>x0&&z.y0<sg[3]&&z.y1>sg[2]))continue;NS.gas.push({x0,x1:x0+w,y0:sg[2]+4,y1:sg[3],lit:false})}}
+        for(let k=0;k<n;k++){const sg=segs[k&&segs.length>1?1:0];let w=120;while(R()<.55&&w<sg[1]-sg[0]-50)w+=40;/* (13 Nov, Jarred) three blocks at least, then each has a 55% chance of another */if(sg[1]-sg[0]<w+10)continue;const x0=rr(sg[0],sg[1]-w)|0;if(NS.gas.some(z=>z.x0<x0+w&&z.x1>x0&&z.y0<sg[3]&&z.y1>sg[2]))continue;NS.gas.push({x0,x1:x0+w,y0:sg[2]+4,y1:sg[3],lit:false})}}
       // an occasional manhole: a shaft up from a plain stretch, only through a column clear of masonry
       // (13 Nov) ladder shafts: manholes are 28 wide with iron rungs up one wall, and come up more often (one or two)
       let xm=null;{const spans=[];let p=xa+30;for(const f of rec.gal?[...feats,{l:rec.gal.l-20,r:rec.gal.r+20}].sort((u,v)=>u.l-v.l):feats){if(f.l-p>64)spans.push([p+28,f.l-28]);p=f.r}if(xb-30-p>64)spans.push([p+28,xb-58]);
@@ -3272,11 +3272,11 @@ function updProjs(dt){
     if(p.w.kind==='grenade'){p.fuse-=dt;if(p.fuse<=0){if(p.w.id==='sun'){p.imp=AM_COLLAPSE;p.vx=p.vy=0;amCollapse(p)}else{projs.splice(i,1);detonate(p)}continue}}
     if(p.rest){if(solidP(p.x,p.y+2))continue;p.rest=false}
     // (13 Nov) Bunker Buster: nose-down, boring at 300 px/s. Blows after 150 px of stone, or on the floor of the first cavity it breaks into
-    if(p.bore){const b=p.bore,y0=p.y,st=150*dt;b.t=(b.t||0)+dt;const armed=b.t>=.5,m=Math.max(1,Math.ceil(st/2));let done=false;
+    if(p.bore){const b=p.bore,y0=p.y;b.t=(b.t||0)+dt;b.v=isSolid(p.x,p.y+2)?150:Math.min((b.v||150)+G*dt,700);/* drills at 150 px/s, falls freely through open air */const st=b.v*dt,armed=b.t>=.5,m=Math.max(1,Math.ceil(st/2));let done=false;
       for(let k=0;k<m;k++){const ny=p.y+st/m;if(ny>=sump){p.y=sump;fizzle(p);done=true;break}
         if(armed&&hitTrooper(p.x,ny,p)){p.y=ny;detonate(p);done=true;break}
-        if(isSolid(p.x,ny)){if(b.air&&armed){p.y=ny;detonate(p);done=true;break}b.d+=st/m}else if(b.d>6)b.air=true;
-        p.y=ny;if(b.d>=150&&armed){detonate(p);done=true;break}}/* (13 Nov, Jarred) arms after 0.5 s of drilling: till then it just keeps boring */
+        if(isSolid(p.x,ny)){if(b.air&&armed){p.y=ny;detonate(p);done=true;break}b.air=false;b.d+=st/m}else if(b.d>6)b.air=true;/* landed on stone unarmed: drill on */
+        p.y=ny;if(b.d>=200&&armed){detonate(p);done=true;break}}/* (13 Nov, Jarred) arms after 0.5 s of drilling: till then it just keeps boring */
       if(done){projs.splice(i,1);continue}
       carveLine(p.x,y0-6,p.x,p.y-6,6,'rgba(20,10,6,.9)');if(Math.random()<.6)sparks(p.x,p.y-4,1);continue}
     p.vy+=G*dt;if(p.w.wind)p.vx+=windAcc()*dt;
@@ -4123,8 +4123,8 @@ function drawFalls(){if(!(NS.falls&&NS.falls.length)&&!(NS.pools&&NS.pools.lengt
   // sewer gas: a low sickly haze pooled on the floor, a few slow wisps
   for(const z of NS.gas||[]){if(z.lit)continue;const w=z.x1-z.x0,h=z.y1-z.y0,gl=ctx.createLinearGradient(0,z.y1-h*.7,0,z.y1);gl.addColorStop(0,'rgba(110,170,60,0)');gl.addColorStop(1,'rgba(110,170,60,.13)');
     ctx.fillStyle=gl;for(let x=z.x0;x<z.x1;x+=4){ctx.globalAlpha=Math.max(0,Math.min(1,(x-z.x0)/30,(z.x1-x)/30));ctx.fillRect(x,z.y1-h*.7,4,h*.7)}ctx.globalAlpha=1;/* fades out at both ends */
-    for(let k=0;k<5;k++){const px=z.x0+8+((k*41+time*7*(k%2?1:-1))%(w-16)+(w-16))%(w-16),py=z.y1-8-((k*11+time*4)%(h*.55)),rg=ctx.createRadialGradient(px,py,0,px,py,14);
-      rg.addColorStop(0,'rgba(140,200,80,.10)');rg.addColorStop(1,'rgba(140,200,80,0)');ctx.fillStyle=rg;ctx.fillRect(px-14,py-14,28,28)}}
+    for(let k=0,n=Math.max(4,w/24|0);k<n;k++){const u=(k+.5)/n,px=z.x0+w*u+Math.sin(time*.23+k*1.7)*Math.min(30,w/n*.9),py=z.y1-10-h*.22*(1+Math.sin(time*.31+k*2.3)),a=.06+.05*(.5+.5*Math.sin(time*.4+k*1.3)),rr=16+5*Math.sin(time*.2+k);
+      const rg=ctx.createRadialGradient(px,py,0,px,py,rr);rg.addColorStop(0,`rgba(140,200,80,${a})`);rg.addColorStop(1,'rgba(140,200,80,0)');ctx.fillStyle=rg;ctx.fillRect(px-rr,py-rr,rr*2,rr*2)}}/* wisps drift on slow sines and breathe in and out: nothing wraps or pops */
   // standing water in a sewer pool or channel: dark like the sump, a thin glint along the top; gone where its floor has been blown out
   for(const p of NS.pools||[]){let top=p.y;if(p.vault&&p.dry){p.drain=Math.min(1,(p.drain||0)+1/60);if(p.drain>=1)continue;top=p.y+p.h*p.drain*p.drain}// a vault drains away
     for(let x=p.x;x<p.x+p.w;x+=8){const w=Math.min(8,p.x+p.w-x);if((!p.vault||!p.dry)&&!isSolid(x+w/2,p.y+p.h+1)||isSolid(x+w/2,p.y+1)||p.y>=sump)continue;
@@ -4685,7 +4685,7 @@ function netCatchUp(){if(S.mode!=='online'||NET.role!=='watch')return;const behi
   if(behind>300&&!NET.skip)for(let i=0;i<Math.min(6,behind-240);i++)tick()}
 function netGameOver(){if(NET.role!=='act')clearNet()}
 function netLeave(){document.title=TITLE0;chatStop();if(NET.unC)NET.unC();if(NET.unM)NET.unM();NET.unC=NET.unM=null;NET.role=null;NET.started=false;S.mode='hot';$('#netBar').hidden=true}
-const GV=58;// bump on every release that changes the sim
+const GV=59;// bump on every release that changes the sim
 function startOnline(code,me,d){BE.update(code,{['vers.'+me]:GV,['arts.'+me]:window.GRIMSPIRE_ART_SIM||''}).catch(()=>{});NET.code=code;NET.me=me;NET.round=d.round||0;NET.snapK=-1;NET.snap=null;NET.matchAtt=d.att||'';NET.started=true;NET.leaving=false;saveNet();
   $('#net').hidden=true;if(!CHAT.un)chatStart();const cfg=Object.assign(mkCfg('online',d.seats,d.mode==='teams'),{mode:'online'});newGame('online',d.seed,cfg);S.genOK=true;
   const base=NET.round*1e5,has=d.snapK!=null&&d.snapK>=base&&d.snap;
