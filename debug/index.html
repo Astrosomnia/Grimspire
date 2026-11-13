@@ -524,6 +524,9 @@ const lmap=mk(1,1),lg=lmap.getContext('2d');
 const solid=new Uint8Array(W*H);
 const rungM=new Uint8Array(W*H);/* (13 Nov) iron rungs: solid to stand on, but a rising trooper passes up through them */
 function isRung(x,y){x|=0;y|=0;return x>=0&&x<W&&y>=0&&y<H&&rungM[y*W+x]===1}
+const gratM=new Uint8Array(W*H);/* (13 Nov) iron grates: walk on them; shells, grenades and flames go through */
+function isGrate(x,y){x|=0;y|=0;return x>=0&&x<W&&y>=0&&y<H&&gratM[y*W+x]===1}
+function solidP(x,y){return isSolid(x,y)&&!isGrate(x,y)}
 let rimDirty=true;
 function isSolid(x,y){if(x<0||x>=W||y<0)return false;if(y>=H)return true;return solid[(y|0)*W+(x|0)]===1}
 
@@ -1089,7 +1092,7 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
   // chain of pieces: runs, a square room, a vaulted grate chamber over a pit or pool, a flooded channel, a stepped
   // basin, a sunken hall with stairs. A site that has to be forced is skipped. Own seeded numbers, so maps without
   // one are exactly as before.
-  NS.falls=[];NS.sewers=[];NS.pools=[];NS.gas=[];NS.sewerFit=0;rungM.fill(0);S.gasq=[];const sewFx=[];
+  NS.falls=[];NS.sewers=[];NS.pools=[];NS.gas=[];NS.cracks=[];NS.sewerFit=0;rungM.fill(0);gratM.fill(0);S.gasq=[];const sewFx=[];
   if(SEWERS_ON&&L!=='drowned'){const R=hrand((S.seed^0x5e3e7)|0),rr=(a,b)=>a+R()*(b-a),ri=(a,b)=>a+(R()*(b-a+1)|0);
     const Q=6,TH=40,ROOF=SEW_ROOF,TR=8,RI=7;// sample step, tunnel height, rock over the tunnel, stair tread and riser
     const sol=(x,y)=>x>=0&&x<W&&y>=0&&y<H&&solid[(y|0)*W+(x|0)]===1?1:0;
@@ -1176,7 +1179,7 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
           if(pit){box(c-21,fy-2,c+21,sump+16);rec.pit=true;rec.keep.push([c-40,fy,c+40,sump])}else if(deepOK(c-44,c+44,9)){box(c-44,fy-2,c+44,fy+9);NS.pools.push({x:c-44,y:fy+3,w:88,h:6})}// no pool over a cave: it would drain
           rec.y0=Math.min(rec.y0,cy-rise);walls.push(['grate',c,chw,rise,pit]);feats.push({t:'chamber',x:c,y:cy,l:c-chw,r:c+chw,off:chw+34});return true},
         channel:(a,b)=>{const w=Math.min(b-a-20,ri(110,160)),c=(a+b)/2+rr(-10,10),l=c-w/2|0,r=l+w;if(w<90||!deepOK(l,r,6))return false;
-          box(l,fy-2,r,fy+6);NS.pools.push({x:l,y:fy+2,w,h:4});walls.push(['drains',l,r]);feats.push({t:'channel',x:c,y:cy,l,r});return true},
+          box(l,fy-2,r,fy+6);NS.pools.push({x:l,y:fy+2,w,h:4,flow:R()<.5?-1:1});walls.push(['drains',l,r]);feats.push({t:'channel',x:c,y:cy,l,r});return true},
         basin:(a,b)=>{const w=Math.min(b-a-20,ri(118,150)),c=(a+b)/2+rr(-10,10),l=c-w/2|0,r=l+w;if(w<104||!deepOK(l,r,RI*2))return false;
           box(l,fy-2,r,fy+RI);box(l+TR,fy-2,r-TR,fy+RI*2);const pw=ri(12,18),px=(c-pw/2+rr(-14,14))|0;keep(px,fy+5,px+pw,fy+RI*2+1);// a stepping stone just clear of the water
           NS.pools.push({x:l+TR,y:fy+6,w:w-TR*2,h:RI*2-6});rec.y1=Math.max(rec.y1,fy+RI*2);walls.push(['basin',l,r]);feats.push({t:'basin',x:c,y:cy,l,r});return true},
@@ -1196,7 +1199,7 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
           walls.push(['basin',c-hw-12,c+hw+12]);feats.push({t:'chasm',x:c,y:cy,l:c-hw-12,r:c+hw+12});return true},
         // a drain shaft: a straight drop to the sump, under a ring of broken grate
         drain:(a,b)=>{const c=(a+b)/2+rr(-16,16)|0,hw=ri(13,17);if(b-a<70||sump-fy>300||R()<.45)return false;for(let y=fy;y<sump;y+=6)if(!sol(c,y)||!sol(c-hw-6,y)||!sol(c+hw+6,y))return false;
-          box(c-hw,fy-2,c+hw,sump+16);rec.pit=true;rec.keep.push([c-hw-20,fy,c+hw+20,sump]);walls.push(['basin',c-hw-14,c+hw+14]);feats.push({t:'drain',x:c,y:cy,l:c-hw-14,r:c+hw+14});return true}};
+          box(c-hw,fy-2,c+hw,sump+16);rec.pit=true;rec.keep.push([c-hw-20,fy,c+hw+20,sump]);if(R()<.4)(rec.grates=rec.grates||[]).push({l:c-hw-4,r:c+hw+4,y:fy});walls.push(['basin',c-hw-14,c+hw+14]);feats.push({t:'drain',x:c,y:cy,l:c-hw-14,r:c+hw+14});return true}};
       // (13 Nov) ladder shafts: iron rungs up one wall, a rising trooper passes up through them
       const ladder=(sx,side,yTop,yBot)=>{for(let y=yBot-30;y>yTop+2;y-=22)(rec.rungs=rec.rungs||[]).push([side<0?sx-14:sx+3,y])};
       // (13 Nov) a lower gallery: a second tunnel under part of the first, down a ladder shaft (two, half the time)
@@ -1206,7 +1209,9 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
           box(l2,cy2,r2,fy2);const sa=R()<.5?l2+22:r2-22,two=R()<.5,sb=sa<(l2+r2)/2?r2-22:l2+22;
           for(const sx of two?[sa,sb]:[sa]){box(sx-14,fy-2,sx+14,cy2+2);ladder(sx,sx<(l2+r2)/2?-1:1,fy,fy2)}
           sewFx.push({k:'strip',x:(l2+r2)/2|0,y:cy2+12,ax:(l2+r2)/2|0,ay:cy2-3,c:R()<.6?'cyan':'amber',alive:true,ph:rr(0,50),faulty:R()<.3,sw:1});
-          rec.y1=Math.max(rec.y1,fy2+2);rec.gal={l:l2,r:r2,cy:cy2,fy:fy2};rec.keep.push([l2-24,cy2-10,r2+24,fy2+20]);break}}
+          rec.y1=Math.max(rec.y1,fy2+2);rec.gal={l:l2,r:r2,cy:cy2,fy:fy2};rec.keep.push([l2-24,cy2-10,r2+24,fy2+20]);
+          if(R()<.6&&r2-l2>=150){const gw=ri(40,60),gx=rr(l2+46,r2-46-gw)|0;box(gx,fy-2,gx+gw,cy2+2);(rec.grates=rec.grates||[]).push({l:gx-3,r:gx+gw+3,y:fy})}/* a grate over the gallery: shoot down through it */
+          break}}
       {const A=xa+26,B=xb-26;let order=['room','chamber','channel','basin','cistern','bridge','drain','chasm'];for(let i=order.length-1;i>0;i--){const j=R()*(i+1)|0;[order[i],order[j]]=[order[j],order[i]]}
         if(R()<.55){const wk=R()<.5?'bridge':'cistern';order.splice(order.indexOf(wk),1);order.unshift(wk)}// (pass 2) deep water first, half the time
         const fill=(a,b)=>{if(b-a<96)return;for(let i=0;i<order.length;i++)if(make[order[i]](a,b)){order.splice(i,1);return}};
@@ -1217,6 +1222,10 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
           if(make.chasm(ca,ca+cw)){const h=feats[0];fill(A,h.l-18);fill(h.r+18,B)}}
         if(!feats.length){const n=len<270?1:len<430?2:3,w=(B-A)/n;for(let i=0;i<n;i++)fill(A+i*w+6,A+(i+1)*w-6)}}}
       feats.sort((p,q)=>p.x-q.x);rec.parts=feats.map(f=>f.t);
+      // (13 Nov, Jarred) a cracked roof: a slab of rotten street over the tunnel. Blasts wear it down; at nothing it drops out whole
+      if(R()<.5){for(let k=0;k<10;k++){const w=ri(46,66),x0=rr(xa+40,xb-40-w)|0;let top=1e9;for(let x=x0;x<=x0+w;x+=3)top=Math.min(top,upTop(x,cy));if(cy-top>150||cy-top<30||kitHit(MASONRY,x0-4,top-20,x0+w+4,cy))continue;
+        const cr=[];for(let j=0;j<4;j++){let x=x0+rr(4,w-4),y=upTop(x,cy)+1+rr(0,4);/* from the ground at its own column */const pts=[[x,y]];while(y<cy-2){x+=rr(-5,5);y+=rr(5,12);pts.push([clamp(x,x0+2,x0+w-2),Math.min(y,cy-1)])}cr.push(pts)}
+        NS.cracks.push({x0,x1:x0+w,y0:top-2,y1:cy,hp:60,cr,gone:false});break}}
       // (13 Nov, Jarred) loot below: a third of sewers start with a heavy crate down there, in the gallery if there is one
       if(R()<.35){let lx=null,ly=fy;if(rec.gal){lx=(rec.gal.l+rec.gal.r)/2+rr(-20,20);ly=rec.gal.fy}else{const rm=feats.find(f=>f.t==='room');if(rm)lx=rm.x;else for(let k=0;k<8&&lx===null;k++){const x=rr(xa+50,xb-50);if(!feats.some(f=>x>f.l-16&&x<f.r+16))lx=x}}
         if(lx!==null)rec.loot={x:lx|0,y:ly-14}}
@@ -1298,6 +1307,9 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
         q.fillStyle='rgb(20,22,30)';for(let x=6;x<w;x+=10)q.fillRect(x,1,1,3);dq.fillStyle='rgb(58,64,80)';dq.fillRect(0,2,w,1);for(let x=2;x<w;x+=18)dq.fillRect(x,2,2,14);
         if(k.gap!==null){const gx=k.gap-k.l-14;q.clearRect(gx,0,28,4);dq.clearRect(gx-2,0,32,16);q.fillStyle='rgb(88,96,118)';q.fillRect(gx-3,3,3,3);q.fillRect(gx+28,2,2,4)}// broken through, the ends bent down
         piece('SEWER_CATWALK',c,k.l,k.y,true);piece('SEWER_RAIL',dc,k.l,k.y-16,false)}
+      // grates: an iron grille in the floor, solid to walk on, marked so shells, grenades and flames fall through
+      for(const k of rec.grates||[]){const w=k.r-k.l,c=mk(w,3),q=c.getContext('2d');q.fillStyle='rgb(44,48,62)';q.fillRect(0,0,w,3);q.fillStyle='rgb(96,104,128)';q.fillRect(0,0,w,1);
+        q.fillStyle='rgb(10,12,18)';for(let x=3;x<w-2;x+=4)q.fillRect(x,1,2,2);piece('SEWER_GRATE',c,k.l,k.y,true);for(let yy=k.y;yy<k.y+3;yy++)for(let xx=k.l;xx<k.r;xx++)if(xx>=0&&xx<W)gratM[yy*W+xx]=1}
       // rungs: an iron bar on a bracket, 11 wide and 2 thick, marked so a rising trooper passes up through
       {const rc=mk(11,3),rq=rc.getContext('2d');rq.fillStyle='rgb(60,66,84)';rq.fillRect(0,0,11,2);rq.fillStyle='rgb(104,112,136)';rq.fillRect(0,0,11,1);rq.fillStyle='rgb(30,33,44)';rq.fillRect(0,2,11,1);
         const hq=hollow.getContext('2d');hq.fillStyle='rgba(40,44,58,.9)';
@@ -2839,6 +2851,13 @@ function vaultsAfterCut(x0,y0,x1,y1){for(const p of NS.pools||[]){if(!p.vault||p
   for(let x=p.x+1;x<p.x+p.w&&!br;x+=2)if(!isSolid(x,p.y+p.h+2))br=true;
   for(let y=p.y+6;y<p.y+p.h&&!br;y+=2)if(!isSolid(p.x-2,y)||!isSolid(p.x+p.w+1,y))br=true;
   if(br){p.dry=1;p.drain=0;sfx('gloomp');for(let i=0;i<10;i++)parts.push({k:'splash',x:p.x+Math.random()*p.w,y:p.y,vx:rnd(-40,40),vy:rnd(-90,-30),life:.6,max:.7})}}}
+function crackHit(x,y,r,dmg){for(const k of NS.cracks||[]){if(k.gone)continue;const dx=Math.max(k.x0-x,0,x-k.x1),dy=Math.max(k.y0-y,0,y-k.y1),d=Math.hypot(dx,dy);if(d>r*1.5)continue;
+  k.hp-=dmg*(d<r?1:.5);if(k.hp<=0){k.gone=true;crackFall(k)}}}
+function crackFall(k){for(let y=k.y0-6;y<=k.y1+2;y++)for(let x=k.x0;x<=k.x1;x++)if(x>=0&&x<W&&y>=0&&y<H)solid[y*W+x]=0;/* the slab goes whole */
+  for(const g of[tctx,mctx,gfx,decoC.getContext('2d')]){g.globalCompositeOperation='destination-out';g.fillStyle='#000';g.fillRect(k.x0,k.y0-6,k.x1-k.x0+1,k.y1-k.y0+9);g.globalCompositeOperation='source-over'}
+  rimDirty=true;toplMark(k.x0-12,k.x1+12);litDirty(k.x0-30,k.y0-30,k.x1+30,k.y1+30);checkFixtures();vaultsAfterCut(k.x0,k.y0,k.x1,k.y1);
+  shake=Math.min(16,shake+8);sfx('thud');for(let i=0;i<22;i++)debris(rnd(k.x0,k.x1),rnd(k.y0,k.y1),.35);puff((k.x0+k.x1)/2,k.y1);
+  for(const t of troopers)if(t.alive&&t.x>k.x0-4&&t.x<k.x1+4&&t.y>=k.y0-8&&t.y<=k.y1+2){t.air=true;t.vy=Math.max(t.vy,20)}}
 function gasCheck(x,y,r){for(const z of NS.gas||[])if(!z.lit&&x+r>z.x0&&x-r<z.x1&&y+r>z.y0&&y-r<z.y1)gasIgnite(z,clamp(x,z.x0,z.x1))}
 function gasIgnite(z,x){z.lit=true;const ym=(z.y0+z.y1)/2;for(let p=z.x0+8;p<=z.x1-8;p+=18)S.gasq.push({x:p,y:ym+rnd(-5,5),t:.05+Math.abs(p-x)/240})}/* a flame front runs both ways at 240 px/s */
 function enterWater(t){if(t.x<-4||t.x>W+4){abyss(t);return}
@@ -3043,7 +3062,7 @@ function explode(x,y,r,dmg,o={}){
   if(bigHits>=2&&bigTotal>=65)slowmo(1.2);
   parts.push({k:'ring',x,y,vx:0,vy:0,life:.45,max:.45,r:SW*1.25,col:[170,190,230]});
   for(const b of barrels)if(b.alive&&b.fuse<0&&Math.hypot(b.x-x,b.y-7-y)<r*1.3)ignite(b);
-  gasCheck(x,y,r*1.2);
+  gasCheck(x,y,r*1.2);crackHit(x,y,r,dmg);
   for(const m of mines)if(!m.dead&&(m.trig<0||m.trig>.2)&&Math.hypot(m.x-x,m.y-y)<r*1.3)m.trig=.2;
   for(let i=crates.length-1;i>=0;i--){const c=crates[i];if(Math.hypot(c.x-x,c.y-6-y)<r*1.1){crates.splice(i,1);for(let k=0;k<10;k++)debris(c.x,c.y-6);sparks(c.x,c.y-6,8)}}
   for(const f of fires)if(Math.hypot(f.x-x,f.y-y)<r*1.2){f.vy=-rnd(60,160);f.air=true}
@@ -3181,6 +3200,7 @@ function updTrooper(t,dt){
   if(t.crouch>0){t.crouch-=dt;t.sq=.35;if(t.crouch<=0)launchJump(t)}
   if(!t.air&&t.y>sump-2){enterWater(t);return}
   if(vaultDrown(t))return;
+  if(!t.air)for(const p of NS.pools||[])if(p.flow&&t.x>p.x&&t.x<p.x+p.w&&Math.abs(t.y-(p.y+p.h))<=2){const nx=t.x+p.flow*26*dt;if(!isSolid(nx+p.flow*3,t.y-8)&&!isSolid(nx+p.flow*3,t.y-16))t.x=nx;break}/* (13 Nov) a channel's current carries you along */
   if(!t.air){
     const ground=isSolid(t.x,t.y+1)||isSolid(t.x-3,t.y+1)||isSolid(t.x+3,t.y+1);
     if(!ground){t.air=true;t.vy=0;if(!t.skid)t.vx=0;t.skid=false}
@@ -3250,7 +3270,7 @@ function updProjs(dt){
   for(let i=projs.length-1;i>=0;i--){const p=projs[i];p.age+=dt;
     if(p.imp!==undefined){p.imp-=dt;if(p.imp<=0){projs.splice(i,1);detonate(p)}continue}
     if(p.w.kind==='grenade'){p.fuse-=dt;if(p.fuse<=0){if(p.w.id==='sun'){p.imp=AM_COLLAPSE;p.vx=p.vy=0;amCollapse(p)}else{projs.splice(i,1);detonate(p)}continue}}
-    if(p.rest){if(isSolid(p.x,p.y+2))continue;p.rest=false}
+    if(p.rest){if(solidP(p.x,p.y+2))continue;p.rest=false}
     // (13 Nov) Bunker Buster: nose-down, boring at 300 px/s. Blows after 150 px of stone, or on the floor of the first cavity it breaks into
     if(p.bore){const b=p.bore,y0=p.y,st=300*dt,m=Math.max(1,Math.ceil(st/2));let done=false;
       for(let k=0;k<m;k++){const ny=p.y+st/m;if(ny>=sump){p.y=sump;fizzle(p);done=true;break}
@@ -3263,9 +3283,9 @@ function updProjs(dt){
     const n=Math.max(1,Math.ceil(Math.hypot(p.vx,p.vy)*dt/2));let dead=false;
     for(let k=0;k<n;k++){const nx=p.x+p.vx*dt/n,ny=p.y+p.vy*dt/n;
       if(ny>=sump&&nx>=0&&nx<=W){p.x=nx;p.y=sump;fizzle(p);dead=true;break}
-      if(p.w.kind==='shell'){if(p.w.bore&&isSolid(nx,ny)&&!hitTrooper(nx,ny,p)&&!barrelAt(nx,ny)){p.x=nx;p.y=ny;p.vx=p.vy=0;p.bore={d:0,air:false};sfx('clink');shake=Math.min(10,shake+3);break}
-        if(isSolid(nx,ny)||hitTrooper(nx,ny,p)||barrelAt(nx,ny)){p.x=nx;p.y=ny;detonate(p);dead=true;break}}
-      else if(isSolid(nx,ny)){const[mx,my]=normalAt(nx,ny),d=p.vx*mx+p.vy*my;if(d<0){p.vx-=2*d*mx;p.vy-=2*d*my}
+      if(p.w.kind==='shell'){if(p.w.bore&&solidP(nx,ny)&&!hitTrooper(nx,ny,p)&&!barrelAt(nx,ny)){p.x=nx;p.y=ny;p.vx=p.vy=0;p.bore={d:0,air:false};sfx('clink');shake=Math.min(10,shake+3);break}
+        if(solidP(nx,ny)||hitTrooper(nx,ny,p)||barrelAt(nx,ny)){p.x=nx;p.y=ny;detonate(p);dead=true;break}}
+      else if(solidP(nx,ny)){const[mx,my]=normalAt(nx,ny),d=p.vx*mx+p.vy*my;if(d<0){p.vx-=2*d*mx;p.vy-=2*d*my}
         p.vx*=.5;p.vy*=.5;if(Math.abs(d)>60)sfx('clink');if(Math.hypot(p.vx,p.vy)<35){p.vx=p.vy=0;p.rest=true}break}
       p.x=nx;p.y=ny}
     if(dead){projs.splice(i,1);continue}
@@ -3863,7 +3883,7 @@ function updWard(dt){
   const hosed=new Map();
   for(let i=flames.length-1;i>=0;i--){const f=flames[i];f.age+=dt;f.life-=dt;f.vy+=260*dt;f.vx*=Math.pow(.5,dt);
     const nx=f.x+f.vx*dt,ny=f.y+f.vy*dt;let gone=f.life<=0;
-    if(!gone&&isSolid(nx,ny)){if(Math.random()<MELT.flameP)carve(nx,ny+1,MELT.flameR);addFire(f.x,f.y+2);if(Math.random()<.45)addFire(f.x+Math.sign(f.vx||1)*rnd(10,30),f.y-8);gone=true}
+    if(!gone&&solidP(nx,ny)){if(Math.random()<MELT.flameP)carve(nx,ny+1,MELT.flameR);addFire(f.x,f.y+2);if(Math.random()<.45)addFire(f.x+Math.sign(f.vx||1)*rnd(10,30),f.y-8);gone=true}
     if(!gone){const w=7+f.age*FLAMER.grow;for(const v of troopers)if(v.alive&&v!==f.owner&&Math.abs(v.x-nx)<w&&ny>v.y-BH-w*.4&&ny<v.y+2){burnTrooper(v,FLAMER.dmg);if(f.vx)hosed.set(v,Math.sign(f.vx))}}
     if(!gone){const bb=barrelAt(nx,ny);if(bb){ignite(bb);gone=true}}
     if(!gone&&ny>sump){steam(nx,sump,1);gone=true}
@@ -4093,7 +4113,13 @@ function gatherLights(){
 }
 // sewer outflow: a sheet of water falling to the first stone or the sump, scrolling streaks and a foam line where it lands
 function fallEnd(f){let y=f.y0+2;while(y<sump&&!isSolid(f.x,y))y+=2;return y}
-function drawFalls(){if(!(NS.falls&&NS.falls.length)&&!(NS.pools&&NS.pools.length)&&!(NS.gas&&NS.gas.length))return;ctx.save();
+function drawFalls(){if(!(NS.falls&&NS.falls.length)&&!(NS.pools&&NS.pools.length)&&!(NS.gas&&NS.gas.length)&&!(NS.cracks&&NS.cracks.length))return;ctx.save();
+  // cracked roofs: dark cracks through the slab, dust sifting down from the tunnel ceiling under it
+  for(const k of NS.cracks||[]){if(k.gone)continue;const hurt=1-Math.max(0,k.hp)/60;ctx.strokeStyle=`rgba(8,6,10,${.7+hurt*.3})`;ctx.lineWidth=1+hurt*1.5;
+    for(const pts of k.cr){ctx.beginPath();pts.forEach(([x,y],i)=>i?ctx.lineTo(x,y):ctx.moveTo(x,y));ctx.stroke()}
+    ctx.fillStyle='rgba(170,160,150,.5)';for(let i=0;i<3+hurt*6;i++){const x=k.x0+((i*29+time*13)%(k.x1-k.x0)),y=k.y1+((time*40+i*17)%38);ctx.fillRect(x,y,1,1)}}
+  // a channel's current: short bright streaks drifting with it
+  for(const p of NS.pools||[]){if(!p.flow||p.y>=sump)continue;ctx.fillStyle='rgba(170,220,235,.32)';for(let k=0;k<p.w/14;k++){const x=p.x+(((time*26*p.flow+k*23)%p.w)+p.w)%p.w;if(isSolid(x,p.y+p.h+1)&&!isSolid(x,p.y+1))ctx.fillRect(x,p.y+1+(k%3),5,1)}}
   // sewer gas: a low sickly haze pooled on the floor, a few slow wisps
   for(const z of NS.gas||[]){if(z.lit)continue;const w=z.x1-z.x0,h=z.y1-z.y0,gl=ctx.createLinearGradient(0,z.y1-h*.7,0,z.y1);gl.addColorStop(0,'rgba(110,170,60,0)');gl.addColorStop(1,'rgba(110,170,60,.13)');
     ctx.fillStyle=gl;for(let x=z.x0;x<z.x1;x+=4){ctx.globalAlpha=Math.max(0,Math.min(1,(x-z.x0)/30,(z.x1-x)/30));ctx.fillRect(x,z.y1-h*.7,4,h*.7)}ctx.globalAlpha=1;/* fades out at both ends */
@@ -4654,7 +4680,7 @@ function netCatchUp(){if(S.mode!=='online'||NET.role!=='watch')return;const behi
   if(behind>300&&!NET.skip)for(let i=0;i<Math.min(6,behind-240);i++)tick()}
 function netGameOver(){if(NET.role!=='act')clearNet()}
 function netLeave(){document.title=TITLE0;chatStop();if(NET.unC)NET.unC();if(NET.unM)NET.unM();NET.unC=NET.unM=null;NET.role=null;NET.started=false;S.mode='hot';$('#netBar').hidden=true}
-const GV=56;// bump on every release that changes the sim
+const GV=57;// bump on every release that changes the sim
 function startOnline(code,me,d){BE.update(code,{['vers.'+me]:GV,['arts.'+me]:window.GRIMSPIRE_ART_SIM||''}).catch(()=>{});NET.code=code;NET.me=me;NET.round=d.round||0;NET.snapK=-1;NET.snap=null;NET.matchAtt=d.att||'';NET.started=true;NET.leaving=false;saveNet();
   $('#net').hidden=true;if(!CHAT.un)chatStart();const cfg=Object.assign(mkCfg('online',d.seats,d.mode==='teams'),{mode:'online'});newGame('online',d.seed,cfg);S.genOK=true;
   const base=NET.round*1e5,has=d.snapK!=null&&d.snapK>=base&&d.snap;
