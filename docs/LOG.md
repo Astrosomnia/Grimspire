@@ -6,8 +6,8 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
-## 2026-11-12 · Claude · Sewers pass 3: islands, more water, more holes, brighter (test link; branch `sewers-pass3`, GV 50)
-- Jarred's notes on v2, on the test link (`Grimspire: lit look test build`) and branch `sewers-pass3`. Not on `main` yet.
+## 2026-11-12 · Claude · Sewers pass 3 live: islands, more water, more holes, brighter (GV 51)
+- Jarred's notes on v2. Live on `main` (Jarred: "much better").
 - **Islands:** a culvert can sit just above the water (floor down to 14 px over the sump, was 36). Near the water it needs only 36 px of roof (46 over 80% of it) and can be shorter (160 px tunnel, 180 px of mass). Islands go from 6 to 10 of 23 maps; all maps 36 of 120 (30%).
 - **New water pieces:**
   - a **cistern** (a deep pool, four steps down on each side; wade in, climb out)
