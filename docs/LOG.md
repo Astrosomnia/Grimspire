@@ -6,6 +6,13 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-13 · Claude · Bunker Buster: arms after 0.5 s, bores at 150 px/s, its own launcher and icon (GV 58)
+- Jarred: arm it so it can't go off by accident; drill at 150 px/s; a mortar-type tube and a different icon. Pushed live.
+- **Arming:** for the first 0.5 s of drilling it can't detonate (no trooper hit, no cavity floor, no depth cap); it just keeps boring. Breaking into a cavity is remembered, so once armed it blows on the next stone. Bore 150 px/s (was 300).
+- **Launcher sprite:** hand-drawn on the kit's grid (21×10 art pixels at 8 px, same palette as the Forge guns): a banded tube, a breech cap, a flared muzzle collar with the drill shell's lit tip in the bore, an amber and a red light (emissive layer) and a handle. Grip (11,14), muzzle (40,8). Embedded as `BUSTER_ART`/`BUSTER_E` and registered by `busterArt()` once the kit art is ready, with the same dark washes the atlas gets; `prop()` takes a piece's own image. Not in `LAB_PAYLOAD`: give it a Forge slot (W22) to replace it.
+- **Icon:** `assets/ui/icons/buster.png`, 160 px in the flat grey of the others: a finned shell with a grooved drill cone and chips flying off the bit.
+- **Tests:** `dsim`, `dsim2` and `dsimart` identical; art tests (`alignment`, `render`, `categories`) pass. Bore test: 103 px through a sewer roof, blows on the trooper below.
+
 ## 2026-11-13 · Claude · Sewers 4 live: ladders, galleries, gas, Bunker Buster, grates, cracked roofs, current (GV 57)
 - Jarred's overnight list, items 4–8. Live on `main` (Jarred: "happy to push all of that"). Bunker Buster added to the Balance Sheet.
 - **Turn in the air:** left/right while airborne under your control flips which way you face; momentum untouched.
