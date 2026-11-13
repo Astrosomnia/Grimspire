@@ -2427,7 +2427,7 @@ function carve(cx,cy,r,scorch=true,jagged=false){
   for(const g of[tctx,mctx,gfx,decoC.getContext('2d')]){g.globalCompositeOperation='destination-out';if(jag)g.drawImage(jagC,jag[0],jag[1]);else{g.fillStyle='#000';g.beginPath();g.arc(cx,cy,r,0,Math.PI*2);g.fill()}g.globalCompositeOperation='source-over'}
   rimDirty=true;toplMark(cx-r*1.45-10,cx+r*1.45+10);freshCut(cx,cy,r,false,!!jag);checkFixtures();scarTags(cx,cy,r);litDirty(cx-r*1.45-24,cy-r*1.45-24,cx+r*1.45+24,cy+r*1.45+24);
   if(window.GRIMSPIRE_SET_PIECES)setPiecesHit(cx,cy,r);
-  wDirty(cx-r,cy-r,cx+r,cy+r);
+  {const R=jag?jag[2]:r;wDirty(cx-R,cy-R,cx+R,cy+R)}/* a jagged hole reaches past r */
 }
 function carveLine(x0,y0,x1,y1,r,col){
   const n=Math.ceil(Math.hypot(x1-x0,y1-y0)/2);
@@ -4166,7 +4166,7 @@ function wBuild(b){if(!b.px.length||b.dry){b.img=null;b.surf=[];return}let x0=W,
   const w=x1-x0+1,h=y1-y0+1,c=b.img&&b.img.width===w&&b.img.height===h?b.img:mk(w,h),g=c.getContext('2d'),im=g.createImageData(w,h),d=im.data,top=new Int32Array(w).fill(1e9);
   for(const i of b.px){const x=i%W,y=(i-x)/W;if(y<top[x-x0])top[x-x0]=y}
   const band=(dd,x,y)=>{const k=(x+y)&1;if(dd===0)return[118,214,232,235];if(dd===1)return[64,160,190,220];if(dd<5||(dd<6&&k))return[34,108,138,205];if(dd<12||(dd<13&&k))return[20,72,98,220];if(dd<22||(dd<23&&k))return[12,46,66,232];return[6,26,40,242]};
-  for(const i of b.px){const x=i%W,y=(i-x)/W,o=((y-y0)*w+(x-x0))*4,col=band(y-top[x-x0],x,y);d[o]=col[0];d[o+1]=col[1];d[o+2]=col[2];d[o+3]=col[3]}
+  for(const i of b.px){const x=i%W,y=(i-x)/W,o=((y-y0)*w+(x-x0))*4,col=band(y-y0,x,y);/* depth from the real surface, so stone overhangs get no surface band */d[o]=col[0];d[o+1]=col[1];d[o+2]=col[2];d[o+3]=col[3]}
   g.putImageData(im,0,0);b.img=c;b.ix=x0;b.iy=y0;b.surf=[];for(let x=0;x<w;x++)if(top[x]<1e9&&!isSolid(x+x0,top[x]-1))b.surf.push([x+x0,top[x]])}
 function drawFalls(){if(!(NS.falls&&NS.falls.length)&&!(NS.water&&NS.water.length)&&!(NS.gas&&NS.gas.length)&&!(NS.cracks&&NS.cracks.length))return;ctx.save();
   // cracked roofs: dark cracks through the slab, dust sifting down from the tunnel ceiling under it
