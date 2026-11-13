@@ -6,6 +6,11 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-13 · Claude · Cracked roofs removed (branch `water`, GV 62)
+- Jarred: "I hate the cracks. Kill em." Cracked roof slabs are gone: generation, `crackHit` / `crackFall`, and the crack and dust drawing. Sewer maps change (one fewer roll), hence the GV bump.
+- Also on the branch: water depth bands are measured from the real waterline (no pale band along stone overhangs), and jagged blast holes mark water for settling at their full reach.
+- `dsim`, `dsim2`, `dsimart` identical; sewer maps generate identically twice.
+
 ## 2026-11-13 · Claude · Volume water, depth rules, reservoir (branch `water`, GV 61; test link only)
 - Jarred: water as a volume that fills what it can reach, wider and shallower; chest-deep 5 HP/s, head under a 1 s breath; the volume version, not full pixel water; a reservoir module; new animation, not the white lines.
 - **Water bodies** (`NS.water`, `waterM` holds a body id per wet pixel):
