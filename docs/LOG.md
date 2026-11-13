@@ -6,6 +6,15 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-13 · Claude · Pipes on slopes (branch `water`, GV 66)
+- Jarred: outlets on sloped faces always became cut openings (portals); they could stay a pipe, its crown running out past the slope until the floor meets open air.
+- `spipe`: half of portal ends whose thin roof is a slope (open sky above the run, not a cave) become a long pipe instead.
+  - The tunnel runs to where the floor exits, and the thin roof stays.
+  - The pipe shell (solid walls, flanges every 30 px, bands every 24 px) starts where the rock over it is 12 px thick and stands proud of the slope to a lip 6 px past the exit.
+  - Drip and outflow come off the lip.
+- Rare, because portal ends are rare: 5 slope pipes in 300 seeds (24 portals). A sixth candidate (seed 57) was rejected because its thin roof was a cave, not a slope.
+- `dsim`, `dsim2`, `dsimart` identical; sewer maps identical twice.
+
 ## 2026-11-13 · Claude · A shaft needn't end the pipe (branch `water`, GV 65)
 - Jarred: a manhole doesn't have to be the end; the outlet beyond it can stay.
 - New end candidate `mshaft`: a valid pipe or portal outlet, with a ladder shaft 60–260 px in from it. It builds as the outlet plus the shaft standing in the run. It never pairs with another `mshaft`. These sites count as fully reachable (no half chance) and are weighted 3× within the manhole class, so a shaft keeps its outlet whenever the rock allows.
