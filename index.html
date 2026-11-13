@@ -482,6 +482,7 @@ const ARS=[
   {id:'mine',name:'Fusion Mine',cat:'Heavy',kind:'mine',ammo:1,r:88,dmg:72,desc:'Drop it and run. Arms in 3s, then blows when anyone comes close.'},
   {id:'lance',name:'Orbital Lance',cat:'Heavy',kind:'target',ammo:0,r:52,dmg:55,desc:'Pick a spot. The sky answers.'},
   {id:'nuke',name:'Doomsday Shell',cat:'Heavy',kind:'shell',ammo:0,charge:true,speed:760,wind:true,r:125,dmg:80,nuke:true,desc:'Ends arguments. Raises the sump and poisons the crater.'},
+  {id:'buster',name:'Bunker Buster',cat:'Heavy',kind:'shell',ammo:1,charge:true,speed:820,wind:true,r:46,dmg:62,bore:true,desc:'Bores straight down through stone before it blows. Nowhere underground is safe.'},
   {id:'minigun',name:'Minigun',cat:'Heavy',kind:'mini',ammo:0,dmg:1,desc:'Seventy-five rounds that spray and riddle. Climbs a little, so keep it down.'},
   {id:'sentry',name:'Sentry Turret',cat:'Heavy',kind:'sentry',ammo:0,off:true,dmg:4,desc:'Overwatch. Each turn: one burst at the nearest enemy in sight, and one at anyone who walks into it.'},
   {id:'drone',name:'Tracked Drone',cat:'Heavy',kind:'drone',ammo:0,r:62,dmg:65,desc:'Rolls on its own for 8s. Steer it, jump to hop. Fire to detonate.'},
@@ -2759,7 +2760,7 @@ const ICONS={
 // UI-only raster inventory icons; independent of Forge weapon/simulation assets.
 const UI_ICON_BASE=/\/debug\//.test(location.pathname)?'../':'';
 const UI_ICONS_DATA={"mortar":{"scale":0.991,"x":49.528,"y":52.8,"path":"assets/ui/icons/mortar.png"},"frag":{"scale":1.20458,"x":50.817,"y":52.412,"path":"assets/ui/icons/frag.png"},"rail":{"scale":1.03016,"x":48.556,"y":50.236,"path":"assets/ui/icons/rail.png"},"scatter":{"scale":0.99201,"x":49.363,"y":57.073,"path":"assets/ui/icons/scatter.png"},"bolter":{"scale":0.987,"x":49.674,"y":55.181,"path":"assets/ui/icons/bolter.png"},"las":{"scale":0.94871,"x":48.548,"y":53.948,"path":"assets/ui/icons/las.png"},"flamer":{"scale":0.8679,"x":49.476,"y":54.656,"path":"assets/ui/icons/flamer.png"},"chain":{"scale":0.95055,"x":49.811,"y":55.201,"path":"assets/ui/icons/chain.png"},"fist":{"scale":1.17563,"x":50.718,"y":51.251,"path":"assets/ui/icons/fist.png"},"sun":{"scale":1.0796,"x":50.292,"y":49.566,"path":"assets/ui/icons/sun.png"},"mine":{"scale":1.06782,"x":49.953,"y":52.903,"path":"assets/ui/icons/mine.png"},"lance":{"scale":0.9991,"x":49.955,"y":49.537,"path":"assets/ui/icons/lance.png"},"nuke":{"scale":1.03505,"x":49.011,"y":53.203,"path":"assets/ui/icons/nuke.png"},"minigun":{"scale":0.91584,"x":49.88,"y":55.41,"path":"assets/ui/icons/minigun.png"},"sentry":{"scale":1.10898,"x":50.119,"y":50.646,"path":"assets/ui/icons/sentry.png"},"drone":{"scale":1.19283,"x":50.713,"y":55.141,"path":"assets/ui/icons/drone.png"},"pod":{"scale":0.88119,"x":49.961,"y":49.861,"path":"assets/ui/icons/pod.png"},"rope":{"scale":0.98008,"x":47.045,"y":52.563,"path":"assets/ui/icons/rope.png"},"jet":{"scale":1.26372,"x":49.926,"y":55.227,"path":"assets/ui/icons/jet.png"},"cutter":{"scale":1.05515,"x":47.571,"y":52.176,"path":"assets/ui/icons/cutter.png"},"fab":{"scale":0.9552,"x":49.949,"y":55.243,"path":"assets/ui/icons/fab.png"},"warp":{"scale":1.14266,"x":51.302,"y":54.41,"path":"assets/ui/icons/warp.png"}};
-const icon=id=>{const a=UI_ICONS_DATA[id];return a?`<span class="ico ui-png" aria-hidden="true" style="--ui-scale:${a.scale};--ui-x:${a.x};--ui-y:${a.y}"><img src="${UI_ICON_BASE+a.path}" alt="" draggable="false"></span>`:`<svg class="ico" viewBox="0 0 24 24" aria-hidden="true">${ICONS[id]||''}</svg>`};
+const icon=id=>{const a=UI_ICONS_DATA[id==='buster'?'nuke':id];return a?`<span class="ico ui-png" aria-hidden="true" style="--ui-scale:${a.scale};--ui-x:${a.x};--ui-y:${a.y}"><img src="${UI_ICON_BASE+a.path}" alt="" draggable="false"></span>`:`<svg class="ico" viewBox="0 0 24 24" aria-hidden="true">${ICONS[id]||''}</svg>`};
 function uiSelectedWeapon(w,ammo){return `<span class="ui-weapon-tile"><svg viewBox="0 0 80 66" aria-hidden="true"><path d="M10 2H69L78 11V55L69 64H10L2 56V11Z"/></svg>${icon(w.id)}</span><span class="ui-weapon-caption"><span class="ui-weapon-name">${w.short||w.name}</span><span class="ui-weapon-ammo"><b>AMMO</b><em>${ammo}</em></span></span>`}
 
 function buildArsenal(){
@@ -3249,11 +3250,20 @@ function updProjs(dt){
     if(p.imp!==undefined){p.imp-=dt;if(p.imp<=0){projs.splice(i,1);detonate(p)}continue}
     if(p.w.kind==='grenade'){p.fuse-=dt;if(p.fuse<=0){if(p.w.id==='sun'){p.imp=AM_COLLAPSE;p.vx=p.vy=0;amCollapse(p)}else{projs.splice(i,1);detonate(p)}continue}}
     if(p.rest){if(isSolid(p.x,p.y+2))continue;p.rest=false}
+    // (13 Nov) Bunker Buster: nose-down, boring at 300 px/s. Blows after 150 px of stone, or on the floor of the first cavity it breaks into
+    if(p.bore){const b=p.bore,y0=p.y,st=300*dt,m=Math.max(1,Math.ceil(st/2));let done=false;
+      for(let k=0;k<m;k++){const ny=p.y+st/m;if(ny>=sump){p.y=sump;fizzle(p);done=true;break}
+        if(hitTrooper(p.x,ny,p)){p.y=ny;detonate(p);done=true;break}
+        if(isSolid(p.x,ny)){if(b.air){p.y=ny;detonate(p);done=true;break}b.d+=st/m}else if(b.d>6)b.air=true;
+        p.y=ny;if(b.d>=150){detonate(p);done=true;break}}
+      if(done){projs.splice(i,1);continue}
+      carveLine(p.x,y0-6,p.x,p.y-6,6,'rgba(20,10,6,.9)');if(Math.random()<.6)sparks(p.x,p.y-4,1);continue}
     p.vy+=G*dt;if(p.w.wind)p.vx+=windAcc()*dt;
     const n=Math.max(1,Math.ceil(Math.hypot(p.vx,p.vy)*dt/2));let dead=false;
     for(let k=0;k<n;k++){const nx=p.x+p.vx*dt/n,ny=p.y+p.vy*dt/n;
       if(ny>=sump&&nx>=0&&nx<=W){p.x=nx;p.y=sump;fizzle(p);dead=true;break}
-      if(p.w.kind==='shell'){if(isSolid(nx,ny)||hitTrooper(nx,ny,p)||barrelAt(nx,ny)){p.x=nx;p.y=ny;detonate(p);dead=true;break}}
+      if(p.w.kind==='shell'){if(p.w.bore&&isSolid(nx,ny)&&!hitTrooper(nx,ny,p)&&!barrelAt(nx,ny)){p.x=nx;p.y=ny;p.vx=p.vy=0;p.bore={d:0,air:false};sfx('clink');shake=Math.min(10,shake+3);break}
+        if(isSolid(nx,ny)||hitTrooper(nx,ny,p)||barrelAt(nx,ny)){p.x=nx;p.y=ny;detonate(p);dead=true;break}}
       else if(isSolid(nx,ny)){const[mx,my]=normalAt(nx,ny),d=p.vx*mx+p.vy*my;if(d<0){p.vx-=2*d*mx;p.vy-=2*d*my}
         p.vx*=.5;p.vy*=.5;if(Math.abs(d)>60)sfx('clink');if(Math.hypot(p.vx,p.vy)<35){p.vx=p.vy=0;p.rest=true}break}
       p.x=nx;p.y=ny}
@@ -3715,7 +3725,7 @@ const CRATE={arms:{col:'#8fb3dc',rgb:[143,179,220]},heavy:{col:'#ffb21e',rgb:[25
 function collect(c,t){
   let txt;
   if(c.type==='med'){t.hp+=35;txt='+35 health'}
-  else{const pool=c.type==='heavy'?[['sun',35],['mine',35],['lance',20],['nuke',15],['minigun',15],['drone',20],['pod',15]]:c.type==='arms'?[['scatter',1],['bolter',1],['las',1],['flamer',1]]:[['jet',35],['cutter',35],['fab',30],['warp',20]];
+  else{const pool=c.type==='heavy'?[['sun',35],['mine',35],['lance',20],['nuke',15],['buster',15],['minigun',15],['drone',20],['pod',15]]:c.type==='arms'?[['scatter',1],['bolter',1],['las',1],['flamer',1]]:[['jet',35],['cutter',35],['fab',30],['warp',20]];
     let r=Math.random()*pool.reduce((a,p)=>a+p[1],0),id=pool[0][0];for(const[k,wt]of pool){if(r<wt){id=k;break}r-=wt}const n=id==='cutter'?2:1;
     S.ammo[t.team][id]=(S.ammo[t.team][id]||0)+n;txt='+'+WP[id].name+(n>1?' ×'+n:'')}
   texts.push({x:c.x,y:c.y-30,txt,life:2.2,col:CRATE[c.type].col,small:true});sparks(c.x,c.y-8,10);sfx('pickup');updWeapUI();
@@ -4156,7 +4166,7 @@ function prop(k,ax,ay,s,glow,dark){const m=SPR.P[k];if(!m)return;const[sx,sy,w,h
   const e=SPR.P[glow===true?k+'_e':glow];if(glow&&e){const[ex,ey,ew,eh]=e.r;ctx.drawImage(SPR.props,ex,ey,ew,eh,-ax*u,-ay*u,ew,eh);ctx.globalCompositeOperation='lighter';ctx.globalAlpha=.55;ctx.drawImage(SPR.props,ex,ey,ew,eh,-ax*u,-ay*u,ew,eh)}
   ctx.restore()}
 const artW=k=>SPR.P[k].r[2]/SPR.up,artH=k=>SPR.P[k].r[3]/SPR.up;
-const HELD={minigun:'minigun',warp:'teleport',mortar:'mortar',nuke:'nuke',rail:'rail',scatter:'scatter',bolter:'bolter',las:'las',flamer:'flamer',chain:'chain',fist:'fist',lance:'lance',rope:'rope',cutter:'cutter',fab:'fab',frag:'frag',sun:'sun',mine:'mine'};
+const HELD={minigun:'minigun',warp:'teleport',mortar:'mortar',nuke:'nuke',buster:'nuke',/* Bunker Buster borrows the Doomsday launcher until it has art */rail:'rail',scatter:'scatter',bolter:'bolter',las:'las',flamer:'flamer',chain:'chain',fist:'fist',lance:'lance',rope:'rope',cutter:'cutter',fab:'fab',frag:'frag',sun:'sun',mine:'mine'};
 // weapon in the aim-rotated hand space: grip at the origin, barrel line on y=0
 function drawWeapSpr(k,rimOnly){const m=SPR.P[k];if(!m)return false;
   if(m.g)prop(k,m.g[0],m.m?m.m[1]:m.g[1],1,!rimOnly,true);else prop(k,artW(k)*.3,artH(k)/2,1,!rimOnly,true);if(rimOnly)return true;
@@ -4643,7 +4653,7 @@ function netCatchUp(){if(S.mode!=='online'||NET.role!=='watch')return;const behi
   if(behind>300&&!NET.skip)for(let i=0;i<Math.min(6,behind-240);i++)tick()}
 function netGameOver(){if(NET.role!=='act')clearNet()}
 function netLeave(){document.title=TITLE0;chatStop();if(NET.unC)NET.unC();if(NET.unM)NET.unM();NET.unC=NET.unM=null;NET.role=null;NET.started=false;S.mode='hot';$('#netBar').hidden=true}
-const GV=55;// bump on every release that changes the sim
+const GV=56;// bump on every release that changes the sim
 function startOnline(code,me,d){BE.update(code,{['vers.'+me]:GV,['arts.'+me]:window.GRIMSPIRE_ART_SIM||''}).catch(()=>{});NET.code=code;NET.me=me;NET.round=d.round||0;NET.snapK=-1;NET.snap=null;NET.matchAtt=d.att||'';NET.started=true;NET.leaving=false;saveNet();
   $('#net').hidden=true;if(!CHAT.un)chatStart();const cfg=Object.assign(mkCfg('online',d.seats,d.mode==='teams'),{mode:'online'});newGame('online',d.seed,cfg);S.genOK=true;
   const base=NET.round*1e5,has=d.snapK!=null&&d.snapK>=base&&d.snap;
