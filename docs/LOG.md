@@ -6,6 +6,17 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-13 · Claude · Procedural buildings reined in: no facades, no pile-ups (GV 52)
+- Jarred (12 Nov): black stone backdrops everywhere, notched tops, unreadable spires, "shambolic mishmashes". Approved overnight; pushed live.
+- **Cause:** the ruined facades (ruins about 4 a map, spires about 2) are near-black back slabs 140–300 px tall with a notch cut in the top. Their count hadn't changed since 28 Oct; the lit look (default since 11 Nov) draws them as solid lit brick, so they stood in front of the skyline like black towers. And `flatX`, when it found no spaced-out flat site, dropped a building at a random x, so tenements and twin towers landed on each other and on the kit.
+- **Fix:**
+  - Facades removed.
+  - `flatX` returns null when nothing is clear of other buildings; tenements, twin towers, ruins spires and pillars skip that spot.
+  - Twin towers now reserve their ground for later kit placement.
+  - Ruins get 1–2 tenements (was 2–3), spires a 50% chance (was 60%).
+- **Per map now:** ruins 0.9 tenements (was 1.9), 2.8 tower crowns (was 3.4); spires 0.1 tenements (was 0.7). Drowned untouched.
+- **Tests:** `dsim`, `dsim2` and `dsimart` identical. Four ruins maps checked by eye.
+
 ## 2026-11-12 · Claude · Sewers pass 3 live: islands, more water, more holes, brighter (GV 51)
 - Jarred's notes on v2. Live on `main` (Jarred: "much better").
 - **Islands:** a culvert can sit just above the water (floor down to 14 px over the sump, was 36). Near the water it needs only 36 px of roof (46 over 80% of it) and can be shorter (160 px tunnel, 180 px of mass). Islands go from 6 to 10 of 23 maps; all maps 36 of 120 (30%).

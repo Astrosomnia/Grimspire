@@ -669,7 +669,7 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
   const both=fn=>{fn(g);fn(sctx)};
   // on noise rock, look for a reasonably level patch to build on
   const flatX=(gap,w)=>{let best=null;for(let k=0;k<40;k++){const x=rnd(220,W-220);if(used.some(u=>Math.abs(u-x)<gap))continue;const h=hAt(x),dl=Math.abs(hAt(x-w/2)-h),dr=Math.abs(hAt(x+w/2)-h);
-    if(h<150||h>sump-70)continue;const sc=dl+dr;if(!best||sc<best.sc)best={x,sc};if(sc<12)break}const x=best?best.x:rnd(220,W-220);used.push(x);return x};
+    if(h<150||h>sump-70)continue;const sc=dl+dr;if(!best||sc<best.sc)best={x,sc};if(sc<12)break}if(!best)return null;used.push(best.x);return best.x};// (13 Nov) no clean site, no building: the random fallback piled buildings into each other
   // ---- the architecture kit (ChatGPT's K pieces, R rock) for every layout ----
   const kitReady=!!window.GRIMSPIRE_ART_READY&&typeof labArt!=='undefined',kitHas=k=>kitReady&&labArt.has(k)&&!!labArt.get(k).frames[0]?.body;
   const z=PX,hg=gutsC.getContext('2d');
@@ -769,7 +769,7 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
   const pinnacle=(gg,x,top,h=20)=>{poly(gg,[[x-4,top],[x,top-h],[x+4,top]]);gg.fillRect(x-.75,top-h-5,1.5,5)};
   // spires
   const ns=nW(L==='drowned'?0:L==='spires'?3+(Math.random()*2|0):L==='canyon'?2:L==='ruins'?1:1+(Math.random()*2|0),L==='drowned'?0:1);
-  for(let i=0;i<ns;i++){const cx=L==='ruins'?flatX(240,60):freeX(240);if(L==='canyon'&&Math.abs(cx-ccx)<cwid*1.7)continue;
+  for(let i=0;i<ns;i++){const cx=L==='ruins'?flatX(240,60):freeX(240);if(cx===null)continue;if(L==='canyon'&&Math.abs(cx-ccx)<cwid*1.7)continue;
     const w=rnd(46,72),bs=hAt(cx),hh=rnd(140,240),top=bs-hh,roof=w*rnd(1,1.5),gr=Math.random()<.75,ga=Math.random()<.55,gy=top+rnd(16,36);
     if(kitHas('K01')){const tx=cx-TW/2;kTower(tx,Math.max(hAt(tx),hAt(tx+TW),bs)+30,top);spires.push({cx,w:TW,top,base:bs,roof:TW});continue}
     both(gg=>{gg.fillRect(cx-w/2,top,w,hh+40);
@@ -797,7 +797,7 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
     else{for(let k=0;k<w;k+=12)gg.fillRect(cx-w/2+k-2,top-7,6,7);if(P.pn){pinnacle(gg,cx-w/2+2,top-7,22);pinnacle(gg,cx+w/2-2,top-7,22)}}
     if(P.ga){gargoyle(gg,cx-w/2,P.gy,-1);gargoyle(gg,cx+w/2,P.gy,1)}
     gg.globalCompositeOperation='destination-out';for(let y=top+26;y<bs-34;y+=52)archHole(gg,cx,y,w*.36,26);gg.globalCompositeOperation='source-over'};
-  const twinTowers=()=>{const gap=rnd(150,220),w=rnd(40,54),cx=flatX(gap+w+160,gap+w);const ax=cx-gap/2,bx=cx+gap/2;
+  const twinTowers=()=>{const gap=rnd(150,220),w=rnd(40,54),cx=flatX(gap+w+160,gap+w);if(cx===null)return;occ.push([cx-gap/2-TW/2-12,cx+gap/2+TW/2+12]);const ax=cx-gap/2,bx=cx+gap/2;
     const ab=hAt(ax),bb=hAt(bx),at=ab-rnd(190,270),bt=bb-rnd(170,250),cr=['spire','crenel','broken'];
     const PA=towerPlan(ax,w,at,ab),PB=towerPlan(bx,w,bt,bb),KT=kitHas('K01')&&kitHas('K05');
     if(KT){kTower(ax-TW/2,Math.max(hAt(ax-TW/2),hAt(ax+TW/2))+30,at);kTower(bx-TW/2,Math.max(hAt(bx-TW/2),hAt(bx+TW/2))+30,bt)}else both(gg=>{tower(gg,PA);tower(gg,PB)});
@@ -809,7 +809,7 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
         if(broken){gg.globalCompositeOperation='destination-out';poly(gg,[[mx-14,y-14],[mx-4,y+14],[mx+3,y+6],[mx+12,y+16],[mx+16,y-14]]);gg.globalCompositeOperation='source-over'}});
       hangs.push({cx:cx+rnd(-span*.25,span*.25),cy:y-12})}
     spires.push({cx:ax,w,top:at,base:ab,roof:w},{cx:bx,w,top:bt,base:bb,roof:w})};
-  const tenement=(fx,fw,fb)=>{const w=fw??rnd(140,185),cx=fx??flatX(w+90,w),x0=cx-w/2,x1=cx+w/2;let gt=1e9,gb=0;for(let x=x0;x<=x1;x+=4){const h=hAt(x);gt=Math.min(gt,h);gb=Math.max(gb,h)}
+  const tenement=(fx,fw,fb)=>{const w=fw??rnd(140,185),cx=fx??flatX(w+90,w);if(cx===null)return;const x0=cx-w/2,x1=cx+w/2;let gt=1e9,gb=0;for(let x=x0;x<=x1;x+=4){const h=hAt(x);gt=Math.min(gt,h);gb=Math.max(gb,h)}
     const fl=Math.random()<.35?3:2,fh=64,sl=8,wl=12,base=fb??gt+4,top=base-fl*fh-wl,gw=52,
       bite=x0+rnd(.25,.6)*w,bw=rnd(.2,.32)*w,bj=[rnd(4,14),rnd(0,6),rnd(6,16)],pn=Math.random()<.55,ga=Math.random()<.45?(Math.random()<.5?-1:1):0,side0=Math.random()<.5?1:-1;
     backWall(x0+wl,top+wl,w-wl*2,base-top-wl,'#16181f');
@@ -836,8 +836,10 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
       if(ga&&((ga<0&&bite>x0+10)||(ga>0&&bite+bw<x1-10)))gargoyle(gg,ga<0?x0:x1,top+6,ga)});
     for(let k=0;k<fl;k++)if(Math.random()<.75)hangs.push({cx:x0+w*rnd(.4,.6),cy:k===fl-1?top-14:base-(k+1)*fh-4});
     (genTerrain.blds=genTerrain.blds||[]).push({x0,x1,base,fh,fl,side0});occ.push([x0-10,x1+10])};
-  if(L==='ruins'){for(let i=0;i<nW(4,1);i++)facade();twinTowers();if(Math.random()<.45*MK)twinTowers();for(let i=0,n=nW(2+(Math.random()<.5?1:0),1);i<n;i++)tenement()}
-  else if(L==='spires'){for(let i=0;i<nW(2,1);i++)facade();if(Math.random()<.6)tenement();if(Math.random()<.5*MK)twinTowers()}
+  // (13 Nov, Jarred) no more facades: near-black back slabs that the lit look draws as solid towers in front of the skyline.
+  // Fewer tenements; a building only goes where it fits clean (flatX)
+  if(L==='ruins'){twinTowers();if(Math.random()<.45*MK)twinTowers();for(let i=0,n=nW(1+(Math.random()<.5?1:0),1);i<n;i++)tenement()}
+  else if(L==='spires'){if(Math.random()<.5)tenement();if(Math.random()<.5*MK)twinTowers()}
   else if(L==='drowned'){sump=Math.round(H*.6);
     // Spike (phase3): a hand-placed drowned cathedral district. Towers, a nave, arched bridges and a cathedral front
     // rise out of high water; low piers at the waterline take the fallen heads. Placeholder shapes for ChatGPT's
@@ -994,7 +996,7 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
     for(let k=n;k>=0;k--){const f=Math.sin(Math.PI*k/n);pts.push([cx-w/2+w*k/n+rnd(-6,6),cy+8+f*w*rnd(.22,.4)+(k%2?rnd(0,20):0)])}
     poly(g,pts);hangs.push({cx:cx+rnd(-w*.25,w*.25),cy})}
   // pillars
-  for(let i=0,n=nW(L==='drowned'?0:(L==='ruins'?2:3)+(Math.random()*3|0));i<n;i++){const cx=L==='ruins'?flatX(90,20):freeX(90),w=rnd(14,22),bs=hAt(cx),hh=rnd(50,140);
+  for(let i=0,n=nW(L==='drowned'?0:(L==='ruins'?2:3)+(Math.random()*3|0));i<n;i++){const cx=L==='ruins'?flatX(90,20):freeX(90);if(cx===null)continue;const w=rnd(14,22),bs=hAt(cx),hh=rnd(50,140);
     both(gg=>poly(gg,[[cx-w/2,bs+20],[cx-w/2,bs-hh+rnd(-8,8)],[cx-w/6,bs-hh-rnd(0,14)],[cx+w/5,bs-hh+rnd(-4,10)],[cx+w/2,bs-hh+rnd(-10,6)],[cx+w/2,bs+20]]))}
   // bridges
   for(let i=0,n=nW(L==='drowned'?0:1+(Math.random()*2|0));i<n;i++){const x=rnd(240,W-520),len=rnd(150,280),y=Math.min(hAt(x),hAt(x+len),hAt(x+len/2))-rnd(90,150);
@@ -4574,7 +4576,7 @@ function netCatchUp(){if(S.mode!=='online'||NET.role!=='watch')return;const behi
   if(behind>300&&!NET.skip)for(let i=0;i<Math.min(6,behind-240);i++)tick()}
 function netGameOver(){if(NET.role!=='act')clearNet()}
 function netLeave(){document.title=TITLE0;chatStop();if(NET.unC)NET.unC();if(NET.unM)NET.unM();NET.unC=NET.unM=null;NET.role=null;NET.started=false;S.mode='hot';$('#netBar').hidden=true}
-const GV=51;// bump on every release that changes the sim
+const GV=52;// bump on every release that changes the sim
 function startOnline(code,me,d){BE.update(code,{['vers.'+me]:GV,['arts.'+me]:window.GRIMSPIRE_ART_SIM||''}).catch(()=>{});NET.code=code;NET.me=me;NET.round=d.round||0;NET.snapK=-1;NET.snap=null;NET.matchAtt=d.att||'';NET.started=true;NET.leaving=false;saveNet();
   $('#net').hidden=true;if(!CHAT.un)chatStart();const cfg=Object.assign(mkCfg('online',d.seats,d.mode==='teams'),{mode:'online'});newGame('online',d.seed,cfg);S.genOK=true;
   const base=NET.round*1e5,has=d.snapK!=null&&d.snapK>=base&&d.snap;
