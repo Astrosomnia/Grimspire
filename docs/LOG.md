@@ -6,6 +6,12 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-13 · Claude · Five troopers a squad, 45 s turns (branch `water`, GV 64)
+- Jarred: a fifth trooper on each team. Two-squad games are now 5 a side (was 4); 3–4 squad games get 4 (was 3). `mkCfg` squad. HUD health bars scale with it already.
+- Spawns: the spacing shares the map width when it's crowded (`min(110, (W-180)/troopers × .85)`), and if no spot clears it after 400 tries, the roomiest good spot found is used instead of the last random one. Over 40 seeds the closest pair is at least 50 px apart with 5 a side (worst was 3 px before the fix).
+- Balance Sheet pending edit applied: turn timer 40 → 45 s (`TURN_SECS`). New sheet rule `squadSize`.
+- `dsim`, `dsim2`, `dsimart` identical; sewer maps identical twice.
+
 ## 2026-11-13 · Claude · Manhole ends, deep galleries with sump holes, draining wipes down (branch `water`, GV 63)
 - Jarred: a vertical shaft can count as one of a sewer's two ways in ("manhole straight down into a long pipe"); lower second levels when there's room, down rung shafts, with a hole to the sump so they have a purpose; draining water should wipe down, not fade.
 - **Shaft ends:** a new end type, `shaft`.

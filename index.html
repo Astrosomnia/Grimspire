@@ -2715,10 +2715,11 @@ function sfx(k,r){
 }
 
 /* ================= flow ================= */
+const TURN_SECS=45;/* (13 Nov, Balance Sheet: was 40) */
 // a match: which factions fight, who controls each, who's allied, squad size
 function mkCfg(mode,facs,teams,cpuFrom){const n=facs.length,ally=[0,1,2,3],ctl=[null,null,null,null];
   facs.forEach((f,i)=>{ally[f]=teams&&n===4?i%2:f;ctl[f]=mode==='cpu'&&i>=(cpuFrom||1)?'c':'h'});
-  return{order:facs.slice(),ally,ctl,squad:n<=2?4:3,teams:!!(teams&&n===4)}}
+  return{order:facs.slice(),ally,ctl,squad:n<=2?5:4,/* (13 Nov, Jarred) a fifth trooper each; 3-4 squads get four */teams:!!(teams&&n===4)}}
 function newGame(mode,seed,cfg){if(seed===undefined)seed=(RR()*2147483647)|0;S.seed=seed;SR.seed(seed);
   setMapW(mode==='online'?rollMapW(seed):(DBG.mapW??urlMapW??rollMapW(seed)));
   S.cfg=cfg||S.cfg&&S.cfg.mode===mode&&S.cfg||Object.assign(mkCfg(mode,[0,1]),{mode});S.cfg.mode=mode;
@@ -2729,13 +2730,14 @@ function newGameInner(mode){
   S.mode=mode;sump=H-40;genTerrain();
   troopers=[];projs=[];corpses=[];parts=[];texts=[];tracers=[];graves=[];builds=[];beams=[];flashes=[];
   const xs=[],roll=TEAM.map(T=>{const a=T.names.slice();for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a});
-  const gap=S.order.length*S.squad>10?95:110;
+  const nT=S.order.length*S.squad,gap=Math.min(nT>10?95:110,(W-180)/nT*.85);/* (13 Nov) a narrow map with ten troopers can't keep them 110 apart: share the width */
   for(const team of S.order)for(let i=0;i<S.squad;i++){
     // any standable surface in the column, not only the top one, so squads start spread through the levels
     // (under arches, on lower decks, within 95 px of the top so nobody starts sealed in a cavern) rather than all along the roofline.
     // A sewer is the exception: it has two ways out, so its floors count however deep they are (Jarred 12 Nov)
-    let x,y,tries=0;do{x=rnd(90,W-90);tries++;const top=surf(x),st=stands(x,70,sump-70).filter(v=>(v-top<95||NS.sewers.some(w=>x>w.ix0+12&&x<w.ix1-12&&v>w.y0&&v<=w.y1+1))&&!wAt(x,v-13));/* never chest-deep in water */y=st.length?st[Math.random()*st.length|0]:top}
+    let x,y,tries=0,bx=null,by=0,bd=-1;do{if(x!==undefined&&!(y>sump-70||y<70||isSolid(x,y-BH))){const d=xs.reduce((m,o)=>Math.min(m,Math.abs(o-x)),1e9);if(d>bd){bd=d;bx=x;by=y}}/* (13 Nov) keep the roomiest good spot, so a crowded map spreads them as far as it can */x=rnd(90,W-90);tries++;const top=surf(x),st=stands(x,70,sump-70).filter(v=>(v-top<95||NS.sewers.some(w=>x>w.ix0+12&&x<w.ix1-12&&v>w.y0&&v<=w.y1+1))&&!wAt(x,v-13));/* never chest-deep in water */y=st.length?st[Math.random()*st.length|0]:top}
       while(tries<400&&(xs.some(o=>Math.abs(o-x)<gap)||y>sump-70||y<70||isSolid(x,y-BH)));
+    if(tries>=400&&bx!==null&&(xs.some(o=>Math.abs(o-x)<gap)||y>sump-70||y<70||isSolid(x,y-BH))){x=bx;y=by}
     xs.push(x);troopers.push({team,name:roll[team][i],x,y,vx:0,vy:0,hp:100,alive:true,face:x<W/2?1:-1,aim:-.45,air:false,anim:0,moving:false,lastPow:{}});
   }
   for(let tm=0;tm<4;tm++){S.ammo[tm]={};for(const w of ARS)if(w.ammo>=0)S.ammo[tm][w.id]=w.ammo}
@@ -2760,7 +2762,7 @@ function nextTurn(){
 }
 function beginTurn(){
   if(winCheck())return;
-  S.team=nextSide(S.team);S.active=pickNext(S.team);S.timer=40;S.phase='aim';S.charge=0;S.charging=false;S.locked=false;S.fired=false;
+  S.team=nextSide(S.team);S.active=pickNext(S.team);S.timer=TURN_SECS;S.phase='aim';S.charge=0;S.charging=false;S.locked=false;S.fired=false;
   S.jet=null;S.usedJet=false;S.cut=null;S.burst=null;S.strike=null;S.target=null;S.rot=0;S.camFree=false;S.camSnap=true;
   S.moved=false;S.swapped=false;S.second=false;S.ticked=false;S.mobile=false;S.rb=0;S.saw=S.mini=S.drone=S.pod=null;S.stag=!!(S.active&&S.active.stag);if(S.active)S.active.stag=false;S.armed=isCPU()||(S.mode!=='online'&&S.mode!=='hot');
   if(!hasAmmo(curW())||WP[S.weapon[S.team]].kind==='jet'||WP[S.weapon[S.team]].kind==='rope')S.weapon[S.team]=S.lastAtk[S.team];
@@ -3730,7 +3732,7 @@ function dbgBuild(){if(!DBG.on||$('#dbg'))return;const d=document.createElement(
   on('#dbMapW',()=>{const o=[null,1,.85,.75,.67,.6,.5],i=DBG.mapW==null?0:o.findIndex(v=>v!=null&&Math.abs(v-DBG.mapW)<.02);DBG.mapW=o[(i+1)%o.length];newGame(S.mode==='online'?'hot':S.mode,undefined,S.cfg);$('#dbMapW').textContent='Width: '+(DBG.mapW==null?'random':Math.round(W/W0*100)+'%')});
   on('#dbUp',()=>{sump=Math.max(80,sump-20)});on('#dbDn',()=>{sump=Math.min(H-10,sump+20)});
   on('#dbWind',()=>{S.wind=Math.round((S.wind<=-.95?1:S.wind-.5)*10)/10})}
-setInterval(()=>{if(DBG.on){if(DBG.inf&&S.phase==='aim')S.timer=40;if($('#dbP')&&!$('#dbP').hidden)dbgDraw()}},500);
+setInterval(()=>{if(DBG.on){if(DBG.inf&&S.phase==='aim')S.timer=TURN_SECS;if($('#dbP')&&!$('#dbP').hidden)dbgDraw()}},500);
 // Phones start closer in and can pinch in much further, to see the art.
 function setZoom(z,sx,sy){z=clamp(z,.55,coarse?4:2.4);if(sx!==undefined){const w=toWorld(sx,sy);S.zoom=z;scale=baseScale*z;cam.x=w.x-sx/scale;cam.y=w.y-sy/scale;S.camFree=true}else{S.zoom=z;scale=baseScale*z}}
 function targetAt(sx,sy){const w=curW();if(S.phase!=='aim'||isCPU()||!localTurn()||(w.kind!=='target'&&w.kind!=='build'&&w.kind!=='warp'))return false;const p=toWorld(sx,sy);act('t',[Math.round(clamp(p.x,10,W-10)),Math.round(p.y)]);return true}
@@ -4739,7 +4741,7 @@ function netCatchUp(){if(S.mode!=='online'||NET.role!=='watch')return;const behi
   if(behind>300&&!NET.skip)for(let i=0;i<Math.min(6,behind-240);i++)tick()}
 function netGameOver(){if(NET.role!=='act')clearNet()}
 function netLeave(){document.title=TITLE0;chatStop();if(NET.unC)NET.unC();if(NET.unM)NET.unM();NET.unC=NET.unM=null;NET.role=null;NET.started=false;S.mode='hot';$('#netBar').hidden=true}
-const GV=63;// bump on every release that changes the sim
+const GV=64;// bump on every release that changes the sim
 function startOnline(code,me,d){BE.update(code,{['vers.'+me]:GV,['arts.'+me]:window.GRIMSPIRE_ART_SIM||''}).catch(()=>{});NET.code=code;NET.me=me;NET.round=d.round||0;NET.snapK=-1;NET.snap=null;NET.matchAtt=d.att||'';NET.started=true;NET.leaving=false;saveNet();
   $('#net').hidden=true;if(!CHAT.un)chatStart();const cfg=Object.assign(mkCfg('online',d.seats,d.mode==='teams'),{mode:'online'});newGame('online',d.seed,cfg);S.genOK=true;
   const base=NET.round*1e5,has=d.snapK!=null&&d.snapK>=base&&d.snap;
