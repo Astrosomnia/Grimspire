@@ -1088,7 +1088,7 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
   // chain of pieces: runs, a square room, a vaulted grate chamber over a pit or pool, a flooded channel, a stepped
   // basin, a sunken hall with stairs. A site that has to be forced is skipped. Own seeded numbers, so maps without
   // one are exactly as before.
-  NS.falls=[];NS.sewers=[];NS.pools=[];NS.sewerFit=0;rungM.fill(0);const sewFx=[];
+  NS.falls=[];NS.sewers=[];NS.pools=[];NS.gas=[];NS.sewerFit=0;rungM.fill(0);S.gasq=[];const sewFx=[];
   if(SEWERS_ON&&L!=='drowned'){const R=hrand((S.seed^0x5e3e7)|0),rr=(a,b)=>a+R()*(b-a),ri=(a,b)=>a+(R()*(b-a+1)|0);
     const Q=6,TH=40,ROOF=SEW_ROOF,TR=8,RI=7;// sample step, tunnel height, rock over the tunnel, stair tread and riser
     const sol=(x,y)=>x>=0&&x<W&&y>=0&&y<H&&solid[(y|0)*W+(x|0)]===1?1:0;
@@ -1216,6 +1216,12 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
           if(make.chasm(ca,ca+cw)){const h=feats[0];fill(A,h.l-18);fill(h.r+18,B)}}
         if(!feats.length){const n=len<270?1:len<430?2:3,w=(B-A)/n;for(let i=0;i<n;i++)fill(A+i*w+6,A+(i+1)*w-6)}}}
       feats.sort((p,q)=>p.x-q.x);rec.parts=feats.map(f=>f.t);
+      // (13 Nov, Jarred) loot below: a third of sewers start with a heavy crate down there, in the gallery if there is one
+      if(R()<.35){let lx=null,ly=fy;if(rec.gal){lx=(rec.gal.l+rec.gal.r)/2+rr(-20,20);ly=rec.gal.fy}else{const rm=feats.find(f=>f.t==='room');if(rm)lx=rm.x;else for(let k=0;k<8&&lx===null;k++){const x=rr(xa+50,xb-50);if(!feats.some(f=>x>f.l-16&&x<f.r+16))lx=x}}
+        if(lx!==null)rec.loot={x:lx|0,y:ly-14}}
+      // (13 Nov) sewer gas: a low green haze over a stretch of tunnel. Any blast, flame or fire in it sets off a run of small blasts
+      if(R()<.45){const segs=[[xa+30,xb-30,cy,fy]];if(rec.gal)segs.push([rec.gal.l+6,rec.gal.r-6,rec.gal.cy,rec.gal.fy]);const n=R()<.35?2:1;
+        for(let k=0;k<n;k++){const sg=segs[k&&segs.length>1?1:0],w=ri(80,150);if(sg[1]-sg[0]<w+10)continue;const x0=rr(sg[0],sg[1]-w)|0;if(NS.gas.some(z=>z.x0<x0+w&&z.x1>x0&&z.y0<sg[3]&&z.y1>sg[2]))continue;NS.gas.push({x0,x1:x0+w,y0:sg[2]+4,y1:sg[3],lit:false})}}
       // an occasional manhole: a shaft up from a plain stretch, only through a column clear of masonry
       // (13 Nov) ladder shafts: manholes are 28 wide with iron rungs up one wall, and come up more often (one or two)
       let xm=null;{const spans=[];let p=xa+30;for(const f of rec.gal?[...feats,{l:rec.gal.l-20,r:rec.gal.r+20}].sort((u,v)=>u.l-v.l):feats){if(f.l-p>64)spans.push([p+28,f.l-28]);p=f.r}if(xb-30-p>64)spans.push([p+28,xb-58]);
@@ -2656,7 +2662,7 @@ function newGameInner(mode){
     xs.push(x);troopers.push({team,name:roll[team][i],x,y,vx:0,vy:0,hp:100,alive:true,face:x<W/2?1:-1,aim:-.45,air:false,anim:0,moving:false,lastPow:{}});
   }
   for(let tm=0;tm<4;tm++){S.ammo[tm]={};for(const w of ARS)if(w.ammo>=0)S.ammo[tm][w.id]=w.ammo}
-  crates=[];ships=[];fires=[];flames=[];mines=[];girders=[];zones=[];sentries=[];S.saw=S.mini=S.drone=S.pod=null;S.stag=false;S.turnN=0;S.rnd=0;S.events=[];S.ev=null;S.slow=null;S.cine=0;S.punch=null;S.hitstop=0;S.flame=null;
+  crates=[];for(const w of NS.sewers||[])if(w.loot)crates.push({x:w.loot.x,y:w.loot.y,vy:0,type:'heavy',landed:false,para:false});ships=[];fires=[];flames=[];mines=[];girders=[];zones=[];sentries=[];S.saw=S.mini=S.drone=S.pod=null;S.stag=false;S.turnN=0;S.rnd=0;S.events=[];S.ev=null;S.slow=null;S.cine=0;S.punch=null;S.hitstop=0;S.flame=null;
   const n0=S.order.length,first=Math.floor(Math.random()*n0);S.team=S.order[(first+n0-1)%n0];S.ptr=[-1,-1,-1,-1];S.weapon=['mortar','mortar','mortar','mortar'];S.lastAtk=['mortar','mortar','mortar','mortar'];S.deathCd=0;S.paused=false;
   $('#ov').hidden=true;$('#pause').hidden=true;document.body.classList.remove('intitle');
   dressSeed=null;dressWard();if(window.GRIMSPIRE_SET_PIECES)setPiecesPlace();
@@ -2832,6 +2838,8 @@ function vaultsAfterCut(x0,y0,x1,y1){for(const p of NS.pools||[]){if(!p.vault||p
   for(let x=p.x+1;x<p.x+p.w&&!br;x+=2)if(!isSolid(x,p.y+p.h+2))br=true;
   for(let y=p.y+6;y<p.y+p.h&&!br;y+=2)if(!isSolid(p.x-2,y)||!isSolid(p.x+p.w+1,y))br=true;
   if(br){p.dry=1;p.drain=0;sfx('gloomp');for(let i=0;i<10;i++)parts.push({k:'splash',x:p.x+Math.random()*p.w,y:p.y,vx:rnd(-40,40),vy:rnd(-90,-30),life:.6,max:.7})}}}
+function gasCheck(x,y,r){for(const z of NS.gas||[])if(!z.lit&&x+r>z.x0&&x-r<z.x1&&y+r>z.y0&&y-r<z.y1)gasIgnite(z,clamp(x,z.x0,z.x1))}
+function gasIgnite(z,x){z.lit=true;const ym=(z.y0+z.y1)/2;for(let p=z.x0+8;p<=z.x1-8;p+=18)S.gasq.push({x:p,y:ym+rnd(-5,5),t:.05+Math.abs(p-x)/240})}/* a flame front runs both ways at 240 px/s */
 function enterWater(t){if(t.x<-4||t.x>W+4){abyss(t);return}
   if(!floorBelow(t.x)){splash(t.x,sump);sinkDrown(t,'lost to the sump');return}
   t.wet=true;t.wt=0;t.air=false;t.skid=false;t.knocked=false;t.rope=null;t.crouch=0;t.vy=Math.min(Math.max(t.vy,0),180)*.5;t.vx*=.3;splash(t.x,sump);
@@ -3034,6 +3042,7 @@ function explode(x,y,r,dmg,o={}){
   if(bigHits>=2&&bigTotal>=65)slowmo(1.2);
   parts.push({k:'ring',x,y,vx:0,vy:0,life:.45,max:.45,r:SW*1.25,col:[170,190,230]});
   for(const b of barrels)if(b.alive&&b.fuse<0&&Math.hypot(b.x-x,b.y-7-y)<r*1.3)ignite(b);
+  gasCheck(x,y,r*1.2);
   for(const m of mines)if(!m.dead&&(m.trig<0||m.trig>.2)&&Math.hypot(m.x-x,m.y-y)<r*1.3)m.trig=.2;
   for(let i=crates.length-1;i>=0;i--){const c=crates[i];if(Math.hypot(c.x-x,c.y-6-y)<r*1.1){crates.splice(i,1);for(let k=0;k<10;k++)debris(c.x,c.y-6);sparks(c.x,c.y-6,8)}}
   for(const f of fires)if(Math.hypot(f.x-x,f.y-y)<r*1.2){f.vy=-rnd(60,160);f.air=true}
@@ -3304,7 +3313,7 @@ function updParts(dt){
   shake=Math.max(0,shake-dt*30);flash=Math.max(0,flash-dt*2.6);boom.t-=dt;
 }
 const settled=()=>!S.saw&&!S.mini&&!S.drone&&!S.pod&&sentries.every(q=>!q.burst&&!(q.queue&&q.queue.length))&&projs.length===0&&mines.every(m=>m.trig<0&&isSolid(m.x,m.y+1))&&!S.burst&&!S.cut&&!S.strike&&!S.flame&&flames.length===0&&builds.length===0&&ships.length===0&&crates.every(c=>c.landed)
-  &&barrels.every(b=>!b.alive||(b.fuse<0&&isSolid(b.x,b.y+1)))&&troopers.every(t=>!t.alive||(!t.air&&!t.skid&&!(t.crouch>0)));
+  &&!(S.gasq&&S.gasq.length)&&barrels.every(b=>!b.alive||(b.fuse<0&&isSolid(b.x,b.y+1)))&&troopers.every(t=>!t.alive||(!t.air&&!t.skid&&!(t.crouch>0)));
 
 /* ================= AI ================= */
 // The CPU plans each turn: it looks at spots it can walk to either side, tries every weapon it holds
@@ -3833,6 +3842,9 @@ function updWard(dt){
   for(const b of barrels){if(!b.alive)continue;
     if(!isSolid(b.x,b.y+1)){b.vy=Math.min(b.vy+G*dt,600);b.y+=b.vy*dt;if(isSolid(b.x,b.y+1)){if(b.vy>380)ignite(b);b.vy=0}if(b.y>sump){b.alive=false;splash(b.x,sump);continue}}
     if(b.fuse>=0){b.fuse-=dt;if(Math.random()<.5)sparks(b.x,b.y-14,1);if(b.fuse<0)blowBarrel(b)}}
+  // sewer gas: flames and fires light it; the run of blasts goes off in order
+  for(const z of NS.gas||[])if(!z.lit){const inZ=f=>f.x>z.x0&&f.x<z.x1&&f.y>z.y0-4&&f.y<z.y1+6;const f=flames.find(inZ)||fires.find(inZ);if(f)gasIgnite(z,f.x)}
+  if(S.gasq&&S.gasq.length)for(let i=S.gasq.length-1;i>=0;i--){const q=S.gasq[i];q.t-=dt;if(q.t<=0){S.gasq.splice(i,1);explode(q.x,q.y,15,18,{gas:true})}}
   // flamer stream
   if(S.flame){const f=S.flame;f.t-=dt;const t=f.owner;
     if(t&&t.alive){const[ox,oy,dx,dy]=origin(t);for(let i=0;i<FLAMER.per;i++){const a=Math.atan2(dy,dx)+rnd(-FLAMER.cone,FLAMER.cone),sp=rnd(FLAMER.sp0,FLAMER.sp1);
@@ -4071,7 +4083,12 @@ function gatherLights(){
 }
 // sewer outflow: a sheet of water falling to the first stone or the sump, scrolling streaks and a foam line where it lands
 function fallEnd(f){let y=f.y0+2;while(y<sump&&!isSolid(f.x,y))y+=2;return y}
-function drawFalls(){if(!(NS.falls&&NS.falls.length)&&!(NS.pools&&NS.pools.length))return;ctx.save();
+function drawFalls(){if(!(NS.falls&&NS.falls.length)&&!(NS.pools&&NS.pools.length)&&!(NS.gas&&NS.gas.length))return;ctx.save();
+  // sewer gas: a low sickly haze pooled on the floor, a few slow wisps
+  for(const z of NS.gas||[]){if(z.lit)continue;const w=z.x1-z.x0,h=z.y1-z.y0,gl=ctx.createLinearGradient(0,z.y1-h*.7,0,z.y1);gl.addColorStop(0,'rgba(110,170,60,0)');gl.addColorStop(1,'rgba(110,170,60,.13)');
+    ctx.fillStyle=gl;for(let x=z.x0;x<z.x1;x+=4){ctx.globalAlpha=Math.max(0,Math.min(1,(x-z.x0)/30,(z.x1-x)/30));ctx.fillRect(x,z.y1-h*.7,4,h*.7)}ctx.globalAlpha=1;/* fades out at both ends */
+    for(let k=0;k<5;k++){const px=z.x0+8+((k*41+time*7*(k%2?1:-1))%(w-16)+(w-16))%(w-16),py=z.y1-8-((k*11+time*4)%(h*.55)),rg=ctx.createRadialGradient(px,py,0,px,py,14);
+      rg.addColorStop(0,'rgba(140,200,80,.10)');rg.addColorStop(1,'rgba(140,200,80,0)');ctx.fillStyle=rg;ctx.fillRect(px-14,py-14,28,28)}}
   // standing water in a sewer pool or channel: dark like the sump, a thin glint along the top; gone where its floor has been blown out
   for(const p of NS.pools||[]){let top=p.y;if(p.vault&&p.dry){p.drain=Math.min(1,(p.drain||0)+1/60);if(p.drain>=1)continue;top=p.y+p.h*p.drain*p.drain}// a vault drains away
     for(let x=p.x;x<p.x+p.w;x+=8){const w=Math.min(8,p.x+p.w-x);if((!p.vault||!p.dry)&&!isSolid(x+w/2,p.y+p.h+1)||isSolid(x+w/2,p.y+1)||p.y>=sump)continue;
@@ -4627,7 +4644,7 @@ function netCatchUp(){if(S.mode!=='online'||NET.role!=='watch')return;const behi
   if(behind>300&&!NET.skip)for(let i=0;i<Math.min(6,behind-240);i++)tick()}
 function netGameOver(){if(NET.role!=='act')clearNet()}
 function netLeave(){document.title=TITLE0;chatStop();if(NET.unC)NET.unC();if(NET.unM)NET.unM();NET.unC=NET.unM=null;NET.role=null;NET.started=false;S.mode='hot';$('#netBar').hidden=true}
-const GV=54;// bump on every release that changes the sim
+const GV=55;// bump on every release that changes the sim
 function startOnline(code,me,d){BE.update(code,{['vers.'+me]:GV,['arts.'+me]:window.GRIMSPIRE_ART_SIM||''}).catch(()=>{});NET.code=code;NET.me=me;NET.round=d.round||0;NET.snapK=-1;NET.snap=null;NET.matchAtt=d.att||'';NET.started=true;NET.leaving=false;saveNet();
   $('#net').hidden=true;if(!CHAT.un)chatStart();const cfg=Object.assign(mkCfg('online',d.seats,d.mode==='teams'),{mode:'online'});newGame('online',d.seed,cfg);S.genOK=true;
   const base=NET.round*1e5,has=d.snapK!=null&&d.snapK>=base&&d.snap;
