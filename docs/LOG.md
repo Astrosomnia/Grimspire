@@ -6,6 +6,12 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-13 · Claude · A shaft needn't end the pipe (branch `water`, GV 65)
+- Jarred: a manhole doesn't have to be the end; the outlet beyond it can stay.
+- New end candidate `mshaft`: a valid pipe or portal outlet, with a ladder shaft 60–260 px in from it. It builds as the outlet plus the shaft standing in the run. It never pairs with another `mshaft`. These sites count as fully reachable (no half chance) and are weighted 3× within the manhole class, so a shaft keeps its outlet whenever the rock allows.
+- Still limited by outlets: a pipe or portal needs a clean cliff face, so most shaft sites (like the one in Jarred's shot) have no valid outlet on that side and the shaft still ends the pipe. Over 120 seeds the totals didn't move (43 sewers, 28 with a shaft).
+- `dsim`, `dsim2`, `dsimart` identical; sewer maps identical twice.
+
 ## 2026-11-13 · Claude · Five troopers a squad, 45 s turns (branch `water`, GV 64)
 - Jarred: a fifth trooper on each team. Two-squad games are now 5 a side (was 4); 3–4 squad games get 4 (was 3). `mkCfg` squad. HUD health bars scale with it already.
 - Spawns: the spacing shares the map width when it's crowded (`min(110, (W-180)/troopers × .85)`), and if no spot clears it after 400 tries, the roomiest good spot found is used instead of the last random one. Over 40 seeds the closest pair is at least 50 px apart with 5 a side (worst was 3 px before the fix).

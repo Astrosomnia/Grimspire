@@ -1153,7 +1153,7 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
     const OW=Math.ceil(W/Q),OH=Math.ceil(H/Q),out=new Uint8Array(OW*OH);{const st=[];for(let i=0;i<OW;i++)if(!sol(i*Q+3,3)){out[i]=1;st.push(i)}
       while(st.length){const c=st.pop(),cx=c%OW,cy=c/OW|0;for(const[dx,dy]of[[1,0],[-1,0],[0,1],[0,-1]]){const nx=cx+dx,ny=cy+dy;if(nx<0||ny<0||nx>=OW||ny>=OH)continue;const n=ny*OW+nx;if(!out[n]&&!sol(nx*Q+3,ny*Q+3)){out[n]=1;st.push(n)}}}}
     const outside=(x,y)=>x>=0&&x<W&&y>=0&&y<H&&out[(y/Q|0)*OW+(x/Q|0)]===1;
-    const cands={mm:[],md:[],dd:[],ms:[]};
+    const cands={mm:[],md:[],dd:[],ms:[],msFull:0};
     for(let fy=170;fy<=sump-14;fy+=10){const cy=fy-TH,N=Math.ceil(W/Q),cls=new Uint8Array(N),P60=new Int16Array(N+1),P36=new Int16Array(N+1),P46=new Int16Array(N+1),Pb=new Int32Array(N+1),Pf=new Int32Array(N+1);
       for(let i=0;i<N;i++){const x=i*Q,n=sol(x,cy+7)+sol(x,cy+20)+sol(x,fy-5);cls[i]=n>=2?2:n?1:0;const rf=n?roofAt(x,cy,ROOF):0;// no caves in the way: a tunnel that breaks into one is a trap
         P60[i+1]=P60[i]+(rf<ROOF?1:0);P46[i+1]=P46[i]+(rf<46?1:0);P36[i+1]=P36[i]+(rf<36?1:0);Pb[i+1]=Pb[i]+n+sol(x,cy+13)+sol(x,cy+27)+sol(x,fy-12);Pf[i+1]=Pf[i]+sol(x,fy+5)+sol(x,fy+14)}
@@ -1169,24 +1169,30 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
         const lefts=[],rights=[];{const m=a>66?mouth(a,-1):null;if(m)lefts.push(m);const m2=open?mouth(b,1):null;if(m2)rights.push(m2);}
         for(let xd=a+66;xd<b-66;xd+=30){lefts.push({t:'dip',x:xd,d:-1});rights.push({t:'dip',x:xd,d:1})}
         for(let xd=a+30;xd<b-30;xd+=24){lefts.push({t:'shaft',x:xd,d:-1});rights.push({t:'shaft',x:xd,d:1})}
+        // (13 Nov, Jarred) a shaft needn't end the pipe: the outlet beyond it can stay, the manhole dropping in near that end
+        {const ml=lefts.find(e=>e.t==='pipe'||e.t==='portal'),mr=rights.find(e=>e.t==='pipe'||e.t==='portal');
+          if(ml)for(let xd=ml.x+60;xd<Math.min(b-60,ml.x+260);xd+=24)lefts.push({t:'mshaft',x:xd,d:-1,m:ml,in:ml.in,core:ml.core,m36:ml.m36});
+          if(mr)for(let xd=mr.x-60;xd>Math.max(a+60,mr.x-260);xd-=24)rights.push({t:'mshaft',x:xd,d:1,m:mr,in:mr.in,core:mr.core,m36:mr.m36})}
         for(const e0 of lefts)for(const e1 of rights){if(e0.t==='shaft'&&e1.t==='shaft')continue;/* a shaft counts as one way in, never both */const xa=e0.t==='dip'?e0.x:e0.t==='shaft'?e0.x-14:e0.in,xb=e1.t==='dip'?e1.x:e1.t==='shaft'?e1.x+14:e1.in,len=xb-xa;if(len<(fy>sump-60?160:210)||len>900)continue;/* (13 Nov) up to 900: canyon plateaus are wider than the old 640 cap */
           const ca=xa+(e0.core||0),cb=xb-(e1.core||0),n=ix(xb)-ix(xa);const low=fy>sump-60;// (pass 2) just above the water (islands): a culvert, so a lighter roof will do, never under 36
           if(low?cnt(P36,ca,cb)||cnt(P46,ca,cb)>(ix(cb)-ix(ca))*.2:cnt(P46,ca,cb)||cnt(P60,ca,cb)>(ix(cb)-ix(ca))*.12)continue;// the full depth of rock nearly all the way, never much less
           if(cnt(P36,xa+(e0.m36||0),xb-(e1.m36||0)))continue;if(cnt(Pb,xa,xb)<n*6*.8)continue;if(cnt(Pf,xa,xb)<n*2*.97)continue;
           if(kitHit(LANDMARK,Math.min(xa,e0.x)-10,cy-12,Math.max(xb,e1.x)+10,fy+24))continue;
           if(e0.t==='dip'){if(e0.p===undefined)e0.p=dipPlan(e0.x,-1,fy);if(!e0.p)continue}if(e1.t==='dip'){if(e1.p===undefined)e1.p=dipPlan(e1.x,1,fy);if(!e1.p)continue}
-          for(const e of[e0,e1])if(e.t==='shaft'&&e.p===undefined)e.p=shaftPlan(e.x,cy);if((e0.t==='shaft'&&!e0.p)||(e1.t==='shaft'&&!e1.p))continue;
-          cands[e0.t==='shaft'||e1.t==='shaft'?'ms':e0.t!=='dip'&&e1.t!=='dip'?'mm':e0.t==='dip'&&e1.t==='dip'?'dd':'md'].push({fy,cy,xa,xb,e0,e1})}}}
+          const sh=e=>e.t==='shaft'||e.t==='mshaft';for(const e of[e0,e1])if(sh(e)&&e.p===undefined)e.p=shaftPlan(e.x,cy);if((sh(e0)&&!e0.p)||(sh(e1)&&!e1.p))continue;
+          if(e0.t==='mshaft'&&e1.t==='mshaft')continue;if(sh(e0)||sh(e1)){if(e0.t!=='shaft'&&e1.t!=='shaft')cands.msFull++}
+          cands[sh(e0)||sh(e1)?'ms':e0.t!=='dip'&&e1.t!=='dip'?'mm':e0.t==='dip'&&e1.t==='dip'?'dd':'md'].push({fy,cy,xa,xb,e0,e1})}}}
     // through-and-through underpasses first; a stair cut at both ends is the fallback
     const klass=(()=>{const ws=[['mm',5],['md',3],['ms',3],['dd',1.3]].filter(k=>cands[k[0]].length);let u=R()*ws.reduce((s,k)=>s+k[1],0);for(const k of ws){u-=k[1];if(u<0)return k[0]}return ws.length?ws[0][0]:null})();
     NS.sewerFit=klass?1:0;
     // (13 Nov, Jarred) weighted by depth, not uniform: low islands needed only a 36 px roof and got most of the sewers. Islands
     // keep under half their chance; every site is weighted by the rock over it (full at 90-200 px, less when shallow, tailing off
     // past 260 so the tunnel never gets cut off from the fight), with a little for length (room for modules)
-    const chance=SEWER_CHANCE*(L==='islands'?.45:1)*(cands.mm.length+cands.md.length+cands.dd.length?1:.5),/* a site only a manhole reaches: half the chance, so shafts don't flood the count */roofW=c=>{const v=[];for(let k=1;k<=6;k++){const x=c.xa+(c.xb-c.xa)*k/7;v.push(c.cy-upTop(x,c.cy))}v.sort((p,q)=>p-q);const r=v[3];
+    const chance=SEWER_CHANCE*(L==='islands'?.45:1)*(cands.mm.length+cands.md.length+cands.dd.length+cands.msFull?1:.5),/* a site only a manhole reaches: half the chance, so shafts don't flood the count */roofW=c=>{const v=[];for(let k=1;k<=6;k++){const x=c.xa+(c.xb-c.xa)*k/7;v.push(c.cy-upTop(x,c.cy))}v.sort((p,q)=>p-q);const r=v[3];
       return r<70?.3:r<90?.65:r<=200?1:r<=260?.55:.25};
-    if(klass&&R()<chance){const pool=cands[klass],ws=pool.map(c=>roofW(c)*Math.sqrt(c.xb-c.xa));let u=R()*ws.reduce((p,q)=>p+q,0),sw=pool[0];for(let i=0;i<pool.length;i++){u-=ws[i];if(u<0){sw=pool[i];break}}
-      const{fy,cy,xa,xb,e0,e1}=sw;
+    if(klass&&R()<chance){const pool=cands[klass],ws=pool.map(c=>roofW(c)*Math.sqrt(c.xb-c.xa)*(c.e0.t==='mshaft'||c.e1.t==='mshaft'?3:1));/* a manhole that keeps its outlet beats one that ends the pipe */let u=R()*ws.reduce((p,q)=>p+q,0),sw=pool[0];for(let i=0;i<pool.length;i++){u-=ws[i];if(u<0){sw=pool[i];break}}
+      const{fy,cy,xa,xb}=sw;let{e0,e1}=sw;const midSh=[];/* an mshaft end builds as its outlet, with the shaft standing in the run */
+      if(e0.t==='mshaft'){midSh.push({x:e0.x,p:e0.p,d:-1});e0=Object.assign({},e0.m)}if(e1.t==='mshaft'){midSh.push({x:e1.x,p:e1.p,d:1});e1=Object.assign({},e1.m)}
       const cm=mk(W,H),cg=cm.getContext('2d'),sk=mk(W,H),sg=sk.getContext('2d');cg.fillStyle='#fff';sg.fillStyle='#fff';
       let bx0=W,bx1=0,by0=H,by1=0;const grow=(a,b,c,d)=>{bx0=Math.min(bx0,a,c);bx1=Math.max(bx1,a,c);by0=Math.min(by0,b,d);by1=Math.max(by1,b,d)};
       const box=(a,b,c,d)=>{cg.fillRect(Math.min(a,c),Math.min(b,d),Math.abs(c-a),Math.abs(d-b));grow(a,b,c,d)};
@@ -1213,6 +1219,7 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
           for(let x=Math.min(e.in+d*2,e.x+d*2)|0;x<=Math.max(e.in+d*2,e.x+d*2);x++){const t=upTop(x,cy);if(cy-t<46)sky(x,t-3,x+1,fy)}}
         else{box(e.in,cy,e.x+d*2,fy);e.gx=null;e.out=e.x+d*22}
         rec.x0=Math.min(rec.x0,e.out);rec.x1=Math.max(rec.x1,e.out)});
+      for(const m of midSh){const top=m.p.top-3;box(m.x-14,top,m.x+14,cy+2);ladder(m.x,m.d,top,fy);rec.keep.push([m.x-34,top-60,m.x+34,cy])}
       if(closed>=0&&[e0,e1][closed].gx===null)closed=-1;
       // ---- the pieces between them
       const len=xb-xa,deepOK=(a,b,drop)=>{if(fy+drop>sump-14)return false;for(let x=a;x<=b;x+=Q)if(!sol(x,fy+drop+3)||!sol(x,fy+drop+12))return false;return true};// sound rock under a sunken floor
@@ -1292,7 +1299,7 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
         for(let k=0;k<n;k++){const sg=segs[k&&segs.length>1?1:0];let w=120;while(R()<.55&&w<sg[1]-sg[0]-50)w+=40;/* (13 Nov, Jarred) three blocks at least, then each has a 55% chance of another */if(sg[1]-sg[0]<w+10)continue;const x0=rr(sg[0],sg[1]-w)|0;if(NS.gas.some(z=>z.x0<x0+w&&z.x1>x0&&z.y0<sg[3]&&z.y1>sg[2]))continue;NS.gas.push({x0,x1:x0+w,y0:sg[2]+4,y1:sg[3],lit:false})}}
       // an occasional manhole: a shaft up from a plain stretch, only through a column clear of masonry
       // (13 Nov) ladder shafts: manholes are 28 wide with iron rungs up one wall, and come up more often (one or two)
-      let xm=null;const shX=[e0,e1].filter(e=>e.t==='shaft').map(e=>e.x);{const spans=[];let p=xa+30;for(const f of rec.gal?[...feats,{l:rec.gal.l-20,r:rec.gal.r+20}].sort((u,v)=>u.l-v.l):feats){if(f.l-p>64)spans.push([p+28,f.l-28]);p=f.r}if(xb-30-p>64)spans.push([p+28,xb-58]);
+      let xm=null;const shX=[e0,e1].filter(e=>e.t==='shaft').map(e=>e.x).concat(midSh.map(m=>m.x));{const spans=[];let p=xa+30;for(const f of rec.gal?[...feats,{l:rec.gal.l-20,r:rec.gal.r+20}].sort((u,v)=>u.l-v.l):feats){if(f.l-p>64)spans.push([p+28,f.l-28]);p=f.r}if(xb-30-p>64)spans.push([p+28,xb-58]);
         for(let tries=0,got=0;tries<spans.length&&got<(R()<.35?2:1);tries++){if(R()>.85&&!got)break;const[a,b]=spans[(tries+(R()*spans.length|0))%spans.length],x=rr(a,b)|0,t=upTop(x,cy);
           if((xm!==null&&Math.abs(x-xm)<120)||shX.some(q=>Math.abs(x-q)<120))continue;
           if(cy-t<=190&&!sol(x,t-8)&&!sol(x,t-40)&&!kitHit(MASONRY,x-18,t-60,x+18,cy)){const top=Math.min(upTop(x-13,cy),upTop(x+13,cy))-3;box(x-14,top,x+14,cy+2);/* underground: back wall behind it */
@@ -4742,7 +4749,7 @@ function netCatchUp(){if(S.mode!=='online'||NET.role!=='watch')return;const behi
   if(behind>300&&!NET.skip)for(let i=0;i<Math.min(6,behind-240);i++)tick()}
 function netGameOver(){if(NET.role!=='act')clearNet()}
 function netLeave(){document.title=TITLE0;chatStop();if(NET.unC)NET.unC();if(NET.unM)NET.unM();NET.unC=NET.unM=null;NET.role=null;NET.started=false;S.mode='hot';$('#netBar').hidden=true}
-const GV=64;// bump on every release that changes the sim
+const GV=65;// bump on every release that changes the sim
 function startOnline(code,me,d){BE.update(code,{['vers.'+me]:GV,['arts.'+me]:window.GRIMSPIRE_ART_SIM||''}).catch(()=>{});NET.code=code;NET.me=me;NET.round=d.round||0;NET.snapK=-1;NET.snap=null;NET.matchAtt=d.att||'';NET.started=true;NET.leaving=false;saveNet();
   $('#net').hidden=true;if(!CHAT.un)chatStart();const cfg=Object.assign(mkCfg('online',d.seats,d.mode==='teams'),{mode:'online'});newGame('online',d.seed,cfg);S.genOK=true;
   const base=NET.round*1e5,has=d.snapK!=null&&d.snapK>=base&&d.snap;
