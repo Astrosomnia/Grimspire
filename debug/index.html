@@ -1145,11 +1145,15 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
         const t=upTop(xm,fl);if(fl-t<=5){if(n<4||!outside(xm,t-9)||sol(xm,t-30))return null;// has to come up under open sky
           let gy=t-30;while(gy<t+40&&!sol(xb+d*22,gy))gy++;if(gy-t>26||gy-t<-26)return null;// and onto ground that carries on
           const xa=Math.min(xe,xb),xz=Math.max(xe,xb);if(kitHit(MASONRY,xa-6,t-50,xz+6,fy))return null;return{n,top:t,x1:xb}}}return null};
+    // (13 Nov, Jarred) a manhole as one of the two ways in: a ladder shaft straight up to open ground, so a long pipe can run
+    // in under a plain stretch of surface. {top} or null
+    const shaftPlan=(x,cy)=>{let t0=1e9,t1=0;for(let k=-13;k<=13;k+=6){const t=upTop(x+k,cy);t0=Math.min(t0,t);t1=Math.max(t1,t)}
+      if(t1-t0>10||cy-t1<24||cy-t0>190||sol(x,t0-8)||sol(x,t0-40)||!outside(x,t0-9)||kitHit(MASONRY,x-18,t0-60,x+18,cy))return null;return{top:t0}};
     // air that joins the open sky (a coarse flood from the top of the map), so an end comes out into the world, not into a sealed cave
     const OW=Math.ceil(W/Q),OH=Math.ceil(H/Q),out=new Uint8Array(OW*OH);{const st=[];for(let i=0;i<OW;i++)if(!sol(i*Q+3,3)){out[i]=1;st.push(i)}
       while(st.length){const c=st.pop(),cx=c%OW,cy=c/OW|0;for(const[dx,dy]of[[1,0],[-1,0],[0,1],[0,-1]]){const nx=cx+dx,ny=cy+dy;if(nx<0||ny<0||nx>=OW||ny>=OH)continue;const n=ny*OW+nx;if(!out[n]&&!sol(nx*Q+3,ny*Q+3)){out[n]=1;st.push(n)}}}}
     const outside=(x,y)=>x>=0&&x<W&&y>=0&&y<H&&out[(y/Q|0)*OW+(x/Q|0)]===1;
-    const cands={mm:[],md:[],dd:[]};
+    const cands={mm:[],md:[],dd:[],ms:[]};
     for(let fy=170;fy<=sump-14;fy+=10){const cy=fy-TH,N=Math.ceil(W/Q),cls=new Uint8Array(N),P60=new Int16Array(N+1),P36=new Int16Array(N+1),P46=new Int16Array(N+1),Pb=new Int32Array(N+1),Pf=new Int32Array(N+1);
       for(let i=0;i<N;i++){const x=i*Q,n=sol(x,cy+7)+sol(x,cy+20)+sol(x,fy-5);cls[i]=n>=2?2:n?1:0;const rf=n?roofAt(x,cy,ROOF):0;// no caves in the way: a tunnel that breaks into one is a trap
         P60[i+1]=P60[i]+(rf<ROOF?1:0);P46[i+1]=P46[i]+(rf<46?1:0);P36[i+1]=P36[i]+(rf<36?1:0);Pb[i+1]=Pb[i]+n+sol(x,cy+13)+sol(x,cy+27)+sol(x,fy-12);Pf[i+1]=Pf[i]+sol(x,fy+5)+sol(x,fy+14)}
@@ -1164,20 +1168,22 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
         if(b-a<(fy>sump-60?180:240))continue;// (pass 2) a culvert just above the water can be shorter
         const lefts=[],rights=[];{const m=a>66?mouth(a,-1):null;if(m)lefts.push(m);const m2=open?mouth(b,1):null;if(m2)rights.push(m2);}
         for(let xd=a+66;xd<b-66;xd+=30){lefts.push({t:'dip',x:xd,d:-1});rights.push({t:'dip',x:xd,d:1})}
-        for(const e0 of lefts)for(const e1 of rights){const xa=e0.t==='dip'?e0.x:e0.in,xb=e1.t==='dip'?e1.x:e1.in,len=xb-xa;if(len<(fy>sump-60?160:210)||len>900)continue;/* (13 Nov) up to 900: canyon plateaus are wider than the old 640 cap */
+        for(let xd=a+30;xd<b-30;xd+=24){lefts.push({t:'shaft',x:xd,d:-1});rights.push({t:'shaft',x:xd,d:1})}
+        for(const e0 of lefts)for(const e1 of rights){if(e0.t==='shaft'&&e1.t==='shaft')continue;/* a shaft counts as one way in, never both */const xa=e0.t==='dip'?e0.x:e0.t==='shaft'?e0.x-14:e0.in,xb=e1.t==='dip'?e1.x:e1.t==='shaft'?e1.x+14:e1.in,len=xb-xa;if(len<(fy>sump-60?160:210)||len>900)continue;/* (13 Nov) up to 900: canyon plateaus are wider than the old 640 cap */
           const ca=xa+(e0.core||0),cb=xb-(e1.core||0),n=ix(xb)-ix(xa);const low=fy>sump-60;// (pass 2) just above the water (islands): a culvert, so a lighter roof will do, never under 36
           if(low?cnt(P36,ca,cb)||cnt(P46,ca,cb)>(ix(cb)-ix(ca))*.2:cnt(P46,ca,cb)||cnt(P60,ca,cb)>(ix(cb)-ix(ca))*.12)continue;// the full depth of rock nearly all the way, never much less
           if(cnt(P36,xa+(e0.m36||0),xb-(e1.m36||0)))continue;if(cnt(Pb,xa,xb)<n*6*.8)continue;if(cnt(Pf,xa,xb)<n*2*.97)continue;
           if(kitHit(LANDMARK,Math.min(xa,e0.x)-10,cy-12,Math.max(xb,e1.x)+10,fy+24))continue;
           if(e0.t==='dip'){if(e0.p===undefined)e0.p=dipPlan(e0.x,-1,fy);if(!e0.p)continue}if(e1.t==='dip'){if(e1.p===undefined)e1.p=dipPlan(e1.x,1,fy);if(!e1.p)continue}
-          cands[e0.t!=='dip'&&e1.t!=='dip'?'mm':e0.t==='dip'&&e1.t==='dip'?'dd':'md'].push({fy,cy,xa,xb,e0,e1})}}}
+          for(const e of[e0,e1])if(e.t==='shaft'&&e.p===undefined)e.p=shaftPlan(e.x,cy);if((e0.t==='shaft'&&!e0.p)||(e1.t==='shaft'&&!e1.p))continue;
+          cands[e0.t==='shaft'||e1.t==='shaft'?'ms':e0.t!=='dip'&&e1.t!=='dip'?'mm':e0.t==='dip'&&e1.t==='dip'?'dd':'md'].push({fy,cy,xa,xb,e0,e1})}}}
     // through-and-through underpasses first; a stair cut at both ends is the fallback
-    const klass=(()=>{const ws=[['mm',5],['md',3],['dd',1.3]].filter(k=>cands[k[0]].length);let u=R()*ws.reduce((s,k)=>s+k[1],0);for(const k of ws){u-=k[1];if(u<0)return k[0]}return ws.length?ws[0][0]:null})();
+    const klass=(()=>{const ws=[['mm',5],['md',3],['ms',3],['dd',1.3]].filter(k=>cands[k[0]].length);let u=R()*ws.reduce((s,k)=>s+k[1],0);for(const k of ws){u-=k[1];if(u<0)return k[0]}return ws.length?ws[0][0]:null})();
     NS.sewerFit=klass?1:0;
     // (13 Nov, Jarred) weighted by depth, not uniform: low islands needed only a 36 px roof and got most of the sewers. Islands
     // keep under half their chance; every site is weighted by the rock over it (full at 90-200 px, less when shallow, tailing off
     // past 260 so the tunnel never gets cut off from the fight), with a little for length (room for modules)
-    const chance=SEWER_CHANCE*(L==='islands'?.45:1),roofW=c=>{const v=[];for(let k=1;k<=6;k++){const x=c.xa+(c.xb-c.xa)*k/7;v.push(c.cy-upTop(x,c.cy))}v.sort((p,q)=>p-q);const r=v[3];
+    const chance=SEWER_CHANCE*(L==='islands'?.45:1)*(cands.mm.length+cands.md.length+cands.dd.length?1:.5),/* a site only a manhole reaches: half the chance, so shafts don't flood the count */roofW=c=>{const v=[];for(let k=1;k<=6;k++){const x=c.xa+(c.xb-c.xa)*k/7;v.push(c.cy-upTop(x,c.cy))}v.sort((p,q)=>p-q);const r=v[3];
       return r<70?.3:r<90?.65:r<=200?1:r<=260?.55:.25};
     if(klass&&R()<chance){const pool=cands[klass],ws=pool.map(c=>roofW(c)*Math.sqrt(c.xb-c.xa));let u=R()*ws.reduce((p,q)=>p+q,0),sw=pool[0];for(let i=0;i<pool.length;i++){u-=ws[i];if(u<0){sw=pool[i];break}}
       const{fy,cy,xa,xb,e0,e1}=sw;
@@ -1187,6 +1193,8 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
       const sky=(a,b,c,d)=>{box(a,b,c,d);sg.fillRect(Math.min(a,c),Math.min(b,d),Math.abs(c-a),Math.abs(d-b))};// a cut open to the sky: no back wall behind it
       const keep=(a,b,c,d)=>cg.clearRect(Math.min(a,c),Math.min(b,d),Math.abs(c-a),Math.abs(d-b));// stone left standing inside a cut
       const rec={x0:xa,x1:xb,ix0:xa,ix1:xb,cy,fy,y0:cy,y1:fy,keep:[],parts:[],ends:[e0.t,e1.t],pit:false,gate:null};
+      // (13 Nov) ladder shafts: iron rungs up one wall, a rising trooper passes up through them
+      const ladder=(sx,side,yTop,yBot)=>{for(let y=yBot-30;y>yTop+2;y-=22)(rec.rungs=rec.rungs||[]).push([side<0?sx-14:sx+3,y])};
       const walls=[];// back-wall dressing, drawn once the cut is known: [kind,...]
       box(xa,cy,xb,fy);
       // ---- the two ends
@@ -1200,6 +1208,7 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
           e.gx=e.x+d*(io-1)*TR;e.gy=fy-(io-1)*RI-SH;e.gh=SH;
           rec.keep.push([Math.min(e.x,p.x1)-24,p.top-60,Math.max(e.x,p.x1)+24,fy+30]);e.out=p.x1;
           if(k===(R()<.5?0:1)||e0.t!==e1.t)sewFx.push({k:'post',x:p.x1+d*12,y:p.top-40,ax:p.x1+d*12,ay:0,c:'amber',alive:true,ph:rr(0,50),faulty:false,sw:1,dip:1})}
+        else if(e.t==='shaft'){const top=e.p.top-3;box(e.x-14,top,e.x+14,cy+2);ladder(e.x,d,top,fy);e.gx=null;e.out=e.x;rec.keep.push([e.x-34,top-60,e.x+34,cy])}
         else if(e.t==='portal'){box(e.in,cy,e.x+d*2,fy);e.gx=e.in;e.gy=cy;e.gh=TH;e.out=e.x;// the approach: what little roof there is comes off
           for(let x=Math.min(e.in+d*2,e.x+d*2)|0;x<=Math.max(e.in+d*2,e.x+d*2);x++){const t=upTop(x,cy);if(cy-t<46)sky(x,t-3,x+1,fy)}}
         else{box(e.in,cy,e.x+d*2,fy);e.gx=null;e.out=e.x+d*22}
@@ -1251,17 +1260,19 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
         // a drain shaft: a straight drop to the sump, under a ring of broken grate
         drain:(a,b)=>{const c=(a+b)/2+rr(-16,16)|0,hw=ri(13,17);if(b-a<70||sump-fy>300||R()<.45)return false;for(let y=fy;y<sump;y+=6)if(!sol(c,y)||!sol(c-hw-6,y)||!sol(c+hw+6,y))return false;
           box(c-hw,fy-2,c+hw,sump+16);rec.pit=true;rec.keep.push([c-hw-20,fy,c+hw+20,sump]);if(R()<.4)(rec.grates=rec.grates||[]).push({l:c-hw-4,r:c+hw+4,y:fy});walls.push(['basin',c-hw-14,c+hw+14]);feats.push({t:'drain',x:c,y:cy,l:c-hw-14,r:c+hw+14});return true}};
-      // (13 Nov) ladder shafts: iron rungs up one wall, a rising trooper passes up through them
-      const ladder=(sx,side,yTop,yBot)=>{for(let y=yBot-30;y>yTop+2;y-=22)(rec.rungs=rec.rungs||[]).push([side<0?sx-14:sx+3,y])};
       // (13 Nov) a lower gallery: a second tunnel under part of the first, down a ladder shaft (two, half the time)
-      if(len>=280&&R()<.55){const gl=ri(140,Math.min(260,len-110)),cy2=fy+26,fy2=cy2+TH;
-        for(let k=0;k<8;k++){const l2=rr(xa+50,xb-50-gl)|0,r2=l2+gl;if(fy2+14>sump-8)break;
+      // (13 Nov, Jarred) as deep as the rock allows (a long climb is the point), and a hole to the sump in its floor when it's close
+      if(len>=280&&R()<.7){const gl=ri(140,Math.min(260,len-110));let cy2=fy+26,fy2=cy2+TH;const drops=[ri(96,130),ri(70,95),ri(46,69)];/* never the old 26: a gallery right under the floor was pointless */
+        for(let k=0;k<9;k++){const dv=drops[k/3|0];cy2=fy+dv;fy2=cy2+TH;const l2=rr(xa+50,xb-50-gl)|0,r2=l2+gl;if(fy2+14>sump-8)continue;
           let miss=0,all=0;for(let x=l2-16;x<=r2+16;x+=4)for(let y=fy+8;y<=fy2+14;y+=6){all++;if(!sol(x,y))miss++}if(miss>all*.04)continue;
           box(l2,cy2,r2,fy2);const sa=R()<.5?l2+22:r2-22,two=R()<.5,sb=sa<(l2+r2)/2?r2-22:l2+22;
           for(const sx of two?[sa,sb]:[sa]){box(sx-14,fy-2,sx+14,cy2+2);ladder(sx,sx<(l2+r2)/2?-1:1,fy,fy2)}
           sewFx.push({k:'strip',x:(l2+r2)/2|0,y:cy2+12,ax:(l2+r2)/2|0,ay:cy2-3,c:R()<.6?'cyan':'amber',alive:true,ph:rr(0,50),faulty:R()<.3,sw:1});
           rec.y1=Math.max(rec.y1,fy2+2);rec.gal={l:l2,r:r2,cy:cy2,fy:fy2};rec.keep.push([l2-24,cy2-10,r2+24,fy2+20]);
           if(R()<.6&&r2-l2>=150){const gw=ri(40,60),gx=rr(l2+46,r2-46-gw)|0;box(gx,fy-2,gx+gw,cy2+2);(rec.grates=rec.grates||[]).push({l:gx-3,r:gx+gw+3,y:fy})}/* a grate over the gallery: shoot down through it */
+          {const sh=two?[sa,sb]:[sa],c=(l2+r2)/2+rr(-20,20)|0,hw=ri(16,30);let ok=sump-fy2<300&&R()<.75&&sh.every(q=>Math.abs(q-c)>hw+30);
+            for(let y=fy2;y<sump&&ok;y+=6)if(!sol(c,y)||!sol(c-hw-8,y)||!sol(c+hw+8,y))ok=false;
+            if(ok){box(c-hw,fy2-2,c+hw,sump+16);rec.pit=true;rec.keep.push([c-hw-20,fy2,c+hw+20,sump]);rec.gal.pit=[c-hw,c+hw]}}
           break}}
       {const A=xa+26,B=xb-26;let order=['room','chamber','channel','basin','cistern','bridge','drain','chasm','reservoir'];for(let i=order.length-1;i>0;i--){const j=R()*(i+1)|0;[order[i],order[j]]=[order[j],order[i]]}
         if(R()<.55){const u=R(),wk=u<.36?'bridge':u<.68?'cistern':'reservoir';order.splice(order.indexOf(wk),1);order.unshift(wk)}// (pass 2) deep water first, half the time
@@ -1274,16 +1285,16 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
         if(!feats.length){const n=len<270?1:len<430?2:len<640?3:4,w=(B-A)/n;for(let i=0;i<n;i++)fill(A+i*w+6,A+(i+1)*w-6)}}}
       feats.sort((p,q)=>p.x-q.x);rec.parts=feats.map(f=>f.t);
       // (13 Nov, Jarred) loot below: a third of sewers start with a heavy crate down there, in the gallery if there is one
-      if(R()<.35){let lx=null,ly=fy;if(rec.gal){lx=(rec.gal.l+rec.gal.r)/2+rr(-20,20);ly=rec.gal.fy}else{const rm=feats.find(f=>f.t==='room');if(rm)lx=rm.x;else for(let k=0;k<8&&lx===null;k++){const x=rr(xa+50,xb-50);if(!feats.some(f=>x>f.l-16&&x<f.r+16))lx=x}}
+      if(R()<.35){let lx=null,ly=fy;if(rec.gal){lx=(rec.gal.l+rec.gal.r)/2+rr(-20,20);ly=rec.gal.fy;const P=rec.gal.pit;if(P&&lx>P[0]-14&&lx<P[1]+14)lx=P[0]-rec.gal.l>rec.gal.r-P[1]?P[0]-24:P[1]+24}/* not in the hole */else{const rm=feats.find(f=>f.t==='room');if(rm)lx=rm.x;else for(let k=0;k<8&&lx===null;k++){const x=rr(xa+50,xb-50);if(!feats.some(f=>x>f.l-16&&x<f.r+16))lx=x}}
         if(lx!==null)rec.loot={x:lx|0,y:ly-14}}
       // (13 Nov) sewer gas: a low green haze over a stretch of tunnel. Any blast, flame or fire in it sets off a run of small blasts
       if(R()<.45){const segs=[[xa+30,xb-30,cy,fy]];if(rec.gal)segs.push([rec.gal.l+6,rec.gal.r-6,rec.gal.cy,rec.gal.fy]);const n=R()<.35?2:1;
         for(let k=0;k<n;k++){const sg=segs[k&&segs.length>1?1:0];let w=120;while(R()<.55&&w<sg[1]-sg[0]-50)w+=40;/* (13 Nov, Jarred) three blocks at least, then each has a 55% chance of another */if(sg[1]-sg[0]<w+10)continue;const x0=rr(sg[0],sg[1]-w)|0;if(NS.gas.some(z=>z.x0<x0+w&&z.x1>x0&&z.y0<sg[3]&&z.y1>sg[2]))continue;NS.gas.push({x0,x1:x0+w,y0:sg[2]+4,y1:sg[3],lit:false})}}
       // an occasional manhole: a shaft up from a plain stretch, only through a column clear of masonry
       // (13 Nov) ladder shafts: manholes are 28 wide with iron rungs up one wall, and come up more often (one or two)
-      let xm=null;{const spans=[];let p=xa+30;for(const f of rec.gal?[...feats,{l:rec.gal.l-20,r:rec.gal.r+20}].sort((u,v)=>u.l-v.l):feats){if(f.l-p>64)spans.push([p+28,f.l-28]);p=f.r}if(xb-30-p>64)spans.push([p+28,xb-58]);
+      let xm=null;const shX=[e0,e1].filter(e=>e.t==='shaft').map(e=>e.x);{const spans=[];let p=xa+30;for(const f of rec.gal?[...feats,{l:rec.gal.l-20,r:rec.gal.r+20}].sort((u,v)=>u.l-v.l):feats){if(f.l-p>64)spans.push([p+28,f.l-28]);p=f.r}if(xb-30-p>64)spans.push([p+28,xb-58]);
         for(let tries=0,got=0;tries<spans.length&&got<(R()<.35?2:1);tries++){if(R()>.85&&!got)break;const[a,b]=spans[(tries+(R()*spans.length|0))%spans.length],x=rr(a,b)|0,t=upTop(x,cy);
-          if(xm!==null&&Math.abs(x-xm)<120)continue;
+          if((xm!==null&&Math.abs(x-xm)<120)||shX.some(q=>Math.abs(x-q)<120))continue;
           if(cy-t<=190&&!sol(x,t-8)&&!sol(x,t-40)&&!kitHit(MASONRY,x-18,t-60,x+18,cy)){const top=Math.min(upTop(x-13,cy),upTop(x+13,cy))-3;box(x-14,top,x+14,cy+2);/* underground: back wall behind it */
             ladder(x,R()<.5?-1:1,top,fy);rec.keep.push([x-34,t-60,x+34,cy]);if(xm===null)xm=x;got++}}}
       rec.manhole=xm;
@@ -4167,9 +4178,14 @@ function drawFalls(){if(!(NS.falls&&NS.falls.length)&&!(NS.water&&NS.water.lengt
   // (13 Nov) water bodies, drawn as pixel water from their real shape: a bright broken surface, depth bands darkening
   // downward with a dithered edge, pixel shimmer moving along, streaks with a current, and a stream where water spills out
   for(const b of NS.water||[]){if(b.dead)continue;const T=Math.floor(time*8),T2=Math.floor(time*5);
-    if(b.imgVer!==b.ver){if(b.img&&b.fadeOk)b.prev={img:b.img,x:b.ix,y:b.iy,t:time};b.imgVer=b.ver;b.fadeOk=true;wBuild(b)}
-    if(b.prev){const a=1-(time-b.prev.t)/.7;if(a<=0)b.prev=null;else{ctx.globalAlpha=a;ctx.drawImage(b.prev.img,b.prev.x,b.prev.y);ctx.globalAlpha=1}}
-    if(b.img){ctx.globalAlpha=b.prev?Math.min(1,(time-b.prev.t)/.7):1;ctx.drawImage(b.img,b.ix,b.iy);ctx.globalAlpha=1;
+    if(b.imgVer!==b.ver){if(b.img&&b.fadeOk){const l0=b.iy,l1=b.dry||!b.px.length?b.iy+b.img.height:b.level;/* (13 Nov, Jarred) a drop wipes down, not a fade */
+        b.prev={img:b.img,x:b.ix,y:b.iy,t:time,l0,l1,wipe:l1>l0+1,dur:Math.min(1.6,Math.max(.5,(l1-l0)/50))}}b.imgVer=b.ver;b.fadeOk=true;wBuild(b)}
+    let wiping=false;
+    if(b.prev&&b.prev.wipe){const P=b.prev,u=(time-P.t)/P.dur;if(u>=1)b.prev=null;else{wiping=true;const e=u*u*(3-2*u),ly=Math.round(P.l0+(P.l1-P.l0)*e);
+        ctx.save();ctx.beginPath();ctx.rect(-10,ly,W+20,H);ctx.clip();if(b.img)ctx.drawImage(b.img,b.ix,b.iy);ctx.drawImage(P.img,P.x,P.y);ctx.restore();
+        ctx.drawImage(P.img,0,0,P.img.width,2,P.x,ly,P.img.width,2)}}/* the old surface rows ride down with the waterline */
+    else if(b.prev){const a=1-(time-b.prev.t)/.7;if(a<=0)b.prev=null;else{ctx.globalAlpha=a;ctx.drawImage(b.prev.img,b.prev.x,b.prev.y);ctx.globalAlpha=1}}
+    if(b.img&&!wiping){ctx.globalAlpha=b.prev?Math.min(1,(time-b.prev.t)/.7):1;ctx.drawImage(b.img,b.ix,b.iy);ctx.globalAlpha=1;
       for(const[x,y]of b.surf){if(((x*13+T)%29)===0){ctx.fillStyle='rgba(225,250,255,.9)';ctx.fillRect(x,y,1,1)}
         if(((x+T)%13)<3){ctx.fillStyle='rgba(140,220,235,.32)';ctx.fillRect(x,y+2,1,1)}if(((x-T2+400)%17)<2){ctx.fillStyle='rgba(110,200,225,.22)';ctx.fillRect(x,y+5,1,1)}
         if(b.flow&&((x-b.flow*Math.floor(time*26)+600)%14)<3){ctx.fillStyle='rgba(180,230,240,.4)';ctx.fillRect(x,y+1,1,1)}}}
@@ -4724,7 +4740,7 @@ function netCatchUp(){if(S.mode!=='online'||NET.role!=='watch')return;const behi
   if(behind>300&&!NET.skip)for(let i=0;i<Math.min(6,behind-240);i++)tick()}
 function netGameOver(){if(NET.role!=='act')clearNet()}
 function netLeave(){document.title=TITLE0;chatStop();if(NET.unC)NET.unC();if(NET.unM)NET.unM();NET.unC=NET.unM=null;NET.role=null;NET.started=false;S.mode='hot';$('#netBar').hidden=true}
-const GV=62;// bump on every release that changes the sim
+const GV=63;// bump on every release that changes the sim
 function startOnline(code,me,d){BE.update(code,{['vers.'+me]:GV,['arts.'+me]:window.GRIMSPIRE_ART_SIM||''}).catch(()=>{});NET.code=code;NET.me=me;NET.round=d.round||0;NET.snapK=-1;NET.snap=null;NET.matchAtt=d.att||'';NET.started=true;NET.leaving=false;saveNet();
   $('#net').hidden=true;if(!CHAT.un)chatStart();const cfg=Object.assign(mkCfg('online',d.seats,d.mode==='teams'),{mode:'online'});newGame('online',d.seed,cfg);S.genOK=true;
   const base=NET.round*1e5,has=d.snapK!=null&&d.snapK>=base&&d.snap;

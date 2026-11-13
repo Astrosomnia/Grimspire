@@ -6,6 +6,22 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-13 · Claude · Manhole ends, deep galleries with sump holes, draining wipes down (branch `water`, GV 63)
+- Jarred: a vertical shaft can count as one of a sewer's two ways in ("manhole straight down into a long pipe"); lower second levels when there's room, down rung shafts, with a hole to the sump so they have a purpose; draining water should wipe down, not fade.
+- **Shaft ends:** a new end type, `shaft`.
+  - A 28 px ladder shaft straight up to open, level-ish ground (24–190 px of rock, clear of masonry), with a back wall behind it.
+  - Pairs with a pipe, portal or stair end, never with another shaft. Its own class `ms`, weight 3 (mm 5, md 3, dd 1.3).
+  - A site only a shaft can reach rolls at half the chance, so shafts don't flood the count.
+  - Over 120 seeds: 43 sewers (was 32), 28 of them with a shaft end. By layout: islands 7/23, canyon 12/19, ruins 13/19, spires 11/19.
+  - Other manholes keep 120 px from a shaft end.
+- **Lower galleries:**
+  - Go as deep as the rock allows: tries 96–130 px under the floor, then 70–95, then 46–69. The old 26 px gallery (right under the floor) is gone.
+  - Chance 55% → 70%.
+  - When the sump is within 300 px, 75% get a hole to the sump in the gallery floor (32–60 px wide, clear of the ladder shafts). The loot crate moves off it.
+  - Galleries are still rare (9 in 160 seeds): they need a long run of solid rock under the tunnel.
+- **Draining water wipes down:** when a body's level drops or it empties, the old water is clipped from a waterline that slides down to the new level (or the bottom) over 0.5–1.6 s, with the old surface rows riding on it. Rises and merges keep the crossfade.
+- `dsim`, `dsim2`, `dsimart` identical; sewer maps generate identically twice.
+
 ## 2026-11-13 · Claude · Cracked roofs removed (branch `water`, GV 62)
 - Jarred: "I hate the cracks. Kill em." Cracked roof slabs are gone: generation, `crackHit` / `crackFall`, and the crack and dust drawing. Sewer maps change (one fewer roll), hence the GV bump.
 - Also on the branch: water depth bands are measured from the real waterline (no pale band along stone overhangs), and jagged blast holes mark water for settling at their full reach.
