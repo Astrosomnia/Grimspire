@@ -6,6 +6,25 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-13 · Claude · Sewers 4: ladders, galleries, gas, Bunker Buster, grates, cracked roofs, current (branch `sewers-4`, GV 57; test link only)
+- Jarred's overnight list, items 4–8. Rule changes, so on branch `sewers-4` and the test link (`Grimspire: lit look test build`), **not on `main`**. Say go to merge.
+- **Turn in the air:** left/right while airborne under your control flips which way you face; momentum untouched.
+- **Iron rungs (one-way):** 11×3 iron bars, solid to stand on, marked in `rungM`; a rising trooper's head ignores them (`isRung`), so you pass up through. A jump taken with a rung 26–58 px overhead goes straight up (`rungAbove` in `launchJump`), so you climb by jumping; walk off the side to drop. Spaced 22 px, first rung 30 px up (clear of a standing head).
+- **Ladder shafts:** manholes are 28 px wide with rungs up one wall to the surface. One or two per sewer, about 85% of sewers try (was 45%, one).
+- **Lower galleries:** a second tunnel 26 px under part of the first (140–260 px), reached by one or two ladder shafts through the main floor, with its own light. Chosen before the modules; the tunnel above stays plain. About 1 sewer in 6.
+- **Sewer gas:** 45% of sewers, one or two pockets 80–150 px long: a low green haze that fades at its ends. Any blast touching it (`gasCheck` in `explode`), or a flame or ground fire inside it, lights it. A front runs both ways at 240 px/s, a blast every 18 px (radius 15, 18 damage), and can light the next pocket. Turns wait for the chain (`settled`).
+- **Heavy crate below:** 35% of sewers start with a heavy crate in the gallery, a room, or a plain stretch clear of pits and pools.
+- **Bunker Buster** (new heavy, start 1, also in heavy crates at weight 15): a charged shell, wind 1×, speed 820. On hitting stone it turns nose-down and bores at 300 px/s (6 px bore). It blows after 150 px of stone, or on the floor of the first cavity it breaks into, so a sewer under a 60–100 px roof gets hit. Blast radius 46, 62 damage. Borrows the Doomsday launcher art and icon until the Forge has its own. CPU doesn't use it yet. **Not on the Balance Sheet yet** (add on merge).
+- **Floor grates:** iron grilles marked in `gratM`; walk on them, but shells, grenades and flames go through (`solidP`). Over a gallery (60%, shoot down into it) and over drain shafts (40%).
+- **Cracked roofs:** about a third of sewers, a 46–66 px slab of street over the tunnel (roof 30–150 px thick), drawn with dark cracks from the surface down and dust sifting from the ceiling. Blasts wear its 60 HP (half within 1.5× radius); at nothing it drops out whole and anyone on it falls in.
+- **Current:** channel water pushes troopers 26 px/s one way, with streaks drifting the same way on the water. Channels only, to try it.
+- **Fixed on the way:** a bore that carved ahead of itself and stopped counting depth; a rung's third pixel row not marked (head bonked).
+- **Tests:**
+  - `dsim`, `dsim2` and `dsimart` identical; 10 sewer maps generate identically twice.
+  - Walk tests over 12 maps with the new pieces.
+  - Script checks: a trooper climbs gallery rungs to the main floor and a manhole to the surface; gas chains and hurts; the Buster bores 103 px through a roof and hits a trooper below (57); a blast collapses a cracked roof; a grenade falls through a grate; the current moves a trooper.
+- **Not done:** catacomb skinning (Jarred: "after this, we can do some adjustment skinning for catacombs"; waiting on his direction).
+
 ## 2026-11-13 · Claude · Sewers: flooded vaults, chasms with catwalks (GV 53)
 - Jarred (12 Nov): bridged pools looked odd; make them deeper, full and deadly, draining if blasted. Wider holes to the sump than a jump, some with a catwalk. Approved overnight; pushed live.
 - **Flooded vault** (replaces the bridged pool): a sealed tank 44 px deep under a stone deck on two piers, full to just under the deck.
