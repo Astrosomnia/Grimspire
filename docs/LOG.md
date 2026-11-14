@@ -6,6 +6,12 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-13 · Claude · Shores at the map ends (branch `shores`, GV 67; test link only)
+- Jarred: the map's ends were vertical cliffs sliced off by the boundary, as if by an invisible wall; land should run down into the water.
+- `shoreH`: over the last `max(80 px, 8% of width)` at each end, the ground eases (smoothstep) down to 40 px below the waterline. This replaces the old 5.5% dip of up to 165 px, which left a sheer cut below it. It is used by the noise layouts (islands, canyon, spires) and by ruins (its ground line, so noise still roughens the shore). Drowned is unchanged.
+- Sewers: 44 in 120 seeds (was 43). Masses at the ends can now have an outlet on their outer side.
+- `dsim`, `dsim2`, `dsimart` identical; sewer maps identical twice.
+
 ## 2026-11-13 · Claude · Empty hands for the drone and Godfall (live, no GV change)
 - Jarred: the Tracked Drone and Godfall shouldn't show the default weapon block in the trooper's hand. Both now take the jump pack's pose: arm at rest, nothing held. Drawing only.
 

@@ -658,11 +658,13 @@ function makeNoise(seed){const p=new Uint8Array(512),perm=[...Array(256).keys()]
     return 70*n}}
 /* Ruins: noise for the natural rock, then architecture placed on top.
    Density = noise + a top-to-bottom fade; positive is rock. Chasms cut down to the bottomless sump. */
+// the last stretch of each end eases the ground down below the waterline, so every map ends in a shore, not a cut cliff
+function shoreH(x,h){const M=Math.max(80,W*.08),ed=Math.min(x,W-x);if(ed>=M)return h;const u=Math.max(0,ed/M),s=u*u*(3-2*u);return h*s+(sump+40)*(1-s)}
 function ruinRock(g,hs){
   const N=makeNoise(Math.random()*1e9|0),sc=1/230,GW=W/2|0,GH=H/2|0,D=new Float32Array((GW+1)*(GH+1));
   const ch=[];for(let i=0,n=1+(Math.random()<.6?1:0);i<n;i++)ch.push([rnd(.22,.78)*W,rnd(30,55)]);
   const ph=Array.from({length:4},()=>rnd(0,9)),hl=new Float32Array(GW+1);
-  for(let gx=0;gx<=GW;gx++){const t=gx*2/W,e=Math.min(t,1-t);hl[gx]=H*.6+Math.sin(t*6.3+ph[0])*58+Math.sin(t*13.1+ph[1])*24+Math.sin(t*2.2+ph[2])*50+Math.sin(t*29+ph[3])*8+(e<.055?(.055-e)*3000:0)}
+  for(let gx=0;gx<=GW;gx++){const t=gx*2/W,e=Math.min(t,1-t);hl[gx]=H*.6+Math.sin(t*6.3+ph[0])*58+Math.sin(t*13.1+ph[1])*24+Math.sin(t*2.2+ph[2])*50+Math.sin(t*29+ph[3])*8;hl[gx]=shoreH(gx*2,hl[gx])}
   for(let gy=0;gy<=GH;gy++){const y=gy*2,ny=y/H,ceil=ny<.2?(.2-ny)*8:0;
     for(let gx=0;gx<=GW;gx++){const x=gx*2;let c=0;for(const[cx,w]of ch)c+=Math.exp(-(((x-cx)/w)**2))*1.8;
       // noise rides on a classic ground line, stretched sideways so it reads as broken strata and ledges rather than blobs
@@ -702,7 +704,7 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
   for(let x=0;x<=W;x++){const t=x/W;
     let h=base+amp*(Math.sin(t*6.3+p[0])*60+Math.sin(t*13.1+p[1])*28+Math.sin(t*31+p[2])*9+Math.sin(t*2.2+p[3])*52+Math.sin(t*47+p[4])*4);
     if(L==='canyon')h+=430*Math.exp(-Math.pow((x-ccx)/cwid,4));
-    const e=Math.min(t,1-t);if(e<.055)h+=(.055-e)*3000;
+    h=shoreH(x,h);// (13 Nov, Jarred) the land runs down into the water at the map's ends instead of being sliced off by them
     hs[x]=h;if(x%2===0)g.lineTo(x,h)}
   g.lineTo(W,H);g.closePath();g.fill()}
   const hAt=x=>hs[clamp(Math.round(x),0,W)];
@@ -4753,7 +4755,7 @@ function netCatchUp(){if(S.mode!=='online'||NET.role!=='watch')return;const behi
   if(behind>300&&!NET.skip)for(let i=0;i<Math.min(6,behind-240);i++)tick()}
 function netGameOver(){if(NET.role!=='act')clearNet()}
 function netLeave(){document.title=TITLE0;chatStop();if(NET.unC)NET.unC();if(NET.unM)NET.unM();NET.unC=NET.unM=null;NET.role=null;NET.started=false;S.mode='hot';$('#netBar').hidden=true}
-const GV=66;// bump on every release that changes the sim
+const GV=67;// bump on every release that changes the sim
 function startOnline(code,me,d){BE.update(code,{['vers.'+me]:GV,['arts.'+me]:window.GRIMSPIRE_ART_SIM||''}).catch(()=>{});NET.code=code;NET.me=me;NET.round=d.round||0;NET.snapK=-1;NET.snap=null;NET.matchAtt=d.att||'';NET.started=true;NET.leaving=false;saveNet();
   $('#net').hidden=true;if(!CHAT.un)chatStart();const cfg=Object.assign(mkCfg('online',d.seats,d.mode==='teams'),{mode:'online'});newGame('online',d.seed,cfg);S.genOK=true;
   const base=NET.round*1e5,has=d.snapK!=null&&d.snapK>=base&&d.snap;
