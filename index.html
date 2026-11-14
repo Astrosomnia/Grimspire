@@ -286,8 +286,13 @@ body.intitle #dbg{display:none}
 /* end screen (14 Nov) */
 #end{z-index:7;background:radial-gradient(ellipse at 50% 40%,rgba(0,0,0,.3),rgba(0,0,0,.92) 78%);backdrop-filter:none;-webkit-backdrop-filter:none}
 #end .card{max-width:620px;gap:16px;position:relative}
-.eart{display:none;aspect-ratio:16/8;background:center 42%/cover no-repeat;border:1px solid var(--line);box-shadow:0 0 40px rgba(0,0,0,.6)}
+.eart{display:none;position:fixed;inset:0;z-index:0;background:center 35%/cover no-repeat;pointer-events:none}
+.eart::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.15),rgba(0,0,0,.62) 32%,rgba(0,0,0,.62) 68%,rgba(0,0,0,.15)),linear-gradient(180deg,rgba(0,0,0,.1),rgba(0,0,0,0) 30%,rgba(0,0,0,.55))}
+@media (max-width:700px){.eart{background-position:28% 40%}.eart::after{background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.45) 30%,rgba(0,0,0,.66) 60%,rgba(0,0,0,.5))}}/* portrait: both paintings' subjects sit left of centre */
 .eart.on{display:block}
+#end.art{background:#000}
+#end .card>:not(.eart){position:relative;z-index:1}
+#end.art .result,#end.art .ekick{text-shadow:0 2px 18px rgba(0,0,0,.9),0 0 2px rgba(0,0,0,.8)}
 .ekick{margin:0;font-size:11px;font-weight:700;letter-spacing:.32em;text-transform:uppercase;color:var(--ec,var(--bone));text-shadow:0 0 14px color-mix(in srgb,var(--ec,#fff) 45%,transparent)}
 #end .result{color:var(--ec,var(--bone))}
 #end.lost .ekick{color:var(--bone);text-shadow:none}
@@ -457,8 +462,8 @@ body.intitle #dbg{display:none}
     <div class="ehi" id="eHi"></div>
     <table class="etab" id="eTab"></table>
     <div class="btns">
-      <button class="go" id="eAgain" type="button">Fight again<span id="eAgainSub">Same squads, fresh ward</span></button>
-      <button class="go alt" id="eQuit" type="button">Quit to title<span>Back to the start</span></button>
+      <button class="go" id="eAgain" type="button">Fight again</button>
+      <button class="go alt" id="eQuit" type="button">Quit to title</button>
     </div>
   </div>
 </div>
@@ -2867,7 +2872,7 @@ function gameOver(w){
   $('#eKick').textContent=!win.length?'Stalemate':mine?(won?'Victory':'Defeat'):'Victory';
   {const the=(n,cap)=>/^The /.test(n)?(cap?n:'t'+n.slice(1)):(cap?'The ':'the ')+n,nm=win.map(f=>TEAM[f].name);
     $('#eTitle').textContent=!win.length?'Nobody holds the spire. The sump takes everyone.':nm.length>1?`${the(nm[0],1)} and ${the(nm[1])} hold the spire.`:`${the(nm[0],1)} holds the spire.`}
-  {const key=mine?pov+(won?'-win':'-loss'):win.length?win[0]+'-win':'',src=key?endArt(key):null,a=$('#eArt');a.classList.toggle('on',!!src);a.style.backgroundImage=src?`url("${src}")`:''}
+  {const key=mine?pov+(won?'-win':'-loss'):win.length?win[0]+'-win':'',src=key?endArt(key):null,a=$('#eArt');a.classList.toggle('on',!!src);E.classList.toggle('art',!!src);a.style.backgroundImage=src?`url("${src}")`:''}
   // highlights
   const st=S.stats||{},H=[],tn=i=>troopers[i]?troopers[i]:null,cell=(k,v,sub,c)=>{const d=document.createElement('div'),a=document.createElement('small'),b=document.createElement('b');a.textContent=k;b.textContent=v;if(c)b.style.color=c;d.append(a,b);if(sub){const e=document.createElement('i');e.textContent=sub;d.append(e)}H.push(d)};
   cell('Battle time',fmtDur(time-(st.t0||0)),(st.turns||0)+' turns');
@@ -2883,7 +2888,6 @@ function gameOver(w){
     r.className=(win.includes(f)?'won':'')+(left||win.includes(f)?'':' out');r.style.setProperty('--tc',TEAM[f].col);
     for(const v of[TEAM[f].name+(f===pov?' (you)':S.ctl&&S.ctl[f]==='c'?' (machine)':''),(st.dealt||[])[f]||0,(st.taken||[])[f]||0,(st.kills||[])[f]||0,(st.shots||[])[f]||0,left+'/'+all.length])r.append(Object.assign(document.createElement('td'),{textContent:v}));rows.push(r)}
   tab.replaceChildren(...rows);
-  $('#eAgainSub').textContent=S.mode==='online'?'Same players, fresh ward':S.mode==='cpu'?'Same squads against the machine, fresh ward':'Same commanders, fresh ward';
   $('#ov').hidden=true;$('#pause').hidden=true;E.hidden=false;document.body.classList.add('intitle');closeArsenal();
 }
 $('#eAgain').addEventListener('click',()=>{initAudio();if(S.mode==='online'){if(NET.code)BE.rematch(NET.code).catch(e=>alertMsg(e.message))}else newGame(S.mode,undefined,S.cfg)});
