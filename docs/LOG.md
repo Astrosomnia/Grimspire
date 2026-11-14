@@ -6,6 +6,9 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-13 · Claude · Empty hands for the drone and Godfall (live, no GV change)
+- Jarred: the Tracked Drone and Godfall shouldn't show the default weapon block in the trooper's hand. Both now take the jump pack's pose: arm at rest, nothing held. Drawing only.
+
 ## 2026-11-13 · Claude · Pipes on slopes (live 13 Nov, GV 66)
 - Jarred: outlets on sloped faces always became cut openings (portals); they could stay a pipe, its crown running out past the slope until the floor meets open air.
 - `spipe`: half of portal ends whose thin roof is a slope (open sky above the run, not a cave) become a long pipe instead.
