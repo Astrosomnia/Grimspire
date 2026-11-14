@@ -6,7 +6,7 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
-## 2026-11-13 · Claude · Pipes on slopes (branch `water`, GV 66)
+## 2026-11-13 · Claude · Pipes on slopes (live 13 Nov, GV 66)
 - Jarred: outlets on sloped faces always became cut openings (portals); they could stay a pipe, its crown running out past the slope until the floor meets open air.
 - `spipe`: half of portal ends whose thin roof is a slope (open sky above the run, not a cave) become a long pipe instead.
   - The tunnel runs to where the floor exits, and the thin roof stays.
@@ -15,19 +15,19 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 - Rare, because portal ends are rare: 5 slope pipes in 300 seeds (24 portals). A sixth candidate (seed 57) was rejected because its thin roof was a cave, not a slope.
 - `dsim`, `dsim2`, `dsimart` identical; sewer maps identical twice.
 
-## 2026-11-13 · Claude · A shaft needn't end the pipe (branch `water`, GV 65)
+## 2026-11-13 · Claude · A shaft needn't end the pipe (live 13 Nov, GV 65)
 - Jarred: a manhole doesn't have to be the end; the outlet beyond it can stay.
 - New end candidate `mshaft`: a valid pipe or portal outlet, with a ladder shaft 60–260 px in from it. It builds as the outlet plus the shaft standing in the run. It never pairs with another `mshaft`. These sites count as fully reachable (no half chance) and are weighted 3× within the manhole class, so a shaft keeps its outlet whenever the rock allows.
 - Still limited by outlets: a pipe or portal needs a clean cliff face, so most shaft sites (like the one in Jarred's shot) have no valid outlet on that side and the shaft still ends the pipe. Over 120 seeds the totals didn't move (43 sewers, 28 with a shaft).
 - `dsim`, `dsim2`, `dsimart` identical; sewer maps identical twice.
 
-## 2026-11-13 · Claude · Five troopers a squad, 45 s turns (branch `water`, GV 64)
+## 2026-11-13 · Claude · Five troopers a squad, 45 s turns (live 13 Nov, GV 64)
 - Jarred: a fifth trooper on each team. Two-squad games are now 5 a side (was 4); 3–4 squad games get 4 (was 3). `mkCfg` squad. HUD health bars scale with it already.
 - Spawns: the spacing shares the map width when it's crowded (`min(110, (W-180)/troopers × .85)`), and if no spot clears it after 400 tries, the roomiest good spot found is used instead of the last random one. Over 40 seeds the closest pair is at least 50 px apart with 5 a side (worst was 3 px before the fix).
 - Balance Sheet pending edit applied: turn timer 40 → 45 s (`TURN_SECS`). New sheet rule `squadSize`.
 - `dsim`, `dsim2`, `dsimart` identical; sewer maps identical twice.
 
-## 2026-11-13 · Claude · Manhole ends, deep galleries with sump holes, draining wipes down (branch `water`, GV 63)
+## 2026-11-13 · Claude · Manhole ends, deep galleries with sump holes, draining wipes down (live 13 Nov, GV 63)
 - Jarred: a vertical shaft can count as one of a sewer's two ways in ("manhole straight down into a long pipe"); lower second levels when there's room, down rung shafts, with a hole to the sump so they have a purpose; draining water should wipe down, not fade.
 - **Shaft ends:** a new end type, `shaft`.
   - A 28 px ladder shaft straight up to open, level-ish ground (24–190 px of rock, clear of masonry), with a back wall behind it.
@@ -43,12 +43,12 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 - **Draining water wipes down:** when a body's level drops or it empties, the old water is clipped from a waterline that slides down to the new level (or the bottom) over 0.5–1.6 s, with the old surface rows riding on it. Rises and merges keep the crossfade.
 - `dsim`, `dsim2`, `dsimart` identical; sewer maps generate identically twice.
 
-## 2026-11-13 · Claude · Cracked roofs removed (branch `water`, GV 62)
+## 2026-11-13 · Claude · Cracked roofs removed (live 13 Nov, GV 62)
 - Jarred: "I hate the cracks. Kill em." Cracked roof slabs are gone: generation, `crackHit` / `crackFall`, and the crack and dust drawing. Sewer maps change (one fewer roll), hence the GV bump.
 - Also on the branch: water depth bands are measured from the real waterline (no pale band along stone overhangs), and jagged blast holes mark water for settling at their full reach.
 - `dsim`, `dsim2`, `dsimart` identical; sewer maps generate identically twice.
 
-## 2026-11-13 · Claude · Volume water, depth rules, reservoir (branch `water`, GV 61; test link only)
+## 2026-11-13 · Claude · Volume water, depth rules, reservoir (GV 61, live 13 Nov)
 - Jarred: water as a volume that fills what it can reach, wider and shallower; chest-deep 5 HP/s, head under a 1 s breath; the volume version, not full pixel water; a reservoir module; new animation, not the white lines.
 - **Water bodies** (`NS.water`, `waterM` holds a body id per wet pixel):
   - Each sewer pool is a body with a fixed volume (px²).

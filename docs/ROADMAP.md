@@ -33,6 +33,7 @@ Prototype in HTML/canvas to nail the loop, weapons and feel, then rebuild in **G
 - The roguelike prototype (expect big changes to core systems)
 
 ## Done
+- **Sewers and water (13 Nov, GV 66):** volume water (pools spread, merge, drain with a wipe; wade, chest-deep 5 HP/s, 1 s breath under), reservoir module, manhole shaft ends (also inside a pipe that keeps its outlet), deep lower galleries with sump holes, pipes on slopes; cracked roofs removed; 5 a side (4 with 3–4 squads), 45 s turns
 - **Lit look (11 Nov):** WebGL lighting layer (moon, neon, fire, blasts, cyan water uplight), grime, water reflections, bloom; troopers and effects lit; live skyline plus a painted far background. On by default, `#classic` for the old look
 - **Gameplay (11 Nov, GV 42):** jagged blast holes, stronger shockwaves, rappel wire grapples when aimed up, Antimatter Grenade (was Sun), Doomsday Shell starts sudden death with continuous fallout
 - **Height maps (11 Nov):** Forge Height layer; authored heights and 2× kit art supported in map generation and the lit renderer
