@@ -3540,8 +3540,8 @@ const AIX={aim0:.02,aimPer:.00007,pow0:.016,powPer:.00006,fumble:.15,fumbleK:2.5
    back next turn (from where it shoots and where it hides), and how often it takes the best option over a near miss.
    Tested 14 Nov, 8 CPU battles a pairing: Inquisitor beat Veteran 6-1 (1 draw). Veteran is close to the old machine, with a little forethought added. */
 const AID={
-  recruit:{name:'Conscript',sub:'Wild shots, short sight',walk:170,cover:110,aimK:1.45,fumble:.24,margin:.38,pickW:[3,3,2.5,2,1.5],expo:0,hide:0,low:0},
-  veteran:{name:'Veteran',sub:'Steady, plays it straight',walk:260,cover:150,aimK:1,fumble:.15,margin:.22,pickW:[5,3,2,1.4,1],expo:3,hide:4,low:.15},
+  recruit:{name:'Acolyte',sub:'Wild shots, short sight',walk:170,cover:110,aimK:1.45,fumble:.24,margin:.38,pickW:[3,3,2.5,2,1.5],expo:0,hide:0,low:0},
+  veteran:{name:'Templar',sub:'Steady, plays it straight',walk:260,cover:150,aimK:1,fumble:.15,margin:.22,pickW:[5,3,2,1.4,1],expo:3,hide:4,low:.15},
   inquisitor:{name:'Inquisitor',sub:'Sharp, thinks a turn ahead',walk:260,cover:150,/* 420/230 tested worse than Veteran: it spent the turn walking */aimK:.85,fumble:.08,margin:.1,pickW:[9,3,1.5],expo:9,hide:14,low:.45}};
 const aiD=()=>AID[S.cfg&&S.cfg.diff]||AID.veteran;
 // how exposed a spot is to the squads that move next: each foe with a clear line in comfortable range, more if they're close

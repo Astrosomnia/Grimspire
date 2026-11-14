@@ -6,6 +6,9 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-14 · Claude · Machine difficulty renamed
+- Jarred: Conscript and Veteran become **Acolyte** and **Templar** (Inquisitor stays). Names only; internal keys `recruit` / `veteran` / `inquisitor` unchanged, so saved setup prefs still work. Earlier log entries keep the old names.
+
 ## 2026-11-14 · Claude · End-screen art (live 14 Nov)
 - Jarred's Ash Legion victory and defeat paintings are the end-screen banner: `assets/end/ash-win.jpg`, `assets/end/ash-loss.jpg` (JPEG, 1672×941, about 300 KB each). Until other factions have their own, every faction uses this pair (`END_ART.win` / `.loss`; per-faction keys like `'1-win'` override). Preloaded when a battle starts so there's no pop-in.
 - Jarred: the art is the backdrop, not a banner. It now fills the screen behind everything (cover-cropped, darkened behind the stats column; on phones the crop shifts left onto the subjects). Button subtitles removed.
