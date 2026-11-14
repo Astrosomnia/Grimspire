@@ -6,6 +6,12 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-14 · Claude · Statues lose the brick, gain finishes (visual only)
+- Jarred asked if the angel statue is a set piece and whether it could stop always having the brick texture. It isn't: the crosses, angels and hooded saints (and gargoyles) are code-drawn silhouettes stamped into the ground, so the lit look laid its brick pattern over their flat middles like any wall.
+- Now each carved figure gets a rounded relief of its own (`carvRelief()`, drawn into the height layer as authored height), so the shader treats it as sculpted: no brick, soft carved edges.
+- Statues also roll a finish from their position (no extra random draws, so maps are unchanged): half weathered stone as before, 30% pale marble, 20% verdigris bronze. Gargoyles stay stone.
+- `det` map hashes match, `dsim` identical. Checked the marble angel in the lit look (brick gone); bronze and stone checked in the painted texture only.
+
 ## 2026-11-14 · Claude · Machine difficulty renamed
 - Jarred: Conscript and Veteran become **Acolyte** and **Templar** (Inquisitor stays). Names only; internal keys `recruit` / `veteran` / `inquisitor` unchanged, so saved setup prefs still work. Earlier log entries keep the old names.
 

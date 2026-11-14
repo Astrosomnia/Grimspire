@@ -554,7 +554,7 @@ const mk=(w,h)=>{const c=document.createElement('canvas');c.width=w;c.height=h;r
 const cv=$('#cv'),ctx=cv.getContext('2d');
 const mask=mk(W,H),mctx=mask.getContext('2d');
 const struct=mk(1,1),sctx=struct.getContext('2d');
-const carv=mk(1,1),cctx=carv.getContext('2d');let eyes=[]; // gargoyle stone, kept apart from the brickwork
+const carv=mk(1,1),cctx=carv.getContext('2d');let eyes=[],carvBoxes=[];/* (14 Nov) each carved figure's box and finish, for its relief and tint */ // gargoyle stone, kept apart from the brickwork
 const terr=mk(W,H),tctx=terr.getContext('2d');
 const back=mk(W,H),bctx=back.getContext('2d'); // non-solid back walls and ruined facades, drawn behind the play layer
 const rim=mk(W,H),rctx=rim.getContext('2d');
@@ -725,7 +725,7 @@ function ruinRock(g,hs){
 }
 function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0);// the array is full size; a narrower map leaves no stale tail
   NS.kit=[];NS.lip=null;decoC.getContext('2d').clearRect(0,0,W,H);
-  struct.width=W;struct.height=H;carv.width=W;carv.height=H;eyes=[];
+  struct.width=W;struct.height=H;carv.width=W;carv.height=H;eyes=[];carvBoxes=[];NS.carvH=[];
   const g=mctx;g.globalCompositeOperation='source-over';g.clearRect(0,0,W,H);sctx.clearRect(0,0,W,H);
   g.fillStyle='#fff';sctx.fillStyle='#fff';bctx.clearRect(0,0,W,H);
   genTerrain.blds=[];
@@ -849,7 +849,7 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
     for(const c of[g,cctx]){c.save();c.fillStyle='#fff';c.translate(x,y);c.scale(dir*sc,sc);
       poly(c,[[0,-1],[5,-3],[11,-4],[14,-8],[18,-8],[21,-6],[19,-4],[20,-1],[16,0],[13,2],[11,6],[8,6],[6,3],[0,5]]);
       poly(c,[[3,-3],[-1,-16],[2,-14],[4,-18],[8,-5]]);poly(c,[[14,-8],[13,-12],[16,-8]]);poly(c,[[-1,5],[12,5],[7,9],[-1,11]]);c.restore()}
-    eyes.push({x:x+dir*17*sc,y:y-6.3*sc,ax:x+dir*15*sc,ay:y-4*sc,c:Math.random()<.5?'cyan':'mag'})};
+    eyes.push({x:x+dir*17*sc,y:y-6.3*sc,ax:x+dir*15*sc,ay:y-4*sc,c:Math.random()<.5?'cyan':'mag'});carvBoxes.push({x0:x-30*sc,y0:y-24*sc,x1:x+30*sc,y1:y+16*sc,fin:'stone'})};
   const gothicRoof=(gg,cx,top,hw,ay)=>{for(const sd of[-1,1]){const bx=cx+sd*hw,len=Math.hypot(cx-bx,ay-top),tx=(cx-bx)/len,ty=(ay-top)/len,nx=-ty*sd*-1,ny=tx*sd*-1;
       for(let d=9;d<len-6;d+=9){const px=bx+tx*d,py=top+ty*d,ox=sd*Math.abs(ty),oy=-Math.abs(tx);poly(gg,[[px-tx*2.5,py-ty*2.5],[px+ox*5+tx*2,py+oy*5+ty*2],[px+tx*2.5,py+ty*2.5]])}}
     gg.fillRect(cx-1,ay-16,2,16);gg.fillRect(cx-5,ay-11,10,2);gg.beginPath();gg.arc(cx,ay-17,2.2,0,Math.PI*2);gg.fill()};
@@ -1164,7 +1164,8 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
       if(!tops.length)continue;const y=tops[Math.random()*tops.length|0];
       if(!solid[y*W+x-7]||!solid[y*W+x+7]||solid[(y-3)*W+x-7]||solid[(y-3)*W+x+7]||placed.some(q=>Math.abs(q-x)<70))continue;placed.push(x);
       const type=['cross','angel','angel','saint'][Math.random()*4|0],broken=Math.random()<.3,fallen=Math.random()<.12,tilt=fallen?(Math.random()<.5?-1:1)*rnd(1.25,1.45):rnd(-.3,.3),sc=rnd(1,1.25),fl=Math.random()<.5?-1:1;
-      for(const c of[g,cctx]){c.save();c.fillStyle='#fff';c.translate(x,y+(fallen?-3:1));c.rotate(tilt);c.scale(fl*sc,sc);statue(c,type,broken);c.restore()}}
+      for(const c of[g,cctx]){c.save();c.fillStyle='#fff';c.translate(x,y+(fallen?-3:1));c.rotate(tilt);c.scale(fl*sc,sc);statue(c,type,broken);c.restore()}
+      {const hsh=((x*2654435761+y*40503)>>>0)%10;carvBoxes.push({x0:x-64,y0:y-66,x1:x+64,y1:y+10,fin:hsh<5?'stone':hsh<8?'marble':'bronze'})}}
     const d2=g.getImageData(0,0,W,H).data;for(let i=0;i<W*H;i++)solid[i]=d2[i*4+3]>127?1:0}
   // ---- sewers (Jarred 12 Nov): a land mass with enough rock in it may have a sewer run through it. Just more ground,
   // like any hole or module, but an underpass, not a bunker: a tunnel at least SEW_ROOF px under the surface with two
@@ -1456,7 +1457,7 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
   if(L==='drowned')sump=Math.round(H*.6);// the drowned district starts with the water high
   // set pieces (heads, saint, gargoyle) are real stone: placed with the map and stamped into the terrain like the kit
   if(window.GRIMSPIRE_SET_PIECES){window.GRIMSPIRE_SET_PIECES.seed=null;if(kitReady&&spStamp(g,hg)){const d3=g.getImageData(0,0,W,H).data;for(let i=0;i<W*H;i++)solid[i]=d3[i*4+3]>127?1:0}}
-  paintTerrain();struct.width=1;struct.height=1;carv.width=1;carv.height=1;rimDirty=true;
+  paintTerrain();carvRelief();struct.width=1;struct.height=1;carv.width=1;carv.height=1;rimDirty=true;
   barrels=[];puddles=[];
   for(let i=0,k=0;i<60&&barrels.length<Math.max(3,Math.round(7*W/W0));i++){const x=rnd(100,W-100),y=surf(x);
     if(y<60||y>sump-60||Math.abs(surf(x-5)-surf(x+5))>4||barrels.some(b=>Math.abs(b.x-x)<60)||isSolid(x,y-16))continue;
@@ -1465,6 +1466,13 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
     if(y<40||y>sump-40)continue;if(Math.abs(surf(x-w/2)-y)>1||Math.abs(surf(x+w/2)-y)>1||puddles.some(p=>Math.abs(p.x-x)<50))continue;
     puddles.push({x,y:y+1,w,rip:[]})}
 }
+// Carved figures (statues, gargoyles) get a rounded relief of their own in the lit look, so the shader treats them as
+// sculpted (authored height) and doesn't lay its brick pattern over their flat middles. Visual only.
+function carvRelief(){NS.carvH=[];for(const b of carvBoxes){const x0=Math.max(0,b.x0|0),y0=Math.max(0,b.y0|0),w=Math.min(W,Math.ceil(b.x1))-x0,h=Math.min(H,Math.ceil(b.y1))-y0;if(w<2||h<2)continue;
+  const m=mk(w,h),mg=m.getContext('2d');mg.drawImage(carv,-x0,-y0);
+  const c=mk(w,h),g=c.getContext('2d');g.fillStyle='rgb(70,70,70)';g.fillRect(0,0,w,h);g.filter='blur(2.2px)';g.drawImage(m,0,0);g.filter='none';
+  g.globalCompositeOperation='multiply';g.fillStyle=b.fin==='marble'?'rgb(235,235,235)':'rgb(210,210,210)';g.fillRect(0,0,w,h);
+  g.globalCompositeOperation='destination-in';g.drawImage(m,0,0);NS.carvH.push({x:x0,y:y0,c})}}
 function paintTerrain(){
   const g=tctx;g.globalCompositeOperation='source-over';g.fillStyle='#8c909a';g.fillRect(0,0,W,H);
   for(let i=0;i<200;i++){g.strokeStyle=`rgba(0,0,0,${rnd(.05,.2)})`;g.lineWidth=rnd(.5,2.4);const y=rnd(0,H);
@@ -1479,7 +1487,14 @@ function paintTerrain(){
   tg.globalCompositeOperation='destination-in';tg.drawImage(struct,0,0);g.drawImage(tmp,0,0);
   if(carv.width>1){tg.globalCompositeOperation='source-over';tg.clearRect(0,0,W,H);const cg=tg.createLinearGradient(0,0,W,0);cg.addColorStop(0,'#7c818b');cg.addColorStop(1,'#858a94');
     tg.fillStyle=cg;tg.fillRect(0,0,W,H);for(let i=0;i<4000;i++){tg.fillStyle=Math.random()<.6?'rgba(0,0,0,.25)':'rgba(255,255,255,.12)';tg.fillRect(rnd(0,W),rnd(0,H),1,1)}
-    tg.globalCompositeOperation='destination-in';tg.drawImage(carv,0,0);g.drawImage(tmp,0,0)}
+    tg.globalCompositeOperation='destination-in';tg.drawImage(carv,0,0);g.drawImage(tmp,0,0);
+    // (14 Nov, Jarred: statues shouldn't always read as the same stone) some pale marble, some dark weathered bronze
+    for(const b of carvBoxes){if(b.fin==='stone')continue;const x0=Math.max(0,b.x0|0),y0=Math.max(0,b.y0|0),w=Math.min(W,Math.ceil(b.x1))-x0,h=Math.min(H,Math.ceil(b.y1))-y0;if(w<1||h<1)continue;
+      const t=mk(w,h),q=t.getContext('2d');q.fillStyle=b.fin==='marble'?'#cfd2da':'#5f857b';q.fillRect(0,0,w,h);
+      let sd=(x0*73856093^y0*19349663)>>>0;const R=()=>(sd=(sd*1664525+1013904223)>>>0)/4294967296;/* own numbers: the map's seeded stream stays untouched */
+      if(b.fin==='bronze')for(let i=0;i<w*h/14;i++){q.fillStyle=R()<.5?'rgba(130,190,168,.5)':'rgba(20,30,30,.4)';q.fillRect(R()*w,R()*h,1,1+R()*2)}
+      else for(let i=0;i<w*h/30;i++){q.fillStyle='rgba(60,62,72,.35)';q.fillRect(R()*w,R()*h,1,1)}
+      q.globalCompositeOperation='destination-in';q.drawImage(carv,-x0,-y0);g.drawImage(t,x0,y0)}}
   const gr=g.createLinearGradient(0,H*.45,0,H);gr.addColorStop(0,'rgba(0,0,0,0)');gr.addColorStop(1,'rgba(0,0,0,.9)');g.fillStyle=gr;g.fillRect(0,0,W,H);
   g.globalCompositeOperation='destination-in';g.drawImage(mask,0,0);g.globalCompositeOperation='source-over';
 }
@@ -2011,6 +2026,7 @@ function litHeightPatch0(x0,y0,w,h){const K=2,c=LIT.hc||(LIT.hc=document.createE
   }
   // litStone0 paints the generated terrain over the kit at the walkable lip.
   if(NS.lip){g.save();g.clip(NS.lip);g.globalCompositeOperation='destination-out';g.drawImage(terr,0,0);g.restore()}
+  g.globalCompositeOperation='source-over';for(const r of NS.carvH||[])if(!(r.x+r.c.width<x0||r.y+r.c.height<y0||r.x>x0+w||r.y>y0+h))g.drawImage(r.c,r.x,r.y);
   g.globalCompositeOperation='destination-in';g.drawImage(NS.kit&&NS.kit.length?unionC:terr,0,0);
   g.globalCompositeOperation='source-over';return c;
 }
@@ -2046,7 +2062,7 @@ function litBuild0(){const gl=LIT.gl,T=LIT.T;for(const k in T){gl.deleteTexture(
   LIT.fine=LIT.hasHeight||(NS.kit||[]).some(p=>{const s=+labArt.get(p.id)?.doc?.game_scale;return s>0&&s<1});
   // Keep legacy payloads cheap: only allocate a full-world atlas when a placed
   // asset actually provides a height map.
-  T.height=litTex(LIT.hasHeight?litHeightPatch0(0,0,W,H):mk(1,1),true);
+  LIT.needH=LIT.hasHeight||!!(NS.carvH&&NS.carvH.length);T.height=litTex(LIT.needH?litHeightPatch0(0,0,W,H):mk(1,1),true);
   const gc=mk(W,H),gg=gc.getContext('2d');gg.drawImage(hollow,0,0);gg.drawImage(gutsC,0,0);T.guts=litTex(gc,true);
   T.graf=litTex(litPatch(graf,0,0,W,H),false);T.soot=litTex(litPatch(scorchC,0,0,W,H),false);
   const ec=mk(W*K,H*K),eg=ec.getContext('2d');eg.imageSmoothingEnabled=false;eg.setTransform(K,0,0,K,0,0);
@@ -2062,7 +2078,7 @@ function litBuild0(){const gl=LIT.gl,T=LIT.T;for(const k in T){gl.deleteTexture(
 function litFlush0(){const gl=LIT.gl,d=LIT.dirty;if(!d)return;LIT.dirty=null;
   const x0=Math.max(0,Math.floor(d[0])-2),y0=Math.max(0,Math.floor(d[1])-2),x1=Math.min(W,Math.ceil(d[2])+2),y1=Math.min(H,Math.ceil(d[3])+2),w=x1-x0,h=y1-y0;if(w<1||h<1)return;
   gl.bindTexture(gl.TEXTURE_2D,LIT.T.alb);gl.texSubImage2D(gl.TEXTURE_2D,0,x0*2,y0*2,gl.RGBA,gl.UNSIGNED_BYTE,litStone0(x0,y0,w,h));
-  if(LIT.hasHeight){gl.bindTexture(gl.TEXTURE_2D,LIT.T.height);gl.texSubImage2D(gl.TEXTURE_2D,0,x0*2,y0*2,gl.RGBA,gl.UNSIGNED_BYTE,litHeightPatch0(x0,y0,w,h))}
+  if(LIT.needH){gl.bindTexture(gl.TEXTURE_2D,LIT.T.height);gl.texSubImage2D(gl.TEXTURE_2D,0,x0*2,y0*2,gl.RGBA,gl.UNSIGNED_BYTE,litHeightPatch0(x0,y0,w,h))}
   gl.bindTexture(gl.TEXTURE_2D,LIT.T.graf);gl.texSubImage2D(gl.TEXTURE_2D,0,x0,y0,gl.RGBA,gl.UNSIGNED_BYTE,litPatch(graf,x0,y0,w,h));
   gl.bindTexture(gl.TEXTURE_2D,LIT.T.soot);gl.texSubImage2D(gl.TEXTURE_2D,0,x0,y0,gl.RGBA,gl.UNSIGNED_BYTE,litPatch(scorchC,x0,y0,w,h));
   const m=48,bx=Math.max(0,x0-m),by=Math.max(0,y0-m);litDerive([bx,by,Math.min(W,x1+m)-bx,Math.min(H,y1+m)-by])}
@@ -5546,7 +5562,7 @@ window.GRIMSPIRE_ART_SIM=labSimKey;
 // END GRIMSPIRE_ART_RUNTIME
 requestAnimationFrame(frame);
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(resize);
-window.__G={get W(){return W},S,AID,gameOver:w=>gameOver(w),NET,stateHash,dress:()=>({tags,scan:(c,x,y,r)=>{const g=c==="g"?gfx:c==="t"?tctx:c==="b"?bctx:mctx;const d=g.getImageData(x-r|0,y-r|0,2*r,2*r).data;let m=0,n=0;for(let j=0;j<2*r;j++)for(let i=0;i<2*r;i++){if((i-r)**2+(j-r)**2>(r-2)**2)continue;const a=d[(j*2*r+i)*4+3];if(a>m)m=a;if(a>40)n++}return [m,n]},px:(c,x,y)=>{const g=c==="g"?gfx:c==="t"?tctx:c==="b"?bctx:mctx;return [...g.getImageData(x|0,y|0,1,1).data]}}),simStep:f=>simStep(f),DROP,OW,MINI,kill:t=>killTrooper(t),get corpses(){return corpses},get graves(){return graves},AI,mines:()=>mines,blds:()=>genTerrain.blds||[],maskURL:()=>{const c=mk(W/2,H/2),x=c.getContext("2d");x.fillStyle="#123";x.fillRect(0,0,W/2,H/2);x.drawImage(back,0,0,W/2,H/2);x.drawImage(terr,0,0,W/2,H/2);x.fillStyle="rgba(60,120,255,.5)";x.fillRect(0,sump/2,W/2,H);return c.toDataURL()},bus:()=>bus(),camSet:(x,y)=>{cam.x=x;cam.y=y},scr:(x,y)=>[(x-cam.x)*scale,(y-cam.y)*scale],base:()=>baseScale,setSump:v=>{sump=v},dropSpot:a=>dropSpot(a||[]),spawnShell:(x,y)=>projs.push({w:WP.mortar,x,y,vx:0,vy:200,owner:null,age:1,fuse:0,rest:false}),MUS,get AC(){return AC},initAudio,setMusicMode,ammo:(tm,id)=>S.ammo[tm][id],surfY:surf,press:k=>{press.add(k);held.add(k)},release:k=>held.delete(k),dropRopeT:t=>dropRope(t),isSolid,explode,shove,switchTo,addFire,hurtT:(t,d)=>hurt(t,d),labFlush:()=>labFlush(),jumpT:t=>jump(t),get projs(){return projs},get troopers(){return troopers},get barrels(){return barrels},get crates(){return crates},get fires(){return fires},get puddles(){return puddles},sump:()=>sump,newGame,update,render,tryFire,launch,selectWeapon,WP,blowBarrel,sky,mkCfg,get order(){return S.order},testWall:(x,y0,y1)=>{for(let yy=y0;yy<y1;yy++)for(let xx=x;xx<x+4;xx++)solid[yy*W+xx]=1},testFlat:(x0,x1,y)=>{for(let yy=y-140;yy<y+30;yy++)for(let x=x0;x<x1;x++)solid[yy*W+x]=yy>=y?1:0},get sentries(){return sentries},get zones(){return zones},get texts(){return texts},cutChutes,nextTurn};
+window.__G={get W(){return W},S,AID,get carvBoxes(){return carvBoxes},gameOver:w=>gameOver(w),NET,stateHash,dress:()=>({tags,scan:(c,x,y,r)=>{const g=c==="g"?gfx:c==="t"?tctx:c==="b"?bctx:mctx;const d=g.getImageData(x-r|0,y-r|0,2*r,2*r).data;let m=0,n=0;for(let j=0;j<2*r;j++)for(let i=0;i<2*r;i++){if((i-r)**2+(j-r)**2>(r-2)**2)continue;const a=d[(j*2*r+i)*4+3];if(a>m)m=a;if(a>40)n++}return [m,n]},px:(c,x,y)=>{const g=c==="g"?gfx:c==="t"?tctx:c==="b"?bctx:mctx;return [...g.getImageData(x|0,y|0,1,1).data]}}),simStep:f=>simStep(f),DROP,OW,MINI,kill:t=>killTrooper(t),get corpses(){return corpses},get graves(){return graves},AI,mines:()=>mines,blds:()=>genTerrain.blds||[],maskURL:()=>{const c=mk(W/2,H/2),x=c.getContext("2d");x.fillStyle="#123";x.fillRect(0,0,W/2,H/2);x.drawImage(back,0,0,W/2,H/2);x.drawImage(terr,0,0,W/2,H/2);x.fillStyle="rgba(60,120,255,.5)";x.fillRect(0,sump/2,W/2,H);return c.toDataURL()},bus:()=>bus(),camSet:(x,y)=>{cam.x=x;cam.y=y},scr:(x,y)=>[(x-cam.x)*scale,(y-cam.y)*scale],base:()=>baseScale,setSump:v=>{sump=v},dropSpot:a=>dropSpot(a||[]),spawnShell:(x,y)=>projs.push({w:WP.mortar,x,y,vx:0,vy:200,owner:null,age:1,fuse:0,rest:false}),MUS,get AC(){return AC},initAudio,setMusicMode,ammo:(tm,id)=>S.ammo[tm][id],surfY:surf,press:k=>{press.add(k);held.add(k)},release:k=>held.delete(k),dropRopeT:t=>dropRope(t),isSolid,explode,shove,switchTo,addFire,hurtT:(t,d)=>hurt(t,d),labFlush:()=>labFlush(),jumpT:t=>jump(t),get projs(){return projs},get troopers(){return troopers},get barrels(){return barrels},get crates(){return crates},get fires(){return fires},get puddles(){return puddles},sump:()=>sump,newGame,update,render,tryFire,launch,selectWeapon,WP,blowBarrel,sky,mkCfg,get order(){return S.order},testWall:(x,y0,y1)=>{for(let yy=y0;yy<y1;yy++)for(let xx=x;xx<x+4;xx++)solid[yy*W+xx]=1},testFlat:(x0,x1,y)=>{for(let yy=y-140;yy<y+30;yy++)for(let x=x0;x<x1;x++)solid[yy*W+x]=yy>=y?1:0},get sentries(){return sentries},get zones(){return zones},get texts(){return texts},cutChutes,nextTurn};
 })();
 </script>
 
