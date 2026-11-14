@@ -6,6 +6,15 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-14 · Claude · End screen with stats, trooper knocks, grenade retreat fix, tighter zoomed camera (GV 68, branch `end-screen`, not on main yet)
+- **End screen:** a Victory / Defeat / Stalemate screen replaces the title-screen reuse. Kicker (Victory or Defeat from your side: you online, the human against the machine; Victory when passing the device), who holds the spire, highlights (battle time and turns, biggest turn, deadliest trooper, hardest single hit, friendly fire, lost to the water; the last two only when they happened), and a squad table (dealt, taken, kills, shots, troopers left). Buttons: **Fight again** (same config, fresh ward; online it's the rematch) and **Quit to title**. Battlefield drifts behind for now.
+  - Art slot: `END_ART` in `index.html`, keyed `'<faction>-win'` / `'<faction>-loss'` (0 Ash, 1 Choir, 2 Hollow, 3 Halo). Shown as a 16:7 banner above the kicker; missing keys fall back to the battlefield. **Ask (ChatGPT):** a win and a loss image per faction when Jarred's ready.
+  - Stats live in `S.stats` (in `SKEYS`, so they ride snapshots and both online devices agree). Damage and kills count for whoever's turn it is; hurting yourself or an ally counts as taken and friendly fire.
+- **Trooper knocks:** a knocked trooper in flight or skidding into another shoves them on (62% of the closing speed, plus lift), keeps 38% of its own, and can chain into a third. Landing on someone's head counts too. Each pair meets once per flight. Damage `(closing speed − 200) × 0.035`, max 18, to the one hit; half that to the flier. A Power Fist flight into a trooper gets the impact moment. `BUMP` constants, `bumpTroopers()`.
+- **Grenade retreat:** the CPU picked cover once, the instant it threw, using the grenade's position at the muzzle, so it often walked to where the grenade was heading. Cover now uses where each live grenade will burst (`grenadeRest`), avoids walking through the blast to reach cover beyond it, and re-picks every 0.3 s while a grenade is live.
+- **Camera:** from 1× to 1.5× zoom the follow box shrinks by about a quarter (sides 24% → 31%, top/bottom +6%) and the follow speeds up, so the trooper doesn't get near the edge when zoomed in.
+- `dsim`, `dsim2`, `dsimart` identical; `det` map hashes match. Two full CPU-vs-CPU battles run to the end screen with no errors.
+
 ## 2026-11-13 · Claude · Shores at the map ends (GV 67, live 13 Nov)
 - Jarred: the map's ends were vertical cliffs sliced off by the boundary, as if by an invisible wall; land should run down into the water.
 - `shoreH`: over the last `max(80 px, 8% of width)` at each end, the ground eases (smoothstep) down to 40 px below the waterline. This replaces the old 5.5% dip of up to 165 px, which left a sheer cut below it. It is used by the noise layouts (islands, canyon, spires) and by ruins (its ground line, so noise still roughens the shore). Drowned is unchanged.

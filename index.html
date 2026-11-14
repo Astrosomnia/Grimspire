@@ -283,6 +283,26 @@ body.intitle #dbg{display:none}
 .go:hover{background:var(--fire);border-color:var(--fire)}
 .go.alt{background:transparent;color:var(--bone);border-color:rgba(230,228,222,.4)}
 .go.alt:hover{border-color:var(--fire);color:var(--fire)}
+/* end screen (14 Nov) */
+#end{z-index:7;background:radial-gradient(ellipse at 50% 40%,rgba(0,0,0,.3),rgba(0,0,0,.92) 78%);backdrop-filter:none;-webkit-backdrop-filter:none}
+#end .card{max-width:620px;gap:16px;position:relative}
+.eart{display:none;aspect-ratio:16/7;background:center/cover no-repeat;border:1px solid var(--line);box-shadow:0 0 40px rgba(0,0,0,.6)}
+.eart.on{display:block}
+.ekick{margin:0;font-size:11px;font-weight:700;letter-spacing:.32em;text-transform:uppercase;color:var(--ec,var(--bone));text-shadow:0 0 14px color-mix(in srgb,var(--ec,#fff) 45%,transparent)}
+#end .result{color:var(--ec,var(--bone))}
+#end.lost .ekick{color:var(--bone);text-shadow:none}
+.ehi{display:flex;flex-wrap:wrap;gap:1px;background:var(--line);border:1px solid var(--line)}
+.ehi div{flex:1 1 140px;background:rgba(4,5,8,.82);padding:10px 12px;display:grid;gap:3px;min-width:0;align-content:start}
+.ehi small{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--ash)}
+.ehi b{font-family:var(--display);font-weight:400;font-size:20px;line-height:1.1;color:var(--bone);overflow-wrap:anywhere}
+.ehi i{font-style:normal;font-size:11px;color:var(--ash);overflow-wrap:anywhere}
+.etab{width:100%;border-collapse:collapse;font-size:12px;font-variant-numeric:tabular-nums;background:rgba(4,5,8,.7)}
+.etab th,.etab td{padding:8px 8px;text-align:right;border-bottom:1px solid var(--line);white-space:nowrap}
+.etab th{font-size:9px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--ash)}
+.etab th:first-child,.etab td:first-child{text-align:left;white-space:normal}
+.etab td:first-child{font-family:var(--display);font-size:15px;color:var(--tc)}
+.etab tr.won td:first-child::after{content:' ✦';font-size:10px}
+.etab tr.out td{opacity:.55}
 .how{font-size:12px;line-height:1.6;color:var(--ash);margin:0;max-width:52ch}
 .how b{color:var(--bone);font-weight:600}
 
@@ -425,6 +445,20 @@ body.intitle #dbg{display:none}
     <div class="sgrp" id="sModeG"><h3>Rules</h3><div class="seg" id="sMode"><button type="button" data-v="ffa">Free-for-all</button><button type="button" data-v="teams">2 v 2</button></div></div>
     <button class="go" id="sGo" type="button">Fight<span id="sGoSub"></span></button>
     <p class="nmsg" id="sMsg" role="status"></p>
+  </div>
+</div>
+
+<div class="modal" id="end" hidden>
+  <div class="card" role="dialog" aria-labelledby="eTitle">
+    <div class="eart" id="eArt" role="img" aria-label=""></div>
+    <p class="ekick" id="eKick">Victory</p>
+    <h2 class="result" id="eTitle"></h2>
+    <div class="ehi" id="eHi"></div>
+    <table class="etab" id="eTab"></table>
+    <div class="btns">
+      <button class="go" id="eAgain" type="button">Fight again<span id="eAgainSub">Same squads, fresh ward</span></button>
+      <button class="go alt" id="eQuit" type="button">Quit to title<span>Back to the start</span></button>
+    </div>
   </div>
 </div>
 
@@ -2755,9 +2789,9 @@ function newGameInner(mode){
     xs.push(x);troopers.push({team,name:roll[team][i],x,y,vx:0,vy:0,hp:100,alive:true,face:x<W/2?1:-1,aim:-.45,air:false,anim:0,moving:false,lastPow:{}});
   }
   for(let tm=0;tm<4;tm++){S.ammo[tm]={};for(const w of ARS)if(w.ammo>=0)S.ammo[tm][w.id]=w.ammo}
-  crates=[];for(const w of NS.sewers||[])if(w.loot)crates.push({x:w.loot.x,y:w.loot.y,vy:0,type:'heavy',landed:false,para:false});ships=[];fires=[];flames=[];mines=[];girders=[];zones=[];sentries=[];S.saw=S.mini=S.drone=S.pod=null;S.stag=false;S.turnN=0;S.rnd=0;S.events=[];S.ev=null;S.slow=null;S.cine=0;S.punch=null;S.hitstop=0;S.flame=null;
+  crates=[];for(const w of NS.sewers||[])if(w.loot)crates.push({x:w.loot.x,y:w.loot.y,vy:0,type:'heavy',landed:false,para:false});ships=[];fires=[];flames=[];mines=[];girders=[];zones=[];sentries=[];S.saw=S.mini=S.drone=S.pod=null;S.stag=false;S.turnN=0;S.rnd=0;statsReset();S.events=[];S.ev=null;S.slow=null;S.cine=0;S.punch=null;S.hitstop=0;S.flame=null;
   const n0=S.order.length,first=Math.floor(Math.random()*n0);S.team=S.order[(first+n0-1)%n0];S.ptr=[-1,-1,-1,-1];S.weapon=['mortar','mortar','mortar','mortar'];S.lastAtk=['mortar','mortar','mortar','mortar'];S.deathCd=0;S.paused=false;
-  $('#ov').hidden=true;$('#pause').hidden=true;document.body.classList.remove('intitle');
+  $('#ov').hidden=true;$('#end').hidden=true;$('#pause').hidden=true;document.body.classList.remove('intitle');
   dressSeed=null;dressWard();if(window.GRIMSPIRE_SET_PIECES)setPiecesPlace();
   nextTurn();
 }
@@ -2767,7 +2801,7 @@ function aliveGroups(){return new Set(troopers.filter(t=>t.alive).map(t=>S.ally?
 function winCheck(){const g=aliveGroups();if(g.size<=1){gameOver(g.size?[...g][0]:-1);return true}return false}
 function nextSide(f){const o=S.order,n=o.length,i=o.indexOf(f);for(let k=1;k<=n;k++){const g=o[(i+k+n)%n];if(troopers.some(t=>t.alive&&t.team===g))return g}return f}
 function nextTurn(){
-  if(winCheck())return;
+  statTurnEnd();if(winCheck())return;
   S.turnN++;const ev=[];for(const z of zones)z.left--;zones=zones.filter(z=>z.left>0);
   {const o=S.order,nx=nextSide(S.team);if(o.indexOf(nx)<=o.indexOf(S.team)){S.rnd=(S.rnd||0)+1;if(S.rnd>SD_ROUND)ev.push('rise')}}
   if(S.turnN>=2&&Math.random()<DROP.chance)ev.push('drop');
@@ -2789,18 +2823,53 @@ function beginTurn(){
   else banner(TEAM[S.team].name,S.active.name+(isCPU()?' · machine':' · opponent')+with_,TEAM[S.team].col)}updWeapUI();
   if(S.mode==='online'&&NET.role==='act'&&S.team!==NET.me)NET.handover=true;
 }
+/* ================= battle stats (14 Nov, for the end screen) =================
+   Written by the sim, read only by the end screen; rides the snapshot in S.stats so both online devices agree.
+   Damage and kills count for whoever's turn it is; hurting yourself or an ally counts as taken (and friendly fire), not dealt. */
+function statsReset(){S.stats={t0:time,turns:0,dealt:[0,0,0,0],taken:[0,0,0,0],kills:[0,0,0,0],shots:[0,0,0,0],ff:0,abyss:0,hit:0,tr:{},turn:0,best:null,lastN:-1}}
+function statHurt(t,d){const st=S.stats;if(!st||d<=0)return;st.taken[t.team]+=d;const a=S.active;
+  if(a&&a!==t&&foe(a.team,t.team)){st.dealt[a.team]+=d;const i=troopers.indexOf(a);st.tr[i]=(st.tr[i]||0)+d;st.turn+=d;if(d>st.hit)st.hit=d}
+  else if(a&&a!==t)st.ff+=d}
+function statKill(t,abyssal){const st=S.stats;if(!st||t.kc)return;t.kc=1;if(abyssal)st.abyss++;const a=S.active;if(a&&a!==t&&foe(a.team,t.team))st.kills[a.team]++}
+function statTurnEnd(){const st=S.stats;if(!st||st.lastN===S.turnN)return;st.lastN=S.turnN;const a=S.active;
+  if(a){st.turns++;if(S.fired)st.shots[a.team]++;if(st.turn>0&&(!st.best||st.turn>st.best.d))st.best={i:troopers.indexOf(a),d:st.turn}}st.turn=0}
+// Victory / loss art: drop images in assets/end/ and map them here, e.g. '0-win':'/Grimspire/assets/end/ash-win.jpg', '0-loss':...
+// Keys are faction index (0 Ash Legion, 1 Neon Choir, 2 The Hollow, 3 Halo Guard) and win or loss. Missing ones fall back to the battlefield behind.
+const END_ART={};
+// whose eyes the end screen looks through: you online, the human against the machine, nobody when passing the device
+function endPov(){if(S.mode==='online')return NET.me;if(S.ctl){const h=S.order.filter(f=>S.ctl[f]!=='c');if(h.length&&S.order.some(f=>S.ctl[f]==='c'))return h[0]}return-1}
+function fmtDur(s){s=Math.max(0,Math.round(s));const m=s/60|0;return m+':'+String(s%60).padStart(2,'0')}
 function gameOver(w){
   if(S.mode==='online'){if(NET.role==='act')NET.handover='over';netGameOver()}
-  S.phase='over';setMusicMode('title');const r=$('#result');r.hidden=false;
-  if(w<0){r.textContent='Nobody holds the spire. The sump takes everyone.';r.style.color=BONE}
-  else{const win=S.order.filter(f=>(S.ally?S.ally[f]:f)===w),nm=win.map(f=>TEAM[f].name);
-    {const the=(n,cap)=>/^The /.test(n)?(cap?n:'t'+n.slice(1)):(cap?'The ':'the ')+n;r.textContent=nm.length>1?`${the(nm[0],1)} and ${the(nm[1])} hold the spire.`:`${the(nm[0],1)} holds the spire.`}r.style.color=TEAM[win[0]].col}
-  $('#goRematch').hidden=S.mode!=='online';
-  $('#lede').hidden=true;
-  $('#goCpu').firstChild.textContent='Fight the machine again';
-  $('#ov').hidden=false;document.body.classList.add('intitle');closeArsenal();
+  statTurnEnd();
+  S.phase='over';setMusicMode('title');
+  const win=w<0?[]:S.order.filter(f=>(S.ally?S.ally[f]:f)===w),pov=endPov(),mine=pov>=0&&S.order.includes(pov),won=mine&&win.includes(pov);
+  const E=$('#end'),col=win.length?TEAM[win[0]].col:BONE;E.style.setProperty('--ec',col);E.classList.toggle('lost',mine&&!won);
+  $('#eKick').textContent=!win.length?'Stalemate':mine?(won?'Victory':'Defeat'):'Victory';
+  {const the=(n,cap)=>/^The /.test(n)?(cap?n:'t'+n.slice(1)):(cap?'The ':'the ')+n,nm=win.map(f=>TEAM[f].name);
+    $('#eTitle').textContent=!win.length?'Nobody holds the spire. The sump takes everyone.':nm.length>1?`${the(nm[0],1)} and ${the(nm[1])} hold the spire.`:`${the(nm[0],1)} holds the spire.`}
+  {const key=mine?pov+(won?'-win':'-loss'):win.length?win[0]+'-win':'',src=END_ART[key],a=$('#eArt');a.classList.toggle('on',!!src);a.style.backgroundImage=src?`url("${src}")`:''}
+  // highlights
+  const st=S.stats||{},H=[],tn=i=>troopers[i]?troopers[i]:null,cell=(k,v,sub,c)=>{const d=document.createElement('div'),a=document.createElement('small'),b=document.createElement('b');a.textContent=k;b.textContent=v;if(c)b.style.color=c;d.append(a,b);if(sub){const e=document.createElement('i');e.textContent=sub;d.append(e)}H.push(d)};
+  cell('Battle time',fmtDur(time-(st.t0||0)),(st.turns||0)+' turns');
+  if(st.best){const t=tn(st.best.i);if(t)cell('Biggest turn',st.best.d+' dmg',t.name+' · '+TEAM[t.team].name,TEAM[t.team].col)}
+  {let bi=-1,bd=0;for(const k in st.tr||{})if(st.tr[k]>bd){bd=st.tr[k];bi=+k}const t=tn(bi);if(t)cell('Deadliest',t.name,bd+' dmg dealt'+(t.alive?'':' · fell'),TEAM[t.team].col)}
+  if(st.hit)cell('Hardest hit',st.hit+' dmg','in one blow');
+  if(st.ff)cell('Friendly fire',st.ff+' dmg','own goals and allies');
+  if(st.abyss)cell('Lost to the water',String(st.abyss),st.abyss>1?'troopers':'trooper');
+  $('#eHi').replaceChildren(...H);
+  // per squad
+  const tab=$('#eTab'),hd=document.createElement('tr');for(const h of['Squad','Dealt','Taken','Kills','Shots','Left'])hd.append(Object.assign(document.createElement('th'),{textContent:h,scope:'col'}));
+  const rows=[hd];for(const f of S.order.slice().sort((a,b)=>(win.includes(b)-win.includes(a))||((st.dealt||[])[b]-(st.dealt||[])[a]))){const r=document.createElement('tr'),all=troopers.filter(t=>t.team===f),left=all.filter(t=>t.alive).length;
+    r.className=(win.includes(f)?'won':'')+(left||win.includes(f)?'':' out');r.style.setProperty('--tc',TEAM[f].col);
+    for(const v of[TEAM[f].name+(f===pov?' (you)':S.ctl&&S.ctl[f]==='c'?' (machine)':''),(st.dealt||[])[f]||0,(st.taken||[])[f]||0,(st.kills||[])[f]||0,(st.shots||[])[f]||0,left+'/'+all.length])r.append(Object.assign(document.createElement('td'),{textContent:v}));rows.push(r)}
+  tab.replaceChildren(...rows);
+  $('#eAgainSub').textContent=S.mode==='online'?'Same players, fresh ward':S.mode==='cpu'?'Same squads against the machine, fresh ward':'Same commanders, fresh ward';
+  $('#ov').hidden=true;$('#pause').hidden=true;E.hidden=false;document.body.classList.add('intitle');closeArsenal();
 }
-function quitToTitle(){if(S.mode==='online')netLeave();S.phase='title';setMusicMode('title');S.paused=false;$('#pause').hidden=true;$('#result').hidden=true;$('#lede').hidden=false;
+$('#eAgain').addEventListener('click',()=>{initAudio();if(S.mode==='online'){if(NET.code)BE.rematch(NET.code).catch(e=>alertMsg(e.message))}else newGame(S.mode,undefined,S.cfg)});
+$('#eQuit').addEventListener('click',()=>quitToTitle());
+function quitToTitle(){if(S.mode==='online')netLeave();S.phase='title';setMusicMode('title');S.paused=false;$('#pause').hidden=true;$('#end').hidden=true;$('#result').hidden=true;$('#lede').hidden=false;
   $('#goRematch').hidden=true;$('#goCpu').firstChild.textContent='Fight the machine';
   $('#ov').hidden=false;document.body.classList.add('intitle')}
 function banner(a,b,col,pre){const el=$('#banner');el.innerHTML='';if(pre){const p=document.createElement('small');p.className='pre';p.textContent=pre;el.append(p)}const t=document.createElement('div');t.textContent=a;t.style.color=col;
@@ -2913,16 +2982,16 @@ function shove(o,vx,vy){if(!o.alive)return;
   if(o.vy<-70){o.air=true;o.skid=false;o.y-=1}
   else if(Math.abs(o.vx)>28){o.skid=true;o.vy=0;if(Math.abs(o.vx)>150){o.down=Math.max(o.down||0,.7);o.downDir=Math.sign(o.vx)}}
   else{o.vx=0;o.vy=0}}
-function hurt(t,d,soft){if(d<=0||!t.alive)return;const was=t.hp;t.hp=Math.max(0,t.hp-d);if(was>0&&t.hp===0)slowmo(1.4);sfx('clank');
+function hurt(t,d,soft){if(d<=0||!t.alive)return;const was=t.hp;t.hp=Math.max(0,t.hp-d);statHurt(t,was-t.hp);if(was>0&&t.hp===0){slowmo(1.4);statKill(t)}sfx('clank');
   if(!soft&&t===S.active&&(S.phase==='aim'||S.phase==='retreat')){if(S.phase==='aim')texts.push({x:t.x,y:t.y-58,txt:'Turn lost',life:1.6,col:BONE,small:true});S.phase='end';S.charging=false;S.jet=null;S.wait=0}const prev=texts.find(x=>x.who===t&&x.life>.85);if(prev){prev.dmg+=d;prev.txt='-'+prev.dmg;prev.life=1.5}else texts.push({x:t.x,y:t.y-38,txt:'-'+d,life:1.5,col:TEAM[t.team].col,who:t,dmg:d})}
 function deathCam(x,y,d=1.7){S.deathCam={x:clamp(x,20,W-20),y:Math.min(y,sump-10),t:d}}
 const SEWERS_ON=!/(^#|&)nosewers\b/.test(location.hash),SEWER_CHANCE=1,SEW_ROOF=60,DEATH_HOLD=3.2,DEATH_LINGER=1.2;// the hold counts down only once the grave is up (Jarred 12 Nov: the camera left before it rose) // a killed trooper keeps the camera through their last act and the grave rising (grave at 1.75 s)
-function abyss(t){deathCam(t.x,t.y);t.alive=false;t.hp=0;t.wet=false;slowmo(1);texts.push({x:clamp(t.x,40,W-40),y:sump-40,txt:t.name+' · lost to the abyss',life:2.4,col:BONE,small:true});sfx('splash')}
+function abyss(t){statKill(t,true);deathCam(t.x,t.y);t.alive=false;t.hp=0;t.wet=false;slowmo(1);texts.push({x:clamp(t.x,40,W-40),y:sump-40,txt:t.name+' · lost to the abyss',life:2.4,col:BONE,small:true});sfx('splash')}
 const WADE=28;
 function floorBelow(x){for(let y=Math.floor(sump);y<=sump+WADE;y+=2)if(isSolid(x,y)||isSolid(x-3,y)||isSolid(x+3,y))return true;return false}
 function bubbles(x,y,n){for(let i=0;i<n;i++)parts.push({k:'splash',x:x+rnd(-8,8),y:y-rnd(0,4),vx:rnd(-15,15),vy:rnd(-70,-20),life:rnd(.3,.8),max:.8});
   parts.push({k:'ring',x,y,vx:0,vy:0,life:.6,max:.6,r:26,col:[150,180,235]})}
-function sinkDrown(t,msg,wy=sump){if(!t.alive)return;deathCam(t.x,wy-30);t.alive=false;t.hp=0;t.wet=false;t.rope=null;bubbles(t.x,wy,14);sfx('gloomp');slowmo(1);
+function sinkDrown(t,msg,wy=sump){if(!t.alive)return;statKill(t,true);deathCam(t.x,wy-30);t.alive=false;t.hp=0;t.wet=false;t.rope=null;bubbles(t.x,wy,14);sfx('gloomp');slowmo(1);
   texts.push({x:clamp(t.x,40,W-40),y:wy-36,txt:t.name+' · '+msg,life:2.4,col:'#9fb4d8',small:true})}
 function gasCheck(x,y,r){for(const z of NS.gas||[])if(!z.lit&&x+r>z.x0&&x-r<z.x1&&y+r>z.y0&&y-r<z.y1)gasIgnite(z,clamp(x,z.x0,z.x1))}
 function gasIgnite(z,x){z.lit=true;const ym=(z.y0+z.y1)/2;for(let p=z.x0+8;p<=z.x1-8;p+=18)S.gasq.push({x:p,y:ym+rnd(-5,5),t:.05+Math.abs(p-x)/240})}/* a flame front runs both ways at 240 px/s */
@@ -3316,6 +3385,26 @@ function updTrooper(t,dt){
   }
   if(t.y>sump-2)enterWater(t);
 }
+/* (14 Nov, Jarred) a trooper flung, bounced or skidding into another knocks them too, and they can carry on into a third.
+   Each pair meets once per flight (_bump holds trooper indices, cleared when the flier settles). Sim code: no randomness. */
+const BUMP={v:130,carry:.62,keep:.38,lift:70,dmg0:200,dmgK:.035,dmgMax:18};
+function bumpTroopers(){
+  for(let i=0;i<troopers.length;i++){const f=troopers[i];if(!f.alive)continue;
+    if(!f.knocked||!(f.air||f.skid)){if(f._bump)f._bump=null;continue}
+    if(Math.abs(f.vx)+Math.abs(f.vy)<BUMP.v)continue;
+    for(let j=0;j<troopers.length;j++){if(j===i)continue;const o=troopers[j];if(!o.alive||(f._bump&&f._bump.includes(j)))continue;
+      const dx=o.x-f.x;if(Math.abs(dx)>9||f.y<o.y-BH+3||f.y-BH>o.y-3)continue;
+      const rvx=f.vx-o.vx,rvy=f.vy-o.vy,head=f.vy>160&&f.y<o.y-10;/* dropping onto them from above */
+      if(!head&&(dx*rvx<=0||Math.abs(rvx)<BUMP.v))continue;
+      const v=head?Math.hypot(rvx,rvy):Math.abs(rvx);
+      (f._bump||(f._bump=[])).push(j);(o._bump||(o._bump=[])).push(i);
+      const sg=head?(Math.sign(dx)||(f.face||1)):Math.sign(rvx);
+      shove(o,head?sg*Math.max(60,Math.abs(rvx)*BUMP.carry+v*.15):rvx*BUMP.carry,-BUMP.lift-v*.12);
+      if(head){f.vy=-Math.abs(f.vy)*.25;f.vx*=.6}else f.vx*=BUMP.keep;
+      const d=Math.min(BUMP.dmgMax,Math.round(Math.max(0,v-BUMP.dmg0)*BUMP.dmgK));
+      if(d>0){hurt(o,d);hurt(f,Math.round(d*.5),true)}
+      if(f.clawed&&v>220){f.clawed=false;clawMoment((f.x+o.x)/2,o.y-14)}
+      if(v>200){shake=Math.min(14,shake+2+v/200);sfx('thud')}puff(o.x-sg*4,o.y-12);sfx('clank')}}}
 function hitTrooper(x,y,p){return troopers.some(t=>t.alive&&!(t===p.owner&&p.age<.3)&&Math.abs(t.x-x)<6&&y>t.y-BH&&y<t.y+1)}
 const AM_COLLAPSE=.32,AM_FLASH=1.1,AM_BW=.3;
 // cosmetic: motes and light pulled into the grenade before it bursts
@@ -3539,9 +3628,19 @@ function relocateSpot(t,spots,foes){let best=null;
     const sc=-near*.5+(see?140:0)-spotRisk(P)-P.dist*.08+Math.random()*30;if(!best||sc>best.s)best={P,s:sc}}
   return best?best.P:null}
 // after firing: pick somewhere safer within a few steps and get there
+// where a live grenade will be when its fuse runs out (same bounce rules as simGrenade, from its current state)
+function grenadeRest(p){let x=p.x,y=p.y,vx=p.rest?0:p.vx,vy=p.rest?0:p.vy,rest=!!p.rest;const dt=1/30,n0=Math.max(1,Math.ceil(Math.max(0,p.fuse)/dt));
+  for(let s=0;s<n0&&!rest;s++){vy+=G*dt;const n=Math.max(1,Math.ceil(Math.hypot(vx,vy)*dt/3));
+    for(let k=0;k<n;k++){const nx=x+vx*dt/n,ny=y+vy*dt/n;if(ny>=sump||nx<-50||nx>W+50)return null;
+      if(isSolid(nx,ny)){const[mx,my]=normalAt(nx,ny),d=vx*mx+vy*my;if(d<0){vx-=2*d*mx;vy-=2*d*my}vx*=.5;vy*=.5;if(Math.hypot(vx,vy)<35){vx=vy=0;rest=true}break}
+      x=nx;y=ny}}
+  return[x,y]}
 function pickCover(t){const spots=walkReach(t,150).filter(P=>spotRisk(P)<900),foes=foesOf(t);let best=null;
-  const danger=[];for(const p of projs)if(p.w.kind==='grenade')danger.push([p.x,p.y,p.w.r]);for(const m of mines)danger.push([m.x,m.y,80]);for(const b of barrels)if(b.alive&&b.fuse>=0)danger.push([b.x,b.y,34]);
+  // (14 Nov, Jarred: "they throw a grenade and run towards it") judge a grenade by where it will burst, not where it is mid-flight,
+  // and don't walk through the blast to reach cover on the far side of it
+  const danger=[],cross=[];for(const p of projs)if(p.w.kind==='grenade'){danger.push([p.x,p.y,p.w.r]);const q=grenadeRest(p);if(q){danger.push([q[0],q[1],p.w.r*1.15]);cross.push([q[0],q[1],p.w.r*1.15])}}for(const m of mines)danger.push([m.x,m.y,80]);for(const b of barrels)if(b.alive&&b.fuse>=0)danger.push([b.x,b.y,34]);
   for(const P of spots){let sc=-P.dist*.02-spotRisk(P);for(const[x,y,r]of danger){const d=Math.hypot(P.x-x,P.y-y);if(d<r*1.9)sc-=(r*1.9-d)*2}
+    for(const[x,y,r]of cross)if(Math.abs(P.y-y)<r&&Math.abs(P.x-t.x)>Math.abs(x-t.x)&&Math.sign(P.x-t.x)===Math.sign(x-t.x)&&Math.abs(x-t.x)>4)sc-=r*1.5;
     let near=1e9;for(const e of foes)near=Math.min(near,Math.hypot(e.x-P.x,e.y-P.y));sc+=Math.min(near,260)*.05;
     let roof=false;for(let k=30;k<100;k+=6)if(isSolid(P.x,P.y-k)){roof=true;break}if(roof)sc+=12;
     if(foes.length&&foes.every(e=>!los(P.x,P.y-14,e.x,e.y-14)))sc+=10;
@@ -3549,7 +3648,7 @@ function pickCover(t){const spots=walkReach(t,150).filter(P=>spotRisk(P)<900),fo
   return best}
 function aiWalk(t,x,dt){const dx=x-t.x;if(Math.abs(dx)<3)return true;if(t.air||t.skid||t.recover>0||t.crouch>0)return false;
   const bx=t.x;t.face=Math.sign(dx);walk(t,Math.sign(dx),dt,1);if(t.x!==bx){S.moved=true;AI.stuck=0}else{AI.stuck+=dt;if(AI.stuck>.25){jump(t);AI.stuck=-.7}}return false}
-function aiRetreat(t,dt){if(!t.alive||t.wet)return;if(!AI.cover)AI.cover=pickCover(t)||{x:t.x};aiWalk(t,AI.cover.x,dt)}
+function aiRetreat(t,dt){if(!t.alive||t.wet)return;AI.ct=(AI.ct||0)+dt;if(!AI.cover||(AI.ct>.3&&projs.some(p=>p.w.kind==='grenade'))){AI.ct=0;AI.cover=pickCover(t)||{x:t.x}}aiWalk(t,AI.cover.x,dt)}
 function landDir(t){for(let k=10;k<700;k+=10){for(const d of[-1,1]){const x=t.x+d*k;if(x>10&&x<W-10&&surf(x)<sump-2)return d}}return t.face}
 function aiDrone(dt){const d=S.drone;let best=null,bd=1e9;for(const e of foesOf(S.active)){const k=Math.hypot(e.x-d.x,e.y-d.y);if(k<bd){bd=k;best=e}}
   if(!best){droneBlow();return}d.dir=Math.sign(best.x-d.x)||d.dir;
@@ -4083,7 +4182,7 @@ function update(dt){
   if(S.phase==='aim'&&!S.armed&&(held.size||press.size||stick.x||stick.y))S.armed=true;
   if(S.phase==='aim'&&!held_&&S.armed){S.timer-=dt;if(S.timer<=0){if(S.charging)launch();else if(!(S.saw||S.mini||S.drone||S.pod)){S.phase='end';S.jet=null}}}
   else if(S.phase==='retreat'){S.retreat-=dt;if(S.retreat<=0)S.phase='end'}
-  for(const tr of troopers)updTrooper(tr,dt);
+  for(const tr of troopers)updTrooper(tr,dt);bumpTroopers();
   updProjs(dt);updEffects(dt);updWard(dt);updZones(dt);updSentries(dt);updSaw(dt);updMini(dt);updDrone(dt);updPod(dt);updCorpses(dt);updParts(dt);
   if(S.phase==='aim'&&S.second&&settled()){if(S.deathCd>0)S.deathCd-=dt;else{const d=troopers.find(x=>x.alive&&x.hp<=0&&x!==S.active);if(d){killTrooper(d);S.deathCd=2.9}}}
   if(S.phase==='resolve'||S.phase==='end'){
@@ -4135,10 +4234,11 @@ function updCamera(dt){
   if(fx!==null){let tx,ty;
     if(snap){tx=fx-vw/2;ty=fy-(top+(vh-bot))/2}
     else{// dead zone: only move when the subject drifts out of the middle of the screen
-      const mx=Math.min(vw*.24,220/scale+vw*.08),mt=top+vh*.12,mb=bot+vh*.18;tx=cam.x;ty=cam.y;
+      // (14 Nov, Jarred) zoomed in past ~1.5x the middle box was too big and the trooper got too near the edge: from 1x to 1.5x zoom it shrinks by about a quarter
+      const zf=clamp((S.zoom-1)/.5,0,1),mx=Math.min(vw*(.24+.07*zf),220/scale+vw*(.08+.1*zf)),mt=top+vh*(.12+.06*zf),mb=bot+vh*(.18+.06*zf);tx=cam.x;ty=cam.y;
       if(fx<cam.x+mx)tx=fx-mx;else if(fx>cam.x+vw-mx)tx=fx-vw+mx;
       if(fy<cam.y+mt)ty=fy-mt;else if(fy>cam.y+vh-mb)ty=fy-vh+mb}
-    const k=S.punch&&punchZ>.04&&S.punch.t<.3?1:1-Math.exp(-dt*(S.deathCam&&!S.punch?12:fast?8:snap?3.5:5));cam.x+=(tx-cam.x)*k;cam.y+=(ty-cam.y)*k;
+    const k=S.punch&&punchZ>.04&&S.punch.t<.3?1:1-Math.exp(-dt*(S.deathCam&&!S.punch?12:fast?8:snap?3.5:5+3*clamp((S.zoom-1)/.5,0,1)));cam.x+=(tx-cam.x)*k;cam.y+=(ty-cam.y)*k;
     if(S.camSnap&&Math.abs(tx-cam.x)<6&&Math.abs(ty-cam.y)<6)S.camSnap=false}
   cam.x=vw>=W?(W-vw)/2:clamp(cam.x,-60,W-vw+60);
   const maxY=H-vh+bot,minY=Math.min(S.pod&&!S.pod.landed?-1600:-300,maxY);cam.y=clamp(cam.y,minY,maxY);
@@ -4632,7 +4732,7 @@ function chargeSound(){
 /* ================= save / load a whole match ================= */
 function rleEnc(a){const out=[];let cur=0,run=0;for(let i=0;i<a.length;i++){if(a[i]===cur)run++;else{out.push(run.toString(36));cur=a[i];run=1}}out.push(run.toString(36));return out.join('.')}
 function rleDec(str,a){let i=0,cur=0;for(const t of str.split('.')){const n=parseInt(t,36);a.fill(cur,i,i+n);i+=n;cur^=1}}
-const SKEYS=['rnd','swapped','order','ally','ctl','squad','gone','stag','armed','team','ptr','timer','phase','turnN','events','wind','ammo','weapon','lastAtk','shots','fuse','span','usedJet','rb','mobile','second','moved','fired','locked','deathCd','wait','ticked','lastBarrel','slow','deathCam','layout','retreat','target','rot','hitstop','punch'];
+const SKEYS=['stats','rnd','swapped','order','ally','ctl','squad','gone','stag','armed','team','ptr','timer','phase','turnN','events','wind','ammo','weapon','lastAtk','shots','fuse','span','usedJet','rb','mobile','second','moved','fired','locked','deathCd','wait','ticked','lastBarrel','slow','deathCam','layout','retreat','target','rot','hitstop','punch'];
 function snapState(){const o={v:1,seed:S.seed,w:W,terr:rleEnc(solid),sump,time,rng:SR.s,act:troopers.indexOf(S.active),S:{}};
   for(const k of SKEYS)o.S[k]=S[k];
   Object.assign(o,{sentries,zones,troopers,mines,barrels,crates,fires,puddles,graves,corpses,girders,fx:fixtures.map(f=>f.alive?1:0).join('')});
@@ -4755,7 +4855,7 @@ function netCatchUp(){if(S.mode!=='online'||NET.role!=='watch')return;const behi
   if(behind>300&&!NET.skip)for(let i=0;i<Math.min(6,behind-240);i++)tick()}
 function netGameOver(){if(NET.role!=='act')clearNet()}
 function netLeave(){document.title=TITLE0;chatStop();if(NET.unC)NET.unC();if(NET.unM)NET.unM();NET.unC=NET.unM=null;NET.role=null;NET.started=false;S.mode='hot';$('#netBar').hidden=true}
-const GV=67;// bump on every release that changes the sim
+const GV=68;// bump on every release that changes the sim
 function startOnline(code,me,d){BE.update(code,{['vers.'+me]:GV,['arts.'+me]:window.GRIMSPIRE_ART_SIM||''}).catch(()=>{});NET.code=code;NET.me=me;NET.round=d.round||0;NET.snapK=-1;NET.snap=null;NET.matchAtt=d.att||'';NET.started=true;NET.leaving=false;saveNet();
   $('#net').hidden=true;if(!CHAT.un)chatStart();const cfg=Object.assign(mkCfg('online',d.seats,d.mode==='teams'),{mode:'online'});newGame('online',d.seed,cfg);S.genOK=true;
   const base=NET.round*1e5,has=d.snapK!=null&&d.snapK>=base&&d.snap;
@@ -5405,7 +5505,7 @@ window.GRIMSPIRE_ART_SIM=labSimKey;
 // END GRIMSPIRE_ART_RUNTIME
 requestAnimationFrame(frame);
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(resize);
-window.__G={get W(){return W},S,NET,stateHash,dress:()=>({tags,scan:(c,x,y,r)=>{const g=c==="g"?gfx:c==="t"?tctx:c==="b"?bctx:mctx;const d=g.getImageData(x-r|0,y-r|0,2*r,2*r).data;let m=0,n=0;for(let j=0;j<2*r;j++)for(let i=0;i<2*r;i++){if((i-r)**2+(j-r)**2>(r-2)**2)continue;const a=d[(j*2*r+i)*4+3];if(a>m)m=a;if(a>40)n++}return [m,n]},px:(c,x,y)=>{const g=c==="g"?gfx:c==="t"?tctx:c==="b"?bctx:mctx;return [...g.getImageData(x|0,y|0,1,1).data]}}),simStep:f=>simStep(f),DROP,OW,MINI,kill:t=>killTrooper(t),get corpses(){return corpses},get graves(){return graves},AI,mines:()=>mines,blds:()=>genTerrain.blds||[],maskURL:()=>{const c=mk(W/2,H/2),x=c.getContext("2d");x.fillStyle="#123";x.fillRect(0,0,W/2,H/2);x.drawImage(back,0,0,W/2,H/2);x.drawImage(terr,0,0,W/2,H/2);x.fillStyle="rgba(60,120,255,.5)";x.fillRect(0,sump/2,W/2,H);return c.toDataURL()},bus:()=>bus(),camSet:(x,y)=>{cam.x=x;cam.y=y},scr:(x,y)=>[(x-cam.x)*scale,(y-cam.y)*scale],base:()=>baseScale,setSump:v=>{sump=v},dropSpot:a=>dropSpot(a||[]),spawnShell:(x,y)=>projs.push({w:WP.mortar,x,y,vx:0,vy:200,owner:null,age:1,fuse:0,rest:false}),MUS,get AC(){return AC},initAudio,setMusicMode,ammo:(tm,id)=>S.ammo[tm][id],surfY:surf,press:k=>{press.add(k);held.add(k)},release:k=>held.delete(k),dropRopeT:t=>dropRope(t),isSolid,explode,shove,switchTo,addFire,hurtT:(t,d)=>hurt(t,d),labFlush:()=>labFlush(),jumpT:t=>jump(t),get projs(){return projs},get troopers(){return troopers},get barrels(){return barrels},get crates(){return crates},get fires(){return fires},get puddles(){return puddles},sump:()=>sump,newGame,update,render,tryFire,launch,selectWeapon,WP,blowBarrel,sky,mkCfg,get order(){return S.order},testWall:(x,y0,y1)=>{for(let yy=y0;yy<y1;yy++)for(let xx=x;xx<x+4;xx++)solid[yy*W+xx]=1},testFlat:(x0,x1,y)=>{for(let yy=y-140;yy<y+30;yy++)for(let x=x0;x<x1;x++)solid[yy*W+x]=yy>=y?1:0},get sentries(){return sentries},get zones(){return zones},get texts(){return texts},cutChutes,nextTurn};
+window.__G={get W(){return W},S,gameOver:w=>gameOver(w),NET,stateHash,dress:()=>({tags,scan:(c,x,y,r)=>{const g=c==="g"?gfx:c==="t"?tctx:c==="b"?bctx:mctx;const d=g.getImageData(x-r|0,y-r|0,2*r,2*r).data;let m=0,n=0;for(let j=0;j<2*r;j++)for(let i=0;i<2*r;i++){if((i-r)**2+(j-r)**2>(r-2)**2)continue;const a=d[(j*2*r+i)*4+3];if(a>m)m=a;if(a>40)n++}return [m,n]},px:(c,x,y)=>{const g=c==="g"?gfx:c==="t"?tctx:c==="b"?bctx:mctx;return [...g.getImageData(x|0,y|0,1,1).data]}}),simStep:f=>simStep(f),DROP,OW,MINI,kill:t=>killTrooper(t),get corpses(){return corpses},get graves(){return graves},AI,mines:()=>mines,blds:()=>genTerrain.blds||[],maskURL:()=>{const c=mk(W/2,H/2),x=c.getContext("2d");x.fillStyle="#123";x.fillRect(0,0,W/2,H/2);x.drawImage(back,0,0,W/2,H/2);x.drawImage(terr,0,0,W/2,H/2);x.fillStyle="rgba(60,120,255,.5)";x.fillRect(0,sump/2,W/2,H);return c.toDataURL()},bus:()=>bus(),camSet:(x,y)=>{cam.x=x;cam.y=y},scr:(x,y)=>[(x-cam.x)*scale,(y-cam.y)*scale],base:()=>baseScale,setSump:v=>{sump=v},dropSpot:a=>dropSpot(a||[]),spawnShell:(x,y)=>projs.push({w:WP.mortar,x,y,vx:0,vy:200,owner:null,age:1,fuse:0,rest:false}),MUS,get AC(){return AC},initAudio,setMusicMode,ammo:(tm,id)=>S.ammo[tm][id],surfY:surf,press:k=>{press.add(k);held.add(k)},release:k=>held.delete(k),dropRopeT:t=>dropRope(t),isSolid,explode,shove,switchTo,addFire,hurtT:(t,d)=>hurt(t,d),labFlush:()=>labFlush(),jumpT:t=>jump(t),get projs(){return projs},get troopers(){return troopers},get barrels(){return barrels},get crates(){return crates},get fires(){return fires},get puddles(){return puddles},sump:()=>sump,newGame,update,render,tryFire,launch,selectWeapon,WP,blowBarrel,sky,mkCfg,get order(){return S.order},testWall:(x,y0,y1)=>{for(let yy=y0;yy<y1;yy++)for(let xx=x;xx<x+4;xx++)solid[yy*W+xx]=1},testFlat:(x0,x1,y)=>{for(let yy=y-140;yy<y+30;yy++)for(let x=x0;x<x1;x++)solid[yy*W+x]=yy>=y?1:0},get sentries(){return sentries},get zones(){return zones},get texts(){return texts},cutChutes,nextTurn};
 })();
 </script>
 
