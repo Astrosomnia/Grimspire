@@ -287,7 +287,7 @@ body.intitle #dbg{display:none}
 /* end screen (14 Nov) */
 #end{z-index:7;background:radial-gradient(ellipse at 50% 40%,rgba(0,0,0,.3),rgba(0,0,0,.92) 78%);backdrop-filter:none;-webkit-backdrop-filter:none}
 #end .card{max-width:620px;gap:16px;position:relative}
-.eart{display:none;aspect-ratio:16/7;background:center/cover no-repeat;border:1px solid var(--line);box-shadow:0 0 40px rgba(0,0,0,.6)}
+.eart{display:none;aspect-ratio:16/8;background:center 42%/cover no-repeat;border:1px solid var(--line);box-shadow:0 0 40px rgba(0,0,0,.6)}
 .eart.on{display:block}
 .ekick{margin:0;font-size:11px;font-weight:700;letter-spacing:.32em;text-transform:uppercase;color:var(--ec,var(--bone));text-shadow:0 0 14px color-mix(in srgb,var(--ec,#fff) 45%,transparent)}
 #end .result{color:var(--ec,var(--bone))}
@@ -2808,7 +2808,7 @@ function newGameInner(mode){
   for(let tm=0;tm<4;tm++){S.ammo[tm]={};for(const w of ARS)if(w.ammo>=0)S.ammo[tm][w.id]=w.ammo}
   crates=[];for(const w of NS.sewers||[])if(w.loot)crates.push({x:w.loot.x,y:w.loot.y,vy:0,type:'heavy',landed:false,para:false});ships=[];fires=[];flames=[];mines=[];girders=[];zones=[];sentries=[];S.saw=S.mini=S.drone=S.pod=null;S.stag=false;S.turnN=0;S.rnd=0;statsReset();S.events=[];S.ev=null;S.slow=null;S.cine=0;S.punch=null;S.hitstop=0;S.flame=null;
   const n0=S.order.length,first=Math.floor(Math.random()*n0);S.team=S.order[(first+n0-1)%n0];S.ptr=[-1,-1,-1,-1];S.weapon=['mortar','mortar','mortar','mortar'];S.lastAtk=['mortar','mortar','mortar','mortar'];S.deathCd=0;S.paused=false;
-  $('#ov').hidden=true;$('#end').hidden=true;$('#pause').hidden=true;document.body.classList.remove('intitle');
+  $('#ov').hidden=true;$('#end').hidden=true;$('#pause').hidden=true;document.body.classList.remove('intitle');preloadEnd();
   dressSeed=null;dressWard();if(window.GRIMSPIRE_SET_PIECES)setPiecesPlace();
   nextTurn();
 }
@@ -2853,7 +2853,9 @@ function statTurnEnd(){const st=S.stats;if(!st||st.lastN===S.turnN)return;st.las
   if(a){st.turns++;if(S.fired)st.shots[a.team]++;if(st.turn>0&&(!st.best||st.turn>st.best.d))st.best={i:troopers.indexOf(a),d:st.turn}}st.turn=0}
 // Victory / loss art: drop images in assets/end/ and map them here, e.g. '0-win':'/Grimspire/assets/end/ash-win.jpg', '0-loss':...
 // Keys are faction index (0 Ash Legion, 1 Neon Choir, 2 The Hollow, 3 Halo Guard) and win or loss. Missing ones fall back to the battlefield behind.
-const END_ART={};
+const END_ART={win:'/Grimspire/assets/end/ash-win.jpg',loss:'/Grimspire/assets/end/ash-loss.jpg'};/* (14 Nov) Ash Legion's pair stands in for every faction until each has its own */
+const endArt=k=>END_ART[k]||END_ART[/win$/.test(k)?'win':'loss'];
+let endPre=null;function preloadEnd(){if(endPre)return;endPre=[END_ART.win,END_ART.loss].filter(Boolean).map(u=>{const i=new Image();i.decoding='async';i.src=u;return i})}
 // whose eyes the end screen looks through: you online, the human against the machine, nobody when passing the device
 function endPov(){if(S.mode==='online')return NET.me;if(S.ctl){const h=S.order.filter(f=>S.ctl[f]!=='c');if(h.length&&S.order.some(f=>S.ctl[f]==='c'))return h[0]}return-1}
 function fmtDur(s){s=Math.max(0,Math.round(s));const m=s/60|0;return m+':'+String(s%60).padStart(2,'0')}
@@ -2866,7 +2868,7 @@ function gameOver(w){
   $('#eKick').textContent=!win.length?'Stalemate':mine?(won?'Victory':'Defeat'):'Victory';
   {const the=(n,cap)=>/^The /.test(n)?(cap?n:'t'+n.slice(1)):(cap?'The ':'the ')+n,nm=win.map(f=>TEAM[f].name);
     $('#eTitle').textContent=!win.length?'Nobody holds the spire. The sump takes everyone.':nm.length>1?`${the(nm[0],1)} and ${the(nm[1])} hold the spire.`:`${the(nm[0],1)} holds the spire.`}
-  {const key=mine?pov+(won?'-win':'-loss'):win.length?win[0]+'-win':'',src=END_ART[key],a=$('#eArt');a.classList.toggle('on',!!src);a.style.backgroundImage=src?`url("${src}")`:''}
+  {const key=mine?pov+(won?'-win':'-loss'):win.length?win[0]+'-win':'',src=key?endArt(key):null,a=$('#eArt');a.classList.toggle('on',!!src);a.style.backgroundImage=src?`url("${src}")`:''}
   // highlights
   const st=S.stats||{},H=[],tn=i=>troopers[i]?troopers[i]:null,cell=(k,v,sub,c)=>{const d=document.createElement('div'),a=document.createElement('small'),b=document.createElement('b');a.textContent=k;b.textContent=v;if(c)b.style.color=c;d.append(a,b);if(sub){const e=document.createElement('i');e.textContent=sub;d.append(e)}H.push(d)};
   cell('Battle time',fmtDur(time-(st.t0||0)),(st.turns||0)+' turns');

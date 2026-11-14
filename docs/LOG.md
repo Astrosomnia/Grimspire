@@ -6,6 +6,10 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-14 · Claude · End-screen art (branch `end-screen`)
+- Jarred's Ash Legion victory and defeat paintings are the end-screen banner: `assets/end/ash-win.jpg`, `assets/end/ash-loss.jpg` (JPEG, 1672×941, about 300 KB each). Until other factions have their own, every faction uses this pair (`END_ART.win` / `.loss`; per-faction keys like `'1-win'` override). Preloaded when a battle starts so there's no pop-in.
+- **Ask (ChatGPT):** a victory and a defeat image for Neon Choir, The Hollow and Halo Guard in the same style, 16:9 with the subject a little above centre (the banner crops to 16:8).
+
 ## 2026-11-14 · Claude · Machine difficulty, crumbs dissolve, wall-slam stagger, mid-air rope down, clock pause, fabricator reset (GV 68, branch `end-screen`, not on main yet)
 - **Machine difficulty:** a "The machine" row in Fight the machine setup: Conscript, Veteran (default), Inquisitor (`AID`, saved in setup prefs, carried in `S.cfg.diff`). Thinking scales more than aim: aim wobble and fumble rate, how tightly it takes the best option over near misses, a new **exposure** check (foes with a clear line in range) when choosing where to shoot from and where to hide, and a bigger bonus for finishing low troopers. Tested in CPU battles, 8 a pairing: Inquisitor beat Veteran 6–1 (1 draw); Conscript lost 3–5 to Veteran and dealt less damage in 6 of 8. A first Inquisitor with a 420 px walk range lost 2–6 to Veteran (it spent its turns walking); walk range stays 260.
 - **Crumbs dissolve:** after any blast or cut, floating terrain bits no bigger than 4 px either way (`DESPECK`) within the blast box vanish with a few motes. Bits touching the box edge stay (they may be part of bigger ground). Sim code, deterministic.
