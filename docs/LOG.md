@@ -6,6 +6,16 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-14 · Claude · Machine difficulty, crumbs dissolve, wall-slam stagger, mid-air rope down, clock pause, fabricator reset (GV 68, branch `end-screen`, not on main yet)
+- **Machine difficulty:** a "The machine" row in Fight the machine setup: Conscript, Veteran (default), Inquisitor (`AID`, saved in setup prefs, carried in `S.cfg.diff`). Thinking scales more than aim: aim wobble and fumble rate, how tightly it takes the best option over near misses, a new **exposure** check (foes with a clear line in range) when choosing where to shoot from and where to hide, and a bigger bonus for finishing low troopers. Tested in CPU battles, 8 a pairing: Inquisitor beat Veteran 6–1 (1 draw); Conscript lost 3–5 to Veteran and dealt less damage in 6 of 8. A first Inquisitor with a 420 px walk range lost 2–6 to Veteran (it spent its turns walking); walk range stays 260.
+- **Crumbs dissolve:** after any blast or cut, floating terrain bits no bigger than 4 px either way (`DESPECK`) within the blast box vanish with a few motes. Bits touching the box edge stay (they may be part of bigger ground). Sim code, deterministic.
+- **Wall-slam stagger:** a knocked trooper hitting a wall at 430 px/s or more (`STAG_SLAM`) is Staggered: no moving on their next turn. Watch for piling on.
+- **Rope mid-jump, aimed down:** the wire bites the stone below and pays out (55% of the distance, at least 34 px); once you drop past the anchor it catches as a swing, then reel as normal. One charge. Clears if you land first or get knocked.
+- **Clock pauses** while the weapon picker is open. Sent as an action (`a`), so online replays pause the same.
+- **Fabricator** left in hand from last turn goes back to the mortar at the start of the turn.
+- **Set pieces:** two proposed batches in [`SET-PIECES.md`](SET-PIECES.md): K18–K27 play-layer pieces with ledges and undercuts, and L01–L12 landmark levels. **Ask (ChatGPT):** wait for Jarred's picks, then draw 2–3 alternates of each.
+- `dsim`, `dsim2`, `dsimart` identical; `det` map hashes match.
+
 ## 2026-11-14 · Claude · End screen with stats, trooper knocks, grenade retreat fix, tighter zoomed camera (GV 68, branch `end-screen`, not on main yet)
 - **End screen:** a Victory / Defeat / Stalemate screen replaces the title-screen reuse. Kicker (Victory or Defeat from your side: you online, the human against the machine; Victory when passing the device), who holds the spire, highlights (battle time and turns, biggest turn, deadliest trooper, hardest single hit, friendly fire, lost to the water; the last two only when they happened), and a squad table (dealt, taken, kills, shots, troopers left). Buttons: **Fight again** (same config, fresh ward; online it's the rematch) and **Quit to title**. Battlefield drifts behind for now.
   - Art slot: `END_ART` in `index.html`, keyed `'<faction>-win'` / `'<faction>-loss'` (0 Ash, 1 Choir, 2 Hollow, 3 Halo). Shown as a 16:7 banner above the kicker; missing keys fall back to the battlefield. **Ask (ChatGPT):** a win and a loss image per faction when Jarred's ready.
