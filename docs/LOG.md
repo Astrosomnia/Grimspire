@@ -6,6 +6,10 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-15 · Codex · Three layered set-piece drafts saved
+- Jarred approved the current look and asked to ship the batch. Saved K20 Collapsed Nave, K21 Broken Belfry (open rear arches), and K26 Rib Vault Bay as editable Body + Back drafts in the shared Forge library: [art/weapon-lab commit](https://github.com/Astrosomnia/Grimspire/commit/2085342ad10221ba0f35eb2f5ede1477c01c8903).
+- Checked appearance in local game previews and confirmed the saves in Forge; 66 Forge checks passed. The files remain drafts (not marked ready). Height is unauthored, Guts is provisional, and stair traversal, shooting, blasts and destruction still need gameplay testing. No game release made.
+
 ## 2026-11-14 · Claude · Neon Choir and The Hollow victory and defeat art (live 14 Nov)
 - Jarred's last two pairs are in: `assets/end/choir-win.jpg` / `choir-loss.jpg` and `hollow-win.jpg` / `hollow-loss.jpg` (JPEG, 1672×941, about 270–290 KB). Every faction now has its own end art; `END_ART.win` / `.loss` (Ash Legion) is only the fallback.
 - Checked desktop and portrait phone, win and loss for both.
