@@ -6,6 +6,10 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-14 · Claude · End screen: Own fire per squad
+- Jarred: friendly fire wasn't clear (whose, what counts). It was one match-wide total of damage to *other* friendly troopers on your turn, so a trooper hurting themself didn't count.
+- Now **Own fire** is a column in the squad table: any damage your own squad (or an ally) takes during your turn, the trooper who fired included (falls on your own turn count too). Dealt stays enemies-only, so a squad's Taken = enemies' Dealt to it + its own Own fire (checked in two CPU battles). The match-wide Friendly fire highlight is gone. Column headers have hover tips; the table tightens on phones so seven columns fit.
+
 ## 2026-11-14 · Claude · Blasts break the facade away in a circle; jagged leftovers show Guts (visual only)
 - Jarred asked whether Guts do anything. Barely: they only showed as a 6 px rim around holes, mixed halfway to black. His idea: keep the jagged collision, but break the facade art away in a rounder shape so the jagged solid bits left inside read as broken interior, not stray facade.
 - Now each carve (when the lit world is on) records a rough circle (the jagged hole's full reach; 1.12× r for round holes). Remaining solid inside it is painted with broken stone at the facade's value, the piece's Guts art blended in at 45%, and rubble relief in the height layer (so carved tracery stops showing through). Non-solid deco inside the circle goes too. Kept in `brokenC` / `brokenH`, drawn after the kit in both lit looks; `BREAK` constants. Local RNG only, so the sim is untouched.

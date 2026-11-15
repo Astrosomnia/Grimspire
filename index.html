@@ -307,6 +307,7 @@ body.intitle #dbg{display:none}
 .etab th:first-child,.etab td:first-child{text-align:left;white-space:normal}
 .etab td:first-child{font-family:var(--display);font-size:15px;color:var(--tc)}
 .etab tr.won td:first-child::after{content:' ✦';font-size:10px}
+@media (max-width:560px){.etab th,.etab td{padding:7px 4px}.etab th{letter-spacing:.06em;font-size:8px;white-space:normal;vertical-align:bottom}.etab td:first-child{font-size:13px;line-height:1.15}.etab td{font-size:11px}#end .card{min-width:0}}
 .etab tr.out td{opacity:.55}
 .how{font-size:12px;line-height:1.6;color:var(--ash);margin:0;max-width:52ch}
 .how b{color:var(--bone);font-weight:600}
@@ -2910,10 +2911,11 @@ function beginTurn(){
 /* ================= battle stats (14 Nov, for the end screen) =================
    Written by the sim, read only by the end screen; rides the snapshot in S.stats so both online devices agree.
    Damage and kills count for whoever's turn it is; hurting yourself or an ally counts as taken (and friendly fire), not dealt. */
-function statsReset(){S.stats={t0:time,turns:0,dealt:[0,0,0,0],taken:[0,0,0,0],kills:[0,0,0,0],shots:[0,0,0,0],ff:0,abyss:0,hit:0,tr:{},turn:0,best:null,lastN:-1}}
+function statsReset(){S.stats={t0:time,turns:0,dealt:[0,0,0,0],taken:[0,0,0,0],kills:[0,0,0,0],shots:[0,0,0,0],ff:[0,0,0,0],abyss:0,hit:0,tr:{},turn:0,best:null,lastN:-1}}
 function statHurt(t,d){const st=S.stats;if(!st||d<=0)return;st.taken[t.team]+=d;const a=S.active;
   if(a&&a!==t&&foe(a.team,t.team)){st.dealt[a.team]+=d;const i=troopers.indexOf(a);st.tr[i]=(st.tr[i]||0)+d;st.turn+=d;if(d>st.hit)st.hit=d}
-  else if(a&&a!==t)st.ff+=d}
+  // (14 Nov, Jarred) own fire: any damage your own squad (or an ally) takes on your turn, the trooper who fired included
+  else if(a&&!foe(a.team,t.team)){if(!Array.isArray(st.ff))st.ff=[0,0,0,0];st.ff[a.team]+=d}}
 function statKill(t,abyssal){const st=S.stats;if(!st||t.kc)return;t.kc=1;if(abyssal)st.abyss++;const a=S.active;if(a&&a!==t&&foe(a.team,t.team))st.kills[a.team]++}
 function statTurnEnd(){const st=S.stats;if(!st||st.lastN===S.turnN)return;st.lastN=S.turnN;const a=S.active;
   if(a){st.turns++;if(S.fired)st.shots[a.team]++;if(st.turn>0&&(!st.best||st.turn>st.best.d))st.best={i:troopers.indexOf(a),d:st.turn}}st.turn=0}
@@ -2941,14 +2943,13 @@ function gameOver(w){
   if(st.best){const t=tn(st.best.i);if(t)cell('Biggest turn',st.best.d+' dmg',t.name+' · '+TEAM[t.team].name,TEAM[t.team].col)}
   {let bi=-1,bd=0;for(const k in st.tr||{})if(st.tr[k]>bd){bd=st.tr[k];bi=+k}const t=tn(bi);if(t)cell('Deadliest',t.name,bd+' dmg dealt'+(t.alive?'':' · fell'),TEAM[t.team].col)}
   if(st.hit)cell('Hardest hit',st.hit+' dmg','in one blow');
-  if(st.ff)cell('Friendly fire',st.ff+' dmg','own goals and allies');
   if(st.abyss)cell('Lost to the water',String(st.abyss),st.abyss>1?'troopers':'trooper');
   $('#eHi').replaceChildren(...H);
   // per squad
-  const tab=$('#eTab'),hd=document.createElement('tr');for(const h of['Squad','Dealt','Taken','Kills','Shots','Left'])hd.append(Object.assign(document.createElement('th'),{textContent:h,scope:'col'}));
+  const tab=$('#eTab'),hd=document.createElement('tr');for(const[h,tip]of[['Squad'],['Dealt','Damage to enemies on your turns'],['Taken','All damage your squad took'],['Own fire','Damage your squad (or an ally) took on your own turns, the trooper who fired included'],['Kills'],['Shots'],['Left']])hd.append(Object.assign(document.createElement('th'),{textContent:h,scope:'col',title:tip||''}));
   const rows=[hd];for(const f of S.order.slice().sort((a,b)=>(win.includes(b)-win.includes(a))||((st.dealt||[])[b]-(st.dealt||[])[a]))){const r=document.createElement('tr'),all=troopers.filter(t=>t.team===f),left=all.filter(t=>t.alive).length;
     r.className=(win.includes(f)?'won':'')+(left||win.includes(f)?'':' out');r.style.setProperty('--tc',TEAM[f].col);
-    for(const v of[TEAM[f].name+(f===pov?' (you)':S.ctl&&S.ctl[f]==='c'?' (machine)':''),(st.dealt||[])[f]||0,(st.taken||[])[f]||0,(st.kills||[])[f]||0,(st.shots||[])[f]||0,left+'/'+all.length])r.append(Object.assign(document.createElement('td'),{textContent:v}));rows.push(r)}
+    for(const v of[TEAM[f].name+(f===pov?' (you)':S.ctl&&S.ctl[f]==='c'?' (machine)':''),(st.dealt||[])[f]||0,(st.taken||[])[f]||0,(Array.isArray(st.ff)?st.ff[f]:0)||0,(st.kills||[])[f]||0,(st.shots||[])[f]||0,left+'/'+all.length])r.append(Object.assign(document.createElement('td'),{textContent:v}));rows.push(r)}
   tab.replaceChildren(...rows);
   $('#ov').hidden=true;$('#pause').hidden=true;E.hidden=false;document.body.classList.add('intitle');closeArsenal();
 }
