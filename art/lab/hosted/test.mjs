@@ -90,6 +90,11 @@ test('Height editor preserves maps across its editing and export paths',async()=
  const {runChecks}=await import('../../../tests/forge-height-editor.test.mjs');
  await runChecks();
 });
+await import('./back.test.mjs');
+test('Back editor preserves the layer across editing, save, load and export',async()=>{
+ const {runChecks}=await import('../../../tests/forge-back-editor.test.mjs');
+ await runChecks();
+});
 await import('./catalog.test.mjs');
 
 test('Selected asset scale is independent; legacy shared sizing and human-scale arm migrate without modifying history',async()=>{

@@ -70,12 +70,14 @@ export async function retainAsset(g,d,head,paths){
  // or the current version has authored height pixels, require an explicit
  // field on every frame. New editors send null when the user clears a map.
  // An omitted field on a legacy-only asset remains valid, as does a new asset.
- if(family&&d.frames.some(f=>!Object.hasOwn(f,'height'))){
+ // The same goes for the Back layer (14 Nov 2026).
+ for(const[key,what]of[['height','a height map'],['back','a Back layer']]){
+  if(!family||!d.frames.some(f=>!Object.hasOwn(f,key)))continue;
   const current=family.states.find(s=>s.key===stateKey)?.current;
   const source=library.docs.find(e=>e.id===d.source_version&&e.asset_id===assetId&&(e.state_key||'')===stateKey)?.id;
   for(const id of new Set([current,source].filter(Boolean))){
    const prior=await readIndexedAsset(g,head,library.docs.find(e=>e.id===id));
-   check(!prior.frames.some(f=>f.height),'This asset has a height map. Refresh the Forge before saving so it is not lost.');
+   check(!prior.frames.some(f=>f[key]),'This asset has '+what+'. Refresh the Forge before saving so it is not lost.');
   }
  }
  d={...d,asset_id:assetId,state_key:stateKey};delete d.legacy_hash;
