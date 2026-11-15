@@ -3657,6 +3657,20 @@
       "h": 158,
       "frame_count": 1,
       "category": "Other art"
+    },
+    {
+      "id": "asset-e2a232b53ae3c77efc6df063",
+      "path": "art/lab/hosted/library/asset-e2a232b53ae3c77efc6df063.forge.json",
+      "sha256": "e2a232b53ae3c77efc6df0634768a92d58a13c9fc6cf7a9472a98a9d7ace6d84",
+      "asset_id": "custom-b515751d-7fe4-42d2-8d3b-fe609b1bfe95",
+      "state_key": "",
+      "asset_name": "Collapsed Nave — prototype 01",
+      "code": "K20",
+      "name": "Collapsed Nave — Back layer study",
+      "w": 320,
+      "h": 158,
+      "frame_count": 1,
+      "category": "Other art"
     }
   ]
 }
