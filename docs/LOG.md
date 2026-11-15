@@ -6,11 +6,16 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-14 · Claude · Neon Choir and The Hollow victory and defeat art (live 14 Nov)
+- Jarred's last two pairs are in: `assets/end/choir-win.jpg` / `choir-loss.jpg` and `hollow-win.jpg` / `hollow-loss.jpg` (JPEG, 1672×941, about 270–290 KB). Every faction now has its own end art; `END_ART.win` / `.loss` (Ash Legion) is only the fallback.
+- Checked desktop and portrait phone, win and loss for both.
+- Source images are 1672×941, so they soften on 1440p and 4K screens. Jarred's fine with that for now; bigger versions (about 2560×1440) can replace the files later with no code change.
+
 ## 2026-11-14 · Claude · Halo Guard victory and defeat art (live 14 Nov)
 - Jarred's Halo Guard pair is in: `assets/end/halo-win.jpg` (squad on the rampart under the sun banner) and `assets/end/halo-loss.jpg` (fallen guard and banner in the drowned water). JPEG, 1672×941, about 270–300 KB. Keys `'3-win'` / `'3-loss'` in `END_ART`; Ash Legion's pair still stands in for Neon Choir and The Hollow.
 - Preload now fetches only the art for the squads in the battle (deduplicated), instead of the one fallback pair.
 - Checked desktop and portrait phone, win and loss: subjects stay in frame on the phone crop.
-- **Ask (ChatGPT):** Neon Choir and The Hollow pairs still to come.
+- Neon Choir and The Hollow pairs followed the same night (see above).
 
 ## 2026-11-14 · Claude · End screen: Accuracy, Drowned, Longest fling; Kills out; Grimspire-mark reveal
 - Squad table is now Dealt, Taken, Own fire, **Accuracy** (share of shots that hurt an enemy; replaces Shots), **Drowned** (own troopers lost to the water), Left. Kills dropped (Jarred: obvious from who's left). The match-wide "Lost to the water" highlight is gone.
