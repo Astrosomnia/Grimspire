@@ -3713,6 +3713,20 @@
       "h": 512,
       "frame_count": 1,
       "category": "Other art"
+    },
+    {
+      "id": "asset-8bab817511576c582b2dceaa",
+      "path": "art/lab/hosted/library/asset-8bab817511576c582b2dceaa.forge.json",
+      "sha256": "8bab817511576c582b2dceaa2efab77c8268fcf0b6c9cec3498095da45900968",
+      "asset_id": "custom-8655119f-303e-4aa6-bf35-18d46856c66b",
+      "state_key": "",
+      "asset_name": "Broken belfry — open arches draft",
+      "code": "K21",
+      "name": "Broken belfry — fractured supports draft",
+      "w": 384,
+      "h": 576,
+      "frame_count": 1,
+      "category": "Other art"
     }
   ]
 }
