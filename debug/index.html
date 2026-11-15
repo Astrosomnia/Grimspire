@@ -2953,7 +2953,7 @@ function gameOver(w){
   const st=S.stats||{},H=[],tn=i=>troopers[i]?troopers[i]:null,cell=(k,v,sub,c)=>{const d=document.createElement('div'),a=document.createElement('small'),b=document.createElement('b');a.textContent=k;b.textContent=v;if(c)b.style.color=c;d.append(a,b);if(sub){const e=document.createElement('i');for(const p of[].concat(sub)){const sp=document.createElement('span');if(Array.isArray(p)){sp.textContent=p[0];sp.style.color=p[1]}else sp.textContent=p;e.append(sp)}d.append(e)}H.push(d)};/* sub: text, or parts [text,colour] */
   cell('Battle time',fmtDur(time-(st.t0||0)),(st.turns||0)+' turns');
   if(st.best){const t=tn(st.best.i);if(t)cell('Biggest turn',st.best.d+' dmg',t.name+' · '+TEAM[t.team].name,TEAM[t.team].col)}
-  {let bi=-1,bd=0;for(const k in st.tr||{})if(st.tr[k]>bd){bd=st.tr[k];bi=+k}const t=tn(bi);if(t)cell('Deadliest',t.name,bd+' dmg dealt'+(t.alive?'':' · fell'),TEAM[t.team].col)}
+  {let bi=-1,bd=0;for(const k in st.tr||{})if(st.tr[k]>bd){bd=st.tr[k];bi=+k}const t=tn(bi);if(t)cell('Deadliest',t.name,bd+' dmg dealt'+(t.alive?'':' · didn\'t survive'),TEAM[t.team].col)}
   if(st.hit)cell('Hardest hit',st.hit+' dmg','in one blow');
   if(st.fling){const t=tn(st.fling.i),b=tn(st.fling.by);if(t)cell('Longest fling',Math.max(1,Math.round(st.fling.d/12))+' m',[[t.name,TEAM[t.team].col],...(b&&b!==t?[' · by ',[b.name,TEAM[b.team].col]]:b===t?[' · self-launched']:[])])}/* (14 Nov) number neutral; each name in its own squad's colour, so it's clear who flew and who threw *//* 12 px ≈ 1 m: a trooper is about 2 m tall */
   $('#eHi').replaceChildren(...H);
