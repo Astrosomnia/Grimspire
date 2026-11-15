@@ -477,6 +477,8 @@ body.intitle #dbg{display:none}
   </div>
 </div>
 
+<div class="modal" id="climb" hidden><div class="cart" id="cArt"></div><div id="cCard"></div></div>
+
 <div class="modal" id="ov">
   <div id="copy">© Jarred Powell 2026</div>
   <div class="card">
@@ -484,7 +486,8 @@ body.intitle #dbg{display:none}
     <p class="result" id="result" hidden></p>
     <div class="lede" id="lede"><p class="omen">The flood is gone. This is what it left.</p><p>Up to four squads, a drowned cathedral‑stack and a sump of black water. Blow the ground out from under them. Last trooper standing holds the spire.</p></div>
     <div class="btns">
-      <button class="go" id="goCpu" type="button">Fight the machine<span>Pick your squad, face 1 to 3 machines</span></button>
+      <button class="go" id="goClimb" type="button">The Climb<span>One squad, one tide, the spire</span></button>
+      <button class="go alt" id="goCpu" type="button">Fight the machine<span>Pick your squad, face 1 to 3 machines</span></button>
       <button class="go alt" id="goHot" type="button">Commanders<span>2 to 4 players, pass the device</span></button>
       <button class="go alt" id="goRematch" type="button" hidden>Rematch<span>Same players, fresh ward</span></button>
       <button class="go alt" id="goNet" type="button">Online<span>Make a match, share the code</span></button>
@@ -688,7 +691,7 @@ const foe=(a,b)=>S.ally?S.ally[a]!==S.ally[b]:a!==b;
 const windAcc=()=>Math.sign(S.wind)*WINDF[Math.min(10,Math.round(Math.abs(S.wind)*10))];
 const aimVec=t=>[Math.cos(t.aim)*t.face,Math.sin(t.aim)];
 const curW=()=>WP[S.weapon[S.team]];
-const ammoOf=(team,w)=>w.ammo<0?Infinity:(S.ammo[team][w.id]||0);
+const ammoOf=(team,w)=>S.ban&&S.ban[team]&&S.ban[team][w.id]?0:w.ammo<0?Infinity:(S.ammo[team][w.id]||0);
 const hasAmmo=w=>ammoOf(S.team,w)>0;
 const useAmmo=w=>{if(w.ammo>=0)S.ammo[S.team][w.id]--};
 
@@ -742,11 +745,11 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
   const MK=W/W0,nW=(n,min=0)=>Math.max(min,Math.round(n*MK));
   // half of all maps are the drowned district; the rest share the generated layouts as before
   // layout weights: the drowned district comes up more often than any one other, not half the time (Jarred, 3 Nov)
-  const LW=[['drowned',1.75],['spires',1],['islands',1],['canyon',1],['ruins',1]],L0=(()=>{let u=Math.random()*LW.reduce((a,o)=>a+o[1],0);for(const[l,k]of LW){u-=k;if(u<0)return l}return'ruins'})(),L=NS.drowned?'drowned':L0;S.layout=L;
+  const LW=[['drowned',1.75],['spires',1],['islands',1],['canyon',1],['ruins',1]],L0=(()=>{let u=Math.random()*LW.reduce((a,o)=>a+o[1],0);for(const[l,k]of LW){u-=k;if(u<0)return l}return'ruins'})(),CB=S.cfg&&S.cfg.climb||null,L=NS.drowned?'drowned':CB&&CB.layout||L0,LD=L==='drowned'||L==='stair';S.layout=L;NS.rungs=null;
   const base=L==='islands'?H*.8:L==='canyon'?H*.56:H*.66, amp=L==='islands'?.55:L==='canyon'?1.2:1;
   const p=Array.from({length:5},()=>rnd(0,9)),ccx=rnd(.4,.6)*W,cwid=rnd(80,120);
   const hs=new Float32Array(W+1);
-  if(L==='drowned'){// a seabed of rubble far below the water; the city stands up out of it
+  if(LD){// a seabed of rubble far below the water; the city stands up out of it
     g.beginPath();g.moveTo(0,H);for(let x=0;x<=W;x++){hs[x]=H-22+Math.sin(x*.05+p[0])*5+Math.sin(x*.013+p[1])*7;if(x%2===0)g.lineTo(x,hs[x])}g.lineTo(W,H);g.closePath();g.fill()}
   else if(L==='ruins')ruinRock(g,hs);else{
   g.beginPath();g.moveTo(0,H);
@@ -864,7 +867,7 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
     gg.fillRect(cx-1,ay-16,2,16);gg.fillRect(cx-5,ay-11,10,2);gg.beginPath();gg.arc(cx,ay-17,2.2,0,Math.PI*2);gg.fill()};
   const pinnacle=(gg,x,top,h=20)=>{poly(gg,[[x-4,top],[x,top-h],[x+4,top]]);gg.fillRect(x-.75,top-h-5,1.5,5)};
   // spires
-  const ns=nW(L==='drowned'?0:L==='spires'?3+(Math.random()*2|0):L==='canyon'?2:L==='ruins'?1:1+(Math.random()*2|0),L==='drowned'?0:1);
+  const ns=nW(LD?0:L==='spires'?3+(Math.random()*2|0):L==='canyon'?2:L==='ruins'?1:1+(Math.random()*2|0),LD?0:1);
   for(let i=0;i<ns;i++){const cx=L==='ruins'?flatX(240,60):freeX(240);if(cx===null)continue;if(L==='canyon'&&Math.abs(cx-ccx)<cwid*1.7)continue;
     const w=rnd(46,72),bs=hAt(cx),hh=rnd(140,240),top=bs-hh,roof=w*rnd(1,1.5),gr=Math.random()<.75,ga=Math.random()<.55,gy=top+rnd(16,36);
     if(kitHas('K01')){const tx=cx-TW/2;kTower(tx,Math.max(hAt(tx),hAt(tx+TW),bs)+30,top);spires.push({cx,w:TW,top,base:bs,roof:TW});continue}
@@ -936,6 +939,21 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
   // Fewer tenements; a building only goes where it fits clean (flatX)
   if(L==='ruins'){twinTowers();if(Math.random()<.45*MK)twinTowers();for(let i=0,n=nW(1+(Math.random()<.5?1:0),1);i<n;i++)tenement()}
   else if(L==='spires'){if(Math.random()<.5)tenement();if(Math.random()<.5*MK)twinTowers()}
+  else if(L==='stair'&&kitHas('K01')&&kitHas('K09')){
+    // The Drowned Stair (The Climb): a shaft between two tower walls, thin floors with ladder holes, the top floor is the gate
+    const x0=TW,x1=W-TW,dg=decoC.getContext('2d'),cs=[g,hg,dg,baCtx],fl=CB&&CB.floors||6,gap=112,f0=H-92;NS.rungs=[];NS.gateY=f0-(fl-1)*gap;
+    for(const xx of[0,W-TW]){let yb=H+SHk;while(yb-SHk>NS.gateY-170){put('K01',xx,yb);yb-=SHk}put(xx?'K03':'K04',xx,yb+Jk,!!xx);spires.push({cx:xx+TW/2,w:TW,top:yb,base:H,roof:TW})}
+    const d9=kD('K09'),h9=d9.h*z,w9=d9.w*z;
+    for(let k=0;k<fl;k++){const deck=f0-k*gap,yb=deck+h9,k0=NS.kit.length,cuts=[];
+      for(const c of cs){c.save();c.beginPath();c.rect(x0,deck-30,x1-x0,h9+34);c.clip()}
+      for(let x=x0;x<x1;x+=w9)put('K09',x,yb,k%2===1);for(const c of cs)c.restore();
+      for(let q=k0;q<NS.kit.length;q++){NS.kit[q].clip=[x0,deck-30,x1-x0,h9+34];NS.kit[q].cuts=cuts}
+      const hole=(hx,hw)=>{const pts=[[hx,deck-30],[hx+hw,deck-30],[hx+hw,yb+3],[hx,yb+3]];for(const c of cs){c.save();c.globalCompositeOperation='destination-out';c.fillStyle='#000';poly(c,pts);c.restore()}cuts.push(pts)};
+      if(k>0){const lx=Math.round(k%2?x1-rnd(70,120):x0+rnd(40,90));hole(lx,28);for(let y=deck+gap-30;y>deck-10;y-=22)NS.rungs.push([lx+9,y])}
+      if(k>0&&k<fl-1&&Math.random()<.6)hole(Math.round(x0+rnd(.32,.68)*(x1-x0)),Math.round(rnd(30,54)));// a ragged gap: the stair has been fought over before
+      hangs.push({cx:x0+(x1-x0)*rnd(.25,.75),cy:deck+h9})}
+    g.fillStyle='#fff';for(const[x,y]of NS.rungs)g.fillRect(x,y,11,3);
+  }
   else if(L==='drowned'){sump=Math.round(H*.6);
     // Spike (phase3): a hand-placed drowned cathedral district. Towers, a nave, arched bridges and a cathedral front
     // rise out of high water; low piers at the waterline take the fallen heads. Placeholder shapes for ChatGPT's
@@ -1082,7 +1100,7 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
   }
 
   // floating islands
-  const ni=nW(L==='drowned'?0:L==='islands'?4+(Math.random()*3|0):L==='ruins'?(Math.random()<.5?1:0):1+(Math.random()*2|0),L==='islands'?3:0);
+  const ni=nW(LD?0:L==='islands'?4+(Math.random()*3|0):L==='ruins'?(Math.random()<.5?1:0):1+(Math.random()*2|0),L==='islands'?3:0);
   for(let i=0;i<ni;i++){let cx=L==='canyon'&&i===0?ccx:freeX(200),w=rnd(110,220);
     let cy=L==='islands'?rnd(H*.32,H*.6):Math.min(hAt(cx-w/2),hAt(cx+w/2),hAt(cx))-rnd(110,200);
     if(L==='canyon'&&i===0){w=cwid*2.2;cy=Math.min(hAt(cx-cwid*1.6),hAt(cx+cwid*1.6))-rnd(30,70)}
@@ -1092,15 +1110,15 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
     for(let k=n;k>=0;k--){const f=Math.sin(Math.PI*k/n);pts.push([cx-w/2+w*k/n+rnd(-6,6),cy+8+f*w*rnd(.22,.4)+(k%2?rnd(0,20):0)])}
     poly(g,pts);hangs.push({cx:cx+rnd(-w*.25,w*.25),cy})}
   // pillars
-  for(let i=0,n=nW(L==='drowned'?0:(L==='ruins'?2:3)+(Math.random()*3|0));i<n;i++){const cx=L==='ruins'?flatX(90,20):freeX(90);if(cx===null)continue;const w=rnd(14,22),bs=hAt(cx),hh=rnd(50,140);
+  for(let i=0,n=nW(LD?0:(L==='ruins'?2:3)+(Math.random()*3|0));i<n;i++){const cx=L==='ruins'?flatX(90,20):freeX(90);if(cx===null)continue;const w=rnd(14,22),bs=hAt(cx),hh=rnd(50,140);
     both(gg=>poly(gg,[[cx-w/2,bs+20],[cx-w/2,bs-hh+rnd(-8,8)],[cx-w/6,bs-hh-rnd(0,14)],[cx+w/5,bs-hh+rnd(-4,10)],[cx+w/2,bs-hh+rnd(-10,6)],[cx+w/2,bs+20]]))}
   // bridges
-  for(let i=0,n=nW(L==='drowned'?0:1+(Math.random()*2|0));i<n;i++){const x=rnd(240,W-520),len=rnd(150,280),y=Math.min(hAt(x),hAt(x+len),hAt(x+len/2))-rnd(90,150);
+  for(let i=0,n=nW(LD?0:1+(Math.random()*2|0));i<n;i++){const x=rnd(240,W-520),len=rnd(150,280),y=Math.min(hAt(x),hAt(x+len),hAt(x+len/2))-rnd(90,150);
     both(gg=>{gg.fillRect(x,y,len,11);for(let k=x+14;k<x+len-10;k+=34)gg.fillRect(k,y+11,4,14);
       gg.globalCompositeOperation='destination-out';poly(gg,[[x+len*.6,y-2],[x+len*.66,y+14],[x+len*.7,y-2]]);gg.globalCompositeOperation='source-over'});
     hangs.push({cx:x+len*.3,cy:y})}
   // pipes
-  for(let i=0;i<(L==='drowned'?0:(Math.random()*2|0)+(L==='canyon'?1:0));i++){const x=L==='canyon'&&i===0?ccx-cwid*1.8:rnd(150,W-600),len=L==='canyon'&&i===0?cwid*3.6:rnd(260,440),
+  for(let i=0;i<(LD?0:(Math.random()*2|0)+(L==='canyon'?1:0));i++){const x=L==='canyon'&&i===0?ccx-cwid*1.8:rnd(150,W-600),len=L==='canyon'&&i===0?cwid*3.6:rnd(260,440),
     y=L==='canyon'&&i===0?Math.min(hAt(ccx-cwid*1.8),hAt(ccx+cwid*1.8))+rnd(20,50):rnd(H*.32,H*.52);
     both(gg=>{gg.fillRect(x,y,len,9);for(let k=x;k<x+len;k+=60)gg.fillRect(k,y-3,5,15);gg.fillRect(x+len*.5,y+9,6,Math.max(0,hAt(x+len*.5)-y))})}
   // Seat every piece into the ground so no bounding box shows. Under the piece, rock fills down to the ground where
@@ -1129,7 +1147,7 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
   // ---- the kit on generated maps: landmarks on level ground, big rock (R05–R09) standing out of the terrain,
   // flying buttresses and stair ramps against the kit towers, then the same up-and-over pass as the drowned
   // district. Each piece's foot is buried; gaps under a landmark are filled with rock.
-  if(L!=='drowned'&&kitReady&&kitHas('K05')){
+  if(!LD&&kitReady&&kitHas('K05')){
     const lmk=['K10','K11','K12','K13'].filter(kitHas),nl=lmk.length?nW(L==='ruins'?1+(Math.random()<.5?1:0):L==='islands'?(Math.random()<.5?1:0):1,L==='islands'?0:1):0;
     for(let i=0;i<nl;i++){const id=pickK(lmk[Math.random()*lmk.length|0]),w=occW(id);let best=null;
       for(let k=0;k<60;k++){const x=rnd(70,W-70-w);if(!freeOcc(x,x+w))continue;let lo=1e9,hi=0;for(let xx=x;xx<=x+w;xx+=6){const h=hAt(xx);lo=Math.min(lo,h);hi=Math.max(hi,h)}
@@ -1154,7 +1172,7 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
     seatAll();upOver(genT,false)}
   // caverns (the noise makes its own on ruins)
   g.globalCompositeOperation='destination-out';
-  for(let i=0,n=nW(L==='ruins'||L==='drowned'?0:L==='canyon'?2+(Math.random()*2|0):5+(Math.random()*4|0));i<n;i++){const x=rnd(150,W-150),y=hAt(x)+rnd(70,200);/* (13 Nov) canyons: fewer caves, so the big plateaus have room for a sewer */g.beginPath();g.ellipse(x,y,rnd(30,72),rnd(18,38),rnd(-.4,.4),0,Math.PI*2);g.fill()}
+  for(let i=0,n=nW(L==='ruins'||LD?0:L==='canyon'?2+(Math.random()*2|0):5+(Math.random()*4|0));i<n;i++){const x=rnd(150,W-150),y=hAt(x)+rnd(70,200);/* (13 Nov) canyons: fewer caves, so the big plateaus have room for a sewer */g.beginPath();g.ellipse(x,y,rnd(30,72),rnd(18,38),rnd(-.4,.4),0,Math.PI*2);g.fill()}
   g.globalCompositeOperation='source-over';
   const d=g.getImageData(0,0,W,H).data;for(let i=0;i<W*H;i++)solid[i]=d[i*4+3]>127?1:0;
   // ruins: hang lamps under natural overhangs
@@ -1184,7 +1202,7 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
   // basin, a sunken hall with stairs. A site that has to be forced is skipped. Own seeded numbers, so maps without
   // one are exactly as before.
   NS.falls=[];NS.sewers=[];NS.pools=[];NS.water=[];NS.gas=[];NS.sewerFit=0;rungM.fill(0);gratM.fill(0);waterM.fill(0);S.gasq=[];const sewFx=[];
-  if(SEWERS_ON&&L!=='drowned'){const R=hrand((S.seed^0x5e3e7)|0),rr=(a,b)=>a+R()*(b-a),ri=(a,b)=>a+(R()*(b-a+1)|0);
+  if(SEWERS_ON&&!LD){const R=hrand((S.seed^0x5e3e7)|0),rr=(a,b)=>a+R()*(b-a),ri=(a,b)=>a+(R()*(b-a+1)|0);
     const Q=6,TH=40,ROOF=SEW_ROOF,TR=8,RI=7;// sample step, tunnel height, rock over the tunnel, stair tread and riser
     const sol=(x,y)=>x>=0&&x<W&&y>=0&&y<H&&solid[(y|0)*W+(x|0)]===1?1:0;
     const upTop=(x,y)=>{while(y>0&&sol(x,y-1))y--;return y};// the top of the rock standing at x,y
@@ -1463,7 +1481,8 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
     if(k<260&&y+34<sump&&![6,14,22,30].some(d=>isSolid(h.cx,y+d)))add({k:'lamp',x:h.cx,y:y+16,ax:h.cx,ay:y-3})}
   for(let i=0;i<nW(6,3);i++){const x=rnd(120,W-120),y=surf(x);if(y>60&&y<sump-70)add({k:'post',x,y,ax:x,ay:y+3})}
   for(const e of eyes)add({k:'eye',x:e.x,y:e.y,ax:e.ax,ay:e.ay,c:e.c,faulty:Math.random()<.3});
-  if(L==='drowned')sump=Math.round(H*.6);// the drowned district starts with the water high
+  if(L==='stair'&&NS.rungs)for(const[x,y]of NS.rungs)for(let yy=y;yy<y+3;yy++)for(let xx=x;xx<x+11;xx++)rungM[yy*W+xx]=1;
+  if(L==='drowned')sump=Math.round(H*.6);if(CB&&CB.sump)sump=CB.sump;// the drowned district starts with the water high
   // set pieces (heads, saint, gargoyle) are real stone: placed with the map and stamped into the terrain like the kit
   if(window.GRIMSPIRE_SET_PIECES){window.GRIMSPIRE_SET_PIECES.seed=null;if(kitReady&&spStamp(g,hg)){const d3=g.getImageData(0,0,W,H).data;for(let i=0;i<W*H;i++)solid[i]=d3[i*4+3]>127?1:0}}
   paintTerrain();carvRelief();struct.width=1;struct.height=1;carv.width=1;carv.height=1;rimDirty=true;
@@ -2861,13 +2880,13 @@ function mkCfg(mode,facs,teams,cpuFrom){const n=facs.length,ally=[0,1,2,3],ctl=[
   facs.forEach((f,i)=>{ally[f]=teams&&n===4?i%2:f;ctl[f]=mode==='cpu'&&i>=(cpuFrom||1)?'c':'h'});
   return{order:facs.slice(),ally,ctl,squad:n<=2?5:4,/* (13 Nov, Jarred) a fifth trooper each; 3-4 squads get four */teams:!!(teams&&n===4)}}
 function newGame(mode,seed,cfg){if(seed===undefined)seed=(RR()*2147483647)|0;S.seed=seed;SR.seed(seed);
-  setMapW(mode==='online'?rollMapW(seed):(DBG.mapW??urlMapW??rollMapW(seed)));
+  setMapW(cfg&&cfg.climb?cfg.climb.mapW:mode==='online'?rollMapW(seed):(DBG.mapW??urlMapW??rollMapW(seed)));
   S.cfg=cfg||S.cfg&&S.cfg.mode===mode&&S.cfg||Object.assign(mkCfg(mode,[0,1]),{mode});S.cfg.mode=mode;
   S.order=S.cfg.order.slice();S.ally=S.cfg.ally.slice();S.ctl=S.cfg.ctl.slice();S.squad=S.cfg.squad;S.gone=[];
   inSim(()=>newGameInner(mode));buildHud()}
 function newGameInner(mode){
   setMusicMode('battle');
-  S.mode=mode;sump=H-40;genTerrain();
+  S.mode=mode;S.ban=null;delete WP.mortar.shots;sump=H-40;genTerrain();
   troopers=[];projs=[];corpses=[];parts=[];texts=[];tracers=[];graves=[];builds=[];beams=[];flashes=[];
   const xs=[],roll=TEAM.map(T=>{const a=T.names.slice();for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a});
   const nT=S.order.length*S.squad,gap=Math.min(nT>10?95:110,(W-180)/nT*.85);/* (13 Nov) a narrow map with ten troopers can't keep them 110 apart: share the width */
@@ -2885,18 +2904,19 @@ function newGameInner(mode){
   const n0=S.order.length,first=Math.floor(Math.random()*n0);S.team=S.order[(first+n0-1)%n0];S.ptr=[-1,-1,-1,-1];S.weapon=['mortar','mortar','mortar','mortar'];S.lastAtk=['mortar','mortar','mortar','mortar'];S.deathCd=0;S.paused=false;
   $('#ov').hidden=true;$('#end').hidden=true;$('#end').classList.remove('reveal');document.querySelectorAll('.endEdge').forEach(e=>e.remove());$('#pause').hidden=true;document.body.classList.remove('intitle');preloadEnd();
   dressSeed=null;dressWard();if(window.GRIMSPIRE_SET_PIECES)setPiecesPlace();
+  if(S.cfg.climb)climbSetup();
   nextTurn();
 }
 function pickNext(team){const list=troopers.filter(t=>t.team===team);
   for(let k=1;k<=list.length;k++){const i=(S.ptr[team]+k)%list.length;if(list[i].alive){S.ptr[team]=i;return list[i]}}return null}
 function aliveGroups(){return new Set(troopers.filter(t=>t.alive).map(t=>S.ally?S.ally[t.team]:t.team))}
-function winCheck(){const g=aliveGroups();if(g.size<=1){gameOver(g.size?[...g][0]:-1);return true}return false}
+function winCheck(){if(S.cfg&&S.cfg.climb&&climbWin())return true;const g=aliveGroups();if(g.size<=1){gameOver(g.size?[...g][0]:-1);return true}return false}
 function nextSide(f){const o=S.order,n=o.length,i=o.indexOf(f);for(let k=1;k<=n;k++){const g=o[(i+k+n)%n];if(troopers.some(t=>t.alive&&t.team===g))return g}return f}
 function nextTurn(){
   statTurnEnd();if(winCheck())return;
   S.turnN++;const ev=[];for(const z of zones)z.left--;zones=zones.filter(z=>z.left>0);
-  {const o=S.order,nx=nextSide(S.team);if(o.indexOf(nx)<=o.indexOf(S.team)){S.rnd=(S.rnd||0)+1;if(S.rnd>SD_ROUND)ev.push('rise')}}
-  if(S.turnN>=2&&Math.random()<DROP.chance)ev.push('drop');
+  {const o=S.order,nx=nextSide(S.team);if(o.indexOf(nx)<=o.indexOf(S.team)){S.rnd=(S.rnd||0)+1;if(S.cfg.climb?climbTide():S.rnd>SD_ROUND)ev.push('rise')}}
+  if(S.turnN>=2&&Math.random()<(S.cfg.climb?S.cfg.climb.drop:DROP.chance))ev.push('drop');
   if(ev.length){S.events=ev;S.ev=null;S.phase='event';S.active=null;S.camFree=false;return}
   beginTurn();
 }
@@ -2907,7 +2927,7 @@ function beginTurn(){
   S.moved=false;S.swapped=false;S.second=false;S.ticked=false;S.mobile=false;S.rb=0;S.ars=false;S.saw=S.mini=S.drone=S.pod=null;S.stag=!!(S.active&&S.active.stag);if(S.active)S.active.stag=false;S.armed=isCPU()||(S.mode!=='online'&&S.mode!=='hot');
   if(!hasAmmo(curW())||WP[S.weapon[S.team]].kind==='jet'||WP[S.weapon[S.team]].kind==='rope')S.weapon[S.team]=S.lastAtk[S.team];
   else if(WP[S.weapon[S.team]].kind==='build')S.weapon[S.team]='mortar';/* (14 Nov, Jarred) a fabricator left in hand from last turn goes back to the mortar */
-  S.shots=curW().shots||1;S.wind=Math.round(rnd(-1,1)*10)/10;AI.stage=0;AI.t=0;AI.gen=null;AI.plan=null;AI.cover=null;AI.replanned=false;AI.noised=false;AI.err=null;AI.stuck=0;AI.roped=false;
+  S.shots=curW().shots||1;S.wind=Math.round(rnd(-1,1)*10)/10;AI.stage=0;AI.t=0;AI.gen=null;AI.plan=null;AI.cover=null;AI.replanned=false;AI.noised=false;AI.err=null;AI.stuck=0;AI.roped=false;if(S.cfg.climb)climbTurn();
   if(S.stag)texts.push({x:S.active.x,y:S.active.y-58,txt:'Staggered · no moving this turn',life:2.4,col:BONE,small:true});
   // Faction and trooper intro; active UI colour carries turn ownership.
   {const al=S.cfg&&S.cfg.teams?S.order.find(f=>f!==S.team&&S.ally[f]===S.ally[S.team]):undefined,with_=al!==undefined?' · with '+TEAM[al].name:'';
@@ -2943,6 +2963,7 @@ function gameOver(w){
   if(S.mode==='online'){if(NET.role==='act')NET.handover='over';netGameOver()}
   statTurnEnd();
   S.phase='over';setMusicMode('title');
+  if(S.cfg&&S.cfg.climb){climbOver(w);return}
   const win=w<0?[]:S.order.filter(f=>(S.ally?S.ally[f]:f)===w),pov=endPov(),mine=pov>=0&&S.order.includes(pov),won=mine&&win.includes(pov);
   const E=$('#end'),col=win.length?TEAM[win[0]].col:BONE;E.style.setProperty('--ec',col);E.classList.toggle('lost',mine&&!won);
   $('#eKick').textContent=!win.length?'Stalemate':mine?(won?'Victory':'Defeat'):'Victory';
@@ -3031,7 +3052,7 @@ function buildArsenal(){
   const root=$('#agrid');root.innerHTML='';
   for(const cat of CATS){const sec=document.createElement('div');sec.className='acat c-'+cat.toLowerCase();const h=document.createElement('h3');h.textContent=cat;sec.append(h);
     const grid=document.createElement('div');grid.className='agrid';
-    for(const w of ARS.filter(x=>x.cat===cat&&!x.off)){const a=ammoOf(S.team,w);const b=document.createElement('button');b.type='button';b.className='tile';
+    for(const w of ARS.filter(x=>x.cat===cat&&!x.off&&!(S.cfg&&S.cfg.climb&&S.ban&&S.ban[S.team]&&S.ban[S.team][x.id]))){const a=ammoOf(S.team,w);const b=document.createElement('button');b.type='button';b.className='tile';
       b.setAttribute('aria-pressed',String(S.weapon[S.team]===w.id));b.disabled=a<=0||(w.kind==='jet'&&S.usedJet);
       const n=document.createElement('b');n.textContent=w.name;const em=document.createElement('em');em.textContent=a===Infinity?'∞':'×'+a;n.append(em);
       const d=document.createElement('span');d.textContent=w.desc;b.insertAdjacentHTML('afterbegin',icon(w.id));b.append(n,d);
@@ -3050,7 +3071,7 @@ function navArsenal(code){const tiles=[...document.querySelectorAll('#agrid .til
     if(sc<bs){bs=sc;best=b}}
   if(best){best.focus();best.scrollIntoView({block:'nearest'})}}
 function closeArsenal(){const was=!$('#arsenal').hidden;$('#arsenal').hidden=true;if(was&&S.phase==='aim'&&localTurn())act('a',0)}
-function setPause(p){if(S.phase==='title'||S.phase==='over')return;$('#pRestart').hidden=S.mode==='online';$('#pForfeit').hidden=S.mode!=='online';$('#pause').querySelector('h2').textContent=S.mode==='online'?'Match '+fmtCode(NET.code):'Paused';if(S.mode==='online'){$('#pause').hidden=!p;if(p){closeArsenal();LH.clear()}return}S.paused=p;$('#pause').hidden=!p;if(p){closeArsenal();LH.clear()}}
+function setPause(p){if(S.phase==='title'||S.phase==='over')return;$('#pRestart').hidden=S.mode==='online'||!!(S.cfg&&S.cfg.climb);$('#pForfeit').hidden=S.mode!=='online';$('#pause').querySelector('h2').textContent=S.mode==='online'?'Match '+fmtCode(NET.code):'Paused';if(S.mode==='online'){$('#pause').hidden=!p;if(p){closeArsenal();LH.clear()}return}S.paused=p;$('#pause').hidden=!p;if(p){closeArsenal();LH.clear()}}
 
 /* ================= actions ================= */
 function dropDepth(x,y){let k=0;while(k<300&&!isSolid(x,y+k+1))k++;return k}
@@ -3076,7 +3097,7 @@ function rungAbove(t){for(let y=t.y-26;y>t.y-58;y--)for(const dx of[-3,0,3])if(i
 function launchJump(t){t.vy=-255;t.vx=rungAbove(t)?0:t.face*140;t.air=true;t.jumped=true;t.y-=1;sfx('jump');sfx('jet');JUMPFX.set(t,time)}
 /* any big shove: knocks troopers off ropes, out of water, into a low skid or a short flight */
 function airborne(o){o.down=0;o.rope=null;o.wire=null;o.wet=false;o.skid=false;o.air=true;o.crouch=0;o.y-=1}
-function shove(o,vx,vy){if(!o.alive)return;
+function shove(o,vx,vy){if(!o.alive||o.boss)return;
   if(o.rope){o.rope=null;o.air=true}
   if(o.wet){o.vx+=vx*.4;if(vy<-120){o.wet=false;o.air=true;o.vy=vy*.6;o.y-=2}return}
   o.vx+=vx;o.vy+=vy;o.knocked=true;o.bounced=false;o.crouch=0;
@@ -3084,7 +3105,7 @@ function shove(o,vx,vy){if(!o.alive)return;
   if(o.vy<-70){o.air=true;o.skid=false;o.y-=1}
   else if(Math.abs(o.vx)>28){o.skid=true;o.vy=0;if(Math.abs(o.vx)>150){o.down=Math.max(o.down||0,.7);o.downDir=Math.sign(o.vx)}}
   else{o.vx=0;o.vy=0}}
-function hurt(t,d,soft){if(d<=0||!t.alive)return;const was=t.hp;t.hp=Math.max(0,t.hp-d);statHurt(t,was-t.hp);if(was>0&&t.hp===0){slowmo(1.4);statKill(t)}sfx('clank');
+function hurt(t,d,soft){if(d<=0||!t.alive)return;if(S.cfg&&S.cfg.climb)d=climbDmg(t,d);const was=t.hp;t.hp=Math.max(0,t.hp-d);statHurt(t,was-t.hp);if(was>0&&t.hp===0){slowmo(1.4);statKill(t)}sfx('clank');
   if(!soft&&t===S.active&&(S.phase==='aim'||S.phase==='retreat')){if(S.phase==='aim')texts.push({x:t.x,y:t.y-58,txt:'Turn lost',life:1.6,col:BONE,small:true});S.phase='end';S.charging=false;S.jet=null;S.wait=0}const prev=texts.find(x=>x.who===t&&x.life>.85);if(prev){prev.dmg+=d;prev.txt='-'+prev.dmg;prev.life=1.5}else texts.push({x:t.x,y:t.y-38,txt:'-'+d,life:1.5,col:TEAM[t.team].col,who:t,dmg:d})}
 function deathCam(x,y,d=1.7){S.deathCam={x:clamp(x,20,W-20),y:Math.min(y,sump-10),t:d}}
 const SEWERS_ON=!/(^#|&)nosewers\b/.test(location.hash),SEWER_CHANCE=1,SEW_ROOF=60,DEATH_HOLD=3.2,DEATH_LINGER=1.2;// the hold counts down only once the grave is up (Jarred 12 Nov: the camera left before it rose) // a killed trooper keeps the camera through their last act and the grave rising (grave at 1.75 s)
@@ -3235,7 +3256,7 @@ function launch(){
   const[ox,oy,dx,dy]=origin(t),sp=w.speed*Math.max(.08,S.charge);
   useAmmo(w);t.lastPow[w.id]=S.charge;if(w.ammo<0)S.lastAtk[S.team]=w.id;
   projs.push({w,x:ox,y:oy,vx:dx*sp,vy:dy*sp,owner:t,age:0,fuse:w.kind==='grenade'?S.fuse:0,rest:false});S.moved=true;
-  muzzle(ox,oy,TEAM[t.team].col);sfx('launch');S.charge=0;finish();if(w.kind==='grenade')S.mobile=true;
+  muzzle(ox,oy,TEAM[t.team].col);sfx('launch');S.charge=0;if(S.cfg&&S.cfg.climb&&climbSecond(w)){S.charging=false;return}finish();if(w.kind==='grenade')S.mobile=true;
 }
 function ray(t,ox,oy,dx,dy,len){let x=ox,y=oy;
   for(let d=0;d<len;d+=2){x=ox+dx*d;y=oy+dy*d;if(x<0||x>W||y<-300||y>sump)return{x,y};if(isSolid(x,y))return{x,y,solid:true};
@@ -3288,8 +3309,8 @@ function fabValid(){const t=S.active,b=S.target;if(!t||!b)return false;if(Math.h
   const c=Math.cos(S.rot),s=Math.sin(S.rot);
   for(const o of troopers){if(!o.alive)continue;for(const oy of[o.y-2,o.y-12,o.y-22]){const dx=o.x-b.x,dy=oy-b.y,lx=dx*c+dy*s,ly=-dx*s+dy*c;if(Math.abs(lx)<48*(S.span||1)+6&&Math.abs(ly)<12)return false}}
   return b.y<sump-6}
-function explode(x,y,r,dmg,o={}){
-  carve(x,y,r,true,true);
+function explode(x,y,r,dmg,o={}){let cR=r;if(S.cfg&&S.cfg.climb&&!o.noK){const m=climbBlast(x,y,r,dmg);r=Math.round(r*m.r);dmg=Math.round(dmg*m.d);cR=Math.round(r*m.c)}
+  if(cR>0)carve(x,y,cR,true,true);
   // blast: full damage inside ~1.2r. Shockwave: shoves out to ~2.6r, with a sting of damage just past the blast edge
   const R=r*1.2,SW=r*3.1,STING=r*.6;let bigHits=0,bigTotal=0;
   for(const q of sentries){const d=Math.hypot(q.x-x,q.y-8-y);if(d<r*1.2)hurtSentry(q,Math.round(dmg*Math.min(1,(1-d/(r*1.2))*1.3)))}
@@ -4045,7 +4066,7 @@ const CRATE_CLEAR=80,CRATE_PICKS=12;
 function dropSpot(avoid){const clear=(c,y)=>{let m=1e9;for(const t of troopers)if(t.alive)m=Math.min(m,Math.hypot(t.x-c,t.y-y));return m};let best=null,bd=-1,n=0;
   for(let i=0;i<60&&n<CRATE_PICKS;i++){const c=rnd(140,W-140),y=surf(c);if(y>80&&y<sump-70&&!isSolid(c,y-30)&&!avoid.some(a=>Math.abs(a-c)<160)){n++;const d=clear(c,y);if(d>=CRATE_CLEAR)return c;if(d>bd){bd=d;best=c}}}return best}
 function startEvent(k){
-  if(k==='rise'){S.ev={k,t:0,from:sump,to:sump-13*S.order.length};banner('The sump rises','Sudden death','#9fb4d8');sfx('rise')}
+  if(k==='rise'){S.ev={k,t:0,from:sump,to:sump-(S.cfg.climb?S.cfg.climb.tide:13*S.order.length)};banner(S.cfg.climb?'The tide comes in':'The sump rises',S.cfg.climb?'Get above it':'Sudden death','#9fb4d8');sfx('rise')}
   else{const big=Math.random()<DROP.superChance,dir=Math.random()<.5?1:-1,xs=[];
     for(let n=0;n<(big?DROP.superN:1);n++){const x=dropSpot(xs);if(x!==null)xs.push(x)}if(!xs.length)xs.push(W/2);
     xs.sort((a,b)=>(a-b)*dir);const drops=xs.map(x=>({x,type:crateType()}));
@@ -4259,7 +4280,7 @@ function wardLights(L){
 }
 
 /* ================= update ================= */
-function update(dt){
+function update(dt){if(S.cfg&&S.cfg.climb)climbUpdate(dt);
   if(S.phase==='title'||S.phase==='over'){updParts(dt);press.clear();return}
   wSettleDirty();
   if(S.paused&&S.mode!=='online'){press.clear();return}
@@ -4687,7 +4708,7 @@ function render(dt){
     for(let i=1;i<n;i++){const f=i/n,j=(Math.random()-.5)*2.6;ctx.lineTo(r.x+(hx-r.x)*f+nx*j,r.y+(hy-r.y)*f+ny*j)}ctx.lineTo(hx,hy);ctx.stroke();
     ctx.shadowBlur=10;ctx.fillStyle='#bffcff';ctx.fillRect(r.x-2.5,r.y-3,5,4);ctx.fillStyle='#2a2d34';ctx.fillRect(r.x-1,r.y-6,2,3);ctx.restore();
     if(Math.random()<.25){const f=Math.random();parts.push({k:'spark',x:r.x+(hx-r.x)*f,y:r.y+(hy-r.y)*f,vx:rnd(-50,50),vy:rnd(-60,10),life:rnd(.1,.25),max:.25,col:'#9ffbff'});sfx('zap')}}
-  for(const t of troopers)if(t.alive&&!t.podded)drawTrooper(t);
+  for(const t of troopers)if(t.alive&&!t.podded){if(t.boss){ctx.save();ctx.translate(t.x,t.y);ctx.scale(1.7,1.7);ctx.translate(-t.x,-t.y);drawTrooper(t);ctx.restore()}else drawTrooper(t)}
   drawWave2();
   for(const p of projs){
     if(p.w.kind==='shell'){const c=p.w.nuke?'#ff6a3d':'#ffb21e';ctx.shadowColor=c;ctx.shadowBlur=18;ctx.fillStyle='#fff3cf';ctx.beginPath();ctx.arc(p.x,p.y,p.w.nuke?5:3.4,0,Math.PI*2);ctx.fill();ctx.shadowBlur=0}
@@ -5627,7 +5648,242 @@ window.GRIMSPIRE_ART_SIM=labSimKey;
 // END GRIMSPIRE_ART_RUNTIME
 requestAnimationFrame(frame);
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(resize);
-window.__G={get W(){return W},S,AID,get carvBoxes(){return carvBoxes},gameOver:w=>gameOver(w),NET,stateHash,dress:()=>({tags,scan:(c,x,y,r)=>{const g=c==="g"?gfx:c==="t"?tctx:c==="b"?bctx:mctx;const d=g.getImageData(x-r|0,y-r|0,2*r,2*r).data;let m=0,n=0;for(let j=0;j<2*r;j++)for(let i=0;i<2*r;i++){if((i-r)**2+(j-r)**2>(r-2)**2)continue;const a=d[(j*2*r+i)*4+3];if(a>m)m=a;if(a>40)n++}return [m,n]},px:(c,x,y)=>{const g=c==="g"?gfx:c==="t"?tctx:c==="b"?bctx:mctx;return [...g.getImageData(x|0,y|0,1,1).data]}}),simStep:f=>simStep(f),DROP,OW,MINI,kill:t=>killTrooper(t),get corpses(){return corpses},get graves(){return graves},AI,mines:()=>mines,blds:()=>genTerrain.blds||[],maskURL:()=>{const c=mk(W/2,H/2),x=c.getContext("2d");x.fillStyle="#123";x.fillRect(0,0,W/2,H/2);x.drawImage(back,0,0,W/2,H/2);x.drawImage(terr,0,0,W/2,H/2);x.fillStyle="rgba(60,120,255,.5)";x.fillRect(0,sump/2,W/2,H);return c.toDataURL()},bus:()=>bus(),camSet:(x,y)=>{cam.x=x;cam.y=y},scr:(x,y)=>[(x-cam.x)*scale,(y-cam.y)*scale],base:()=>baseScale,setSump:v=>{sump=v},dropSpot:a=>dropSpot(a||[]),spawnShell:(x,y)=>projs.push({w:WP.mortar,x,y,vx:0,vy:200,owner:null,age:1,fuse:0,rest:false}),MUS,get AC(){return AC},initAudio,setMusicMode,ammo:(tm,id)=>S.ammo[tm][id],surfY:surf,press:k=>{press.add(k);held.add(k)},release:k=>held.delete(k),dropRopeT:t=>dropRope(t),isSolid,explode,shove,switchTo,addFire,hurtT:(t,d)=>hurt(t,d),labFlush:()=>labFlush(),jumpT:t=>jump(t),get projs(){return projs},get troopers(){return troopers},get barrels(){return barrels},get crates(){return crates},get fires(){return fires},get puddles(){return puddles},sump:()=>sump,newGame,update,render,tryFire,launch,selectWeapon,WP,blowBarrel,sky,mkCfg,get order(){return S.order},testWall:(x,y0,y1)=>{for(let yy=y0;yy<y1;yy++)for(let xx=x;xx<x+4;xx++)solid[yy*W+xx]=1},testFlat:(x0,x1,y)=>{for(let yy=y-140;yy<y+30;yy++)for(let x=x0;x<x1;x++)solid[yy*W+x]=yy>=y?1:0},get sentries(){return sentries},get zones(){return zones},get texts(){return texts},cutChutes,nextTurn};
+// BEGIN GRIMSPIRE_CLIMB
+/* ================= THE CLIMB (15 Nov 2026) =================
+   A run on top of the battle engine: the squad decants from the ark, fights up the spire with the tide behind it, picks one
+   of three between fights, loses troopers for good and meets the Definitor at the top. Local only (never online), so it may
+   bend the sim through the small hooks marked "climb" in the engine; none of them run outside a climb battle.
+   State: META (kept between runs: gene-seed, mutations, generations, unlocked factions) and RUN (one climb), both saved in
+   the browser. Tuning lives in CL_NODES, CL_REWARDS and CL_MUT. */
+const CL_KEY='grimspire.climb.v1';
+const CL_CREED=['God is whoever wins.','God is still speaking, and we can’t hear it.','The Flood didn’t go far enough.','No one may know God.'];
+const CL_PASSIVE=['Firepower: your blasts are 15% wider.','Tools: 2 more jump packs, a teleporter and a drone every fight.','Rot: your fallen detonate where they drop.','Plate: the squad takes 20% less damage. 2 more fabricators.'];
+const CL_ROMAN=n=>{if(n<=1)return'';const R=[[10,'X'],[9,'IX'],[5,'V'],[4,'IV'],[1,'I']];let s='';for(const[v,r]of R)while(n>=v){s+=r;n-=v}return' '+s};
+const CL_NODES=[
+  {id:'tideline',zone:'The Sump',name:'The Tideline',ef:2,n:6,hp:30,layout:'drowned',mapW:.5,diff:'recruit',tideFrom:5,tide:12,drop:.2,goal:'kill',allow:{},
+    brief:'Low tide. The Hollow are down at the waterline, singing it back in. There are a lot of them and they are not well armed.',
+    obj:'Kill them all. The tide turns in round 5 and does not stop.'},
+  {id:'stair',zone:'The Sump',name:'The Drowned Stair',ef:2,n:3,hp:60,layout:'stair',mapW:.4,diff:'recruit',tideFrom:2,tide:22,drop:0,goal:'escape',floors:6,allow:{scatter:2,bolter:2},
+    brief:'The only way up is a stairwell the sea already owns. The Hollow hold the upper floors. You don’t have to kill them. You have to be above the water.',
+    obj:'Reach the top floor. Anyone left below stays below. Ladders: stand under one and jump. Floors are thin: blow them out.'},
+  {id:'loft',zone:'The Cathedral',name:'The Choir Loft',ef:1,n:3,hp:75,layout:'spires',mapW:.6,diff:'recruit',tideFrom:6,tide:10,drop:.3,goal:'kill',allow:{las:2,bolter:2,rope:3,jet:2,drone:1},
+    brief:'The Neon Choir got here first and wired the nave. Fewer of them, better kit, and they know how to use it.',
+    obj:'Kill them all. They shoot straight.'},
+  {id:'threshold',zone:'The Spire',name:'The Threshold',ef:3,n:3,hp:120,layout:'canyon',mapW:.6,diff:'inquisitor',tideFrom:6,tide:10,drop:.3,goal:'kill',allow:{bolter:2,las:2,buster:2,lance:1,minigun:1,jet:2},
+    brief:'Three of the Halo Guard stand where the stairs end. They have stood there a very long time. No one may know God, and they mean you.',
+    obj:'Three of them, heavily plated. Knock them into the water if you can’t crack them.'},
+  {id:'definitor',zone:'The Spire',name:'The Definitor',ef:3,n:3,hp:45,boss:220,layout:'drowned',mapW:.6,diff:'inquisitor',tideFrom:4,tide:10,drop:.35,goal:'boss',allow:{lance:99,buster:99,sun:99,bolter:4},
+    brief:'The top of the tower. One old man kept alive by his own machine, still promising the answer. The sump engines wake for him.',
+    obj:'Kill the Definitor. He doesn’t move and he can’t be shoved. He calls more Lectors as he weakens.'}
+];
+// classes: each trooper carries part of the arsenal. On their turn only their kit (plus rope and jump pack) can be used,
+// so the squad's weapons are its people, and losing one loses what they carried
+const CL_CLASS=[
+  {id:'bombard',name:'Bombardier',w:['mortar','frag','buster','nuke','sun','minigun','pod'],desc:'Shells and heavy ordnance. Blasts 10% wider.'},
+  {id:'assault',name:'Assault',w:['frag','scatter','bolter','flamer','chain','fist'],desc:'Guns and blades up close. +25 health.'},
+  {id:'sapper',name:'Sapper',w:['frag','fist','mine','cutter','fab','drone'],desc:'Mines, cutter, girders, drone. Half damage from blasts on their own turn.'},
+  {id:'seer',name:'Seer',w:['rail','mortar','las','lance','warp'],desc:'Rail, las, the Orbital Lance, the teleporter. 10 more seconds a turn.'}];
+const clClass=id=>CL_CLASS.find(c=>c.id===id)||CL_CLASS[0];
+const CL_MUT=[
+  {id:'blood',name:'Thick Blood',desc:'+10 health for every trooper, each rank.',cost:[3,5,8]},
+  {id:'hoard',name:'Reliquary',desc:'Start each climb with an Orbital Lance.',cost:[4]},
+  {id:'reader',name:'Tide Readers',desc:'The tide turns one round later in every fight.',cost:[5]},
+  {id:'tithe',name:'Tithe',desc:'Four choices after a fight instead of three.',cost:[6]},
+  {id:'vat',name:'Fifth Vat',desc:'Decant five troopers instead of four.',cost:[10]}
+];
+// rewards: kind 'relic' can only be held once
+const CL_REWARDS=[
+  {id:'medicae',name:'Medicae',tag:'Supply',desc:'Every living trooper heals 45.',ok:r=>r.squad.some(q=>q.alive&&q.hp<q.max),go:r=>{for(const q of r.squad)if(q.alive)q.hp=Math.min(q.max,q.hp+45)}},
+  {id:'decant',name:'Decanting',tag:'Supply',desc:'The ark sends up a fresh clone to replace one of the fallen.',w:3,ok:r=>r.squad.some(q=>!q.alive),go:r=>{const q=r.squad.find(q=>!q.alive);r.fallen.push(q.name);Object.assign(q,clNewTrooper(r,q.id),{hp:Math.round(q.max*.8)})}},
+  {id:'lance',name:'Orbital Lances',tag:'Arms',desc:'Two Orbital Lances. Pick a spot; the sky answers.',go:r=>clGive(r,'lance',2)},
+  {id:'godfall',name:'Godfall',tag:'Arms',desc:'One Godfall pod and a Bunker Buster.',go:r=>{clGive(r,'pod',1);clGive(r,'buster',1)}},
+  {id:'minigun',name:'Minigun',tag:'Arms',desc:'One Minigun and two Las Burners.',go:r=>{clGive(r,'minigun',1);clGive(r,'las',2)}},
+  {id:'doom',name:'Doomsday Shell',tag:'Arms',desc:'One. It raises the water too, so mind where you stand.',w:.6,go:r=>clGive(r,'nuke',1)},
+  {id:'tools',name:'Climbing Kit',tag:'Arms',desc:'Three more rappel wires, two jump packs and a teleporter, every fight.',go:r=>{clGive(r,'rope',3);clGive(r,'jet',2);clGive(r,'warp',1)}},
+  // doctrines: one at a time, each changes what every blast you make does
+  {id:'storm',name:'Storm Doctrine',tag:'Doctrine',kind:'doctrine',desc:'Your blasts become lightning. They break no stone, reach a third further, and arc to anyone standing near the struck.'},
+  {id:'quake',name:'Quake Doctrine',tag:'Doctrine',kind:'doctrine',desc:'Your blasts tear out far more stone and hurt a fifth less. Take the floor, not the trooper.'},
+  {id:'pyre',name:'Pyre Doctrine',tag:'Doctrine',kind:'doctrine',desc:'Every blast you make leaves burning promethium behind.'},
+  {id:'ceramite',name:'Ceramite Litany',tag:'Relic',kind:'relic',desc:'The squad takes a quarter less damage.'},
+  {id:'bangs',name:'Ash Doctrine',tag:'Relic',kind:'relic',desc:'Your blasts are 20% wider. So are the holes.'},
+  {id:'martyr',name:'Martyr’s Seal',tag:'Relic',kind:'relic',desc:'Fallen troopers detonate where they drop.'},
+  {id:'twin',name:'Twin-linked',tag:'Relic',kind:'relic',desc:'The Plasma Mortar fires twice a turn.'},
+  {id:'watch',name:'Long Watch',tag:'Relic',kind:'relic',desc:'15 more seconds on every turn.'},
+  {id:'vatforged',name:'Vat-forged',tag:'Relic',kind:'relic',desc:'+25 health for every trooper, now and after.',go:r=>{for(const q of r.squad){q.max+=25;if(q.alive)q.hp+=25}r.bonusHp=(r.bonusHp||0)+25}}
+];
+let META={seed:0,gen:{},mut:{},unlocked:[0],runs:0,wins:0,best:0,fac:0},RUN=null;
+const clStore={load(){try{const o=JSON.parse(localStorage.getItem(CL_KEY)||'null');if(o&&o.meta){Object.assign(META,o.meta);RUN=o.run||null}}catch(e){}},
+  save(){try{localStorage.setItem(CL_KEY,JSON.stringify({meta:META,run:RUN}))}catch(e){}}};
+const clMut=id=>META.mut[id]||0;
+const clHas=id=>!!(RUN&&RUN.relics.includes(id));
+function clGive(r,id,n){r.ammo[id]=(r.ammo[id]||0)+n}
+function clNewTrooper(r,id){const pool=TEAM[r.fac].names.filter(n=>!r.squad.some(q=>q.alive&&q.base===n)),base=pool[RR()*pool.length|0]||TEAM[r.fac].names[0];
+  const cls=CL_CLASS[id%4].id,key=r.fac+':'+base,g=META.gen[key]=(META.gen[key]||0)+1,max=100+10*clMut('blood')+(r.bonusHp||0)+(cls==='assault'?25:0);
+  return{id,base,cls,name:base+CL_ROMAN(g),hp:max,max,alive:true,kills:0}}
+function clNewRun(fac){RUN={fac,step:0,squad:[],ammo:{},relics:[],doctrine:null,fallen:[],kills:0,seed:0,t0:Date.now(),stage:'map',offer:null,bonusHp:0};
+  const n=clMut('vat')?5:4;for(let i=0;i<n;i++)RUN.squad.push(clNewTrooper(RUN,i));
+  if(clMut('hoard'))clGive(RUN,'lance',1);META.runs++;META.fac=fac;clStore.save()}
+const clNode=()=>CL_NODES[RUN.step];
+// who the squad fights at a node: a faction never fights itself, so its place is taken by the Ash Legion (or the Choir, for Ash)
+const clFoe=nd=>nd.ef===RUN.fac?(RUN.fac===0?1:0):nd.ef;
+
+/* ---- battle hooks (called by the engine only when S.cfg.climb is set) ---- */
+function clDeploy(auto){const nd=clNode(),ef=clFoe(nd),pt=RUN.fac,alive=RUN.squad.filter(q=>q.alive).length;
+  const cfg=Object.assign(mkCfg('cpu',[pt,ef]),{mode:'cpu',diff:nd.diff,squad:Math.max(alive,nd.n)});
+  if(auto)cfg.ctl[pt]='c';
+  cfg.climb={pt,ef,id:nd.id,n:nd.n,hp:nd.hp,boss:nd.boss||0,layout:nd.layout,mapW:nd.mapW,tideFrom:nd.tideFrom+(clMut('reader')?1:0),tide:nd.tide,drop:nd.drop,goal:nd.goal,floors:nd.floors||0,
+    sump:nd.layout==='stair'?H-40:0,allow:nd.allow,stage:0,out:0};
+  RUN.stage='battle';clStore.save();$('#climb').hidden=true;initAudio();
+  newGame('cpu',undefined,cfg)}
+function clPlace(t,y0,y1,xa,xb){let best=null,bd=-1;for(let i=0;i<220;i++){const x=rnd(xa===undefined?30:xa,xb===undefined?W-30:xb),st=stands(x,y0,y1).filter(v=>v<sump-14);if(!st.length)continue;
+    const y=st[Math.random()*st.length|0];let d=1e9;for(const o of troopers)if(o!==t&&o.placed)d=Math.min(d,Math.hypot(o.x-x,o.y-y));if(d>bd){bd=d;best=[x,y]}if(d>90)break}
+  if(best){t.x=best[0];t.y=best[1];t.face=t.x<W/2?1:-1}t.placed=true;return!!best}
+function climbSetup(){const C=S.cfg.climb,PT=C.pt,EF=C.ef,sq=RUN.squad.filter(q=>q.alive);
+  const mine=troopers.filter(t=>t.team===PT).slice(0,sq.length),foes=troopers.filter(t=>t.team===EF).slice(0,C.n);
+  troopers=[...mine,...foes];
+  mine.forEach((t,i)=>{t.name=sq[i].name;t.hp=sq[i].hp;t.max=sq[i].max;t.rid=sq[i].id;t.cls=sq[i].cls});
+  foes.forEach(t=>{t.hp=t.max=C.hp});
+  if(C.boss){const b=foes[0];b.boss=true;b.name='The Definitor';b.hp=b.max=C.boss;
+    // the throne: the highest standable spot on the map
+    let by=H,bx=W/2;for(let x=60;x<W-60;x+=4){const st=stands(x,60,sump-80);if(st.length&&st[0]<by&&!isSolid(x-8,st[0]-2)&&!isSolid(x+8,st[0]-2)){by=st[0];bx=x}}
+    b.x=bx;b.y=by;b.placed=true;b.face=bx<W/2?1:-1;for(const t of foes)if(t!==b)clPlace(t,by-10,by+170,bx-320,bx+320);for(const t of mine)if(Math.hypot(t.x-bx,t.y-by)<260){t.placed=false;clPlace(t,by+90,sump-20,bx<W/2?bx+200:30,bx<W/2?W-30:bx-200)}else t.placed=true}
+  if(C.layout==='stair'){const gy=NS.gateY||250;C.gateY=gy;for(const t of mine)clPlace(t,gy+112*2+40,gy+112*4+20,130,W-130);for(const t of foes)clPlace(t,gy+60,gy+112*2+30,130,W-130)}
+  // kit: the squad carries what it has kept; the foe gets its node's allowance and nothing else limited
+  const mineA={};for(const w of ARS)if(w.ammo>=0)mineA[w.id]=Math.max(w.ammo,0)+(RUN.ammo[w.id]||0);
+  if(PT===1){mineA.jet+=2;mineA.warp+=1;mineA.drone+=1}if(PT===3)mineA.fab+=2;
+  if(C.layout==='stair'){mineA.rope+=3;mineA.jet+=1}
+  S.ammo[PT]=mineA;const ban={},fa={};for(const w of ARS)if(w.ammo>=0){if(C.allow[w.id])fa[w.id]=C.allow[w.id];else{ban[w.id]=1;fa[w.id]=0}}
+  S.ammo[EF]=fa;S.ban={[EF]:ban};
+  if(C.sump)sump=C.sump;
+  S.team=S.order[S.order.length-1];// the squad always moves first
+  C.t0=time;C.said=false}
+function climbTurn(){const C=S.cfg.climb,mineTurn=S.team===C.pt;
+  C.twin=false;
+  if(mineTurn&&clHas('watch'))S.timer+=15;
+  S.ban[C.pt]=null;
+  if(mineTurn&&S.active&&S.active.cls){const K=clClass(S.active.cls),ban={};for(const w of ARS)if(!K.w.includes(w.id)&&w.kind!=='rope'&&w.kind!=='jet')ban[w.id]=1;S.ban[C.pt]=ban;
+    if(K.id==='seer')S.timer+=10;
+    if(ban[S.weapon[S.team]]||!hasAmmo(curW())){S.weapon[S.team]=S.lastAtk[S.team]=K.w[0]}if(ban[S.lastAtk[S.team]])S.lastAtk[S.team]=K.w[0];S.shots=curW().shots||1;
+    texts.push({x:S.active.x,y:S.active.y-58,txt:K.name,life:2.2,col:BONE,small:true})}
+  if(S.active&&S.active.boss)S.stag=true;
+  if(!C.said){C.said=true;const nd=CL_NODES.find(n=>n.id===C.id);setTimeout(()=>{if(S.cfg&&S.cfg.climb===C&&S.phase!=='over')banner(nd.name,C.goal==='escape'?'Reach the top floor':C.goal==='boss'?'Kill the Definitor':'Kill them all',TEAM[C.pt].col,nd.zone)},2600)}}
+// once per round, from nextTurn: does the tide come in this round? Also where the Definitor calls his Lectors
+function climbTide(){const C=S.cfg.climb;
+  if(C.boss){const b=troopers.find(t=>t.boss);if(b&&b.alive){const st=b.hp<=b.max/3?2:b.hp<=b.max*2/3?1:0;
+    if(st>C.stage){C.stage=st;for(let i=0;i<2;i++){const t={team:C.ef,name:'Lector',x:b.x,y:b.y,vx:0,vy:0,hp:45,max:45,alive:true,face:1,aim:-.45,air:false,anim:0,moving:false,lastPow:{}};
+        troopers.push(t);if(clPlace(t,b.y-10,sump-30,b.x-260,b.x+260))warpFx(t.x,t.y-12,TEAM[C.ef].col);else{troopers.pop()}}
+      texts.push({x:b.x,y:b.y-70,txt:st===2?'“I will speak the answer.”':'“You are not the first to ask.”',life:3.4,col:TEAM[C.ef].col});sfx('rise')}}}
+  return(S.rnd||0)>=C.tideFrom}
+// Twin-linked: the first mortar shell of a squad turn leaves the trooper free to fire one more
+function climbSecond(w){const C=S.cfg.climb;if(w.id!=='mortar'||S.team!==C.pt||!clHas('twin')||C.twin)return false;C.twin=true;S.fired=true;S.second=true;S.locked=false;return true}
+function climbDmg(t,d){const C=S.cfg.climb;if(t.team!==C.pt)return d;let k=1;if(C.pt===3)k*=.8;if(t===S.active&&t.cls==='sapper'&&S.team===C.pt)k*=.5;if(clHas('ceramite'))k*=.75;return k===1?d:Math.max(1,Math.round(d*k))}
+// what a blast made on the squad's turn becomes: r radius, d damage, c carve (as multiples). Doctrines live here
+function climbBlast(x,y,r,dmg){const C=S.cfg.climb,m={r:1,d:1,c:1};if(S.team!==C.pt)return m;
+  m.r=(C.pt===0?1.15:1)*(clHas('bangs')?1.2:1)*(S.active&&S.active.cls==='bombard'?1.1:1);const D=RUN.doctrine;
+  if(D==='storm'){m.c=0;m.r*=1.33;const R=r*m.r*1.2,hit=troopers.filter(t=>t.alive&&!t.podded&&Math.hypot(t.x-x,t.y-11-y)<R);
+    flashes.push({x,y,r:R*1.3,c:[150,230,255],life:.3,max:.3,i:1});
+    for(const o of troopers){if(!o.alive||o.podded||hit.includes(o)||o.team===C.pt)continue;const src=hit.find(h=>h.team!==C.pt&&Math.hypot(h.x-o.x,h.y-o.y)<130);if(!src)continue;
+      hurt(o,Math.max(4,Math.round(dmg*.45)),true);flashes.push({x:o.x,y:o.y-11,r:46,c:[150,230,255],life:.35,max:.35,i:1});
+      for(let i=0;i<=8;i++)parts.push({k:'spark',x:src.x+(o.x-src.x)*i/8+rnd(-4,4),y:src.y-11+(o.y-src.y)*i/8+rnd(-4,4),vx:rnd(-30,30),vy:rnd(-40,10),life:rnd(.2,.45),max:.45,col:'#bffcff'})}sfx('zap')}
+  else if(D==='quake'){m.c=1.7;m.d=.8}
+  else if(D==='pyre'){for(let i=0;i<4;i++)fires.push({x:x+rnd(-r,r)*.8,y:y-rnd(2,16),vy:-rnd(40,150),air:true,life:rnd(6,9),tick:rnd(0,.5)})}
+  return m}
+function climbWin(){const C=S.cfg.climb,mine=troopers.filter(t=>t.team===C.pt&&t.alive).length,foes=troopers.filter(t=>t.team===C.ef&&t.alive).length;
+  if(C.boss&&!troopers.some(t=>t.boss&&t.alive)){for(const t of troopers)if(t.team===C.ef&&t.alive){t.alive=false;t.hp=0;warpFx(t.x,t.y-12,TEAM[C.ef].col)}gameOver(C.pt);return true}
+  if(C.goal==='escape'&&!mine&&C.out>0){gameOver(C.pt);return true}
+  if(C.goal==='escape'&&!foes&&mine){gameOver(C.pt);return true}
+  return false}
+function climbUpdate(dt){const C=S.cfg.climb;if(S.phase==='over'||S.phase==='title')return;
+  for(const t of troopers){if(t.team!==C.pt)continue;
+    if(t.alive&&C.goal==='escape'&&!t.air&&!t.rope&&!t.wet&&t.y<=C.gateY+2&&(t!==S.active||S.phase==='aim'||S.phase==='retreat')){
+      t.alive=false;t.out=true;C.out++;warpFx(t.x,t.y-12,TEAM[C.pt].col);sfx('jet');texts.push({x:t.x,y:t.y-44,txt:t.name+' is through',life:2.4,col:TEAM[C.pt].col});
+      if(t===S.active){S.phase='end';S.charging=false;S.jet=null;S.wait=0}}
+    if(!t.alive&&!t.out&&!t.cm){t.cm=true;if((clHas('martyr')||C.pt===2)&&t.y<sump-6)explode(t.x,t.y-10,46,45,{col:TEAM[C.pt].rgb,noK:true})}}}
+function climbOver(w){const C=S.cfg.climb,PT=C.pt;delete WP.mortar.shots;S.ban=null;
+  const won=w===PT,foes=troopers.filter(t=>t.team===C.ef),killed=foes.filter(t=>!t.alive).length,lost=[];
+  for(const q of RUN.squad){if(!q.alive)continue;const t=troopers.find(t=>t.rid===q.id);if(t&&(t.alive||t.out))q.hp=Math.max(1,Math.min(q.max,Math.round(t.hp)||1));else{q.alive=false;q.hp=0;lost.push(q.name)}}
+  for(const wp of ARS)if(wp.ammo>=0)RUN.ammo[wp.id]=Math.max(0,(S.ammo[PT][wp.id]||0)-wp.ammo-(PT===1&&(wp.id==='jet')?2:0)-(PT===1&&(wp.id==='warp'||wp.id==='drone')?1:0)-(PT===3&&wp.id==='fab'?2:0)-(C.layout==='stair'?(wp.id==='rope'?3:wp.id==='jet'?1:0):0));
+  RUN.kills+=killed;RUN.last={won,killed,lost,secs:Math.round(time-(C.t0||0)),rounds:S.rnd||0,node:C.id};
+  const anyAlive=RUN.squad.some(q=>q.alive);S.cfg=null;if(clAuto)console.log('CLIMB_NODE',JSON.stringify(RUN.last),JSON.stringify(RUN.squad.map(q=>q.alive?q.hp:0)));
+  if(won&&anyAlive){RUN.step++;META.best=Math.max(META.best,RUN.step);
+    if(RUN.step>=CL_NODES.length){clEndRun(true);return}
+    RUN.stage='reward';RUN.offer=clRoll();clStore.save();if(clAuto){clPick(0);return}clShow()}
+  else clEndRun(false)}
+function clEndRun(win){const seed=RUN.step+Math.floor(RUN.kills/4)+(win?6:0);META.seed+=seed;if(win){META.wins++;const nx=[1,2,3].find(f=>!META.unlocked.includes(f));if(nx!==undefined){META.unlocked.push(nx);RUN.unlock=nx}}
+  else if(RUN.step>=2&&!META.unlocked.includes(1)){META.unlocked.push(1);RUN.unlock=1}
+  RUN.stage=win?'won':'lost';RUN.earned=seed;const done=RUN;RUN=null;clStore.save();RUN=done;clShow();if(clAuto)console.log('CLIMB_END',JSON.stringify({win,step:done.step,kills:done.kills,last:done.last}))}
+function clRoll(){const n=clMut('tithe')?4:3,pool=CL_REWARDS.filter(c=>!(c.kind==='relic'&&RUN.relics.includes(c.id))&&c.id!==RUN.doctrine&&(!c.ok||c.ok(RUN))),out=[];
+  // always one relic and one supply or arms card on the table when there are any
+  const take=f=>{const p=pool.filter(c=>!out.includes(c)&&f(c));if(!p.length)return;let sum=0;for(const c of p)sum+=c.w||1;let u=RR()*sum;for(const c of p){u-=c.w||1;if(u<=0){out.push(c);return}}out.push(p[0])};
+  if(!RUN.doctrine||RR()<.35)take(c=>c.kind==='doctrine');take(c=>c.kind==='relic');take(c=>!c.kind);while(out.length<n&&out.length<pool.length)take(()=>true);
+  return out.map(c=>c.id)}
+function clPick(i){const c=CL_REWARDS.find(c=>c.id===RUN.offer[i]);if(!c)return;if(c.kind==='relic')RUN.relics.push(c.id);if(c.kind==='doctrine')RUN.doctrine=c.id;if(c.go)c.go(RUN);RUN.offer=null;RUN.stage='map';clStore.save();if(clAuto){clDeploy(true);return}clShow()}
+
+/* ---- screens ---- */
+let clAuto=false;
+const clEl=(tag,cls,txt)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(txt!==undefined)e.textContent=txt;return e};
+function clSquadRow(compact){const row=clEl('div','csquad');for(const q of RUN.squad){const c=clEl('div','ctroop'+(q.alive?'':' dead'));c.append(clEl('b','',q.name),clEl('em','',clClass(q.cls).name));c.title=clClass(q.cls).desc;
+    if(q.alive){const bar=clEl('i','chp');bar.style.setProperty('--p',Math.round(100*q.hp/q.max)+'%');c.append(bar,clEl('small','',q.hp+' / '+q.max))}else c.append(clEl('small','','Gone to light'));row.append(c)}return row}
+function clSpire(step,drownTo){// the ascent: a spire in section, the stops up it, the water behind you
+  const N=CL_NODES.length,ys=i=>372-i*(300/(N-1)),nx=i=>104+(i%2?9:-9)*(i>0&&i<N-1?1:0),wy=step<=0?410:Math.min(404,ys(step-1)+26),col=TEAM[RUN?RUN.fac:META.fac].col;
+  let s=`<svg viewBox="0 0 260 430" class="cspire" role="img" aria-label="The spire: stop ${Math.min(step+1,N)} of ${N}"><defs><linearGradient id="clw" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3ff3ff" stop-opacity=".5"/><stop offset=".12" stop-color="#0b2a3a" stop-opacity=".9"/><stop offset="1" stop-color="#04070c"/></linearGradient></defs>`;
+  s+=`<path d="M130 6 L138 60 L150 64 L154 130 L170 136 L176 230 L196 238 L204 330 L232 340 L240 430 L20 430 L28 340 L56 330 L64 238 L84 230 L90 136 L106 130 L110 64 L122 60 Z" fill="#0c0f15" stroke="rgba(230,228,222,.28)" stroke-width="1"/>`;
+  for(let i=0;i<7;i++)s+=`<path d="M${96+i*4} ${150+i*38} h${68-i*8}" stroke="rgba(230,228,222,.07)"/>`;
+  s+=`<path d="M${nx(0)} ${ys(0)} `+CL_NODES.map((_,i)=>`L${nx(i)} ${ys(i)}`).join(' ')+`" fill="none" stroke="rgba(230,228,222,.25)" stroke-dasharray="2 4"/>`;
+  CL_NODES.forEach((n,i)=>{const x=nx(i),y=ys(i),done=i<step,cur=i===step,fc=TEAM[RUN?clFoe(n):n.ef].col;
+    s+=`<g>${cur?`<circle cx="${x}" cy="${y}" r="13" fill="none" stroke="${col}" stroke-width="1"><animate attributeName="r" values="11;16;11" dur="2.4s" repeatCount="indefinite"/><animate attributeName="opacity" values="1;.2;1" dur="2.4s" repeatCount="indefinite"/></circle>`:''}
+      <rect x="${x-6}" y="${y-6}" width="12" height="12" transform="rotate(45 ${x} ${y})" fill="${done?col:cur?'#0c0f15':'#0c0f15'}" stroke="${done?col:cur?col:fc}" stroke-width="1.4" opacity="${done||cur?1:.75}"/>
+      <text x="${x+17}" y="${y+3.5}" class="${cur?'cur':done?'done':''}">${n.name}</text></g>`});
+  s+=`<rect x="0" y="${wy}" width="260" height="${430-wy}" fill="url(#clw)"><animate attributeName="y" values="${wy};${wy-3};${wy}" dur="5s" repeatCount="indefinite"/></rect><path d="M0 ${wy} H260" stroke="#3ff3ff" stroke-opacity=".7"/></svg>`;
+  const d=clEl('div','cspirewrap');d.innerHTML=s;return d}
+function clShow(){const el=$('#climb'),card=$('#cCard');el.hidden=false;$('#ov').hidden=true;$('#end').hidden=true;$('#pause').hidden=true;document.body.classList.add('intitle');closeArsenal();
+  const fac=RUN?RUN.fac:META.fac,col=TEAM[fac].col;el.style.setProperty('--fc',col);card.replaceChildren();
+  const art=(k)=>{const key=['ash','choir','hollow','halo'][fac];$('#cArt').style.backgroundImage=`url("/Grimspire/assets/end/${key}-${k}.jpg")`};
+  const head=(kick,title,sub)=>{const h=clEl('header','chead');h.append(clEl('p','ekick',kick),clEl('h2','result',title));if(sub)h.append(clEl('p','csub',sub));card.append(h)};
+  const btn=(txt,sub,fn,alt)=>{const b=clEl('button','go'+(alt?' alt':''));b.type='button';b.append(txt);if(sub)b.append(clEl('span','',sub));b.addEventListener('click',()=>{initAudio();fn()});return b};
+  if(!RUN||RUN.stage==='ark'){// the ark: who climbs, what the vats have learned
+    art('loss');head('The ark · low tide','The Climb','The ark rides the tide at the foot of the spire. The Definitor only answers whoever reaches him, so you send four.');
+    const fr=clEl('div','cfacs');TEAM.forEach((T,f)=>{const open=META.unlocked.includes(f),b=clEl('button','cfac'+(f===META.fac?' on':''));b.type='button';b.style.setProperty('--tc',T.col);b.disabled=!open;
+      b.append(clEl('b','',T.name),clEl('small','',open?CL_CREED[f]:f===1?'Reach the Choir Loft to unlock':'Finish a climb to unlock'));if(open)b.append(clEl('i','',CL_PASSIVE[f]));
+      b.addEventListener('click',()=>{META.fac=f;clStore.save();clShow()});fr.append(b)});card.append(fr);
+    const mh=clEl('div','cmuth');mh.append(clEl('h3','','The gene-line'),clEl('p','cseed',META.seed+' gene-seed'));card.append(mh);
+    const ml=clEl('div','cmuts');for(const m of CL_MUT){const lv=clMut(m.id),max=lv>=m.cost.length,cost=m.cost[lv],b=clEl('button','cmut'+(max?' max':''));b.type='button';b.disabled=max||META.seed<cost;
+      b.append(clEl('b','',m.name+(m.cost.length>1?' '+lv+'/'+m.cost.length:'')),clEl('small','',m.desc),clEl('i','',max?'Inherited':cost+' seed'));
+      b.addEventListener('click',()=>{META.seed-=cost;META.mut[m.id]=lv+1;clStore.save();clShow()});ml.append(b)}card.append(ml);
+    const st=clEl('p','cmeta',META.runs?`${META.runs} squad${META.runs>1?'s':''} sent · ${META.wins} reached the top · highest stop ${Math.min(META.best+1,CL_NODES.length)} of ${CL_NODES.length}`:'No one has gone up yet.');card.append(st);
+    const bs=clEl('div','btns');bs.append(btn('Decant the squad','Four clones, one tide',()=>{clNewRun(META.fac);clShow()}),btn('Back','',()=>{clClose()},true));card.append(bs);return}
+  if(RUN.stage==='map'||RUN.stage==='battle'){const nd=clNode(),ef=clFoe(nd);art('win');
+    head(`${nd.zone} · stop ${RUN.step+1} of ${CL_NODES.length}`,nd.name,nd.brief);
+    const grid=clEl('div','cmap');grid.append(clSpire(RUN.step));const side=clEl('div','cside');
+    const foe=clEl('p','cfoe');foe.append(clEl('small','','Against'),clEl('b','',`${nd.boss?'The Definitor and his Lectors':TEAM[ef].name+' ×'+nd.n}`));foe.querySelector('b').style.color=TEAM[ef].col;
+    const ob=clEl('p','cobj');ob.append(clEl('small','','Orders'),document.createTextNode(nd.obj));
+    side.append(foe,ob,clSquadRow());
+    if(RUN.doctrine){const p=clEl('p','crel');p.append(clEl('small','','Doctrine'),document.createTextNode(CL_REWARDS.find(c=>c.id===RUN.doctrine).name));side.append(p)}
+    if(RUN.relics.length){const rl=clEl('p','crel');rl.append(clEl('small','','Relics'),document.createTextNode(RUN.relics.map(id=>CL_REWARDS.find(c=>c.id===id).name).join(' · ')));side.append(rl)}
+    {const extra=ARS.filter(w=>RUN.ammo[w.id]>0).map(w=>(w.short||w.name)+' +'+RUN.ammo[w.id]);if(extra.length){const p=clEl('p','crel');p.append(clEl('small','','Carried'),document.createTextNode(extra.join(' · ')));side.append(p)}}
+    grid.append(side);card.append(grid);
+    const bs=clEl('div','btns');bs.append(btn('Deploy',RUN.stage==='battle'?'Back into the fight':'The tide is behind you',()=>clDeploy()),btn('Leave it here','Your squad waits at this stop',()=>clClose(),true));card.append(bs);return}
+  if(RUN.stage==='reward'){art('win');const L=RUN.last;
+    head('The ark answers',L.lost.length?`${L.lost.join(', ')} went home as light.`:'All of them walked out.',`${CL_NODES[RUN.step-1].name} cleared in ${L.rounds} round${L.rounds===1?'':'s'}. Take one. The rest goes back down with the tide.`);
+    card.append(clSquadRow());const row=clEl('div','ccards');RUN.offer.forEach((id,i)=>{const c=CL_REWARDS.find(c=>c.id===id),b=clEl('button','ccard '+(c.kind||''));b.type='button';
+      b.append(clEl('small','',c.tag),clEl('b','',c.name),clEl('span','',c.desc));b.addEventListener('click',()=>{initAudio();clPick(i)});row.append(b)});card.append(row);return}
+  // the end of a run, either way
+  const win=RUN.stage==='won',L=RUN.last||{lost:[]};art(win?'win':'loss');el.classList.toggle('lost',!win);
+  const END=[['Seized','The throne is yours. It was only ever a chair.'],['Silenced','You listened at the top. The signal was him, on a loop.'],['Collapsed','You pulled the keystone. The sea finishes the job.'],['Sealed','The door is shut. There was nothing behind it to guard.']][fac];
+  if(win)head('The top of the tower · '+END[0],END[1],'There is no answer up there. He found that out a long time ago, and he has been lying ever since.');
+  else head('The tide goes back out',`${TEAM[fac].name} fell at ${CL_NODES[Math.min(RUN.step,CL_NODES.length-1)].name}.`,'The motes go home to the ark. The vats read what they lived through. The next four will be a little harder to kill.');
+  const hi=clEl('div','ehi');const cell=(k,v)=>{const d=clEl('div');d.append(clEl('small','',k),clEl('b','',v));hi.append(d)};
+  cell('Reached','Stop '+Math.min(RUN.step+1,CL_NODES.length)+' of '+CL_NODES.length);cell('Kills',String(RUN.kills));cell('Fallen',String(RUN.fallen.length+RUN.squad.filter(q=>!q.alive).length));cell('Gene-seed','+'+RUN.earned);card.append(hi);
+  if(RUN.unlock!==undefined){const u=clEl('p','cunlock',`${TEAM[RUN.unlock].name} can now make the climb. “${CL_CREED[RUN.unlock]}”`);u.style.color=TEAM[RUN.unlock].col;card.append(u)}
+  const bs=clEl('div','btns');bs.append(btn('Back to the ark','Spend what they learned',()=>{RUN=null;el.classList.remove('lost');clShow()}),btn('Quit to title','',()=>{RUN=null;clClose()},true));card.append(bs)}
+function clClose(){$('#climb').hidden=true;$('#climb').classList.remove('lost');S.cfg=null;quitToTitle()}
+function clOpen(){clStore.load();if(RUN&&RUN.stage==='battle')RUN.stage='map';if(RUN&&(RUN.stage==='won'||RUN.stage==='lost'))RUN=null;clShow()}
+$('#goClimb').addEventListener('click',()=>{initAudio();clOpen()});
+clStore.load();if(RUN&&RUN.stage!=='won'&&RUN.stage!=='lost')$('#goClimb').querySelector('span').textContent=`Your squad waits at ${CL_NODES[Math.min(RUN.step,CL_NODES.length-1)].name}`;
+// test hook: #climbauto plays a whole climb machine against machine and logs the result
+window.__CL={get rungs(){return NS.rungs},get gateY(){return NS.gateY},get RUN(){return RUN},get META(){return META},open:clOpen,auto(fac,step){clAuto=true;clNewRun(fac||0);if(step)RUN.step=step;clDeploy(true)},deploy:()=>clDeploy(),nodes:CL_NODES,pick:clPick,show:clShow,set(r){Object.assign(RUN,r)},newRun:clNewRun};
+// END GRIMSPIRE_CLIMB
+window.__G={get labArt(){return typeof labArt==='undefined'?null:labArt},get sump(){return sump},set sump(v){sump=v},get W(){return W},S,AID,get carvBoxes(){return carvBoxes},gameOver:w=>gameOver(w),NET,stateHash,dress:()=>({tags,scan:(c,x,y,r)=>{const g=c==="g"?gfx:c==="t"?tctx:c==="b"?bctx:mctx;const d=g.getImageData(x-r|0,y-r|0,2*r,2*r).data;let m=0,n=0;for(let j=0;j<2*r;j++)for(let i=0;i<2*r;i++){if((i-r)**2+(j-r)**2>(r-2)**2)continue;const a=d[(j*2*r+i)*4+3];if(a>m)m=a;if(a>40)n++}return [m,n]},px:(c,x,y)=>{const g=c==="g"?gfx:c==="t"?tctx:c==="b"?bctx:mctx;return [...g.getImageData(x|0,y|0,1,1).data]}}),simStep:f=>simStep(f),DROP,OW,MINI,kill:t=>killTrooper(t),get corpses(){return corpses},get graves(){return graves},AI,mines:()=>mines,blds:()=>genTerrain.blds||[],maskURL:()=>{const c=mk(W/2,H/2),x=c.getContext("2d");x.fillStyle="#123";x.fillRect(0,0,W/2,H/2);x.drawImage(back,0,0,W/2,H/2);x.drawImage(terr,0,0,W/2,H/2);x.fillStyle="rgba(60,120,255,.5)";x.fillRect(0,sump/2,W/2,H);return c.toDataURL()},bus:()=>bus(),camSet:(x,y)=>{cam.x=x;cam.y=y},scr:(x,y)=>[(x-cam.x)*scale,(y-cam.y)*scale],base:()=>baseScale,setSump:v=>{sump=v},dropSpot:a=>dropSpot(a||[]),spawnShell:(x,y)=>projs.push({w:WP.mortar,x,y,vx:0,vy:200,owner:null,age:1,fuse:0,rest:false}),MUS,get AC(){return AC},initAudio,setMusicMode,ammo:(tm,id)=>S.ammo[tm][id],surfY:surf,press:k=>{press.add(k);held.add(k)},release:k=>held.delete(k),dropRopeT:t=>dropRope(t),isSolid,explode,shove,switchTo,addFire,hurtT:(t,d)=>hurt(t,d),labFlush:()=>labFlush(),jumpT:t=>jump(t),get projs(){return projs},get troopers(){return troopers},get barrels(){return barrels},get crates(){return crates},get fires(){return fires},get puddles(){return puddles},sump:()=>sump,newGame,update,render,tryFire,launch,selectWeapon,WP,blowBarrel,sky,mkCfg,get order(){return S.order},testWall:(x,y0,y1)=>{for(let yy=y0;yy<y1;yy++)for(let xx=x;xx<x+4;xx++)solid[yy*W+xx]=1},testFlat:(x0,x1,y)=>{for(let yy=y-140;yy<y+30;yy++)for(let x=x0;x<x1;x++)solid[yy*W+x]=yy>=y?1:0},get sentries(){return sentries},get zones(){return zones},get texts(){return texts},cutChutes,nextTurn};
 })();
 </script>
 

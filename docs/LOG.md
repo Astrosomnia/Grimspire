@@ -6,6 +6,17 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-15 · Claude · The Climb: a campaign run on the battle engine (branch `climb`, not on main)
+- **What:** a run mode built on GV 68 without touching skirmish. Title screen gets **The Climb**. Ark (pick faction, spend gene-seed) → five stops up the spire → 1-of-3 after each fight → the Definitor. Troopers who fall stay dead; a wiped squad ends the run and banks gene-seed.
+- **Stops:** The Tideline (six weak Hollow, a horde), The Drowned Stair (escape: reach the top floor, new `stair` layout with thin floors and ladders, tide every round), The Choir Loft, The Threshold (three plated Halo Guard), The Definitor (220 HP, can't move or be shoved, 1.7× size, calls two Lectors at 2/3 and 1/3 health).
+- **Classes:** Bombardier, Assault, Sapper, Seer. On a trooper's turn only their kit (plus rope and jump pack) is usable, so losing one loses what they carried. The arsenal shows only that kit.
+- **Doctrines (one at a time):** Storm (blasts break no stone, reach further, arc to enemies near the struck), Quake (far more stone, less damage), Pyre (every blast leaves fire). **Relics:** Ceramite Litany, Ash Doctrine, Martyr's Seal, Twin-linked, Long Watch, Vat-forged. **Supply/arms** cards carry extra ammo between fights.
+- **Gene-line (kept in the browser):** Thick Blood ×3, Reliquary, Tide Readers, Tithe, Fifth Vat. Clone names count generations (Vael II). Neon Choir unlocks at stop 3 or a win; the others one per win. Each faction has a passive.
+- **Where the code is:** between `// BEGIN/END GRIMSPIRE_CLIMB` in `index.html`, plus about 20 one-line hooks in the engine, each guarded by `S.cfg.climb` (search "climb"). Tuning is in `CL_NODES`, `CL_REWARDS`, `CL_CLASS`, `CL_MUT`. `window.__CL.auto(fac,step)` plays a climb machine against machine for testing.
+- **Tested:** `det.py` map hashes match main for four seeds; `dsim.py` identical. Every stop run machine-vs-machine with no errors; ladder climbing, reaching the gate, Storm chaining, Twin-linked and the whole ark → ending flow checked in a headless browser. **Not tested:** a human playing it. All balance numbers are first guesses.
+- **Known gaps:** the CPU ignores class and faction bans for mortar, frag and rail; it can't climb ladders (fine for defenders); online is untouched and the climb is local only; no GV bump because no skirmish sim path changed.
+- **Test build:** private artifact "Grimspire: The Climb". **Waiting on Jarred:** play it; say whether it goes to main.
+
 ## 2026-11-15 · ChatGPT · Campaign roadmap and What If bank
 - Added a campaign direction and What If bank to `docs/VISION.md`, plus a prioritised campaign-foundation milestone in `docs/ROADMAP.md`.
 - Captures Jarred's exploration of asymmetric solo encounters, alternative squad structures, real-time-lite, classes, faction unlocks (Ash Legion first), systemic destruction, environmental puzzles, modular world generation and campaign/PvP separation.
