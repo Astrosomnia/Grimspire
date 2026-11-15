@@ -6,6 +6,12 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-14 · Claude · Halo Guard victory and defeat art (live 14 Nov)
+- Jarred's Halo Guard pair is in: `assets/end/halo-win.jpg` (squad on the rampart under the sun banner) and `assets/end/halo-loss.jpg` (fallen guard and banner in the drowned water). JPEG, 1672×941, about 270–300 KB. Keys `'3-win'` / `'3-loss'` in `END_ART`; Ash Legion's pair still stands in for Neon Choir and The Hollow.
+- Preload now fetches only the art for the squads in the battle (deduplicated), instead of the one fallback pair.
+- Checked desktop and portrait phone, win and loss: subjects stay in frame on the phone crop.
+- **Ask (ChatGPT):** Neon Choir and The Hollow pairs still to come.
+
 ## 2026-11-14 · Claude · End screen: Accuracy, Drowned, Longest fling; Kills out; Grimspire-mark reveal
 - Squad table is now Dealt, Taken, Own fire, **Accuracy** (share of shots that hurt an enemy; replaces Shots), **Drowned** (own troopers lost to the water), Left. Kills dropped (Jarred: obvious from who's left). The match-wide "Lost to the water" highlight is gone.
 - (Jarred asked whose colour the fling showed.) The number is now neutral and each name takes its own squad's colour: flung trooper, then "by" the thrower.

@@ -2932,9 +2932,9 @@ function statTurnEnd(){const st=S.stats;if(!st||st.lastN===S.turnN)return;st.las
   if(a){st.turns++;if(S.fired){st.shots[a.team]++;if(st.turn>0&&st.hits)st.hits[a.team]++}if(st.turn>0&&(!st.best||st.turn>st.best.d))st.best={i:troopers.indexOf(a),d:st.turn}}st.turn=0}
 // Victory / loss art: drop images in assets/end/ and map them here, e.g. '0-win':'/Grimspire/assets/end/ash-win.jpg', '0-loss':...
 // Keys are faction index (0 Ash Legion, 1 Neon Choir, 2 The Hollow, 3 Halo Guard) and win or loss. Missing ones fall back to the battlefield behind.
-const END_ART={win:'/Grimspire/assets/end/ash-win.jpg',loss:'/Grimspire/assets/end/ash-loss.jpg'};/* (14 Nov) Ash Legion's pair stands in for every faction until each has its own */
+const END_ART={win:'/Grimspire/assets/end/ash-win.jpg',loss:'/Grimspire/assets/end/ash-loss.jpg','3-win':'/Grimspire/assets/end/halo-win.jpg','3-loss':'/Grimspire/assets/end/halo-loss.jpg'};/* (14 Nov) Ash Legion's pair stands in for any faction without its own */
 const endArt=k=>END_ART[k]||END_ART[/win$/.test(k)?'win':'loss'];
-let endPre=null;function preloadEnd(){if(endPre)return;endPre=[END_ART.win,END_ART.loss].filter(Boolean).map(u=>{const i=new Image();i.decoding='async';i.src=u;return i})}
+const endPre={};function preloadEnd(){const fs=S.order||[];for(const u of[...fs.flatMap(f=>[endArt(f+'-win'),endArt(f+'-loss')])])if(u&&!endPre[u]){const i=new Image();i.decoding='async';i.src=u;endPre[u]=i}}/* only the squads in this battle */
 // whose eyes the end screen looks through: you online, the human against the machine, nobody when passing the device
 function endPov(){if(S.mode==='online')return NET.me;if(S.ctl){const h=S.order.filter(f=>S.ctl[f]!=='c');if(h.length&&S.order.some(f=>S.ctl[f]==='c'))return h[0]}return-1}
 function fmtDur(s){s=Math.max(0,Math.round(s));const m=s/60|0;return m+':'+String(s%60).padStart(2,'0')}
