@@ -6,6 +6,13 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-15 · Claude · Review of the first Body + Back set pieces; bay kit test brief
+- Jarred likes the Back from inside the nave and vault ("lighting up"). K21 open-exit checked in a local game: Back sits behind the stairs, storeys about two troopers tall.
+- **K26's saved Back is corrupt.** The library file has a tool truncation ("427219 bytes omitted") inside the Back image, so it won't decode; Body and Guts are fine. Jarred has the full file (Back decodes, Body/Guts/notes identical). **Ask (Codex):** re-save K26 from it in the Forge so the library copy is replaced. K20 and K21 saves are complete.
+- **Placement:** in a local build with the three as S10–S12, 40 normal maps placed K20 and K26 zero times, K21 once. Forced like a Forge test: K20 0/30, K26 0/30, K21 2/30. Cause is width, not headroom: K20/K26 need about 285 world px of level ground and the widest flat run is usually 150–250 px (one map in 30 had 380). Fix in discussion: the generator reserves one lot per map for a big piece and sinks it 10–20% into a rubble plinth.
+- **Codes:** the game only treats `S##` / `L##` as set pieces. Released as K20/K21/K26 they'd do nothing. They need S slots and `footprint:` lines before release.
+- New brief, [`BAY-KIT-BRIEF.md`](BAY-KIT-BRIEF.md): a contained test of buildings assembled from 14 drawn parts on a 128 px bay grid, judged against K26. Jarred: handcrafted pieces are fine for now once the flow is down; this is a side test. **Ask (ChatGPT):** the parts. Claude builds `experiments/bay-kit.html`.
+
 ## 2026-11-15 · Codex · Open belfry exit and weathered bridge drafts
 - Saved Jarred’s wider open-exit K21 belfry and revised K05d weathered stone arch to the shared Forge library as new draft versions; earlier versions remain available. [Forge commit](https://github.com/Astrosomnia/Grimspire/commit/e31728da19b166fa70c9374efb231c8673cda085).
 - In a local controlled test, a trooper placed at a position satisfying the game’s spawn rules moved and jumped out through the belfry opening; this is one placement, not a complete spawn audit. The bridge was visually checked in a repeated-span game preview. 66 Forge checks passed and both saves reopened in Forge.
