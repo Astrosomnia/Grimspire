@@ -6,6 +6,9 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-15 · Claude · New Ash Legion victory art
+- The first Ash Legion win had red haze over the whole scene, so the troopers blended into it and it ran hotter than the other factions' art. Jarred's replacement keeps the colour on cloth, lenses and banner with a cyan world around them, matching the set. Same file, `assets/end/ash-win.jpg` (1672×941). No code change.
+
 ## 2026-11-15 · Codex · Three layered set-piece drafts saved
 - Jarred approved the current look and asked to ship the batch. Saved K20 Collapsed Nave, K21 Broken Belfry (open rear arches), and K26 Rib Vault Bay as editable Body + Back drafts in the shared Forge library: [art/weapon-lab commit](https://github.com/Astrosomnia/Grimspire/commit/2085342ad10221ba0f35eb2f5ede1477c01c8903).
 - Checked appearance in local game previews and confirmed the saves in Forge; 66 Forge checks passed. The files remain drafts (not marked ready). Height is unauthored, Guts is provisional, and stair traversal, shooting, blasts and destruction still need gameplay testing. No game release made.
