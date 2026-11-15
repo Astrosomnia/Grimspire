@@ -12,6 +12,7 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 - First pass painted Guts at full strength and darkened; some pieces' Guts are near-black, so ledges read as holes. Lifted to stone tones.
 - `det` hashes match; `dsim`, `dsim2`, `dsimart` identical. Checked in the lit look's surface and relief for a twice-hit tower stack (before and after).
 - Not done: the two-hit idea (an inner skeleton that stays standing after the first blast); that would change play.
+- **Provisional (Jarred, 14 Nov):** he couldn't see it in his first look and suspects it may be too visually noisy; may be rewound. To undo, revert this commit (`breakFacade`, `brokenC`/`brokenH` and their draws in `litStone0/1`, `litHeightPatch0/1`).
 
 ## 2026-11-14 · Claude · Back layer for set pieces (Forge + game)
 - Jarred: set pieces read as "an elaborate 2D mound with cutouts", unlike GPT's play diagrams. He wants a background layer embedded in each asset: aesthetic only, darker, lit, destroyed by blasts, never blocking movement or shells.
