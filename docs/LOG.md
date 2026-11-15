@@ -6,6 +6,10 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-15 · Codex · Fractured belfry draft and bridge repetition
+- Jarred asked to open the belfry at the right upper pillar and middle stair. Saved a new K21 draft with broken masonry and a short stair gap in [the Forge library](https://github.com/Astrosomnia/Grimspire/commit/8e73cc51dfdc011bcddd2e57504c5ad2a5833824); the previous version remains available. Appearance checked in a local game preview and the new version reopened in Forge. Stair traversal and blasts remain untested; Height is unauthored and Guts provisional.
+- Jarred also flagged a bridge with repeated sloping ribs. The pictured piece matches K05d, the asymmetric cantilever; in the local test renderer, a bridge run repeats the chosen K05 variant. An isolated use could work, but a continuous tiled run does not. The bridge and game code have not been changed.
+
 ## 2026-11-15 · Claude · New Ash Legion victory art
 - The first Ash Legion win had red haze over the whole scene, so the troopers blended into it and it ran hotter than the other factions' art. Jarred's replacement keeps the colour on cloth, lenses and banner with a cyan world around them, matching the set. Same file, `assets/end/ash-win.jpg` (1672×941). No code change.
 
