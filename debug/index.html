@@ -761,6 +761,8 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
   gutsC.getContext('2d').clearRect(0,0,W,H);scorchC.getContext('2d').clearRect(0,0,W,H);cuts.length=0;
   {const hg=hollow.getContext('2d');hg.clearRect(0,0,W,H);hg.fillStyle='#090c12';hg.beginPath();hg.moveTo(0,H);for(let x=0;x<=W;x+=2)hg.lineTo(x,hs[x]+6);hg.lineTo(W,H);hg.closePath();hg.fill()}
   const used=[],spires=[],hangs=[];
+  // landmark ruins (big multi-level pieces kept whole): K10–K13, and the first Body + Back pieces K20, K21, K26 (15 Nov)
+  const LANDMARKS=['K10','K11','K12','K13','K20','K21','K26'];
   const freeX=(gap,lo=220,hi=W-220)=>{let x,k=0;do{x=rnd(lo,hi);k++}while(k<80&&used.some(u=>Math.abs(u-x)<gap));used.push(x);return x};
   const both=fn=>{fn(g);fn(sctx)};
   // on noise rock, look for a reasonably level patch to build on
@@ -863,9 +865,19 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
       for(let d=9;d<len-6;d+=9){const px=bx+tx*d,py=top+ty*d,ox=sd*Math.abs(ty),oy=-Math.abs(tx);poly(gg,[[px-tx*2.5,py-ty*2.5],[px+ox*5+tx*2,py+oy*5+ty*2],[px+tx*2.5,py+ty*2.5]])}}
     gg.fillRect(cx-1,ay-16,2,16);gg.fillRect(cx-5,ay-11,10,2);gg.beginPath();gg.arc(cx,ay-17,2.2,0,Math.PI*2);gg.fill()};
   const pinnacle=(gg,x,top,h=20)=>{poly(gg,[[x-4,top],[x,top-h],[x+4,top]]);gg.fillRect(x-.75,top-h-5,1.5,5)};
+  // (15 Nov) half the generated maps claim one landmark lot before the towers go in, so a big piece never has to find
+  // room by luck. Towers, tenements, rock and diagonals keep off it (spacing and occupancy); islands, pillars and the
+  // little plank bridges check it. The kit pass below builds the landmark into it, terracing the ground if it's uneven.
+  let lot=null;
+  if(L!=='drowned'&&kitReady&&kitHas('K05')&&Math.random()<.5){const opts=LANDMARKS.filter(kitHas);if(opts.length){
+    const id=pickK(opts[Math.random()*opts.length|0]),w=occW(id),ph=kD(id).h*z;let best=null;
+    if(w<W*.4)for(let k=0;k<40;k++){const x=rnd(70,W-70-w);if(L==='canyon'&&x<ccx+cwid*1.8&&x+w>ccx-cwid*1.8)continue;
+      const ys=[];for(let xx=x;xx<=x+w;xx+=6)ys.push(hAt(xx));ys.sort((p,q)=>p-q);const md=ys[ys.length>>1],r=ys[ys.length-1]-ys[0];
+      if(md<ph+40||md>sump-60||r>320)continue;if(!best||r<best.r)best={x,r,md}}
+    if(best){lot={id,x0:best.x,x1:best.x+w,top:best.md-ph-20};for(let x=best.x-40;x<=best.x+w+40;x+=40)used.push(x);occ.push([best.x-30,best.x+w+30])}}}
   // spires
   const ns=nW(L==='drowned'?0:L==='spires'?3+(Math.random()*2|0):L==='canyon'?2:L==='ruins'?1:1+(Math.random()*2|0),L==='drowned'?0:1);
-  for(let i=0;i<ns;i++){const cx=L==='ruins'?flatX(240,60):freeX(240);if(cx===null)continue;if(L==='canyon'&&Math.abs(cx-ccx)<cwid*1.7)continue;
+  for(let i=0;i<ns;i++){const cx=L==='ruins'?flatX(240,60):freeX(240);if(cx===null||lot&&cx>lot.x0-70&&cx<lot.x1+70)continue;if(L==='canyon'&&Math.abs(cx-ccx)<cwid*1.7)continue;
     const w=rnd(46,72),bs=hAt(cx),hh=rnd(140,240),top=bs-hh,roof=w*rnd(1,1.5),gr=Math.random()<.75,ga=Math.random()<.55,gy=top+rnd(16,36);
     if(kitHas('K01')){const tx=cx-TW/2;kTower(tx,Math.max(hAt(tx),hAt(tx+TW),bs)+30,top);spires.push({cx,w:TW,top,base:bs,roof:TW});continue}
     both(gg=>{gg.fillRect(cx-w/2,top,w,hh+40);
@@ -988,7 +1000,7 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
       const DGK=['K14','K15','K16'].filter(kitHas),CRK=['R05','R06','R07','R08'].filter(kitHas);
       // Landmarks (K10–K12: collapsed nave, breached belfry, fallen arch): big multi-level ruins kept whole, with their
       // slopes, broken floors and lower arches, standing on rock above the water. Up to two per map, each code once.
-      const LMK=['K10','K11','K12','K13'].filter(k=>labArt.has(k)&&labArt.get(k).frames[0]?.body),lmW=k=>kD(k).w*z,lmUsed=new Set();
+      const LMK=LANDMARKS.filter(k=>labArt.has(k)&&labArt.get(k).frames[0]?.body),lmW=k=>kD(k).w*z,lmUsed=new Set();
       // how far a piece stands above the water on its rock: level, a step up, or high
       const lift=()=>{const r=Math.random();return r<.3?0:r<.65?rnd(30,60):rnd(70,115)};
       const tower=()=>{lay.push(['T',x,rnd(115,330)]);x+=TW;last='T'};
@@ -1087,15 +1099,17 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
     let cy=L==='islands'?rnd(H*.32,H*.6):Math.min(hAt(cx-w/2),hAt(cx+w/2),hAt(cx))-rnd(110,200);
     if(L==='canyon'&&i===0){w=cwid*2.2;cy=Math.min(hAt(cx-cwid*1.6),hAt(cx+cwid*1.6))-rnd(30,70)}
     if(cy<120)cy=120;
+    if(lot&&cx+w/2+20>lot.x0&&cx-w/2-20<lot.x1&&cy+w*.4>lot.top)continue;// not over the landmark lot
     const pts=[],n=12;
     for(let k=0;k<=n;k++)pts.push([cx-w/2+w*k/n,cy+rnd(-6,3)]);
     for(let k=n;k>=0;k--){const f=Math.sin(Math.PI*k/n);pts.push([cx-w/2+w*k/n+rnd(-6,6),cy+8+f*w*rnd(.22,.4)+(k%2?rnd(0,20):0)])}
     poly(g,pts);hangs.push({cx:cx+rnd(-w*.25,w*.25),cy})}
   // pillars
-  for(let i=0,n=nW(L==='drowned'?0:(L==='ruins'?2:3)+(Math.random()*3|0));i<n;i++){const cx=L==='ruins'?flatX(90,20):freeX(90);if(cx===null)continue;const w=rnd(14,22),bs=hAt(cx),hh=rnd(50,140);
+  for(let i=0,n=nW(L==='drowned'?0:(L==='ruins'?2:3)+(Math.random()*3|0));i<n;i++){const cx=L==='ruins'?flatX(90,20):freeX(90);if(cx===null||lot&&cx>lot.x0-12&&cx<lot.x1+12)continue;const w=rnd(14,22),bs=hAt(cx),hh=rnd(50,140);
     both(gg=>poly(gg,[[cx-w/2,bs+20],[cx-w/2,bs-hh+rnd(-8,8)],[cx-w/6,bs-hh-rnd(0,14)],[cx+w/5,bs-hh+rnd(-4,10)],[cx+w/2,bs-hh+rnd(-10,6)],[cx+w/2,bs+20]]))}
   // bridges
   for(let i=0,n=nW(L==='drowned'?0:1+(Math.random()*2|0));i<n;i++){const x=rnd(240,W-520),len=rnd(150,280),y=Math.min(hAt(x),hAt(x+len),hAt(x+len/2))-rnd(90,150);
+    if(lot&&x<lot.x1&&x+len>lot.x0)continue;// keep clear of the landmark lot
     both(gg=>{gg.fillRect(x,y,len,11);for(let k=x+14;k<x+len-10;k+=34)gg.fillRect(k,y+11,4,14);
       gg.globalCompositeOperation='destination-out';poly(gg,[[x+len*.6,y-2],[x+len*.66,y+14],[x+len*.7,y-2]]);gg.globalCompositeOperation='source-over'});
     hangs.push({cx:x+len*.3,cy:y})}
@@ -1130,11 +1144,28 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
   // flying buttresses and stair ramps against the kit towers, then the same up-and-over pass as the drowned
   // district. Each piece's foot is buried; gaps under a landmark are filled with rock.
   if(L!=='drowned'&&kitReady&&kitHas('K05')){
-    const lmk=['K10','K11','K12','K13'].filter(kitHas),nl=lmk.length?nW(L==='ruins'?1+(Math.random()<.5?1:0):L==='islands'?(Math.random()<.5?1:0):1,L==='islands'?0:1):0;
-    for(let i=0;i<nl;i++){const id=pickK(lmk[Math.random()*lmk.length|0]),w=occW(id);let best=null;
-      for(let k=0;k<60;k++){const x=rnd(70,W-70-w);if(!freeOcc(x,x+w))continue;let lo=1e9,hi=0;for(let xx=x;xx<=x+w;xx+=6){const h=hAt(xx);lo=Math.min(lo,h);hi=Math.max(hi,h)}
-        if(hi-lo>(L==='ruins'?130:90)||lo<200||lo>sump-60)continue;if(!best||hi-lo<best.r)best={x,r:hi-lo,lo,hi}}
-      if(!best)continue;const yb=Math.round((best.lo+best.hi)/2+rnd(6,16)),flip=Math.random()<.5;
+    const lmk=LANDMARKS.filter(kitHas),n0=lmk.length?nW(L==='ruins'?1+(Math.random()<.5?1:0):L==='islands'?(Math.random()<.5?1:0):1,L==='islands'?0:1):0,nl=lot?Math.max(1,n0):n0;
+    // (15 Nov) a big piece no longer waits for a flat spot by luck: where the ground is too uneven, it's levelled to a
+    // terrace with eased shoulders. Either way the box above the ground must be clear (no floating island, pillar or
+    // bridge through it).
+    const im=nl?g.getImageData(0,0,W,H).data:null,air=(x0,w,top)=>{let n=0,bad=0;for(let x=x0;x<=x0+w;x+=6){const gy=hAt(x)-10;for(let y=Math.max(4,top);y<gy;y+=6){n++;if(im[(Math.round(y)*W+Math.round(x))*4+3]>127)bad++}}return!n||bad/n<.02};
+    for(let i=0;i<nl;i++){const res=i===0&&lot,id=res?lot.id:pickK(lmk[Math.random()*lmk.length|0]),w=occW(id),ph=kD(id).h*z;let best=null;
+      if(res){const ys=[];for(let xx=lot.x0;xx<=lot.x1;xx+=6)ys.push(hAt(xx));ys.sort((p,q)=>p-q);best={x:lot.x0,r:ys[ys.length-1]-ys[0],lo:ys[0],hi:ys[ys.length-1],md:ys[ys.length>>1]}}
+      else if(w<W*.4)for(let k=0;k<60;k++){const x=rnd(70,W-70-w);if(!freeOcc(x,x+w))continue;const ys=[];for(let xx=x;xx<=x+w;xx+=6)ys.push(hAt(xx));ys.sort((p,q)=>p-q);
+        const lo=ys[0],hi=ys[ys.length-1],md=ys[ys.length>>1];if(md<ph+40||md>sump-60||hi-lo>320)continue;if(!air(x,w,md-ph-10))continue;
+        if(!best||hi-lo<best.r)best={x,r:hi-lo,lo,hi,md}}
+      if(!best)continue;
+      let yb;if(best.r<=(L==='ruins'?130:90))yb=Math.round((best.lo+best.hi)/2+rnd(6,16));
+      else{// terrace: level at the median ground under the piece; cut the hill above that line, fill the dips below it
+        const x0=best.x,x1=x0+w,top=best.md,fw=50,a=Math.floor(x0-fw),b=Math.ceil(x1+fw),hc=hollow.getContext('2d');
+        const tl=x=>{if(x>=x0&&x<=x1)return top;const f=x<x0?(x0-x)/fw:(x-x1)/fw;if(f>=1)return hAt(x);return top+(hAt(x)-top)*f*f*(3-2*f)};
+        const cut=[],fil=[[a,H]];for(let x=a;x<=b;x+=4){cut.push([x,tl(x)]);fil.push([x,tl(x)])}fil.push([b,H]);
+        // only the hill itself goes: between the terrace line and the old ground, so nothing standing above is touched
+        const hill=cut.concat(cut.map(([x])=>[x,Math.min(hAt(x),tl(x))-1]).reverse());
+        for(const c of[g,sctx,hc]){c.save();c.globalCompositeOperation='destination-out';poly(c,hill);c.restore()}
+        poly(g,fil);hc.save();hc.fillStyle='#090c12';poly(hc,fil.map(([x,y],j)=>[x,j&&j<fil.length-1?y+6:y]));hc.restore();
+        for(let x=Math.max(0,a);x<=Math.min(W,b);x++)hs[x]=tl(x);yb=Math.round(top+rnd(6,16))}
+      const flip=Math.random()<.5;
       // rock under any part of the footprint where the ground falls away below the piece
       {const pts=[[best.x-6,yb-4]];for(let xx=best.x-6;xx<=best.x+w+6;xx+=8)pts.push([xx,Math.max(yb-4,hAt(xx)+14)]);pts.push([best.x+w+6,yb-4]);poly(g,pts)}
       const c=putOcc(id.slice(0,3),id,best.x,yb,flip);occ.push([best.x,best.x+w]);seatPiece(id,c,flip);hangs.push({cx:best.x+w/2,cy:c.y+c.h*.4})}
@@ -4976,7 +5007,7 @@ function netCatchUp(){if(S.mode!=='online'||NET.role!=='watch')return;const behi
   if(behind>300&&!NET.skip)for(let i=0;i<Math.min(6,behind-240);i++)tick()}
 function netGameOver(){if(NET.role!=='act')clearNet()}
 function netLeave(){document.title=TITLE0;chatStop();if(NET.unC)NET.unC();if(NET.unM)NET.unM();NET.unC=NET.unM=null;NET.role=null;NET.started=false;S.mode='hot';$('#netBar').hidden=true}
-const GV=68;// bump on every release that changes the sim
+const GV=69;// bump on every release that changes the sim
 function startOnline(code,me,d){BE.update(code,{['vers.'+me]:GV,['arts.'+me]:window.GRIMSPIRE_ART_SIM||''}).catch(()=>{});NET.code=code;NET.me=me;NET.round=d.round||0;NET.snapK=-1;NET.snap=null;NET.matchAtt=d.att||'';NET.started=true;NET.leaving=false;saveNet();
   $('#net').hidden=true;if(!CHAT.un)chatStart();const cfg=Object.assign(mkCfg('online',d.seats,d.mode==='teams'),{mode:'online'});newGame('online',d.seed,cfg);S.genOK=true;
   const base=NET.round*1e5,has=d.snapK!=null&&d.snapK>=base&&d.snap;
