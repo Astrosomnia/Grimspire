@@ -3727,6 +3727,34 @@
       "h": 576,
       "frame_count": 1,
       "category": "Other art"
+    },
+    {
+      "id": "asset-939c75dae3955444d95a7214",
+      "path": "art/lab/hosted/library/asset-939c75dae3955444d95a7214.forge.json",
+      "sha256": "939c75dae3955444d95a7214c806b42359796c31ce502407c56568f352dd9539",
+      "asset_id": "custom-8655119f-303e-4aa6-bf35-18d46856c66b",
+      "state_key": "",
+      "asset_name": "Broken belfry — open arches draft",
+      "code": "K21",
+      "name": "Broken belfry — open exit study",
+      "w": 384,
+      "h": 576,
+      "frame_count": 1,
+      "category": "Other art"
+    },
+    {
+      "id": "asset-f2da02da1d4233050494d8f1",
+      "path": "art/lab/hosted/library/asset-f2da02da1d4233050494d8f1.forge.json",
+      "sha256": "f2da02da1d4233050494d8f1e674977877ff9af63447f9d81d8d2c0e0dbe066c",
+      "asset_id": "custom-6a8cf5e7-fe44-4b26-807b-9aed2280744a",
+      "state_key": "",
+      "asset_name": "Bridge · asymmetric cantilever rib",
+      "code": "K05d",
+      "name": "Bridge · weathered stone arch study",
+      "w": 180,
+      "h": 80,
+      "frame_count": 1,
+      "category": "Other art"
     }
   ]
 }
