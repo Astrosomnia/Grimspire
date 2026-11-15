@@ -6,6 +6,13 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-14 · Claude · Blasts break the facade away in a circle; jagged leftovers show Guts (visual only)
+- Jarred asked whether Guts do anything. Barely: they only showed as a 6 px rim around holes, mixed halfway to black. His idea: keep the jagged collision, but break the facade art away in a rounder shape so the jagged solid bits left inside read as broken interior, not stray facade.
+- Now each carve (when the lit world is on) records a rough circle (the jagged hole's full reach; 1.12× r for round holes). Remaining solid inside it is painted with broken stone at the facade's value, the piece's Guts art blended in at 45%, and rubble relief in the height layer (so carved tracery stops showing through). Non-solid deco inside the circle goes too. Kept in `brokenC` / `brokenH`, drawn after the kit in both lit looks; `BREAK` constants. Local RNG only, so the sim is untouched.
+- First pass painted Guts at full strength and darkened; some pieces' Guts are near-black, so ledges read as holes. Lifted to stone tones.
+- `det` hashes match; `dsim`, `dsim2`, `dsimart` identical. Checked in the lit look's surface and relief for a twice-hit tower stack (before and after).
+- Not done: the two-hit idea (an inner skeleton that stays standing after the first blast); that would change play.
+
 ## 2026-11-14 · Claude · Back layer for set pieces (Forge + game)
 - Jarred: set pieces read as "an elaborate 2D mound with cutouts", unlike GPT's play diagrams. He wants a background layer embedded in each asset: aesthetic only, darker, lit, destroyed by blasts, never blocking movement or shells.
 - **Forge** (`art/weapon-lab`, deployed): a seventh layer, **Back** (key 7). Saved, loaded, exported (`*_back.png`) and kept in revision payloads like Height; an old open tab can't drop it on save. Shown behind the Body, darkened roughly as in game. Tests: `art/lab/hosted/back.test.mjs`, `tests/forge-back-editor.test.mjs`; all 52 Forge tests pass.
