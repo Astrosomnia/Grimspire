@@ -476,6 +476,7 @@ body.intitle #dbg{display:none}
   </div>
 </div>
 
+<div id="cHud" hidden></div>
 <div class="modal" id="climb" hidden><div class="cart" id="cArt"></div><div id="cCard"></div></div>
 
 <div class="modal" id="ov">
@@ -3719,17 +3720,17 @@ function* planGen(t,quick){
       for(const face of[-1,1])for(let a=-1.45;a<=.5;a+=.16)for(let p=.32;p<=1.001;p+=.11)tryIt(face,a,p);
       if(b){const b0=b;for(let da=-.08;da<=.081;da+=.04)for(let dp=-.06;dp<=.061;dp+=.03)tryIt(b0.face,b0.aim+da,clamp(b0.power+dp,.1,1))}
       if(b)consider(b,P,extra)};
-    art('mortar',900,true,40,48,false);t.x=sx;t.y=sy;yield;t.x=P.x;t.y=P.y;
+    if(hasAmmo(WP.mortar))art('mortar',900,true,40,48,false);t.x=sx;t.y=sy;yield;t.x=P.x;t.y=P.y;
     if(hasAmmo(WP.nuke)){art('nuke',760,true,125,80,true);t.x=sx;t.y=sy;yield;t.x=P.x;t.y=P.y}
     // grenades: one simulated throw gives landing spots for every fuse length
     const gren=(id,speed,r,dmg,heavy)=>{let b=null;for(const face of[-1,1])for(let a=-1.3;a<=.4;a+=.21)for(let p=.3;p<=1.001;p+=.17){
         const o=simGrenade(t,face,a,p,speed);for(const f in o){const acc=newAcc();estBlast(acc,o[f].x,o[f].y-3,r,dmg,t);const sc=scoreAcc(acc,heavy)+(+f>=3?3:0);if(!b||sc>b.s)b={w:id,face,aim:a,power:p,fuse:+f,s:sc,hx:o[f].x,hy:o[f].y}}}
       if(b)consider(b,P,extra)};
-    gren('frag',620,44,52,false);if(hasAmmo(WP.sun))gren('sun',560,80,72,true);
+    if(hasAmmo(WP.frag))gren('frag',620,44,52,false);if(hasAmmo(WP.sun))gren('sun',560,80,72,true);
     t.x=sx;t.y=sy;yield;t.x=P.x;t.y=P.y;
     // direct fire at each enemy
     for(const e of foes){const A=aimAt(t,e);const[ox,oy,dx,dy]=orig(t,A.face,A.aim);
-      if(A.d<720){const acc=newAcc();for(let k=0;k<2;k++){const r=ray(t,ox,oy,dx,dy,720);if(r.victim)hitEst(acc,r.victim,t,8,dx*20);if(r.solid||r.victim)estBlast(acc,r.x,r.y,15,22,t)}
+      if(A.d<720&&hasAmmo(WP.rail)){const acc=newAcc();for(let k=0;k<2;k++){const r=ray(t,ox,oy,dx,dy,720);if(r.victim)hitEst(acc,r.victim,t,8,dx*20);if(r.solid||r.victim)estBlast(acc,r.x,r.y,15,22,t)}
         consider({w:'rail',face:A.face,aim:A.aim,target:e,s:scoreAcc(acc,false)},P,extra)}
       if(A.d<280&&hasAmmo(WP.scatter)){const acc=newAcc();for(let k=0;k<2;k++)for(let i=0;i<7;i++){const an=Math.atan2(dy,dx)+(i-3)*.04,ex=Math.cos(an),ey=Math.sin(an),r=ray(t,ox,oy,ex,ey,250);if(r.victim)hitEst(acc,r.victim,t,6,ex*80)}
         consider({w:'scatter',face:A.face,aim:A.aim,target:e,s:scoreAcc(acc,false)},P,extra)}
@@ -3800,7 +3801,7 @@ function aiUpdate(dt){
   if(AI.stage===0&&t.wet){AI.sw=AI.sw||{dir:landDir(t),t:0,x:t.x};AI.sw.t+=dt;swim(t,AI.sw.dir,dt);
     if(AI.sw.t>.5&&Math.abs(t.x-AI.sw.x)<.5&&t.wet){jump(t);AI.sw.t=0}AI.sw.x=t.x;if(AI.sw.t<4&&t.wet)return;AI.sw=null;AI.t=0}
   if(AI.stage===0){if(AI.t>.5){AI.gen=planGen(t,false);AI.stage='think'}return}
-  if(AI.stage==='think'){const t0=performance.now();while(performance.now()-t0<7){const r=AI.gen.next();if(r.done){AI.plan=r.value||{w:'mortar',face:t.face,aim:-.8,power:.6,P:{x:t.x}};AI.stage='walk';AI.t=0;AI.stuck=0;break}}return}
+  if(AI.stage==='think'){const t0=performance.now();while(performance.now()-t0<7){const r=AI.gen.next();if(r.done){AI.plan=r.value||{w:hasAmmo(WP.mortar)?'mortar':hasAmmo(WP.frag)?'frag':S.weapon[S.team],face:t.face,aim:-.8,power:.6,fuse:3,P:{x:t.x}};AI.stage='walk';AI.t=0;AI.stuck=0;break}}return}
   const pl=AI.plan;
   if(AI.stage==='walk'){
     if(t.rope){const r=t.rope,nL=Math.min(ROPE_MAX,r.L+90*dt),[px,py]=ropePos(r,r.a,r.L);
@@ -4707,6 +4708,7 @@ function render(dt){
     for(let i=1;i<n;i++){const f=i/n,j=(Math.random()-.5)*2.6;ctx.lineTo(r.x+(hx-r.x)*f+nx*j,r.y+(hy-r.y)*f+ny*j)}ctx.lineTo(hx,hy);ctx.stroke();
     ctx.shadowBlur=10;ctx.fillStyle='#bffcff';ctx.fillRect(r.x-2.5,r.y-3,5,4);ctx.fillStyle='#2a2d34';ctx.fillRect(r.x-1,r.y-6,2,3);ctx.restore();
     if(Math.random()<.25){const f=Math.random();parts.push({k:'spark',x:r.x+(hx-r.x)*f,y:r.y+(hy-r.y)*f,vx:rnd(-50,50),vy:rnd(-60,10),life:rnd(.1,.25),max:.25,col:'#9ffbff'});sfx('zap')}}
+  if(S.cfg&&S.cfg.climb&&S.phase!=='title')climbDraw(ctx);
   for(const t of troopers)if(t.alive&&!t.podded){if(t.boss){ctx.save();ctx.translate(t.x,t.y);ctx.scale(1.7,1.7);ctx.translate(-t.x,-t.y);drawTrooper(t);ctx.restore()}else drawTrooper(t)}
   drawWave2();
   for(const p of projs){
@@ -5659,21 +5661,21 @@ const CL_CREED=['God is whoever wins.','God is still speaking, and we can’t he
 const CL_PASSIVE=['Firepower: your blasts are 15% wider.','Tools: 2 more jump packs, a teleporter and a drone every fight.','Rot: your fallen detonate where they drop.','Plate: the squad takes 20% less damage. 2 more fabricators.'];
 const CL_ROMAN=n=>{if(n<=1)return'';const R=[[10,'X'],[9,'IX'],[5,'V'],[4,'IV'],[1,'I']];let s='';for(const[v,r]of R)while(n>=v){s+=r;n-=v}return' '+s};
 const CL_NODES=[
-  {id:'tideline',zone:'The Sump',name:'The Tideline',ef:2,n:6,hp:30,layout:'drowned',mapW:.5,diff:'recruit',tideFrom:5,tide:12,drop:.2,goal:'kill',allow:{},
-    brief:'Low tide. The Hollow are down at the waterline, singing it back in. There are a lot of them and they are not well armed.',
+  {id:'tideline',zone:'The Sump',name:'The Tideline',ef:2,n:6,hp:30,layout:'drowned',mapW:.5,diff:'recruit',tideFrom:5,tide:12,drop:.2,goal:'kill',allow:{frag:1,chain:1,fist:1},
+    brief:'Low tide. The Hollow are down at the waterline, singing it back in. There are a lot of them, with charges and blades and nothing that shoots straight.',
     obj:'Kill them all. The tide turns in round 5 and does not stop.'},
-  {id:'stair',zone:'The Sump',name:'The Drowned Stair',ef:2,n:3,hp:60,layout:'stair',mapW:.4,diff:'recruit',tideFrom:2,tide:22,drop:0,goal:'escape',floors:6,allow:{scatter:2,bolter:2},
+  {id:'stair',zone:'The Sump',name:'The Drowned Stair',ef:2,n:3,hp:60,layout:'stair',mapW:.4,diff:'recruit',tideFrom:2,tide:22,drop:0,goal:'escape',floors:6,allow:{rail:1,frag:1,fist:1,scatter:2,bolter:2},
     brief:'The only way up is a stairwell the sea already owns. The Hollow hold the upper floors. You don’t have to kill them. You have to be above the water.',
     obj:'Reach the top floor. Anyone left below stays below. Ladders: stand under one and jump. Floors are thin: blow them out.'},
-  {id:'loft',zone:'The Cathedral',name:'The Choir Loft',ef:1,n:3,hp:75,layout:'spires',mapW:.6,diff:'recruit',tideFrom:6,tide:10,drop:.3,goal:'kill',allow:{las:2,bolter:2,rope:3,jet:2,drone:1},
+  {id:'loft',zone:'The Cathedral',name:'The Choir Loft',ef:1,n:3,hp:75,layout:'spires',mapW:.6,diff:'recruit',tideFrom:6,tide:10,drop:.3,goal:'kill',allow:{mortar:1,rail:1,fist:1,las:2,bolter:2,rope:3,jet:2,drone:1},
     brief:'The Neon Choir got here first and wired the nave. Fewer of them, better kit, and they know how to use it.',
     obj:'Kill them all. They shoot straight.'},
-  {id:'threshold',zone:'The Spire',name:'The Threshold',ef:3,n:3,hp:120,layout:'canyon',mapW:.6,diff:'inquisitor',tideFrom:6,tide:10,drop:.3,goal:'kill',allow:{bolter:2,las:2,buster:2,lance:1,minigun:1,jet:2},
+  {id:'threshold',zone:'The Spire',name:'The Threshold',ef:3,n:3,hp:120,layout:'canyon',mapW:.6,diff:'inquisitor',tideFrom:6,tide:10,drop:.3,goal:'kill',allow:{mortar:1,rail:1,frag:1,fist:1,bolter:2,las:2,buster:2,lance:1,minigun:1,jet:2},
     brief:'Three of the Halo Guard stand where the stairs end. They have stood there a very long time. No one may know God, and they mean you.',
     obj:'Three of them, heavily plated. Knock them into the water if you can’t crack them.'},
-  {id:'definitor',zone:'The Spire',name:'The Definitor',ef:3,n:3,hp:45,boss:220,layout:'drowned',mapW:.6,diff:'inquisitor',tideFrom:4,tide:10,drop:.35,goal:'boss',allow:{lance:99,buster:99,sun:99,bolter:4},
+  {id:'definitor',zone:'The Spire',name:'The Definitor',ef:3,n:3,hp:45,boss:200,layout:'drowned',mapW:.6,diff:'inquisitor',tideFrom:4,tide:10,drop:.35,goal:'boss',allow:{rail:1,frag:1,fist:1,bolter:4},bossKit:{lance:99,buster:99,sun:2},
     brief:'The top of the tower. One old man kept alive by his own machine, still promising the answer. The sump engines wake for him.',
-    obj:'Kill the Definitor. He doesn’t move and he can’t be shoved. He calls more Lectors as he weakens.'}
+    obj:'Kill the Definitor. He doesn’t move and can’t be shoved. He fights with the sky: lances, busters, antimatter. More Lectors come as he weakens.'}
 ];
 // classes: each trooper carries part of the arsenal. On their turn only their kit (plus rope and jump pack) can be used,
 // so the squad's weapons are its people, and losing one loses what they carried
@@ -5731,12 +5733,13 @@ function clDeploy(auto){const nd=clNode(),ef=clFoe(nd),pt=RUN.fac,alive=RUN.squa
   const cfg=Object.assign(mkCfg('cpu',[pt,ef]),{mode:'cpu',diff:nd.diff,squad:Math.max(alive,nd.n)});
   if(auto)cfg.ctl[pt]='c';
   cfg.climb={pt,ef,id:nd.id,n:nd.n,hp:nd.hp,boss:nd.boss||0,layout:nd.layout,mapW:nd.mapW,tideFrom:nd.tideFrom+(clMut('reader')?1:0),tide:nd.tide,drop:nd.drop,goal:nd.goal,floors:nd.floors||0,
-    sump:nd.layout==='stair'?H-40:0,allow:nd.allow,stage:0,out:0};
+    sump:nd.layout==='stair'?H-40:0,allow:nd.allow,bossKit:nd.bossKit||null,name:nd.name,bolts:[],stage:0,out:0};
   RUN.stage='battle';clStore.save();$('#climb').hidden=true;initAudio();
   newGame('cpu',undefined,cfg)}
 function clPlace(t,y0,y1,xa,xb){let best=null,bd=-1;for(let i=0;i<220;i++){const x=rnd(xa===undefined?30:xa,xb===undefined?W-30:xb),st=stands(x,y0,y1).filter(v=>v<sump-14);if(!st.length)continue;
     const y=st[Math.random()*st.length|0];let d=1e9;for(const o of troopers)if(o!==t&&o.placed)d=Math.min(d,Math.hypot(o.x-x,o.y-y));if(d>bd){bd=d;best=[x,y]}if(d>90)break}
   if(best){t.x=best[0];t.y=best[1];t.face=t.x<W/2?1:-1}t.placed=true;return!!best}
+const clBan=allow=>{const ban={};for(const w of ARS)if(!allow[w.id])ban[w.id]=1;return ban};
 function climbSetup(){const C=S.cfg.climb,PT=C.pt,EF=C.ef,sq=RUN.squad.filter(q=>q.alive);
   const mine=troopers.filter(t=>t.team===PT).slice(0,sq.length),foes=troopers.filter(t=>t.team===EF).slice(0,C.n);
   troopers=[...mine,...foes];
@@ -5751,8 +5754,8 @@ function climbSetup(){const C=S.cfg.climb,PT=C.pt,EF=C.ef,sq=RUN.squad.filter(q=
   const mineA={};for(const w of ARS)if(w.ammo>=0)mineA[w.id]=Math.max(w.ammo,0)+(RUN.ammo[w.id]||0);
   if(PT===1){mineA.jet+=2;mineA.warp+=1;mineA.drone+=1}if(PT===3)mineA.fab+=2;
   if(C.layout==='stair'){mineA.rope+=3;mineA.jet+=1}
-  S.ammo[PT]=mineA;const ban={},fa={};for(const w of ARS)if(w.ammo>=0){if(C.allow[w.id])fa[w.id]=C.allow[w.id];else{ban[w.id]=1;fa[w.id]=0}}
-  S.ammo[EF]=fa;S.ban={[EF]:ban};
+  S.ammo[PT]=mineA;const fa={};for(const w of ARS)if(w.ammo>=0)fa[w.id]=Math.max(C.allow[w.id]||0,C.bossKit&&C.bossKit[w.id]||0);
+  S.ammo[EF]=fa;S.ban={[EF]:clBan(C.allow)};
   if(C.sump)sump=C.sump;
   S.team=S.order[S.order.length-1];// the squad always moves first
   C.t0=time;C.said=false}
@@ -5765,6 +5768,8 @@ function climbTurn(){const C=S.cfg.climb,mineTurn=S.team===C.pt;
     if(ban[S.weapon[S.team]]||!hasAmmo(curW())){S.weapon[S.team]=S.lastAtk[S.team]=K.w[0]}if(ban[S.lastAtk[S.team]])S.lastAtk[S.team]=K.w[0];S.shots=curW().shots||1;
     texts.push({x:S.active.x,y:S.active.y-58,txt:K.name,life:2.2,col:BONE,small:true})}
   if(S.active&&S.active.boss)S.stag=true;
+  if(!mineTurn&&C.bossKit)S.ban[C.ef]=clBan(S.active&&S.active.boss?C.bossKit:C.allow);
+  if(!mineTurn&&!hasAmmo(curW())){const k=ARS.find(w=>hasAmmo(w)&&w.cat!=='Tools');if(k)S.weapon[S.team]=S.lastAtk[S.team]=k.id}
   if(!C.said){C.said=true;const nd=CL_NODES.find(n=>n.id===C.id);setTimeout(()=>{if(S.cfg&&S.cfg.climb===C&&S.phase!=='over')banner(nd.name,C.goal==='escape'?'Reach the top floor':C.goal==='boss'?'Kill the Definitor':'Kill them all',TEAM[C.pt].col,nd.zone)},2600)}}
 // once per round, from nextTurn: does the tide come in this round? Also where the Definitor calls his Lectors
 function climbTide(){const C=S.cfg.climb;
@@ -5775,14 +5780,15 @@ function climbTide(){const C=S.cfg.climb;
   return(S.rnd||0)>=C.tideFrom}
 // Twin-linked: the first mortar shell of a squad turn leaves the trooper free to fire one more
 function climbSecond(w){const C=S.cfg.climb;if(w.id!=='mortar'||S.team!==C.pt||!clHas('twin')||C.twin)return false;C.twin=true;S.fired=true;S.second=true;S.locked=false;return true}
-function climbDmg(t,d){const C=S.cfg.climb;if(t.team!==C.pt)return d;let k=1;if(C.pt===3)k*=.8;if(t===S.active&&t.cls==='sapper'&&S.team===C.pt)k*=.5;if(clHas('ceramite'))k*=.75;return k===1?d:Math.max(1,Math.round(d*k))}
+function climbDmg(t,d){const C=S.cfg.climb;if(t.team!==C.pt)return d;let k=1;if(C.pt===3)k*=.8;if(S.active&&S.active.boss&&S.team===C.ef)k*=.65;if(t===S.active&&t.cls==='sapper'&&S.team===C.pt)k*=.5;if(clHas('ceramite'))k*=.75;return k===1?d:Math.max(1,Math.round(d*k))}
 // what a blast made on the squad's turn becomes: r radius, d damage, c carve (as multiples). Doctrines live here
 function climbBlast(x,y,r,dmg){const C=S.cfg.climb,m={r:1,d:1,c:1};if(S.team!==C.pt)return m;
   m.r=(C.pt===0?1.15:1)*(clHas('bangs')?1.2:1)*(S.active&&S.active.cls==='bombard'?1.1:1);const D=RUN.doctrine;
   if(D==='storm'){m.c=0;m.r*=1.33;const R=r*m.r*1.2,hit=troopers.filter(t=>t.alive&&!t.podded&&Math.hypot(t.x-x,t.y-11-y)<R);
-    flashes.push({x,y,r:R*1.3,c:[150,230,255],life:.3,max:.3,i:1});
+    flashes.push({x,y,r:R*1.3,c:[150,230,255],life:.3,max:.3,i:1});const bolt=(ax,ay,bx,by)=>{const pts=[[ax,ay]],n=7;for(let i=1;i<n;i++)pts.push([ax+(bx-ax)*i/n+rnd(-9,9),ay+(by-ay)*i/n+rnd(-9,9)]);pts.push([bx,by]);C.bolts.push({pts,life:.6})};
+    for(const h of hit)if(h.team!==C.pt)bolt(x,y,h.x,h.y-11);for(let i=0;i<3;i++){const a=rnd(0,6.283);bolt(x,y,x+Math.cos(a)*R*rnd(.6,1),y+Math.sin(a)*R*rnd(.6,1))}
     for(const o of troopers){if(!o.alive||o.podded||hit.includes(o)||o.team===C.pt)continue;const src=hit.find(h=>h.team!==C.pt&&Math.hypot(h.x-o.x,h.y-o.y)<130);if(!src)continue;
-      hurt(o,Math.max(4,Math.round(dmg*.45)),true);flashes.push({x:o.x,y:o.y-11,r:46,c:[150,230,255],life:.35,max:.35,i:1});
+      hurt(o,Math.max(4,Math.round(dmg*.45)),true);bolt(src.x,src.y-11,o.x,o.y-11);flashes.push({x:o.x,y:o.y-11,r:46,c:[150,230,255],life:.35,max:.35,i:1});
       for(let i=0;i<=8;i++)parts.push({k:'spark',x:src.x+(o.x-src.x)*i/8+rnd(-4,4),y:src.y-11+(o.y-src.y)*i/8+rnd(-4,4),vx:rnd(-30,30),vy:rnd(-40,10),life:rnd(.2,.45),max:.45,col:'#bffcff'})}sfx('zap')}
   else if(D==='quake'){m.c=1.7;m.d=.8}
   else if(D==='pyre'){for(let i=0;i<4;i++)fires.push({x:x+rnd(-r,r)*.8,y:y-rnd(2,16),vy:-rnd(40,150),air:true,life:rnd(6,9),tick:rnd(0,.5)})}
@@ -5792,13 +5798,30 @@ function climbWin(){const C=S.cfg.climb,mine=troopers.filter(t=>t.team===C.pt&&t
   if(C.goal==='escape'&&!mine&&C.out>0){gameOver(C.pt);return true}
   if(C.goal==='escape'&&!foes&&mine){gameOver(C.pt);return true}
   return false}
+function clHud(){const C=S.cfg.climb,el=$('#cHud'),left=C.tideFrom-(S.rnd||0),t=S.active;
+  const a=C.name+' \u00b7 '+(C.goal==='escape'?'Reach the top floor'+(C.out?' \u00b7 '+C.out+' through':''):C.goal==='boss'?'Kill the Definitor':'Kill them all')+' \u00b7 '+(left>0?'Tide turns in '+left+(left===1?' round':' rounds'):'Tide rises every round');
+  let b='';if(t&&t.alive&&t.team===C.pt&&t.cls){const K=clClass(t.cls);b=K.name+' \u00b7 '+K.w.map(id=>WP[id]).filter(w=>ammoOf(C.pt,w)>0).map(w=>w.short||w.name.replace(/^(Plasma|Frag|Rail|Scatter|Dakka|Las|Thunder|Antimatter|Fusion|Orbital|Doomsday|Bunker|Tracked) /,'')).join(', ')}
+  else if(t&&t.alive&&t.team===C.ef)b=(t.boss?'The Definitor':TEAM[C.ef].name)+' is moving';
+  const boss=troopers.find(q=>q.boss),key=a+'|'+b+'|'+(boss?boss.hp:'')+'|'+(RUN.doctrine||'');if(key===clHud.k)return;clHud.k=key;
+  el.hidden=false;el.style.setProperty('--fc',TEAM[C.pt].col);el.replaceChildren(clEl('p','',a));if(b)el.append(clEl('p','ck',b));
+  if(RUN.doctrine||RUN.relics.length)el.append(clEl('p','cd',[RUN.doctrine&&CL_REWARDS.find(c=>c.id===RUN.doctrine).name,...RUN.relics.map(id=>CL_REWARDS.find(c=>c.id===id).name)].filter(Boolean).join(' \u00b7 ')));
+  if(boss){const w=clEl('div','cboss'),i=clEl('i');i.style.width=Math.max(0,100*boss.hp/boss.max)+'%';w.append(clEl('small','','The Definitor '+Math.max(0,Math.round(boss.hp))),i);w.style.setProperty('--bc',TEAM[C.ef].col);el.append(w)}}
+// drawn in the world, under the troopers: ladders you can see, the gate, Storm's lightning
+function climbDraw(g){const C=S.cfg.climb;
+  if(NS.rungs&&S.layout==='stair'){g.save();const cols={};for(const[x,y]of NS.rungs)if(isSolid(x+5,y+1))(cols[x]=cols[x]||[]).push(y);
+    for(const x in cols){const ys=cols[x],y0=Math.min(...ys),y1=Math.max(...ys);g.fillStyle='rgba(150,160,182,.45)';g.fillRect(+x,y0-6,1,y1-y0+12);g.fillRect(+x+10,y0-6,1,y1-y0+12);g.fillStyle='rgba(205,214,232,.95)';for(const y of ys)g.fillRect(+x-1,y,13,2)}g.restore()}
+  if(C.goal==='escape'&&C.gateY){const y=C.gateY-30,k=.55+.3*Math.sin(time*2.4),col=TEAM[C.pt].rgb;g.save();g.strokeStyle=rgba(col,k);g.lineWidth=1;g.setLineDash([6,5]);g.shadowColor=rgba(col,.9);g.shadowBlur=8;g.beginPath();g.moveTo(60,y);g.lineTo(W-60,y);g.stroke();g.setLineDash([]);
+    g.fillStyle=rgba(col,k+.15);g.font='700 8px "Chakra Petch",monospace';g.textAlign='center';g.fillText('T H E   G A T E',W/2,y-5);
+    for(const x of[W*.25,W*.75]){g.beginPath();g.moveTo(x-5,y+12);g.lineTo(x,y+6);g.lineTo(x+5,y+12);g.stroke()}g.restore()}
+  if(C.bolts.length){g.save();g.lineJoin='round';g.shadowColor='#7fe9ff';g.shadowBlur=10;for(const b of C.bolts){const k=Math.min(1,b.life/.35);g.strokeStyle=`rgba(215,250,255,${k})`;g.lineWidth=1.6;g.beginPath();g.moveTo(b.pts[0][0],b.pts[0][1]);for(const p of b.pts)g.lineTo(p[0],p[1]);g.stroke()}g.restore()}}
 function climbUpdate(dt){const C=S.cfg.climb;if(S.phase==='over'||S.phase==='title')return;
+  if(C.bolts.length){for(const b of C.bolts)b.life-=dt;C.bolts=C.bolts.filter(b=>b.life>0)}clHud();
   for(const t of troopers){if(t.team!==C.pt)continue;
     if(t.alive&&C.goal==='escape'&&!t.air&&!t.rope&&!t.wet&&t.y<=C.gateY+2&&(t!==S.active||S.phase==='aim'||S.phase==='retreat')){
       t.alive=false;t.out=true;C.out++;warpFx(t.x,t.y-12,TEAM[C.pt].col);sfx('jet');texts.push({x:t.x,y:t.y-44,txt:t.name+' is through',life:2.4,col:TEAM[C.pt].col});
       if(t===S.active){S.phase='end';S.charging=false;S.jet=null;S.wait=0}}
     if(!t.alive&&!t.out&&!t.cm){t.cm=true;if((clHas('martyr')||C.pt===2)&&t.y<sump-6)explode(t.x,t.y-10,46,45,{col:TEAM[C.pt].rgb,noK:true})}}}
-function climbOver(w){const C=S.cfg.climb,PT=C.pt;delete WP.mortar.shots;S.ban=null;
+function climbOver(w){const C=S.cfg.climb,PT=C.pt;$('#cHud').hidden=true;clHud.k='';delete WP.mortar.shots;S.ban=null;
   const won=w===PT,foes=troopers.filter(t=>t.team===C.ef),killed=foes.filter(t=>!t.alive).length,lost=[];
   for(const q of RUN.squad){if(!q.alive)continue;const t=troopers.find(t=>t.rid===q.id);if(t&&(t.alive||t.out))q.hp=Math.max(1,Math.min(q.max,Math.round(t.hp)||1));else{q.alive=false;q.hp=0;lost.push(q.name)}}
   for(const wp of ARS)if(wp.ammo>=0)RUN.ammo[wp.id]=Math.max(0,(S.ammo[PT][wp.id]||0)-wp.ammo-(PT===1&&(wp.id==='jet')?2:0)-(PT===1&&(wp.id==='warp'||wp.id==='drone')?1:0)-(PT===3&&wp.id==='fab'?2:0)-(C.layout==='stair'?(wp.id==='rope'?3:wp.id==='jet'?1:0):0));
@@ -5821,7 +5844,7 @@ function clPick(i){const c=CL_REWARDS.find(c=>c.id===RUN.offer[i]);if(!c)return;
 /* ---- screens ---- */
 let clAuto=false;
 const clEl=(tag,cls,txt)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(txt!==undefined)e.textContent=txt;return e};
-function clSquadRow(compact){const row=clEl('div','csquad');for(const q of RUN.squad){const c=clEl('div','ctroop'+(q.alive?'':' dead'));c.append(clEl('b','',q.name),clEl('em','',clClass(q.cls).name));c.title=clClass(q.cls).desc;
+function clSquadRow(compact){const row=clEl('div','csquad');for(const q of RUN.squad){const c=clEl('div','ctroop'+(q.alive?'':' dead'));c.append(clEl('b','',q.name),clEl('em','',clClass(q.cls).name));c.title=clClass(q.cls).desc;if(!compact&&q.alive)c.append(clEl('u','',clClass(q.cls).desc));
     if(q.alive){const bar=clEl('i','chp');bar.style.setProperty('--p',Math.round(100*q.hp/q.max)+'%');c.append(bar,clEl('small','',q.hp+' / '+q.max))}else c.append(clEl('small','','Gone to light'));row.append(c)}return row}
 function clSpire(step,drownTo){// the ascent: a spire in section, the stops up it, the water behind you
   const N=CL_NODES.length,ys=i=>372-i*(300/(N-1)),nx=i=>104+(i%2?9:-9)*(i>0&&i<N-1?1:0),wy=step<=0?410:Math.min(404,ys(step-1)+26),col=TEAM[RUN?RUN.fac:META.fac].col;
@@ -5842,13 +5865,15 @@ function clShow(){const el=$('#climb'),card=$('#cCard');el.hidden=false;$('#ov')
   const btn=(txt,sub,fn,alt)=>{const b=clEl('button','go'+(alt?' alt':''));b.type='button';b.append(txt);if(sub)b.append(clEl('span','',sub));b.addEventListener('click',()=>{initAudio();fn()});return b};
   if(!RUN||RUN.stage==='ark'){// the ark: who climbs, what the vats have learned
     art('loss');head('The ark · low tide','The Climb','The ark rides the tide at the foot of the spire. The Definitor only answers whoever reaches him, so you send four.');
+    const first=!META.seed&&META.unlocked.length<2&&!Object.keys(META.mut).length;
+    if(first){const ul=clEl('ul','chow');for(const t of['Each trooper carries part of the arsenal. Lose them and their weapons go with them.','After every fight, take one of three. Some of them change what your explosions are.','The tide is behind you the whole way. It does not stop.','When the squad dies, what they learned comes back down. The next four start stronger.'])ul.append(clEl('li','',t));card.append(ul)}
     const fr=clEl('div','cfacs');TEAM.forEach((T,f)=>{const open=META.unlocked.includes(f),b=clEl('button','cfac'+(f===META.fac?' on':''));b.type='button';b.style.setProperty('--tc',T.col);b.disabled=!open;
       b.append(clEl('b','',T.name),clEl('small','',open?CL_CREED[f]:f===1?'Reach the Choir Loft to unlock':'Finish a climb to unlock'));if(open)b.append(clEl('i','',CL_PASSIVE[f]));
-      b.addEventListener('click',()=>{META.fac=f;clStore.save();clShow()});fr.append(b)});card.append(fr);
-    const mh=clEl('div','cmuth');mh.append(clEl('h3','','The gene-line'),clEl('p','cseed',META.seed+' gene-seed'));card.append(mh);
+      b.addEventListener('click',()=>{META.fac=f;clStore.save();clShow()});fr.append(b)});if(!first)card.append(fr);
+    const mh=clEl('div','cmuth');mh.append(clEl('h3','','The gene-line'),clEl('p','cseed',META.seed+' gene-seed'));if(!first)card.append(mh);
     const ml=clEl('div','cmuts');for(const m of CL_MUT){const lv=clMut(m.id),max=lv>=m.cost.length,cost=m.cost[lv],b=clEl('button','cmut'+(max?' max':''));b.type='button';b.disabled=max||META.seed<cost;
       b.append(clEl('b','',m.name+(m.cost.length>1?' '+lv+'/'+m.cost.length:'')),clEl('small','',m.desc),clEl('i','',max?'Inherited':cost+' seed'));
-      b.addEventListener('click',()=>{META.seed-=cost;META.mut[m.id]=lv+1;clStore.save();clShow()});ml.append(b)}card.append(ml);
+      b.addEventListener('click',()=>{META.seed-=cost;META.mut[m.id]=lv+1;clStore.save();clShow()});ml.append(b)}if(!first)card.append(ml);
     const st=clEl('p','cmeta',META.runs?`${META.runs} squad${META.runs>1?'s':''} sent · ${META.wins} reached the top · highest stop ${Math.min(META.best+1,CL_NODES.length)} of ${CL_NODES.length}`:'No one has gone up yet.');card.append(st);
     const bs=clEl('div','btns');bs.append(btn('Decant the squad','Four clones, one tide',()=>{clNewRun(META.fac);clShow()}),btn('Back','',()=>{clClose()},true));card.append(bs);return}
   if(RUN.stage==='map'||RUN.stage==='battle'){const nd=clNode(),ef=clFoe(nd);art('win');
@@ -5864,7 +5889,7 @@ function clShow(){const el=$('#climb'),card=$('#cCard');el.hidden=false;$('#ov')
     const bs=clEl('div','btns');bs.append(btn('Deploy',RUN.stage==='battle'?'Back into the fight':'The tide is behind you',()=>clDeploy()),btn('Leave it here','Your squad waits at this stop',()=>clClose(),true));card.append(bs);return}
   if(RUN.stage==='reward'){art('win');const L=RUN.last;
     head('The ark answers',L.lost.length?`${L.lost.join(', ')} went home as light.`:'All of them walked out.',`${CL_NODES[RUN.step-1].name} cleared in ${L.rounds} round${L.rounds===1?'':'s'}. Take one. The rest goes back down with the tide.`);
-    card.append(clSquadRow());const row=clEl('div','ccards');RUN.offer.forEach((id,i)=>{const c=CL_REWARDS.find(c=>c.id===id),b=clEl('button','ccard '+(c.kind||''));b.type='button';
+    card.append(clSquadRow(true));const row=clEl('div','ccards');RUN.offer.forEach((id,i)=>{const c=CL_REWARDS.find(c=>c.id===id),b=clEl('button','ccard '+(c.kind||''));b.type='button';
       b.append(clEl('small','',c.tag),clEl('b','',c.name),clEl('span','',c.desc));b.addEventListener('click',()=>{initAudio();clPick(i)});row.append(b)});card.append(row);return}
   // the end of a run, either way
   const win=RUN.stage==='won',L=RUN.last||{lost:[]};art(win?'win':'loss');el.classList.toggle('lost',!win);
@@ -5875,7 +5900,7 @@ function clShow(){const el=$('#climb'),card=$('#cCard');el.hidden=false;$('#ov')
   cell('Reached','Stop '+Math.min(RUN.step+1,CL_NODES.length)+' of '+CL_NODES.length);cell('Kills',String(RUN.kills));cell('Fallen',String(RUN.fallen.length+RUN.squad.filter(q=>!q.alive).length));cell('Gene-seed','+'+RUN.earned);card.append(hi);
   if(RUN.unlock!==undefined){const u=clEl('p','cunlock',`${TEAM[RUN.unlock].name} can now make the climb. “${CL_CREED[RUN.unlock]}”`);u.style.color=TEAM[RUN.unlock].col;card.append(u)}
   const bs=clEl('div','btns');bs.append(btn('Back to the ark','Spend what they learned',()=>{RUN=null;el.classList.remove('lost');clShow()}),btn('Quit to title','',()=>{RUN=null;clClose()},true));card.append(bs)}
-function clClose(){$('#climb').hidden=true;$('#climb').classList.remove('lost');S.cfg=null;quitToTitle()}
+function clClose(){$('#cHud').hidden=true;$('#climb').hidden=true;$('#climb').classList.remove('lost');S.cfg=null;quitToTitle()}
 function clOpen(){clStore.load();if(RUN&&RUN.stage==='battle')RUN.stage='map';if(RUN&&(RUN.stage==='won'||RUN.stage==='lost'))RUN=null;clShow()}
 $('#goClimb').addEventListener('click',()=>{initAudio();clOpen()});
 clStore.load();if(RUN&&RUN.stage!=='won'&&RUN.stage!=='lost')$('#goClimb').querySelector('span').textContent=`Your squad waits at ${CL_NODES[Math.min(RUN.step,CL_NODES.length-1)].name}`;
