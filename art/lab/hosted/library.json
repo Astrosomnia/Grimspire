@@ -3671,6 +3671,48 @@
       "h": 158,
       "frame_count": 1,
       "category": "Other art"
+    },
+    {
+      "id": "asset-629ebba115e877be12abc324",
+      "path": "art/lab/hosted/library/asset-629ebba115e877be12abc324.forge.json",
+      "sha256": "629ebba115e877be12abc3249edca877f8169820f07615fbd24364ddd0fa5c67",
+      "asset_id": "custom-b515751d-7fe4-42d2-8d3b-fe609b1bfe95",
+      "state_key": "",
+      "asset_name": "Collapsed Nave — prototype 01",
+      "code": "K20",
+      "name": "Collapsed nave — Back alignment study",
+      "w": 768,
+      "h": 384,
+      "frame_count": 1,
+      "category": "Other art"
+    },
+    {
+      "id": "asset-cc85407aed99ff38e7ab4d81",
+      "path": "art/lab/hosted/library/asset-cc85407aed99ff38e7ab4d81.forge.json",
+      "sha256": "cc85407aed99ff38e7ab4d81c9338c1257a4e54ac872a52260200629cdd36bb7",
+      "asset_id": "custom-8655119f-303e-4aa6-bf35-18d46856c66b",
+      "state_key": "",
+      "asset_name": "Broken belfry — open arches draft",
+      "code": "K21",
+      "name": "Broken belfry — open arches draft",
+      "w": 384,
+      "h": 576,
+      "frame_count": 1,
+      "category": "Other art"
+    },
+    {
+      "id": "asset-a1cc5296ad9f21b2be7b735f",
+      "path": "art/lab/hosted/library/asset-a1cc5296ad9f21b2be7b735f.forge.json",
+      "sha256": "a1cc5296ad9f21b2be7b735f9b7c9d05afe7f641bed4446334546d95fd26666e",
+      "asset_id": "custom-ce405e60-0548-4660-b60c-85875a4d0dc3",
+      "state_key": "",
+      "asset_name": "Rib vault bay — Back alignment study",
+      "code": "K26",
+      "name": "Rib vault bay — Back alignment study",
+      "w": 768,
+      "h": 512,
+      "frame_count": 1,
+      "category": "Other art"
     }
   ]
 }
