@@ -6,6 +6,11 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-15 · Codex · Open belfry exit and weathered bridge drafts
+- Saved Jarred’s wider open-exit K21 belfry and revised K05d weathered stone arch to the shared Forge library as new draft versions; earlier versions remain available. [Forge commit](https://github.com/Astrosomnia/Grimspire/commit/e31728da19b166fa70c9374efb231c8673cda085).
+- In a local controlled test, a trooper placed at a position satisfying the game’s spawn rules moved and jumped out through the belfry opening; this is one placement, not a complete spawn audit. The bridge was visually checked in a repeated-span game preview. 66 Forge checks passed and both saves reopened in Forge.
+- Bridge Height and Guts in the redrawn area are provisional. Belfry Height is unauthored and Guts provisional. Destruction and broader play testing remain; no live game release or bridge-selection code change.
+
 ## 2026-11-15 · Codex · Fractured belfry draft and bridge repetition
 - Jarred asked to open the belfry at the right upper pillar and middle stair. Saved a new K21 draft with broken masonry and a short stair gap in [the Forge library](https://github.com/Astrosomnia/Grimspire/commit/8e73cc51dfdc011bcddd2e57504c5ad2a5833824); the previous version remains available. Appearance checked in a local game preview and the new version reopened in Forge. Stair traversal and blasts remain untested; Height is unauthored and Guts provisional.
 - Jarred also flagged a bridge with repeated sloping ribs. The pictured piece matches K05d, the asymmetric cantilever; in the local test renderer, a bridge run repeats the chosen K05 variant. An isolated use could work, but a continuous tiled run does not. The bridge and game code have not been changed.
