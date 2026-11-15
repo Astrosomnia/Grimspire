@@ -724,7 +724,7 @@ function ruinRock(g,hs){
   for(let x=0;x<=W;x++){let y=0;const cx=Math.min(W-1,x);while(y<H&&!m[y*W+cx])y++;hs[x]=y}
 }
 function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0);// the array is full size; a narrower map leaves no stale tail
-  NS.kit=[];NS.lip=null;decoC.getContext('2d').clearRect(0,0,W,H);
+  NS.kit=[];NS.lip=null;decoC.getContext('2d').clearRect(0,0,W,H);baCtx.clearRect(0,0,W,H);NS.backArt=false;
   struct.width=W;struct.height=H;carv.width=W;carv.height=H;eyes=[];carvBoxes=[];NS.carvH=[];
   const g=mctx;g.globalCompositeOperation='source-over';g.clearRect(0,0,W,H);sctx.clearRect(0,0,W,H);
   g.fillStyle='#fff';sctx.fillStyle='#fff';bctx.clearRect(0,0,W,H);
@@ -773,14 +773,14 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
   const put=(k,x,yb,flip,vid)=>{const id=vid||pickK(k),a=labArt.get(id),d=kD(id),f=a.frames[0],w=d.w*z,h=d.h*z,y=yb-((Number.isFinite(d.base)?d.base:d.h-1)+1)*z;
     const draw=(c,img)=>{if(!img)return;c.save();c.imageSmoothingEnabled=false;if(flip){c.translate(x+w,y);c.scale(-1,1);c.drawImage(img,0,0,w,h)}else c.drawImage(img,x,y,w,h);c.restore()};
     // stacked tower shafts would make columns of glass: only some windows are lit, and only the big glass casts light
-    const lit=f.emis&&(k!=='K01'||Math.random()<.3),sp=kitSplit(f.body,k,d);draw(g,sp.solid);if(sp.deco)draw(decoC.getContext('2d'),sp.deco);draw(hg,f.guts);NS.kit.push({id,x,y,w,h,flip,body:f.body,solid:sp.solid,emis:lit?f.emis:null,light:lit&&(k==='K08'||k==='K07')?[x+w/2,y+h*(k==='K08'?.42:.3),k==='K08'?150:110]:null});return{x,y,w,h}};
+    const lit=f.emis&&(k!=='K01'||Math.random()<.3),sp=kitSplit(f.body,k,d);if(f.back){draw(baCtx,f.back);NS.backArt=true}draw(g,sp.solid);if(sp.deco)draw(decoC.getContext('2d'),sp.deco);draw(hg,f.guts);NS.kit.push({id,x,y,w,h,flip,body:f.body,solid:sp.solid,emis:lit?f.emis:null,light:lit&&(k==='K08'||k==='K07')?[x+w/2,y+h*(k==='K08'?.42:.3),k==='K08'?150:110]:null});return{x,y,w,h}};
   const TW=112*z,SPAN=180*z,SHk=100*z,Jk=4*z,genT=[],occ=[];
   // a run of K05 spans from x0 to x1 with its deck at `deck`; cut ends are clipped there, broken ends bitten
-  const kRun=(x0,x1,deck,brokeL,brokeR,mir,id)=>{const yb=deck+80*z,dg=decoC.getContext('2d');for(const c of[g,hg,dg]){c.save();c.beginPath();c.rect(x0,deck-40,x1-x0,140*z);c.clip()}
-    const k0=NS.kit.length;for(let x=x0;x<x1;x+=SPAN)put('K05',x,yb,mir,id);for(const c of[g,hg,dg])c.restore();
+  const kRun=(x0,x1,deck,brokeL,brokeR,mir,id)=>{const yb=deck+80*z,dg=decoC.getContext('2d');for(const c of[g,hg,dg,baCtx]){c.save();c.beginPath();c.rect(x0,deck-40,x1-x0,140*z);c.clip()}
+    const k0=NS.kit.length;for(let x=x0;x<x1;x+=SPAN)put('K05',x,yb,mir,id);for(const c of[g,hg,dg,baCtx])c.restore();
     for(let q=k0;q<NS.kit.length;q++)NS.kit[q].clip=[x0,deck-40,x1-x0,140*z];// the lit pass draws only the kept length
     const bite=(ex,sd)=>{const r=rnd(10,18),pts=[[ex,deck-14],[ex,yb+2]];for(let i=0;i<=5;i++)pts.push([ex-sd*(i%2?r*rnd(.3,.7):r*rnd(.8,1.2))*(1-i/6),yb-(yb-deck+14)*i/5]);
-      for(const c of[g,hg,dg]){c.save();c.globalCompositeOperation='destination-out';poly(c,pts);c.restore()}cuts.push(pts)};
+      for(const c of[g,hg,dg,baCtx]){c.save();c.globalCompositeOperation='destination-out';poly(c,pts);c.restore()}cuts.push(pts)};
     const cuts=[];if(brokeL)bite(x0,-1);if(brokeR)bite(x1,1);for(let q=k0;q<NS.kit.length;q++)NS.kit[q].cuts=cuts;hangs.push({cx:(x0+x1)/2,cy:deck})};
   // a piece's top surface per column (first solid row, -1 if empty) and its occupied columns; canvases can have
   // empty margins, so joins use these, never the canvas rectangle
@@ -1677,8 +1677,9 @@ vec3 world(vec2 w){
       lit+=lm/L0*max(0.,.3*L0+1.15*dot(N,L1));}}}}
   vec4 bw=textureLod(uBack,w/WH,0.)*inb(w);
   if(bw.a>.02&&P<.5){float csh=smoothstep(.12,.55,blr(q+ML*9.));
-    vec3 bl=vec3(.055,.075,.115)+CYA*.3*pow(smoothstep(130.,0.,uSump-w.y),2.)+MOONC*.16*(1.-csh)+flt*.35;
-    float bt;float bm=brick(w+vec2(3.,2.),bt);vec3 bc=mix(bw.rgb*(.7+.4*bt)*mix(.45,1.,bm)*bl*1.3,HOR*.14,.08);c=mix(c,bc,bw.a);}
+    float ba=step(.95,bw.a)*step(bw.a,.99);/* drawn Back art (alpha 250): its own detail, no brick */
+    vec3 bl=vec3(.055,.075,.115)+CYA*.3*pow(smoothstep(130.,0.,uSump-w.y),2.)+MOONC*.16*(1.-csh)+flt*(.35+.2*ba);
+    float bt;float bm=brick(w+vec2(3.,2.),bt);bm=mix(bm,1.,ba);bt=mix(bt,.75,ba);vec3 bc=mix(bw.rgb*(.7+.4*bt)*mix(.45,1.,bm)*bl*(1.3-.42*ba),HOR*.14,.08);c=mix(c,bc,min(1.,bw.a/mix(1.,.98,ba)));}
   air=air*.06+CYA*.2*exp(-(uSump-w.y)/30.);
   c+=air;
   if(P>.5)c=stone*(base+lit)+add+air*.3;
@@ -1863,9 +1864,10 @@ vec3 world(vec2 w){
       lit+=lm/L0*max(0.,.3*L0+1.15*dot(N,L1));}}}}
   vec4 bw=textureLod(uBack,q/WH,0.)*inb(q);
   if(bw.a>.02&&P<.5){float csh=smoothstep(.12,.55,blr(q+ML*9.));
+    float ba=step(.95,bw.a)*step(bw.a,.99);/* drawn Back art (alpha 250): its own detail, no brick */
     vec3 bl=vec3(.06,.08,.125)+CYA*.3*pow(smoothstep(130.,0.,uSump-q.y),2.)+MOONC*.16*(1.-csh)+flt*.8;
-    float bt,bj;vec3 bN;bricks(tf+vec2(5.,3.),vec2(12.,6.),bt,bN,bj);
-    vec3 bc=mix(mix(bw.rgb,vec3(.2,.2,.28),.5)*bt*mix(1.,.5,bj)*band(bl,t,5.)*1.3,HOR*.14,.08);c=mix(c,bc,bw.a);}
+    float bt,bj;vec3 bN;bricks(tf+vec2(5.,3.),vec2(12.,6.),bt,bN,bj);bt=mix(bt,1.,ba);bj=mix(bj,0.,ba);
+    vec3 bc=mix(mix(bw.rgb,vec3(.2,.2,.28),.5-.2*ba)*bt*mix(1.,.5,bj)*band(bl,t,5.)*(1.3-.42*ba),HOR*.14,.08);c=mix(c,bc,min(1.,bw.a/mix(1.,.98,ba)));}
   air=air*.06+CYA*.2*exp(-(uSump-q.y)/30.);
   c+=air;
   if(P>.5)c=stone*band(base+lit,t,6.)+add+air*.3;
@@ -2081,6 +2083,7 @@ function litFlush0(){const gl=LIT.gl,d=LIT.dirty;if(!d)return;LIT.dirty=null;
   if(LIT.needH){gl.bindTexture(gl.TEXTURE_2D,LIT.T.height);gl.texSubImage2D(gl.TEXTURE_2D,0,x0*2,y0*2,gl.RGBA,gl.UNSIGNED_BYTE,litHeightPatch0(x0,y0,w,h))}
   gl.bindTexture(gl.TEXTURE_2D,LIT.T.graf);gl.texSubImage2D(gl.TEXTURE_2D,0,x0,y0,gl.RGBA,gl.UNSIGNED_BYTE,litPatch(graf,x0,y0,w,h));
   gl.bindTexture(gl.TEXTURE_2D,LIT.T.soot);gl.texSubImage2D(gl.TEXTURE_2D,0,x0,y0,gl.RGBA,gl.UNSIGNED_BYTE,litPatch(scorchC,x0,y0,w,h));
+  if(NS.backArt&&NS.backN){nsBackCompose(NS.backN.getContext('2d'),x0,y0,w,h);gl.bindTexture(gl.TEXTURE_2D,LIT.T.back);gl.texSubImage2D(gl.TEXTURE_2D,0,x0,y0,gl.RGBA,gl.UNSIGNED_BYTE,litPatch(NS.backN,x0,y0,w,h))}
   const m=48,bx=Math.max(0,x0-m),by=Math.max(0,y0-m);litDerive([bx,by,Math.min(W,x1+m)-bx,Math.min(H,y1+m)-by])}
 function litFrame0(lights,shx,shy){const gl=LIT.gl,T=LIT.T;
   const key=genTerrain.n+'|'+W+'|'+H+'|'+(NS.kit?NS.kit.length:0)+'|'+dressSeed+'|'+!!window.GRIMSPIRE_ART_READY+'|'+NS.backGen;if(W!==LIT.W||H!==LIT.H)LIT.lm=null;
@@ -2179,6 +2182,7 @@ function litFlush1(){const gl=LIT.gl,d=LIT.dirty;if(!d)return;LIT.dirty=null;
   if(LIT.hasHeight){gl.bindTexture(gl.TEXTURE_2D,LIT.T.height);gl.texSubImage2D(gl.TEXTURE_2D,0,ax,ay,gl.RGBA,gl.UNSIGNED_BYTE,litHeightPatch1(x0,y0,w,h))}
   gl.bindTexture(gl.TEXTURE_2D,LIT.T.graf);gl.texSubImage2D(gl.TEXTURE_2D,0,x0,y0,gl.RGBA,gl.UNSIGNED_BYTE,litPatch(graf,x0,y0,w,h));
   gl.bindTexture(gl.TEXTURE_2D,LIT.T.soot);gl.texSubImage2D(gl.TEXTURE_2D,0,x0,y0,gl.RGBA,gl.UNSIGNED_BYTE,litPatch(scorchC,x0,y0,w,h));
+  if(NS.backArt&&NS.backN){nsBackCompose(NS.backN.getContext('2d'),x0,y0,w,h);gl.bindTexture(gl.TEXTURE_2D,LIT.T.back);gl.texSubImage2D(gl.TEXTURE_2D,0,x0,y0,gl.RGBA,gl.UNSIGNED_BYTE,litPatch(NS.backN,x0,y0,w,h))}
   const m=48,bx=Math.max(0,x0-m),by=Math.max(0,y0-m);litDerive([bx,by,Math.min(W,x1+m)-bx,Math.min(H,y1+m)-by])}
 // a render target that only ever grows, so zooming never reallocates mid-move; each pass draws into the corner it needs
 function litNeed(name,w,h,hdr){const R=LIT.R||(LIT.R={});let r=R[name];if(!r||r.w<w||r.h<h){const nw=Math.max(r?r.w:0,Math.ceil(w/64)*64),nh=Math.max(r?r.h:0,Math.ceil(h/64)*64);litFree(r);r=R[name]=litTarget(nw,nh,hdr,false)}return r}
@@ -2416,13 +2420,25 @@ function gothicLayer(o){
 // Back walls and facades sit between the skyline and the play layer: lifted toward the haze. The rock's dark
 // interior (behind caves and craters) is baked in with them, so it costs one draw.
 function nsBack(){if(NS.backGen===genTerrain.n&&NS.backN)return NS.backN;NS.backGen=genTerrain.n;
-  const c=NS.backN||mk(W,H),g=c.getContext('2d');g.globalCompositeOperation='copy';g.drawImage(back,0,0);
-  g.globalCompositeOperation='source-atop';g.fillStyle='rgba(34,42,56,.7)';g.fillRect(0,0,W,H);g.globalCompositeOperation='source-over';g.drawImage(hollow,0,0);return NS.backN=c}
+  const c=NS.backN||mk(W,H);nsBackCompose(c.getContext('2d'));return NS.backN=c}
+// Set-piece Back art goes in between, tinted a step toward the back-wall blue and drawn at alpha 250/255: the lit
+// shaders read that as "drawn back art" and skip the brick pattern they lay over procedural back walls.
+const BA_ALPHA=250/255;let baTmp=null;
+function nsBackCompose(g,x0=0,y0=0,w=W,h=H){g.save();g.beginPath();g.rect(x0,y0,w,h);g.clip();
+  g.globalCompositeOperation='copy';g.drawImage(back,0,0);
+  g.globalCompositeOperation='source-atop';g.fillStyle='rgba(34,42,56,.7)';g.fillRect(x0,y0,w,h);
+  if(NS.backArt){if(!baTmp||baTmp.width!==W||baTmp.height!==H)baTmp=mk(W,H);const t=baTmp.getContext('2d');t.save();t.beginPath();t.rect(x0,y0,w,h);t.clip();
+    t.globalCompositeOperation='copy';t.drawImage(backArt,0,0);t.globalCompositeOperation='source-atop';t.fillStyle='rgba(18,24,34,.42)';t.fillRect(x0,y0,w,h);t.restore();
+    g.globalCompositeOperation='destination-out';g.drawImage(baTmp,0,0);g.globalCompositeOperation='source-over';g.globalAlpha=BA_ALPHA;g.drawImage(baTmp,0,0);g.globalAlpha=1}
+  g.globalCompositeOperation='source-over';g.drawImage(hollow,0,0);g.restore()}
 // Light from above: the top few pixels of every surface catch the sky, undersides fall into shadow. Built per
 // column from the terrain mask, only for columns a blast or build has touched since the last frame.
 const topl=mk(W,H),tlctx=topl.getContext('2d'),hollow=mk(W,H),gutsC=mk(W,H),gutsBand=mk(W,H),decoC=mk(W,H),unionC=mk(W,H);
+// (14 Nov) set pieces' Back layers: non-solid art behind the piece (rear columns, far stairs, vault ribs). Drawn into the
+// back band between the procedural back walls and the cave hollows; blasts bite it, nothing collides with it.
+const backArt=mk(W,H),baCtx=backArt.getContext('2d');
 function setMapW(k){const w=Math.round(W0*clamp(+k||1,.4,1)/10)*10;if(w===W)return;W=w;
-  for(const c of[mask,terr,back,rim,graf,scorchC,topl,hollow,gutsC,gutsBand,decoC,unionC])c.width=W;
+  for(const c of[mask,terr,back,rim,graf,scorchC,topl,hollow,gutsC,gutsBand,decoC,unionC,backArt])c.width=W;
   NS.layers=null;NS.backN=null;NS.backGen=-1;NS.bp=undefined;NS.fg=null;toplImg=null;toplAll=true;rimDirty=true}
 const urlMapW=(()=>{const m=location.hash.match(/(^#|&)w=(\d+)/);return m?+m[2]/100:null})();let toplImg=null,toplAll=true,toplX0=W,toplX1=-1;
 function toplMark(x0,x1){toplX0=Math.min(toplX0,Math.max(0,Math.floor(x0)));toplX1=Math.max(toplX1,Math.min(W-1,Math.ceil(x1)))}
@@ -2516,6 +2532,7 @@ function carve(cx,cy,r,scorch=true,jagged=false){
   if(scorch){tctx.globalCompositeOperation='source-atop';
     const rg=tctx.createRadialGradient(cx,cy,r*.7,cx,cy,r+12);rg.addColorStop(0,'rgba(8,6,6,.95)');rg.addColorStop(.6,'rgba(30,14,8,.6)');rg.addColorStop(1,'rgba(0,0,0,0)');
     tctx.fillStyle=rg;tctx.fillRect(cx-r-14,cy-r-14,r*2+28,r*2+28)}
+  if(NS.backArt){const g=baCtx,k=.8;g.save();g.globalCompositeOperation='destination-out';g.fillStyle='#000';if(jag)g.drawImage(jagC,cx-(cx-jag[0])*k,cy-(cy-jag[1])*k,jagC.width*k,jagC.height*k);else{g.beginPath();g.arc(cx,cy,r*k,0,Math.PI*2);g.fill()}g.restore()}
   for(const g of[tctx,mctx,gfx,decoC.getContext('2d')]){g.globalCompositeOperation='destination-out';if(jag)g.drawImage(jagC,jag[0],jag[1]);else{g.fillStyle='#000';g.beginPath();g.arc(cx,cy,r,0,Math.PI*2);g.fill()}g.globalCompositeOperation='source-over'}
   rimDirty=true;toplMark(cx-r*1.45-10,cx+r*1.45+10);freshCut(cx,cy,r,false,!!jag);checkFixtures();scarTags(cx,cy,r);litDirty(cx-r*1.45-24,cy-r*1.45-24,cx+r*1.45+24,cy+r*1.45+24);
   if(window.GRIMSPIRE_SET_PIECES)setPiecesHit(cx,cy,r);
@@ -2527,6 +2544,7 @@ function carveLine(x0,y0,x1,y1,r,col){
     for(let yy=iy0;yy<=iy1;yy++)for(let xx=ix0;xx<=ix1;xx++)if((xx-x)**2+(yy-y)**2<=r*r)solid[yy*W+xx]=0}
   tctx.globalCompositeOperation='source-atop';tctx.strokeStyle=col||'rgba(10,6,6,.9)';tctx.lineWidth=r*2+10;tctx.lineCap='round';
   tctx.beginPath();tctx.moveTo(x0,y0);tctx.lineTo(x1,y1);tctx.stroke();
+  if(NS.backArt){const g=baCtx;g.save();g.globalCompositeOperation='destination-out';g.strokeStyle='#000';g.lineWidth=r*1.6;g.lineCap='round';g.beginPath();g.moveTo(x0,y0);g.lineTo(x1,y1);g.stroke();g.restore()}
   for(const g of[tctx,mctx,gfx,decoC.getContext('2d')]){g.globalCompositeOperation='destination-out';g.strokeStyle='#000';g.lineWidth=r*2;g.lineCap='round';g.beginPath();g.moveTo(x0,y0);g.lineTo(x1,y1);g.stroke();g.globalCompositeOperation='source-over'}
   litDirty(Math.min(x0,x1)-r-18,Math.min(y0,y1)-r-18,Math.max(x0,x1)+r+18,Math.max(y0,y1)+r+18);rimDirty=true;toplMark(Math.min(x0,x1)-r-2,Math.max(x0,x1)+r+2);{const n=Math.max(1,Math.ceil(Math.hypot(x1-x0,y1-y0)/Math.max(8,r*2)));for(let i=0;i<=n;i++)freshCut(x0+(x1-x0)*i/n,y0+(y1-y0)*i/n,r,i<n)}checkFixtures();for(const q of tags)if(q.left>0){const was=q.left;q.left=paintLeft(q)/q.a0}
   if(window.GRIMSPIRE_SET_PIECES)setPiecesHitLine(x0,y0,x1,y1,r);
@@ -5046,7 +5064,7 @@ const labDocs=new Map(Object.entries(LAB_PAYLOAD.assets).map(([slot,doc])=>[labS
 const labOriginalProp = prop;
 const labImage = src => src ? new Promise((resolve,reject)=>{const i=new Image();i.onload=()=>resolve(i);i.onerror=()=>reject(new Error('Weapon image failed to load'));i.src=src}) : Promise.resolve(null);
 const labReady = Promise.all(Object.entries(LAB_PAYLOAD.assets).map(async ([slot,doc])=>{
-  const frames=await Promise.all(doc.frames.map(async f=>({body:await labImage(f.body),trim:await labImage(f.trim),emis:await labImage(f.emis),cloth:await labImage(f.cloth),guts:await labImage(f.guts),height:await labImage(f.height).catch(e=>{console.warn('Height map unavailable:',e.message);return null})})));
+  const frames=await Promise.all(doc.frames.map(async f=>({body:await labImage(f.body),trim:await labImage(f.trim),emis:await labImage(f.emis),cloth:await labImage(f.cloth),guts:await labImage(f.guts),height:await labImage(f.height).catch(e=>{console.warn('Height map unavailable:',e.message);return null}),back:await labImage(f.back).catch(e=>{console.warn('Back layer unavailable:',e.message);return null})})));
   const k=labSlots[slot]||slot;labArt.set(k,{doc,frames});
 })).then(()=>{labComposeCrates();if(typeof busterArt==='function')busterArt();window.GRIMSPIRE_ART_READY=true}).catch(e=>{window.GRIMSPIRE_ART_ERROR=e.message;console.error(e)});
 // Crates are a casing plus a category symbol. A crate slot may hold a whole crate (36×18, symbol drawn in) or
@@ -5484,7 +5502,8 @@ function setPiecesPlace(force,inGen){
 function spStamp(g,hg){setPiecesPlace(true,true);let n=0;
   for(const p of SPS.pieces){const a=labArt.get(p.slot),f=a&&a.frames[0];if(!f||!f.body)continue;
     const w=p.doc.w*p.z,h=p.doc.h*p.z,x=p.x0,y=p.y0,flip=p.face<0,clip=p.sink>0?[p.x0-4,p.y0-4,p.x1-p.x0+8,p.y-p.y0+4.5]:null;
-    for(const[c,img]of[[g,f.body],[hg,f.guts]]){if(!img)continue;c.save();c.imageSmoothingEnabled=false;if(clip){c.beginPath();c.rect(...clip);c.clip()}
+    if(f.back)NS.backArt=true;
+    for(const[c,img]of[[baCtx,f.back],[g,f.body],[hg,f.guts]]){if(!img)continue;c.save();c.imageSmoothingEnabled=false;if(clip){c.beginPath();c.rect(...clip);c.clip()}
       if(flip){c.translate(x+w,y);c.scale(-1,1);c.drawImage(img,0,0,w,h)}else c.drawImage(img,x,y,w,h);c.restore()}
     NS.kit.push({id:p.slot,x,y,w,h,flip,body:f.body,solid:f.body,emis:f.emis||null,light:null,clip});p.stamped=true;n++}
   return n>0}

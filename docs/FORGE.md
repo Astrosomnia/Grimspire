@@ -8,7 +8,7 @@ Grimspire's shared pixel art editor and the art pipeline into the game.
 
 ## Daily use
 1. **Library:** one card per asset, with its versions and animation states inside. Archive holds references.
-2. **Draw:** body, emissive (glow), trim (squad colour mask) and guts (revealed when damaged) layers; frames; anchors.
+2. **Draw:** body, emissive (glow), trim (squad colour mask), cloth, guts (revealed when damaged), height (relief) and back (non-solid art behind a set piece, key 7) layers; frames; anchors. The Back layer is shown behind the Body, darkened roughly as the game will; pick layer 7 to paint it alone. See `WORLD-ART.md` → Splitting a set piece into Body and Back.
 3. **Test in game** (Shared Forge panel → **Test**): opens a local battle with your current canvas in the chosen test slot, plus the art from the current shared build. Nothing is saved. Use it freely.
 4. **Save revision:** keeps this version of the asset in the Library and makes a shared test build others can open. Identical art isn't stored twice.
 5. **Save & test:** both at once.

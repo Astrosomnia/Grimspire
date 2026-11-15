@@ -101,6 +101,17 @@ Small ramps, 4–6 steps each, shared across all world art. Pick from them; don'
 - **Cloth:** banners, tarps, shrouds, hanging flags; faction-coloured in game. Neutral world cloth uses the grey "None" faction
 - **Trim:** faction marks (graffiti, painted sigils) for faction-territory pieces
 - **Guts:** what's inside when a blast bites in: rebar, rubble, hollow stone, cogs. Every piece that can be destroyed needs it
+- **Height:** greyscale relief for the lit look: white raised, black recessed
+- **Back** (14 Nov 2026): everything you see *through and behind* the piece that you can't stand on or hit: rear columns and piers, the far wall of a room seen through an arch, far stairs, vault ribs, tracery, the back of a gallery. Same canvas, same alignment as the Body. In game it's never solid, drawn a step darker than the back walls with no brick pattern, lit by nearby lights and the water glow, and blasts bite it (a little smaller than the hole they make in the Body)
+
+### Splitting a set piece into Body and Back
+The play diagrams are the rule: **the Body is only what the dashed routes run on and what shells hit.** Floors, walkable stairs, the deck, outer walls you'd take cover behind, the solid mass of a pier. Everything else goes on Back.
+- If a trooper should be able to **walk in front of it**, it's Back (a column behind a gallery, the far wall of the nave).
+- If a trooper should **stand on it or hide behind it**, it's Body.
+- Leave real gaps in the Body (at least 30 px clear) where the diagrams show interior space. The Back fills those gaps visually so the piece doesn't read as a mound with holes.
+- Draw the Back at full value and detail like the Body; the game does the darkening. Don't pre-darken it or add fog.
+- Back and Body can overlap: Body wins where both are drawn.
+- Back needs no Guts or Height. Emissive only belongs on the Body for now.
 
 ## Placement data
 Every set piece and prop carries this, so the game can place it without hand-made maps. Until the Forge has fields for it, write it in the asset's notes in this form:
