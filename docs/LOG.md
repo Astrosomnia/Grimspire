@@ -6,6 +6,11 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-15 · ChatGPT · Campaign roadmap and What If bank
+- Added a campaign direction and What If bank to `docs/VISION.md`, plus a prioritised campaign-foundation milestone in `docs/ROADMAP.md`.
+- Captures Jarred's exploration of asymmetric solo encounters, alternative squad structures, real-time-lite, classes, faction unlocks (Ash Legion first), systemic destruction, environmental puzzles, modular world generation and campaign/PvP separation.
+- **Status:** design hypotheses and proposed experiments only; no gameplay or art changes, no mechanics approved for production. Next suggested proof: a short three-encounter run.
+
 ## 2026-11-15 · Claude · Landmark lots on branch `landmark-lots` (GV 69, not on main)
 - **Correction to the entry below:** K20/K21/K26 don't need S codes. K10–K13 are live **landmarks**, the same size class, and both layouts already place landmarks by code. Release the new pieces as K20, K21, K26; the branch adds them to one shared `LANDMARKS` list (K10–K13, K20, K21, K26). Until they're released the list just skips them.
 - **Drowned:** unchanged; landmarks already get their own rock mass. With the new pieces in, 14 of 17 drowned maps had one.
