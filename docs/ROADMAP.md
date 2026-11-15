@@ -2,6 +2,18 @@
 
 What's done, what's next. How we work and where things live are in [`HANDOVER.md`](HANDOVER.md); the long-term game in [`VISION.md`](VISION.md); the look in [`ART-DIRECTION.md`](ART-DIRECTION.md).
 
+## Campaign foundation — next design milestone (15 Nov 2026)
+See [VISION.md](VISION.md#campaign-direction-and-what-if-bank-15-nov-2026) for the full capability roadmap and What If bank. These are **proposals**, not completed or approved mechanics.
+
+**Priority:** prove a short, replayable solo run before producing a large catalogue of environments or weapons.
+1. Prototype a three-encounter, 10–15-minute run using existing assets: skirmish → objective/vertical gauntlet → guardian, with persistent squad state and two meaningful reward choices.
+2. Measure encounter duration, AI wait, tactical variety, upgrade impact, and whether a second run is tempting. The existing 20–40-minute run target is a longer-term hypothesis.
+3. Compare three campaign combat structures in small controlled tests: traditional turn-based vs asymmetric hordes; one-trooper real-time-lite/cooldowns; switchable squad/shared-turn command.
+4. Test environmental interactions in one small arena (e.g. breachable reservoir and rising water), with physical destruction and modular functional geometry as expandable foundations.
+5. Only then expand classes, faction-specific arsenals, enemies, bosses, zones and modular world art around what proves fun.
+
+**Guardrail:** PvP remains the proven standalone artillery experience, enriched by campaign content but never gated behind campaign unlocks. Ash Legion is the campaign starting faction; other factions are discovered/unlocked later (design direction).
+
 ## Tech plan
 Prototype in HTML/canvas to nail the loop, weapons and feel, then rebuild in **Godot** once the design settles. Treat the move as a rebuild, not a port: the rules, numbers and feel carry over, not the code.
 
