@@ -6,6 +6,13 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-15 · Claude · Landmark lots on branch `landmark-lots` (GV 69, not on main)
+- **Correction to the entry below:** K20/K21/K26 don't need S codes. K10–K13 are live **landmarks**, the same size class, and both layouts already place landmarks by code. Release the new pieces as K20, K21, K26; the branch adds them to one shared `LANDMARKS` list (K10–K13, K20, K21, K26). Until they're released the list just skips them.
+- **Drowned:** unchanged; landmarks already get their own rock mass. With the new pieces in, 14 of 17 drowned maps had one.
+- **Generated layouts:** half the maps now claim a landmark lot before the towers go in (tower spacing and the kit occupancy list keep off it; floating islands, pillars and plank bridges check it). The kit pass builds into it: level ground as before, or, where the ground is uneven (spread over 90 px, 130 on ruins), it levels a terrace at the median height, cutting the hill only between the terrace and the old ground and easing the shoulders over 50 px. Any extra landmark keeps the old search plus a check that its air box is clear. 26 of 43 land maps had a landmark in a 60-seed run (was rare for the big pieces); no errors.
+- Tests: `dsim`, `dsim2`, `dsimart` identical. `det`: drowned and ruins seeds match, spires and islands seeds change (lot rolled), hence GV 69.
+- Test page with K20, K21 and the fixed K26 loaded (private artifact): https://claude.ai/artifact/2pNwFhY4JyH6zLBiXK6aDD. **Waiting on Jarred** to play it before merge. The release of the three pieces still needs K26's Back re-saved in the Forge.
+
 ## 2026-11-15 · Claude · Review of the first Body + Back set pieces; bay kit test brief
 - Jarred likes the Back from inside the nave and vault ("lighting up"). K21 open-exit checked in a local game: Back sits behind the stairs, storeys about two troopers tall.
 - **K26's saved Back is corrupt.** The library file has a tool truncation ("427219 bytes omitted") inside the Back image, so it won't decode; Body and Guts are fine. Jarred has the full file (Back decodes, Body/Guts/notes identical). **Ask (Codex):** re-save K26 from it in the Forge so the library copy is replaced. K20 and K21 saves are complete.
