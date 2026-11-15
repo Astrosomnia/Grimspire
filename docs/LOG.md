@@ -6,9 +6,15 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-14 · Claude · End screen: Accuracy, Drowned, Longest fling; Kills out; Grimspire-mark reveal
+- Squad table is now Dealt, Taken, Own fire, **Accuracy** (share of shots that hurt an enemy; replaces Shots), **Drowned** (own troopers lost to the water), Left. Kills dropped (Jarred: obvious from who's left). The match-wide "Lost to the water" highlight is gone.
+- New highlight **Longest fling**: furthest a knocked trooper travelled from leaving the ground to landing or hitting the water, in metres (12 px ≈ 1 m), with who launched them. `statFlings()` runs each sim step but only writes stats.
+- **Reveal:** the end screen no longer jump-cuts in. After a 0.45 s beat the Grimspire mark (favicon glyph, ring filled) appears small in the middle of the battlefield with the end screen inside it, holds, then opens out over about a second and swallows the screen; a thin outline in the winner's colour leads it and fades early. Skipped when rejoining a finished online match; plain fade with reduced motion. CSS mask (`#end.reveal`, `.endEdge`).
+- `dsim`, `dsim2` identical. One CPU battle: accuracy 58% / 43%, 2 drowned, a 47 m fling.
+
 ## 2026-11-14 · Claude · End screen: Own fire per squad
 - Jarred: friendly fire wasn't clear (whose, what counts). It was one match-wide total of damage to *other* friendly troopers on your turn, so a trooper hurting themself didn't count.
-- Now **Own fire** is a column in the squad table: any damage your own squad (or an ally) takes during your turn, the trooper who fired included (falls on your own turn count too). Dealt stays enemies-only, so a squad's Taken = enemies' Dealt to it + its own Own fire (checked in two CPU battles). The match-wide Friendly fire highlight is gone. Column headers have hover tips; the table tightens on phones so seven columns fit.
+- Now **Own fire** is a column in the squad table: any damage your own squad (or an ally) takes during your turn, the trooper who fired included (falls on your own turn count too). Dealt stays enemies-only. A squad's Taken = enemies' Dealt to it + its own Own fire + damage between turns (burning ground, fallout), which is nobody's turn. The match-wide Friendly fire highlight is gone. Column headers have hover tips; the table tightens on phones so seven columns fit.
 
 ## 2026-11-14 · Claude · Blasts break the facade away in a circle; jagged leftovers show Guts (visual only)
 - Jarred asked whether Guts do anything. Barely: they only showed as a 6 px rim around holes, mixed halfway to black. His idea: keep the jagged collision, but break the facade art away in a rounder shape so the jagged solid bits left inside read as broken interior, not stray facade.

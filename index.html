@@ -283,6 +283,13 @@ body.intitle #dbg{display:none}
 .go:hover{background:var(--fire);border-color:var(--fire)}
 .go.alt{background:transparent;color:var(--bone);border-color:rgba(230,228,222,.4)}
 .go.alt:hover{border-color:var(--fire);color:var(--fire)}
+/* (14 Nov) end-screen reveal: the Grimspire mark opens out of the battlefield and swallows the screen */
+#end.reveal{-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M32 3 37 25 35 29 35 45 39 49 35 49 35 55 32 61 29 55 29 49 25 49 29 45 29 29 27 25Z'/%3E%3Ccircle cx='32' cy='35' r='20'/%3E%3Cpath d='m12 32-7 3 7 2Zm40 0 7 3-7 2ZM16 19l-4-7 8 5Zm28-2 8-5-4 7ZM16 49l-4 8 8-5Zm28 3 8 5-4-8Z'/%3E%3C/svg%3E") center/0 0 no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cpath d='M32 3 37 25 35 29 35 45 39 49 35 49 35 55 32 61 29 55 29 49 25 49 29 45 29 29 27 25Z'/%3E%3Ccircle cx='32' cy='35' r='20'/%3E%3Cpath d='m12 32-7 3 7 2Zm40 0 7 3-7 2ZM16 19l-4-7 8 5Zm28-2 8-5-4 7ZM16 49l-4 8 8-5Zm28 3 8 5-4-8Z'/%3E%3C/svg%3E") center/0 0 no-repeat;animation:endMask 1.05s cubic-bezier(.76,0,.24,1) .45s both}
+@keyframes endMask{0%{-webkit-mask-size:0 0;mask-size:0 0}18%{-webkit-mask-size:16vmin 16vmin;mask-size:16vmin 16vmin}32%{-webkit-mask-size:19vmin 19vmin;mask-size:19vmin 19vmin}100%{-webkit-mask-size:520vmax 520vmax;mask-size:520vmax 520vmax}}
+.endEdge{position:fixed;left:50%;top:50%;width:0;height:0;z-index:8;pointer-events:none;background:var(--ec,#fff);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64' fill='none' stroke='black' stroke-width='1.1'%3E%3Cpath d='M32 3 37 25 35 29 35 45 39 49 35 49 35 55 32 61 29 55 29 49 25 49 29 45 29 29 27 25Z'/%3E%3Ccircle cx='32' cy='35' r='20'/%3E%3Cpath d='m12 32-7 3 7 2Zm40 0 7 3-7 2ZM16 19l-4-7 8 5Zm28-2 8-5-4 7ZM16 49l-4 8 8-5Zm28 3 8 5-4-8Z'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64' fill='none' stroke='black' stroke-width='1.1'%3E%3Cpath d='M32 3 37 25 35 29 35 45 39 49 35 49 35 55 32 61 29 55 29 49 25 49 29 45 29 29 27 25Z'/%3E%3Ccircle cx='32' cy='35' r='20'/%3E%3Cpath d='m12 32-7 3 7 2Zm40 0 7 3-7 2ZM16 19l-4-7 8 5Zm28-2 8-5-4 7ZM16 49l-4 8 8-5Zm28 3 8 5-4-8Z'/%3E%3C/svg%3E") center/contain no-repeat;
+  transform:translate(-50%,-48%);filter:drop-shadow(0 0 10px var(--ec,#fff));animation:endEdge 1.05s cubic-bezier(.76,0,.24,1) .45s both}
+@keyframes endEdge{0%{width:0;height:0;opacity:1}18%{width:16.6vmin;height:16.6vmin}32%{width:19.8vmin;height:19.8vmin;opacity:1}52%{opacity:0}100%{width:540vmax;height:540vmax;opacity:0}}
+@media (prefers-reduced-motion:reduce){#end.reveal{-webkit-mask:none;mask:none;animation:endFade .4s ease both}.endEdge{display:none}@keyframes endFade{from{opacity:0}to{opacity:1}}}
 /* end screen (14 Nov) */
 #end{z-index:7;background:radial-gradient(ellipse at 50% 40%,rgba(0,0,0,.3),rgba(0,0,0,.92) 78%);backdrop-filter:none;-webkit-backdrop-filter:none}
 #end .card{max-width:620px;gap:16px;position:relative}
@@ -2875,7 +2882,7 @@ function newGameInner(mode){
   for(let tm=0;tm<4;tm++){S.ammo[tm]={};for(const w of ARS)if(w.ammo>=0)S.ammo[tm][w.id]=w.ammo}
   crates=[];for(const w of NS.sewers||[])if(w.loot)crates.push({x:w.loot.x,y:w.loot.y,vy:0,type:'heavy',landed:false,para:false});ships=[];fires=[];flames=[];mines=[];girders=[];zones=[];sentries=[];S.saw=S.mini=S.drone=S.pod=null;S.stag=false;S.turnN=0;S.rnd=0;statsReset();S.events=[];S.ev=null;S.slow=null;S.cine=0;S.punch=null;S.hitstop=0;S.flame=null;
   const n0=S.order.length,first=Math.floor(Math.random()*n0);S.team=S.order[(first+n0-1)%n0];S.ptr=[-1,-1,-1,-1];S.weapon=['mortar','mortar','mortar','mortar'];S.lastAtk=['mortar','mortar','mortar','mortar'];S.deathCd=0;S.paused=false;
-  $('#ov').hidden=true;$('#end').hidden=true;$('#pause').hidden=true;document.body.classList.remove('intitle');preloadEnd();
+  $('#ov').hidden=true;$('#end').hidden=true;$('#end').classList.remove('reveal');document.querySelectorAll('.endEdge').forEach(e=>e.remove());$('#pause').hidden=true;document.body.classList.remove('intitle');preloadEnd();
   dressSeed=null;dressWard();if(window.GRIMSPIRE_SET_PIECES)setPiecesPlace();
   nextTurn();
 }
@@ -2911,14 +2918,18 @@ function beginTurn(){
 /* ================= battle stats (14 Nov, for the end screen) =================
    Written by the sim, read only by the end screen; rides the snapshot in S.stats so both online devices agree.
    Damage and kills count for whoever's turn it is; hurting yourself or an ally counts as taken (and friendly fire), not dealt. */
-function statsReset(){S.stats={t0:time,turns:0,dealt:[0,0,0,0],taken:[0,0,0,0],kills:[0,0,0,0],shots:[0,0,0,0],ff:[0,0,0,0],abyss:0,hit:0,tr:{},turn:0,best:null,lastN:-1}}
+function statsReset(){S.stats={t0:time,turns:0,dealt:[0,0,0,0],taken:[0,0,0,0],kills:[0,0,0,0],shots:[0,0,0,0],hits:[0,0,0,0],drown:[0,0,0,0],fling:null,ff:[0,0,0,0],abyss:0,hit:0,tr:{},turn:0,best:null,lastN:-1}}
 function statHurt(t,d){const st=S.stats;if(!st||d<=0)return;st.taken[t.team]+=d;const a=S.active;
   if(a&&a!==t&&foe(a.team,t.team)){st.dealt[a.team]+=d;const i=troopers.indexOf(a);st.tr[i]=(st.tr[i]||0)+d;st.turn+=d;if(d>st.hit)st.hit=d}
   // (14 Nov, Jarred) own fire: any damage your own squad (or an ally) takes on your turn, the trooper who fired included
   else if(a&&!foe(a.team,t.team)){if(!Array.isArray(st.ff))st.ff=[0,0,0,0];st.ff[a.team]+=d}}
-function statKill(t,abyssal){const st=S.stats;if(!st||t.kc)return;t.kc=1;if(abyssal)st.abyss++;const a=S.active;if(a&&a!==t&&foe(a.team,t.team))st.kills[a.team]++}
+function statKill(t,abyssal){const st=S.stats;if(!st||t.kc)return;t.kc=1;if(abyssal){st.abyss++;if(st.drown)st.drown[t.team]++}const a=S.active;if(a&&a!==t&&foe(a.team,t.team))st.kills[a.team]++}
+// Longest fling: from the moment a knocked trooper leaves the ground to where it lands or hits the water
+function statFlings(){const st=S.stats;if(!st)return;for(let i=0;i<troopers.length;i++){const t=troopers[i];
+  if(t.alive&&t.knocked&&t.air&&!t.wet){if(!t._fl)t._fl=[t.x,t.y,S.active?troopers.indexOf(S.active):-1];continue}
+  if(t._fl){const d=Math.hypot(t.x-t._fl[0],t.y-t._fl[1]);if(d>40&&(!st.fling||d>st.fling.d))st.fling={i,d:Math.round(d),by:t._fl[2]};t._fl=null}}}
 function statTurnEnd(){const st=S.stats;if(!st||st.lastN===S.turnN)return;st.lastN=S.turnN;const a=S.active;
-  if(a){st.turns++;if(S.fired)st.shots[a.team]++;if(st.turn>0&&(!st.best||st.turn>st.best.d))st.best={i:troopers.indexOf(a),d:st.turn}}st.turn=0}
+  if(a){st.turns++;if(S.fired){st.shots[a.team]++;if(st.turn>0&&st.hits)st.hits[a.team]++}if(st.turn>0&&(!st.best||st.turn>st.best.d))st.best={i:troopers.indexOf(a),d:st.turn}}st.turn=0}
 // Victory / loss art: drop images in assets/end/ and map them here, e.g. '0-win':'/Grimspire/assets/end/ash-win.jpg', '0-loss':...
 // Keys are faction index (0 Ash Legion, 1 Neon Choir, 2 The Hollow, 3 Halo Guard) and win or loss. Missing ones fall back to the battlefield behind.
 const END_ART={win:'/Grimspire/assets/end/ash-win.jpg',loss:'/Grimspire/assets/end/ash-loss.jpg'};/* (14 Nov) Ash Legion's pair stands in for every faction until each has its own */
@@ -2943,19 +2954,23 @@ function gameOver(w){
   if(st.best){const t=tn(st.best.i);if(t)cell('Biggest turn',st.best.d+' dmg',t.name+' · '+TEAM[t.team].name,TEAM[t.team].col)}
   {let bi=-1,bd=0;for(const k in st.tr||{})if(st.tr[k]>bd){bd=st.tr[k];bi=+k}const t=tn(bi);if(t)cell('Deadliest',t.name,bd+' dmg dealt'+(t.alive?'':' · fell'),TEAM[t.team].col)}
   if(st.hit)cell('Hardest hit',st.hit+' dmg','in one blow');
-  if(st.abyss)cell('Lost to the water',String(st.abyss),st.abyss>1?'troopers':'trooper');
+  if(st.fling){const t=tn(st.fling.i),b=tn(st.fling.by);if(t)cell('Longest fling',Math.max(1,Math.round(st.fling.d/12))+' m',t.name+(b&&b!==t?' · by '+b.name:b===t?' · self-launched':''),TEAM[t.team].col)}/* 12 px ≈ 1 m: a trooper is about 2 m tall */
   $('#eHi').replaceChildren(...H);
   // per squad
-  const tab=$('#eTab'),hd=document.createElement('tr');for(const[h,tip]of[['Squad'],['Dealt','Damage to enemies on your turns'],['Taken','All damage your squad took'],['Own fire','Damage your squad (or an ally) took on your own turns, the trooper who fired included'],['Kills'],['Shots'],['Left']])hd.append(Object.assign(document.createElement('th'),{textContent:h,scope:'col',title:tip||''}));
+  const tab=$('#eTab'),hd=document.createElement('tr');for(const[h,tip]of[['Squad'],['Dealt','Damage to enemies on your turns'],['Taken','All damage your squad took'],['Own fire','Damage your squad (or an ally) took on your own turns, the trooper who fired included'],['Accuracy','Share of shots that hurt an enemy'],['Drowned','Troopers lost to the water'],['Left']])hd.append(Object.assign(document.createElement('th'),{textContent:h,scope:'col',title:tip||''}));
   const rows=[hd];for(const f of S.order.slice().sort((a,b)=>(win.includes(b)-win.includes(a))||((st.dealt||[])[b]-(st.dealt||[])[a]))){const r=document.createElement('tr'),all=troopers.filter(t=>t.team===f),left=all.filter(t=>t.alive).length;
     r.className=(win.includes(f)?'won':'')+(left||win.includes(f)?'':' out');r.style.setProperty('--tc',TEAM[f].col);
-    for(const v of[TEAM[f].name+(f===pov?' (you)':S.ctl&&S.ctl[f]==='c'?' (machine)':''),(st.dealt||[])[f]||0,(st.taken||[])[f]||0,(Array.isArray(st.ff)?st.ff[f]:0)||0,(st.kills||[])[f]||0,(st.shots||[])[f]||0,left+'/'+all.length])r.append(Object.assign(document.createElement('td'),{textContent:v}));rows.push(r)}
+    for(const v of[TEAM[f].name+(f===pov?' (you)':S.ctl&&S.ctl[f]==='c'?' (machine)':''),(st.dealt||[])[f]||0,(st.taken||[])[f]||0,(Array.isArray(st.ff)?st.ff[f]:0)||0,(st.shots||[])[f]?Math.round(100*((st.hits||[])[f]||0)/st.shots[f])+'%':'—',(st.drown||[])[f]||0,left+'/'+all.length])r.append(Object.assign(document.createElement('td'),{textContent:v}));rows.push(r)}
   tab.replaceChildren(...rows);
   $('#ov').hidden=true;$('#pause').hidden=true;E.hidden=false;document.body.classList.add('intitle');closeArsenal();
+  // reveal through the Grimspire mark; skipped when coming back into a finished online match
+  if(!gameOver.quiet){E.classList.remove('reveal');void E.offsetWidth;E.classList.add('reveal');document.querySelectorAll('.endEdge').forEach(e=>e.remove());
+    const edge=document.createElement('div');edge.className='endEdge';edge.style.setProperty('--ec',col);document.body.append(edge);
+    E.addEventListener('animationend',function done(ev){if(ev.target!==E)return;E.classList.remove('reveal');edge.remove();E.removeEventListener('animationend',done)})}
 }
 $('#eAgain').addEventListener('click',()=>{initAudio();if(S.mode==='online'){if(NET.code)BE.rematch(NET.code).catch(e=>alertMsg(e.message))}else newGame(S.mode,undefined,S.cfg)});
 $('#eQuit').addEventListener('click',()=>quitToTitle());
-function quitToTitle(){if(S.mode==='online')netLeave();S.phase='title';setMusicMode('title');S.paused=false;$('#pause').hidden=true;$('#end').hidden=true;$('#result').hidden=true;$('#lede').hidden=false;
+function quitToTitle(){document.querySelectorAll('.endEdge').forEach(e=>e.remove());$('#end').classList.remove('reveal');if(S.mode==='online')netLeave();S.phase='title';setMusicMode('title');S.paused=false;$('#pause').hidden=true;$('#end').hidden=true;$('#result').hidden=true;$('#lede').hidden=false;
   $('#goRematch').hidden=true;$('#goCpu').firstChild.textContent='Fight the machine';
   $('#ov').hidden=false;document.body.classList.add('intitle')}
 function banner(a,b,col,pre){const el=$('#banner');el.innerHTML='';if(pre){const p=document.createElement('small');p.className='pre';p.textContent=pre;el.append(p)}const t=document.createElement('div');t.textContent=a;t.style.color=col;
@@ -4287,7 +4302,7 @@ function update(dt){
   if(S.phase==='aim'&&!S.armed&&(held.size||press.size||stick.x||stick.y))S.armed=true;
   if(S.phase==='aim'&&!held_&&S.armed&&!S.ars){S.timer-=dt;/* (14 Nov) the clock stops while the weapon picker is open */if(S.timer<=0){if(S.charging)launch();else if(!(S.saw||S.mini||S.drone||S.pod)){S.phase='end';S.jet=null}}}
   else if(S.phase==='retreat'){S.retreat-=dt;if(S.retreat<=0)S.phase='end'}
-  for(const tr of troopers)updTrooper(tr,dt);bumpTroopers();
+  for(const tr of troopers)updTrooper(tr,dt);bumpTroopers();statFlings();
   updProjs(dt);updEffects(dt);updWard(dt);updZones(dt);updSentries(dt);updSaw(dt);updMini(dt);updDrone(dt);updPod(dt);updCorpses(dt);updParts(dt);
   if(S.phase==='aim'&&S.second&&settled()){if(S.deathCd>0)S.deathCd-=dt;else{const d=troopers.find(x=>x.alive&&x.hp<=0&&x!==S.active);if(d){killTrooper(d);S.deathCd=2.9}}}
   if(S.phase==='resolve'||S.phase==='end'){
@@ -4857,7 +4872,7 @@ function loadState(str){LIT.key=null;const d=JSON.parse(str);
   for(const k of SKEYS)S[k]=d.S[k];sump=d.sump;time=d.time;SR.s=d.rng;S.active=troopers[d.act]||null;
   S.jet=S.cut=S.burst=S.strike=S.flame=S.swing=S.ev=S.saw=S.mini=S.drone=S.pod=null;S.charging=false;S.charge=0;S.paused=false;S.camSnap=true;S.camFree=false;
   updWeapUI();
-  if(S.phase==='over'){const g=aliveGroups();gameOver(g.size===1?[...g][0]:-1)}}
+  if(S.phase==='over'){const g=aliveGroups();gameOver.quiet=true;gameOver(g.size===1?[...g][0]:-1);gameOver.quiet=false}}
 // a cheap fingerprint of everything that matters, for checking two devices agree
 function stateHash(){let h=0;for(let i=0;i<solid.length;i+=7)h=(h*31+solid[i])|0;for(const t of troopers)h=(h*31+Math.round(t.x*10)+Math.round(t.y*10)*7+t.hp*13+(t.alive?1:0))|0;return h}
 
