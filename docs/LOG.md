@@ -8,6 +8,7 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ## 2026-11-14 · Claude · End screen: Accuracy, Drowned, Longest fling; Kills out; Grimspire-mark reveal
 - Squad table is now Dealt, Taken, Own fire, **Accuracy** (share of shots that hurt an enemy; replaces Shots), **Drowned** (own troopers lost to the water), Left. Kills dropped (Jarred: obvious from who's left). The match-wide "Lost to the water" highlight is gone.
+- (Jarred asked whose colour the fling showed.) The number is now neutral and each name takes its own squad's colour: flung trooper, then "by" the thrower.
 - New highlight **Longest fling**: furthest a knocked trooper travelled from leaving the ground to landing or hitting the water, in metres (12 px ≈ 1 m), with who launched them. `statFlings()` runs each sim step but only writes stats.
 - **Reveal:** the end screen no longer jump-cuts in. After a 0.45 s beat the Grimspire mark (favicon glyph, ring filled) appears small in the middle of the battlefield with the end screen inside it, holds, then opens out over about a second and swallows the screen; a thin outline in the winner's colour leads it and fades early. Skipped when rejoining a finished online match; plain fade with reduced motion. CSS mask (`#end.reveal`, `.endEdge`).
 - `dsim`, `dsim2` identical. One CPU battle: accuracy 58% / 43%, 2 drowned, a 47 m fling.
