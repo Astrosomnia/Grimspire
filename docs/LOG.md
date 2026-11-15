@@ -6,6 +6,11 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-14 · Claude · Machine difficulty: Acolyte or Inquisitor
+- Jarred found Inquisitor played worse than the old machine (missed more, odder, riskier shots). Retested properly: 40 CPU battles each against an exact copy of the pre-14-Nov machine. Inquisitor as shipped 21–18; sharper aim + tighter picks 20–19; no firing-spot exposure check 19–21. All coin flips: none of the tuning knobs move results, maps decide more. Acolyte lost 13–27. The earlier "6–1" (8 battles) was noise.
+- So two levels: **Acolyte** (easier) and **Inquisitor** (harder: the machine exactly as it was before 14 Nov, plus the grenade-retreat fix). Templar dropped; a saved `veteran` choice plays as Inquisitor. Exposure checks stay in code but are off (weights 0, skipped).
+- Next, if wanted: a genuinely harder machine through planning (the foe's real best reply, knock-offs into the water, jet/rope/teleport moves), each part tested over 40+ battles.
+
 ## 2026-11-14 · Claude · Statues lose the brick, gain finishes (visual only)
 - Jarred asked if the angel statue is a set piece and whether it could stop always having the brick texture. It isn't: the crosses, angels and hooded saints (and gargoyles) are code-drawn silhouettes stamped into the ground, so the lit look laid its brick pattern over their flat middles like any wall.
 - Now each carved figure gets a rounded relief of its own (`carvRelief()`, drawn into the height layer as authored height), so the shader treats it as sculpted: no brick, soft carved edges.

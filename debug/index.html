@@ -3552,14 +3552,15 @@ const AIL={aimErr:.022,powErr:.018};
 /* human error: aim and power wobble more the further the shot; about one shot in eight is a proper fumble.
    Plan choice: a weighted pick among the close runners-up, not always the single best. Weak options: move instead. */
 const AIX={aim0:.02,aimPer:.00007,pow0:.016,powPer:.00006,fumble:.15,fumbleK:2.5,margin:.22,marginMin:8,weak:6,pickW:[5,3,2,1.4,1]};
-/* (14 Nov) machine difficulty. Thinking scales more than aim: how far it looks for a firing spot, whether it weighs who can hit it
-   back next turn (from where it shoots and where it hides), and how often it takes the best option over a near miss.
-   Tested 14 Nov, 8 CPU battles a pairing: Inquisitor beat Veteran 6-1 (1 draw). Veteran is close to the old machine, with a little forethought added. */
+/* (14 Nov) machine difficulty: Acolyte (easier) and Inquisitor (harder, the machine exactly as it was before 14 Nov).
+   Tested over 40 CPU battles each against the old machine: Acolyte lost 13-27. Every "smarter" Inquisitor tried (sharper aim,
+   tighter picks, weighing who can hit back from where it fires or hides, bigger kill bonus, longer walks) came out a coin flip
+   (19-21 to 21-18), and Jarred found it missed more and took odder shots, so it went back to the old settings.
+   A genuinely harder machine needs better planning (the foe's real best reply, knock-offs, jet/rope/teleport), not tuning. */
 const AID={
-  recruit:{name:'Acolyte',sub:'Wild shots, short sight',walk:170,cover:110,aimK:1.45,fumble:.24,margin:.38,pickW:[3,3,2.5,2,1.5],expo:0,hide:0,low:0},
-  veteran:{name:'Templar',sub:'Steady, plays it straight',walk:260,cover:150,aimK:1,fumble:.15,margin:.22,pickW:[5,3,2,1.4,1],expo:3,hide:4,low:.15},
-  inquisitor:{name:'Inquisitor',sub:'Sharp, thinks a turn ahead',walk:260,cover:150,/* 420/230 tested worse than Veteran: it spent the turn walking */aimK:.85,fumble:.08,margin:.1,pickW:[9,3,1.5],expo:9,hide:14,low:.45}};
-const aiD=()=>AID[S.cfg&&S.cfg.diff]||AID.veteran;
+  recruit:{name:'Acolyte',sub:'Easier',walk:170,cover:110,aimK:1.45,fumble:.24,margin:.38,pickW:[3,3,2.5,2,1.5],expo:0,hide:0,low:0},
+  inquisitor:{name:'Inquisitor',sub:'Harder',walk:260,cover:150,aimK:1,fumble:.15,margin:.22,pickW:[5,3,2,1.4,1],expo:0,hide:0,low:0}};
+const aiD=()=>AID[S.cfg&&S.cfg.diff]||AID.inquisitor;/* (14 Nov) Templar dropped: an old 'veteran' setting plays as Inquisitor */
 // how exposed a spot is to the squads that move next: each foe with a clear line in comfortable range, more if they're close
 function exposure(P,foes){let e=0;for(const f of foes){const d=Math.hypot(f.x-P.x,f.y-P.y);if(d>700)continue;if(los(P.x,P.y-14,f.x,f.y-14))e+=d<240?1.6:1;else if(d<200)e+=.4}return e}
 function aiErr(dist){const D=aiD(),f=Math.random()<D.fumble?AIX.fumbleK:1;return{aim:(AIX.aim0+AIX.aimPer*dist)*f*D.aimK,pow:(AIX.pow0+AIX.powPer*dist)*f*D.aimK}}
@@ -3629,7 +3630,7 @@ function* planGen(t,quick){
   if(hasAmmo(WP.lance))for(const e of foes){const acc=newAcc();for(const o of troopers)if(o.alive&&Math.abs(o.x-e.x)<22)hitEst(acc,o,t,25,0);
     estBlast(acc,e.x,Math.min(sump-8,surf(e.x)+30),52,55,t);consider({w:'lance',tx:e.x,s:scoreAcc(acc,true)},spots[0],0)}
   for(const P of spots){
-    t.x=P.x;t.y=P.y;const extra=crateVal(t,P)-spotRisk(P)-P.dist*.04-D.expo*exposure(P,foes);
+    t.x=P.x;t.y=P.y;const extra=crateVal(t,P)-spotRisk(P)-P.dist*.04-(D.expo?D.expo*exposure(P,foes):0);
     // artillery: coarse sweep, then refine around the best
     const art=(id,speed,wind,r,dmg,heavy)=>{let b=null;const tryIt=(face,a,p)=>{const hit=simShell(t,face,a,p,speed,wind);if(!hit)return;const acc=newAcc();estBlast(acc,hit.x,hit.y,r,dmg,t);
         const sc=scoreAcc(acc,heavy);if(!b||sc>b.s)b={w:id,face,aim:a,power:p,s:sc,hx:hit.x,hy:hit.y}};
@@ -3700,7 +3701,7 @@ function pickCover(t){const D=aiD(),spots=walkReach(t,D.cover).filter(P=>spotRis
     for(const[x,y,r]of cross)if(Math.abs(P.y-y)<r&&Math.abs(P.x-t.x)>Math.abs(x-t.x)&&Math.sign(P.x-t.x)===Math.sign(x-t.x)&&Math.abs(x-t.x)>4)sc-=r*1.5;
     let near=1e9;for(const e of foes)near=Math.min(near,Math.hypot(e.x-P.x,e.y-P.y));sc+=Math.min(near,260)*.05;
     let roof=false;for(let k=30;k<100;k+=6)if(isSolid(P.x,P.y-k)){roof=true;break}if(roof)sc+=12;
-    if(foes.length&&foes.every(e=>!los(P.x,P.y-14,e.x,e.y-14)))sc+=10;sc-=D.hide*exposure(P,foes);
+    if(foes.length&&foes.every(e=>!los(P.x,P.y-14,e.x,e.y-14)))sc+=10;if(D.hide)sc-=D.hide*exposure(P,foes);
     if(!best||sc>best.s)best={x:P.x,s:sc}}
   return best}
 function aiWalk(t,x,dt){const dx=x-t.x;if(Math.abs(dx)<3)return true;if(t.air||t.skid||t.recover>0||t.crouch>0)return false;
@@ -3840,12 +3841,12 @@ function facChips(el,multi,sel,onChange,taken){el.innerHTML='';TEAM.forEach((T,f
     b.innerHTML=`<b>${T.name}</b><span>${FACDESC[f]}</span>`;b.setAttribute('aria-pressed',String(sel.includes(f)));b.disabled=!!(taken&&taken.includes(f));
     b.addEventListener('click',()=>{if(multi){const i=sel.indexOf(f);if(i>=0){if(sel.length>2)sel.splice(i,1)}else sel.push(f)}else sel.splice(0,sel.length,f);facChips(el,multi,sel,onChange,taken);onChange&&onChange()});el.append(b)})}
 function segBtns(el,vals,cur,onPick,label){el.innerHTML='';for(const v of vals){const b=document.createElement('button');b.type='button';b.textContent=label?label(v):v;b.setAttribute('aria-pressed',String(v===cur));b.addEventListener('click',()=>onPick(v));el.append(b)}}
-const SU={mode:'cpu',me:[0],hot:[0,1],cnt:1,rules:'ffa',diff:'veteran'};Object.assign(SU,PREF.su||{});
+const SU={mode:'cpu',me:[0],hot:[0,1],cnt:1,rules:'ffa',diff:'inquisitor'};Object.assign(SU,PREF.su||{});
 function drawSetup(){const cpu=SU.mode==='cpu';$('#sTitle').textContent=cpu?'Fight the machine':'Commanders';
   $('#sFacH').textContent=cpu?'Your squad':'Squads in this battle (2 to 4)';$('#sCntG').hidden=!cpu;
   facChips($('#sFac'),!cpu,cpu?SU.me:SU.hot,drawSetup);
   if(cpu)segBtns($('#sCnt'),[1,2,3],SU.cnt,v=>{SU.cnt=v;drawSetup()});
-  $('#sDiffG').hidden=!cpu;if(!AID[SU.diff])SU.diff='veteran';if(cpu)segBtns($('#sDiff'),Object.keys(AID),SU.diff,v=>{SU.diff=v;drawSetup()},v=>AID[v].name);
+  $('#sDiffG').hidden=!cpu;if(!AID[SU.diff])SU.diff='inquisitor';if(cpu)segBtns($('#sDiff'),Object.keys(AID),SU.diff,v=>{SU.diff=v;drawSetup()},v=>AID[v].name);
   const total=cpu?SU.cnt+1:SU.hot.length,teams=total===4;$('#sModeG').hidden=!teams;
   for(const b of $('#sMode').children)b.setAttribute('aria-pressed',String(b.dataset.v===SU.rules));
   const allies=cpu&&teams&&SU.rules==='teams'?' with a machine ally':'';
