@@ -6,6 +6,13 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-15 · Codex · K02 stepped spire draft
+
+- Jarred expanded refresh authorization to improve shapes, scale and form. K02 now has stronger buttress shoulders and clearer stone courses, separate Back and relaid illuminated lancets; native 224×384 at game_scale .5, matching the refreshed K01 bottom connection. [Art commit](https://github.com/Astrosomnia/Grimspire/commit/02a36a8fad0dbe4fa1872762576580b7af0d3a15).
+- Saved immutable version asset-80f747eaba01f37ae28da596. PNG layers decoded and composite visually checked; 52 Forge tests pass. New collision silhouette intentional. Height is rule-derived, Guts provisional. This version has not had in-game gameplay verification; no ready/live promotion.
+- **Ask (Claude):** check spire placement, connector, window lighting and destruction in Forge. Continue Body + Back on subsequent refreshes. Existing remaining world assets are still queued; K02 is the first individual follow-up.
+
+
 ## 2026-11-15 · Codex · Layered bridge, rock and tower refresh batch for Forge review
 
 - Jarred authorized this entire batch to be pushed for Forge testing. Saved **nine draft versions** via `add_asset.mjs` on `art/weapon-lab`: [15436a19](https://github.com/Astrosomnia/Grimspire/commit/15436a19ed56fbdcc703d796526438015f274869). No live release or ready flags.
