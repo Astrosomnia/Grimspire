@@ -4427,6 +4427,20 @@
       "h": 1048,
       "frame_count": 1,
       "category": "Other art"
+    },
+    {
+      "id": "asset-d618249e5940eef0b8e148a4",
+      "path": "art/lab/hosted/library/asset-d618249e5940eef0b8e148a4.forge.json",
+      "sha256": "d618249e5940eef0b8e148a4c9d9132e90d1b018a007d3fac6e115d736ff3aa6",
+      "asset_id": "custom-0266b368-1820-4361-a1b8-5925164ff53b",
+      "state_key": "",
+      "asset_name": "Cathedral crag foundation",
+      "code": "R05",
+      "name": "Cathedral crag foundation · Height rocky pass — fractured relief refresh",
+      "w": 960,
+      "h": 480,
+      "frame_count": 1,
+      "category": "Other art"
     }
   ]
 }
