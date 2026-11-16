@@ -4665,6 +4665,20 @@
       "h": 418,
       "frame_count": 1,
       "category": "Other art"
+    },
+    {
+      "id": "asset-c6f2acc175f57c146f44f46c",
+      "path": "art/lab/hosted/library/asset-c6f2acc175f57c146f44f46c.forge.json",
+      "sha256": "c6f2acc175f57c146f44f46c4bf6b4a47e1382794eae08e47ea428c287a4d79e",
+      "asset_id": "custom-bda2dafe-31a4-47e5-988b-d582df266e38",
+      "state_key": "",
+      "asset_name": "Damaged aqueduct — grounded piers",
+      "code": "K22a",
+      "name": "Damaged aqueduct — grounded piers — aligned Height draft",
+      "w": 512,
+      "h": 418,
+      "frame_count": 1,
+      "category": "Other art"
     }
   ]
 }
