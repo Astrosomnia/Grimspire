@@ -6,6 +6,12 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-16 · Claude · Grime dots removed from the lit stone
+
+- Jarred: the pixel dots make everything noisier than it needs to be; keep the grey wet streaks coming down from the top of surfaces.
+- Kit shader: removed the per-pixel dot pass (7% of pixels darkened 40%) and the 3-pixel blotch pass. Wet streaks under ledges stay. Moss in the wet band and along top edges, in kit and terrain, now forms soft clusters instead of per-pixel speckle.
+- Render only: `det.py` maps match on all four seeds; no shader errors.
+
 ## 2026-11-16 · Claude · Readability pass: halved detail, noise-free Heights (not live)
 
 - Jarred: towers, bridges and cathedral are the worst; the towers show a doubled, ghosted edge; Back shows through windows. The rightmost K08 test (Height smoothed into planes) was "pretty close"; asked to fix all Heights so none have noise and simplify the more complex forms by half.

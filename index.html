@@ -1647,17 +1647,15 @@ vec3 world(vec2 w){
     stone=pow(A.rgb,vec3(1.25))*vec3(.8,.8,.94);
     {float sl=lum(stone);stone=mix(stone,vec3(.27,.29,.36)*(.82+.36*h1(floor(q/2.)+3.)),smoothstep(.3,.04,sl));}
     stone*=mix(1.,(.78+.34*tn)*mix(.5,1.,b0),fw);
-    // grit and grime, on the art's own pixel grid
+    // grime on the art's own pixel grid: wet streaks under ledges (no per-pixel dots: Jarred, 16 Nov)
     vec2 gp=floor(q);
     float hc=h1(vec2(gp.x,3.)),len=5.+hc*hc*22.;
     stone*=1.-.5*step(.5,h1(vec2(gp.x,7.)))*step(td,len)*(1.-td/len);
-    stone*=1.-.4*step(.93,h1(gp*.73+1.));
-    stone*=1.-.22*step(.8,h1(floor(q/3.)+9.));
     float tl=22.+(vn(vec2(q.x*.11,2.))-.5)*12.;
     float wet=smoothstep(tl,tl-3.,hw);stone*=mix(1.,.6,wet);
-    stone=mix(stone,vec3(.02,.1,.09),wet*.55*step(.45,h1(gp*.5+4.))*smoothstep(tl,0.,hw));
+    stone=mix(stone,vec3(.02,.1,.09),wet*.55*step(.5,vn(q*.09+4.))*smoothstep(tl,0.,hw));
     stone+=vec3(.05,.055,.06)*step(abs(hw-tl),.5)*step(.3,h1(vec2(gp.x,1.)));
-    stone=mix(stone,vec3(.025,.085,.075),step(td,3.5)*step(.62,vn(q*.12+5.))*step(.35,h1(gp+2.))*.6);
+    stone=mix(stone,vec3(.025,.085,.075),step(td,3.5)*step(.62,vn(q*.12+5.))*.6);
     float up=clamp(-N.y,0.,1.),dn=clamp(N.y,0.,1.);
     base=(vec3(.07,.1,.155)*(.7+.6*up)+vec3(.03,.02,.04))*(1.-.25*sh);
     base+=vec3(.05,.07,.11)*edge+vec3(.17,.19,.27)*edge*step(td,2.6);
@@ -1836,9 +1834,9 @@ vec3 world(vec2 w){
     stone*=1.-.45*step(.6,h1(vec2(floor(tf.x/2.),7.)))*step(td,len)*(1.-td/len);
     float tl=22.+floor((vn(vec2(q.x*.11,2.))-.5)*12.);
     float wet=step(hw,tl);stone*=mix(1.,.62,wet);
-    stone=mix(stone,vec3(.02,.1,.09),wet*.5*step(.5,h1(floor(tf/2.)*.5+4.))*smoothstep(tl,0.,hw));
+    stone=mix(stone,vec3(.02,.1,.09),wet*.5*step(.5,vn(q*.09+4.))*smoothstep(tl,0.,hw));
     stone+=vec3(.05,.055,.06)*step(abs(hw-tl),.3)*step(.3,h1(vec2(floor(tf.x/2.),1.)));
-    stone=mix(stone,vec3(.03,.1,.085),step(td,3.5)*step(.62,vn(q*.12+5.))*step(.4,h1(floor(tf/2.)+2.))*.6);
+    stone=mix(stone,vec3(.03,.1,.085),step(td,3.5)*step(.62,vn(q*.12+5.))*.6);
     // the edge: a pale cap on the top texels of every surface open to the air, a dark keyline on its sides and underside
     float cth=1.+step(.35,h1(vec2(floor(tf.x/3.),5.)))+step(.8,h1(vec2(floor(tf.x/2.),8.)));
     float cd=aU<.5?1.:albT(t+ivec2(0,-2)).a<.5?2.:albT(t+ivec2(0,-3)).a<.5?3.:0.;
