@@ -4,6 +4,8 @@ Which pieces still need a Height layer (relief for the lit look). Update this wh
 
 **Who needs Height:** anything the lit stone shader draws, which is the kit (K), rock (R), set pieces (S) and the bridge/tower variants. Foreground wreckage (D, drawn as silhouettes) and skyline plates (SKY, B) don't use it.
 
+**Heads-up (16 Nov):** the shader already uses the drawing's brightness as relief when a piece has no Height, so a Height that just copies the brightness (most first passes are 0.95–0.99 correlated) adds almost nothing. A useful Height separates depth layers: front ribs and piers high, wall faces middle, recesses low. `art/lab/tools/height_punch.py` can flatten texture and push planes as a quick pass.
+
 **Rules:** Height alpha must match Body alpha exactly, pure grey, same size and density as the Body (a 2× piece needs a 2× Height). Rocks want angular chunks at different depths (Jarred, 11 Nov); relief is 4.
 
 ## Needed (no Height)

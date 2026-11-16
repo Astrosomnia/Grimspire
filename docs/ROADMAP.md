@@ -45,6 +45,7 @@ Prototype in HTML/canvas to nail the loop, weapons and feel, then rebuild in **G
 - The roguelike prototype (expect big changes to core systems)
 
 ## Done
+- **Structural kit refresh (16 Nov, GV 70):** 23 K pieces at 2× with Back (shafts, spires, crowns, bridges, pier, nave walls, cathedral front, nave, belfry, spans, stair, stub); Forge revision `20261116T075138Z-469e1491`
 - **Layered kit refresh (15 Nov, GV 69):** K05a/b bridges and K01/a/b shafts at 2× with Back, K12/K13 with Back and restored windows, new rocks R10 (terraced crag) and R11 (natural arch) in the rock pools; Forge revision `20261116T055346Z-a8e03c00`
 - **Shores (13 Nov, GV 67):** every non-drowned map ends in ground running down into the water, not a cliff cut off by the boundary
 - **Sewers and water (13 Nov, GV 66):** volume water (pools spread, merge, drain with a wipe; wade, chest-deep 5 HP/s, 1 s breath under), reservoir module, manhole shaft ends (also inside a pipe that keeps its outlet), deep lower galleries with sump holes, pipes on slopes; cracked roofs removed; 5 a side (4 with 3–4 squads), 45 s turns

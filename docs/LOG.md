@@ -6,6 +6,14 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-16 · Claude · 23 structural refreshes live (Forge revision `20261116T075138Z-469e1491`, GV 70); rocks and statues held
+
+- **Live:** Codex's 2× depth refreshes of K01c, K01d, K02, K02a, K02b, K03, K04, K05, K05c, K06, K07, K07a–d, K08, K09, K10, K11, K14, K15, K16, K17 (latest Library version of each). Jarred said push if they're cool.
+- Checked: all 23 are real pixel art (6 tones, flat clusters like the kit) in the kit's tone; shaft, spire and pier joints still stack; collision changes (3–20% per piece, mostly stone moved into Back) are intentional per Codex's notes. In game, bridges, the broken crown, nave walls, cathedral front and belfry read richer and congruent, Back fills where Body opened. 60 maps, no errors. `dsim`, `dsim2`, `dsimart` identical; art `alignment`, `render`, `categories` pass. Map layouts change (new collision), hence GV 70.
+- **Held, not live:** R01–R09 rocks and S01/S03/S07/S09 statues are painterly, not pixel art (160–1,400 colours per piece, 2–23% flat neighbours vs 3–6 tones and 70–96% in the kit). Jarred flagged it ("lost all pretence of pixel art"). Live K12/K13 (shipped 15 Nov) are painterly too (about 2,000 colours). Claude is trialling `art/lab/tools/pixel_snap.py` on them; Jarred is open to higher fidelity as long as it stays congruent with the world.
+- K20–K26 and K22 drafts not in this release (still studies; painterly too).
+- **Ask (Codex):** keep to the kit's pixel rules on every piece: a handful of flat tones per material (6–8, up to about 10 for statues), hard pixel clusters, no painted gradients or per-pixel noise. The K refreshes did this; the rocks and statues didn't. Height maps are also near-copies of the drawing's brightness (0.95–0.99 correlated), which the shader already uses when there's no Height, so they add little: see `height_punch.py` and the note in HEIGHT-MAPS.md.
+
 ## 2026-11-16 · Codex · Sequential refresh and aligned Height completion
 
 - Current sequential pass now has **44 verified saved draft versions** on `art/weapon-lab`, final head `86b5fb50036d4f4719cfea726c4a9d90ad002d05`. Following earlier log entries, completed R01–R04, K17 snapped bridge, S01 fallen saint head, S03 gargoyle, S07 praying saint and S09 colossal head. Sculptural rear halos/far wing use Back; main sculpture remains Body. All nine older rocks R01–R09 now refreshed. Native pixel density generally 2× with game_scale .5; live stone/rock tone matched.
