@@ -1,0 +1,36 @@
+# Height maps: running list
+
+Which pieces still need a Height layer (relief for the lit look). Update this whenever a piece is saved, refreshed or released: add new pieces, move them down the list as their Height lands. Claude checks it on every release.
+
+**Who needs Height:** anything the lit stone shader draws, which is the kit (K), rock (R), set pieces (S) and the bridge/tower variants. Foreground wreckage (D, drawn as silhouettes) and skyline plates (SKY, B) don't use it.
+
+**Rules:** Height alpha must match Body alpha exactly, pure grey, same size and density as the Body (a 2× piece needs a 2× Height). Rocks want angular chunks at different depths (Jarred, 11 Nov); relief is 4.
+
+## Needed (no Height)
+
+| Piece | Where | Since | Note |
+|---|---|---|---|
+| K12 Fallen cathedral arch | live | 15 Nov | Old Height dropped on the stonework refresh (no longer aligned) |
+| K13 Shattered cathedral dome | live | 15 Nov | Same as K12 |
+| S01 Fallen saint head | live | — | Never had one |
+| S03 Perched gargoyle | live | — | Never had one |
+| S07 Praying saint | live | — | Never had one |
+| S09 Colossal fallen head | live | — | Never had one |
+| K20 Collapsed nave | Forge draft | 15 Nov | Unauthored |
+| K21 Broken belfry | Forge draft | 15 Nov | Unauthored |
+| K26 Rib vault bay | Forge draft | 15 Nov | Unauthored |
+| K22 / K22a / K22b Grounded aqueducts | Forge draft | 15 Nov | Unauthored |
+
+## Provisional (has a first pass, wants a proper one)
+
+| Piece | Where | Since | Note |
+|---|---|---|---|
+| R10 Terraced split crag | live | 15 Nov | Rule-derived first pass |
+| R11 Natural rock arch | live | 15 Nov | Rule-derived first pass |
+| K02 Stepped spire refresh | Forge draft | 15 Nov | Rule-derived; refreshed shape, not yet live |
+| K05d Weathered stone arch (revised) | Forge draft | 15 Nov | Height in the redrawn area provisional |
+
+## Done
+
+- K01 / K01a / K01b, K05a / K05b: redrawn at 2× with the depth refresh (15 Nov, live)
+- Everything else in the live kit and rocks: K01c–d, K02–K11 with variants, K14–K17, R01–R09 (11 Nov)

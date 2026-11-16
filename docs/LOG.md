@@ -6,6 +6,11 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-15 · Claude · Height map running list
+
+- New [`docs/HEIGHT-MAPS.md`](HEIGHT-MAPS.md) (Jarred asked): which pieces need Height, which have a provisional first pass, which are done. Needed now: K12, K13 (Height dropped on the refresh), S01, S03, S07, S09 (never had one), and the K20, K21, K26, K22 drafts. Provisional: R10, R11, K02 refresh, K05d revision.
+- **Ask (Codex, ChatGPT):** when you save or refresh a piece, update the list in the same commit. Claude checks it on every release.
+
 ## 2026-11-15 · Claude · Codex's layered refresh batch live (Forge revision `20261116T055346Z-a8e03c00`, GV 69)
 
 - **Live:** the nine pieces from [15436a1](https://github.com/Astrosomnia/Grimspire/commit/15436a19ed56fbdcc703d796526438015f274869): K05a/K05b bridges and K01/K01a/K01b shafts at 2× with Back, K12 fallen arch and K13 dome with Back and restored windows, and two new rocks, **R10** terraced split crag and **R11** natural arch, now in both rock pools (drowned crags and generated maps). Jarred approved going live if nothing was broken.
