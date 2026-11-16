@@ -4651,6 +4651,20 @@
       "h": 512,
       "frame_count": 1,
       "category": "Other art"
+    },
+    {
+      "id": "asset-ea758722acf7978e807b9234",
+      "path": "art/lab/hosted/library/asset-ea758722acf7978e807b9234.forge.json",
+      "sha256": "ea758722acf7978e807b9234a698792da5b65db016fb3e468be02e3ae3251df7",
+      "asset_id": "custom-e0142dc9-1721-4d8e-b879-20b38619b340",
+      "state_key": "",
+      "asset_name": "Grounded aqueduct — grounded piers",
+      "code": "K22",
+      "name": "Grounded aqueduct — grounded piers — aligned Height draft",
+      "w": 512,
+      "h": 418,
+      "frame_count": 1,
+      "category": "Other art"
     }
   ]
 }
