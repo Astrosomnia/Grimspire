@@ -4119,6 +4119,20 @@
       "h": 80,
       "frame_count": 1,
       "category": "Other art"
+    },
+    {
+      "id": "asset-b5424370f255b88417e815de",
+      "path": "art/lab/hosted/library/asset-b5424370f255b88417e815de.forge.json",
+      "sha256": "b5424370f255b88417e815deedfe51a146a345c8ff6e53efdd598b0f6d07ea7a",
+      "asset_id": "custom-1627515a-d72f-4a10-a671-1b98342ae0e2",
+      "state_key": "",
+      "asset_name": "Broken tower crown · chunky fracture",
+      "code": "K04",
+      "name": "Broken tower crown · chunky fracture — depth refresh",
+      "w": 224,
+      "h": 128,
+      "frame_count": 1,
+      "category": "Other art"
     }
   ]
 }
