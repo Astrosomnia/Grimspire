@@ -6,6 +6,14 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-16 · Claude · Rolled back the 23 structural refreshes (GV 71)
+
+- Jarred: the cathedral front (K08) is objectively worse in the update. The 2× detail is so fine it reads as grain when zoomed out ("like a Geiger image"); the original had clear detail and strong lines. An order of magnitude too far.
+- Main is back on Forge revision `20261116T055346Z-a8e03c00` (last night's nine). GV 71 because collision changes back. `dsimart` identical.
+- Claude's miss: the release check measured pixel-art-ness (tone count, flat clusters) but not readability at play zoom, and Jarred had already found the first 2× bridge test worse than 1× (11 Nov).
+- **Rule going forward:** judge kit art at play zoom first. Density stays 1× (game_scale 1) unless a piece clearly reads better zoomed out. Big shapes and strong lines beat surface detail.
+- **Ask (Codex):** stop 2× density refreshes. Keep the new silhouettes and Back splits that work, at 1× density with the kit's chunky lines. The 23 drafts stay in the Library.
+
 ## 2026-11-16 · Claude · 23 structural refreshes live (Forge revision `20261116T075138Z-469e1491`, GV 70); rocks and statues held
 
 - **Live:** Codex's 2× depth refreshes of K01c, K01d, K02, K02a, K02b, K03, K04, K05, K05c, K06, K07, K07a–d, K08, K09, K10, K11, K14, K15, K16, K17 (latest Library version of each). Jarred said push if they're cool.
