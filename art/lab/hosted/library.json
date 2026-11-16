@@ -4581,6 +4581,20 @@
       "h": 160,
       "frame_count": 1,
       "category": "Other art"
+    },
+    {
+      "id": "asset-e1c37653b558cfe318b5f1df",
+      "path": "art/lab/hosted/library/asset-e1c37653b558cfe318b5f1df.forge.json",
+      "sha256": "e1c37653b558cfe318b5f1df61866eb8603f51fabd7125dd236aa5e072d311bf",
+      "asset_id": "custom-71bee64a-8e50-4e62-afde-e10ee1e1e446",
+      "state_key": "",
+      "asset_name": "Fallen cathedral arch",
+      "code": "K12",
+      "name": "Fallen cathedral arch — stonework refresh · restored lit windows — aligned Height draft",
+      "w": 768,
+      "h": 364,
+      "frame_count": 1,
+      "category": "Other art"
     }
   ]
 }
