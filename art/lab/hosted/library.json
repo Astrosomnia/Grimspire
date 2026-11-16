@@ -4245,6 +4245,20 @@
       "h": 160,
       "frame_count": 1,
       "category": "Other art"
+    },
+    {
+      "id": "asset-9b5d9fb625f5c0c657027980",
+      "path": "art/lab/hosted/library/asset-9b5d9fb625f5c0c657027980.forge.json",
+      "sha256": "9b5d9fb625f5c0c657027980edf9ed62b5a5e00b5dbd563eeda78e01a3fe20bc",
+      "asset_id": "custom-34a38fd2-a4ac-4033-a4cc-d725e35b6932",
+      "state_key": "",
+      "asset_name": "Bridge · iron X-truss",
+      "code": "K05c",
+      "name": "Bridge · iron X-truss — depth refresh",
+      "w": 360,
+      "h": 160,
+      "frame_count": 1,
+      "category": "Other art"
     }
   ]
 }
