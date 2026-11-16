@@ -1,0 +1,7 @@
+{
+ "revision": "20261116T075138Z-469e1491",
+ "base_main": "66cc29360d6eb7796bec7283039ee216ef14f92f",
+ "game_sha256": "780e4db39567cc7d4bf5c3903317f20e6da58636f9e6e3350a70ea92d459b3cc",
+ "notes": "23 structural kit refreshes live (K01c-K17 at 2x with Back). Written by Claude with Jarred's go, outside the Forge UI.",
+ "status": "written to main by Claude at Jarred's request; not a Forge Go live"
+}
