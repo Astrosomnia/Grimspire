@@ -4441,6 +4441,20 @@
       "h": 480,
       "frame_count": 1,
       "category": "Other art"
+    },
+    {
+      "id": "asset-1d753e300f44d5974e31e76f",
+      "path": "art/lab/hosted/library/asset-1d753e300f44d5974e31e76f.forge.json",
+      "sha256": "1d753e300f44d5974e31e76f2c7f5739c4ea1d06882666d92202cfc25a46575f",
+      "asset_id": "custom-112c71a4-dd30-4a29-9187-94a4d1967438",
+      "state_key": "",
+      "asset_name": "Sea-stack foundation",
+      "code": "R06",
+      "name": "Sea-stack foundation · Height rocky pass — fractured relief refresh",
+      "w": 544,
+      "h": 640,
+      "frame_count": 1,
+      "category": "Other art"
     }
   ]
 }
