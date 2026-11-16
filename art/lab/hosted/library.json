@@ -4273,6 +4273,20 @@
       "h": 600,
       "frame_count": 1,
       "category": "Other art"
+    },
+    {
+      "id": "asset-a2f2ed9aa34145e1736abcf9",
+      "path": "art/lab/hosted/library/asset-a2f2ed9aa34145e1736abcf9.forge.json",
+      "sha256": "a2f2ed9aa34145e1736abcf9653fb2217ae4a6c7c18195ce6e4dfa9bc916aee3",
+      "asset_id": "custom-a4c67525-8757-4eea-bcac-ea2581da4eb7",
+      "state_key": "",
+      "asset_name": "Nave wall · paired clerestory lights",
+      "code": "K07a",
+      "name": "Nave wall · paired clerestory lights — depth refresh",
+      "w": 720,
+      "h": 600,
+      "frame_count": 1,
+      "category": "Other art"
     }
   ]
 }
