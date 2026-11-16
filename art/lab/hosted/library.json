@@ -4539,6 +4539,20 @@
       "h": 240,
       "frame_count": 1,
       "category": "Other art"
+    },
+    {
+      "id": "asset-78a180d9227644f660fc5978",
+      "path": "art/lab/hosted/library/asset-78a180d9227644f660fc5978.forge.json",
+      "sha256": "78a180d9227644f660fc59789e952ca1db18e397624f158219a3ee85b3378a15",
+      "asset_id": "custom-8c410f16-e6c6-48c6-82bf-5876fe949386",
+      "state_key": "",
+      "asset_name": "R03 · Split boulder shore",
+      "code": "R03",
+      "name": "R03 · Split boulder shore · Height rocky pass — fractured relief refresh",
+      "w": 480,
+      "h": 240,
+      "frame_count": 1,
+      "category": "Other art"
     }
   ]
 }
