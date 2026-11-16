@@ -4175,6 +4175,20 @@
       "h": 80,
       "frame_count": 1,
       "category": "Other art"
+    },
+    {
+      "id": "asset-2f46fdc694b28f1652b487e7",
+      "path": "art/lab/hosted/library/asset-2f46fdc694b28f1652b487e7.forge.json",
+      "sha256": "2f46fdc694b28f1652b487e7c0be24b8b7802d8823a53bb6964f21d7ff5bb0c1",
+      "asset_id": "custom-27e8f243-03f8-4671-b67b-3f1e5aa49077",
+      "state_key": "",
+      "asset_name": "Tower shaft · open X-braced skeleton",
+      "code": "K01c",
+      "name": "Tower shaft · open X-braced skeleton — depth refresh",
+      "w": 224,
+      "h": 200,
+      "frame_count": 1,
+      "category": "Other art"
     }
   ]
 }
