@@ -1,5 +1,7 @@
 # Height maps: running list
 
+**16 Nov:** every noisy Height in the Library has a new smoothed version (readability pass, see `ART-READABILITY.md`). The bar: under 8% speckle, depth planes, not a brightness copy.
+
 Which pieces still need a Height layer (relief for the lit look). Update this whenever a piece is saved, refreshed or released: add new pieces, move them down the list as their Height lands. Claude checks it on every release.
 
 **Who needs Height:** anything the lit stone shader draws, which is the kit (K), rock (R), set pieces (S) and the bridge/tower variants. Foreground wreckage (D, drawn as silhouettes) and skyline plates (SKY, B) don't use it.

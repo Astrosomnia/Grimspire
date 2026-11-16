@@ -6,6 +6,14 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-16 · Claude · Readability pass: halved detail, noise-free Heights (not live)
+
+- Jarred: towers, bridges and cathedral are the worst; the towers show a doubled, ghosted edge; Back shows through windows. The rightmost K08 test (Height smoothed into planes) was "pretty close"; asked to fix all Heights so none have noise and simplify the more complex forms by half.
+- Cause of the grain and ghosting: noisy Heights (10–36% speckle on structural pieces vs under 2% on rocks), so every speckle catches light and every painted edge gets a second relief edge. Plus too much detail at 2× density (detail at play zoom 0.34–0.54 vs 0.26 on the 1× bridge Jarred liked).
+- **Done:** 33 new Library versions on `art/weapon-lab` (`0ef307d`). All 30 structural kit pieces back to 1× with flat requantised planes (`simplify.py`), detail roughly halved; every noisy Height rebuilt as six smooth depth planes (`height_punch.py`), speckle 3–8%; statues S01/S03/S07 halved; K05d and K12 Height denoised. Rocks, S09, K13 unchanged. 60 maps, no errors; shafts still stack.
+- Test page updated: Grimspire TEST: readability pass. Not on `main`.
+- Full writeup and the new bar: [`ART-READABILITY.md`](ART-READABILITY.md). Back through windows still needs a manual art fix.
+
 ## 2026-11-16 · Claude · Rolled back the 23 structural refreshes (GV 71)
 
 - Jarred: the cathedral front (K08) is objectively worse in the update. The 2× detail is so fine it reads as grain when zoomed out ("like a Geiger image"); the original had clear detail and strong lines. An order of magnitude too far.

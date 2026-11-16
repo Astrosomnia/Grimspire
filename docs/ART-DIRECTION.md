@@ -15,6 +15,7 @@ Tone: Dead Cells, Blasphemous. Grim, painterly pixel art, readable silhouettes, 
 - **Silhouettes against a lit sky.** Gargoyles, saints and spires read even when small.
 - **Backlit troopers.** Near-black silhouettes painted dark and fairly flat; the engine adds rim light from nearby lights and the sky and lights them up near blasts. Visor and squad lights stay emissive.
 - **Crisp over soft.** Sharp pixel edges; glow from separate light layers, not blur.
+- **Readable at play zoom (16 Nov).** The bar for kit and set pieces, with numbers: [`ART-READABILITY.md`](ART-READABILITY.md). Reference: the original S01 head. 1× density for kit pieces, 5–7 flat tones, smallest feature about 2 game pixels, Heights as smooth depth planes.
 - **Judge at game scale.** Concept detail doesn't survive automatic reduction. Refine actual pixel clusters and silhouettes at the size the game draws them (a trooper is about 27 world px tall).
 
 ## Factions
