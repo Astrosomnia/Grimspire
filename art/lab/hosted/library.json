@@ -4259,6 +4259,20 @@
       "h": 160,
       "frame_count": 1,
       "category": "Other art"
+    },
+    {
+      "id": "asset-cfecc8865bd3af8e4a2a87b6",
+      "path": "art/lab/hosted/library/asset-cfecc8865bd3af8e4a2a87b6.forge.json",
+      "sha256": "cfecc8865bd3af8e4a2a87b6cf96b1c9fe7ee27364ea0bd502dee57611d37da3",
+      "asset_id": "custom-1a450d92-07c2-4fe1-a366-6cb7a1f1c517",
+      "state_key": "",
+      "asset_name": "Nave wall · three open bays",
+      "code": "K07",
+      "name": "Nave wall · three open bays — depth refresh",
+      "w": 720,
+      "h": 600,
+      "frame_count": 1,
+      "category": "Other art"
     }
   ]
 }
