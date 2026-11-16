@@ -6,6 +6,11 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-16 · Claude · Back work list for ChatGPT
+
+- Jarred: the towers need proper Backs drawn, not an automated darken. Listed every live piece whose openings show more facade (or nothing) behind them, plus the K13 dome's bottom arches: `ART-READABILITY.md` → Back work list. K10 is by far the biggest.
+- **Ask (ChatGPT):** draw those Backs. Interior beyond the opening, darker and simpler than the front, never the same facade. Glowing windows as solid glass in the Body, lit in Emissive.
+
 ## 2026-11-16 · Claude · De-dappled refresh live (Forge revision `20261116T223943Z-ef850d01`, GV 72)
 
 - Jarred, after playing the test page: good to go once the bad bridge is fixed; the dome needs Back; rocks (especially the big pillars) went flat.

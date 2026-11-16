@@ -42,6 +42,26 @@ Known leftovers: windows still show Back (above); bridge ends on K05 and K05c ar
 
 The dapple turned out to be painted into the Body; the Height just copied it. `deblob.py` fixes that on both layers without losing lines (area opening and closing on the piece's own tones). ChatGPT's refreshes went live through it, except K17, which stayed original. Rocks got their grit baked in (`grit.py`), since the shader no longer adds dots to all stone.
 
+## Back work list (16 Nov)
+
+Jarred wants proper Backs drawn here, not an automated darken. What a viewer should see through each opening: the interior beyond it (a far wall, vault ribs, rubble, a dim doorway), darker and simpler than the front, never more of the same facade.
+
+| Piece | What's wrong | Back pixels showing through openings |
+|---|---|---|
+| K10 Collapsed cathedral nave | Facade shows through the nave windows and arcade | ~66,000 |
+| K12 Fallen cathedral arch | Facade through the arch openings | ~10,600 |
+| K02b Spire, open bell cage | Facade through the cage | ~6,400 |
+| K11 Breached cathedral belfry | Facade through the belfry windows | ~6,400 |
+| K01a Tower shaft, paired lancets | Facade through the lancets | ~4,300 |
+| K01d Tower shaft, flying buttress | Facade through the openings | ~2,200 |
+| K02a Spire, split pinnacles | Facade through the openings | ~2,000 |
+| K05d Bridge, cantilever rib | No Back at all; openings show sky | ~1,400 |
+| K04 Broken tower crown | Facade through the openings | ~600 |
+| K01c Tower shaft, X-braced skeleton | Facade through the bracing | ~500 |
+| K13 Shattered dome | The bottom arches have nothing behind them; give them an interior | (open arches, not counted) |
+
+Lit windows: if an opening should glow, make it solid glass in the Body and light it in Emissive. The game only lights solid stone, so a glow painted over a hole shows only where it overlaps tracery (the K10 rose window bug).
+
 ## The bar
 
 **Benchmark (Jarred, 16 Nov): the original K08 cathedral front.** Strong, heavy lines and a scannable shape. That's the asset style we aim for, with better Height and Back layering on top. Jarred still prefers it to both the 2× redraw and the halved redraw. The original S01 fallen saint head is the benchmark for statues.
