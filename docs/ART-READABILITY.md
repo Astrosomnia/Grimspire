@@ -42,7 +42,7 @@ Known leftovers: windows still show Back (above); bridge ends on K05 and K05c ar
 
 **Benchmark (Jarred, 16 Nov): the original K08 cathedral front.** Strong, heavy lines and a scannable shape. That's the asset style we aim for, with better Height and Back layering on top. Jarred still prefers it to both the 2× redraw and the halved redraw. The original S01 fallen saint head is the benchmark for statues.
 
-**Direction:** keep the original kit drawings. Improve them with clean Heights (depth planes) and Back layers. Don't redraw them. A test with the original kit plus clean Heights is on the test page (16 Nov); every original Height cleans up to under 5% speckle with `height_punch.py`.
+**Direction:** keep the original kit drawings. Improve them with clean Heights (depth planes) and Back layers. Don't redraw them. **Correction (16 Nov, later):** the original kit's Heights (11 Nov, relief 4) are fine as they are. What the speckle measure flagged on them is mostly real detail (mortar lines, step edges). Rebuilding them as flat planes erased the brick and blew top surfaces out to white blobs, so don't run `height_punch.py` plane mode on the originals. The grain problem was specific to the 2× redraw Heights. The test page baseline is the original kit with its original Heights.
 
 **Also reference: the original S01 fallen saint head.** Chunky pixels at 1× density, about six tones in flat blocks, a strong silhouette, shading by planes rather than gradients. Push it slightly further with more separation between overlapping forms (a lighter rim or a tone step where the halo meets the rubble).
 
@@ -63,7 +63,7 @@ Two tiers:
 
 Numbers Claude checks on every release (scripts in `/art/lab/tools/`):
 - **Detail at play zoom**: share of neighbouring game pixels whose brightness differs sharply. Kit pieces about 0.15–0.28; above 0.35 reads as grain.
-- **Height noise**: share of Height pixels that differ sharply from their 3×3 median. Under 0.08.
+- **Height noise**: share of Height pixels that differ sharply from their 3×3 median. Under about 0.2 is fine when the variation is lines (mortar, edges); judge by eye at play zoom, not by this number alone. `height_punch.py --despeckle` removes only isolated speckle and keeps lines.
 - **Tone count**: 5–10 per piece.
 
 ## Tools

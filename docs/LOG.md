@@ -6,6 +6,11 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-16 · Claude · Correction: original Heights are fine; test page is now the baseline
+
+- Jarred on the test page: stairs turned to white blobs and bridges lost all brick definition. Cause: Claude's plane rebuild of the original Heights (six levels, stretched contrast) erased mortar lines and blew top surfaces out. The originals' "speckle" was mostly real detail. `ART-READABILITY.md` corrected.
+- Test page now: the baseline. Original kit (11 Nov drawings) with their original Heights, grime dots removed, plus the new rocks R01–R09, K12 and K13. `height_punch.py` gained `--despeckle` (isolated pixels only, lines kept).
+
 ## 2026-11-16 · Claude · Benchmark is the original cathedral; test page with originals + clean Height
 
 - Jarred still prefers the original K08 cathedral: its strong, heavy lines give a more scannable shape. It's now the asset-style benchmark, with better Height and Back layering on top. `ART-READABILITY.md` updated: keep the original kit drawings, add clean Heights and Back, don't redraw.
