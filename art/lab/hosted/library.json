@@ -4385,6 +4385,20 @@
       "h": 448,
       "frame_count": 1,
       "category": "Other art"
+    },
+    {
+      "id": "asset-03e3d6f140e033a161c0f764",
+      "path": "art/lab/hosted/library/asset-03e3d6f140e033a161c0f764.forge.json",
+      "sha256": "03e3d6f140e033a161c0f764bca554afdfaa6a6cc0c5cf34555626c48aa07f78",
+      "asset_id": "custom-b5c96f91-c714-4830-a7ff-d62d5442d707",
+      "state_key": "",
+      "asset_name": "Broken stair ramp",
+      "code": "K16",
+      "name": "Broken stair ramp · Height texture cleanup — depth refresh",
+      "w": 640,
+      "h": 384,
+      "frame_count": 1,
+      "category": "Other art"
     }
   ]
 }
