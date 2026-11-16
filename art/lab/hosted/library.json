@@ -4147,6 +4147,34 @@
       "h": 400,
       "frame_count": 1,
       "category": "Other art"
+    },
+    {
+      "id": "asset-a89c11f9f5c5504e0690f7d2",
+      "path": "art/lab/hosted/library/asset-a89c11f9f5c5504e0690f7d2.forge.json",
+      "sha256": "a89c11f9f5c5504e0690f7d2c53d0d62011ab2ecdca8b95698ae40f858fd75e1",
+      "asset_id": "custom-0aaff43c-6a29-4f52-b906-949466c1791f",
+      "state_key": "",
+      "asset_name": "Tower spire · crockets and finial",
+      "code": "K02",
+      "name": "Tower spire — stepped buttress depth refresh",
+      "w": 224,
+      "h": 384,
+      "frame_count": 1,
+      "category": "Other art"
+    },
+    {
+      "id": "asset-cbe32760aeccf2d49e11cb2d",
+      "path": "art/lab/hosted/library/asset-cbe32760aeccf2d49e11cb2d.forge.json",
+      "sha256": "cbe32760aeccf2d49e11cb2d8c0b43e47cfff67e4b7d9f579c128385777b4768",
+      "asset_id": "custom-a59ae77d-179e-4f0c-b808-91212a2f487e",
+      "state_key": "",
+      "asset_name": "Tower crown · merlons and corner pinnacles",
+      "code": "K03",
+      "name": "Tower crown · merlons and corner pinnacles — depth refresh",
+      "w": 224,
+      "h": 80,
+      "frame_count": 1,
+      "category": "Other art"
     }
   ]
 }
