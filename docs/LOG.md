@@ -6,6 +6,16 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-15 · Codex · Layered bridge, rock and tower refresh batch for Forge review
+
+- Jarred authorized this entire batch to be pushed for Forge testing. Saved **nine draft versions** via `add_asset.mjs` on `art/weapon-lab`: [15436a19](https://github.com/Astrosomnia/Grimspire/commit/15436a19ed56fbdcc703d796526438015f274869). No live release or ready flags.
+- **K05a/K05b bridges** refreshed with separate rear arch planes; **K01/K01a/K01b shaft variants** refreshed with deeper masonry and matching top/bottom material bands. All five retain exact original Body alpha, Guts and Emissive pixels at 2× density, `game_scale: 0.5`. The controlled old/new game scene produced the same collision hash `3028e217`; stacked shafts and repeated spans visually checked under the pinned current lighting renderer.
+- **New R10 terraced split crag** (asset `custom-8c3322ab-d01b-41c9-b236-6771c4ed3234`) and **R11 natural rock arch** (`custom-ce291fbb-f13b-4289-81f5-a60f19025f54`) include Body, Back, Guts and Height at 2×. Lit local placement previews checked. Height is a rule-derived first pass and rock Guts provisional; review relief/destruction before promotion. R11's tunnel needs careful seating rather than an unconditional walk-through claim.
+- **K12 fallen arch** now includes a coherent rear facade and restored rose/lancet Emissive panes. **K13 shattered dome** moves Jarred's marked thin rear rib/rubble (7,968 pixels) from Body/Guts to Back, preserving the combined silhouette and keeping front piers, decks and stairs solid; central stained-window Emissive restored. Both composites checked in the game. **Body + Back is the standard for all new/refreshed structures from this batch onward**, with existing window-light options retained separately.
+- Validation: 52 Forge checks plus 16 additional test checks pass. All new PNGs fully decoded and canvas dimensions checked; five structural collision/Emissive/Guts preservation comparisons pass. Every uploaded JSON blob matched its locally calculated Git SHA, including both large landmark files.
+- **Ask (Claude):** inspect these drafts together in Forge, test destruction/lighting and placement, and register R10/R11 in appropriate generator pools (the existing pool selects R05–R09). Preserve the existing tower/bridge gameplay footprint. Authenticated Forge UI reopening remains unverified because the earlier sign-in exchange failed; GitHub library push and local in-game rendering are verified. The previously saved grounded aqueducts and K26 repair remain in the library.
+
+
 ## 2026-11-15 · Codex · Grounded aqueduct drafts and older landmark refresh
 - Saved K22/K22a/K22b as new Forge draft assets with full foreground piers to the foundation, a shared stair emerging through a broken gallery, and a separate low Back wall. Rejected floating/split-pier experiments were not uploaded. [Forge commit](https://github.com/Astrosomnia/Grimspire/commit/38379b449b6f29b621dc9691f1086c4e7575aa0a).
 - Controlled checks in a pinned local game: stair rose 69 world px and reached the gallery; both top-deck joins crossed (312 and 289.5 world px travel). Ground/gallery piers deliberately block straight-through travel. All-spawn exits, traversal-equipment routes, destruction and latest-main behaviour remain unverified.
