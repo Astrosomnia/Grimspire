@@ -4497,6 +4497,20 @@
       "h": 448,
       "frame_count": 1,
       "category": "Other art"
+    },
+    {
+      "id": "asset-66482ebe691f36caf2a1360e",
+      "path": "art/lab/hosted/library/asset-66482ebe691f36caf2a1360e.forge.json",
+      "sha256": "66482ebe691f36caf2a1360e115018a8e42c72392e387bc4b093e136acd7c714",
+      "asset_id": "custom-ccbe4ffc-94f0-445e-b777-29b440ca3dfe",
+      "state_key": "",
+      "asset_name": "Rock-to-masonry footing",
+      "code": "R09",
+      "name": "Rock-to-masonry footing · Height rocky pass — fractured relief refresh",
+      "w": 896,
+      "h": 480,
+      "frame_count": 1,
+      "category": "Other art"
     }
   ]
 }
