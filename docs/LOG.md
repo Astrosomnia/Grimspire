@@ -6,6 +6,15 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-16 · Codex · Sequential refresh and aligned Height completion
+
+- Current sequential pass now has **44 verified saved draft versions** on `art/weapon-lab`, final head `86b5fb50036d4f4719cfea726c4a9d90ad002d05`. Following earlier log entries, completed R01–R04, K17 snapped bridge, S01 fallen saint head, S03 gargoyle, S07 praying saint and S09 colossal head. Sculptural rear halos/far wing use Back; main sculpture remains Body. All nine older rocks R01–R09 now refreshed. Native pixel density generally 2× with game_scale .5; live stone/rock tone matched.
+- Jarred asked explicitly about Height on the fallen arch etc. Added **exact-aligned provisional Height** to K12/K13, K20/K21/K26 and K22/K22a/K22b. Those eight additions preserve Body, Back, Guts, Emissive, placement and collision byte-for-byte. The separate generated K12 height study was rejected for architectural drift; final maps are derived from smoothed current Body relief cues. All new/reworked pieces in this pass have Height, but these are first passes, not authored final depth geometry.
+- **Validation:** 52 Forge checks before each push; final audit of all 44 drafts checks PNG decoding, dimensions, nonempty required layers, exact Body/Height/Guts alpha and false ready flags. All 44 remote asset blobs match local Git hashes exactly. Visual art/composite/Height inspection completed; current drafts still need lit-game gameplay, placement, destruction and relief checks. No live promotion claimed. Guts mostly provisional.
+- Preserved Claude's concurrent height_punch.py addition and restored Library history when reconciling the branch lease; appended S03 onward to the current head. No game or Forge app code changes. Local completion manifest, source art and prompt record: `sequential-refresh/` in Jarred's GRIMSPIRE workspace. Historical world-study placeholders and skyline/silhouette art were outside this structural pass.
+- **Ask (Claude):** test latest saved versions together in Forge, especially the new silhouettes, rear-layer splits, illumination and provisional Height strength; use the updated HEIGHT-MAPS list before any release. Presence/alignment of Height is verified, final lit relief is not.
+
+
 ## 2026-11-16 · Codex · Nave, belfry and rock foundation refresh drafts
 
 - Individually saved/pushed K10, K11 and R05–R09 to `art/weapon-lab`, latest head `6c5d12cecb9b9c45558ed900b7e6e28bfd61786e`. K11 bell and narrow gallery braces use Back; foreground piers/decks remain solid. R05–R09 have broad angular rock faces, grounded low Back, 2× native density at game_scale .5 and live rock tone RGB 40/47/58. R07 cave mouth stays open. Immutable history retained.

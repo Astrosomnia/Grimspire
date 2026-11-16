@@ -10,16 +10,8 @@ Which pieces still need a Height layer (relief for the lit look). Update this wh
 
 | Piece | Where | Since | Note |
 |---|---|---|---|
-| K12 Fallen cathedral arch | live | 15 Nov | Old Height dropped on the stonework refresh (no longer aligned) |
-| K13 Shattered cathedral dome | live | 15 Nov | Same as K12 |
-| S01 Fallen saint head | live | — | Never had one |
-| S03 Perched gargoyle | live | — | Never had one |
-| S07 Praying saint | live | — | Never had one |
-| S09 Colossal fallen head | live | — | Never had one |
-| K20 Collapsed nave | Forge draft | 15 Nov | Unauthored |
-| K21 Broken belfry | Forge draft | 15 Nov | Unauthored |
-| K26 Rib vault bay | Forge draft | 15 Nov | Unauthored |
-| K22 / K22a / K22b Grounded aqueducts | Forge draft | 15 Nov | Unauthored |
+
+Latest refreshed drafts now have provisional Height; older live versions can still lack it until a reviewed release.
 
 ## Provisional (has a first pass, wants a proper one)
 
@@ -56,6 +48,24 @@ Which pieces still need a Height layer (relief for the lit look). Update this wh
 | R07 refreshed draft | Forge draft | 16 Nov | Rule-derived provisional Height; new silhouette; gameplay/relief review pending |
 | R08 refreshed draft | Forge draft | 16 Nov | Rule-derived provisional Height; new silhouette; gameplay/relief review pending |
 | R09 refreshed draft | Forge draft | 16 Nov | Rule-derived provisional Height; new silhouette; gameplay/relief review pending |
+
+| K12 refreshed draft | Forge draft | 16 Nov | Exact Body alpha; rule-derived provisional Height; lit-game relief review pending |
+| K13 refreshed draft | Forge draft | 16 Nov | Exact Body alpha; rule-derived provisional Height; lit-game relief review pending |
+| K20 refreshed draft | Forge draft | 16 Nov | Exact Body alpha; rule-derived provisional Height; lit-game relief review pending |
+| K21 refreshed draft | Forge draft | 16 Nov | Exact Body alpha; rule-derived provisional Height; lit-game relief review pending |
+| K26 refreshed draft | Forge draft | 16 Nov | Exact Body alpha; rule-derived provisional Height; lit-game relief review pending |
+| K22 refreshed draft | Forge draft | 16 Nov | Exact Body alpha; rule-derived provisional Height; lit-game relief review pending |
+| K22a refreshed draft | Forge draft | 16 Nov | Exact Body alpha; rule-derived provisional Height; lit-game relief review pending |
+| K22b refreshed draft | Forge draft | 16 Nov | Exact Body alpha; rule-derived provisional Height; lit-game relief review pending |
+| S01 refreshed draft | Forge draft | 16 Nov | Exact Body alpha; rule-derived provisional Height; lit-game relief review pending |
+| S03 refreshed draft | Forge draft | 16 Nov | Exact Body alpha; rule-derived provisional Height; lit-game relief review pending |
+| S07 refreshed draft | Forge draft | 16 Nov | Exact Body alpha; rule-derived provisional Height; lit-game relief review pending |
+| S09 refreshed draft | Forge draft | 16 Nov | Exact Body alpha; rule-derived provisional Height; lit-game relief review pending |
+| R01 refreshed draft | Forge draft | 16 Nov | Exact Body alpha; rule-derived provisional Height; lit-game relief review pending |
+| R02 refreshed draft | Forge draft | 16 Nov | Exact Body alpha; rule-derived provisional Height; lit-game relief review pending |
+| R03 refreshed draft | Forge draft | 16 Nov | Exact Body alpha; rule-derived provisional Height; lit-game relief review pending |
+| R04 refreshed draft | Forge draft | 16 Nov | Exact Body alpha; rule-derived provisional Height; lit-game relief review pending |
+| K17 refreshed draft | Forge draft | 16 Nov | Exact Body alpha; rule-derived provisional Height; lit-game relief review pending |
 
 ## Done
 
