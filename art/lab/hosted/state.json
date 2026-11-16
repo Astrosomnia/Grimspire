@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "current": "20261115T052613Z-26706b18",
+  "current": "20261116T055346Z-a8e03c00",
   "revisions": [
     {
       "id": "20261031T210936Z-6c67f2da",
@@ -417,6 +417,14 @@
       "slot": "K10",
       "variant": "custom",
       "author": "Astrosomnia"
+    },
+    {
+      "id": "20261116T055346Z-a8e03c00",
+      "created": "2026-11-16T05:53:46.000Z",
+      "notes": "Codex's layered refresh batch live: K05a/K05b bridges and K01/K01a/K01b shafts at 2x with Back, K12/K13 with Back, new rocks R10/R11; tone-matched to the live kit. Written by Claude with Jarred's go, outside the Forge UI.",
+      "slot": "K13",
+      "variant": "custom",
+      "author": "claude"
     }
   ],
   "integrations": [
