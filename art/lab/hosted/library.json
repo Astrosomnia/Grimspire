@@ -3965,6 +3965,20 @@
       "h": 476,
       "frame_count": 1,
       "category": "Other art"
+    },
+    {
+      "id": "asset-80f747eaba01f37ae28da596",
+      "path": "art/lab/hosted/library/asset-80f747eaba01f37ae28da596.forge.json",
+      "sha256": "80f747eaba01f37ae28da596a34ab55014d41eb64fe4fcc87c9465d20ab76697",
+      "asset_id": "custom-0aaff43c-6a29-4f52-b906-949466c1791f",
+      "state_key": "",
+      "asset_name": "Tower spire · crockets and finial",
+      "code": "K02",
+      "name": "Tower spire — stepped buttress depth refresh",
+      "w": 224,
+      "h": 384,
+      "frame_count": 1,
+      "category": "Other art"
     }
   ]
 }
