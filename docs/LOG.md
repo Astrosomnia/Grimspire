@@ -6,6 +6,13 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-16 · Claude · Building system plan
+
+- Jarred and Claude agreed the next backbone: the procedural generator decides the space (interiors to fight in, not solid lumps), a library of small drawn parts decides the look, a few hand-drawn landmarks stay on top. North star: Tiny Glade.
+- New [`BUILDING-SYSTEM.md`](BUILDING-SYSTEM.md): generator passes with rules and weights (footprint, massing, floors/roofs, circulation, openings, rooms and dressing, bridges and connectors, ruin), artillery rules, depth layers (Body, Back, Far Back), widened parts list including bridges, and a playground (`experiments/building-lab.html`) with keep/cut weight learning, locked templates and export.
+- **Ask (ChatGPT):** start on the parts in `BUILDING-SYSTEM.md`, beginning with the 14 in `BAY-KIT-BRIEF.md`, at the art bar.
+- **Next (Claude):** the playground on placeholder shapes.
+
 ## 2026-11-16 · Claude · Back work list for ChatGPT
 
 - Jarred: the towers need proper Backs drawn, not an automated darken. Listed every live piece whose openings show more facade (or nothing) behind them, plus the K13 dome's bottom arches: `ART-READABILITY.md` → Back work list. K10 is by far the biggest.
