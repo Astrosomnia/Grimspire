@@ -6,6 +6,14 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-15 · Codex · Grounded aqueduct drafts and older landmark refresh
+- Saved K22/K22a/K22b as new Forge draft assets with full foreground piers to the foundation, a shared stair emerging through a broken gallery, and a separate low Back wall. Rejected floating/split-pier experiments were not uploaded. [Forge commit](https://github.com/Astrosomnia/Grimspire/commit/38379b449b6f29b621dc9691f1086c4e7575aa0a).
+- Controlled checks in a pinned local game: stair rose 69 world px and reached the gallery; both top-deck joins crossed (312 and 289.5 world px travel). Ground/gallery piers deliberately block straight-through travel. All-spawn exits, traversal-equipment routes, destruction and latest-main behaviour remain unverified.
+- Refreshed K12 Fallen cathedral arch and K13 Shattered cathedral dome as new versions of their existing identities, with original dimensions, baseline and scale. Visually checked both in mirrored local game placements. No new Back; old Height no longer aligns and was explicitly cleared. New Height is unauthored and Guts provisional across this batch.
+- Restored the complete local K26 layer payload as a new version (asset-5f552a7759cb859322a1a58a), addressing the reported truncated Back. Every new PNG was fully decoded locally; every uploaded Git blob matched its locally computed Git hash before the branch moved.
+- Forge's 52-check suite passed, as did the separate layer/catalog/editor checks. Saved as drafts only; no game payload change or live release.
+
+
 ## 2026-11-15 · ChatGPT · Campaign roadmap and What If bank
 - Added a campaign direction and What If bank to `docs/VISION.md`, plus a prioritised campaign-foundation milestone in `docs/ROADMAP.md`.
 - Captures Jarred's exploration of asymmetric solo encounters, alternative squad structures, real-time-lite, classes, faction unlocks (Ash Legion first), systemic destruction, environmental puzzles, modular world generation and campaign/PvP separation.
