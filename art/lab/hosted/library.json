@@ -4105,6 +4105,20 @@
       "h": 512,
       "frame_count": 1,
       "category": "Other art"
+    },
+    {
+      "id": "asset-99f004e8ef5f9c633b9e99ee",
+      "path": "art/lab/hosted/library/asset-99f004e8ef5f9c633b9e99ee.forge.json",
+      "sha256": "99f004e8ef5f9c633b9e99eeb5f6824e963a5923389fb44d072e97c4f20f6c4a",
+      "asset_id": "custom-a59ae77d-179e-4f0c-b808-91212a2f487e",
+      "state_key": "",
+      "asset_name": "Tower crown · merlons and corner pinnacles",
+      "code": "K03",
+      "name": "Tower crown · merlons and corner pinnacles — depth refresh",
+      "w": 224,
+      "h": 80,
+      "frame_count": 1,
+      "category": "Other art"
     }
   ]
 }
