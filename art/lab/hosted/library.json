@@ -4707,6 +4707,20 @@
       "h": 208,
       "frame_count": 1,
       "category": "Other art"
+    },
+    {
+      "id": "asset-14b50c7cd1bd528a5ed7311b",
+      "path": "art/lab/hosted/library/asset-14b50c7cd1bd528a5ed7311b.forge.json",
+      "sha256": "14b50c7cd1bd528a5ed7311b624e574e215fd43c9e2cafed15299aea6a48c063",
+      "asset_id": "custom-0b9c856f-d060-487e-a119-dd8c04efef15",
+      "state_key": "",
+      "asset_name": "Broken Gargoyle · world study",
+      "code": "S03",
+      "name": "Perched gargoyle · half-open wings — sculptural depth refresh",
+      "w": 148,
+      "h": 112,
+      "frame_count": 1,
+      "category": "Other art"
     }
   ]
 }
