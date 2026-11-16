@@ -4483,6 +4483,20 @@
       "h": 544,
       "frame_count": 1,
       "category": "Other art"
+    },
+    {
+      "id": "asset-a0fc440d4ce5ce9fdd6ac589",
+      "path": "art/lab/hosted/library/asset-a0fc440d4ce5ce9fdd6ac589.forge.json",
+      "sha256": "a0fc440d4ce5ce9fdd6ac5898f35941aa72a30d7bf4d5bbf891b08930d9017a0",
+      "asset_id": "custom-128b64a0-4d07-4180-9246-5d7c1056cec6",
+      "state_key": "",
+      "asset_name": "Scree access ramp",
+      "code": "R08",
+      "name": "Scree access ramp · Height rocky pass — fractured relief refresh",
+      "w": 896,
+      "h": 448,
+      "frame_count": 1,
+      "category": "Other art"
     }
   ]
 }
