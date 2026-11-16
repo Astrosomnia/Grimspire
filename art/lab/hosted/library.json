@@ -4343,6 +4343,20 @@
       "h": 720,
       "frame_count": 1,
       "category": "Other art"
+    },
+    {
+      "id": "asset-9c5ab6b0712065b3f0aad110",
+      "path": "art/lab/hosted/library/asset-9c5ab6b0712065b3f0aad110.forge.json",
+      "sha256": "9c5ab6b0712065b3f0aad1103fa0fbf6e3197b764c5939595c2598a4e2b18ccf",
+      "asset_id": "custom-008319b9-23f2-404e-84e2-5625c22ff349",
+      "state_key": "",
+      "asset_name": "Jetty · timber and iron waterline deck",
+      "code": "K09",
+      "name": "Jetty · timber and iron waterline deck — depth refresh",
+      "w": 720,
+      "h": 60,
+      "frame_count": 1,
+      "category": "Other art"
     }
   ]
 }
