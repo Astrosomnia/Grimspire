@@ -4189,6 +4189,20 @@
       "h": 200,
       "frame_count": 1,
       "category": "Other art"
+    },
+    {
+      "id": "asset-a0d052a229e1fa0c95abf297",
+      "path": "art/lab/hosted/library/asset-a0d052a229e1fa0c95abf297.forge.json",
+      "sha256": "a0d052a229e1fa0c95abf29767f0dbf98b21c2e418a5c87211c6a17f73108946",
+      "asset_id": "custom-59f3f672-3d7e-4c7a-a4aa-bd6f047c3c61",
+      "state_key": "",
+      "asset_name": "Tower shaft · diagonal flying buttress",
+      "code": "K01d",
+      "name": "Tower shaft · diagonal flying buttress — depth refresh",
+      "w": 224,
+      "h": 200,
+      "frame_count": 1,
+      "category": "Other art"
     }
   ]
 }
