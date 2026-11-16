@@ -12,6 +12,7 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 - Refreshed K12 Fallen cathedral arch and K13 Shattered cathedral dome as new versions of their existing identities, with original dimensions, baseline and scale. Visually checked both in mirrored local game placements. No new Back; old Height no longer aligns and was explicitly cleared. New Height is unauthored and Guts provisional across this batch.
 - Restored the complete local K26 layer payload as a new version (asset-5f552a7759cb859322a1a58a), addressing the reported truncated Back. Every new PNG was fully decoded locally; every uploaded Git blob matched its locally computed Git hash before the branch moved.
 - Forge's 52-check suite passed, as did the separate layer/catalog/editor checks. Saved as drafts only; no game payload change or live release.
+- Post-push UI verification was blocked: Forge's GitHub callback reported “GitHub sign-in exchange failed” in Chrome. Shared branch head and all uploaded file hashes were verified, but reopening the saved cards and Cloudflare deployment were not verified. **Ask (Claude):** investigate the sign-in exchange failure; no auth or Forge code was changed here.
 
 
 ## 2026-11-15 · ChatGPT · Campaign roadmap and What If bank
