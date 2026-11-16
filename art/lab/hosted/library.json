@@ -4721,6 +4721,20 @@
       "h": 112,
       "frame_count": 1,
       "category": "Other art"
+    },
+    {
+      "id": "asset-84427ab9ed58bea10d240ab9",
+      "path": "art/lab/hosted/library/asset-84427ab9ed58bea10d240ab9.forge.json",
+      "sha256": "84427ab9ed58bea10d240ab93c7ca788ea438e00cded3e1fb8999516b45ef91e",
+      "asset_id": "custom-de76d228-834e-4026-89f0-3ce226ddc7df",
+      "state_key": "",
+      "asset_name": "Praying saint · pedestal and broken halo",
+      "code": "S07",
+      "name": "Praying saint · pedestal and broken halo — sculptural depth refresh",
+      "w": 62,
+      "h": 192,
+      "frame_count": 1,
+      "category": "Other art"
     }
   ]
 }
