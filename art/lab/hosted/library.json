@@ -4693,6 +4693,20 @@
       "h": 418,
       "frame_count": 1,
       "category": "Other art"
+    },
+    {
+      "id": "asset-93e31e517352bdc4c258bbf2",
+      "path": "art/lab/hosted/library/asset-93e31e517352bdc4c258bbf2.forge.json",
+      "sha256": "93e31e517352bdc4c258bbf2a4d1e2f4cb6cbe57ec3fe75db102e4909eeb03cf",
+      "asset_id": "custom-98e34866-4b73-497c-9766-bbc294a47f57",
+      "state_key": "",
+      "asset_name": "Fallen Saint Head · world study",
+      "code": "S01",
+      "name": "Fallen saint head · broken halo — sculptural depth refresh",
+      "w": 276,
+      "h": 208,
+      "frame_count": 1,
+      "category": "Other art"
     }
   ]
 }
