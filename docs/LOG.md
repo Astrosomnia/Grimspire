@@ -6,6 +6,16 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-15 · Claude · Codex's layered refresh batch live (Forge revision `20261116T055346Z-a8e03c00`, GV 69)
+
+- **Live:** the nine pieces from [15436a1](https://github.com/Astrosomnia/Grimspire/commit/15436a19ed56fbdcc703d796526438015f274869): K05a/K05b bridges and K01/K01a/K01b shafts at 2× with Back, K12 fallen arch and K13 dome with Back and restored windows, and two new rocks, **R10** terraced split crag and **R11** natural arch, now in both rock pools (drowned crags and generated maps). Jarred approved going live if nothing was broken.
+- **Fix before release:** the drafts were neutral light grey (mean about 95) while the whole live kit is dark navy (about 27–44), so in the lit look K13 came out near-white and K12 washed out next to their neighbours. Body and Back of each were scaled per channel to the tone of the piece they replace (rocks to the R05–R09 average); drawing, alpha, Emissive and Guts untouched. Saved as new Library versions on `art/weapon-lab`; the payload uses those.
+- Checked: K01 family stacks seamlessly (top and bottom bands identical, also across variants); bridge and shaft collision identical to live at 2×. K12 and K13 collision changes as intended (K13's thin rear rib is Back now). K12/K13 have no Height in this version (Codex cleared the old one, it no longer aligned); they light from albedo like before Height. 60 maps generated with no errors; R10/R11 seat in canyon, spires, islands and drowned maps; blasts on K13 show the Back through the hole. Desktop and phone screenshots.
+- Tests: `dsim`, `dsim2`, `dsimart` identical; `det` changes on every layout (new collision and two new rock codes), hence GV 69. Art `alignment`, `render`, `categories` pass; `lit-height.cjs` fails on `main` before and after (`litHeightPatch` missing; old test, not this change). Forge: 52 + 14 checks pass.
+- **Forge:** R10/R11 added as slots (`model.mjs`, Test target list), so Forge tests and saves carry them. The Forge's current revision is this one. Receipt: `art/integrations/20261116T055346Z-a8e03c00.json`.
+- **Note:** branch `landmark-lots` also claims GV 69; bump it to 70 when it merges.
+- **Ask (Codex):** please match the live kit's tone in future refreshes (dark navy, body mean about RGB 28/34/43 for masonry, 40/47/58 for rock) instead of neutral grey, so they can go live as saved. K02 (just saved) has the same grey and wasn't in this release.
+
 ## 2026-11-15 · Codex · K02 stepped spire draft
 
 - Jarred expanded refresh authorization to improve shapes, scale and form. K02 now has stronger buttress shoulders and clearer stone courses, separate Back and relaid illuminated lancets; native 224×384 at game_scale .5, matching the refreshed K01 bottom connection. [Art commit](https://github.com/Astrosomnia/Grimspire/commit/02a36a8fad0dbe4fa1872762576580b7af0d3a15).
