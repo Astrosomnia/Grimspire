@@ -4133,6 +4133,20 @@
       "h": 128,
       "frame_count": 1,
       "category": "Other art"
+    },
+    {
+      "id": "asset-1a93d242f1076621ff2703be",
+      "path": "art/lab/hosted/library/asset-1a93d242f1076621ff2703be.forge.json",
+      "sha256": "1a93d242f1076621ff2703bee284e0811a86081c4db80e52005e4363dc16d02e",
+      "asset_id": "custom-b8bc4b8b-e19d-4c01-8adb-4a26f15a0a0b",
+      "state_key": "",
+      "asset_name": "Bridge pier · stackable stone rib",
+      "code": "K06",
+      "name": "Bridge pier · stackable stone rib — depth refresh",
+      "w": 80,
+      "h": 400,
+      "frame_count": 1,
+      "category": "Other art"
     }
   ]
 }
