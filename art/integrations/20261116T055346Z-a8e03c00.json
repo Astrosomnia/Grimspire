@@ -1,0 +1,8 @@
+{
+ "revision": "20261116T055346Z-a8e03c00",
+ "base_main": "95c01239662b1a2c60e2f0ecb618a3aef8d3f0cd",
+ "game_sha256": "8d87f2c68c9d878a505f4045888c09f55a56ccdcd4d552513047680e28c79570",
+ "notes": "Codex's layered refresh batch (K05a, K05b, K01, K01a, K01b, K12, K13, new R10, R11), tone-matched to the live kit. Written by Claude with Jarred's go, outside the Forge UI.",
+ "source_lab_commit": "15436a19ed56fbdcc703d796526438015f274869",
+ "status": "written to main by Claude at Jarred's request; not a Forge Go live"
+}
