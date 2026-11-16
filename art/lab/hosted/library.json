@@ -4301,6 +4301,20 @@
       "h": 600,
       "frame_count": 1,
       "category": "Other art"
+    },
+    {
+      "id": "asset-660906bf15c2998e853afb5c",
+      "path": "art/lab/hosted/library/asset-660906bf15c2998e853afb5c.forge.json",
+      "sha256": "660906bf15c2998e853afb5c77d7e78ca38d4bb9ba7540fdc5dd03a5ca5820c0",
+      "asset_id": "custom-c2cc0795-8dae-4041-b47f-5ec27366a311",
+      "state_key": "",
+      "asset_name": "Nave · open crossbeam cloister",
+      "code": "K07c",
+      "name": "Nave · open crossbeam cloister — depth refresh",
+      "w": 720,
+      "h": 600,
+      "frame_count": 1,
+      "category": "Other art"
     }
   ]
 }
