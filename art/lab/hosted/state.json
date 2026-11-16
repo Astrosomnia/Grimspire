@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "current": "20261116T055346Z-a8e03c00",
+  "current": "20261116T075138Z-469e1491",
   "revisions": [
     {
       "id": "20261031T210936Z-6c67f2da",
@@ -423,6 +423,14 @@
       "created": "2026-11-16T05:53:46.000Z",
       "notes": "Codex's layered refresh batch live: K05a/K05b bridges and K01/K01a/K01b shafts at 2x with Back, K12/K13 with Back, new rocks R10/R11; tone-matched to the live kit. Written by Claude with Jarred's go, outside the Forge UI.",
       "slot": "K13",
+      "variant": "custom",
+      "author": "claude"
+    },
+    {
+      "id": "20261116T075138Z-469e1491",
+      "created": "2026-11-16T07:51:38.000Z",
+      "notes": "23 structural kit refreshes live (K01c-K17 at 2x with Back). Written by Claude with Jarred's go, outside the Forge UI.",
+      "slot": "K07",
       "variant": "custom",
       "author": "claude"
     }
