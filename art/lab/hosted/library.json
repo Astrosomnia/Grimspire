@@ -4315,6 +4315,20 @@
       "h": 600,
       "frame_count": 1,
       "category": "Other art"
+    },
+    {
+      "id": "asset-75d6f53d74d02d07cc6f62d7",
+      "path": "art/lab/hosted/library/asset-75d6f53d74d02d07cc6f62d7.forge.json",
+      "sha256": "75d6f53d74d02d07cc6f62d7fac2b859e5bf00bd1b1c572af473dca7164cc8c6",
+      "asset_id": "custom-293fed49-826a-48e0-8683-c998797218d0",
+      "state_key": "",
+      "asset_name": "Nave · breached oculus fortress",
+      "code": "K07d",
+      "name": "Nave · breached oculus fortress — depth refresh",
+      "w": 720,
+      "h": 600,
+      "frame_count": 1,
+      "category": "Other art"
     }
   ]
 }
