@@ -4217,6 +4217,20 @@
       "h": 384,
       "frame_count": 1,
       "category": "Other art"
+    },
+    {
+      "id": "asset-dbfb76836dbbd9e6bc76259d",
+      "path": "art/lab/hosted/library/asset-dbfb76836dbbd9e6bc76259d.forge.json",
+      "sha256": "dbfb76836dbbd9e6bc76259d7d8662bfa36d09be038b9c7f067b23af12959d1e",
+      "asset_id": "custom-38ffa8b8-a83f-43a9-9424-636011f442cc",
+      "state_key": "",
+      "asset_name": "Spire · open bell cage",
+      "code": "K02b",
+      "name": "Spire · open bell cage — depth refresh",
+      "w": 224,
+      "h": 384,
+      "frame_count": 1,
+      "category": "Other art"
     }
   ]
 }
