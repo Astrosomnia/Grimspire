@@ -64,6 +64,19 @@ def despeckle(height, body, passes=2, tol=14):
     return out
 
 
+def deblob(height, body, area=24):
+    """Remove bumps and pits smaller than `area` pixels (grayscale area opening + closing). Long features such
+    as mortar lines, step edges and rib lines exceed the area and survive; dapple and pimples don't."""
+    from skimage.morphology import area_opening, area_closing
+    m = body[:, :, 3] > 127
+    h = fill_outside(height[:, :, 0].astype(float), m, 4)
+    h = np.clip(h, 0, 255).astype(np.uint8)
+    h = area_closing(area_opening(h, area_threshold=area), area_threshold=area)
+    out = height.copy(); out[:, :, 0] = out[:, :, 1] = out[:, :, 2] = h
+    out[:, :, 3] = np.where(m, 255, 0)
+    return out
+
+
 def punch(height, body, a):
     m = body[:, :, 3] > 127
     h = height[:, :, 0].astype(float)
@@ -107,14 +120,16 @@ def main():
     p.add_argument('--recess', type=float, default=0)
     p.add_argument('--detail', type=float, default=0.25)
     p.add_argument('--note', default='')
+    p.add_argument('--deblob', type=int, default=0, help='remove bumps/pits smaller than this many pixels, keep lines and range (ignores the other options)')
     p.add_argument('--despeckle', action='store_true', help='only remove isolated speckle; keep lines and the original range (ignores the other options)')
     a = p.parse_args()
     d = json.load(open(a.inp))
     for f in d['frames']:
         if not f.get('height'):
             raise SystemExit('no Height layer to punch')
-        f['height'] = enc(despeckle(dec(f['height']), dec(f['body'])) if a.despeckle else punch(dec(f['height']), dec(f['body']), a))
-    flags = 'despeckle only' if a.despeckle else f"stretch {a.stretch[0]:g}-{a.stretch[1]:g}, curve {a.curve:g}, flatten {a.flatten}, levels {a.levels}, recess {a.recess:g}, detail {a.detail:g}"
+        H, B = dec(f['height']), dec(f['body'])
+        f['height'] = enc(deblob(H, B, a.deblob) if a.deblob else despeckle(H, B) if a.despeckle else punch(H, B, a))
+    flags = f'deblob {a.deblob}' if a.deblob else 'despeckle only' if a.despeckle else f"stretch {a.stretch[0]:g}-{a.stretch[1]:g}, curve {a.curve:g}, flatten {a.flatten}, levels {a.levels}, recess {a.recess:g}, detail {a.detail:g}"
     d['notes'] = (d.get('notes') or '').rstrip() + f"\n\nHeight punched with height_punch.py ({flags}). {a.note}".rstrip()
     json.dump(d, open(a.out, 'w'))
     print(a.out, flags)
