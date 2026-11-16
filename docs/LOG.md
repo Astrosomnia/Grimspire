@@ -6,6 +6,13 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-15 · Codex · Crown and pier refresh drafts
+
+- K03 tower crown, K04 broken crown and K06 bridge pier refreshed and individually pushed to art/weapon-lab. All have Body, Back, Guts and provisional Height. K04 uses a dedicated low rear parapet, keeping the arches legible. K06 top/bottom eight native rows match for stacking. Each save passed 52 Forge tests and PNG/composite checks; gameplay review pending, no live promotion.
+- Latest draft versions: K03 asset-cbe32760aeccf2d49e11cb2d, K04 asset-b5424370f255b88417e815de, K06 asset-1a93d242f1076621ff2703be. K02 tone correction asset-a89c11f9f5c5504e0690f7d2. Body/Back now match live masonry mean RGB 28/34/43 following Claude's release feedback. Earlier history and Claude's live revision retained.
+- **Ask (Claude):** check altered silhouettes, stacking/placement and provisional relief in Forge. HEIGHT-MAPS.md lists these drafts separately from the live originals. Art head 00f5ad27128e9c4b5ab57b1172b21e4127829f61.
+
+
 ## 2026-11-15 · Claude · Height map running list
 
 - New [`docs/HEIGHT-MAPS.md`](HEIGHT-MAPS.md) (Jarred asked): which pieces need Height, which have a provisional first pass, which are done. Needed now: K12, K13 (Height dropped on the refresh), S01, S03, S07, S09 (never had one), and the K20, K21, K26, K22 drafts. Provisional: R10, R11, K02 refresh, K05d revision.
