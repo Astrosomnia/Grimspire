@@ -4525,6 +4525,20 @@
       "h": 240,
       "frame_count": 1,
       "category": "Other art"
+    },
+    {
+      "id": "asset-ba4869a5dc934a6347261cef",
+      "path": "art/lab/hosted/library/asset-ba4869a5dc934a6347261cef.forge.json",
+      "sha256": "ba4869a5dc934a6347261cef9475a9bc43a8f33f69d87547b9f590eb958044b6",
+      "asset_id": "custom-d7e164d4-57eb-4aec-b1e0-321328548bfc",
+      "state_key": "",
+      "asset_name": "R02 · Basalt tooth outcrop",
+      "code": "R02",
+      "name": "R02 · Basalt tooth outcrop · Height rocky pass — fractured relief refresh",
+      "w": 480,
+      "h": 240,
+      "frame_count": 1,
+      "category": "Other art"
     }
   ]
 }
