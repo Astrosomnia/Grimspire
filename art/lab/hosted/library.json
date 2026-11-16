@@ -4413,6 +4413,20 @@
       "h": 726,
       "frame_count": 1,
       "category": "Other art"
+    },
+    {
+      "id": "asset-dedc715382cec863e743e114",
+      "path": "art/lab/hosted/library/asset-dedc715382cec863e743e114.forge.json",
+      "sha256": "dedc715382cec863e743e114ddaa6af60ed8e11bd6c38081e2de646ea2ddb8f7",
+      "asset_id": "custom-5848d5c6-ad13-4bc0-8c9d-0a6e508e6a62",
+      "state_key": "",
+      "asset_name": "Breached cathedral belfry",
+      "code": "K11",
+      "name": "Breached cathedral belfry — depth refresh",
+      "w": 1152,
+      "h": 1048,
+      "frame_count": 1,
+      "category": "Other art"
     }
   ]
 }
