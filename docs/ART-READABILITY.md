@@ -38,6 +38,10 @@ Saved as new Library versions on `art/weapon-lab` (16 Nov). Try them on the test
 
 Known leftovers: windows still show Back (above); bridge ends on K05 and K05c are open apart from the deck (ChatGPT's redraw); statues are still a little busier than S01.
 
+## What shipped (16 Nov, evening)
+
+The dapple turned out to be painted into the Body; the Height just copied it. `deblob.py` fixes that on both layers without losing lines (area opening and closing on the piece's own tones). ChatGPT's refreshes went live through it, except K17, which stayed original. Rocks got their grit baked in (`grit.py`), since the shader no longer adds dots to all stone.
+
 ## The bar
 
 **Benchmark (Jarred, 16 Nov): the original K08 cathedral front.** Strong, heavy lines and a scannable shape. That's the asset style we aim for, with better Height and Back layering on top. Jarred still prefers it to both the 2× redraw and the halved redraw. The original S01 fallen saint head is the benchmark for statues.
@@ -71,6 +75,8 @@ Numbers Claude checks on every release (scripts in `/art/lab/tools/`):
 On `art/weapon-lab`, `art/lab/tools/`:
 - `simplify.py`: halve a 2× piece's detail (back to 1×, requantised flat planes, stray-pixel cleanup).
 - `height_punch.py`: rebuild a Height as smooth depth planes (`--flatten 2 --levels 6 --curve 1.2 --detail 0 --stretch 60 200` was the setting used).
+- `deblob.py`: remove dapple from Body, Back and Height; keep lines. `--emis-snap` fills lit glass in window openings. Used for the 16 Nov release (`--area 30 --height-area 60`).
+- `grit.py`: bake rock grit into a Body.
 - `pixel_snap.py`: snap a painterly piece to a kit tone ramp (first trial on the statues; `simplify.py` replaced it for this pass).
 
 ## Asks for ChatGPT

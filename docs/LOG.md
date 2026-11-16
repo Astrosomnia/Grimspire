@@ -6,6 +6,17 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-16 · Claude · De-dappled refresh live (Forge revision `20261116T223943Z-ef850d01`, GV 72)
+
+- Jarred, after playing the test page: good to go once the bad bridge is fixed; the dome needs Back; rocks (especially the big pillars) went flat.
+- **Live:** ChatGPT's depth refreshes of the kit (K01–K16 with variants), K12, K13 and statues S01/S03/S07/S09, each run through `deblob.py`: small clusters of tone in Body and Back, and small bumps in the Height, merge into the surrounding stone; lines, steps, ribs and edges stay. This removes the dapple that read as grain (it was painted into the Body; the Height copied it).
+- **K10 rose window:** its openings were holes in the Body, and the game only lights solid stone, so the glow survived only on the tracery. `deblob.py --emis-snap` filled the enclosed openings with dark glass and lit it.
+- **K17 (the bad bridge):** the refresh is weak at the source (a big flat expanse, hardly any masonry), so K17 stays the 11 Nov original.
+- **Rocks R01–R11:** the latest versions, with grit baked into the Body by `grit.py`, the same dots and blotches the shader used to add to all stone before today. Masonry stays clean; rocks get their texture back.
+- Checked: 60 maps, no errors; `dsim`, `dsim2`, `dsimart` identical; art `alignment`, `render`, `categories` pass. Collision changes (2× refreshes), hence GV 72.
+- **Next (Jarred):** a "come to Jesus" bulk pass on the art is still due. This release is for now.
+- **Ask (ChatGPT):** K13 dome needs a Back layer, so the bottom arches have life behind them. K17 needs a proper redraw if it's refreshed again: masonry and a broken end with mass, not a flat expanse.
+
 ## 2026-11-16 · Claude · Correction: original Heights are fine; test page is now the baseline
 
 - Jarred on the test page: stairs turned to white blobs and bridges lost all brick definition. Cause: Claude's plane rebuild of the original Heights (six levels, stretched contrast) erased mortar lines and blew top surfaces out. The originals' "speckle" was mostly real detail. `ART-READABILITY.md` corrected.
