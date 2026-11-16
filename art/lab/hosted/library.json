@@ -4287,6 +4287,20 @@
       "h": 600,
       "frame_count": 1,
       "category": "Other art"
+    },
+    {
+      "id": "asset-bec9452b6717a255b8f177e2",
+      "path": "art/lab/hosted/library/asset-bec9452b6717a255b8f177e2.forge.json",
+      "sha256": "bec9452b6717a255b8f177e2ce599b83c16f9257fb31d378b84c1464261c1a05",
+      "asset_id": "custom-0549be66-b497-46a4-be78-f7d90d931048",
+      "state_key": "",
+      "asset_name": "Nave wall · breached clerestory",
+      "code": "K07b",
+      "name": "Nave wall · breached clerestory — depth refresh",
+      "w": 720,
+      "h": 600,
+      "frame_count": 1,
+      "category": "Other art"
     }
   ]
 }
