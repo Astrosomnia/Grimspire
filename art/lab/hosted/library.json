@@ -4567,6 +4567,20 @@
       "h": 240,
       "frame_count": 1,
       "category": "Other art"
+    },
+    {
+      "id": "asset-6818ca7ca977fc5ec2ef89c6",
+      "path": "art/lab/hosted/library/asset-6818ca7ca977fc5ec2ef89c6.forge.json",
+      "sha256": "6818ca7ca977fc5ec2ef89c69a991c2514366dd6ef99bf3de1cd5a11bae90d87",
+      "asset_id": "custom-a51fc538-fdbf-4169-9e99-fc84b96cd613",
+      "state_key": "",
+      "asset_name": "Snapped bridge stub",
+      "code": "K17",
+      "name": "Snapped bridge stub — depth refresh",
+      "w": 360,
+      "h": 160,
+      "frame_count": 1,
+      "category": "Other art"
     }
   ]
 }
