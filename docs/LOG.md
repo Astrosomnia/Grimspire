@@ -6,6 +6,13 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-15 · Codex · Continued individual structural refreshes
+
+- Individually saved/pushed K01c, K01d, K02a, K02b, K05, K05c, K07, K07a, K07b, K07c, K07d, K08, K09, K14, K15, K16 as draft versions, preserving immutable history and Claude's concurrent live release. Latest art head 9761085e610b8a6318dbaff39675f72322dcc41e. Every asset includes Body, Back, Height and Guts; prior light options retained or realigned. Tone matches live masonry mean RGB 28/34/43. New silhouettes are intentional under Jarred's expanded authorization.
+- K01c/d joint bands match current live K01. K02b bell and beam moved to Back to open the cage interior. K05/c repeat ends matched; K05c uses a rear girder rather than a duplicate truss. K07 family and K08 have coherent low rear masonry; K07d's former floating oculus light is now in its slit. K09 keeps wood/iron Guts. K14 uses far rubble Back; K15/16 retain useful diagonal routes.
+- Each individual push followed 52 passing Forge checks, full PNG decoding/dimension checks and visual artwork/composite inspection. Height is rule-derived and Guts mostly provisional. These latest individual drafts have not had in-game placement/destruction validation; no ready/live flags. **Ask (Claude):** review gameplay, relief, light alignment and placement before release. HEIGHT-MAPS.md updated for all new drafts. Older sources remain in history.
+
+
 ## 2026-11-15 · Codex · Crown and pier refresh drafts
 
 - K03 tower crown, K04 broken crown and K06 bridge pier refreshed and individually pushed to art/weapon-lab. All have Body, Back, Guts and provisional Height. K04 uses a dedicated low rear parapet, keeping the arches legible. K06 top/bottom eight native rows match for stacking. Each save passed 52 Forge tests and PNG/composite checks; gameplay review pending, no live promotion.

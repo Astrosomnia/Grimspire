@@ -30,6 +30,22 @@ Which pieces still need a Height layer (relief for the lit look). Update this wh
 | K03 Tower crown refresh | Forge draft | 15 Nov | Rule-derived; redesigned silhouette, gameplay pending |
 | K04 Broken crown refresh | Forge draft | 15 Nov | Rule-derived; redesigned silhouette, gameplay pending |
 | K06 Bridge pier refresh | Forge draft | 15 Nov | Rule-derived; matched stacking bands, gameplay pending |
+| K01c depth refresh | Forge draft | 15 Nov | Rule-derived; refreshed silhouette, gameplay/relief review pending |
+| K01d depth refresh | Forge draft | 15 Nov | Rule-derived; refreshed silhouette, gameplay/relief review pending |
+| K02a depth refresh | Forge draft | 15 Nov | Rule-derived; refreshed silhouette, gameplay/relief review pending |
+| K02b depth refresh | Forge draft | 15 Nov | Rule-derived; refreshed silhouette, gameplay/relief review pending |
+| K05 depth refresh | Forge draft | 15 Nov | Rule-derived; refreshed silhouette, gameplay/relief review pending |
+| K05c depth refresh | Forge draft | 15 Nov | Rule-derived; refreshed silhouette, gameplay/relief review pending |
+| K07 depth refresh | Forge draft | 15 Nov | Rule-derived; refreshed silhouette, gameplay/relief review pending |
+| K07a depth refresh | Forge draft | 15 Nov | Rule-derived; refreshed silhouette, gameplay/relief review pending |
+| K07b depth refresh | Forge draft | 15 Nov | Rule-derived; refreshed silhouette, gameplay/relief review pending |
+| K07c depth refresh | Forge draft | 15 Nov | Rule-derived; refreshed silhouette, gameplay/relief review pending |
+| K07d depth refresh | Forge draft | 15 Nov | Rule-derived; refreshed silhouette, gameplay/relief review pending |
+| K08 depth refresh | Forge draft | 15 Nov | Rule-derived; refreshed silhouette, gameplay/relief review pending |
+| K09 depth refresh | Forge draft | 15 Nov | Rule-derived; refreshed silhouette, gameplay/relief review pending |
+| K14 depth refresh | Forge draft | 15 Nov | Rule-derived; refreshed silhouette, gameplay/relief review pending |
+| K15 depth refresh | Forge draft | 15 Nov | Rule-derived; refreshed silhouette, gameplay/relief review pending |
+| K16 depth refresh | Forge draft | 15 Nov | Rule-derived; refreshed silhouette, gameplay/relief review pending |
 | K02 Stepped spire refresh | Forge draft | 15 Nov | Rule-derived; refreshed shape, not yet live |
 | K05d Weathered stone arch (revised) | Forge draft | 15 Nov | Height in the redrawn area provisional |
 
