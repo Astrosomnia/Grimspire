@@ -45,6 +45,25 @@ def fill_outside(v, m, r):
     return out
 
 
+def despeckle(height, body, passes=2, tol=14):
+    """Replace only isolated speckle: a pixel that differs by more than tol from all but at most one of its
+    8 neighbours takes their median. Lines (mortar, step edges) have two matching neighbours along them and stay."""
+    m = body[:, :, 3] > 127
+    h = height[:, :, 0].astype(int)
+    H, W = h.shape
+    for _ in range(passes):
+        pad = np.pad(h, 1, mode='edge'); mp = np.pad(m, 1)
+        nb = np.stack([pad[1 + dy:H + 1 + dy, 1 + dx:W + 1 + dx] for dy in (-1, 0, 1) for dx in (-1, 0, 1) if dy or dx])
+        nm = np.stack([mp[1 + dy:H + 1 + dy, 1 + dx:W + 1 + dx] for dy in (-1, 0, 1) for dx in (-1, 0, 1) if dy or dx])
+        close = ((np.abs(nb - h[None]) <= tol) & nm).sum(0)
+        med = np.median(np.where(nm, nb, np.nan), axis=0)
+        fix = m & (close <= 1) & (nm.sum(0) >= 5)
+        h = np.where(fix, np.nan_to_num(med, nan=h).round().astype(int), h)
+    out = height.copy(); out[:, :, 0] = out[:, :, 1] = out[:, :, 2] = np.clip(h, 0, 255)
+    out[:, :, 3] = np.where(m, 255, 0)
+    return out
+
+
 def punch(height, body, a):
     m = body[:, :, 3] > 127
     h = height[:, :, 0].astype(float)
@@ -88,13 +107,14 @@ def main():
     p.add_argument('--recess', type=float, default=0)
     p.add_argument('--detail', type=float, default=0.25)
     p.add_argument('--note', default='')
+    p.add_argument('--despeckle', action='store_true', help='only remove isolated speckle; keep lines and the original range (ignores the other options)')
     a = p.parse_args()
     d = json.load(open(a.inp))
     for f in d['frames']:
         if not f.get('height'):
             raise SystemExit('no Height layer to punch')
-        f['height'] = enc(punch(dec(f['height']), dec(f['body']), a))
-    flags = f"stretch {a.stretch[0]:g}-{a.stretch[1]:g}, curve {a.curve:g}, flatten {a.flatten}, levels {a.levels}, recess {a.recess:g}, detail {a.detail:g}"
+        f['height'] = enc(despeckle(dec(f['height']), dec(f['body'])) if a.despeckle else punch(dec(f['height']), dec(f['body']), a))
+    flags = 'despeckle only' if a.despeckle else f"stretch {a.stretch[0]:g}-{a.stretch[1]:g}, curve {a.curve:g}, flatten {a.flatten}, levels {a.levels}, recess {a.recess:g}, detail {a.detail:g}"
     d['notes'] = (d.get('notes') or '').rstrip() + f"\n\nHeight punched with height_punch.py ({flags}). {a.note}".rstrip()
     json.dump(d, open(a.out, 'w'))
     print(a.out, flags)
