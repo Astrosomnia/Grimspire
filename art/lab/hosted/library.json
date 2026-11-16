@@ -4329,6 +4329,20 @@
       "h": 600,
       "frame_count": 1,
       "category": "Other art"
+    },
+    {
+      "id": "asset-4154a85965c1f89d9c6e4416",
+      "path": "art/lab/hosted/library/asset-4154a85965c1f89d9c6e4416.forge.json",
+      "sha256": "4154a85965c1f89d9c6e4416f34a77e9de288f1d25c3b1515b52438991153fc2",
+      "asset_id": "custom-6117333f-04b6-4245-830c-99487281e972",
+      "state_key": "",
+      "asset_name": "Cathedral front · rose window and open portal",
+      "code": "K08",
+      "name": "Cathedral front · rose window and open portal — depth refresh",
+      "w": 1024,
+      "h": 720,
+      "frame_count": 1,
+      "category": "Other art"
     }
   ]
 }
