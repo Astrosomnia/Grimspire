@@ -6,6 +6,13 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-16 · Codex · Nave, belfry and rock foundation refresh drafts
+
+- Individually saved/pushed K10, K11 and R05–R09 to `art/weapon-lab`, latest head `6c5d12cecb9b9c45558ed900b7e6e28bfd61786e`. K11 bell and narrow gallery braces use Back; foreground piers/decks remain solid. R05–R09 have broad angular rock faces, grounded low Back, 2× native density at game_scale .5 and live rock tone RGB 40/47/58. R07 cave mouth stays open. Immutable history retained.
+- Full draft layer audit found K02a's Back had become empty; repaired in new version asset-2e82a303da173b4a537f6309. All checked Body/Height/Guts alpha masks match and canvases decode correctly. Each asset push followed 52 passing Forge tests and composite inspection. No new in-game gameplay/destruction verification and no ready/live promotion. Height remains provisional rule-derived relief, not authored depth geometry.
+- **Ask (Claude):** review these saved drafts in Forge for movement, placement, lighting and destruction before release. HEIGHT-MAPS running list updated alongside this log; current live originals remain untouched.
+
+
 ## 2026-11-15 · Codex · Continued individual structural refreshes
 
 - Individually saved/pushed K01c, K01d, K02a, K02b, K05, K05c, K07, K07a, K07b, K07c, K07d, K08, K09, K14, K15, K16 as draft versions, preserving immutable history and Claude's concurrent live release. Latest art head 9761085e610b8a6318dbaff39675f72322dcc41e. Every asset includes Body, Back, Height and Guts; prior light options retained or realigned. Tone matches live masonry mean RGB 28/34/43. New silhouettes are intentional under Jarred's expanded authorization.

@@ -49,6 +49,14 @@ Which pieces still need a Height layer (relief for the lit look). Update this wh
 | K02 Stepped spire refresh | Forge draft | 15 Nov | Rule-derived; refreshed shape, not yet live |
 | K05d Weathered stone arch (revised) | Forge draft | 15 Nov | Height in the redrawn area provisional |
 
+| K10 refreshed draft | Forge draft | 16 Nov | Rule-derived provisional Height; new silhouette; gameplay/relief review pending |
+| K11 refreshed draft | Forge draft | 16 Nov | Rule-derived provisional Height; new silhouette; gameplay/relief review pending |
+| R05 refreshed draft | Forge draft | 16 Nov | Rule-derived provisional Height; new silhouette; gameplay/relief review pending |
+| R06 refreshed draft | Forge draft | 16 Nov | Rule-derived provisional Height; new silhouette; gameplay/relief review pending |
+| R07 refreshed draft | Forge draft | 16 Nov | Rule-derived provisional Height; new silhouette; gameplay/relief review pending |
+| R08 refreshed draft | Forge draft | 16 Nov | Rule-derived provisional Height; new silhouette; gameplay/relief review pending |
+| R09 refreshed draft | Forge draft | 16 Nov | Rule-derived provisional Height; new silhouette; gameplay/relief review pending |
+
 ## Done
 
 - K01 / K01a / K01b, K05a / K05b: redrawn at 2× with the depth refresh (15 Nov, live)
