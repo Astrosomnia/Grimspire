@@ -4623,6 +4623,20 @@
       "h": 384,
       "frame_count": 1,
       "category": "Other art"
+    },
+    {
+      "id": "asset-04d6afaa54c7c2e7966dff5f",
+      "path": "art/lab/hosted/library/asset-04d6afaa54c7c2e7966dff5f.forge.json",
+      "sha256": "04d6afaa54c7c2e7966dff5f6791d104f20bf214f9a3abd09444a5fc84fb3575",
+      "asset_id": "custom-8655119f-303e-4aa6-bf35-18d46856c66b",
+      "state_key": "",
+      "asset_name": "Broken belfry — open arches draft",
+      "code": "K21",
+      "name": "Broken belfry — open exit study — aligned Height draft",
+      "w": 384,
+      "h": 576,
+      "frame_count": 1,
+      "category": "Other art"
     }
   ]
 }
