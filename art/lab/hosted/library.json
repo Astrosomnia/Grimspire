@@ -4455,6 +4455,20 @@
       "h": 640,
       "frame_count": 1,
       "category": "Other art"
+    },
+    {
+      "id": "asset-2e82a303da173b4a537f6309",
+      "path": "art/lab/hosted/library/asset-2e82a303da173b4a537f6309.forge.json",
+      "sha256": "2e82a303da173b4a537f63099e0d0aba79628ff45e9f4a281cc0341d3a61f683",
+      "asset_id": "custom-15294fc2-1abb-44d9-a009-4d8d4e76b325",
+      "state_key": "",
+      "asset_name": "Spire · split unequal pinnacles",
+      "code": "K02a",
+      "name": "Spire · split unequal pinnacles — depth refresh",
+      "w": 224,
+      "h": 384,
+      "frame_count": 1,
+      "category": "Other art"
     }
   ]
 }
