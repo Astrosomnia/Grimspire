@@ -4357,6 +4357,20 @@
       "h": 60,
       "frame_count": 1,
       "category": "Other art"
+    },
+    {
+      "id": "asset-e30b25f7817407c9bd3aac6f",
+      "path": "art/lab/hosted/library/asset-e30b25f7817407c9bd3aac6f.forge.json",
+      "sha256": "e30b25f7817407c9bd3aac6f7590f5837adf6f9d2623cf93591c0ff9462894ba",
+      "asset_id": "custom-1dc048de-1f7d-4163-97ef-c13a2b50572f",
+      "state_key": "",
+      "asset_name": "Fallen cathedral span",
+      "code": "K14",
+      "name": "Fallen cathedral span — depth refresh",
+      "w": 640,
+      "h": 400,
+      "frame_count": 1,
+      "category": "Other art"
     }
   ]
 }
