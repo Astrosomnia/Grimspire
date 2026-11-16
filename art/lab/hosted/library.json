@@ -4399,6 +4399,20 @@
       "h": 384,
       "frame_count": 1,
       "category": "Other art"
+    },
+    {
+      "id": "asset-f5b3a398bda05eef79615893",
+      "path": "art/lab/hosted/library/asset-f5b3a398bda05eef79615893.forge.json",
+      "sha256": "f5b3a398bda05eef7961589322656d88171a6831166a288fc440372b28176427",
+      "asset_id": "custom-69e744de-9aa4-4007-bc22-08e58ac5e2f5",
+      "state_key": "",
+      "asset_name": "Collapsed cathedral nave",
+      "code": "K10",
+      "name": "Collapsed cathedral nave — depth refresh",
+      "w": 1536,
+      "h": 726,
+      "frame_count": 1,
+      "category": "Other art"
     }
   ]
 }
