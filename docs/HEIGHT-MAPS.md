@@ -27,6 +27,9 @@ Which pieces still need a Height layer (relief for the lit look). Update this wh
 |---|---|---|---|
 | R10 Terraced split crag | live | 15 Nov | Rule-derived first pass |
 | R11 Natural rock arch | live | 15 Nov | Rule-derived first pass |
+| K03 Tower crown refresh | Forge draft | 15 Nov | Rule-derived; redesigned silhouette, gameplay pending |
+| K04 Broken crown refresh | Forge draft | 15 Nov | Rule-derived; redesigned silhouette, gameplay pending |
+| K06 Bridge pier refresh | Forge draft | 15 Nov | Rule-derived; matched stacking bands, gameplay pending |
 | K02 Stepped spire refresh | Forge draft | 15 Nov | Rule-derived; refreshed shape, not yet live |
 | K05d Weathered stone arch (revised) | Forge draft | 15 Nov | Height in the redrawn area provisional |
 
