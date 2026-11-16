@@ -25,6 +25,8 @@ On the towers and belfry, the Back layer fills window openings with more facade 
 
 ## What we changed (not live yet)
 
+*Superseded the same day: Jarred prefers the original drawings. See the bar below. The halved redraws stay in the Library.*
+
 Saved as new Library versions on `art/weapon-lab` (16 Nov). Try them on the test page (Grimspire TEST: readability pass).
 
 - **All 30 structural kit pieces** (K01–K17 with variants): back to 1× density with `simplify.py`. Each 2×2 block is averaged and snapped back to the piece's own six tones, so texture becomes flat planes; stray pixels are cleaned. Same game size, same silhouettes, Back kept. Detail drops by about half (cathedral front 0.50 → 0.28, belfry 0.38 → 0.23, bridges 0.37–0.49 → 0.20–0.28).
@@ -38,7 +40,11 @@ Known leftovers: windows still show Back (above); bridge ends on K05 and K05c ar
 
 ## The bar
 
-**Reference: the original S01 fallen saint head.** Chunky pixels at 1× density, about six tones in flat blocks, a strong silhouette, shading by planes rather than gradients. Push it slightly further with more separation between overlapping forms (a lighter rim or a tone step where the halo meets the rubble).
+**Benchmark (Jarred, 16 Nov): the original K08 cathedral front.** Strong, heavy lines and a scannable shape. That's the asset style we aim for, with better Height and Back layering on top. Jarred still prefers it to both the 2× redraw and the halved redraw. The original S01 fallen saint head is the benchmark for statues.
+
+**Direction:** keep the original kit drawings. Improve them with clean Heights (depth planes) and Back layers. Don't redraw them. A test with the original kit plus clean Heights is on the test page (16 Nov); every original Height cleans up to under 5% speckle with `height_punch.py`.
+
+**Also reference: the original S01 fallen saint head.** Chunky pixels at 1× density, about six tones in flat blocks, a strong silhouette, shading by planes rather than gradients. Push it slightly further with more separation between overlapping forms (a lighter rim or a tone step where the halo meets the rubble).
 
 Every piece:
 - **Judged at play zoom, next to the terrain**, before anything ships. Not as a sprite on its own.
@@ -69,7 +75,7 @@ On `art/weapon-lab`, `art/lab/tools/`:
 
 ## Asks for ChatGPT
 
-1. Stop 2× density on kit pieces. Redraw at 1× to the bar above; landmarks can go higher.
+1. Stop 2× density on kit pieces, and stop redrawing them. Work from the original 1× drawings: add Back layers and depth-plane Heights to those. Landmarks can go higher.
 2. Heights as smooth depth planes, never speckle or a brightness copy.
 3. Back behind every window and door opening: dark interior or lit glass.
 4. Before saving, look at the piece at play zoom next to terrain.

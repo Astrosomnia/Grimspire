@@ -6,6 +6,11 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-16 · Claude · Benchmark is the original cathedral; test page with originals + clean Height
+
+- Jarred still prefers the original K08 cathedral: its strong, heavy lines give a more scannable shape. It's now the asset-style benchmark, with better Height and Back layering on top. `ART-READABILITY.md` updated: keep the original kit drawings, add clean Heights and Back, don't redraw.
+- Test page now: the original kit (11 Nov drawings) with every Height rebuilt as smooth planes (speckle 4–23% → under 5%), grime dots removed, plus the new rocks, K12 and K13. Not on `main`.
+
 ## 2026-11-16 · Claude · Grime dots removed from the lit stone
 
 - Jarred: the pixel dots make everything noisier than it needs to be; keep the grey wet streaks coming down from the top of surfaces.
