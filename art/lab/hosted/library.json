@@ -4371,6 +4371,20 @@
       "h": 400,
       "frame_count": 1,
       "category": "Other art"
+    },
+    {
+      "id": "asset-e6f7a43f7feb43815c36064e",
+      "path": "art/lab/hosted/library/asset-e6f7a43f7feb43815c36064e.forge.json",
+      "sha256": "e6f7a43f7feb43815c36064e26a3ede3a1a6433f702f33407b6ae23d92fb9ae4",
+      "asset_id": "custom-b7a873d8-aaf5-41e9-9162-6972b67cb345",
+      "state_key": "",
+      "asset_name": "Flying buttress crossing",
+      "code": "K15",
+      "name": "Flying buttress crossing — depth refresh",
+      "w": 640,
+      "h": 448,
+      "frame_count": 1,
+      "category": "Other art"
     }
   ]
 }
