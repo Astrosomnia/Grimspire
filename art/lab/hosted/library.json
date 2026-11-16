@@ -4511,6 +4511,20 @@
       "h": 480,
       "frame_count": 1,
       "category": "Other art"
+    },
+    {
+      "id": "asset-6d6a116171a201fb181b9439",
+      "path": "art/lab/hosted/library/asset-6d6a116171a201fb181b9439.forge.json",
+      "sha256": "6d6a116171a201fb181b943908a6a6ba9cea3292401ecb2a8d4511fb89d34fb5",
+      "asset_id": "custom-16ca670e-c8db-4b06-b159-f5889cfb979f",
+      "state_key": "",
+      "asset_name": "R01 · Stratified shore shelf",
+      "code": "R01",
+      "name": "R01 · Stratified shore shelf · Height rocky pass — fractured relief refresh",
+      "w": 480,
+      "h": 240,
+      "frame_count": 1,
+      "category": "Other art"
     }
   ]
 }
