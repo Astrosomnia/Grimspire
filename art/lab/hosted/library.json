@@ -4553,6 +4553,20 @@
       "h": 240,
       "frame_count": 1,
       "category": "Other art"
+    },
+    {
+      "id": "asset-2162cb2b381efe95281d0fce",
+      "path": "art/lab/hosted/library/asset-2162cb2b381efe95281d0fce.forge.json",
+      "sha256": "2162cb2b381efe95281d0fceae1e77012fad05e47accfc9f81ab455cd07cec6e",
+      "asset_id": "custom-7788b1b3-1de2-4e2f-ab3f-03664bb70140",
+      "state_key": "",
+      "asset_name": "R04 · Tumbled talus bank",
+      "code": "R04",
+      "name": "R04 · Tumbled talus bank · Height rocky pass — fractured relief refresh",
+      "w": 480,
+      "h": 240,
+      "frame_count": 1,
+      "category": "Other art"
     }
   ]
 }
