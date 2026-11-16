@@ -1,0 +1,7 @@
+{
+ "revision": "20261116T223943Z-ef850d01",
+ "base_main": "f4872aaef8483e5b756fac281c03b94f31b52c41",
+ "game_sha256": "783fcce797e4a64b4419aeb4effab04d34a1e82408eb83047b441caa67047bb5",
+ "notes": "De-dappled kit refresh live: ChatGPT refreshes through deblob.py, K10 rose glass, rock grit, K17 original. Written by Claude with Jarred's go.",
+ "status": "written to main by Claude at Jarred's request; not a Forge Go live"
+}
