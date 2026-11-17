@@ -9,6 +9,15 @@ North star: Tiny Glade. Place a rough shape and the rules work out arches, roofs
 
 It serves every direction the game might take (friends mode, the roguelike climb, an all-interior castle level), and small parts are far easier to keep on the art bar ([`ART-READABILITY.md`](ART-READABILITY.md)) than big pieces.
 
+## Reference: Dead Cells' hybrid approach
+Shared by Jarred, 16 Nov ([article](https://deepnight.net/tutorial/the-level-design-of-dead-cells-a-hybrid-approach/), by its lead designer). Fixed world frame; hand-made room "tiles" with variations, each with a purpose and belonging to one biome; a concept graph per biome (entrance, exit, special rooms, length, how labyrinthine); the generator tries random rooms per graph node and rejects ones that don't fit; pacing with peaks and breaks. Their lesson: pure procedural hurt consistency; hand-authored constraints kept identity and still gave variety.
+
+What we take from it: a middle layer between parts and the generator.
+1. **Parts:** as below.
+2. **Room templates:** small hand-designed rooms with variation slots (stair hall, chapel, belfry crown, bridge-end gatehouse, crypt). The playground's lock-as-template is how we author them: generate, keep the good ones, refine.
+3. **Theme graphs:** one per level theme (drowned city, castle interior, spire climb). How many buildings, how linked, where the landmark sits, how open or cramped. Same parts, different feel.
+Plus pacing: alternate open, exposed stretches with tight interior fights.
+
 ## The generator: passes with intent
 A building is a grid of bays (one span × one storey, 128 art px, see the bay-kit brief). Each pass reads what's already there and rolls weighted choices. Every rule and percentage lives in one data table so it can be tuned without touching code.
 
