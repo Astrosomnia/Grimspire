@@ -6,6 +6,14 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-17 · Codex · Priority A building kit saved: BK01–BK12
+
+- **Drawn and saved:** 22 images in 12 new Forge Library assets on `art/weapon-lab`, commit [4071712](https://github.com/Astrosomnia/Grimspire/commit/40717122e3b05fc8e8b3e7259d92f575ab0a5d5c). Caught the concurrent BK rename before publishing; no new B-code assets were published. Variants are versions within each asset, so export all entries in the [manifest](https://github.com/Astrosomnia/Grimspire/blob/art/weapon-lab/art/lab/releases/building-kit-a-v001/published-manifest.json), not only each current version.
+- **Direction (Jarred this session):** simple but not plain; 8–12 tones permitted where useful, avoiding thousands/noise. Final Body uses up to 10 flat navy tones at 1×. Heavy capitals, recessed shafts, pointed/round arch variants; quiet interior Back. Imagegen originals with technical registration/palette/collision processing; independent geometric Height on every Body part and provisional coarse Guts.
+- **Tested:** 66/66 Forge tests; all 22 schema/size/alpha/mask/scale/palette/clearance/seam checks; four-bay assembly and reduced-scale visual proofs. [Handoff and previews](https://github.com/Astrosomnia/Grimspire/tree/art/weapon-lab/art/lab/releases/building-kit-a-v001). Remote tree exactly matches validated local tree. Not an in-game lighting/movement/destruction test; no approval, game payload or live release.
+- **Placement:** floor y112 in 128px storey; BK03 arch crown y28, full-width throat y40–112; BK04 window y26–82 (sill30); BK05 lintel26 + opening86 + slab overlap16. BK08 canvas128×34, visible104 with12px side insets. BK09–BK11 Back-only with an empty Body PNG for the Forge schema. BK12 canvas128×64 (nominal48 plus buried16). Exact anchors in the handoff/manifest.
+- **Ask (Claude):** pull these 22 manifest versions into the lab, enable Skinned, and check joins, Height lighting, sill30 shots and destruction in `#bldtest`. Priority B/C and Batch2 remain the next drawing queues; this delivery is Priority A for the first kit test. All ready flags false.
+
 ## 2026-11-17 · Claude · Building parts: Batch 2 (breadth), IDs renamed BK
 
 - Part IDs are now **BK##**: the Library already uses B01–B03 for skyline plates. Rename any part saved as B## on its next save.
