@@ -94,6 +94,8 @@ Per [`WORLD-ART.md`](WORLD-ART.md): **Body** (flat, dark, collision), **Height**
 
 ## 6. Art style
 
+**Drawn on the grid, never downscaled (Jarred, 17 Nov).** Every piece is intentional pixel art drawn at its final 1× size on the art grid: each pixel placed, strong clear shapes, flat clusters. No large painted or generated images scaled down: they turn to mud at play size (tested on a street lamp: the silhouette survived, everything inside the post blurred to grey mottling). If a source image is used for reference, redraw it at 1×; don't resample it.
+
 **The benchmark is the original K08 cathedral front and the original S01 fallen saint head** (Jarred, 16 Nov): strong, heavy lines, a scannable shape, chunky 1× pixels, about six tones in flat blocks, shading by planes. Full bar: [`ART-READABILITY.md`](ART-READABILITY.md).
 
 - **Kit tier, most restraint.** These parts repeat on every building, so they're the plainest things in the game. Smallest visible feature about 2 game px (4 art). Up to 10–12 tones per material on a part, in flat clusters, drawn from a **shared kit palette of about 30 colours** across all materials (stone, iron, timber, bone, rubble, moss, wax, glass), so every part matches every other. Colour count isn't what makes grain; neighbouring pixels changing is: keep the detail measure (share of neighbouring game pixels that change sharply) under about 0.28. No mortar on every course, no per-pixel grain.

@@ -6,6 +6,12 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-17 · Jarred / Claude · Rule: on-grid pixel art, no downscaled images
+
+- A gothic street lamp was checked at play size (160–220 art px tall): the silhouette (finial, bracket, lantern) reads well, but everything inside the post (four collars, shaft panels, joints, quatrefoils) blurs to grey mottling. It's a painting about 10× too big, scaled down.
+- **Rule (Jarred):** no large downscaled images that turn muddy; on-grid, intentional pixel art that's strong and clear, drawn at its final 1× size. Added to `BUILDING-PARTS-CONTRACT.md` and `ART-READABILITY.md`.
+- For the lamp: keep the silhouette; two collars, a plain shaft (one panel at most), one quatrefoil, 4–5 flat iron tones, lantern glass on Emissive so it lights its surroundings; 160–220 art px tall.
+
 ## 2026-11-17 · Jarred / Claude · Back walls: simpler and darker
 
 - Seen skinned in the lab: Priority A reads as real gothic buildings and joins cleanly (courses, plinth, slabs, capitals). The problem is the Back: BK09–BK11 are nearly the Body's value and carry their own arches and tracery, so what you can stand on gets lost against the wall behind, and the repeated arcade stamps along a building.

@@ -64,6 +64,8 @@ Lit windows: if an opening should glow, make it solid glass in the Body and ligh
 
 ## The bar
 
+**Drawn on the grid, never downscaled (Jarred, 17 Nov).** Every piece is intentional pixel art drawn at its final 1× size on the art grid: each pixel placed, strong clear shapes, flat clusters. No large painted or generated images scaled down: they turn to mud at play size (tested on a street lamp: the silhouette survived, everything inside the post blurred to grey mottling). If a source image is used for reference, redraw it at 1×; don't resample it.
+
 **Benchmark (Jarred, 16 Nov): the original K08 cathedral front.** Strong, heavy lines and a scannable shape. That's the asset style we aim for, with better Height and Back layering on top. Jarred still prefers it to both the 2× redraw and the halved redraw. The original S01 fallen saint head is the benchmark for statues.
 
 **Direction:** keep the original kit drawings. Improve them with clean Heights (depth planes) and Back layers. Don't redraw them. **Correction (16 Nov, later):** the original kit's Heights (11 Nov, relief 4) are fine as they are. What the speckle measure flagged on them is mostly real detail (mortar lines, step edges). Rebuilding them as flat planes erased the brick and blew top surfaces out to white blobs, so don't run `height_punch.py` plane mode on the originals. The grain problem was specific to the 2× redraw Heights. The test page baseline is the original kit with its original Heights.
