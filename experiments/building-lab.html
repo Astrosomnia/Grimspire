@@ -587,8 +587,9 @@ function emitB(M,o,L){const g=ST.grid,B=g.bay,SH=g.storey,P=g.pier,SL=g.slab,X=c
     const p=[[x,y],[x,y+34]];for(let i=1;i<12;i++){const a=Math.PI-i*Math.PI/12;p.push([x+w/2+Math.cos(a)*w/2,y+34-Math.sin(a)*28])}p.push([x+w,y+34],[x+w,y]);o.body.push(Pg(p,{sk:'BK08'}));art(o.art,'BK08',X(c),y)}
   // stairs: a thin flight with risers a trooper can walk up
   for(let c=0;c<n;c++)for(let r=0;r<h[c];r++){const d=M.cells[c][r].stair;if(!d)continue;
-    const fr=Y(r)-SL,ft=Y(r+1)-SL,xs=d>0?X(c)+P/2:X(c+1)-P/2,xe=d>0?X(c+1)+3:X(c)-3,ns=Math.ceil((fr-ft)/15),run=(xe-xs)/ns,rise=(fr-ft)/ns,T=20,p=[[xs,fr]];
-    for(let i=0;i<ns;i++)p.push([xs+i*run,fr-(i+1)*rise],[xs+(i+1)*run,fr-(i+1)*rise]);p.push([xe,ft+T],[xs+run*1.2,fr]);o.body.push(Pg(p,{sk:'BK42'}));art(o.art,'BK42',X(c),ft,{f:d<0})}
+    // matches BK42: eight 16x16 risers from the bay line, top tread level with the floor above, solid stringer under (1:1)
+    const fr=Y(r)-SL,ft=Y(r+1)-SL,x0=d>0?X(c):X(c+1),ns=8,run=B/ns,rise=(fr-ft)/ns,p=[[x0,fr]];
+    for(let i=0;i<ns;i++)p.push([x0+d*i*run,fr-(i+1)*rise],[x0+d*(i+1)*run,fr-(i+1)*rise]);p.push([x0+d*B,ft+24],[x0+d*20,fr]);o.body.push(Pg(p,{sk:'BK42'}));art(o.art,'BK42',X(c),ft,{f:d<0})}
   // ladders and their holes
   for(let c=0;c<n;c++)for(let r=0;r<h[c];r++){const ld=M.cells[c][r].ladder;if(!ld)continue;let lx=ld.s<0?X(c)+P/2+16:X(c+1)-P/2-16;
     // up to a balcony: rise beside its open edge, no hole

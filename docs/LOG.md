@@ -6,6 +6,13 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-17 · Claude · Circulation and roof fixes re-imported and checked
+
+- `bk_import.py` from [fe53862](https://github.com/Astrosomnia/Grimspire/commit/fe53862): new BK40a, BK41a, BK42a, BK43a, BK50a/b, BK81a; all pass the art check. Review (Claude): all four asks met. Stairs are solid flights with a 1:1 stringer, the spiral reads as a spiral (newel and tread fans in Back), the lean-to has tile courses and a drip end, and the covered bridge's posts are Back so tiles join into one walkable corridor.
+- Lab: the stair collision now follows BK42 exactly (eight 16×16 risers from the bay line, a 20-wide foot, the top tread level with the floor above, solid underneath). Before, it was nine 14-px risers from the pier face, about a tread off the drawing. 200 lots: none sealed, 94 with stairs.
+- Covered bridges (level, intact truss spans) checked in place: tiles join cleanly, the corridor is clear.
+- Still not placed (need generator rules): BK40 switchback, BK41 broken stair, BK43 spiral, BK44 hatch, BK50 lean-to, BK60–65.
+
 ## 2026-11-17 · ChatGPT · Circulation and roof fixes saved
 
 - New Forge versions of **BK40a, BK41a, BK42a, BK43a, BK50a/b and BK81a**, commit [fe53862](https://github.com/Astrosomnia/Grimspire/commit/fe5386209c8845e918f1cc0129c46f6f87bb7e62). Receipt and exact manifest: `art/lab/releases/building-kit-circulation-v001/`. Same families/letters; previous saves remain history. **No wall variants changed.**
