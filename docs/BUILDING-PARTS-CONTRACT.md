@@ -38,7 +38,7 @@ Per [`WORLD-ART.md`](WORLD-ART.md): **Body** (flat, dark, collision), **Height**
 
 ## 5. First batch (about 30 parts, in order)
 
-**Priority A: enough to skin a whole building in the lab.** Start here; the lab's Skinned toggle can go on once these exist.
+**Priority A: enough to skin a whole building in the lab** (about 22 images with variants). Start here; the lab's Skinned toggle can go on once these exist.
 
 | ID | Part | Size | Notes / neighbour case |
 |---|---|---|---|
@@ -49,11 +49,11 @@ Per [`WORLD-ART.md`](WORLD-ART.md): **Body** (flat, dark, collision), **Height**
 | B05 | Arcade pier (lintel only) | 24 × 128 | Opening 86 tall, 26 lintel left at the top. Ground floors, cloisters |
 | B06 | Floor slab | 128 × 16 | Repeats bay to bay. 2 variants |
 | B07 | Slab, finished end | 16 × 16 | Where a slab stops at a stairwell, hall or hole |
-| B08 | Arch span (under a slab) | 104 × 34 | Hangs from the slab between pier faces: 34 deep at the piers, about 6 in the middle |
+| B08 | Arch span (under a slab) | 104 × 34 | Hangs from the slab between pier faces: 34 deep at the piers, about 6 in the middle. 2 variants |
 | B09 | Back bay, plain | 128 × 128 | The rear wall of a room. 2 variants |
-| B10 | Back bay, lancet window | 128 × 128 | 32 × 62 opening, bottom 30 above the floor. Windows align up a column |
+| B10 | Back bay, lancet window | 128 × 128 | 32 × 62 opening, bottom 30 above the floor. Windows align up a column. 2 variants |
 | B11 | Back bay, arcade | 128 × 128 | Open arches to the Far Back; galleries and ground floors |
-| B12 | Ground plinth | 128 × 48 + below | The ground-floor slab and foundation; extends down into the ground |
+| B12 | Ground plinth | 128 × 48 + below | The ground-floor slab and foundation; extends down into the ground. 2 variants |
 
 **Priority B: circulation and roofs.**
 
