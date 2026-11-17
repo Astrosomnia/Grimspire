@@ -6,6 +6,11 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-16 · Jarred · Storey height: 128
+
+- **Decision:** the bay grid stays **128 × 128 art px**, after walking both in `#bldtest`. Not every room has to fit a full jump. Taller spaces come from multiples of the grid (double-height halls; triple-height naves later), so every part still snaps to 128.
+- Unblocks step 2 of the agreed order: Claude writes the part contract from the lab's real cases, then ChatGPT draws the first batch.
+
 ## 2026-11-16 · Claude · Play lab buildings in the game (`#bldtest`)
 
 - **Lab:** each card has **▶ play**, and the Templates panel has **▶ Test locked buildings in game**. They pack the lot's own shapes (Body, cuts, rubble, rungs, Back, Back openings) into a link, deflated (one lot ≈ 1 KB, two ≈ 5 KB), and open the live game.
