@@ -109,7 +109,7 @@ Per [`WORLD-ART.md`](WORLD-ART.md): **Body** (flat, dark, collision), **Height**
 
 - **Save each part in the Forge**, like any kit piece: one Library asset per part, named by its ID (`BK01 Pier, outer wall`), with variants as versions or states inside it. The Forge Library (on `art/weapon-lab`) is the source of truth; nothing else to push.
 - **Log a line in `LOG.md`** when a batch is saved, listing the IDs.
-- **Claude pulls them into the lab:** reads the parts from the Library, exports the layers to `art/experiments/bay-kit/` on `main` (so the lab on GitHub Pages can load them) and turns on the Skinned toggle as soon as Priority A is in. Parts not drawn yet fall back to their placeholder shapes.
+- **Claude pulls them into the lab** with `tools/bk_import.py`: reads the parts from the Library, exports the layers to `art/experiments/bay-kit/` on `main` (so the lab on GitHub Pages can load them) and turns on the Skinned toggle as soon as Priority A is in. Parts not drawn yet fall back to their placeholder shapes.
 - Nothing goes into the live game from this batch until Jarred has seen it skinned in the lab and in `#bldtest`.
 - Questions about a case not covered here go in the log as an Ask (Claude).
 

@@ -6,6 +6,12 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-17 · Claude · Building lab: Skinned view (Priority A parts in)
+
+- `tools/bk_import.py`: reads the Forge Library on `art/weapon-lab`, takes every **BK##** part and each variant letter (newest version wins; new letters add variants), writes the layers to `art/experiments/bay-kit/` with `parts.json`. **When new parts land: `git fetch origin art/weapon-lab`, run it, commit, republish the lab.** Codes the generator doesn't place yet are listed as "in the kit, not placed".
+- Lab: **skinned** toggle (header) and a **Parts** list in the panel. Places BK01–BK12 by the generator's own decisions (outer/inner pier, door, window, arcade; slab and finished end; arch span; back bay by window type; plinth), a variant per spot from the seed. Anything without a part keeps its placeholder, in a dark tone. A cheap light is baked from each Height for the preview only. Collision and routes are unchanged (still the placeholder geometry; the parts match it to the contract).
+- Not yet: skinning in `#bldtest` (the game still gets the shapes and lights them itself). Batch 2 / 2b codes get their placement rules as they arrive.
+
 ## 2026-11-17 · Claude · Palette loosened; rubble set (contract + lab)
 
 - **Palette (Jarred):** a shared kit palette of about 30 colours across materials, up to 10–12 tones per material on a part, in flat clusters. Grain is guarded by the detail measure (under ~0.28) and the 2 game px minimum, not by colour count. Contract updated (was 5–7 tones).

@@ -1,0 +1,416 @@
+{
+ "source": "origin/art/weapon-lab",
+ "commit": "40717122e3b05fc8e8b3e7259d92f575ab0a5d5c",
+ "count": 22,
+ "parts": {
+  "BK01": {
+   "name": "BK01 Pier, outer wall",
+   "w": 24,
+   "h": 128,
+   "variants": {
+    "a": {
+     "layers": {
+      "body": "BK01a_body.png",
+      "height": "BK01a_height.png",
+      "guts": "BK01a_guts.png"
+     },
+     "version": "asset-2cd5ebac79fcde31fc0c4738",
+     "w": 24,
+     "h": 128,
+     "pivot": [
+      12,
+      127
+     ],
+     "ready": false
+    },
+    "b": {
+     "layers": {
+      "body": "BK01b_body.png",
+      "height": "BK01b_height.png",
+      "guts": "BK01b_guts.png"
+     },
+     "version": "asset-9db92c47ea32a0235a4cc823",
+     "w": 24,
+     "h": 128,
+     "pivot": [
+      12,
+      127
+     ],
+     "ready": false
+    },
+    "c": {
+     "layers": {
+      "body": "BK01c_body.png",
+      "height": "BK01c_height.png",
+      "guts": "BK01c_guts.png"
+     },
+     "version": "asset-624b4690615958a8801d2efc",
+     "w": 24,
+     "h": 128,
+     "pivot": [
+      12,
+      127
+     ],
+     "ready": false
+    }
+   }
+  },
+  "BK02": {
+   "name": "BK02 Pier, inner",
+   "w": 24,
+   "h": 128,
+   "variants": {
+    "a": {
+     "layers": {
+      "body": "BK02a_body.png",
+      "height": "BK02a_height.png",
+      "guts": "BK02a_guts.png"
+     },
+     "version": "asset-7714a813767b5260892742b0",
+     "w": 24,
+     "h": 128,
+     "pivot": [
+      12,
+      127
+     ],
+     "ready": false
+    },
+    "b": {
+     "layers": {
+      "body": "BK02b_body.png",
+      "height": "BK02b_height.png",
+      "guts": "BK02b_guts.png"
+     },
+     "version": "asset-124c315ee952dcaec7dc631d",
+     "w": 24,
+     "h": 128,
+     "pivot": [
+      12,
+      127
+     ],
+     "ready": false
+    }
+   }
+  },
+  "BK03": {
+   "name": "BK03 Pier with doorway",
+   "w": 24,
+   "h": 128,
+   "variants": {
+    "a": {
+     "layers": {
+      "body": "BK03a_body.png",
+      "height": "BK03a_height.png",
+      "guts": "BK03a_guts.png"
+     },
+     "version": "asset-b46bef6fc2c55f8476fc5697",
+     "w": 24,
+     "h": 128,
+     "pivot": [
+      12,
+      127
+     ],
+     "ready": false
+    },
+    "b": {
+     "layers": {
+      "body": "BK03b_body.png",
+      "height": "BK03b_height.png",
+      "guts": "BK03b_guts.png"
+     },
+     "version": "asset-5dce33db67c418f26cb9b09c",
+     "w": 24,
+     "h": 128,
+     "pivot": [
+      12,
+      127
+     ],
+     "ready": false
+    }
+   }
+  },
+  "BK04": {
+   "name": "BK04 Pier with window",
+   "w": 24,
+   "h": 128,
+   "variants": {
+    "a": {
+     "layers": {
+      "body": "BK04a_body.png",
+      "height": "BK04a_height.png",
+      "guts": "BK04a_guts.png"
+     },
+     "version": "asset-79818577adb7f976a9b4645c",
+     "w": 24,
+     "h": 128,
+     "pivot": [
+      12,
+      127
+     ],
+     "ready": false
+    },
+    "b": {
+     "layers": {
+      "body": "BK04b_body.png",
+      "height": "BK04b_height.png",
+      "guts": "BK04b_guts.png"
+     },
+     "version": "asset-be1b5c5e033f83f95282ff32",
+     "w": 24,
+     "h": 128,
+     "pivot": [
+      12,
+      127
+     ],
+     "ready": false
+    }
+   }
+  },
+  "BK05": {
+   "name": "BK05 Arcade pier",
+   "w": 24,
+   "h": 128,
+   "variants": {
+    "a": {
+     "layers": {
+      "body": "BK05a_body.png",
+      "height": "BK05a_height.png",
+      "guts": "BK05a_guts.png"
+     },
+     "version": "asset-bea73f31aae7a7d983068837",
+     "w": 24,
+     "h": 128,
+     "pivot": [
+      12,
+      127
+     ],
+     "ready": false
+    }
+   }
+  },
+  "BK06": {
+   "name": "BK06 Floor slab",
+   "w": 128,
+   "h": 16,
+   "variants": {
+    "a": {
+     "layers": {
+      "body": "BK06a_body.png",
+      "height": "BK06a_height.png",
+      "guts": "BK06a_guts.png"
+     },
+     "version": "asset-f160b11a0180d547a1126fcc",
+     "w": 128,
+     "h": 16,
+     "pivot": [
+      0,
+      15
+     ],
+     "ready": false
+    },
+    "b": {
+     "layers": {
+      "body": "BK06b_body.png",
+      "height": "BK06b_height.png",
+      "guts": "BK06b_guts.png"
+     },
+     "version": "asset-33d46a713c64f63078b82693",
+     "w": 128,
+     "h": 16,
+     "pivot": [
+      0,
+      15
+     ],
+     "ready": false
+    }
+   }
+  },
+  "BK07": {
+   "name": "BK07 Slab, finished end",
+   "w": 16,
+   "h": 16,
+   "variants": {
+    "a": {
+     "layers": {
+      "body": "BK07a_body.png",
+      "height": "BK07a_height.png",
+      "guts": "BK07a_guts.png"
+     },
+     "version": "asset-fb7620d4d43a05e2df157925",
+     "w": 16,
+     "h": 16,
+     "pivot": [
+      0,
+      15
+     ],
+     "ready": false
+    }
+   }
+  },
+  "BK08": {
+   "name": "BK08 Arch span",
+   "w": 128,
+   "h": 34,
+   "variants": {
+    "a": {
+     "layers": {
+      "body": "BK08a_body.png",
+      "height": "BK08a_height.png",
+      "guts": "BK08a_guts.png"
+     },
+     "version": "asset-559b77daf3f4a07a78813255",
+     "w": 128,
+     "h": 34,
+     "pivot": [
+      0,
+      33
+     ],
+     "ready": false
+    },
+    "b": {
+     "layers": {
+      "body": "BK08b_body.png",
+      "height": "BK08b_height.png",
+      "guts": "BK08b_guts.png"
+     },
+     "version": "asset-3ad64e7fc96b1713da224d5a",
+     "w": 128,
+     "h": 34,
+     "pivot": [
+      0,
+      33
+     ],
+     "ready": false
+    }
+   }
+  },
+  "BK09": {
+   "name": "BK09 Back bay, plain",
+   "w": 128,
+   "h": 128,
+   "variants": {
+    "a": {
+     "layers": {
+      "body": "BK09a_body.png",
+      "back": "BK09a_back.png"
+     },
+     "version": "asset-d22522be5503fb6b52c186dd",
+     "w": 128,
+     "h": 128,
+     "pivot": [
+      0,
+      127
+     ],
+     "ready": false
+    },
+    "b": {
+     "layers": {
+      "body": "BK09b_body.png",
+      "back": "BK09b_back.png"
+     },
+     "version": "asset-60eac4c86893fdef9404dabe",
+     "w": 128,
+     "h": 128,
+     "pivot": [
+      0,
+      127
+     ],
+     "ready": false
+    }
+   }
+  },
+  "BK10": {
+   "name": "BK10 Back bay, lancet window",
+   "w": 128,
+   "h": 128,
+   "variants": {
+    "a": {
+     "layers": {
+      "body": "BK10a_body.png",
+      "back": "BK10a_back.png"
+     },
+     "version": "asset-8f7553023380efa42bda1bfb",
+     "w": 128,
+     "h": 128,
+     "pivot": [
+      0,
+      127
+     ],
+     "ready": false
+    },
+    "b": {
+     "layers": {
+      "body": "BK10b_body.png",
+      "back": "BK10b_back.png"
+     },
+     "version": "asset-7cd7505634687566eb9449c8",
+     "w": 128,
+     "h": 128,
+     "pivot": [
+      0,
+      127
+     ],
+     "ready": false
+    }
+   }
+  },
+  "BK11": {
+   "name": "BK11 Back bay, arcade",
+   "w": 128,
+   "h": 128,
+   "variants": {
+    "a": {
+     "layers": {
+      "body": "BK11a_body.png",
+      "back": "BK11a_back.png"
+     },
+     "version": "asset-bc759cacca79a8e725e1301b",
+     "w": 128,
+     "h": 128,
+     "pivot": [
+      0,
+      127
+     ],
+     "ready": false
+    }
+   }
+  },
+  "BK12": {
+   "name": "BK12 Ground plinth",
+   "w": 128,
+   "h": 64,
+   "variants": {
+    "a": {
+     "layers": {
+      "body": "BK12a_body.png",
+      "height": "BK12a_height.png",
+      "guts": "BK12a_guts.png"
+     },
+     "version": "asset-9fdea589240ca19e687f9074",
+     "w": 128,
+     "h": 64,
+     "pivot": [
+      0,
+      63
+     ],
+     "ready": false
+    },
+    "b": {
+     "layers": {
+      "body": "BK12b_body.png",
+      "height": "BK12b_height.png",
+      "guts": "BK12b_guts.png"
+     },
+     "version": "asset-e2d1863a896c91cfa7f42427",
+     "w": 128,
+     "h": 64,
+     "pivot": [
+      0,
+      63
+     ],
+     "ready": false
+    }
+   }
+  }
+ }
+}
