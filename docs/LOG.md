@@ -6,7 +6,9 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
-## 2026-11-17 · Jarred / Claude · Windows are firing positions: sill 20
+## 2026-11-17 · Jarred / Claude · Windows are firing positions: sill 30
+
+- **Revised:** 20 felt too low; split the difference at **30**. Standing close to the window the muzzle reaches past the wall, so shots go out level and down to about −35°.
 
 - Window sill drops from 44 to **20 art** above the floor; the opening stays 56. A shot leaves the shoulder about 12 game px (22 art) up, so level shots now go out of a window; a trooper steps up at most 10 game px (18 art), so windows still can't be walked through, only jumped. Never below 20 or a window becomes a door. Contract and lab updated; no sealed rooms over 120 lots.
 

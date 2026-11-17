@@ -21,7 +21,7 @@ These come from the trooper's real movement: step-up 10 game px (18 art), head c
 - **Floors are flat.** A slab top is one straight line across the bay. Nothing on a walking surface stands taller than **16 art** (a crenel or a lip) unless it's meant to block.
 - **Headroom.** Nothing hangs lower than **34 art above a floor** where a trooper should walk, except at the pier faces (the arch span below).
 - **Doorways: 84 tall** from floor top (45 game px), the full pier width, round or pointed top. The sill is the floor: no step.
-- **Windows** (in a pier or outer wall): sill **20** above the floor, opening **56** tall (Jarred, 17 Nov: windows are firing positions). A shot leaves the shoulder about 22 art above the floor, so level shots go out; a trooper steps up at most 18, so they can't walk out, only jump. Never below 20, or a window becomes a door.
+- **Windows** (in a pier or outer wall): sill **30** above the floor, opening **56** tall (Jarred, 17 Nov: windows are firing positions). Standing close, the muzzle reaches past the wall, so level and slightly downward shots go out; 20 felt too low. A trooper steps up at most 18, so they can't walk out, only jump.
 - **Body pixels are collision.** Inside the Body, decorate freely. The outline of floors, openings and walking surfaces must match the sizes here to within 2 px.
 - **Openings show interior, never more facade.** Behind every window, door and arcade: the Back (a dark room, rubble, a vault) or lit glass (solid in the Body, lit in Emissive).
 
@@ -45,7 +45,7 @@ Per [`WORLD-ART.md`](WORLD-ART.md): **Body** (flat, dark, collision), **Height**
 | B01 | Pier, outer wall | 24 × 128 | Exposed on one side. 3 variants |
 | B02 | Pier, inner (between two rooms) | 24 × 128 | Both sides inside. 2 variants |
 | B03 | Pier with doorway | 24 × 128 | 84 opening at the bottom. Inner and outer variants |
-| B04 | Pier with window | 24 × 128 | 20 sill, 56 opening. Lancet and round-headed |
+| B04 | Pier with window | 24 × 128 | 30 sill, 56 opening. Lancet and round-headed |
 | B05 | Arcade pier (lintel only) | 24 × 128 | Opening 86 tall, 26 lintel left at the top. Ground floors, cloisters |
 | B06 | Floor slab | 128 × 16 | Repeats bay to bay. 2 variants |
 | B07 | Slab, finished end | 16 × 16 | Where a slab stops at a stairwell, hall or hole |

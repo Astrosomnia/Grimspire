@@ -445,7 +445,7 @@ function emitLadder(o,x,yLow,yTop){// yLow: the floor it starts from; yTop: the 
   o.decoB.push(Ln([[x-rw/2+2,yTop-8],[x-rw/2+2,low+8]],{col:'#7a6232',lw:2}),Ln([[x+rw/2-2,yTop-8],[x+rw/2-2,low+8]],{col:'#7a6232',lw:2}))}
 
 function emitB(M,o,L){const g=ST.grid,B=g.bay,SH=g.storey,P=g.pier,SL=g.slab,X=c=>M.x0+c*B,Y=r=>M.base-r*SH,n=M.n,h=M.h,maxH=Math.max(...h),rr=mulberry(M.rng);
-  const DOOR=84,SILL=20,WIN=56;// sill 20: above the 18 a trooper can step, below the 22 a shot leaves from, so level shots go out (Jarred, 17 Nov)
+  const DOOR=84,SILL=30,WIN=56;// sill 30 (Jarred, 17 Nov): a trooper close to the window fires out, since the muzzle reaches past the wall; can't walk out
   // far back: what shows through the Back's openings
   for(let c=0;c<n;c++){o.far.push(Rc(X(c),Y(h[c]),B,h[c]*SH));
     for(let r=0;r<h[c];r++){const x=X(c),y=Y(r+1);
