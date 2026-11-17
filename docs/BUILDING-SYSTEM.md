@@ -68,6 +68,7 @@ On the 128 px bay grid, game scale 1 (normal density), at the art bar: flat tone
 2. ChatGPT, in parallel: the parts above, starting with the 14 in the bay-kit brief, then openings, Back and Far Back types, ornaments, bridge parts. Each judged at play zoom before it's used.
 3. Join them: skin the tuned generator with the parts, in the game, and play.
 4. Then an all-interior castle level from the same rules plus a few castle-only ones.
+   - Jarred (16 Nov): once buildings are good enough, maps with **no ground at all**, just buildings. Same family as the castle level. It flips the open-sky budget: with no ground to fall back on, arcs, cover and routes have to come from the buildings themselves, from roofs, halls, bridges and gaps between blocks. Water or a void below would be the only floor.
 5. A small number of big landmark set pieces stay hand-drawn.
 
 ## Risks
