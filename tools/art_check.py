@@ -13,6 +13,12 @@ Measures the Body (or the Back for Back-only parts), at the size it's drawn in g
   differs by 6+ (out of 255). Calibrated on the 1x K05d bridge Jarred liked (0.28); above 0.35 reads as grain on a
   kit part. Landmarks and statues may run higher (the original S01 saint head is 0.37).
 
+- light: how much brighter one side's outer edges are than the opposite side's (top vs bottom, left vs right).
+  Painted directional light shows up here; the lit look adds light from the Height, so kit parts should be near 0
+  (K05d 3, original K08 8). Warn over 12.
+- spread: the tonal range inside the piece (std of brightness). Flat material painting sits around 9-10 (K05d,
+  K08, Priority A); painted light and shadow pushes it to 16+. Warn over 13 on kit parts.
+
 Verdict: fail on the downscale tells (near, lone, soft, colours over 32); warn on detail over the tier's line or
 13-32 colours; otherwise pass. Tiers: kit parts (K, BK, R) 0.28 / 0.35; statues and landmarks (S, and anything passed
 as --tier landmark) 0.40 / 0.45, since a face is meant to hold more.
@@ -59,7 +65,14 @@ def measure(im, game_scale=1.0, tier='kit'):
         n += o.sum()
         k += (o & (abs(L - np.roll(L, -1, ax)) >= 6)).sum()
     detail = float(k / max(1, n))
-    m = dict(colours=int(len(uniq)), near=round(near, 2), lone=round(lone, 3), soft=round(soft, 3), detail=round(detail, 3))
+    Lf = .299 * a[..., 0] + .587 * a[..., 1] + .114 * a[..., 2]
+    def edge(dy, dx):
+        mk = op & ~np.roll(np.roll(op, dy, 0), dx, 1)
+        return float(Lf[mk].mean()) if mk.any() else 0.0
+    light = max(abs(edge(1, 0) - edge(-1, 0)), abs(edge(0, 1) - edge(0, -1)))
+    spread = float(Lf[op].std())
+    m = dict(colours=int(len(uniq)), near=round(near, 2), lone=round(lone, 3), soft=round(soft, 3), detail=round(detail, 3),
+             light=round(light, 1), spread=round(spread, 1))
     notes, v = [], 'pass'
     if near > LIMITS['near_fail'] or lone > LIMITS['lone_fail'] or soft > LIMITS['soft_fail'] or len(uniq) > LIMITS['colours_fail']:
         v = 'fail'
@@ -72,6 +85,9 @@ def measure(im, game_scale=1.0, tier='kit'):
         v = 'fail' if v == 'fail' else 'warn'
     if len(uniq) > LIMITS['colours_warn'] and v == 'pass':
         v, _ = 'warn', notes.append(f'{len(uniq)} colours on one part')
+    if tier != 'landmark' and (light > 12 or spread > 13):
+        notes.append('painted light and shadow (leave it to the Height)')
+        v = 'fail' if v == 'fail' else 'warn'
     if lone > LIMITS['lone_warn'] and v == 'pass':
         v, _ = 'warn', notes.append('scattered single pixels')
     m['verdict'], m['notes'] = v, notes

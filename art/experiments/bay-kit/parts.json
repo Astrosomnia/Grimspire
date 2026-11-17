@@ -28,6 +28,8 @@
       "lone": 0.033,
       "soft": 0.0,
       "detail": 0.252,
+      "light": 0.0,
+      "spread": 9.2,
       "verdict": "pass",
       "notes": []
      }
@@ -52,6 +54,8 @@
       "lone": 0.024,
       "soft": 0.0,
       "detail": 0.293,
+      "light": 0.0,
+      "spread": 9.0,
       "verdict": "warn",
       "notes": [
        "busier than the kit bar (0.28)"
@@ -78,6 +82,8 @@
       "lone": 0.013,
       "soft": 0.0,
       "detail": 0.314,
+      "light": 0.0,
+      "spread": 9.7,
       "verdict": "warn",
       "notes": [
        "busier than the kit bar (0.28)"
@@ -111,6 +117,8 @@
       "lone": 0.014,
       "soft": 0.0,
       "detail": 0.311,
+      "light": 0.0,
+      "spread": 10.5,
       "verdict": "warn",
       "notes": [
        "busier than the kit bar (0.28)"
@@ -137,6 +145,8 @@
       "lone": 0.035,
       "soft": 0.0,
       "detail": 0.235,
+      "light": 0.0,
+      "spread": 9.7,
       "verdict": "pass",
       "notes": []
      }
@@ -168,6 +178,8 @@
       "lone": 0.024,
       "soft": 0.0,
       "detail": 0.207,
+      "light": 0.0,
+      "spread": 8.6,
       "verdict": "pass",
       "notes": []
      }
@@ -192,6 +204,8 @@
       "lone": 0.028,
       "soft": 0.0,
       "detail": 0.186,
+      "light": 0.0,
+      "spread": 7.6,
       "verdict": "pass",
       "notes": []
      }
@@ -223,6 +237,8 @@
       "lone": 0.035,
       "soft": 0.0,
       "detail": 0.294,
+      "light": 4.6,
+      "spread": 10.3,
       "verdict": "warn",
       "notes": [
        "busier than the kit bar (0.28)"
@@ -249,9 +265,12 @@
       "lone": 0.024,
       "soft": 0.0,
       "detail": 0.29,
+      "light": 20.5,
+      "spread": 9.4,
       "verdict": "warn",
       "notes": [
-       "busier than the kit bar (0.28)"
+       "busier than the kit bar (0.28)",
+       "painted light and shadow (leave it to the Height)"
       ]
      }
     }
@@ -282,6 +301,8 @@
       "lone": 0.027,
       "soft": 0.0,
       "detail": 0.219,
+      "light": 10.4,
+      "spread": 11.1,
       "verdict": "pass",
       "notes": []
      }
@@ -313,6 +334,8 @@
       "lone": 0.035,
       "soft": 0.0,
       "detail": 0.331,
+      "light": 0.0,
+      "spread": 9.3,
       "verdict": "warn",
       "notes": [
        "busier than the kit bar (0.28)"
@@ -339,6 +362,8 @@
       "lone": 0.009,
       "soft": 0.0,
       "detail": 0.282,
+      "light": 0.0,
+      "spread": 8.4,
       "verdict": "warn",
       "notes": [
        "busier than the kit bar (0.28)"
@@ -372,6 +397,8 @@
       "lone": 0.062,
       "soft": 0.0,
       "detail": 0.34,
+      "light": 0.0,
+      "spread": 9.3,
       "verdict": "warn",
       "notes": [
        "busier than the kit bar (0.28)"
@@ -405,6 +432,8 @@
       "lone": 0.042,
       "soft": 0.0,
       "detail": 0.335,
+      "light": 10.3,
+      "spread": 10.3,
       "verdict": "warn",
       "notes": [
        "busier than the kit bar (0.28)"
@@ -431,8 +460,12 @@
       "lone": 0.022,
       "soft": 0.0,
       "detail": 0.241,
-      "verdict": "pass",
-      "notes": []
+      "light": 25.2,
+      "spread": 12.2,
+      "verdict": "warn",
+      "notes": [
+       "painted light and shadow (leave it to the Height)"
+      ]
      }
     }
    }
@@ -461,6 +494,8 @@
       "lone": 0.018,
       "soft": 0.0,
       "detail": 0.191,
+      "light": 0.0,
+      "spread": 7.6,
       "verdict": "pass",
       "notes": []
      }
@@ -484,6 +519,8 @@
       "lone": 0.009,
       "soft": 0.0,
       "detail": 0.104,
+      "light": 0.0,
+      "spread": 5.7,
       "verdict": "pass",
       "notes": []
      }
@@ -514,8 +551,12 @@
       "lone": 0.009,
       "soft": 0.0,
       "detail": 0.062,
-      "verdict": "pass",
-      "notes": []
+      "light": 14.7,
+      "spread": 5.8,
+      "verdict": "warn",
+      "notes": [
+       "painted light and shadow (leave it to the Height)"
+      ]
      }
     },
     "b": {
@@ -537,6 +578,8 @@
       "lone": 0.011,
       "soft": 0.0,
       "detail": 0.166,
+      "light": 5.6,
+      "spread": 6.5,
       "verdict": "pass",
       "notes": []
      }
@@ -567,6 +610,8 @@
       "lone": 0.011,
       "soft": 0.0,
       "detail": 0.117,
+      "light": 6.0,
+      "spread": 7.0,
       "verdict": "pass",
       "notes": []
      }
@@ -598,6 +643,8 @@
       "lone": 0.027,
       "soft": 0.0,
       "detail": 0.199,
+      "light": 0.0,
+      "spread": 9.4,
       "verdict": "pass",
       "notes": []
      }
@@ -622,6 +669,8 @@
       "lone": 0.013,
       "soft": 0.0,
       "detail": 0.198,
+      "light": 0.0,
+      "spread": 10.7,
       "verdict": "pass",
       "notes": []
      }
