@@ -153,7 +153,7 @@ const PASSES=['Templates','1 · Footprint','2 · Massing','3 · Floors & roofs',
 const RULES=[
  ['tpl.use',0,'Use a locked template',{yes:15,no:85}],
  ['lot.kind',1,'Lot',{single:50,pair:35,rock:15}],
- ['foot.bays',1,'Bays wide',{2:15,3:30,4:30,5:15,6:10}],
+ ['foot.bays',1,'Bays wide',{1:15,2:15,3:30,4:30,5:15,6:10}],
  ['foot.ground',1,'Ground',{flat:40,slope:35,steps:25}],
  ['mass.type',2,'Massing',{hall:16,keep:14,twin:16,stepped:16,towerwing:22,cloister:16}],
  ['mass.base',2,'Base storeys',{1:30,2:45,3:25}],
@@ -266,11 +266,13 @@ function genBuilding(L,slot,C,forced){
   if(forced){M.n=n=forced.n;M.h=h=forced.h.map(v=>Math.max(1,Math.min(v,maxRows)));M.type=type=forced.tpl?'template':'sketch';M.tpl=forced.tpl;M.cloister=forced.cloister}
   else{
     // ---- pass 2: massing
-    type=pick('mass.type',o=>!(o==='twin'&&n<3)&&!(o==='cloister'&&n<2));let b=+pick('mass.base');
+    // a single bay is always a tower: its height is the base storeys, plus two if the end-tower rule rolls yes
+    type=n===1?'tower':pick('mass.type',o=>!(o==='twin'&&n<3)&&!(o==='cloister'&&n<2));let b=+pick('mass.base');
+    if(type==='tower'&&pick('mass.endTower')==='yes')b+=2;
     if(type==='keep'){n=Math.min(n,3);b=Math.min(maxRows,b+RI(1,2))}
     const dir=rng()<.5?1:-1,tc=rng()<.5?0:n-1;
     for(let c=0;c<n;c++){const i=dir>0?c:n-1-c;
-      h[c]=type==='hall'?Math.max(2,Math.min(b,3)):type==='keep'?b:type==='twin'?((c===0||c===n-1)?b+2:b):
+      h[c]=type==='tower'?b:type==='hall'?Math.max(2,Math.min(b,3)):type==='keep'?b:type==='twin'?((c===0||c===n-1)?b+2:b):
         type==='stepped'?Math.max(1,b+2-i):type==='towerwing'?(c===tc?b+RI(2,3):b):type==='cloister'?2:b}
     if(type==='hall')M.forceHall=true;if(type==='cloister')M.cloister=true;
     if(n>=2&&!['twin','keep','cloister'].includes(type)&&pick('mass.endTower')==='yes'){const e=rng()<.5?0:n-1;h[e]+=2}

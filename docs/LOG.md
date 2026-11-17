@@ -6,6 +6,11 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-16 · Claude · Building lab: one-bay towers
+
+- `foot.bays` gains a **1** option (15). A lone bay is always a tower: two outer walls and a hollow about 104 art px wide, height from base storeys (+2 if the end-tower rule rolls yes), ladders only (a stair needs a neighbouring bay to land on), spire when the spire rule rolls yes. Its massing roll is skipped so learning isn't fed a choice that did nothing. 72 one-bay lots all fully reachable; normal batches unchanged (120/120).
+- Jarred: no new default odds or forced outcomes; let attrition find the good ones. Size is fine as long as more than one building fits a map (about 250 px average against 1,000–2,000 px maps). Later idea filed in `BUILDING-SYSTEM.md`: maps with no ground, only buildings.
+
 ## 2026-11-16 · Claude · Building lab: draw a sketch
 
 - The lab's sketch box has a **Text / Draw** toggle. Draw: doodle on a 6×6 bay grid (paint, erase); a bay fills once about a quarter of it is painted, bays need ground or a bay under them (unsupported ones show red), stair by swiping the way it rises, ladder and hall by tapping. Both modes edit the same sketch and round-trip; works with touch. **Dress this sketch ×24** as before.
