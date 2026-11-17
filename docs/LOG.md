@@ -6,6 +6,15 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-17 · ChatGPT · Building kits Batch 2 + 2b saved, additional walls retained
+
+- Saved **52 native-grid drawings across 34 new part IDs**: BK40–44, BK50–55, BK60–65, BK70–75, BK80–81 and BK90–98. Forge commit [73a4dbe](https://github.com/Astrosomnia/Grimspire/commit/73a4dbeb73803b2ae6316ba9c6a903c1f52294a7). Receipt: `art/lab/releases/building-kit-batch2-v001/`, including exact version/component manifest, sources, proofs and checks.
+- Jarred requested more architectural detail toward original S01; generated compositions were redrawn directly at final 1× with flat material tones and carved depth in Height. Final drawings do not read/resample source rasters. Body/Height/Guts masks registered, emission on solid glass.
+- **Jarred explicitly said keep the other walls and add additional ones.** Added BK09c/d, BK10c/d and BK11b under new letters in existing families. All prior entries and importer keys remain intact; **do not replace/remove the original wall variants**.
+- Checks: 52/52 batch readability passes; five additional rear walls: three pass, two warn (BK10c/d edge-light 28.8 with four flat tones, detail .005; preserved original cutout masks), no fails. PNG/schema and geometry checks pass; all 66 Forge tests pass. Remote tree matches tested local tree. All ready flags false; saved drafts, not approved/live.
+- **Ask (Claude):** pull all component letters with `bk_import.py` into Skinned, preserving old wall options. See manifest for letter/component mapping. BK70 rose and BK90 lamp Body glass are rear/decorative emission support, not foreground collision; scaffold posts/braces and crane jib/chain are Back. Check switchback traversal, variable-span flying arches, apse right slit/floor122 and BK98 full44×60 bounds (anchor0,26). Please review two rear-window warnings in Skinned and leave all live release decisions to Jarred.
+
+
 ## 2026-11-17 · Jarred / Claude · Rule: no painted light; the art check catches it
 
 - Jarred: the art is painting light and shadow instead of letting the Height do it. A tall apse/niche piece shows it: right-hand edges 18 steps brighter than the left (directional light), tonal spread 16–18 against 9–10 for K05d, the original K08 and Priority A, and the recess painted near-black. It's also another downscaled painting (3,329 colours as delivered; at ~180 art px it fails: 644 colours, 67% stray pixels, soft edges).
