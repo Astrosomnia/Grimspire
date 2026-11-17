@@ -116,6 +116,7 @@ main{flex:1;min-width:0;padding:10px;display:grid;grid-template-columns:repeat(a
   </div>
   <h2>Templates <span class="small">(locked buildings)</span></h2>
   <div id="tpls" class="small"></div>
+  <button id="bPlayLocked" style="margin-top:6px">▶ Test locked buildings in game</button>
   <h2>Grid <span class="small">(art px)</span></h2>
   <div id="gridOpts"></div>
   <div id="rules"></div>
@@ -690,9 +691,9 @@ function seeds(){const out=[];for(let i=0;i<24;i++)out.push(hash(ST.base,ST.batc
 function opts(){return{route:$('#oRoute').checked,back:$('#oBack').checked,grid:$('#oGrid').checked}}
 function makeCard(i){const el=document.createElement('div');el.className='card';
   el.innerHTML=`<canvas width="600" height="500"></canvas><div class="ft"><div class="row"><span class="ttl"></span><span class="seed"></span></div><div class="row bds"></div>
-  <div class="row act"><button class="k1" title="keep">✓ keep</button><button class="k2" title="cut">✗ cut</button><button class="k3" title="lock as a template">lock</button></div></div>`;
+  <div class="row act"><button class="k1" title="keep">✓ keep</button><button class="k2" title="cut">✗ cut</button><button class="k3" title="lock as a template">lock</button><button class="k4" title="walk it in the game: one trooper, no turn clock">▶ play</button></div></div>`;
   el.querySelector('canvas').onclick=()=>openZoom(i);
-  el.querySelector('.k1').onclick=()=>mark(i,1);el.querySelector('.k2').onclick=()=>mark(i,-1);el.querySelector('.k3').onclick=()=>lock(i);return el}
+  el.querySelector('.k1').onclick=()=>mark(i,1);el.querySelector('.k2').onclick=()=>mark(i,-1);el.querySelector('.k3').onclick=()=>lock(i);el.querySelector('.k4').onclick=()=>{if(cards[i].L)playInGame([packLot(cards[i].L)])};return el}
 function badges(L){const c=L.chk,b=[];const cls=(ok,warn)=>ok?'ok':warn?'warn':'bad';
   b.push(`<span class="bd" title="floors a trooper can walk to / floors (the rest is jetpack, rope or girder)">walk ${c.reached}/${c.present}</span>`);
   b.push(`<span class="bd ${cls(c.jump===c.reached,c.jump>=c.reached*.5)}" title="reachable floors with room for a full jump (${PH.JUMPCLEAR} game px)">jump ${c.jump}/${c.reached}</span>`);
@@ -706,7 +707,7 @@ function paintCard(cd){const el=cd.el,L=cd.L;el.className='card'+(cd.mark>0?' ke
   el.querySelector('.bds').innerHTML=badges(L);const cv=el.querySelector('canvas');cv.width=Math.min(900,Math.round(el.clientWidth*(devicePixelRatio||1))||600);render(L,cv,opts())}
 function mark(i,v){const cd=cards[i];cd.mark=cd.mark===v?0:v;paintCard(cd);status()}
 function lock(i){const cd=cards[i];if(!cd.L)return;cd.lock=!cd.lock;
-  if(cd.lock){cd.L.blds.forEach((M,bi)=>ST.tpl.push({name:`${M.type} ${M.n}×${Math.max(...M.h)} #${cd.L.seed%100000}${cd.L.blds.length>1?'/'+(bi+1):''}`,seed:cd.L.seed,bi,s:M.snap}));if(!cd.mark)cd.mark=1}
+  if(cd.lock){const pk=packLot(cd.L);cd.L.blds.forEach((M,bi)=>ST.tpl.push({name:`${M.type} ${M.n}×${Math.max(...M.h)} #${cd.L.seed%100000}${cd.L.blds.length>1?'/'+(bi+1):''}`,seed:cd.L.seed,bi,s:M.snap,lot:bi?null:pk}));if(!cd.mark)cd.mark=1}
   else ST.tpl=ST.tpl.filter(t=>t.seed!==cd.L.seed);save();buildPanel();paintCard(cd);status()}
 function status(){const k=cards.filter(c=>c.mark>0).length,x=cards.filter(c=>c.mark<0).length;
   const done=cards.filter(c=>c.L),ok=done.filter(c=>c.L.chk.reached===c.L.chk.present).length;
@@ -812,6 +813,25 @@ function drPaint(p,q,on){const GW=DR.C*DR.S,GH=DR.R*DR.S,rad=on?1.8:2.4,d=Math.h
   $('#tText').onclick=()=>mode('text');$('#tDraw').onclick=()=>mode('draw');
   addEventListener('resize',()=>{if(!$('#pDraw').hidden)drRender()});
   DR.mode=mode;mode(ST.skMode||'text')})();
+
+
+// ---------------------------------------------------------------- play in the game (#bldtest): the lot's own shapes, packed into the link
+function packLot(L){const o=L.A.o,R=v=>Math.round(v),sh=x=>x.k==='r'?{k:'r',x:R(x.x),y:R(x.y),w:R(x.w),h:R(x.h)}:x.k==='c'?{k:'c',x:R(x.x),y:R(x.y),r:R(x.r)}:x.k==='p'?{k:'p',p:x.p.map(q=>[R(q[0]),R(q[1])])}:null;
+  const pick=a=>a.map(sh).filter(Boolean);let x0=1e9,x1=-1e9;
+  for(const s of o.body){const xs=s.k==='r'?[s.x,s.x+s.w]:s.k==='p'?s.p.map(q=>q[0]):[s.x-s.r,s.x+s.r];for(const v of xs){x0=Math.min(x0,v);x1=Math.max(x1,v)}}
+  return{x0:R(Math.max(0,x0-50)),x1:R(Math.min(L.W,x1+50)),gy:L.GY,body:pick(o.body),cut:pick(o.cut),rub:pick(o.rub),rung:pick(o.rung),back:pick(o.back),backCut:pick(o.backCut)}}
+async function playInGame(lots){if(!lots.length){msg('Lock some buildings first, or use ▶ play on a card.');return}
+  const bytes=new TextEncoder().encode(JSON.stringify({lots}));let enc;
+  try{const buf=await new Response(new Blob([bytes]).stream().pipeThrough(new CompressionStream('deflate-raw'))).arrayBuffer();
+    let b='';const u=new Uint8Array(buf);for(let i=0;i<u.length;i+=8192)b+=String.fromCharCode(...u.subarray(i,i+8192));enc=btoa(b).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'')}
+  catch(e){msg('This browser can’t pack the buildings: '+e.message);return}
+  const onPages=/github\.io$/.test(location.hostname)||location.protocol==='file:'||location.hostname==='localhost';
+  const base=onPages?new URL('../index.html',location.href).href:'https://astrosomnia.github.io/Grimspire/index.html';
+  const url=`${base}#bldtest=${enc}&w=100`;
+  $('#modal').hidden=false;$('#mt').textContent='Play in the game';$('#mApply').hidden=true;
+  $('#mh').innerHTML=`${lots.length} lot${lots.length>1?'s':''} on a sloped island, one trooper, no turn clock, every weapon. <a href="${url}" target="_blank" rel="noopener" style="color:var(--cyan);font-size:15px">Open in game ↗</a> <span class="small">(as many lots as fit across the map; the rest are left out)</span>`;
+  $('#mta').value=url;window.__lastPlay=url}
+$('#bPlayLocked').onclick=()=>playInGame(ST.tpl.map(t=>t.lot).filter(Boolean));
 
 window.__LAB={genLot,analyse,cards:()=>cards,ST:()=>ST,parseSketch};
 generate();

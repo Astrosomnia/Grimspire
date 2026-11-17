@@ -6,6 +6,13 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-16 · Claude · Play lab buildings in the game (`#bldtest`)
+
+- **Lab:** each card has **▶ play**, and the Templates panel has **▶ Test locked buildings in game**. They pack the lot's own shapes (Body, cuts, rubble, rungs, Back, Back openings) into a link, deflated (one lot ≈ 1 KB, two ≈ 5 KB), and open the live game.
+- **Game (`index.html`), behind `#bldtest` only:** a gently sloped island (flat through the middle, into the water at both ends), the lots laid side by side as many as fit, one trooper, no turn clock, 99 of every weapon, no game over. The map's own extras (spires, floating islands, pillars, bridges, pipes, kit landmarks, sewers) are off; statues, lamps and braziers stay. Lab shapes are scaled 27/50 into game px and the lit look skins them like any terrain. `#bldtest` with no data shows the same 4-bay building at a 128 and a 160 storey side by side.
+- Without the flag nothing changes: `det.py` maps match on all four seeds, `dsim.py` identical. No GV bump.
+- Links: `https://astrosomnia.github.io/Grimspire/#bldtest&w=100` (128 vs 160); the lab's buttons make the rest.
+
 ## 2026-11-16 · Claude · Building lab: walk access is a rule, not a guarantee
 
 - Jarred: not every floor needs to be walkable; jetpacks, rappel cords and girders exist for that. Sealed rooms are the only other check that matters. No kit-reach colouring; he'll eyeball it.
