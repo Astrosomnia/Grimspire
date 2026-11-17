@@ -1,7 +1,7 @@
 {
  "source": "origin/art/weapon-lab",
- "commit": "40717122e3b05fc8e8b3e7259d92f575ab0a5d5c",
- "count": 22,
+ "commit": "73a4dbeb73803b2ae6316ba9c6a903c1f52294a7",
+ "count": 79,
  "parts": {
   "BK01": {
    "name": "BK01 Pier, outer wall",
@@ -524,6 +524,56 @@
       "verdict": "pass",
       "notes": []
      }
+    },
+    "c": {
+     "layers": {
+      "body": "BK09c_body.png",
+      "back": "BK09c_back.png"
+     },
+     "version": "asset-5f52da7f31f455023282779c",
+     "w": 128,
+     "h": 128,
+     "pivot": [
+      0,
+      127
+     ],
+     "ready": false,
+     "check": {
+      "colours": 3,
+      "near": 0.0,
+      "lone": 0.0,
+      "soft": 0.0,
+      "detail": 0.001,
+      "light": 0.0,
+      "spread": 1.2,
+      "verdict": "pass",
+      "notes": []
+     }
+    },
+    "d": {
+     "layers": {
+      "body": "BK09d_body.png",
+      "back": "BK09d_back.png"
+     },
+     "version": "asset-ba2cc744901f79bf6cc97bff",
+     "w": 128,
+     "h": 128,
+     "pivot": [
+      0,
+      127
+     ],
+     "ready": false,
+     "check": {
+      "colours": 3,
+      "near": 0.0,
+      "lone": 0.0,
+      "soft": 0.0,
+      "detail": 0.0,
+      "light": 0.0,
+      "spread": 1.2,
+      "verdict": "pass",
+      "notes": []
+     }
     }
    }
   },
@@ -583,6 +633,60 @@
       "verdict": "pass",
       "notes": []
      }
+    },
+    "c": {
+     "layers": {
+      "body": "BK10c_body.png",
+      "back": "BK10c_back.png"
+     },
+     "version": "asset-1b27b5aed38ef6a1661b0f8a",
+     "w": 128,
+     "h": 128,
+     "pivot": [
+      0,
+      127
+     ],
+     "ready": false,
+     "check": {
+      "colours": 4,
+      "near": 0.0,
+      "lone": 0.0,
+      "soft": 0.0,
+      "detail": 0.005,
+      "light": 28.8,
+      "spread": 2.2,
+      "verdict": "warn",
+      "notes": [
+       "one side painted lit (leave the light to the Height and the scene)"
+      ]
+     }
+    },
+    "d": {
+     "layers": {
+      "body": "BK10d_body.png",
+      "back": "BK10d_back.png"
+     },
+     "version": "asset-3eee4abced3c4974bc4c01a2",
+     "w": 128,
+     "h": 128,
+     "pivot": [
+      0,
+      127
+     ],
+     "ready": false,
+     "check": {
+      "colours": 4,
+      "near": 0.0,
+      "lone": 0.0,
+      "soft": 0.0,
+      "detail": 0.005,
+      "light": 28.8,
+      "spread": 2.2,
+      "verdict": "warn",
+      "notes": [
+       "one side painted lit (leave the light to the Height and the scene)"
+      ]
+     }
     }
    }
   },
@@ -612,6 +716,31 @@
       "detail": 0.117,
       "light": 6.0,
       "spread": 7.0,
+      "verdict": "pass",
+      "notes": []
+     }
+    },
+    "b": {
+     "layers": {
+      "body": "BK11b_body.png",
+      "back": "BK11b_back.png"
+     },
+     "version": "asset-9764db7aaefe49159cad93b4",
+     "w": 128,
+     "h": 128,
+     "pivot": [
+      0,
+      127
+     ],
+     "ready": false,
+     "check": {
+      "colours": 3,
+      "near": 0.0,
+      "lone": 0.0,
+      "soft": 0.0,
+      "detail": 0.049,
+      "light": 9.3,
+      "spread": 10.5,
       "verdict": "pass",
       "notes": []
      }
@@ -671,6 +800,1604 @@
       "detail": 0.198,
       "light": 0.0,
       "spread": 10.7,
+      "verdict": "pass",
+      "notes": []
+     }
+    }
+   }
+  },
+  "BK40": {
+   "name": "BK40 Switchback stair",
+   "w": 128,
+   "h": 128,
+   "variants": {
+    "a": {
+     "layers": {
+      "body": "BK40a_body.png",
+      "height": "BK40a_height.png",
+      "back": "BK40a_back.png",
+      "guts": "BK40a_guts.png"
+     },
+     "version": "asset-d0a273d8d8706161c441ee8d",
+     "w": 128,
+     "h": 128,
+     "pivot": [
+      0,
+      127
+     ],
+     "ready": false,
+     "check": {
+      "colours": 2,
+      "near": 0.0,
+      "lone": 0.0,
+      "soft": 0.0,
+      "detail": 0.0,
+      "light": 0.0,
+      "spread": 1.9,
+      "verdict": "pass",
+      "notes": []
+     }
+    }
+   }
+  },
+  "BK41": {
+   "name": "BK41 Broken stair",
+   "w": 128,
+   "h": 128,
+   "variants": {
+    "a": {
+     "layers": {
+      "body": "BK41a_body.png",
+      "height": "BK41a_height.png",
+      "guts": "BK41a_guts.png"
+     },
+     "version": "asset-920461d421edaa834c13dd2f",
+     "w": 128,
+     "h": 128,
+     "pivot": [
+      0,
+      127
+     ],
+     "ready": false,
+     "check": {
+      "colours": 3,
+      "near": 0.0,
+      "lone": 0.0,
+      "soft": 0.0,
+      "detail": 0.058,
+      "light": 0.4,
+      "spread": 2.8,
+      "verdict": "pass",
+      "notes": []
+     }
+    }
+   }
+  },
+  "BK42": {
+   "name": "BK42 Outside stair",
+   "w": 128,
+   "h": 128,
+   "variants": {
+    "a": {
+     "layers": {
+      "body": "BK42a_body.png",
+      "height": "BK42a_height.png",
+      "back": "BK42a_back.png",
+      "guts": "BK42a_guts.png"
+     },
+     "version": "asset-a0dbfa550115b4b717e0da79",
+     "w": 128,
+     "h": 128,
+     "pivot": [
+      0,
+      127
+     ],
+     "ready": false,
+     "check": {
+      "colours": 3,
+      "near": 0.0,
+      "lone": 0.0,
+      "soft": 0.0,
+      "detail": 0.063,
+      "light": 0.3,
+      "spread": 2.8,
+      "verdict": "pass",
+      "notes": []
+     }
+    }
+   }
+  },
+  "BK43": {
+   "name": "BK43 Spiral stair",
+   "w": 128,
+   "h": 128,
+   "variants": {
+    "a": {
+     "layers": {
+      "body": "BK43a_body.png",
+      "height": "BK43a_height.png",
+      "back": "BK43a_back.png",
+      "guts": "BK43a_guts.png"
+     },
+     "version": "asset-6c46ba270edcd3ddcb579d2e",
+     "w": 128,
+     "h": 128,
+     "pivot": [
+      0,
+      127
+     ],
+     "ready": false,
+     "check": {
+      "colours": 2,
+      "near": 0.0,
+      "lone": 0.0,
+      "soft": 0.0,
+      "detail": 0.0,
+      "light": 0.0,
+      "spread": 1.9,
+      "verdict": "pass",
+      "notes": []
+     }
+    }
+   }
+  },
+  "BK44": {
+   "name": "BK44 Roof hatch",
+   "w": 32,
+   "h": 16,
+   "variants": {
+    "a": {
+     "layers": {
+      "body": "BK44a_body.png",
+      "height": "BK44a_height.png",
+      "back": "BK44a_back.png",
+      "guts": "BK44a_guts.png"
+     },
+     "version": "asset-cdad54ae3b9a1fdd35969865",
+     "w": 32,
+     "h": 16,
+     "pivot": [
+      0,
+      15
+     ],
+     "ready": false,
+     "check": {
+      "colours": 1,
+      "near": 0.0,
+      "lone": 0.0,
+      "soft": 0.0,
+      "detail": 0.0,
+      "light": 0.0,
+      "spread": 0.0,
+      "verdict": "pass",
+      "notes": []
+     }
+    }
+   }
+  },
+  "BK50": {
+   "name": "BK50 Lean-to roof \u00b7 one bay",
+   "w": 128,
+   "h": 64,
+   "variants": {
+    "a": {
+     "layers": {
+      "body": "BK50a_body.png",
+      "height": "BK50a_height.png",
+      "guts": "BK50a_guts.png"
+     },
+     "version": "asset-c91c6fccdbe0e9088b555cad",
+     "w": 128,
+     "h": 64,
+     "pivot": [
+      0,
+      63
+     ],
+     "ready": false,
+     "check": {
+      "colours": 2,
+      "near": 0.0,
+      "lone": 0.0,
+      "soft": 0.0,
+      "detail": 0.0,
+      "light": 0.0,
+      "spread": 2.0,
+      "verdict": "pass",
+      "notes": []
+     }
+    },
+    "b": {
+     "layers": {
+      "body": "BK50b_body.png",
+      "height": "BK50b_height.png",
+      "guts": "BK50b_guts.png"
+     },
+     "version": "asset-72112df9d1c039132263fa8a",
+     "w": 256,
+     "h": 128,
+     "pivot": [
+      0,
+      127
+     ],
+     "ready": false,
+     "check": {
+      "colours": 2,
+      "near": 0.0,
+      "lone": 0.0,
+      "soft": 0.0,
+      "detail": 0.0,
+      "light": 0.0,
+      "spread": 2.0,
+      "verdict": "pass",
+      "notes": []
+     }
+    }
+   }
+  },
+  "BK51": {
+   "name": "BK51 Gable \u00b7 one bay",
+   "w": 128,
+   "h": 54,
+   "variants": {
+    "a": {
+     "layers": {
+      "body": "BK51a_body.png",
+      "height": "BK51a_height.png",
+      "guts": "BK51a_guts.png"
+     },
+     "version": "asset-b2e71a14b4a74da12eb52168",
+     "w": 128,
+     "h": 54,
+     "pivot": [
+      0,
+      53
+     ],
+     "ready": false,
+     "check": {
+      "colours": 4,
+      "near": 0.0,
+      "lone": 0.015,
+      "soft": 0.0,
+      "detail": 0.078,
+      "light": 3.0,
+      "spread": 3.2,
+      "verdict": "pass",
+      "notes": []
+     }
+    },
+    "b": {
+     "layers": {
+      "body": "BK51b_body.png",
+      "height": "BK51b_height.png",
+      "guts": "BK51b_guts.png"
+     },
+     "version": "asset-87b1e99f0c6c8ee3a2000ef8",
+     "w": 256,
+     "h": 108,
+     "pivot": [
+      0,
+      107
+     ],
+     "ready": false,
+     "check": {
+      "colours": 4,
+      "near": 0.0,
+      "lone": 0.011,
+      "soft": 0.0,
+      "detail": 0.04,
+      "light": 3.3,
+      "spread": 3.2,
+      "verdict": "pass",
+      "notes": []
+     }
+    },
+    "c": {
+     "layers": {
+      "body": "BK51c_body.png",
+      "height": "BK51c_height.png",
+      "guts": "BK51c_guts.png"
+     },
+     "version": "asset-240832c1895628e85b3f42d7",
+     "w": 384,
+     "h": 162,
+     "pivot": [
+      0,
+      161
+     ],
+     "ready": false,
+     "check": {
+      "colours": 4,
+      "near": 0.0,
+      "lone": 0.007,
+      "soft": 0.0,
+      "detail": 0.031,
+      "light": 3.4,
+      "spread": 3.1,
+      "verdict": "pass",
+      "notes": []
+     }
+    }
+   }
+  },
+  "BK52": {
+   "name": "BK52 Broken gable \u00b7 one bay",
+   "w": 128,
+   "h": 64,
+   "variants": {
+    "a": {
+     "layers": {
+      "body": "BK52a_body.png",
+      "height": "BK52a_height.png",
+      "guts": "BK52a_guts.png"
+     },
+     "version": "asset-2f8a9f7598e2a703d6b7c400",
+     "w": 128,
+     "h": 64,
+     "pivot": [
+      0,
+      63
+     ],
+     "ready": false,
+     "check": {
+      "colours": 4,
+      "near": 0.0,
+      "lone": 0.021,
+      "soft": 0.0,
+      "detail": 0.028,
+      "light": 2.4,
+      "spread": 2.1,
+      "verdict": "pass",
+      "notes": []
+     }
+    },
+    "b": {
+     "layers": {
+      "body": "BK52b_body.png",
+      "height": "BK52b_height.png",
+      "guts": "BK52b_guts.png"
+     },
+     "version": "asset-5261d85821c64f977ebfb194",
+     "w": 256,
+     "h": 112,
+     "pivot": [
+      0,
+      111
+     ],
+     "ready": false,
+     "check": {
+      "colours": 4,
+      "near": 0.0,
+      "lone": 0.012,
+      "soft": 0.0,
+      "detail": 0.045,
+      "light": 2.9,
+      "spread": 3.0,
+      "verdict": "pass",
+      "notes": []
+     }
+    }
+   }
+  },
+  "BK53": {
+   "name": "BK53 Cupola",
+   "w": 128,
+   "h": 104,
+   "variants": {
+    "a": {
+     "layers": {
+      "body": "BK53a_body.png",
+      "height": "BK53a_height.png",
+      "back": "BK53a_back.png",
+      "guts": "BK53a_guts.png"
+     },
+     "version": "asset-0e3e56343cf3856e961fb69d",
+     "w": 128,
+     "h": 104,
+     "pivot": [
+      0,
+      103
+     ],
+     "ready": false,
+     "check": {
+      "colours": 3,
+      "near": 0.0,
+      "lone": 0.001,
+      "soft": 0.0,
+      "detail": 0.014,
+      "light": 0.1,
+      "spread": 2.0,
+      "verdict": "pass",
+      "notes": []
+     }
+    }
+   }
+  },
+  "BK54": {
+   "name": "BK54 Belfry top",
+   "w": 128,
+   "h": 128,
+   "variants": {
+    "a": {
+     "layers": {
+      "body": "BK54a_body.png",
+      "height": "BK54a_height.png",
+      "back": "BK54a_back.png",
+      "guts": "BK54a_guts.png"
+     },
+     "version": "asset-738f3ee9a3dd3633d52df6a9",
+     "w": 128,
+     "h": 128,
+     "pivot": [
+      0,
+      127
+     ],
+     "ready": false,
+     "check": {
+      "colours": 3,
+      "near": 0.0,
+      "lone": 0.0,
+      "soft": 0.0,
+      "detail": 0.003,
+      "light": 0.1,
+      "spread": 2.4,
+      "verdict": "pass",
+      "notes": []
+     }
+    }
+   }
+  },
+  "BK55": {
+   "name": "BK55 Roof terrace edge",
+   "w": 128,
+   "h": 32,
+   "variants": {
+    "a": {
+     "layers": {
+      "body": "BK55a_body.png",
+      "height": "BK55a_height.png",
+      "guts": "BK55a_guts.png"
+     },
+     "version": "asset-2180cd746b1a60da0913e6a3",
+     "w": 128,
+     "h": 32,
+     "pivot": [
+      0,
+      31
+     ],
+     "ready": false,
+     "check": {
+      "colours": 4,
+      "near": 0.0,
+      "lone": 0.0,
+      "soft": 0.0,
+      "detail": 0.032,
+      "light": 1.0,
+      "spread": 3.0,
+      "verdict": "pass",
+      "notes": []
+     }
+    }
+   }
+  },
+  "BK60": {
+   "name": "BK60 Window with balcony",
+   "w": 64,
+   "h": 128,
+   "variants": {
+    "a": {
+     "layers": {
+      "body": "BK60a_body.png",
+      "height": "BK60a_height.png",
+      "guts": "BK60a_guts.png"
+     },
+     "version": "asset-11418cb0cd183f79face7d80",
+     "w": 64,
+     "h": 128,
+     "pivot": [
+      0,
+      127
+     ],
+     "ready": false,
+     "check": {
+      "colours": 2,
+      "near": 0.0,
+      "lone": 0.0,
+      "soft": 0.0,
+      "detail": 0.0,
+      "light": 0.7,
+      "spread": 2.0,
+      "verdict": "pass",
+      "notes": []
+     }
+    }
+   }
+  },
+  "BK61": {
+   "name": "BK61 Arrow slit",
+   "w": 24,
+   "h": 128,
+   "variants": {
+    "a": {
+     "layers": {
+      "body": "BK61a_body.png",
+      "height": "BK61a_height.png",
+      "guts": "BK61a_guts.png"
+     },
+     "version": "asset-be14d024bc77e1baf53ff831",
+     "w": 24,
+     "h": 128,
+     "pivot": [
+      0,
+      127
+     ],
+     "ready": false,
+     "check": {
+      "colours": 2,
+      "near": 0.0,
+      "lone": 0.0,
+      "soft": 0.0,
+      "detail": 0.0,
+      "light": 0.0,
+      "spread": 2.0,
+      "verdict": "pass",
+      "notes": []
+     }
+    }
+   }
+  },
+  "BK62": {
+   "name": "BK62 Grand doorway",
+   "w": 128,
+   "h": 128,
+   "variants": {
+    "a": {
+     "layers": {
+      "body": "BK62a_body.png",
+      "height": "BK62a_height.png",
+      "guts": "BK62a_guts.png"
+     },
+     "version": "asset-4ef8a8b10ab0d7cbd61b99f0",
+     "w": 128,
+     "h": 128,
+     "pivot": [
+      0,
+      127
+     ],
+     "ready": false,
+     "check": {
+      "colours": 4,
+      "near": 0.0,
+      "lone": 0.0,
+      "soft": 0.0,
+      "detail": 0.027,
+      "light": 2.6,
+      "spread": 2.6,
+      "verdict": "pass",
+      "notes": []
+     }
+    }
+   }
+  },
+  "BK63": {
+   "name": "BK63 Buttress \u00b7 one storey",
+   "w": 40,
+   "h": 128,
+   "variants": {
+    "a": {
+     "layers": {
+      "body": "BK63a_body.png",
+      "height": "BK63a_height.png",
+      "guts": "BK63a_guts.png"
+     },
+     "version": "asset-d8b96bb2caeadc14dd8e9311",
+     "w": 40,
+     "h": 128,
+     "pivot": [
+      0,
+      127
+     ],
+     "ready": false,
+     "check": {
+      "colours": 4,
+      "near": 0.0,
+      "lone": 0.0,
+      "soft": 0.0,
+      "detail": 0.003,
+      "light": 1.2,
+      "spread": 1.9,
+      "verdict": "pass",
+      "notes": []
+     }
+    },
+    "b": {
+     "layers": {
+      "body": "BK63b_body.png",
+      "height": "BK63b_height.png",
+      "guts": "BK63b_guts.png"
+     },
+     "version": "asset-1821bdef81431dba59760fd7",
+     "w": 40,
+     "h": 256,
+     "pivot": [
+      0,
+      255
+     ],
+     "ready": false,
+     "check": {
+      "colours": 4,
+      "near": 0.0,
+      "lone": 0.0,
+      "soft": 0.0,
+      "detail": 0.022,
+      "light": 0.9,
+      "spread": 2.9,
+      "verdict": "pass",
+      "notes": []
+     }
+    },
+    "c": {
+     "layers": {
+      "body": "BK63c_body.png",
+      "height": "BK63c_height.png",
+      "guts": "BK63c_guts.png"
+     },
+     "version": "asset-db8477f9ad47a1b0dc3b65a7",
+     "w": 40,
+     "h": 384,
+     "pivot": [
+      0,
+      383
+     ],
+     "ready": false,
+     "check": {
+      "colours": 4,
+      "near": 0.0,
+      "lone": 0.0,
+      "soft": 0.0,
+      "detail": 0.024,
+      "light": 0.9,
+      "spread": 3.1,
+      "verdict": "pass",
+      "notes": []
+     }
+    }
+   }
+  },
+  "BK64": {
+   "name": "BK64 Corbelled turret",
+   "w": 48,
+   "h": 128,
+   "variants": {
+    "a": {
+     "layers": {
+      "body": "BK64a_body.png",
+      "height": "BK64a_height.png",
+      "back": "BK64a_back.png",
+      "guts": "BK64a_guts.png"
+     },
+     "version": "asset-cb8823bbbb2353bf5bd3cfc7",
+     "w": 48,
+     "h": 128,
+     "pivot": [
+      0,
+      127
+     ],
+     "ready": false,
+     "check": {
+      "colours": 2,
+      "near": 0.0,
+      "lone": 0.0,
+      "soft": 0.0,
+      "detail": 0.0,
+      "light": 0.3,
+      "spread": 1.6,
+      "verdict": "pass",
+      "notes": []
+     }
+    }
+   }
+  },
+  "BK65": {
+   "name": "BK65 Gallery on corbels",
+   "w": 128,
+   "h": 64,
+   "variants": {
+    "a": {
+     "layers": {
+      "body": "BK65a_body.png",
+      "height": "BK65a_height.png",
+      "guts": "BK65a_guts.png"
+     },
+     "version": "asset-a80cdf28abe9992cf32267c5",
+     "w": 128,
+     "h": 64,
+     "pivot": [
+      0,
+      63
+     ],
+     "ready": false,
+     "check": {
+      "colours": 3,
+      "near": 0.0,
+      "lone": 0.0,
+      "soft": 0.0,
+      "detail": 0.0,
+      "light": 0.1,
+      "spread": 2.3,
+      "verdict": "pass",
+      "notes": []
+     }
+    }
+   }
+  },
+  "BK70": {
+   "name": "BK70 Back bay \u00b7 rose glass",
+   "w": 128,
+   "h": 128,
+   "variants": {
+    "a": {
+     "layers": {
+      "body": "BK70a_body.png",
+      "height": "BK70a_height.png",
+      "back": "BK70a_back.png",
+      "guts": "BK70a_guts.png",
+      "emis": "BK70a_emis.png"
+     },
+     "version": "asset-90a993597645fa8beb6e8e5d",
+     "w": 128,
+     "h": 128,
+     "pivot": [
+      0,
+      127
+     ],
+     "ready": false,
+     "check": {
+      "colours": 3,
+      "near": 0.0,
+      "lone": 0.0,
+      "soft": 0.0,
+      "detail": 0.087,
+      "light": 0.1,
+      "spread": 3.5,
+      "verdict": "pass",
+      "notes": []
+     }
+    }
+   }
+  },
+  "BK71": {
+   "name": "BK71 Back bay \u00b7 shelves and niches",
+   "w": 128,
+   "h": 128,
+   "variants": {
+    "a": {
+     "layers": {
+      "body": "BK71a_body.png",
+      "back": "BK71a_back.png"
+     },
+     "version": "asset-a73c9f7956911e27e0627899",
+     "w": 128,
+     "h": 128,
+     "pivot": [
+      0,
+      127
+     ],
+     "ready": false,
+     "check": {
+      "colours": 3,
+      "near": 0.0,
+      "lone": 0.0,
+      "soft": 0.0,
+      "detail": 0.013,
+      "light": 0.0,
+      "spread": 2.2,
+      "verdict": "pass",
+      "notes": []
+     }
+    }
+   }
+  },
+  "BK72": {
+   "name": "BK72 Back bay \u00b7 collapsed",
+   "w": 128,
+   "h": 128,
+   "variants": {
+    "a": {
+     "layers": {
+      "body": "BK72a_body.png",
+      "back": "BK72a_back.png"
+     },
+     "version": "asset-43d0183ead606742a33b8721",
+     "w": 128,
+     "h": 128,
+     "pivot": [
+      0,
+      127
+     ],
+     "ready": false,
+     "check": {
+      "colours": 2,
+      "near": 0.0,
+      "lone": 0.0,
+      "soft": 0.0,
+      "detail": 0.0,
+      "light": 0.6,
+      "spread": 0.9,
+      "verdict": "pass",
+      "notes": []
+     }
+    }
+   }
+  },
+  "BK73": {
+   "name": "BK73 Fallen column",
+   "w": 96,
+   "h": 24,
+   "variants": {
+    "a": {
+     "layers": {
+      "body": "BK73a_body.png",
+      "height": "BK73a_height.png",
+      "guts": "BK73a_guts.png"
+     },
+     "version": "asset-ee2e0aa1fc48907b658a2ca1",
+     "w": 96,
+     "h": 24,
+     "pivot": [
+      0,
+      23
+     ],
+     "ready": false,
+     "check": {
+      "colours": 4,
+      "near": 0.0,
+      "lone": 0.0,
+      "soft": 0.0,
+      "detail": 0.01,
+      "light": 0.1,
+      "spread": 2.7,
+      "verdict": "pass",
+      "notes": []
+     }
+    }
+   }
+  },
+  "BK74": {
+   "name": "BK74 Cracked pier",
+   "w": 24,
+   "h": 128,
+   "variants": {
+    "a": {
+     "layers": {
+      "body": "BK74a_body.png",
+      "height": "BK74a_height.png",
+      "guts": "BK74a_guts.png"
+     },
+     "version": "asset-e5f3e412de42e59af69a6d6e",
+     "w": 24,
+     "h": 128,
+     "pivot": [
+      0,
+      127
+     ],
+     "ready": false,
+     "check": {
+      "colours": 4,
+      "near": 0.0,
+      "lone": 0.0,
+      "soft": 0.0,
+      "detail": 0.045,
+      "light": 0.1,
+      "spread": 4.0,
+      "verdict": "pass",
+      "notes": []
+     }
+    }
+   }
+  },
+  "BK75": {
+   "name": "BK75 Sagging slab",
+   "w": 128,
+   "h": 28,
+   "variants": {
+    "a": {
+     "layers": {
+      "body": "BK75a_body.png",
+      "height": "BK75a_height.png",
+      "guts": "BK75a_guts.png"
+     },
+     "version": "asset-f50ce2ab07bd8f181bb67149",
+     "w": 128,
+     "h": 28,
+     "pivot": [
+      0,
+      27
+     ],
+     "ready": false,
+     "check": {
+      "colours": 2,
+      "near": 0.0,
+      "lone": 0.0,
+      "soft": 0.0,
+      "detail": 0.0,
+      "light": 0.0,
+      "spread": 2.0,
+      "verdict": "pass",
+      "notes": []
+     }
+    }
+   }
+  },
+  "BK80": {
+   "name": "BK80 Rope bridge \u00b7 plank repeat",
+   "w": 32,
+   "h": 6,
+   "variants": {
+    "a": {
+     "layers": {
+      "body": "BK80a_body.png",
+      "height": "BK80a_height.png",
+      "guts": "BK80a_guts.png"
+     },
+     "version": "asset-5100370156ee53480165a318",
+     "w": 32,
+     "h": 6,
+     "pivot": [
+      0,
+      5
+     ],
+     "ready": false,
+     "check": {
+      "colours": 2,
+      "near": 0.0,
+      "lone": 0.0,
+      "soft": 0.0,
+      "detail": 0.0,
+      "light": 0.0,
+      "spread": 1.9,
+      "verdict": "pass",
+      "notes": []
+     }
+    },
+    "b": {
+     "layers": {
+      "body": "BK80b_body.png",
+      "height": "BK80b_height.png",
+      "guts": "BK80b_guts.png"
+     },
+     "version": "asset-f352a33e5c8ce069df203360",
+     "w": 16,
+     "h": 64,
+     "pivot": [
+      0,
+      63
+     ],
+     "ready": false,
+     "check": {
+      "colours": 3,
+      "near": 0.0,
+      "lone": 0.0,
+      "soft": 0.0,
+      "detail": 0.004,
+      "light": 0.0,
+      "spread": 2.8,
+      "verdict": "pass",
+      "notes": []
+     }
+    },
+    "c": {
+     "layers": {
+      "body": "BK80c_body.png",
+      "back": "BK80c_back.png"
+     },
+     "version": "asset-bd0504a954e1fb52a3fc8d08",
+     "w": 32,
+     "h": 20,
+     "pivot": [
+      0,
+      19
+     ],
+     "ready": false,
+     "check": {
+      "colours": 1,
+      "near": 0.0,
+      "lone": 0.0,
+      "soft": 0.0,
+      "detail": 0.0,
+      "light": 0.0,
+      "spread": 0.0,
+      "verdict": "pass",
+      "notes": []
+     }
+    }
+   }
+  },
+  "BK81": {
+   "name": "BK81 Covered bridge",
+   "w": 128,
+   "h": 128,
+   "variants": {
+    "a": {
+     "layers": {
+      "body": "BK81a_body.png",
+      "height": "BK81a_height.png",
+      "back": "BK81a_back.png",
+      "guts": "BK81a_guts.png"
+     },
+     "version": "asset-c5f7ec546cb14722e6bdfd56",
+     "w": 128,
+     "h": 128,
+     "pivot": [
+      0,
+      127
+     ],
+     "ready": false,
+     "check": {
+      "colours": 2,
+      "near": 0.0,
+      "lone": 0.0,
+      "soft": 0.0,
+      "detail": 0.0,
+      "light": 0.0,
+      "spread": 1.9,
+      "verdict": "pass",
+      "notes": []
+     }
+    }
+   }
+  },
+  "BK90": {
+   "name": "BK90 Cantilever \u00b7 deck repeat",
+   "w": 32,
+   "h": 16,
+   "variants": {
+    "a": {
+     "layers": {
+      "body": "BK90a_body.png",
+      "height": "BK90a_height.png",
+      "guts": "BK90a_guts.png"
+     },
+     "version": "asset-7c131feec4fc85b55e952880",
+     "w": 32,
+     "h": 16,
+     "pivot": [
+      0,
+      15
+     ],
+     "ready": false,
+     "check": {
+      "colours": 3,
+      "near": 0.0,
+      "lone": 0.0,
+      "soft": 0.0,
+      "detail": 0.007,
+      "light": 0.0,
+      "spread": 2.6,
+      "verdict": "pass",
+      "notes": []
+     }
+    },
+    "b": {
+     "layers": {
+      "body": "BK90b_body.png",
+      "height": "BK90b_height.png",
+      "guts": "BK90b_guts.png"
+     },
+     "version": "asset-283bbbb094a74350f0f1b085",
+     "w": 64,
+     "h": 64,
+     "pivot": [
+      0,
+      63
+     ],
+     "ready": false,
+     "check": {
+      "colours": 3,
+      "near": 0.0,
+      "lone": 0.0,
+      "soft": 0.0,
+      "detail": 0.002,
+      "light": 0.6,
+      "spread": 1.7,
+      "verdict": "pass",
+      "notes": []
+     }
+    },
+    "c": {
+     "layers": {
+      "body": "BK90c_body.png",
+      "height": "BK90c_height.png",
+      "back": "BK90c_back.png",
+      "guts": "BK90c_guts.png",
+      "emis": "BK90c_emis.png"
+     },
+     "version": "asset-1361c1da2be0450be3b5424d",
+     "w": 16,
+     "h": 48,
+     "pivot": [
+      0,
+      47
+     ],
+     "ready": false,
+     "check": {
+      "colours": 1,
+      "near": 0.0,
+      "lone": 0.0,
+      "soft": 0.0,
+      "detail": 0.0,
+      "light": 0.0,
+      "spread": 0.0,
+      "verdict": "pass",
+      "notes": []
+     }
+    }
+   }
+  },
+  "BK91": {
+   "name": "BK91 Cantilever \u00b7 snapped end",
+   "w": 32,
+   "h": 24,
+   "variants": {
+    "a": {
+     "layers": {
+      "body": "BK91a_body.png",
+      "height": "BK91a_height.png",
+      "guts": "BK91a_guts.png"
+     },
+     "version": "asset-ac8b57fee9438ff9e641bc5b",
+     "w": 32,
+     "h": 24,
+     "pivot": [
+      0,
+      23
+     ],
+     "ready": false,
+     "check": {
+      "colours": 2,
+      "near": 0.0,
+      "lone": 0.0,
+      "soft": 0.0,
+      "detail": 0.0,
+      "light": 0.1,
+      "spread": 1.9,
+      "verdict": "pass",
+      "notes": []
+     }
+    }
+   }
+  },
+  "BK92": {
+   "name": "BK92 Jetty bracket",
+   "w": 36,
+   "h": 32,
+   "variants": {
+    "a": {
+     "layers": {
+      "body": "BK92a_body.png",
+      "height": "BK92a_height.png",
+      "guts": "BK92a_guts.png"
+     },
+     "version": "asset-931c7182df37fbfb280d8c7c",
+     "w": 36,
+     "h": 32,
+     "pivot": [
+      0,
+      31
+     ],
+     "ready": false,
+     "check": {
+      "colours": 3,
+      "near": 0.0,
+      "lone": 0.0,
+      "soft": 0.0,
+      "detail": 0.0,
+      "light": 3.7,
+      "spread": 2.7,
+      "verdict": "pass",
+      "notes": []
+     }
+    },
+    "b": {
+     "layers": {
+      "body": "BK92b_body.png",
+      "height": "BK92b_height.png",
+      "guts": "BK92b_guts.png"
+     },
+     "version": "asset-4a5153fb28f55af6e61be6fc",
+     "w": 48,
+     "h": 16,
+     "pivot": [
+      0,
+      15
+     ],
+     "ready": false,
+     "check": {
+      "colours": 2,
+      "near": 0.0,
+      "lone": 0.0,
+      "soft": 0.0,
+      "detail": 0.0,
+      "light": 0.0,
+      "spread": 2.0,
+      "verdict": "pass",
+      "notes": []
+     }
+    }
+   }
+  },
+  "BK93": {
+   "name": "BK93 Setback ledge edge",
+   "w": 56,
+   "h": 16,
+   "variants": {
+    "a": {
+     "layers": {
+      "body": "BK93a_body.png",
+      "height": "BK93a_height.png",
+      "guts": "BK93a_guts.png"
+     },
+     "version": "asset-27cd681437a53c463f910bce",
+     "w": 56,
+     "h": 16,
+     "pivot": [
+      0,
+      15
+     ],
+     "ready": false,
+     "check": {
+      "colours": 2,
+      "near": 0.0,
+      "lone": 0.0,
+      "soft": 0.0,
+      "detail": 0.0,
+      "light": 0.0,
+      "spread": 1.9,
+      "verdict": "pass",
+      "notes": []
+     }
+    }
+   }
+  },
+  "BK94": {
+   "name": "BK94 Apse",
+   "w": 58,
+   "h": 180,
+   "variants": {
+    "a": {
+     "layers": {
+      "body": "BK94a_body.png",
+      "height": "BK94a_height.png",
+      "back": "BK94a_back.png",
+      "guts": "BK94a_guts.png"
+     },
+     "version": "asset-0b0454c3bf63658f724c2c81",
+     "w": 58,
+     "h": 180,
+     "pivot": [
+      0,
+      122
+     ],
+     "ready": false,
+     "check": {
+      "colours": 2,
+      "near": 0.0,
+      "lone": 0.0,
+      "soft": 0.0,
+      "detail": 0.0,
+      "light": 0.2,
+      "spread": 1.3,
+      "verdict": "pass",
+      "notes": []
+     }
+    }
+   }
+  },
+  "BK95": {
+   "name": "BK95 Flying arch \u00b7 128 span",
+   "w": 128,
+   "h": 64,
+   "variants": {
+    "a": {
+     "layers": {
+      "body": "BK95a_body.png",
+      "height": "BK95a_height.png",
+      "guts": "BK95a_guts.png"
+     },
+     "version": "asset-acc0ba4cfccc2a7d74f4e09c",
+     "w": 128,
+     "h": 64,
+     "pivot": [
+      0,
+      0
+     ],
+     "ready": false,
+     "check": {
+      "colours": 2,
+      "near": 0.0,
+      "lone": 0.0,
+      "soft": 0.0,
+      "detail": 0.0,
+      "light": 0.0,
+      "spread": 2.0,
+      "verdict": "pass",
+      "notes": []
+     }
+    },
+    "b": {
+     "layers": {
+      "body": "BK95b_body.png",
+      "height": "BK95b_height.png",
+      "guts": "BK95b_guts.png"
+     },
+     "version": "asset-2edc7bf5e2f501f9d6b75b66",
+     "w": 160,
+     "h": 64,
+     "pivot": [
+      0,
+      0
+     ],
+     "ready": false,
+     "check": {
+      "colours": 2,
+      "near": 0.0,
+      "lone": 0.0,
+      "soft": 0.0,
+      "detail": 0.0,
+      "light": 0.0,
+      "spread": 2.0,
+      "verdict": "pass",
+      "notes": []
+     }
+    },
+    "c": {
+     "layers": {
+      "body": "BK95c_body.png",
+      "height": "BK95c_height.png",
+      "guts": "BK95c_guts.png"
+     },
+     "version": "asset-71729b23cd6ac895820957e7",
+     "w": 28,
+     "h": 128,
+     "pivot": [
+      0,
+      127
+     ],
+     "ready": false,
+     "check": {
+      "colours": 4,
+      "near": 0.0,
+      "lone": 0.0,
+      "soft": 0.0,
+      "detail": 0.042,
+      "light": 0.0,
+      "spread": 4.2,
+      "verdict": "pass",
+      "notes": []
+     }
+    }
+   }
+  },
+  "BK96": {
+   "name": "BK96 Scaffold \u00b7 deck",
+   "w": 64,
+   "h": 8,
+   "variants": {
+    "a": {
+     "layers": {
+      "body": "BK96a_body.png",
+      "height": "BK96a_height.png",
+      "guts": "BK96a_guts.png"
+     },
+     "version": "asset-b596a7631a84855caf5686e4",
+     "w": 64,
+     "h": 8,
+     "pivot": [
+      0,
+      7
+     ],
+     "ready": false,
+     "check": {
+      "colours": 2,
+      "near": 0.0,
+      "lone": 0.0,
+      "soft": 0.0,
+      "detail": 0.0,
+      "light": 0.0,
+      "spread": 1.7,
+      "verdict": "pass",
+      "notes": []
+     }
+    },
+    "b": {
+     "layers": {
+      "body": "BK96b_body.png",
+      "back": "BK96b_back.png"
+     },
+     "version": "asset-37c926adb6e6c04dd17bc5d9",
+     "w": 12,
+     "h": 128,
+     "pivot": [
+      0,
+      127
+     ],
+     "ready": false,
+     "check": {
+      "colours": 2,
+      "near": 0.0,
+      "lone": 0.0,
+      "soft": 0.0,
+      "detail": 0.0,
+      "light": 0.0,
+      "spread": 1.7,
+      "verdict": "pass",
+      "notes": []
+     }
+    },
+    "c": {
+     "layers": {
+      "body": "BK96c_body.png",
+      "back": "BK96c_back.png"
+     },
+     "version": "asset-74ee2683bb7b9a9e6af387c1",
+     "w": 64,
+     "h": 128,
+     "pivot": [
+      0,
+      127
+     ],
+     "ready": false,
+     "check": {
+      "colours": 2,
+      "near": 0.0,
+      "lone": 0.0,
+      "soft": 0.0,
+      "detail": 0.0,
+      "light": 0.1,
+      "spread": 1.8,
+      "verdict": "pass",
+      "notes": []
+     }
+    },
+    "d": {
+     "layers": {
+      "body": "BK96d_body.png",
+      "height": "BK96d_height.png",
+      "back": "BK96d_back.png",
+      "guts": "BK96d_guts.png"
+     },
+     "version": "asset-6cedc4e682c2249078bd3f23",
+     "w": 26,
+     "h": 128,
+     "pivot": [
+      0,
+      127
+     ],
+     "ready": false,
+     "check": {
+      "colours": 1,
+      "near": 0.0,
+      "lone": 0.0,
+      "soft": 0.0,
+      "detail": 0.0,
+      "light": 0.0,
+      "spread": 0.0,
+      "verdict": "pass",
+      "notes": []
+     }
+    }
+   }
+  },
+  "BK97": {
+   "name": "BK97 Crane \u00b7 jib",
+   "w": 80,
+   "h": 48,
+   "variants": {
+    "a": {
+     "layers": {
+      "body": "BK97a_body.png",
+      "back": "BK97a_back.png"
+     },
+     "version": "asset-ac3657994c469d6df22c4aae",
+     "w": 80,
+     "h": 48,
+     "pivot": [
+      0,
+      47
+     ],
+     "ready": false,
+     "check": {
+      "colours": 3,
+      "near": 0.0,
+      "lone": 0.0,
+      "soft": 0.0,
+      "detail": 0.007,
+      "light": 0.4,
+      "spread": 1.6,
+      "verdict": "pass",
+      "notes": []
+     }
+    },
+    "b": {
+     "layers": {
+      "body": "BK97b_body.png",
+      "back": "BK97b_back.png"
+     },
+     "version": "asset-36d689c85d19f04d93fef091",
+     "w": 8,
+     "h": 128,
+     "pivot": [
+      0,
+      127
+     ],
+     "ready": false,
+     "check": {
+      "colours": 2,
+      "near": 0.0,
+      "lone": 0.0,
+      "soft": 0.0,
+      "detail": 0.0,
+      "light": 0.0,
+      "spread": 1.6,
+      "verdict": "pass",
+      "notes": []
+     }
+    },
+    "c": {
+     "layers": {
+      "body": "BK97c_body.png",
+      "height": "BK97c_height.png",
+      "guts": "BK97c_guts.png"
+     },
+     "version": "asset-4fea9f18c28add86c5ea8aaa",
+     "w": 48,
+     "h": 8,
+     "pivot": [
+      0,
+      7
+     ],
+     "ready": false,
+     "check": {
+      "colours": 2,
+      "near": 0.0,
+      "lone": 0.0,
+      "soft": 0.0,
+      "detail": 0.0,
+      "light": 0.0,
+      "spread": 1.8,
+      "verdict": "pass",
+      "notes": []
+     }
+    }
+   }
+  },
+  "BK98": {
+   "name": "BK98 Gallery railing and corbel",
+   "w": 44,
+   "h": 60,
+   "variants": {
+    "a": {
+     "layers": {
+      "body": "BK98a_body.png",
+      "height": "BK98a_height.png",
+      "back": "BK98a_back.png",
+      "guts": "BK98a_guts.png"
+     },
+     "version": "asset-8fae62b491e5b72a6d4ec693",
+     "w": 44,
+     "h": 60,
+     "pivot": [
+      0,
+      26
+     ],
+     "ready": false,
+     "check": {
+      "colours": 2,
+      "near": 0.0,
+      "lone": 0.0,
+      "soft": 0.0,
+      "detail": 0.0,
+      "light": 0.0,
+      "spread": 1.6,
       "verdict": "pass",
       "notes": []
      }

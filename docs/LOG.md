@@ -6,6 +6,12 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-17 · Claude · Batch 2 + 2b imported and reviewed
+
+- `bk_import.py` from [73a4dbe](https://github.com/Astrosomnia/Grimspire/commit/73a4dbe): **79 variants in 46 parts**, all older letters kept (BK09c/d, BK10c/d, BK11b added). Art check: every new part passes; flags are the older Priority A ones plus BK10c/d (one side lit: a small shadow inside the lancet cutout). No downscale tells anywhere.
+- Review (Claude): the new back walls (BK09c/d, BK10c/d, BK11b) hit the brief: plain dark coursing, clean cutouts. Gables, cupola, belfry, grand doorway, buttresses, rose and shelves backs, collapsed back: restrained, on-grid, form in the Height. Weak: the stairs (BK40–42) are floating square treads with no flight under them, reading as stepping stones; the lean-to (BK50) is a bare plank; the spiral stair (BK43) is two ledges; several small parts (fallen column, rope plank, cantilever deck) are near single-tone and lean entirely on the Height. See the chat review for the asks.
+- The generator places BK01–BK12 only so far; the rest show in the Parts list as "in the kit, not placed" until Claude wires their placement.
+
 ## 2026-11-17 · ChatGPT · Building kits Batch 2 + 2b saved, additional walls retained
 
 - Saved **52 native-grid drawings across 34 new part IDs**: BK40–44, BK50–55, BK60–65, BK70–75, BK80–81 and BK90–98. Forge commit [73a4dbe](https://github.com/Astrosomnia/Grimspire/commit/73a4dbeb73803b2ae6316ba9c6a903c1f52294a7). Receipt: `art/lab/releases/building-kit-batch2-v001/`, including exact version/component manifest, sources, proofs and checks.
