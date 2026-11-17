@@ -6,6 +6,11 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-16 · Claude · Building lab: draw a sketch
+
+- The lab's sketch box has a **Text / Draw** toggle. Draw: doodle on a 6×6 bay grid (paint, erase); a bay fills once about a quarter of it is painted, bays need ground or a bay under them (unsupported ones show red), stair by swiping the way it rises, ladder and hall by tapping. Both modes edit the same sketch and round-trip; works with touch. **Dress this sketch ×24** as before.
+- Jarred, on learning: he wants keep/cut to discourage broken or boring *combinations*, not narrow which parts can appear. The current learning reweights single choices, so it narrows the range. Next version: keeps stop boosting, a variety floor, and a reject filter scored on whole-building measures learned from cuts. Waiting until he has played the current version (and likely a reset once parts land).
+
 ## 2026-11-16 · Claude · Parts catalogue filed; agreed order
 
 - ChatGPT's parts proposal filed as [`BUILDING-PARTS-CATALOGUE.md`](BUILDING-PARTS-CATALOGUE.md): the long-term catalogue, not the first batch.

@@ -56,6 +56,11 @@ main{flex:1;min-width:0;padding:10px;display:grid;grid-template-columns:repeat(a
 #modal textarea{width:100%;min-height:50vh;background:#0e1118;border:1px solid var(--line);border-radius:4px;padding:8px;font-size:12px}
 .tpl{display:flex;gap:6px;align-items:center;padding:3px 0;font-size:12px}
 .tpl span{flex:1}
+#sketch .tabs{display:flex;gap:4px;margin:4px 0}
+#sketch .tabs button.on,#dtools button.on{border-color:var(--cyan);color:var(--cyan)}
+#dtools{display:flex;flex-wrap:wrap;gap:4px;margin:4px 0}
+#dtools button{padding:4px 7px}
+#dcv{width:100%;aspect-ratio:1;display:block;background:#0e1118;border:1px solid var(--line);border-radius:4px;touch-action:none;cursor:crosshair}
 #sketch textarea{width:100%;height:110px;background:#0e1118;border:1px solid var(--line);border-radius:4px;padding:6px;font-size:13px;line-height:1.1}
 .legend{font-size:11px;color:var(--dim);display:flex;flex-wrap:wrap;gap:4px 10px}
 .legend i{display:inline-block;width:10px;height:10px;border-radius:2px;vertical-align:-1px;margin-right:3px}
@@ -96,11 +101,17 @@ main{flex:1;min-width:0;padding:10px;display:grid;grid-template-columns:repeat(a
   <div class="opt" style="grid-template-columns:110px 1fr 38px"><span>learning</span><input type="range" id="lr" min="1.05" max="2" step="0.05"><span class="pc" id="lrv"></span></div>
   <h2>Sketch</h2>
   <div id="sketch">
-    <div class="small">A rough layout, top storey first. <b>#</b> bay, <b>.</b> empty, <b>S</b>/<b>s</b> stair rising right/left, <b>L</b> ladder up, <b>H</b> hall (no floor). The rules dress the rest.</div>
+    <div class="tabs"><button id="tText">Text</button><button id="tDraw">Draw</button></div>
+    <div id="pText"><div class="small">A rough layout, top storey first. <b>#</b> bay, <b>.</b> empty, <b>S</b>/<b>s</b> stair rising right/left, <b>L</b> ladder up, <b>H</b> hall (no floor). The rules dress the rest.</div>
     <textarea id="sk" spellcheck="false">#...
 ##.#
 #S##
-##s#</textarea>
+##s#</textarea></div>
+    <div id="pDraw" hidden>
+      <div class="small">Doodle the shape: bays fill in once you've painted over about a quarter of them. Bays need ground or a bay under them. <b>Stair</b>: swipe across a bay the way it rises (tap to flip). <b>Ladder</b>/<b>Hall</b>: tap a bay.</div>
+      <div id="dtools"><button data-t="mass" class="on">✎ paint</button><button data-t="erase">⌫ erase</button><button data-t="stair">⟋ stair</button><button data-t="ladder">☷ ladder</button><button data-t="hall">▢ hall</button><button id="dClear">clear</button></div>
+      <canvas id="dcv"></canvas>
+    </div>
     <div class="row" style="display:flex;gap:6px;margin-top:4px"><button id="bSketch">Dress this sketch ×24</button><button id="bUnsketch">Back to generator</button></div>
   </div>
   <h2>Templates <span class="small">(locked buildings)</span></h2>
@@ -744,6 +755,59 @@ $('#bResetAll').onclick=e=>{const b=e.target;if(!b.dataset.arm){b.dataset.arm=1;
 let rt;addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>cards.forEach(paintCard),200)});
 if(innerWidth<=760)$('#panel').classList.add('shut');
 if(ST.sketch)$('#sk').value=ST.sketch;
+
+// ---------------------------------------------------------------- sketch: draw mode (a doodle on the bay grid; writes the same text sketch)
+const DR={C:6,R:6,S:8,tool:'mass',ink:null,marks:{},down:null};
+DR.ink=new Uint8Array(DR.C*DR.S*DR.R*DR.S);
+const drFilled=(c,r)=>{let k=0;for(let y=0;y<DR.S;y++)for(let x=0;x<DR.S;x++)k+=DR.ink[(r*DR.S+y)*DR.C*DR.S+c*DR.S+x];return k>=DR.S*DR.S*.25};// r counts from the top
+function drModel(){const f=[];for(let r=0;r<DR.R;r++){f[r]=[];for(let c=0;c<DR.C;c++)f[r][c]=drFilled(c,r)}
+  let g=-1;for(let r=DR.R-1;r>=0&&g<0;r--)if(f[r].some(v=>v))g=r;// ground: the lowest painted row
+  const sup=f.map(row=>row.map(()=>false));if(g<0)return{f,sup,g};
+  for(let c=0;c<DR.C;c++)for(let r=g;r>=0&&f[r][c];r--)sup[r][c]=true;return{f,sup,g}}
+function drToText(){const{sup,g}=drModel();if(g<0)return'';let c0=DR.C,c1=-1,top=g;
+  for(let r=0;r<=g;r++)for(let c=0;c<DR.C;c++)if(sup[r][c]){c0=Math.min(c0,c);c1=Math.max(c1,c);top=Math.min(top,r)}
+  const lines=[];for(let r=top;r<=g;r++){let l='';for(let c=c0;c<=c1;c++){const m=DR.marks[c+','+r];l+=!sup[r][c]?'.':m&&!(m==='H'&&r===g)?m:'#'}lines.push(l)}return lines.join('\n')}
+function drFromText(t){DR.ink.fill(0);DR.marks={};const rows=t.split('\n').map(x=>x.replace(/\s+$/,'')).filter(x=>x.length);if(!rows.length)return;
+  const m=rows.length,n=Math.min(DR.C,Math.max(...rows.map(x=>x.length))),off=Math.floor((DR.C-n)/2);
+  rows.slice(-DR.R).forEach((line,i)=>{const r=DR.R-Math.min(m,DR.R)+i;for(let c=0;c<n;c++){const ch=line[c]||'.';if(ch==='.')continue;
+    for(let y=0;y<DR.S;y++)for(let x=0;x<DR.S;x++)DR.ink[(r*DR.S+y)*DR.C*DR.S+(c+off)*DR.S+x]=1;if('SsLH'.includes(ch))DR.marks[(c+off)+','+r]=ch}})}
+function drRender(){const cv=$('#dcv'),w=Math.round(cv.clientWidth*(devicePixelRatio||1));if(!w)return;if(cv.width!==w){cv.width=w;cv.height=w}
+  const x=cv.getContext('2d'),cs=w/DR.C,ss=cs/DR.S,{f,sup,g}=drModel();x.clearRect(0,0,w,w);
+  x.strokeStyle='rgba(63,243,255,.12)';x.lineWidth=1;for(let i=0;i<=DR.C;i++){x.beginPath();x.moveTo(i*cs,0);x.lineTo(i*cs,w);x.stroke();x.beginPath();x.moveTo(0,i*cs);x.lineTo(w,i*cs);x.stroke()}
+  for(let r=0;r<DR.R;r++)for(let c=0;c<DR.C;c++){if(!f[r][c])continue;x.fillStyle=sup[r][c]?'rgba(167,175,192,.22)':'rgba(255,77,109,.14)';x.fillRect(c*cs+2,r*cs+2,cs-4,cs-4)}
+  x.fillStyle='#8d95a8';const GW=DR.C*DR.S;for(let i=0;i<DR.ink.length;i++)if(DR.ink[i])x.fillRect(Math.floor((i%GW)*ss),Math.floor(((i/GW)|0)*ss),Math.ceil(ss)+1,Math.ceil(ss)+1);
+  for(let r=0;r<DR.R;r++)for(let c=0;c<DR.C;c++){if(!f[r][c])continue;x.lineWidth=2;
+    if(sup[r][c]){x.strokeStyle='#3ff3ff';x.setLineDash([])}else{x.strokeStyle='#ff4d6d';x.setLineDash([5,4])}x.strokeRect(c*cs+3,r*cs+3,cs-6,cs-6);x.setLineDash([]);
+    const m=DR.marks[c+','+r];if(!m||!sup[r][c])continue;const X=c*cs,Y=r*cs;x.lineWidth=Math.max(2,cs*.06);
+    if(m==='S'||m==='s'){x.strokeStyle='#ffffff';x.beginPath();const a=m==='S'?[X+cs*.2,Y+cs*.8,X+cs*.8,Y+cs*.2]:[X+cs*.8,Y+cs*.8,X+cs*.2,Y+cs*.2];
+      for(let k=0;k<=5;k++){const t=k/5,px=a[0]+(a[2]-a[0])*t,py=a[1]+(a[3]-a[1])*t;k?x.lineTo(px,py):x.moveTo(px,py)}x.stroke();x.beginPath();x.arc(a[2],a[3],cs*.06,0,7);x.fillStyle='#fff';x.fill()}
+    else if(m==='L'){x.strokeStyle='#e0a545';for(let k=0;k<4;k++){x.beginPath();x.moveTo(X+cs*.38,Y+cs*(.2+k*.2));x.lineTo(X+cs*.62,Y+cs*(.2+k*.2));x.stroke()}
+      x.beginPath();x.moveTo(X+cs*.38,Y+cs*.1);x.lineTo(X+cs*.38,Y+cs*.9);x.moveTo(X+cs*.62,Y+cs*.1);x.lineTo(X+cs*.62,Y+cs*.9);x.stroke()}
+    else if(m==='H'&&r!==g){x.strokeStyle='#ff2e88';x.setLineDash([4,4]);x.beginPath();x.moveTo(X+6,Y+cs-5);x.lineTo(X+cs-6,Y+cs-5);x.stroke();x.setLineDash([]);
+      x.fillStyle='#ff2e88';x.font=`${Math.round(cs*.22)}px ui-monospace,monospace`;x.textAlign='center';x.fillText('hall',X+cs/2,Y+cs*.58)}}
+  if(g>=0){x.strokeStyle='#4f5668';x.lineWidth=3;x.beginPath();x.moveTo(0,(g+1)*cs-1);x.lineTo(w,(g+1)*cs-1);x.stroke()}}
+function drSync(){$('#sk').value=drToText();drRender()}
+function drPos(e){const cv=$('#dcv'),b=cv.getBoundingClientRect();return[(e.clientX-b.left)/b.width*DR.C,(e.clientY-b.top)/b.height*DR.R]}
+function drPaint(p,q,on){const GW=DR.C*DR.S,GH=DR.R*DR.S,rad=on?1.8:2.4,d=Math.hypot(q[0]-p[0],q[1]-p[1])*DR.S,n=Math.max(1,Math.ceil(d/.5));
+  for(let i=0;i<=n;i++){const cx=(p[0]+(q[0]-p[0])*i/n)*DR.S,cy=(p[1]+(q[1]-p[1])*i/n)*DR.S;
+    for(let y=Math.floor(cy-rad);y<=cy+rad;y++)for(let x=Math.floor(cx-rad);x<=cx+rad;x++){if(x<0||y<0||x>=GW||y>=GH)continue;if(Math.hypot(x+.5-cx,y+.5-cy)<=rad)DR.ink[y*GW+x]=on?1:0}}}
+(function drInit(){const cv=$('#dcv');
+  cv.addEventListener('pointerdown',e=>{e.preventDefault();cv.setPointerCapture(e.pointerId);const p=drPos(e);DR.down={p,last:p};
+    if(DR.tool==='mass'||DR.tool==='erase'){drPaint(p,p,DR.tool==='mass');drSync()}});
+  cv.addEventListener('pointermove',e=>{if(!DR.down)return;const p=drPos(e);if(DR.tool==='mass'||DR.tool==='erase'){drPaint(DR.down.last,p,DR.tool==='mass');DR.down.last=p;drSync()}});
+  const up=e=>{if(!DR.down)return;const p=drPos(e),a=DR.down.p;DR.down=null;if(DR.tool==='mass'||DR.tool==='erase'){if(DR.tool==='erase')for(const k in DR.marks){const[c,r]=k.split(',').map(Number);if(!drFilled(c,r))delete DR.marks[k]}drSync();return}
+    const c=Math.floor(a[0]),r=Math.floor(a[1]);if(c<0||r<0||c>=DR.C||r>=DR.R||!drFilled(c,r))return;const k=c+','+r,cur=DR.marks[k];
+    if(DR.tool==='stair'){const dx=p[0]-a[0];const v=Math.abs(dx)>.15?(dx>0?'S':'s'):cur==='S'?'s':cur==='s'?null:'S';if(v)DR.marks[k]=v;else delete DR.marks[k]}
+    else{const v=DR.tool==='ladder'?'L':'H';if(cur===v)delete DR.marks[k];else DR.marks[k]=v}drSync()};
+  cv.addEventListener('pointerup',up);cv.addEventListener('pointercancel',()=>{DR.down=null});
+  document.querySelectorAll('#dtools button[data-t]').forEach(b=>b.onclick=()=>{DR.tool=b.dataset.t;document.querySelectorAll('#dtools button[data-t]').forEach(o=>o.classList.toggle('on',o===b))});
+  $('#dClear').onclick=()=>{DR.ink.fill(0);DR.marks={};drSync()};
+  const mode=m=>{ST.skMode=m;save();$('#pText').hidden=m!=='text';$('#pDraw').hidden=m!=='draw';$('#tText').classList.toggle('on',m==='text');$('#tDraw').classList.toggle('on',m==='draw');
+    if(m==='draw'){drFromText($('#sk').value);requestAnimationFrame(drRender)}};
+  $('#tText').onclick=()=>mode('text');$('#tDraw').onclick=()=>mode('draw');
+  addEventListener('resize',()=>{if(!$('#pDraw').hidden)drRender()});
+  DR.mode=mode;mode(ST.skMode||'text')})();
+
 window.__LAB={genLot,analyse,cards:()=>cards,ST:()=>ST,parseSketch};
 generate();
 </script>
