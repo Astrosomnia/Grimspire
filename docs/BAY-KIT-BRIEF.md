@@ -1,5 +1,7 @@
 # Bay kit: buildings from parts (test brief)
 
+> **Superseded for the part list (17 Nov):** draw from [`BUILDING-PARTS-CONTRACT.md`](BUILDING-PARTS-CONTRACT.md). The grid below still holds (128 storey decided).
+
 > 16 Nov: widened into the full plan in [`BUILDING-SYSTEM.md`](BUILDING-SYSTEM.md). The grid and first 14 parts below still stand; the assembler is now the building-lab playground.
 
 15 Nov 2026 · from Claude, agreed with Jarred. A small, contained test. Nothing here goes into the game.

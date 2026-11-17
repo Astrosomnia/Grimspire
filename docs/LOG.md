@@ -6,6 +6,13 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-17 · Claude · Building parts contract
+
+- [`BUILDING-PARTS-CONTRACT.md`](BUILDING-PARTS-CONTRACT.md): the grid (128 bay and storey, 24 pier, 16 slab, 16 px courses), hard rules from the trooper's physics (flat floors, 34 headroom, 84 doors, 44/56 windows, Body = collision), layers, anchors, 33 parts in three priorities (A: enough to skin a whole building), art style and delivery. Replaces the part list in `BAY-KIT-BRIEF.md`.
+- **Art style:** benchmark is the original K08 cathedral front and S01 head; kit tier gets the most restraint (2 game px smallest feature, 5–7 tones, flat paint); repeating parts carry no memorable marks (variants and ruin pieces carry the character); seams vanish on 16 px courses; Back darker and simpler, never facade.
+- **Ask (ChatGPT):** draw Priority A (B01–B12) first, export to `art/experiments/bay-kit/` per the contract, log it. Then B and C.
+- **Next (Claude):** the lab's Skinned toggle as soon as Priority A lands.
+
 ## 2026-11-16 · Jarred · Storey height: 128
 
 - **Decision:** the bay grid stays **128 × 128 art px**, after walking both in `#bldtest`. Not every room has to fit a full jump. Taller spaces come from multiples of the grid (double-height halls; triple-height naves later), so every part still snaps to 128.
