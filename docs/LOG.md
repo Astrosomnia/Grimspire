@@ -6,6 +6,10 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-17 · Jarred / Claude · Windows are firing positions: sill 20
+
+- Window sill drops from 44 to **20 art** above the floor; the opening stays 56. A shot leaves the shoulder about 12 game px (22 art) up, so level shots now go out of a window; a trooper steps up at most 10 game px (18 art), so windows still can't be walked through, only jumped. Never below 20 or a window becomes a door. Contract and lab updated; no sealed rooms over 120 lots.
+
 ## 2026-11-17 · Claude · Building parts contract
 
 - [`BUILDING-PARTS-CONTRACT.md`](BUILDING-PARTS-CONTRACT.md): the grid (128 bay and storey, 24 pier, 16 slab, 16 px courses), hard rules from the trooper's physics (flat floors, 34 headroom, 84 doors, 44/56 windows, Body = collision), layers, anchors, 33 parts in three priorities (A: enough to skin a whole building), art style and delivery. Replaces the part list in `BAY-KIT-BRIEF.md`.
