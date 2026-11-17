@@ -1,0 +1,32 @@
+{
+  "forge": 1,
+  "code": "BK41",
+  "name": "BK41 Broken stair — a",
+  "w": 128,
+  "h": 128,
+  "fps": 1,
+  "base": 127,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "pivot": [
+      0,
+      127
+    ]
+  },
+  "ready": false,
+  "notes": "Native-grid revision from Claude building-lab review,17 Nov2026. Solid diagonal stringer joins all treads in each flight. About20 perpendicular thickness (28 vertical for45degree flight;24 for shallow switchback). BK41 retains full32-wide break x48..80. Tread caps remain horizontal. Same family and variant letter; previous saved version retained in Forge history. Draft, readyfalse. Not game-tested or approved.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAACFUlEQVR4nO3cMWpbQQBF0XyjZaRKm/0vJW0qL0OQ8Oq4SNA30dc9p3FlELzLGDz2HF+4tK/fvv965PvfzvsoXJEA4gQQJ4A4AcQJIE4AcQKIE0CcAOIEECeAsPv9LoDy+OMECI8/AgiPP8d/+ySccp//yPi3280JUPHR+ONHQHj8EUB4/BFAePwRQHj8958/DgGEx99XAYTHHwGExx8BhMcfAYTHHwGExx8BhMcfAYTHHwGExx8BhMcffw9w8fv8R8YfJ8BFfMb4I4Dw+COA8PgjgPD4I4Dw+COA8PgjgPD4I4Dw+COA8PgjgPD4I4Dw+COA8PgjgPD4I4Dw+COA8PgjgPD4I4Dw+COA8PgjgPD4I4Dw+COA8PgjgPD4I4Dw+COA8PgjgPD4I4Dw+COA8PgjgBNdbfwRQHj8EUB4/BFAePwRwMmuNP4IIDz+CCA8Phd7IgYAAAAAAOBfHVe/THEL9xjXwXECiBNAnADiBBAngDgBxAkgTgBxAogTQNzbKz3OQCgA44cDMH44AOOf68/XDZ74nyP/5kEmXvQEMH44AOOHAzB+OADjhwO4+gucV/GUARg/HIDxwwEYPxyA8cMBGD8cgPHDARg/HIDxwwEYPxyA8Z/L8Wz3+X69+6IngPHDARg/HIDxwwEYPxyA8cMBGD8cgPHDARg/HIDxwwEYPxyA8cMBGD8cgPHDARg/HIDxX8tv/mPGiyXjKvUAAAAASUVORK5CYII=",
+      "back": null,
+      "height": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAACSElEQVR4nO3cMY4aURAAUbPiMByNkKMQcjSOQmarU2sD45kVfOpVQoQ0qGp7pd+jf/iFpbndbr+3fP9rv0fBigggjgDiCCCOAOIIII4A4hxf/QDYxuPx2PR9EyCOAOIIII4AwtzvdwGU5Q8mQFj+IICw/OHwsifBLvv8Z84B/pZ/Op1MgArfyR/8CwjLHwQQlj8IICx/EEBY/uVyOQggLH8+BRCWP3gfYPF9/hb5gwnwIfyP/EEAYfmDAMLyBwGE5Q8CCMsfBBCWPwggLH/wPsDi+/wt8gcTYBF+Qv4ggLD8QQBh+YMAwvIHAYTlDwIIyx8EEJY/eB9g8X3+VkyAN+EV8gcBhOUPAgjLHwQQlj8IICx/EEBY/iCAsPxBAGH5gwDC8gcBhOUPAgjLHwQQlj8IICx/EEBY/iCAsPxBAGH5gwDC8gcBhOUPAgjLHwSwI6vJHwQQlj8IICx/EEBY/iCAnVlJ/iCAsPxBAGH52IHr9brpihgAAAAAAAAAAICf5LD6ffvn8/nlv2FlrIPjCCCOAOIIII4A4gggjgDiHD/pvn08jwkQRwBxBBDn65MuZ0AoAPLDAZAfDoD8NzsH2LrPf+Yc4F8uZMKHTgDywwGQHw6A/HAA5IcDWP0GzlV4ywDIDwdA/mLnAHvu88kPTwDywwGQHw6A/HAA5IcDID8cAPnhAMh/Lw7vts93vPuhE4D8cADkhwMgPxwA+eEAyA8HQH44APLX4mif32a3CeAvPxwA+eEAyA8HQH44APLDAZAfDoD8z+IPdKyM2glW9wsAAAAASUVORK5CYII=",
+      "guts": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAACI0lEQVR4nO3dsUorURhG0ZvLPISFWNhY+P6PYmFzi4uFDxFQ/lJBQSbMZNxrNVZC8NscJScmpz8c2u3949ua7/97uYfCEQkgTgBxAogTQJwA4gQQJ4A4AcQJIE4AcQKIE0CcAOIEEHfa+wHU3a68z1/LCRAngDgBxAkgTgBhL/+eTgIIjz9fBRAefyz7PhTO5/OmP4TX/88fnvtxAoR8Hn8IIDz+EEB4/CGA8PhDAOHxhwDC4w8BhMcfXg+w833+pZ8H+Mn4wwnwi/x0/CGA8PhDAOHxhwDC4w8BhMcfAgiPPwQQHn8IIDz+EEB4/CGA8PhDAOHxhwDC4w8BhMcfAgiPPwQQHn/4v4CV1t7nL8vy5T9tbMEJcEW2Hn8IIDz+EEB4/CGA8PhDAJG/9r8igPD4QwDh8YcAwuMPAYTHHwIIjz8EEB5/CCA8/hBAePwhgPD4QwDh8YcAwuMPAYTHHwIIj88F3Nw97PqRLwAAAAAAAN85Hf0yxS3cOq6D4wQQJ4A4AcQJIE4AcQKIE0CcAOIEECeAOAHECSBOAHECiFv2vs///H75bMsJECeAOAHECSDu0AHs/WELv8FhAzB+OADjhwMwfjgA44cDMH44AOOHAzB+OADjhwMwfjgA429nubY3OzZ++AQwfjgA44cDMH44AOOHA/AGT+EAjB8OwPjXY9n6dfl+54dPAOOHAzB+OADjhwMwfjgA44cDMH44AOMfxztvgtV91kCX3QAAAABJRU5ErkJggg==",
+      "emis": null,
+      "trim": null,
+      "cloth": null
+    }
+  ],
+  "asset_id": "custom-f99611a0-a38a-49b9-baf3-9f64bfd5e000",
+  "state_key": ""
+}

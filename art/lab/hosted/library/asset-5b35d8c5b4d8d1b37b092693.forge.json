@@ -1,0 +1,32 @@
+{
+  "forge": 1,
+  "code": "BK50",
+  "name": "BK50 Lean-to roof · one bay — a",
+  "w": 128,
+  "h": 64,
+  "fps": 1,
+  "base": 63,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "pivot": [
+      0,
+      63
+    ]
+  },
+  "ready": false,
+  "notes": "Native-grid revision from Claude building-lab review,17 Nov2026. Roof tiles in two staggered rows, recessed fascia channel and low-end drip return; all within original16thick slope envelope. Flat material tones, no baked directional lighting. Same family and variant letter; previous saved version retained in Forge history. Draft, readyfalse. Not game-tested or approved.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAABACAYAAADS1n9/AAACMUlEQVR4nO2cQW6DMBBFk9ZSewhW3fb+R+m2qx4ilVK1AhVEIlt2MMb2/Pc2KEIySf6fyfCBnE8gyfD2/jtuz7XfCNQRfgYDCIo+8uzctMUAQqKvhZ/BAELV7gMDCIq+BgMYb/Ehfq7XaYsBhKp9LfwMBhAUfeRKB2ibe9FnwV5eXzeLvl5nJt1GULXa74XbUu0+MIDxFh/C/a+PATqf4rcKv7xOOhqYqHbvvuQjQ1eip4g/7U9+F9BVi081CDmA8RYf4uvzY9IeAwiJvhZ+BgPsJHypoGbPaveu9/Bq4gwHBzUlRL9Z++GVBRkKDHRHtfgYGKDQb3srLT4GBuh0oMsR/ebYeyzSO0OFFr9V/L2EX45/EmaoWO2pBikhuvRpoFqLjyFhgBqxrDtois/FtAFyghqL1S4xA1gLakpjwgC1r7z1KLwJAzDQCRoA0UUNUCOWbSGokTYAQY2gAVq68uYix+yt2n008wEUrry1SNUPQ1Aj+BMQavGptHxzRY+4Vlp8TES1hM6EAThnFzQAV95EDZBb7T4IasqTpRBBjaABSrX4GL6BTiGoKU3yF8RAJ2gAghr7uCOCmhHO2Rs3AEGNJu5e+BZvkR5hoCvDogZX3jRxOWENQU3/uBYefRqhxTdmgEcDG4Iagx0g6//nAvuo9LZYVPq+XG4enQqJzxRvi+QJkJsrBA2A6MIGsP5ABOxwPwCiCxoA0Y0aIPbHCQgv2AEQ3T5PoR2IL24AOEnwB950/Z2QpGj3AAAAAElFTkSuQmCC",
+      "back": null,
+      "height": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAABACAYAAADS1n9/AAACYklEQVR4nO2bMa7CMBBEyVeKlJQcISUlJUfhSDkSx6BMyRHo/pctrWRFWcJPstjemde4QEigmV2vx0lzIJAMw/Ab1ib3DyF5hBdoAEDRA6fTKa40AJDoqfACDQBU7XPQAICip9AAzlu8xvP5jCsNAFTtqfACDQAoeuDxeMSVBqhE9HEc43q5XFaLngovtOt/IvlmtYsBtlT7HDSA0xYvhnm9XrPf6fs+rjRA5VO8Vu1d170VXqABHA10GlPRA8fjMa40gFPRNfFFeIEGqLTFLwmeDo1T0VN4DHTe4jVut1vUngZwJPp/hBdogJ2Etwpq9qz2OTgDFB7UWIieQgNkGug+DWqshBdoAKO9fa+gxkL0FBqg0IHOUvQUGuBg0+L3CmqshBegDTBkrPZPgxoL0aGPgWgtfgkIA+SIZfsvTfFbcW2ALUGNx2qHmAG8BTXWuDCAVYsfx1ENamoX3oUBLAe6rpCgxprqDFDKFL8kfMmiV2kAy1i25KAG2gAMagANkCOW7ZUWfz6fXVX7HA1yi++dDXRryPpnGNQAbgFai6/h+TmPtKW0+KWkTnuqxntQU7UBGNQAGoA3b6AG2FrtczCoKdwADGoADWDV4t8Nc9pAhxDUWNPUdgnDKf6LBiglqPFy81bFFmAR1ARY7YUbgEENJu1U+BxP1AS4t2fuALx5w6TdEtYwqHGeA+z16lOALb4yA0zFZ1AD2AG2HN20lI5n9kINcL/f43q9Xt+Kzyke9C6AsSygASg6sAG8vxBBPugAFB3YAJr4rHSnBpDpX4PCA24BFN0/P9oHFB/cAOQAwR8Z5RW1KROP0gAAAABJRU5ErkJggg==",
+      "guts": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAABACAYAAADS1n9/AAABtElEQVR4nO3bsUrDUBhH8UTyEA7i0MXB938UBxcHuUMeoqCkcOFDFFu4zc13z/kvHSy08DtpQ2LnySH3dHr92h7n3m/E9YGvMwAgepwBANHjDAAKX2cAQPQ4AwCixxkAFL7OAIDocQYARI8zACh8nQEA0eMMoNMen18u6MuyTD3X99XB8EeZAQDR4wwAiB5nAFD48vF2Of8zABB6hK8zAAD8T/Q4AwCixxnAQOi3wNcZwADwt6LHGQAQPc4ApjzoLeHrZjr80vla/Pl8/vc56+f73ZxwnwBZjvb1jui4ALKg7wmPCCAL/Loz+tABZEEvjU/m0AFkQT8S/BABZIEvB0NPHYDo0ACEBwYgOjCALOhH/25PF0AW+DIA+mEC2H4Qcc218N4rg6F3DaDnr2BuXRkYfvcAssAXAPpuAYgODCALeu+bMMMFkAVe9IYBiA4MIAv6No/2hgFkgRe9YQCiAwPIgr7No71hAFngRW+7ufdNmGv/L592hQ53N/C3iQ4MQHRoAMIDA/CEDhiA6NAAhAcGIDowANGhAQgPDEB0YACiQwMQHhiA6OPv4a8/iA8PwE2IfQMCmcWUM5KQyAAAAABJRU5ErkJggg==",
+      "emis": null,
+      "trim": null,
+      "cloth": null
+    }
+  ],
+  "asset_id": "custom-62c57220-a32c-4149-b539-496909096c2d",
+  "state_key": ""
+}

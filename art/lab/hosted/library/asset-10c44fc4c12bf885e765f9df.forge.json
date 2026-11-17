@@ -1,0 +1,32 @@
+{
+  "forge": 1,
+  "code": "BK81",
+  "name": "BK81 Covered bridge — a",
+  "w": 128,
+  "h": 128,
+  "fps": 1,
+  "base": 127,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "pivot": [
+      0,
+      127
+    ]
+  },
+  "ready": false,
+  "notes": "Native-grid revision from Claude building-lab review,17 Nov2026. Side posts moved from Body to Back at both ends y24..112. Roof/deck remain Body; entire end corridor y28..112 is clear, including tiled joints. Original rear brace retained. Same family and variant letter; previous saved version retained in Forge history. Draft, readyfalse. Not game-tested or approved.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAABxklEQVR4nO3ZQW7CMBAFUFz5GFmx5f5H6bYrjhGJSqhdVTRAnHiceU+quqiKx57PAKackpnOl9t/f79+fZZTIiVbg9e6Hiwgw21m6wZnC0i4YqM3+GgBKaM2eJ7n++9aa4uHC7P+3gEpoz6D323A7/89Up98vF4BbB2QMuqIftSApQavVX/W6z2BWgWkRG3wI1s3eK1ogVgKSHm34Vs9A6I3eK1W59Xq/HeP69EbvNd7kFaar5a9waMFpK4tcLSGLx3gHHw/S+f/akDqaAewZPVrYj1WQJb2V6NvKNrHsLqwfvTz/DMxTsFE/xh1tAmy+2mP3uCjBaT2ukpd6911lm7KpifvRbba59qAvFpXuIug6F+mTEFuSoe9CBr969RrowkSRbgA9G5wtoC8/RKQtcFb27sfzQOgwdtq3a+XA6DBsb3az4/tSgEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAiK1M58utdxH089FxbQLoHoB5nu8/o5oHr797AOhLAJKrUcZXlDqy1W8CJCcAyQlAcgKQnAAkV2utId49964ja/0mQHICkFz3uTXq6DxK/SZAct/7rc3N5UbWGwAAAABJRU5ErkJggg==",
+      "back": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAB9klEQVR4nO3bQUpcQRiF0W55S3Akjpy6/6U4dSSOsoSGhDcoqAZBu1FJ13fOzBAwcO9/kzJ6OAAAAAAAAAAAAAAAALfq+Pj0/Hf+hdPpdPYbtm07+/jt9eX4O380rnFpnndXfRaWoQBxChCnAHEKEKcAcQoQpwALuX94OvsawFecf1WATPCDBQiHv7MA0eAHCxAOf2cBosEPFiAc/s4CRIMfFGCR4P+8vx4/+n6Az/grYKHwr2EBosEPFiAc/s4CRIMfFOBGwv/u4AcFCF79TAGCVz9TgODVzxQgGvzgGRgOf2cBosEPFiAc/s4CRIMfFGDBp90lFCB49TMFCF79TAGCVz9TgGjwg2dgOPydBYgGP1iAcPg7CxANflCABZ92l1CAQ+/qZ/kC3AevfpYtQPnq0wUQfPgZKPzoAgg+vADCjy6A4MMFqD/tsgVw9eECuPpoAVx9tACCDz8DhR9dAMGHF0D40QUQfLgAnnbRArj6cAFcfbQArj5aAMGHn4HCjy6A4MMLIPzoAgg+XABPu2gBXH24AK4+WgBXHy2A4MPPQOFHF0Dw4QUQfnQBBL+WH3sG1n/kKv1/AcKPLoDgwwsg/OgCCH6xAmzb1zsh/P/fZ3letQCCD/8bQPhruZmfDeRnKECcAsQpQJwCAAAAAAAAAAAs5h/EghoTrLc0FgAAAABJRU5ErkJggg==",
+      "height": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAB/ElEQVR4nO3ZMY6DMBAF0LCi4BiUHI3jpORolBwj3a4UbZqVsg4BYpt5T4ooIoXB8zHGaS7BTNP0/d/34zg2l0CaaA3eajxZQKq7mKMbHC0gxRVbeoPPFpCm1gYvy3I/9n2/x88Vc/5PB6SNdgfP8/zv98MwXCItUptaG/zsDkw1eKvhNyC5Z6C9AtKU2uBnHg3uuu5+vN1uWeronpw/9wyyNiDNuw0/6g549Q4uNQApewVkr/HffQ2QcvQUXbq5sDXI7gGI3uDaAtJufQbX1vDUAM6FX09q/NcGpK1tAFK23iHDSQLy6vW1pV9Q6jXs08/MIXH+0sfzb30fXwSmlP4adbYZ5OMBqL3BZwtIu/Y98jH15W7wu++/qZ2y6cV9kaN2ALcGZG1dzfV6XbUR9Fh9nmUrdK1Sdkqfjf/ajani1gCl/5067jSDlKK4AORucLSAvP0IiNrgo20NSPZHgAbXNYOsDoAG55Ua/7Uz+tfmigAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKtVM0/Sduwjy+cp4bgqQPQDLstw/tVoqrz97AMhLAIJr53nOWkDXdfdj7jqi1m8GCE4AghOA4AQgOAEIrh2GIWsBj02U3HVErd8MEJwABNfmLqDv+0vN+srrNwME9wPeP92tYYE8igAAAABJRU5ErkJggg==",
+      "guts": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAABbElEQVR4nO3aMU7DMBSA4bjyITqgDiwduP9RGFgYEEMPYamsNAxWRerX+H3fVnVI4vcrUpyUJZmX17fr79+ttZv/L18fZUmkzD7gnrYKoGe2QMrsA946gNkCKbMPeHQAewtk+MkcT+ebAddal0htcABr6+v//nwfOpPy6AH3CKDetb5bB1IePeAeAdQtl/PuQMqjB9wjgDpyuf8EUkYPfE0ANXL5l0Po0QkngOQEkJwAkhNAcgJITgDJxT6EBujtlB2D90VGmy6A/+6VXzpv62YLZHcBjH5bNnsgTxdA9ICzBTL8XcCzfRCR/YOYzQMw4H0FcncABjxXIPYBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIC0yvF0vkaeQK018vBLa23JfP2H0KMTTgDJCSA5ASQngOQEkJwAkqvRz6HZn8Nb8PW7AyQngOQEkJwAkhNAcgJITgDJ/QDsyG8SucFK5QAAAABJRU5ErkJggg==",
+      "emis": null,
+      "trim": null,
+      "cloth": null
+    }
+  ],
+  "asset_id": "custom-6bca964b-2512-47e8-b735-988481f274fc",
+  "state_key": ""
+}

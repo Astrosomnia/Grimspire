@@ -1,0 +1,149 @@
+[
+  {
+    "id": "BK40",
+    "code": "BK40",
+    "title": "Switchback stair",
+    "w": 128,
+    "h": 128,
+    "anchor": [
+      0,
+      128
+    ],
+    "bodyPixels": 4096,
+    "backPixels": 1152,
+    "emissivePixels": 0,
+    "file": "BK40.forge.json",
+    "batch": "2",
+    "placement": "Lower foot left at128, middle landing right at64, top left at0. Four16 risers per flight,32 tread. Foreground flights16thick; decorative end/newel remnants Back.",
+    "asset_id": "custom-116b56ef-828e-454c-8ec3-21339837928d",
+    "version_id": "asset-071f3369a7eac905b3909d5b",
+    "library_path": "art/lab/hosted/library/asset-071f3369a7eac905b3909d5b.forge.json",
+    "sha256": "071f3369a7eac905b3909d5b4815f998a9fcb43ec8dcd1fb384626e3834877a9"
+  },
+  {
+    "id": "BK41",
+    "code": "BK41",
+    "title": "Broken stair",
+    "w": 128,
+    "h": 128,
+    "anchor": [
+      0,
+      128
+    ],
+    "bodyPixels": 1856,
+    "backPixels": 0,
+    "emissivePixels": 0,
+    "file": "BK41.forge.json",
+    "batch": "2",
+    "placement": "Eight16 risers,16 treads,20thick. Middle x48..79 removed,32-wide gap. Foot left128,top right0.",
+    "asset_id": "custom-f99611a0-a38a-49b9-baf3-9f64bfd5e000",
+    "version_id": "asset-ada7e782ea83f3fd1f3ba005",
+    "library_path": "art/lab/hosted/library/asset-ada7e782ea83f3fd1f3ba005.forge.json",
+    "sha256": "ada7e782ea83f3fd1f3ba005393f76293c42fe49362889316e76cd68d6b1c982"
+  },
+  {
+    "id": "BK42",
+    "code": "BK42",
+    "title": "Outside stair",
+    "w": 128,
+    "h": 128,
+    "anchor": [
+      0,
+      128
+    ],
+    "bodyPixels": 2496,
+    "backPixels": 2431,
+    "emissivePixels": 0,
+    "file": "BK42.forge.json",
+    "batch": "2",
+    "placement": "Eight16 risers; corbels Back to preserve under-stair access; footleft128,topright0.",
+    "asset_id": "custom-4c6e1b5d-94f6-4f65-860c-aded947a363a",
+    "version_id": "asset-e4af8f0db2747bd02747a9c9",
+    "library_path": "art/lab/hosted/library/asset-e4af8f0db2747bd02747a9c9.forge.json",
+    "sha256": "e4af8f0db2747bd02747a9c938a48cd29730378251c0fd95a18532164dbc6ec8"
+  },
+  {
+    "id": "BK43",
+    "code": "BK43",
+    "title": "Spiral stair",
+    "w": 128,
+    "h": 128,
+    "anchor": [
+      0,
+      128
+    ],
+    "bodyPixels": 512,
+    "backPixels": 4960,
+    "emissivePixels": 0,
+    "file": "BK43.forge.json",
+    "batch": "2",
+    "placement": "Body only left16×16 ledge at y112 and right16×16 ledge at y48. Spiral Back, repeat128.",
+    "asset_id": "custom-ad54c2d7-1810-44c2-9206-1d77899b4100",
+    "version_id": "asset-b5b6d5c269c109a017fc88b0",
+    "library_path": "art/lab/hosted/library/asset-b5b6d5c269c109a017fc88b0.forge.json",
+    "sha256": "b5b6d5c269c109a017fc88b02ae65034a6823c053bb4fff95aa12bb478730549"
+  },
+  {
+    "id": "BK50a",
+    "code": "BK50",
+    "title": "Lean-to roof · one bay",
+    "w": 128,
+    "h": 64,
+    "anchor": [
+      0,
+      64
+    ],
+    "bodyPixels": 2048,
+    "backPixels": 0,
+    "emissivePixels": 0,
+    "file": "BK50a.forge.json",
+    "batch": "2",
+    "placement": " Thin16 roof; rise(h−16) overwidth; slope under40deg. No incidental underside columns.",
+    "asset_id": "custom-62c57220-a32c-4149-b539-496909096c2d",
+    "version_id": "asset-5b35d8c5b4d8d1b37b092693",
+    "library_path": "art/lab/hosted/library/asset-5b35d8c5b4d8d1b37b092693.forge.json",
+    "sha256": "5b35d8c5b4d8d1b37b09269326e56a9a0d8372202c6075b196fba148c89ec61f"
+  },
+  {
+    "id": "BK50b",
+    "code": "BK50",
+    "title": "Lean-to roof · two bays",
+    "w": 256,
+    "h": 128,
+    "anchor": [
+      0,
+      128
+    ],
+    "bodyPixels": 4096,
+    "backPixels": 0,
+    "emissivePixels": 0,
+    "file": "BK50b.forge.json",
+    "batch": "2",
+    "placement": " Thin16 roof; rise(h−16) overwidth; slope under40deg. No incidental underside columns.",
+    "asset_id": "custom-62c57220-a32c-4149-b539-496909096c2d",
+    "version_id": "asset-6ed7c737d723a1de5bac3660",
+    "library_path": "art/lab/hosted/library/asset-6ed7c737d723a1de5bac3660.forge.json",
+    "sha256": "6ed7c737d723a1de5bac3660e707c5b13d4bd73876bca483b18066d9ecb32a12"
+  },
+  {
+    "id": "BK81",
+    "code": "BK81",
+    "title": "Covered bridge",
+    "w": 128,
+    "h": 128,
+    "anchor": [
+      0,
+      128
+    ],
+    "bodyPixels": 6224,
+    "backPixels": 854,
+    "emissivePixels": 0,
+    "file": "BK81.forge.json",
+    "batch": "2",
+    "placement": "",
+    "asset_id": "custom-6bca964b-2512-47e8-b735-988481f274fc",
+    "version_id": "asset-10c44fc4c12bf885e765f9df",
+    "library_path": "art/lab/hosted/library/asset-10c44fc4c12bf885e765f9df.forge.json",
+    "sha256": "10c44fc4c12bf885e765f9df3218fe476e404d43f3c3f1d827c20cf442f72f83"
+  }
+]
