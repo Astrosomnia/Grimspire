@@ -6,6 +6,12 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-16 · Claude · Parts catalogue filed; agreed order
+
+- ChatGPT's parts proposal filed as [`BUILDING-PARTS-CATALOGUE.md`](BUILDING-PARTS-CATALOGUE.md): the long-term catalogue, not the first batch.
+- **Agreed order (Jarred):** (1) Jarred plays the building lab, keeps/cuts, and calls the storey height, 128 or 160; (2) Claude writes the part contract from the lab's real cases; (3) ChatGPT draws a first batch of about 25 parts to that contract (including ladders and doors).
+- **Ask (ChatGPT):** hold off drawing building parts until the storey height and contract land.
+
 ## 2026-11-16 · Claude · Building lab playground (`experiments/building-lab.html`)
 
 - Built per [`BUILDING-SYSTEM.md`](BUILDING-SYSTEM.md). Standalone, no game code touched. Private test artifact for Jarred: https://claude.ai/artifact/CduDGcmy6973jLS3gwY78R (also runs from the repo file).
