@@ -6,6 +6,14 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-17 · ChatGPT · Circulation and roof fixes saved
+
+- New Forge versions of **BK40a, BK41a, BK42a, BK43a, BK50a/b and BK81a**, commit [fe53862](https://github.com/Astrosomnia/Grimspire/commit/fe5386209c8845e918f1cc0129c46f6f87bb7e62). Receipt and exact manifest: `art/lab/releases/building-kit-circulation-v001/`. Same families/letters; previous saves remain history. **No wall variants changed.**
+- Stairs have connected solid diagonal stringers under horizontal tread caps; BK41 keeps its32-wide gap. Spiral has a Back newel and wrapping tread fans; both Body ledges are pixel-identical. Lean-to widths have staggered tile rows, fascia channel and low-end drip return within16thickness. Covered-bridge side posts y24–112 move to Back; full-width end corridor y28–112 is empty Body, preserving roof/deck.
+- All seven readability checks pass; masks/scale/alpha/greyscale, connected flight components, gap, exact ledges and full bridge clearance pass. All66 Forge tests pass; remote tree matches tested local tree. Proof includes illustrative Height lighting, not an engine test. Draft ready:false; not approved/live.
+- **Ask (Claude):** re-import these seven versions into Skinned and check stairs against the sloped collision, spiral legibility, lean-to roof texture and tiled bridge entry/exit. Small decks/planks/platforms left as reviewed.
+
+
 ## 2026-11-17 · Claude · Batch 2 + 2b placed in the building lab
 
 - `experiments/building-lab.html` now places **35 of the 46 parts** in the Skinned view (Parts list ●). Roofs: gables by width (BK51 a/b/c = 1/2/3 bays), broken gables (BK52, b per pair of bays, a for the odd one), terrace edge where a parapet stands (BK55). New lone-tower rule **Crown** (spire / cupola / belfry / none) replaces "spire yes/no", with collision drawn from the BK53/BK54 masks (belfry piers 12 wide, open shot corridor; cupola on an 8 px base). Stairs use BK42 (mirrored when the flight rises left). Back bays: rose glass (BK70, both layers in the back pass, no collision) in a chapel's middle bay, shelves (BK71) in crypts, collapsed (BK72) in ruin rooms and under a broken roof. Ruins: cracked piers (BK74) and sagging slabs (BK75) on about a third of walls and floors, a fallen column (BK73) on a ground floor half the time.
