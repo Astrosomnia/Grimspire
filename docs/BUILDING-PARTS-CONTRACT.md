@@ -29,6 +29,8 @@ These come from the trooper's real movement: step-up 10 game px (18 art), head c
 
 Per [`WORLD-ART.md`](WORLD-ART.md): **Body** (flat, dark, collision), **Height** (depth planes), **Back** where the part has an inside, **Emissive** only for real lights, **Cloth** for banners (grey; the game colours it), **Guts** for anything destructible (all structural parts). Same canvas and alignment across layers.
 
+**Every part with a Body ships with its Height in the same save** (variants included): alpha matching the Body exactly, pure grey, same size, depth planes per [`HEIGHT-MAPS.md`](HEIGHT-MAPS.md) and the style notes below. Back-only parts (B09–B11, B15, B25–B29) and the ladder rung don't need one.
+
 ## 4. Anchors and canvas
 
 - **Bay parts** (slab, back bay, arch span, stair): canvas 128 wide, anchored at the **bottom-left bay corner**.

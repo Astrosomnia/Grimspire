@@ -14,6 +14,7 @@ Which pieces still need a Height layer (relief for the lit look). Update this wh
 
 | Piece | Where | Since | Note |
 |---|---|---|---|
+| Building parts B01–B08, B12–B14, B16–B24, B30–B33 (not drawn yet) | `BUILDING-PARTS-CONTRACT.md` | 17 Nov | Height required in the same save as the Body; tick off as each lands |
 
 Latest refreshed drafts now have provisional Height; older live versions can still lack it until a reviewed release.
 
