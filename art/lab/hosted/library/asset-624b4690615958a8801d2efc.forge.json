@@ -1,0 +1,32 @@
+{
+  "forge": 1,
+  "code": "BK01",
+  "name": "BK01 Pier, outer wall — c",
+  "w": 24,
+  "h": 128,
+  "fps": 1,
+  "base": 127,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "pivot": [
+      12,
+      127
+    ]
+  },
+  "ready": false,
+  "notes": "Building kit Priority A, BK01c, variant c. 17 Nov 2026. 1x density; game_scale1. Geometric anchor [12,128], zero overhang except BK12 buried16. Storey origin y=0; floor top y=112; bottom 16 overlaps slab. Door clearance y28..111 (84); window y26..81 (56), sill at y82 (30 above floor). Arcade y26..111 (86).\nImagegen original; exact contract mask, cropped/registered and palette-normalised to at most10 flat navy tones. User permits8–12. Independently authored geometric Height planes; coarse structural Guts provisional. Repeating seam strips matched. No lights/cloth. Draft for lab integration; NOT approved, NOT live. Openings show separately assembled BK09–BK11 interior; these pier parts do not duplicate rear walls.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAACACAYAAAARQqnWAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAB9UlEQVRoge2awWrDMAyG+wA7aNBAGOoEKSSwBsqgl+6y297/jTpc6qA6sp0l8VI3Ooi0xPZn/ZJsaLXB6nBJaRsFYEwiKHaX8r25tKfv2Q2K3T8BsDqkBcDNi7kNsgbAbd0O0BzPo23/cboa/ywC+MAxkIZ97gHcHQxZbO8syp89gLXtWzWb/iAB5gwwWIBxy1csVB+jJs2zMiUDtLySkwOa43k0AAPn2KBKBicJJJt0VMBcgJfXsldQf4H75g4CUCAGEsDq3wFs9foGkRPUGMDYnUQGYCzmAVaH63cOGQxwPZAAwDSPSRQF8COXpgKkbAktDsK76I3m7sIMkrSWAGZcNE0lgDF3cb47u4FQ/Lwx4B6AR8IQIBpkyYPSAdhNjAZwD3xHxSQPkgO4RD5AcokwewCljgE9dBahAgqVqHj0QsNVAFBjQEtLhNkDKPs6oGwAW+FXmLw8KJ82TVErmZaWiLKvA1IAqUSgWVRrodV64RRrP01Rr0xaOgaUfZBRs4iWDjJpFtHSEpECSCUCzaJ6FYUGkX/EYQTArtkB3LYHuwiNvJN7gM+vnzsznQXmad/7ANJca0EAHwQRgN0M31gPEOtdKQOA0NwVANoBbZ9RgO3TMumVpN+UBu60ndIx6xbKHAb8LErRfw3PAUDtfa8W7t7/BeRh+QpEIkcDAAAAAElFTkSuQmCC",
+      "height": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAACACAYAAAARQqnWAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAAs0lEQVRoge2asQ3FQAxCb1yPwwg3AiOwGWn/T5EuuhSvcHeKJcs2ELOS9M1YJAglCl0UBi2sinx9m0rqb9j+i5l5jPv7+/dIUEpUumgxaGZVDNtUAI6BzIFVCOJlqOPAroUAKRKqqMwixP30K2Hv3TdjkWBTov35LhKQaSBzgEwBmYY6DtRRUMcioYqEKhLKXGOHg7W46RtXwmDcEN4WH3TnBBtcTnu8QoJQotBFYdBydlVcqvbH8JXRiT4AAAAASUVORK5CYII=",
+      "guts": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAACACAYAAAARQqnWAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAAsUlEQVRoge2asQnAQAwDfwgXxhgXalL8/vM5G+SLFDHhCtd6hKQgkWWhfnNe1+MtAByKDBUZRiuiIqanaWr3m7PDAwBoKGpUtDCaERU5Pk398MHww50eAEBDUaOihdGSqPDxaWrU2Pq6oxkABUWBigKjXexFe3iFSgACioSKhNH096hw9iJ93dEcAEFRoaLCaJu9SKwtYpBqJrVmdWyGWef/ohxdoRKAgCKhImE0/TwqbrUMRnFJUG2JAAAAAElFTkSuQmCC",
+      "back": null,
+      "emis": null,
+      "trim": null,
+      "cloth": null
+    }
+  ],
+  "asset_id": "custom-56fe3d2f-413a-4b49-9372-0147cd7b51e2",
+  "state_key": ""
+}

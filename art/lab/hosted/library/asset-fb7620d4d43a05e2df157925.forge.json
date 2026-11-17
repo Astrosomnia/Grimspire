@@ -1,0 +1,32 @@
+{
+  "forge": 1,
+  "code": "BK07",
+  "name": "BK07 Slab, finished end — a",
+  "w": 16,
+  "h": 16,
+  "fps": 1,
+  "base": 15,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "pivot": [
+      0,
+      15
+    ]
+  },
+  "ready": false,
+  "notes": "Building kit Priority A, BK07, variant a. 17 Nov 2026. 1x density; game_scale1. Geometric anchor [0,16], zero overhang except BK12 buried16. Bay bottom-left geometric anchor; slab top flat, repeat128.\nImagegen original; exact contract mask, cropped/registered and palette-normalised to at most10 flat navy tones. User permits8–12. Independently authored geometric Height planes; coarse structural Guts provisional. Repeating seam strips matched. No lights/cloth. Draft for lab integration; NOT approved, NOT live. Openings show separately assembled BK09–BK11 interior; these pier parts do not duplicate rear walls.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAAwElEQVQ4jcVTQQrCQAzMAzysUGERbaEHe6hQBC968eb/f7QyxVlmw1KqHjwMTSbZ2Wya2Pn6SMDl/kyxHQow1p2mgkcuY0YDaPb9nEyoAHHox8xnge4dhICvwt9OjjC9FbZHjS8EYjuksDsm/QKsBpwe1krgG5NY6mYbZ58HaQOIoQdasfm3qkAN2gPY9rNA45ryiUD+C0EatUaAufCNxDdPyAJxZQ8QW2xikDlYQiGgc8158PtQ4/IuDNPtv7vwAmYDX0E+4+Y/AAAAAElFTkSuQmCC",
+      "height": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAAKUlEQVQ4jWPYsGHDf0owwzAwoKOj4z8lmGHUgP/DIQwKCgr+U4KHgQEA5B2jH/SSfTMAAAAASUVORK5CYII=",
+      "guts": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAAHUlEQVQ4jWMQkVL6TwlmGDXg/2gYKI2GgdSwCAMAP1lPEOh8Dk0AAAAASUVORK5CYII=",
+      "back": null,
+      "emis": null,
+      "trim": null,
+      "cloth": null
+    }
+  ],
+  "asset_id": "custom-efc71396-0165-401c-ac3b-cbf0f5706f1e",
+  "state_key": ""
+}

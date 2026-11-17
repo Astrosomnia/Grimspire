@@ -1,0 +1,133 @@
+{
+  "style": "ONE isolated production pixel-art modular sprite for Grimspire, orthographic front/side-scroller view, transparent background. Chunky 1x pixel geometry enlarged crisply, only six FLAT dark navy stone tones centred RGB28,34,43. Minimum logical feature 4 pixels. Restrained gothic architecture with bold heavy forms and architectural recesses. No gradients, grain, dither, scratches, baked light, bright rims, ground, text or labels. No memorable cracks. ",
+  "specs": [
+    [
+      "B01b",
+      24,
+      128,
+      "Outer wall pier variant with broad chamfered shaft and double stepped capital, square foot. Full rectangular outline."
+    ],
+    [
+      "B01c",
+      24,
+      128,
+      "Outer wall pier variant with paired broad vertical ribs and block capital, square foot. Full rectangular outline."
+    ],
+    [
+      "B02a",
+      24,
+      128,
+      "Inner pier, symmetrical single octagonal-looking broad central shaft between square capital and foot, full rectangular outline."
+    ],
+    [
+      "B02b",
+      24,
+      128,
+      "Inner pier, symmetrical paired recessed shafts with square capital and foot, full rectangular outline."
+    ],
+    [
+      "B03a",
+      24,
+      128,
+      "Outer doorway pier cutaway: upper 44 pixels a heavy navy stepped lintel; lower 84 pixels completely transparent across full width. A doorway cut THROUGH a narrow wall, NOT a front-view door frame. Rectangular top block only, broad recessed band."
+    ],
+    [
+      "B03b",
+      24,
+      128,
+      "Inner doorway pier cutaway: upper 44 pixels heavy stone lintel with a broad central inset block; lower 84 pixels entirely transparent, full width. Not a door frame."
+    ],
+    [
+      "B04a",
+      24,
+      128,
+      "Window pier cutaway, tall narrow navy wall: bottom solid sill 30 high, then transparent opening 56 high across entire width, then top solid wall 42 high. Upper block bears simple pointed lancet carving. Two disconnected rectangular stone blocks on one exact aligned canvas."
+    ],
+    [
+      "B04b",
+      24,
+      128,
+      "Window pier cutaway: bottom solid sill 30 high, transparent opening 56 high full width, top solid 42 high. Upper block has broad round-headed recessed arch carving, lower block panel. Two disconnected blocks."
+    ],
+    [
+      "B05",
+      24,
+      128,
+      "Arcade lintel cutaway: ONLY the top 26 logical pixels are a solid dark navy squared gothic lintel, all below transparent. Broad stepped band and three simple stone blocks."
+    ],
+    [
+      "B06a",
+      128,
+      16,
+      "Floor slab, completely rectangular flat top and bottom, wide thin solid strip. Broad horizontal recessed fascia across centre, large ashlar blocks, quiet repeat with matching left/right edges."
+    ],
+    [
+      "B06b",
+      128,
+      16,
+      "Floor slab variant, completely rectangular flat top and bottom. Broad projecting middle belt course, large quiet interlocking ashlar blocks, matching left/right edges."
+    ],
+    [
+      "B07",
+      16,
+      16,
+      "Square finished slab end cap: chunky dark navy square, broad recessed square centre, thick stone border. Minimal but sculpted."
+    ],
+    [
+      "B08a",
+      104,
+      34,
+      "Single gothic arch span under flat slab: perfectly flat top all across, undercut rises from depth34 at both ends to depth6 at centre. Heavy shallow pointed arch, 5 broad wedge blocks, transparent below. Wide thin sprite."
+    ],
+    [
+      "B08b",
+      104,
+      34,
+      "Single shallow round arch span under slab: flat continuous top, undercut depth34 at ends and depth6 at middle. Broad recessed archivolt, 5 big wedge stones, no ornament. Transparent below."
+    ],
+    [
+      "B09a",
+      128,
+      128,
+      "Square seamless rear interior wall bay, dark plain navy stone, 3 broad recessed panels and sparse large ashlar courses, extremely quiet, no windows. Interior wall, not facade."
+    ],
+    [
+      "B09b",
+      128,
+      128,
+      "Square seamless dark rear interior wall bay variant, one broad blind arch recess on large quiet stone panels, no opening and no facade ornament."
+    ],
+    [
+      "B10a",
+      128,
+      128,
+      "Square dark rear interior wall, centred narrow pointed lancet opening 32 wide 62 tall, opening bottom30 above bottom edge. Opening transparent. Broad plain stone reveal, sparse quiet blocks, no facade or glow."
+    ],
+    [
+      "B10b",
+      128,
+      128,
+      "Square dark rear interior wall, centred narrow pointed lancet opening32 wide62 tall bottom30 above bottom. Transparent opening. Paired wide recessed side panels, quiet monastic interior, no facade or glow."
+    ],
+    [
+      "B11",
+      128,
+      128,
+      "Square dark interior rear arcade wall bay with two large pointed open arches to transparent background. Three broad quiet piers, heavy overhead vault, almost no surface detail. Interior gallery, no front facade."
+    ],
+    [
+      "B12a",
+      128,
+      64,
+      "Wide ground plinth foundation, flat top and full rectangular silhouette, top16 slab, next32 broad battered stone base, bottom16 buried plain footing. Four large blocks, matching repeat edges, no cracks."
+    ],
+    [
+      "B12b",
+      128,
+      64,
+      "Wide ground plinth foundation variant, flat top, full rectangle, top16 slab, next32 recessed long panels and broad buttress blocks, bottom16 buried plain footing. Quiet repeat edges."
+    ]
+  ],
+  "later_user_direction": "8\u201312 tones allowed if needed; avoid thousands. Final packaging uses up to10 flat tones.",
+  "B01a_initial_prompt": "ONE production pixel-art sprite for Grimspire: B01 outer wall pier variant stepped capital. Transparent background. Single narrow vertical dark navy gothic stone pier, full rectangular silhouette aspect24x128. Front orthographic side-scroller, no perspective/ground. Simple stepped capital top16, heavy straight shaft, squared foot bottom16. Broad recessed shaft channel and restrained middle band, no cracks/emblem. Six flat navy tones centred RGB28,34,43, crisp enlarged chunky pixel blocks, minimum logical feature4; no gradients/grain/dither/light/text."
+}

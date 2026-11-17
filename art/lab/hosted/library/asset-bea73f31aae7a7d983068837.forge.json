@@ -1,0 +1,32 @@
+{
+  "forge": 1,
+  "code": "BK05",
+  "name": "BK05 Arcade pier — a",
+  "w": 24,
+  "h": 128,
+  "fps": 1,
+  "base": 127,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "pivot": [
+      12,
+      127
+    ]
+  },
+  "ready": false,
+  "notes": "Building kit Priority A, BK05, variant a. 17 Nov 2026. 1x density; game_scale1. Geometric anchor [12,128], zero overhang except BK12 buried16. Storey origin y=0; floor top y=112; bottom 16 overlaps slab. Door clearance y28..111 (84); window y26..81 (56), sill at y82 (30 above floor). Arcade y26..111 (86).\nImagegen original; exact contract mask, cropped/registered and palette-normalised to at most10 flat navy tones. User permits8–12. Independently authored geometric Height planes; coarse structural Guts provisional. Repeating seam strips matched. No lights/cloth. Draft for lab integration; NOT approved, NOT live. Openings show separately assembled BK09–BK11 interior; these pier parts do not duplicate rear walls.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAACACAYAAAARQqnWAAAACXBIWXMAAAPoAAAD6AG1e1JrAAABNElEQVRoge2asYrDMAyG8wgeUjCFZujiRdClS6e+/1P18IEO9bflxvH5uOH/QJDYin5Llj1lCafLa6Yt6/n660FXE3OKQJidQfhTgbill9yfP5Zuj7d3Afs0j9YtIA3f/K5j+vwt4AXtXa31fxPItqflQqfluMMCa2O+EBgtkZjvCoG8kiPBxLEcrxA4umKpZKBxXYGR8sj9WRfATbNjuJk1fztXCNQ6abRFqwL2NKozpo8+dlzHmgIaUAUwgCdgv3MFsJcDBKitFuddAT0LWKIElxj6YBe5m6yt6gkksEMlqu2BOL2u5egWaGUgcAi7BPA+am2y9cEMd3XRnhLJSJt6AulDBkWbEkIIIYQQQgghhBBCCCGEEEIIIYTMIZrfHmbYQoHIEkV2UeRB23hVbP/8Nv0C0biF2Y+e9O4AAAAASUVORK5CYII=",
+      "height": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAACACAYAAAARQqnWAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAAYElEQVRoge3asQnAMAwEQI/+I2gcbae0IW0QBHIHai0Qttz86e7ZrKNBG1F//hZV1dwryauqx3kajBGNW3Q8tFgVsU1r+8MBAAAAAAAAANhRcnaRFIwwZcmbRmI2Pw8VX9Mahac4X+vBAAAAAElFTkSuQmCC",
+      "guts": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAACACAYAAAARQqnWAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAAZ0lEQVRoge3aMQrAIAwFUA/hICIOWTp4//OlN2gHEQp9DzIrIcn0S+2RO9Xm9VjFA02LqimqFm06Ff3r13TEyp2qLx/wQGpRmqJyfNEAAAAAAAAAAM4Y8kVdQiqEyELOLiQF18/DlDdUBlZ8HGUPCAAAAABJRU5ErkJggg==",
+      "back": null,
+      "emis": null,
+      "trim": null,
+      "cloth": null
+    }
+  ],
+  "asset_id": "custom-00ff0e8e-b5bd-46d3-a2a4-da716899994b",
+  "state_key": ""
+}

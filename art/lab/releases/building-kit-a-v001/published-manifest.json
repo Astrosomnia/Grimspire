@@ -1,0 +1,481 @@
+[
+  {
+    "id": "BK01a",
+    "code": "BK01",
+    "name": "BK01 Pier, outer wall — a",
+    "w": 24,
+    "h": 128,
+    "anchor": [
+      12,
+      128
+    ],
+    "source": "exec-3b01ff9e-130d-4c91-bf6d-00b3d2ed8fd5.png",
+    "layers": [
+      "body",
+      "height",
+      "guts"
+    ],
+    "file": "BK01a.forge.json",
+    "asset_id": "custom-56fe3d2f-413a-4b49-9372-0147cd7b51e2",
+    "version_id": "asset-2cd5ebac79fcde31fc0c4738",
+    "library_path": "art/lab/hosted/library/asset-2cd5ebac79fcde31fc0c4738.forge.json",
+    "sha256": "2cd5ebac79fcde31fc0c47386360241d6f12a3a341c4c42701b0c876ef20af1f"
+  },
+  {
+    "id": "BK01b",
+    "code": "BK01",
+    "name": "BK01 Pier, outer wall — b",
+    "w": 24,
+    "h": 128,
+    "anchor": [
+      12,
+      128
+    ],
+    "source": "exec-7705ae4a-570c-402a-82f3-dd2238812b2b.png",
+    "layers": [
+      "body",
+      "height",
+      "guts"
+    ],
+    "file": "BK01b.forge.json",
+    "asset_id": "custom-56fe3d2f-413a-4b49-9372-0147cd7b51e2",
+    "version_id": "asset-9db92c47ea32a0235a4cc823",
+    "library_path": "art/lab/hosted/library/asset-9db92c47ea32a0235a4cc823.forge.json",
+    "sha256": "9db92c47ea32a0235a4cc82324b0f0a89edf00c455368497a436aa730d086cbf"
+  },
+  {
+    "id": "BK01c",
+    "code": "BK01",
+    "name": "BK01 Pier, outer wall — c",
+    "w": 24,
+    "h": 128,
+    "anchor": [
+      12,
+      128
+    ],
+    "source": "exec-a993b2dc-df63-4fe5-b8cc-2916e7b7f7ac.png",
+    "layers": [
+      "body",
+      "height",
+      "guts"
+    ],
+    "file": "BK01c.forge.json",
+    "asset_id": "custom-56fe3d2f-413a-4b49-9372-0147cd7b51e2",
+    "version_id": "asset-624b4690615958a8801d2efc",
+    "library_path": "art/lab/hosted/library/asset-624b4690615958a8801d2efc.forge.json",
+    "sha256": "624b4690615958a8801d2efc31ba6006536622b3ede1f8e0a784fac477362d39"
+  },
+  {
+    "id": "BK02a",
+    "code": "BK02",
+    "name": "BK02 Pier, inner — a",
+    "w": 24,
+    "h": 128,
+    "anchor": [
+      12,
+      128
+    ],
+    "source": "exec-cfe62352-a6ce-449d-ba72-6fcaef73747c.png",
+    "layers": [
+      "body",
+      "height",
+      "guts"
+    ],
+    "file": "BK02a.forge.json",
+    "asset_id": "custom-121557c9-6948-4c87-8dd2-9c48efe33aff",
+    "version_id": "asset-7714a813767b5260892742b0",
+    "library_path": "art/lab/hosted/library/asset-7714a813767b5260892742b0.forge.json",
+    "sha256": "7714a813767b5260892742b077fe68dcbe3c21dc3168bc33aec85af97d470cca"
+  },
+  {
+    "id": "BK02b",
+    "code": "BK02",
+    "name": "BK02 Pier, inner — b",
+    "w": 24,
+    "h": 128,
+    "anchor": [
+      12,
+      128
+    ],
+    "source": "exec-c7be12f3-3cea-4a33-aec8-dd904f94adff.png",
+    "layers": [
+      "body",
+      "height",
+      "guts"
+    ],
+    "file": "BK02b.forge.json",
+    "asset_id": "custom-121557c9-6948-4c87-8dd2-9c48efe33aff",
+    "version_id": "asset-124c315ee952dcaec7dc631d",
+    "library_path": "art/lab/hosted/library/asset-124c315ee952dcaec7dc631d.forge.json",
+    "sha256": "124c315ee952dcaec7dc631db8861a3edc3e7f7edca9c5c6b322d02cdaefbbf7"
+  },
+  {
+    "id": "BK03a",
+    "code": "BK03",
+    "name": "BK03 Pier with doorway — a",
+    "w": 24,
+    "h": 128,
+    "anchor": [
+      12,
+      128
+    ],
+    "source": "exec-cc2d32d1-65a9-43e9-ba98-8b8f6c3a23e9.png",
+    "layers": [
+      "body",
+      "height",
+      "guts"
+    ],
+    "file": "BK03a.forge.json",
+    "asset_id": "custom-f285f61c-f7a9-4476-a94b-2601a4ccd1d8",
+    "version_id": "asset-b46bef6fc2c55f8476fc5697",
+    "library_path": "art/lab/hosted/library/asset-b46bef6fc2c55f8476fc5697.forge.json",
+    "sha256": "b46bef6fc2c55f8476fc5697e087a0e401c60208ed99f71252d6ec7bd271f042"
+  },
+  {
+    "id": "BK03b",
+    "code": "BK03",
+    "name": "BK03 Pier with doorway — b",
+    "w": 24,
+    "h": 128,
+    "anchor": [
+      12,
+      128
+    ],
+    "source": "exec-28be54f7-bc62-44cf-840f-68b3a7d9c363.png",
+    "layers": [
+      "body",
+      "height",
+      "guts"
+    ],
+    "file": "BK03b.forge.json",
+    "asset_id": "custom-f285f61c-f7a9-4476-a94b-2601a4ccd1d8",
+    "version_id": "asset-5dce33db67c418f26cb9b09c",
+    "library_path": "art/lab/hosted/library/asset-5dce33db67c418f26cb9b09c.forge.json",
+    "sha256": "5dce33db67c418f26cb9b09cab8e9ad3cb679f00b57a125aba6462635a4a834b"
+  },
+  {
+    "id": "BK04a",
+    "code": "BK04",
+    "name": "BK04 Pier with window — a",
+    "w": 24,
+    "h": 128,
+    "anchor": [
+      12,
+      128
+    ],
+    "source": "exec-e5d418a9-c8da-4147-bf34-142070506afa.png",
+    "layers": [
+      "body",
+      "height",
+      "guts"
+    ],
+    "file": "BK04a.forge.json",
+    "asset_id": "custom-f3b158a1-24e9-407b-9c18-7add9a560ff6",
+    "version_id": "asset-79818577adb7f976a9b4645c",
+    "library_path": "art/lab/hosted/library/asset-79818577adb7f976a9b4645c.forge.json",
+    "sha256": "79818577adb7f976a9b4645cc045846db3e8cd9d10d274f14e48fe9ec71a8b3f"
+  },
+  {
+    "id": "BK04b",
+    "code": "BK04",
+    "name": "BK04 Pier with window — b",
+    "w": 24,
+    "h": 128,
+    "anchor": [
+      12,
+      128
+    ],
+    "source": "exec-e557440f-e9be-4627-bf13-9bc3b4d8e559.png",
+    "layers": [
+      "body",
+      "height",
+      "guts"
+    ],
+    "file": "BK04b.forge.json",
+    "asset_id": "custom-f3b158a1-24e9-407b-9c18-7add9a560ff6",
+    "version_id": "asset-be1b5c5e033f83f95282ff32",
+    "library_path": "art/lab/hosted/library/asset-be1b5c5e033f83f95282ff32.forge.json",
+    "sha256": "be1b5c5e033f83f95282ff323b950423ce028451ba48e2ff5022504a1e9dae77"
+  },
+  {
+    "id": "BK05",
+    "code": "BK05",
+    "name": "BK05 Arcade pier — a",
+    "w": 24,
+    "h": 128,
+    "anchor": [
+      12,
+      128
+    ],
+    "source": "exec-b6aab50a-9f21-42c3-b3ef-11d0bc4a2719.png",
+    "layers": [
+      "body",
+      "height",
+      "guts"
+    ],
+    "file": "BK05.forge.json",
+    "asset_id": "custom-00ff0e8e-b5bd-46d3-a2a4-da716899994b",
+    "version_id": "asset-bea73f31aae7a7d983068837",
+    "library_path": "art/lab/hosted/library/asset-bea73f31aae7a7d983068837.forge.json",
+    "sha256": "bea73f31aae7a7d983068837617448200c1db726d2168d5453d53145aa458212"
+  },
+  {
+    "id": "BK06a",
+    "code": "BK06",
+    "name": "BK06 Floor slab — a",
+    "w": 128,
+    "h": 16,
+    "anchor": [
+      0,
+      16
+    ],
+    "source": "exec-0f302143-25e0-4049-aa19-be96c374fd65.png",
+    "layers": [
+      "body",
+      "height",
+      "guts"
+    ],
+    "file": "BK06a.forge.json",
+    "asset_id": "custom-0a26230f-44c5-46a4-b102-21a7366d652d",
+    "version_id": "asset-f160b11a0180d547a1126fcc",
+    "library_path": "art/lab/hosted/library/asset-f160b11a0180d547a1126fcc.forge.json",
+    "sha256": "f160b11a0180d547a1126fcc15b4284840c418f957445680bc7a24b7f652ed81"
+  },
+  {
+    "id": "BK06b",
+    "code": "BK06",
+    "name": "BK06 Floor slab — b",
+    "w": 128,
+    "h": 16,
+    "anchor": [
+      0,
+      16
+    ],
+    "source": "exec-5ac54277-fb84-466f-989f-78bf584ca372.png",
+    "layers": [
+      "body",
+      "height",
+      "guts"
+    ],
+    "file": "BK06b.forge.json",
+    "asset_id": "custom-0a26230f-44c5-46a4-b102-21a7366d652d",
+    "version_id": "asset-33d46a713c64f63078b82693",
+    "library_path": "art/lab/hosted/library/asset-33d46a713c64f63078b82693.forge.json",
+    "sha256": "33d46a713c64f63078b82693415d6551183771bd4ab6ef9f52250668e680b06d"
+  },
+  {
+    "id": "BK07",
+    "code": "BK07",
+    "name": "BK07 Slab, finished end — a",
+    "w": 16,
+    "h": 16,
+    "anchor": [
+      0,
+      16
+    ],
+    "source": "exec-a7622e50-e040-458e-9037-1251aa7757c5.png",
+    "layers": [
+      "body",
+      "height",
+      "guts"
+    ],
+    "file": "BK07.forge.json",
+    "asset_id": "custom-efc71396-0165-401c-ac3b-cbf0f5706f1e",
+    "version_id": "asset-fb7620d4d43a05e2df157925",
+    "library_path": "art/lab/hosted/library/asset-fb7620d4d43a05e2df157925.forge.json",
+    "sha256": "fb7620d4d43a05e2df1579258f71a8859cb1c269ea71c420464785f476549d79"
+  },
+  {
+    "id": "BK08a",
+    "code": "BK08",
+    "name": "BK08 Arch span — a",
+    "w": 128,
+    "h": 34,
+    "anchor": [
+      0,
+      34
+    ],
+    "source": "exec-fd065957-6408-4135-8e20-1f389dfc3532.png",
+    "layers": [
+      "body",
+      "height",
+      "guts"
+    ],
+    "file": "BK08a.forge.json",
+    "asset_id": "custom-0f16540c-9d8e-40e9-ac95-63c68cf544cb",
+    "version_id": "asset-559b77daf3f4a07a78813255",
+    "library_path": "art/lab/hosted/library/asset-559b77daf3f4a07a78813255.forge.json",
+    "sha256": "559b77daf3f4a07a78813255c970c3d7dcf5e1f9e988457ee18cc56a420db470"
+  },
+  {
+    "id": "BK08b",
+    "code": "BK08",
+    "name": "BK08 Arch span — b",
+    "w": 128,
+    "h": 34,
+    "anchor": [
+      0,
+      34
+    ],
+    "source": "exec-c21a810c-54d3-4f8b-bf5d-b37ffad371c1.png",
+    "layers": [
+      "body",
+      "height",
+      "guts"
+    ],
+    "file": "BK08b.forge.json",
+    "asset_id": "custom-0f16540c-9d8e-40e9-ac95-63c68cf544cb",
+    "version_id": "asset-3ad64e7fc96b1713da224d5a",
+    "library_path": "art/lab/hosted/library/asset-3ad64e7fc96b1713da224d5a.forge.json",
+    "sha256": "3ad64e7fc96b1713da224d5a658822cfccfb9a8edf83c3cdd0ab1739902e6749"
+  },
+  {
+    "id": "BK09a",
+    "code": "BK09",
+    "name": "BK09 Back bay, plain — a",
+    "w": 128,
+    "h": 128,
+    "anchor": [
+      0,
+      128
+    ],
+    "source": "exec-b17a8ec7-b579-4601-bdf1-70f742ccb1ed.png",
+    "layers": [
+      "body",
+      "back"
+    ],
+    "file": "BK09a.forge.json",
+    "asset_id": "custom-92e62e90-ea60-4dea-8c3b-4545d247ecd6",
+    "version_id": "asset-d22522be5503fb6b52c186dd",
+    "library_path": "art/lab/hosted/library/asset-d22522be5503fb6b52c186dd.forge.json",
+    "sha256": "d22522be5503fb6b52c186dda1b6945642e95691fb6dbde944157334d9b630d6"
+  },
+  {
+    "id": "BK09b",
+    "code": "BK09",
+    "name": "BK09 Back bay, plain — b",
+    "w": 128,
+    "h": 128,
+    "anchor": [
+      0,
+      128
+    ],
+    "source": "exec-57ec704f-f102-4644-8be9-cb7cdaf219fa.png",
+    "layers": [
+      "body",
+      "back"
+    ],
+    "file": "BK09b.forge.json",
+    "asset_id": "custom-92e62e90-ea60-4dea-8c3b-4545d247ecd6",
+    "version_id": "asset-60eac4c86893fdef9404dabe",
+    "library_path": "art/lab/hosted/library/asset-60eac4c86893fdef9404dabe.forge.json",
+    "sha256": "60eac4c86893fdef9404dabe62f2b72d8666f4425a7040af7fc26021fe4f92f0"
+  },
+  {
+    "id": "BK10a",
+    "code": "BK10",
+    "name": "BK10 Back bay, lancet window — a",
+    "w": 128,
+    "h": 128,
+    "anchor": [
+      0,
+      128
+    ],
+    "source": "exec-a81b4265-d7f6-4158-8964-597f588455bd.png",
+    "layers": [
+      "body",
+      "back"
+    ],
+    "file": "BK10a.forge.json",
+    "asset_id": "custom-59264620-3d1f-4eb7-8f59-3b7b262b89c4",
+    "version_id": "asset-8f7553023380efa42bda1bfb",
+    "library_path": "art/lab/hosted/library/asset-8f7553023380efa42bda1bfb.forge.json",
+    "sha256": "8f7553023380efa42bda1bfb10a18a2b547fe4f73d514f25aa9aa1e33ead4f24"
+  },
+  {
+    "id": "BK10b",
+    "code": "BK10",
+    "name": "BK10 Back bay, lancet window — b",
+    "w": 128,
+    "h": 128,
+    "anchor": [
+      0,
+      128
+    ],
+    "source": "exec-9da90020-f45c-4a24-84a4-6560a950e727.png",
+    "layers": [
+      "body",
+      "back"
+    ],
+    "file": "BK10b.forge.json",
+    "asset_id": "custom-59264620-3d1f-4eb7-8f59-3b7b262b89c4",
+    "version_id": "asset-7cd7505634687566eb9449c8",
+    "library_path": "art/lab/hosted/library/asset-7cd7505634687566eb9449c8.forge.json",
+    "sha256": "7cd7505634687566eb9449c80ce2b7cb12aec12c93fe5dbecbf3b32e99da7212"
+  },
+  {
+    "id": "BK11",
+    "code": "BK11",
+    "name": "BK11 Back bay, arcade — a",
+    "w": 128,
+    "h": 128,
+    "anchor": [
+      0,
+      128
+    ],
+    "source": "exec-67e50951-bc8c-4bf7-b6ab-e4e9c31e955c.png",
+    "layers": [
+      "body",
+      "back"
+    ],
+    "file": "BK11.forge.json",
+    "asset_id": "custom-6451fdfb-8798-4b93-9dec-bc5745c7d790",
+    "version_id": "asset-bc759cacca79a8e725e1301b",
+    "library_path": "art/lab/hosted/library/asset-bc759cacca79a8e725e1301b.forge.json",
+    "sha256": "bc759cacca79a8e725e1301be0e77ab47bc2cf19a04af86ead37cb568f57be27"
+  },
+  {
+    "id": "BK12a",
+    "code": "BK12",
+    "name": "BK12 Ground plinth — a",
+    "w": 128,
+    "h": 64,
+    "anchor": [
+      0,
+      48
+    ],
+    "source": "exec-40540704-b166-46fb-838a-77e17bfbc5fe.png",
+    "layers": [
+      "body",
+      "height",
+      "guts"
+    ],
+    "file": "BK12a.forge.json",
+    "asset_id": "custom-d8bf6408-8089-4ff9-a517-6f5ec84bdb72",
+    "version_id": "asset-9fdea589240ca19e687f9074",
+    "library_path": "art/lab/hosted/library/asset-9fdea589240ca19e687f9074.forge.json",
+    "sha256": "9fdea589240ca19e687f90747103000cbe0bb456d372010526143ea6111a523d"
+  },
+  {
+    "id": "BK12b",
+    "code": "BK12",
+    "name": "BK12 Ground plinth — b",
+    "w": 128,
+    "h": 64,
+    "anchor": [
+      0,
+      48
+    ],
+    "source": "exec-4e544474-7e46-4f89-8ebb-9e0e8c5ca4ce.png",
+    "layers": [
+      "body",
+      "height",
+      "guts"
+    ],
+    "file": "BK12b.forge.json",
+    "asset_id": "custom-d8bf6408-8089-4ff9-a517-6f5ec84bdb72",
+    "version_id": "asset-e2d1863a896c91cfa7f42427",
+    "library_path": "art/lab/hosted/library/asset-e2d1863a896c91cfa7f42427.forge.json",
+    "sha256": "e2d1863a896c91cfa7f424275ab1e8697a06e6c6d0d97417bbd7c4deacaf6769"
+  }
+]

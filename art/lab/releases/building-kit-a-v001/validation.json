@@ -1,0 +1,261 @@
+{
+  "passed": true,
+  "count": 22,
+  "checks": [
+    "Forge schema",
+    "dimensions",
+    "binary alpha",
+    "Body/Height/Guts registration",
+    "1x scale",
+    "draft flag",
+    "door/window/arcade clearances",
+    "slab/plinth flat tops and horizontal repeat edges",
+    "rear window opening",
+    "unique variants",
+    "maximum12 body tones"
+  ],
+  "assets": [
+    {
+      "id": "BK01a",
+      "dimensions": [
+        24,
+        128
+      ],
+      "bodyPixels": 3072,
+      "bodyTones": 10,
+      "backOnly": false,
+      "sha256": "5f20069338094f943fe52971a4962b3dc308df6ffad626899d650784d519dce4"
+    },
+    {
+      "id": "BK01b",
+      "dimensions": [
+        24,
+        128
+      ],
+      "bodyPixels": 3072,
+      "bodyTones": 9,
+      "backOnly": false,
+      "sha256": "5465c2b66a8b6d896bde2d25c3c6d6348d8c0105fd611a2819720683f7872d6b"
+    },
+    {
+      "id": "BK01c",
+      "dimensions": [
+        24,
+        128
+      ],
+      "bodyPixels": 3072,
+      "bodyTones": 10,
+      "backOnly": false,
+      "sha256": "dbe5bbed25be2ee40c97f25131fdab387531a8db54bd1b26903ccf8b204da504"
+    },
+    {
+      "id": "BK02a",
+      "dimensions": [
+        24,
+        128
+      ],
+      "bodyPixels": 3072,
+      "bodyTones": 10,
+      "backOnly": false,
+      "sha256": "2aa0fabd84cb028f0ba7ba22dc197d9d500c428e8da9d2cf4d759ef70813e5d0"
+    },
+    {
+      "id": "BK02b",
+      "dimensions": [
+        24,
+        128
+      ],
+      "bodyPixels": 3072,
+      "bodyTones": 10,
+      "backOnly": false,
+      "sha256": "60e1443c00f6d8d2b27281c11e92b38b19f619e164e756d185274777332af68c"
+    },
+    {
+      "id": "BK03a",
+      "dimensions": [
+        24,
+        128
+      ],
+      "bodyPixels": 1188,
+      "bodyTones": 9,
+      "backOnly": false,
+      "sha256": "f3a5858980a4dca7356f115a5f66e080a4a1670a3ea5e502d6c248233142a828"
+    },
+    {
+      "id": "BK03b",
+      "dimensions": [
+        24,
+        128
+      ],
+      "bodyPixels": 1106,
+      "bodyTones": 8,
+      "backOnly": false,
+      "sha256": "f1095958d8c0dc3b7add4a848192331e30ff142d4df73371b1502409404c5810"
+    },
+    {
+      "id": "BK04a",
+      "dimensions": [
+        24,
+        128
+      ],
+      "bodyPixels": 1728,
+      "bodyTones": 10,
+      "backOnly": false,
+      "sha256": "d51e675470abdb0bc98a176c2ed3bc64bd524c138ef1f9334d4af796995ff0bc"
+    },
+    {
+      "id": "BK04b",
+      "dimensions": [
+        24,
+        128
+      ],
+      "bodyPixels": 1728,
+      "bodyTones": 9,
+      "backOnly": false,
+      "sha256": "020718333693c3f22fa6d0a41280d6b2f459156c9dfe60212629aee4066a93c2"
+    },
+    {
+      "id": "BK05",
+      "dimensions": [
+        24,
+        128
+      ],
+      "bodyPixels": 1008,
+      "bodyTones": 5,
+      "backOnly": false,
+      "sha256": "ff6ee8ae1598c2063260a64b311d5902fbff5f868a97ec4497aba1cce47d75b3"
+    },
+    {
+      "id": "BK06a",
+      "dimensions": [
+        128,
+        16
+      ],
+      "bodyPixels": 2048,
+      "bodyTones": 10,
+      "backOnly": false,
+      "sha256": "5888c3420e77722557947e3b63d5c562352f5e833505b527d09757fcc0b3a71c"
+    },
+    {
+      "id": "BK06b",
+      "dimensions": [
+        128,
+        16
+      ],
+      "bodyPixels": 2048,
+      "bodyTones": 7,
+      "backOnly": false,
+      "sha256": "aa7b07900d0a63386477592ecce21913d818da85bd9b9e7c155651e898a0429f"
+    },
+    {
+      "id": "BK07",
+      "dimensions": [
+        16,
+        16
+      ],
+      "bodyPixels": 256,
+      "bodyTones": 9,
+      "backOnly": false,
+      "sha256": "2c95ca452e272f65912e196b191cc3da7ccaf512c9f6343d0c0c37898f6fe9b2"
+    },
+    {
+      "id": "BK08a",
+      "dimensions": [
+        128,
+        34
+      ],
+      "bodyPixels": 2092,
+      "bodyTones": 10,
+      "backOnly": false,
+      "sha256": "6ed518a643a2950bdf4119a5b7bf9e127d4243310549ddd806357c514b42a2b6"
+    },
+    {
+      "id": "BK08b",
+      "dimensions": [
+        128,
+        34
+      ],
+      "bodyPixels": 1270,
+      "bodyTones": 7,
+      "backOnly": false,
+      "sha256": "b99d7d5ac699d72dfc640e9bf1dc7e328810754ab507daefa92f6976579a220a"
+    },
+    {
+      "id": "BK09a",
+      "dimensions": [
+        128,
+        128
+      ],
+      "bodyPixels": 0,
+      "bodyTones": 0,
+      "backOnly": true,
+      "sha256": "0319fcc937ac6c6238d9a5364ddb8efb7d85172a2fe3faeee231e9cd6e6814cd"
+    },
+    {
+      "id": "BK09b",
+      "dimensions": [
+        128,
+        128
+      ],
+      "bodyPixels": 0,
+      "bodyTones": 0,
+      "backOnly": true,
+      "sha256": "db322e0ad5697c84a94d3313582996b09ba12e6612be833e0c12d2a105445098"
+    },
+    {
+      "id": "BK10a",
+      "dimensions": [
+        128,
+        128
+      ],
+      "bodyPixels": 0,
+      "bodyTones": 0,
+      "backOnly": true,
+      "sha256": "f643083aa9dc63f7911930958eb4439b46ffe264f3914df2c8b09208452e4616"
+    },
+    {
+      "id": "BK10b",
+      "dimensions": [
+        128,
+        128
+      ],
+      "bodyPixels": 0,
+      "bodyTones": 0,
+      "backOnly": true,
+      "sha256": "3505155d8267ceda9c312d3dbb8dfd29d4e50336b0461ef31ebd1bfa8e36a85f"
+    },
+    {
+      "id": "BK11",
+      "dimensions": [
+        128,
+        128
+      ],
+      "bodyPixels": 0,
+      "bodyTones": 0,
+      "backOnly": true,
+      "sha256": "b8cac71fa22067a003d54b3c7472ff70d4c9636c5baff30b48979b08f8373df9"
+    },
+    {
+      "id": "BK12a",
+      "dimensions": [
+        128,
+        64
+      ],
+      "bodyPixels": 8192,
+      "bodyTones": 10,
+      "backOnly": false,
+      "sha256": "bf8b889b1289be53e2ba9584fc5cb0b256cec59b32bbcb3e7d4bd95b0d5d711c"
+    },
+    {
+      "id": "BK12b",
+      "dimensions": [
+        128,
+        64
+      ],
+      "bodyPixels": 8192,
+      "bodyTones": 9,
+      "backOnly": false,
+      "sha256": "3e2d02846f12fab59f93b839ca5422c4e6e541df1c457f752d59e9a4bfafbf1d"
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "forge": 1,
+  "code": "BK12",
+  "name": "BK12 Ground plinth — b",
+  "w": 128,
+  "h": 64,
+  "fps": 1,
+  "base": 63,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "pivot": [
+      0,
+      63
+    ]
+  },
+  "ready": false,
+  "notes": "Building kit Priority A, BK12b, variant b. 17 Nov 2026. 1x density; game_scale1. Geometric anchor [0,48], zero overhang except BK12 buried16. Canvas128x64: slab y0..15, foundation y16..47, buried extension y48..63. Anchor geometric bottom-left nominal48; place top at floor top.\nImagegen original; exact contract mask, cropped/registered and palette-normalised to at most10 flat navy tones. User permits8–12. Independently authored geometric Height planes; coarse structural Guts provisional. Repeating seam strips matched. No lights/cloth. Draft for lab integration; NOT approved, NOT live. Openings show separately assembled BK09–BK11 interior; these pier parts do not duplicate rear walls.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAABACAYAAADS1n9/AAAACXBIWXMAAAPoAAAD6AG1e1JrAAAEeUlEQVR4nO2czWrjMBDH+wg+tCCWZA01tLANlEIu20tuff83yuIlAnUyn7ZcjWQdhjZeW575z8+jsaLtw/jyfk3tdL50O7erAcz3QwfgUjwpHQAHwpx2Yr0COEjCyRMAh+e3a2qlHex22VQDmO8OwHlf0HUAHCTh5BmA1/e/3yxeCI9rbMl12DWacaTrlsbwuqHPue+piVkEIJfNDUaNYx8c2BbxUWNuBgB3c8wZ7bEcIuUSeLyNw8VXClbtfR88OWeFwIPPB2XCtXFY4117vzsAhqdjt6d2NbgDIPx+vaZW2sFux001gPkmAXj89fzf4u/psdRqTFgLMQwgHio2GKcIwPTnbLZ5YO18DhsnrIHijBqTstk3zvfx5Z38PF+L3Zc6JvnD+c2Nhf2bFBdl2QCAQnGJhk0SDJz7LAkqjR+TKCV+IsCW/KIaQa3fHNwcBFRcPwYAFMqzcUkfmWO1xJUVAM1cUvPcufe4Qg4A5vNaF2rYOwCaeSyeC8fwZqlQUlwhOb+luOKUlg2A2IiUFsEqliTS4QZ2S3F1ABihJtD4tQQA1tRuXgFKz4WpLakA4Xau17isAKQgdACUPcDjrdGtCYCYbOsDe1cBrDtMKIc8lMXccQUH5T53vlYDMNvs2Dx3egRg/vnx+WWO6ePz61scpWOCPsy/L8mVCMCSrUnQsVT8EuUR+mDd1na6nUsBUDKu9PclW8lEAKzr5XBu8QjAkiXTCTRNHgHY9LsAy+AdgGMRADb5LsBaAVoBYERi9V4BrMmPbzksANp1Zbhm7hmAaGvjCs4AsMaFvd42D8ASsYbkXK8ApH5kB0CzChibP8qp0kJhn7kVwAnZ3wDj8goANZWlq4HpQlcWADihvAJAiTIhbzU1AcDBnBUAOFitAHBfmoyVAiAlPnsFqBUASphREZdXALiuHz68ZgAwwaS50jsA2Fw5KqY2zwBgVSBLD8DNmzUDgD0pU8U9gGaNYzEAVNNUGwBYwzcaehvPAHAQLK4A0pxSIwAU1GMDAGCALwKA65ZbAECKbdg7AFITWOtbgNT9T430AFzeRACWbJrgxC9hGIQ54goFY6IgtG52yQpA3AzSGgAnIi6PABTfElYLAHGnz5q4Drdtb/FnkwDkEMqL5a4AgwPbfArQNoDYmsB8PbUIoTXLogbnT2zm4JsLtwo4Ip00FddWJr3TR58s2qXHTQBoEp++EcD/9045ZoWCW4/gDAKQwiONMyEArPV7Ddjw9dv64GQFACM1CqVNjvTkYZ+tlgrFxTAKY8S4YNyUFtT9uCfdog9V2TDYoZ5qADSiwQqQjiP9eTLNOdR10j3SeZIS2wLA4Yf+FJ1WI6qyZasAXNmWnhQtAFuJgwGgrSgTsdztJfnxmFQBskwB0mBYBVj7dOdIPvakcABMQiPmCQAsLmsvIAJQ+jWn2/FHXiM7ADuFLXQAyidh6ACUF2KvFnoFKJ+EoQNQXoi9WugVoHwShg5AeSH2aqFXgPJJGDoA5YXYq4VeAconYegAlBdirxZABfgHGa/sr5W3HJAAAAAASUVORK5CYII=",
+      "height": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAABACAYAAADS1n9/AAAACXBIWXMAAAPoAAAD6AG1e1JrAAABUElEQVR4nO2ZwQ3EQBDCUvKUQil0uNfESSDhh/8RWCTZ/Ww/8GwGX/oBwAiABGYBkMC8ApDAfAMggfkIRALzF4AE5jcQCcw5ABKYgyAkMCeBSGCOgpHA3AUggbkMQgJzG4gE/s91sKQHms0AAZQvAQEKgtAoLIDyJSBAQRAahQVQvgQEKAhCo7AAypeAAAVBaBQWQPkSEKAgCI3CAihfAgIUBKFRWADlS0CAgiA0CgugfAkIUBCERmEBlC8BAQqC0CgsgPIlIEBBEBqFBVC+BAQoCEKjsADKl4AABUFoFBZA+RIQoCAIjcICKF8CAhQEoVFYAOVLQICCIDQKC6BxAe7uwc1mgACXLwEBCoK4UViAy5eAAAVB3CgswOVLQICCIG4UFuDyJSBAQRA3Cgtw+RIQoCCIG4UFuHwJCFAQxI3CAly+BAQoCOJGYQEuX0KSH1Rl5PyWcc7MAAAAAElFTkSuQmCC",
+      "guts": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAABACAYAAADS1n9/AAAACXBIWXMAAAPoAAAD6AG1e1JrAAABQ0lEQVR4nO3ZsQ3DMBBD0QyRIjgELNio8P7zJUOosvwK97Jw0JH/v97T3873ydr6vr22PudfW/f/coHr0QNsAGIArIB4AWSAWAFCYGQALSBCoBoYLQAHiBoIBAUHQAIDBEHBQQK5gEDBZFC4ADYwZBAdnINs4N1/wPm7df8GYJ49wAZgDIAVMF4AGWCsACFwZAAtYIRANXC0ABxg1EAgaHAAJHCAICh4kEAuYKBgMmi4ADZwyCA6eA6ygXf/Aee/tu7fAPTZA2wAagCsgHoBZIBaAUJgZQAtoEKgGlgtAAeoGggEFQdAAgsEQcFFArmAQsFkULkANrBkEB3cg2zg3X/A+dfW/RuAPHuADUAMgBUQL4AMECtACIwMoAVECFQDowXgAFEDgaDgAEhggCAoOEggFxAomAwKF8AGhgyig3OODfwDjWFrhsbHETkAAAAASUVORK5CYII=",
+      "back": null,
+      "emis": null,
+      "trim": null,
+      "cloth": null
+    }
+  ],
+  "asset_id": "custom-d8bf6408-8089-4ff9-a517-6f5ec84bdb72",
+  "state_key": ""
+}

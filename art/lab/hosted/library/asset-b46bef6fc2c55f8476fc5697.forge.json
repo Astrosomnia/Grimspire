@@ -1,0 +1,32 @@
+{
+  "forge": 1,
+  "code": "BK03",
+  "name": "BK03 Pier with doorway — a",
+  "w": 24,
+  "h": 128,
+  "fps": 1,
+  "base": 127,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "pivot": [
+      12,
+      127
+    ]
+  },
+  "ready": false,
+  "notes": "Building kit Priority A, BK03a, variant a. 17 Nov 2026. 1x density; game_scale1. Geometric anchor [12,128], zero overhang except BK12 buried16. Storey origin y=0; floor top y=112; bottom 16 overlaps slab. Door arch crown y28 (84 high), full-width throat from y40 to floor112; window y26..81 (56), sill at y82 (30 above floor). Arcade y26..111 (86).\nImagegen original; exact contract mask, cropped/registered and palette-normalised to at most10 flat navy tones. User permits8–12. Independently authored geometric Height planes; coarse structural Guts provisional. Repeating seam strips matched. No lights/cloth. Draft for lab integration; NOT approved, NOT live. Openings show separately assembled BK09–BK11 interior; these pier parts do not duplicate rear walls.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAACACAYAAAARQqnWAAAACXBIWXMAAAPoAAAD6AG1e1JrAAABaUlEQVRoge2ZTWrDMBCF5whetDAUNQYHamgEIZBNsumu97+RypTIKIps/YcW3gcTCSl6Lx5J40WId7OZj5cl9PmrOGZnvfRFm2oEdULQ6fr9zw20l7tQPnXFntD4cTRqOhhpbd+NMTLuz/lji4GdDAmphDF/zrYkR2l4fe8SLMdUPtZ+TW0sBu5FaxnsG7RKzewb7D/PfQ14N5uXt2nZmNJQ0+FXQ7Qk7gzsZGgRZ5iIxsMmhwxyhbnUQDlfTnm6oIHdFNlsu+Fuu1/pu607b8eSL9q4URqSLlrXm3x6xvtAV7x7dcygNL8qMZ5frodKURU7RTX1aHAMJPVdDVToCdzclRoMt2oarUU1JuzUqcUgJehG1ppccUtTA1qhiQFFqDKIiaeYUK24JcuACuEUg1Jxy6YBNYJDBq3ELXcG1AnuqA0AAAAAAAAAAAAAAAAAAAAA2CLn/3kuCBgYpMjgFBEuGqNU8F+vpj8eD4ASCs3jMgAAAABJRU5ErkJggg==",
+      "height": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAACACAYAAAARQqnWAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAAoklEQVRoge3aQQrDIBCF4TnyHOEdYY7j7aabCGlpo0aFQP8PXOY9EKObsVJK7lxGQWGLyuNPUUTkeUmaWvGRR0GyRckpMn40cVWI2zR4cNR4Mt09e5cdhr4ZDa+WFtgPSwqsYaqgFd5TYrPh1VCB3eQ9BXfDq8sCW8S/FawKr94KbBPfmA0AAAAAAAAAAADgCmMPYvxHjP8E4z9iYlb/PlT8As+TMVHvoISBAAAAAElFTkSuQmCC",
+      "guts": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAACACAYAAAARQqnWAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAApElEQVRoge3asQrEIBCE4XmIKYJICpsUef/n85pYHFw0RgMH+T/YMjtBdKuVQ8ojtaxbtUTAwhGZW2Qe2sqoCP8+TWPa80i58QMEZI4oc4vEQ3NrVPQMNh26vultXkwN0IkpAWoYCmg1vxKi0eZFV4Bu8pWAu82LaoAm8a+AWc2LrwA9xA/2BgAAAAAAAAAAAFDD2oPZkIoskUX27AKbgunty5QfFkNFNz5rHH0AAAAASUVORK5CYII=",
+      "back": null,
+      "emis": null,
+      "trim": null,
+      "cloth": null
+    }
+  ],
+  "asset_id": "custom-f285f61c-f7a9-4476-a94b-2601a4ccd1d8",
+  "state_key": ""
+}

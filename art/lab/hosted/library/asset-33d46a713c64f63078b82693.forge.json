@@ -1,0 +1,32 @@
+{
+  "forge": 1,
+  "code": "BK06",
+  "name": "BK06 Floor slab — b",
+  "w": 128,
+  "h": 16,
+  "fps": 1,
+  "base": 15,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "pivot": [
+      0,
+      15
+    ]
+  },
+  "ready": false,
+  "notes": "Building kit Priority A, BK06b, variant b. 17 Nov 2026. 1x density; game_scale1. Geometric anchor [0,16], zero overhang except BK12 buried16. Bay bottom-left geometric anchor; slab top flat, repeat128.\nImagegen original; exact contract mask, cropped/registered and palette-normalised to at most10 flat navy tones. User permits8–12. Independently authored geometric Height planes; coarse structural Guts provisional. Repeating seam strips matched. No lights/cloth. Draft for lab integration; NOT approved, NOT live. Openings show separately assembled BK09–BK11 interior; these pier parts do not duplicate rear walls.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAAAQCAYAAADeWHeIAAAACXBIWXMAAAPoAAAD6AG1e1JrAAABB0lEQVRoge2YwQrDIAyG+wg7dDCKnWBhg3bgxfve/6kcOxRCllld2fzb5fCdqvIn/jXGxl58VPzf5qCpLUDxagA1gdcTQE3g65QA46ZI4QMOxz6eztfqPHVsRZtxE7Q2yosBuAmQA0HSZjaUt6QBpL9sibZzWePW8om2X9B2DlZbsQFu4a6E/eZg0QDDGJRxvzlQAwBswoBsgNr1Sum/moOsLoBeBpE2RLppo2CA85a8BPK2QQoEsZ1B02ZI3pBbVP79rQHmSWiBoGuzgAaYNWUbgE5AO8q4AVCwJGeI2rJPgNw3ZLowr83Sg5IEN5u0dgl0nVwNtmC+9OBTglSPpbq8NvYUfL8fQGIzojvICikAAAAASUVORK5CYII=",
+      "height": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAAAQCAYAAADeWHeIAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAAa0lEQVRoge2VwQ3AQAzCOjJjMA4bXscgEn74H4FFviQPMpvB1z4AggBIEBYACdJ5AbYfeDYDBHC/BAQ4EIRHYQHcLwEBDgThUVgA90tAgANBeBQWwOMCSHqg2QwQQP0SEOBAEBqFBVC/hCY/W98ZPBSLSlQAAAAASUVORK5CYII=",
+      "guts": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAAAQCAYAAADeWHeIAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAAcklEQVRoge3ZsQ2AMBBDUYagQAj9Ik0K9p8PhkgHr7g+Olk5+3vbz/GszNFcmmvcS+P9c2n/mwXOXwuYACIAJyA/AA+QE8AExgNIATGBYmBSAA6QGAgEhQMggQFBUHBIoC4gKFgZlC5AG5gySB3cd9rAF/Qw0Zf9krdaAAAAAElFTkSuQmCC",
+      "back": null,
+      "emis": null,
+      "trim": null,
+      "cloth": null
+    }
+  ],
+  "asset_id": "custom-0a26230f-44c5-46a4-b102-21a7366d652d",
+  "state_key": ""
+}

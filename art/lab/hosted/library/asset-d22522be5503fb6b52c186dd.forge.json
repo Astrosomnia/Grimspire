@@ -1,0 +1,32 @@
+{
+  "forge": 1,
+  "code": "BK09",
+  "name": "BK09 Back bay, plain — a",
+  "w": 128,
+  "h": 128,
+  "fps": 1,
+  "base": 127,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "pivot": [
+      0,
+      127
+    ]
+  },
+  "ready": false,
+  "notes": "Building kit Priority A, BK09a, variant a. 17 Nov 2026. 1x density; game_scale1. Geometric anchor [0,128], zero overhang except BK12 buried16. BACK ONLY, empty Body PNG. Back window bbox x48..79,y20..81; sill30 above floor y112. Render at rear-wall origin, no collision.\nImagegen original; exact contract mask, cropped/registered and palette-normalised to at most10 flat navy tones. User permits8–12. Independently authored geometric Height planes; coarse structural Guts provisional. Repeating seam strips matched. No lights/cloth. Draft for lab integration; NOT approved, NOT live. Openings show separately assembled BK09–BK11 interior; these pier parts do not duplicate rear walls.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAAV0lEQVR4nO3BMQEAAADCoPVPbQwfoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKC7AQCPAAFPBGUdAAAAAElFTkSuQmCC",
+      "height": null,
+      "guts": null,
+      "back": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAJh0lEQVR4nO2dy27kOAxF+wO0UAMZwBh4ZpFNFvX/39eDLAQIGj4uJerhChdCJ7bLviIPL2WXu/tX/uufP/VIv68Yv983Bm2+fwUA1/akBAAHBCb9kBEOcEAS0skA3J+vGJ/vG4MA4IAk3AHA/kD81JHjLmB/H04nrwF2C4xxBQABwbXXAa5/v/58/P35vz/Lz9JAjtfOI30O0WA97wXuH70Our2NYTtvKcbaHCAA2gt7JFUKFgVbGwDrdax6PpySj8zTCoF2zjY+0u8mAKgLURf1TrxGPxpM6hir/o+Oapbmg14LnaeUE2qfGQAu+dKgAoH+jpybSjSnQQvUBxNkZE5csqTPSolF5t2TDzMAMa63jUEAcEAS0skAUE+Pvq2D+rk9pt1HHYtuk7YjGik93Gcuw3VGNCIxm61h6ncBHpPxuPZOHfdhcVkKQIzX8TGINcABfTidvAbYLTDGdd4isB4rEjRibyfruxfEb/oaQKKpJIDaLo3yGS8ArNfPBp0eAHjrsWhzA+DEAP80ADKhb7sDBACvZwNQn6wlf2byqev0fu50fXkiANbrQA6AnBR52tY+rNEmYbHVFlhU322ollajVZ8UP/RhUYkjAoJbC0AWfpro+s/ZAFgAvQ8BwJJ8rZUsA6DeVgvUhgTASIA1AFBt90YAUI1HOIB0nDSoL42oNccoAF767iZwHgC0ny8xsOqjCmkIAHRBRV0AnQBlbYgObqC22qvvZipuRJ8XAJS2ck1Ei+oA0iS+93+/aWJJFjUZbT2gVRf12W9dlqQnBQaq7SEuoAHqoY9KPqevC4B6f2s/CABStbQLxFEAtKq3VvDNtCquGkf19QLKtSp3AEogysRHHaBOfi8AtcZWn5borOyvk0/Z9AkAcItDVwDaVTIq0NIruWAjAe4JbDauNahrIAC02yz9Hh2l5WnX7gagFu9BLkJzDwAWfdkIAFUEPQCMuuZ2AHr6PhLs+vXlHgDqV6A9daVG3wgAmr7eURa+rT53AKyieibTXgsBYIatJkCfpI06xho37udefa4AWFbTFkB6AOhtS7ljDr0O0AOppI/a3uZqugNYCUWOWQlAqjSht4gzAdBaFBLvbS2gx65OACB13q2MAIBUtUcLXQJAK9oinDq2dxHYm/DccTcwwwHaXGixlBygXGupA0iT6iV4BIDa2iVN2ajRswVoCW/bE6J5igNw99dUkLmA96xiEQDKMaMVnjv0eThAHRvEBSxrlOUOwImfCYDmAF6JT5WekkwvAKT4cRAc2QLapHPVKAW991GwNcl5wiJrBACLE0jatwHAJdwafI8WgFZLGgRgxAG0/i4lHY3fFgeQKg5xAK8WIOmjgp06ALU+CkZiolW+BsISAJDergVX6mGzAECgSJMA0BwAsX/EBZY5AGJP3GQkCLwAkMDshSVNXAQiIDymBYwEerUDJCUpqxyg3ae10eMBkERrBHvfBfQkOgEB9noSiPR5JPlt/JYDUAuVJoVOYAUAueM+2woA90pZq4FrAxKs7e9bHUCrLq6n7XgOkIB9WoBnPAqWev5xLUASSZGrJb8OqhcAWsXkge8qRtcAVLVbYNgOAJp8at9MAKiAnQ5AErZzcaO2bWsBnE1pvU2awIgDaC6UDEmfDQAyevQtAYAjGJnsLAeQIJUqLy0EwBIvi8b6WlMB0Coa3bYCAE1nEm6/VgDAFQl6/FYHaEVpcGgQtMEaBYBrP9nBYr1bgFT9Uny3OEB7cY1aqQq5AHs6AApn2tACOCgkTUcAgARNqjJqmwcAXFBRXQnU5+EAlBYpXpwrUPqWOkBLJUeyBsxKAJJgrQgAkjbEARAIuBhycVwGgEQoNyku8KvWAJITJPCOxrMFcEnudaxtDiD1Kaoa0QobBUC7Xl7YAiRIqepGYrUdACmwkiPMBkCyd8lms7HCvABArB/RtgwAiVDNFZAJzGgBWsCTQZ9XC5BcQNIrxXcZAJpozSWQAI8CQLUfKZjZ+KTN+zZwpHC2AYAIt1SZ1QHKMUhgJVvNhhbgCUALIAcpGs8lACBCesn2cABJk5bkbFijeLwSZoVT078UAC3YSMJHHQBtAQi0CQB3Vgugkky5AOJQ2x2gnRQafC8H4K6FJj8LldbrAFILtbQjzQWOcACpfyEOYAGgHCMllQIxARBwDuDRAqSql2Kq6V8OgPfwbgEjMGYiGV4ASMnn2gACylYHQCxeGx4vhVKaEHtNgxWGtgCkujnnOmoNwAUZDeYsAKTEj8CZJnwZpCVbcjDNoY5qASgc3gC0gfYE4JrwShjSBo50gBkBHgGgB75sfNY+chcgJZZzBERj/UrdUgfoST7nAF4AaBaaCB1alXkAICXdAim1f6sDeIAx8y+GUDBkoz5PAOrEay2LA7kFZykAaPCQBQ01AQ8AkMrOhgXi7NvAXv1bAOAS3BtcbwegKmok0El56dICgASB5Ajcz0sBQKtZSwgHgPeDICpoSQEFcQALAJyDUlBSmjl429+HAKD+TfwSYPS1Zu0YrcooAMo2SR9yfi7YSdHf6mtbgKSPcgApHto+Sb+7A2hB5oKtiZRGEapVV6tPAg6BMYO3hVZ91haqtQLNrSR93QCUE2vCuarSCG8nQNErASAFVduegXXBqD5JK5J8r/gNAYC808YJ4/qbV4CR60uwZqMD9ACA/ithWmFpoG4HwGL31EBX2CgAFIiWoOZmvwcAXDWjSd4CgBRsz+HlACfpu8D/a2m2viEAdgT6RADSg/V1AUA5wawxco0n6LsnakOeTroAoD3+DABeWwGg/g9BVwBOrrDT9d0LAJDy6AKA5b7VOjwAmKXto1rEjSSn57plIPGb7gBPBAAJXl6gzxvIAOBhgOaJ2qY7QIzX42MQAByQhPtkAMr/3l3+HB1e5+HOZT2/p55rwfDWqwKwe8IxvqbGwATA06olxtc4AG3Sqd/L4C5yYvt4Rz3XDAB2fXER41oSg2PvAlY8Jj1lpAWPrLvvAgKAVwAQDvAKB9hhi9+LlJnXmH3+O1pAf2JWAHDKSLEG2OMAp4wUAIQDpLgLoB3gJ7hAerIDeCapPk+0gNcZAMQTueutYxAAHJCEdDIAT+pn76Tx7pyXewt4x+A+QeMdAAQAdzhAOMAdLWBeC3i3Zwwp1gCxBriNX3LFIvCAyr3DAdYHKu4CXuEAuyv2foIDlH6CvmVaL7C0YTmv5VhPjdfmgcy7BoD6bNkfbwUf8Og1HTbiu4ADkpACgP2B+Kkjx9fB+5OQDgLgP+gy+lrjrZDoAAAAAElFTkSuQmCC",
+      "emis": null,
+      "trim": null,
+      "cloth": null
+    }
+  ],
+  "asset_id": "custom-92e62e90-ea60-4dea-8c3b-4545d247ecd6",
+  "state_key": ""
+}
