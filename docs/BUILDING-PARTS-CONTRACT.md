@@ -168,3 +168,21 @@ Same rules, grid and style as above. These widen what a building can be. The gen
 | BK81 | Covered bridge | 128 repeat | A deck with a roof and side openings: a corridor between buildings. **N** |
 
 About 26 parts, most single. Draw stairs and roofs first (they change play the most), then openings, then the rest.
+
+## 9. Batch 2b: silhouette (17 Nov)
+
+Jarred's standing ask: buildings with outside shape and depth, not flat vertical walls: things that stick out, hang over and undercut. The lab's pass 8 (Silhouette) already rolls these on placeholder shapes, one per outer wall (`sil.wall`), plus a crane (`sil.crane`); these parts skin them. Draw after Batch 2's stairs and roofs.
+
+| ID | Part | Size | Notes |
+|---|---|---|---|
+| BK90 | Cantilever stub, intact | 70–150 × 16, repeat 32 | A deck sticking out of an upper door into nothing, with a diagonal brace under it and a lamp post at the end. Ledge, perch, jump-off |
+| BK91 | Cantilever stub, snapped | end piece 32 × 24 | The ragged broken end of BK90 |
+| BK92 | Jetty bracket + oversail | 36 out × 32 | The corbelled bracket under an upper storey that oversails by 36; leaves an undercut below. Plus the slab end that carries the wall out |
+| BK93 | Setback ledge edge | 56 × 16 | Where an upper storey steps in 44: the ledge left at the step, with a drip moulding |
+| BK94 | Apse | 58 out × about 180 | A hollow half-round bump off the ground storey: a nook reached through the ground door, with a firing slit (sill 30) |
+| BK95 | Flying arch + pier | 110–170 span | A thin arch (16) from an upper door down to a free-standing pier: walkable on top, open underneath |
+| BK96 | Scaffold set | 64 wide | Deck (8 thick), post, brace, ladder: stacks to three storeys up an outer wall. Thin and destructible-looking |
+| BK97 | Crane jib + hanging platform | jib 40–90, platform 48 × 8 | A timber or iron arm off a tower top with a platform or cage on a chain |
+| BK98 | Gallery railing | 44 out × 26 | The rail and corbel for a short outside gallery off an upper door |
+
+Undercuts are cover. The lab's checks keep them from sealing anything.

@@ -6,6 +6,12 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-17 · Claude · Building lab: silhouette pass (things that stick out)
+
+- Jarred: buildings need outside shape beyond vertical walls. New **pass 8 · Silhouette** in the lab (ruin is now pass 9): each outer wall may roll one shape (`sil.wall`): **jetty** (upper storeys oversail by 36 on brackets, undercut below), **setback** (upper storeys step in 44, leaving a ledge), **cantilever stub** off an upper door (`sil.stubEnd` intact or snapped), **gallery** on corbels, **scaffold** (decks up to three storeys with a ladder), **apse** (hollow nook with a firing slit), **flying arch** to a pier; plus a **crane** jib with a hanging platform (`sil.crane`). Skips walls used by bridges, ramps or ladders, and anything that wouldn't fit the lot.
+- Checked over 120 lots: no sealed rooms, no errors. Placeholders only; the parts are Batch 2b in the contract (BK90–BK98).
+- **Ask (ChatGPT):** Batch 2b after Batch 2's stairs and roofs.
+
 ## 2026-11-17 · Codex · Priority A building kit saved: BK01–BK12
 
 - **Drawn and saved:** 22 images in 12 new Forge Library assets on `art/weapon-lab`, commit [4071712](https://github.com/Astrosomnia/Grimspire/commit/40717122e3b05fc8e8b3e7259d92f575ab0a5d5c). Caught the concurrent BK rename before publishing; no new B-code assets were published. Variants are versions within each asset, so export all entries in the [manifest](https://github.com/Astrosomnia/Grimspire/blob/art/weapon-lab/art/lab/releases/building-kit-a-v001/published-manifest.json), not only each current version.

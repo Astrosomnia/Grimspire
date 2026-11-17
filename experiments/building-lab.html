@@ -150,7 +150,7 @@ const mulberry=a=>()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+M
 const hash=(...n)=>{let h=2166136261;for(const v of n){h^=v&0xffffffff;h=Math.imul(h,16777619)}return h>>>0};
 
 // ---------------------------------------------------------------- rule table: [key, pass, label, {option: weight}]
-const PASSES=['Templates','1 · Footprint','2 · Massing','3 · Floors & roofs','4 · Circulation','5 · Openings','6 · Rooms & dressing','7 · Bridges & connectors','8 · Ruin'];
+const PASSES=['Templates','1 · Footprint','2 · Massing','3 · Floors & roofs','4 · Circulation','5 · Openings','6 · Rooms & dressing','7 · Bridges & connectors','8 · Silhouette','9 · Ruin'];
 const RULES=[
  ['tpl.use',0,'Use a locked template',{yes:15,no:85}],
  ['lot.kind',1,'Lot',{single:50,pair:35,rock:15}],
@@ -188,11 +188,14 @@ const RULES=[
  ['bridge.walkway',7,'High walkway between tops',{yes:30,no:70}],
  ['bridge.buttress',7,'Flying buttress ramp',{yes:30,no:70}],
  ['bridge.ladder',7,'Outside ladder',{yes:30,no:70}],
- ['ruin.level',8,'Ruin',{none:25,light:45,heavy:30}],
- ['ruin.slab',8,'Slabs knocked out',{0:45,1:35,2:20}],
- ['ruin.shear',8,'Sheared top (heavy)',{yes:55,no:45}],
- ['ruin.corner',8,'Collapsed corner (heavy)',{yes:40,no:60}],
- ['ruin.sky',8,'Rear wall open to sky',{yes:40,no:60}],
+ ['sil.wall',8,'Outer wall shape (each side)',{none:40,jetty:12,setback:10,stub:12,gallery:8,scaffold:7,apse:6,flyer:5}],
+ ['sil.stubEnd',8,'Cantilever end',{intact:55,snapped:45}],
+ ['sil.crane',8,'Crane arm off the top',{yes:10,no:90}],
+ ['ruin.level',9,'Ruin',{none:25,light:45,heavy:30}],
+ ['ruin.slab',9,'Slabs knocked out',{0:45,1:35,2:20}],
+ ['ruin.shear',9,'Sheared top (heavy)',{yes:55,no:45}],
+ ['ruin.corner',9,'Collapsed corner (heavy)',{yes:40,no:60}],
+ ['ruin.sky',9,'Rear wall open to sky',{yes:40,no:60}],
 ];
 const RULE=Object.fromEntries(RULES.map(r=>[r[0],r]));
 const GRID0={bay:128,storey:128,pier:24,slab:16,troop:50};
@@ -253,6 +256,8 @@ function genLot(seed,opt){opt=opt||{};
   for(const M of L.blds)M.snap=snapshot(M);
   // ---- pass 7: bridges and connectors
   connectors(L,C);
+  // ---- pass 8: silhouette (things that stick out, hang over and undercut)
+  for(const M of L.blds)silhouette(L,M,C);
   // ---- pass 8: ruin
   for(const M of L.blds)ruin(L,M,C);
   // ---- reachability again, so a ruined building is still a level
@@ -400,7 +405,57 @@ function connectors(L,C){const g=ST.grid,{pick,rng,R,RI}=C,X=(M,c)=>M.x0+c*g.bay
       if(L.bridges.some(b=>b.x0-20<lx&&b.x1+20>lx))continue;opts.push({M,k,r,lx})}}
     if(opts.length){const o=opts[Math.floor(rng()*opts.length)];o.M.piers[o.k][o.r]='door';L.ladders.push({x:o.lx,y0:L.tY(o.lx),y1:FT(o.M,o.r),why:'outside ladder'})}}}
 
-// ---- pass 8: ruin
+
+// ---- pass 8: silhouette. Each outer wall may get one shape that breaks the box: an oversailing upper storey (jetty),
+// a stepped-back upper storey with a ledge (setback), a cantilever stub off an upper door, a corbelled gallery, a
+// scaffold with decks and a ladder, a hollow apse with a firing slit, or a flying arch to a pier. Plus a crane arm.
+function silhouette(L,M,C){const g=ST.grid,{pick,rng,R,RI}=C,B=g.bay,SH=g.storey,P=g.pier,SL=g.slab,X=c=>M.x0+c*B,Y=r=>M.base-r*SH,FT=r=>Y(r)-SL,n=M.n,h=M.h;
+  const S=M.sil={body:[],cut:[],back:[],backCut:[],deco:[],decoB:[],ladders:[],pier:{}};
+  const used=x=>L.bridges.some(b=>x>b.x0-30&&x<b.x1+30)||L.ramps.some(p=>x>Math.min(p.x0,p.x1)-30&&x<Math.max(p.x0,p.x1)+30)||L.ladders.some(l=>Math.abs(l.x-x)<40)||M.ext.some(e=>Math.abs(e.x-x)<40);
+  const free=(a,b)=>{const xa=Math.min(a,b),xb=Math.max(a,b);return xa>20&&xb<L.W-20&&!L.blds.some(o=>o!==M&&xb>o.x0-40&&xa<o.x0+o.n*B+40)&&!(L.rock&&xb>L.rock.x0-20&&xa<L.rock.x0+L.rock.w+20)};
+  const span=(a,b,y,t)=>Rc(Math.min(a,b),y,Math.abs(b-a),t);
+  for(const sd of[-1,1]){const k=sd<0?0:n,c=sd<0?0:n-1,xe=X(k),xo=xe+sd*P/2,hc=h[c];
+    if(used(xe+sd*30))continue;
+    const t=pick('sil.wall',o=>!(['jetty','setback','stub','gallery','scaffold','flyer'].includes(o)&&hc<2));if(t==='none')continue;
+    if(t==='jetty'){const J=36,r0=RI(1,hc-1);if(!free(xe,xe+sd*(J+P)))continue;
+      for(let r=r0;r<hc;r++)S.pier[k+','+r]={x:xe+sd*J,col:1};(M.silSide=M.silSide||{})[sd]={t:'jetty',r0};
+      for(let r=r0;r<=hc;r++)S.body.push(span(xe,xe+sd*(J+P/2),Y(r)-SL,SL));
+      S.back.push(span(xe,xe+sd*J,Y(hc),Y(r0)-Y(hc)));
+      for(const f of[0,1])S.body.push(Pg([[xo,Y(r0)],[xe+sd*(J+P/2),Y(r0)],[xo,Y(r0)+(f?18:32)]]));
+      M.silShape=(M.silShape||[]).concat('jetty')}
+    else if(t==='setback'){const I=44,r0=RI(1,hc-1);let ok=true;
+      for(let r=Math.max(0,r0-1);r<hc;r++){const s=M.cells[c][r];if(s.stair||s.ladder||s.well||s.arrive)ok=false}
+      if(M.cells.some(col=>col.some(s=>s.ladder&&Math.abs((s.ladder.s<0?X(s.c)+P/2+16:X(s.c+1)-P/2-16)-xe)<I+20)))ok=false;if(!ok)continue;
+      for(let r=r0;r<hc;r++)S.pier[k+','+r]={x:xe-sd*I};(M.silSide=M.silSide||{})[sd]={t:'setback',r0};
+      const y0=Y(hc)-SL-90,a=xe-sd*(I-P/2),b=xe+sd*(P/2+3);S.cut.push(span(a,b,y0,FT(r0)-y0));S.backCut.push(span(a,b,y0,FT(r0)-y0));
+      M.silShape=(M.silShape||[]).concat('setback')}
+    else if(t==='stub'||t==='gallery'){const r=RI(1,hc-1),len=t==='gallery'?44:R(70,150);if(!free(xe,xe+sd*(len+P)))continue;
+      M.piers[k][r]='door';const y=FT(r),x1=xo+sd*len,snapped=t==='stub'&&pick('sil.stubEnd')==='snapped';
+      if(snapped){const p=[[xo,y],[x1,y+R(-4,4)],[x1-sd*6,y+8],[x1-sd*2,y+16],[xo,y+16]];S.body.push(Pg(p))}else S.body.push(span(xo,x1,y,t==='gallery'?12:16));
+      if(t==='gallery'){S.body.push(Pg([[xo,y+12],[xo+sd*30,y+12],[xo,y+34]]));S.deco.push(Ln([[xo,y-26],[x1,y-26]],{col:'#8a93a6',lw:2}),Rc(Math.min(x1,x1-sd*3),y-26,3,26,{col:'#8a93a6'}))}
+      else{S.body.push(Pg([[xo,y+54],[xo,y+44],[xo+sd*len*.55,y+16],[xo+sd*len*.55+sd*10,y+16]]));if(!snapped)S.deco.push(Rc(x1-sd*6-2,y-40,4,40,{col:'#8a93a6'}),Ci(x1-sd*6,y-44,6,{col:'#ffb347'}))}
+      M.silShape=(M.silShape||[]).concat(t)}
+    else if(t==='scaffold'){const W2=64,tr=Math.min(hc-1,3);if(!free(xe,xe+sd*(W2+P+30)))continue;
+      for(let r=1;r<=tr;r++){M.piers[k][r]='door';S.body.push(span(xo,xo+sd*W2,FT(r),8));S.ladders.push({x:xo+sd*(W2+13),y0:r===1?L.tY(xo+sd*(W2+13)):FT(r-1),y1:FT(r)})}
+      for(const f of[6,W2-6])S.decoB.push(Ln([[xo+sd*f,L.tY(xo+sd*f)],[xo+sd*f,FT(tr)-30]],{col:'#5c6477',lw:4}));
+      for(let r=1;r<=tr;r++)S.decoB.push(Ln([[xo+sd*6,FT(r-1)+(r===1?0:8)],[xo+sd*(W2-6),FT(r)+8]],{col:'#4a5163',lw:3}));
+      M.silShape=(M.silShape||[]).concat('scaffold')}
+    else if(t==='apse'){const Ra=58,base=FT(0),top=base-64;if(!free(xe,xe+sd*(Ra+P+10)))continue;
+      const p=[[xo,M.foot+30],[xo+sd*Ra,M.foot+30],[xo+sd*Ra,top]];for(let i=1;i<=8;i++){const a=i/8*Math.PI/2;p.push([xo+sd*Ra*Math.cos(a),top-Ra*Math.sin(a)])}S.body.push(Pg(p));
+      const q=[[xo-sd*2,base],[xo+sd*(Ra-14),base],[xo+sd*(Ra-14),top]];for(let i=1;i<=8;i++){const a=i/8*Math.PI/2;q.push([xo+sd*(Ra-14)*Math.cos(a),top-(Ra-14)*Math.sin(a)])}q.push([xo-sd*2,top-(Ra-14)]);S.cut.push(Pg(q));
+      S.cut.push(span(xo+sd*(Ra-16),xo+sd*(Ra+2),base-30-40,40));S.back.push(Pg(q));
+      M.piers[k][0]='door';const ok2=k?0:n;if(!['door','arcade'].includes(M.piers[ok2][0]))M.piers[ok2][0]='door';
+      M.silShape=(M.silShape||[]).concat('apse')}
+    else if(t==='flyer'){const r=Math.min(hc-1,RI(1,2)),D=R(110,170),xB=xe+sd*D;if(!free(xe,xB+sd*20))continue;
+      const yA=FT(r),gy=L.tY(xB),yB=yA+R(.3,.55)*(gy-yA),pts=[];for(let i=0;i<=10;i++){const f=i/10;pts.push([xo+(xB-xo)*f,yA+(yB-yA)*f-10*Math.sin(f*Math.PI)])}
+      S.body.push(Pg([...pts,...pts.slice().reverse().map(([x,y])=>[x,y+16])]),Rc(xB-14,yB,28,gy-yB+30));M.piers[k][r]='door';
+      M.silShape=(M.silShape||[]).concat('flyer')}}
+  if(pick('sil.crane')==='yes'){let c=0;for(let i=1;i<n;i++)if(h[i]>h[c])c=i;const sd=c<n/2?-1:1,yR=Y(h[c])-SL,xm=X(c)+B/2,xj=(sd<0?X(0):X(n))+sd*R(40,90);
+    if(free(xm,xj+sd*30)&&!used(xj)){const yp=yR+R(30,110);S.decoB.push(Ln([[xm,yR],[xm,yR-56]],{col:'#5c6477',lw:5}),Ln([[xm,yR-56],[xj,yR-40]],{col:'#5c6477',lw:4}),Ln([[xm,yR-30],[xj,yR-40]],{col:'#4a5163',lw:2}));
+      S.deco.push(Ln([[xj,yR-40],[xj,yp-30]],{col:'#7d8597',lw:2}));S.body.push(Rc(xj-24,yp,48,8));S.decoB.push(Ln([[xj-24,yp],[xj-24,yp-30],[xj+24,yp-30],[xj+24,yp]],{col:'#5c6477',lw:2}));
+      M.silShape=(M.silShape||[]).concat('crane')}}}
+
+// ---- pass 9: ruin
 function ruin(L,M,C){const g=ST.grid,{pick,rng,R,RI}=C,B=g.bay,SH=g.storey,SL=g.slab,X=c=>M.x0+c*B,Y=r=>M.base-r*SH,n=M.n,h=M.h;
   const lvl=pick('ruin.level');M.ruin=lvl;if(lvl==='none')return;
   // slabs knocked out, rubble on the floor below
@@ -473,7 +528,8 @@ function emitB(M,o,L){const g=ST.grid,B=g.bay,SH=g.storey,P=g.pier,SL=g.slab,X=c
       // a stairwell or hall: the neighbours' slabs stop at the pier, not inside the opening
       for(const s of M.cells[c][r].holes)o.cut.push(Rc(X(c)+B*s-22,y-1,44,SL+40))}}
   // piers: outer walls and inner piers with their openings
-  for(let k=0;k<=n;k++)for(let r=0;r<maxH;r++){const kind=M.piers[k]?.[r];if(!kind||kind==='none')continue;const x=X(k),yt=Y(r+1),yb=Y(r)-SL;
+  for(let k=0;k<=n;k++)for(let r=0;r<maxH;r++){const kind=M.piers[k]?.[r];if(!kind||kind==='none')continue;const rp=M.sil&&M.sil.pier[k+','+r],x=rp?rp.x:X(k),yt=Y(r+1),yb=Y(r)-SL;
+    if(rp&&rp.col)o.back.push(Rc(X(k)-P*.35,yt,P*.7,SH));
     if(kind==='open'){o.back.push(Rc(x-P*.35,yt,P*.7,SH));continue}
     o.body.push(Rc(x-P/2,yt,P,SH));
     if(kind==='door')o.cut.push(Pg(arch(x,yb,P+2,DOOR,false).map(([a,b])=>[a<x?x-P/2-1:x+P/2+1,b])));
@@ -501,13 +557,15 @@ function emitB(M,o,L){const g=ST.grid,B=g.bay,SH=g.storey,P=g.pier,SL=g.slab,X=c
     else if(rf.type==='spire'){o.body.push(Pg([[xa-4,yR+2],[(xa+xb)/2,yR-B*1.55],[xb+4,yR+2]]));o.body.push(Rc(xa-6,yR-14,10,14),Rc(xb-4,yR-14,10,14));
       o.decoF.push(Pg([[xa-6,yR-14],[xa-1,yR-40],[xa+4,yR-14]],{col:'#7d8597'}),Pg([[xb-4,yR-14],[xb+1,yR-40],[xb+6,yR-14]],{col:'#7d8597'}))}
     else if(rf.type==='broken'){const p=[[xa,yR+1]];for(let x=xa;x<=xb;x+=16)p.push([x,yR-4-rr()*34*(Math.sin((x-xa)/(xb-xa)*Math.PI)*.8+.2)]);p.push([xb,yR+1]);o.body.push(Pg(p))}
-    for(const[i,on]of rf.gar.entries()){if(!on)continue;const gx=i?xb:xa,sd=i?1:-1,gy=yR+4;
+    for(const[i,on]of rf.gar.entries()){if(!on)continue;if(M.silSide&&M.silSide[i?1:-1]&&((i&&rf.c1===n-1)||(!i&&rf.c0===0)))continue;const gx=i?xb:xa,sd=i?1:-1,gy=yR+4;
       o.decoF.push(Pg([[gx,gy],[gx+sd*20,gy+2],[gx+sd*26,gy+10],[gx+sd*16,gy+12],[gx+sd*10,gy+20],[gx,gy+18]],{col:'#8a93a6'}),Ci(gx+sd*21,gy+7,2,{col:'#ff2e88'}))}}
   // corbels under upper floors on the outer walls
-  if(M.corbel)for(const k of[0,n]){const c=k?n-1:0,sd=k?1:-1;for(let r=1;r<=h[c];r++){const x=X(k)+sd*P/2,y=Y(r)-SL;o.body.push(Pg([[x,y],[x+sd*12,y],[x+sd*12,y+6],[x,y+16]]))}}
+  if(M.corbel)for(const k of[0,n]){const c=k?n-1:0,sd=k?1:-1,ss=M.silSide&&M.silSide[sd];for(let r=1;r<=h[c];r++){if(ss&&(ss.t==='jetty'?r>=ss.r0:r>ss.r0))continue;const x=X(k)+sd*P/2,y=Y(r)-SL;o.body.push(Pg([[x,y],[x+sd*12,y],[x+sd*12,y+6],[x,y+16]]))}}
   // steps down from a ground door to lower ground outside
   for(const k of[0,n]){if(!['door','arcade'].includes(M.piers[k][0]))continue;const sd=k?1:-1,x=X(k)+sd*P/2,ft=Y(0)-SL,drop=L.tY(x+sd*12)-ft;
     if(drop>14){const ns=Math.ceil(drop/14),rise=drop/(ns+1);for(let i=1;i<=ns;i++){const xx=sd<0?x-i*16:x+(i-1)*16;o.body.push(Rc(xx,ft+i*rise,16,L.tY(xx+8)-ft-i*rise+30))}}}
+  if(M.sil){const S=M.sil;o.body.push(...S.body);o.cut.push(...S.cut);o.back.push(...S.back);o.backCut.push(...S.backCut);o.farCut.push(...S.backCut);o.decoB.push(...S.decoB);o.decoF.push(...S.deco);
+    for(const l of S.ladders)emitLadder(o,l.x,l.y0,l.y1)}
   o.cut.push(...M.cuts);o.backCut.push(...M.backCuts);o.farCut.push(...M.farCuts);o.rub.push(...M.rub);
   for(let c=0;c<=n;c++)o.grid.push(Ln([[X(c),Y(0)],[X(c),Y(maxH)]],{col:'rgba(63,243,255,.18)',lw:1}));
   for(let r=0;r<=maxH;r++)o.grid.push(Ln([[X(0),Y(r)],[X(n),Y(r)]],{col:'rgba(63,243,255,.18)',lw:1}))}
