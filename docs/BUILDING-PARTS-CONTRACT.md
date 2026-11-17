@@ -96,7 +96,7 @@ Per [`WORLD-ART.md`](WORLD-ART.md): **Body** (flat, dark, collision), **Height**
 
 **The benchmark is the original K08 cathedral front and the original S01 fallen saint head** (Jarred, 16 Nov): strong, heavy lines, a scannable shape, chunky 1× pixels, about six tones in flat blocks, shading by planes. Full bar: [`ART-READABILITY.md`](ART-READABILITY.md).
 
-- **Kit tier, most restraint.** These parts repeat on every building, so they're the plainest things in the game. Smallest visible feature about 2 game px (4 art). 5–7 tones per material. No mortar on every course, no per-pixel grain.
+- **Kit tier, most restraint.** These parts repeat on every building, so they're the plainest things in the game. Smallest visible feature about 2 game px (4 art). Up to 10–12 tones per material on a part, in flat clusters, drawn from a **shared kit palette of about 30 colours** across all materials (stone, iron, timber, bone, rubble, moss, wax, glass), so every part matches every other. Colour count isn't what makes grain; neighbouring pixels changing is: keep the detail measure (share of neighbouring game pixels that change sharply) under about 0.28. No mortar on every course, no per-pixel grain.
 - **Repetition is the enemy.** A repeating part has no single memorable crack or chip, or you'll see it 40 times. Put character in the variants (2–3 per part, standing practice) and the ruin pieces.
 - **Big forms first.** A pier reads as a pier from across the map: its base, its shaft, its capital. Detail goes where it earns attention: doorways, window heads, capitals.
 - **Flat paint, no baked light.** No painted rims or highlights; the lit look adds those from the sky, neon and blasts. Dark navy stone, the kit's tone ramp (masonry about RGB 28/34/43).
@@ -186,3 +186,21 @@ Jarred's standing ask: buildings with outside shape and depth, not flat vertical
 | BK98 | Gallery railing | 44 out × 26 | The rail and corbel for a short outside gallery off an upper door |
 
 Undercuts are cover. The lab's checks keep them from sealing anything.
+
+## 10. Rubble set (17 Nov)
+
+Ruined buildings need more than one heap. The lab's ruin pass (9) now rolls heap size (`rub.size`), rubble ramps (`rub.ramp`), leaning slabs (`rub.leaning`), choked doorways (`rub.choke`) and floor debris (`rub.scatter`). Rubble is Body (collision) unless marked Back. 2 variants each unless noted.
+
+| ID | Part | Size | Notes |
+|---|---|---|---|
+| BK100 | Debris scatter | 70–100 × 6–9 | Low, walkable (under 16 tall): chips and blocks on a floor |
+| BK101 | Rubble heap, half-bay | 56–72 × 18–28 | Replaces BK24 as the standard heap |
+| BK102 | Rubble mound, full-bay | 100–128 × 34–48 | Real cover |
+| BK103 | Rubble ramp | 86–112 run × 112 rise | Fallen floor piled up against what's left of a slab: the way up in a ruin. Top surface walkable (steps under 18) |
+| BK104 | Fallen slab, leaning | about 100 × 14 | A chunk of floor tilted 25–40°; climbable, cover |
+| BK105 | Fallen beams | 64–96 wide | Timber rafters and joists under a broken roof (BK52) |
+| BK106 | Choked doorway | 48–64 × 26–34 | Rubble in a doorway: too tall to walk through (over 18), low enough to jump |
+| BK107 | Back rubble | 128 × up to 64 | Heaps and fallen blocks in the Back of a ruined room: reads as ruin, never blocks |
+| BK108 | Small debris pieces | 10–24 × 4–8 | 4–6 single chunks for scattering |
+
+Same palette and restraint as the kit. Rubble is where some texture is welcome, but in chunks (2 game px and up), not grain.

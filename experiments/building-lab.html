@@ -196,6 +196,11 @@ const RULES=[
  ['ruin.shear',9,'Sheared top (heavy)',{yes:55,no:45}],
  ['ruin.corner',9,'Collapsed corner (heavy)',{yes:40,no:60}],
  ['ruin.sky',9,'Rear wall open to sky',{yes:40,no:60}],
+ ['rub.size',9,'Rubble heap size',{scatter:30,half:45,full:25}],
+ ['rub.ramp',9,'Knocked-out floor leaves a rubble ramp up',{yes:35,no:65}],
+ ['rub.leaning',9,'Fallen slab leaning (not a heap)',{yes:25,no:75}],
+ ['rub.choke',9,'Rubble chokes a doorway',{yes:25,no:75}],
+ ['rub.scatter',9,'Debris scattered on floors',{none:40,some:40,lots:20}],
 ];
 const RULE=Object.fromEntries(RULES.map(r=>[r[0],r]));
 const GRID0={bay:128,storey:128,pier:24,slab:16,troop:50};
@@ -458,12 +463,27 @@ function silhouette(L,M,C){const g=ST.grid,{pick,rng,R,RI}=C,B=g.bay,SH=g.storey
 // ---- pass 9: ruin
 function ruin(L,M,C){const g=ST.grid,{pick,rng,R,RI}=C,B=g.bay,SH=g.storey,SL=g.slab,X=c=>M.x0+c*B,Y=r=>M.base-r*SH,n=M.n,h=M.h;
   const lvl=pick('ruin.level');M.ruin=lvl;if(lvl==='none')return;
+  // rubble: a heap in one of three sizes (scatter strip, half-bay heap, full-bay mound)
+  const heap=(cx,y,cap)=>{const sz=pick('rub.size');let[w,hh]=sz==='scatter'?[R(70,100),R(6,9)]:sz==='half'?[R(56,72),R(18,28)]:[R(100,128),R(34,48)];if(cap)w=Math.min(w,cap);M.rub.push(Pg(mound(rng,cx,y,w,hh)))};
   // slabs knocked out, rubble on the floor below
   let ns=+pick('ruin.slab');if(lvl==='light')ns=Math.min(ns,1);
   const sl=[];for(let c=0;c<n;c++)for(let r=1;r<h[c];r++){const s=M.cells[c][r];if(s.floor==='slab'&&!s.arrive&&!s.stair&&!s.ladder)sl.push(s)}
   for(let i=0;i<ns&&sl.length;i++){const s=sl.splice(Math.floor(rng()*sl.length),1)[0],xa=X(s.c)+R(0,26),xb=X(s.c+1)-R(0,26),y=Y(s.r)-SL;
     M.cuts.push(Pg([...jag(rng,[xa,y-6],[xa+R(-8,8),y+SL+6],10,3),...jag(rng,[xb,y+SL+6],[xb,y-6],10,3)]));s.floor='broken';
-    const below=cellAt(M,s.c,s.r-1);if(below)M.rub.push(Pg(mound(rng,(xa+xb)/2+R(-14,14),Y(s.r-1)-SL,R(50,72),R(16,28))))}
+    const below=cellAt(M,s.c,s.r-1);if(!below)continue;const fl=Y(s.r-1)-SL;
+    if(pick('rub.ramp')==='yes'){// the fallen floor piled up into a ramp to what's left of the slab: a way up in a ruin
+      const sdR=rng()<.5?-1:1,ex=sdR<0?xa:xb,run=R(86,112),foot=ex-sdR*run,top=[];for(let i=0;i<=6;i++){const f=i/6;top.push([foot+(ex-foot)*f,fl-(fl-y)*f+(i&&i<6?R(-5,5):0)])}
+      M.rub.push(Pg([[foot-sdR*8,fl+4],...top,[ex,y+SL],[ex,fl+4]]))}
+    else if(pick('rub.leaning')==='yes'){const a=R(.4,.7)*(rng()<.5?-1:1),L2=R(84,104),x0=(xa+xb)/2-Math.cos(a)*L2/2,yb=fl,x1=x0+Math.cos(a)*L2,y1=fl-Math.abs(Math.sin(a))*L2,t=14,nx=-Math.sin(Math.abs(a))*t*Math.sign(a),ny=-Math.cos(a)*t;
+      M.rub.push(Pg([[x0,yb],[x1,y1],[x1+nx,y1+ny*-1],[x0+nx,yb+4]]));heap(x0,fl,40)}
+    else heap((xa+xb)/2+R(-14,14),fl,B-30)}
+  // a doorway choked with rubble: jump over it, can't walk through
+  if(pick('rub.choke')==='yes'){const ds=[];for(let k=0;k<=n;k++)for(let r=0;r<(M.piers[k]||[]).length;r++)if(M.piers[k][r]==='door')ds.push([k,r]);
+    if(ds.length){const[k,r]=ds[Math.floor(rng()*ds.length)];M.rub.push(Pg(mound(rng,X(k),Y(r)-SL,R(48,64),R(26,34))))}}
+  // debris scattered on floors
+  const sc=pick('rub.scatter'),nsc=sc==='none'?0:sc==='some'?RI(2,4):RI(5,9);
+  for(let i=0;i<nsc;i++){const c=RI(0,n-1),r=RI(0,h[c]-1),s=M.cells[c][r];if(['none','well','broken'].includes(s.floor)||s.stair)continue;
+    const x=X(c)+g.pier/2+R(8,B-g.pier-8);M.rub.push(Pg(mound(rng,x,Y(r)-SL,R(10,24),R(4,8))))}
   if(pick('ruin.sky')==='yes'){const cs=[];for(let c=0;c<n;c++)cs.push([c,h[c]-1]);const k=lvl==='heavy'?2:1;
     for(let i=0;i<k&&cs.length;i++){const[c,r]=cs.splice(Math.floor(rng()*cs.length),1)[0],x=X(c),y=Y(r+1);
       const p=[[x,y-40],...jag(rng,[x,y+R(20,60)],[x+B,y+R(20,70)],26,5),[x+B,y-40]];M.backCuts.push(Pg(p));M.farCuts.push(Pg(p))}}
@@ -471,10 +491,10 @@ function ruin(L,M,C){const g=ST.grid,{pick,rng,R,RI}=C,B=g.bay,SH=g.storey,SL=g.
   if(pick('ruin.shear')==='yes'){const sd=rng()<.5?-1:1,c=sd<0?0:n-1,top=Y(h[c]),ex=sd<0?X(0)-30:X(n)+30,d1=R(.5,1.3)*SH,w1=R(.8,1.8)*B;
     const ix=ex-sd*(w1+30),p=[[ex,top-260],[ex,top+d1],...jag(rng,[ex,top+d1],[ix,top-10],22,6),[ix,top-260]];M.cuts.push(Pg(p));
     const pb=[[ex,top-260],[ex,top+d1-36],...jag(rng,[ex,top+d1-36],[ix+sd*30,top-30],30,7),[ix+sd*30,top-260]];M.backCuts.push(Pg(pb));M.farCuts.push(Pg(pb));
-    M.sheared=sd;let rr=Math.max(0,Math.floor((M.base-(top+d1))/SH));if(cellAt(M,c,rr))M.rub.push(Pg(mound(rng,X(c)+B/2,Y(rr)-SL,R(56,84),R(18,30))))}
+    M.sheared=sd;let rr=Math.max(0,Math.floor((M.base-(top+d1))/SH));if(cellAt(M,c,rr))heap(X(c)+B/2,Y(rr)-SL,B-24)}
   if(pick('ruin.corner')==='yes'){const sd=rng()<.5?-1:1,c=sd<0?0:n-1;if(h[c]>=2&&M.sheared!==sd){const r=h[c]-1-(rng()<.5&&h[c]>2?1:0),ex=sd<0?X(0)-30:X(n)+30,y0=Y(r+1)-30,y1=Y(r)+R(-10,20),wi=R(.35,.7)*B;
     M.cuts.push(Pg([[ex,y0],...jag(rng,[ex-sd*wi,y0],[ex-sd*wi*R(.6,1.1),y1],18,4),[ex,y1]]));
-    M.rub.push(Pg(mound(rng,ex+sd*R(10,30),L.tY(ex+sd*20),R(60,100),R(20,40))))}}}
+    heap(ex+sd*R(10,30),L.tY(ex+sd*20))}}}
 
 // ---------------------------------------------------------------- geometry: every layer as shapes
 function emitLot(L){const o={far:[],farFx:[],farCut:[],back:[],backFx:[],backCut:[],body:[],cut:[],rub:[],rung:[],decoB:[],decoF:[],terrain:null,grid:[]};

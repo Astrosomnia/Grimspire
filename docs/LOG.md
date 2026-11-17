@@ -6,6 +6,12 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-17 · Claude · Palette loosened; rubble set (contract + lab)
+
+- **Palette (Jarred):** a shared kit palette of about 30 colours across materials, up to 10–12 tones per material on a part, in flat clusters. Grain is guarded by the detail measure (under ~0.28) and the 2 game px minimum, not by colour count. Contract updated (was 5–7 tones).
+- **Rubble set:** contract §10, BK100–BK108: debris scatter, half-bay heap, full-bay mound, rubble ramp, leaning fallen slab, fallen beams, choked doorway, Back rubble, small pieces.
+- **Lab:** ruin pass rolls heap size (`rub.size`: scatter / half / full), a rubble ramp up to a knocked-out slab's edge instead of a heap (`rub.ramp`), a leaning fallen slab (`rub.leaning`), a choked doorway (`rub.choke`, jumpable) and floor debris (`rub.scatter`). 120 lots: no sealed rooms, no errors.
+
 ## 2026-11-17 · Claude · Building lab: silhouette pass (things that stick out)
 
 - Jarred: buildings need outside shape beyond vertical walls. New **pass 8 · Silhouette** in the lab (ruin is now pass 9): each outer wall may roll one shape (`sil.wall`): **jetty** (upper storeys oversail by 36 on brackets, undercut below), **setback** (upper storeys step in 44, leaving a ledge), **cantilever stub** off an upper door (`sil.stubEnd` intact or snapped), **gallery** on corbels, **scaffold** (decks up to three storeys with a ladder), **apse** (hollow nook with a firing slit), **flying arch** to a pier; plus a **crane** jib with a hanging platform (`sil.crane`). Skips walls used by bridges, ramps or ladders, and anything that wouldn't fit the lot.
