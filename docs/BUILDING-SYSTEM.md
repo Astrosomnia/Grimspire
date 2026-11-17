@@ -5,7 +5,7 @@
 ## Why
 Hand-drawn set pieces are slow, drift in style, can't find room on maps, and make solid lumps everyone stands on top of. The procedural buildings already give what matters for play (rooms, floors, stairs, a back wall, cover inside, destruction that just works, fits any map) but look like flat brick slabs. Plan: **the generator decides the space, a library of small drawn parts decides the look.** A handful of big hand-drawn landmarks (fallen arch, dome, colossal heads) stay on top as rare wow moments.
 
-North star: Tiny Glade. Place a rough shape and the rules work out arches, roofs, stairs and trim so it always looks considered.
+North stars: Tiny Glade and Townscaper. Place a rough shape and the rules work out arches, roofs, stairs and trim so it always looks considered.
 
 It serves every direction the game might take (friends mode, the roguelike climb, an all-interior castle level), and small parts are far easier to keep on the art bar ([`ART-READABILITY.md`](ART-READABILITY.md)) than big pieces.
 
@@ -17,6 +17,11 @@ What we take from it: a middle layer between parts and the generator.
 2. **Room templates:** small hand-designed rooms with variation slots (stair hall, chapel, belfry crown, bridge-end gatehouse, crypt). The playground's lock-as-template is how we author them: generate, keep the good ones, refine.
 3. **Theme graphs:** one per level theme (drowned city, castle interior, spire climb). How many buildings, how linked, where the landmark sits, how open or cramped. Same parts, different feel.
 Plus pacing: alternate open, exposed stretches with tight interior fights.
+
+## Reference: Townscaper
+Shared by Jarred, 16 Nov. Emergent architecture: the player only marks cells filled or empty, and arches, stairs, balconies, piers and roofs appear on their own. Each piece is chosen from the occupancy of the cells around it (a dual grid, like marching squares or autotiling), and a constraint solver in the spirit of wave function collapse picks among pieces that fit so detail agrees with its neighbours.
+
+What we take from it: **the dressing step is a neighbour lookup.** The rule passes decide which bays are solid, open, stair or hall (massing and space). Then each corner and edge of the bay grid picks its part from its neighbours: filled above and empty below → arch; filled beside a drop → ledge with parapet; outside corner → pier; broken neighbour → broken edge. Seams and corners are always right, and the later "sketch a rough shape, the rules dress it" feature comes almost free. The parts list should be organised by these neighbour cases.
 
 ## The generator: passes with intent
 A building is a grid of bays (one span × one storey, 128 art px, see the bay-kit brief). Each pass reads what's already there and rolls weighted choices. Every rule and percentage lives in one data table so it can be tuned without touching code.
