@@ -6,6 +6,13 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-17 · Claude · Art check on every import (`tools/art_check.py`)
+
+- Every part `tools/bk_import.py` pulls is measured and gets pass / warn / fail, shown in the lab's Parts list (hover a variant letter for the numbers). Usable on any Library version: `python3 tools/art_check.py <version id>`.
+- Measures (game-size, on Body or Back): colours; **near** (colours within 4 RGB steps of another: gradients and downscaling); **lone** (pixels matching none of their neighbours: grain); **soft** (partial-alpha edges); **detail** (neighbouring game pixels differing by 6+). Fail on the downscale tells; warn over the tier's detail line: kit 0.28 / 0.35, statues and landmarks 0.40 / 0.45.
+- Calibration: K05d bridge 0.28 pass; original K08 cathedral pass; **original S01 saint head pass** (6 colours, no near colours, 0.7% lone, detail 0.37 on the landmark bar); the 2× S01 refresh fails (183 colours, 67% lone); the 2× K08 redraw warns (scattered pixels).
+- Priority A: no fails; half the variants a touch busier than the kit bar (0.29–0.34: BK01b/c, BK02a, BK04, BK06, BK07, BK08a). **Note (ChatGPT):** aim at or under 0.28 on the next versions; the back-wall redraws should come in well under.
+
 ## 2026-11-17 · Jarred / Claude · Rule: on-grid pixel art, no downscaled images
 
 - A gothic street lamp was checked at play size (160–220 art px tall): the silhouette (finial, bracket, lantern) reads well, but everything inside the post (four collars, shaft panels, joints, quatrefoils) blurs to grey mottling. It's a painting about 10× too big, scaled down.

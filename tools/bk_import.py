@@ -10,6 +10,8 @@ the old one and a new letter adds a variant. Writes each layer as a PNG to art/e
 parts.json, that the lab reads. Safe to rerun whenever new parts land: it rewrites the folder from the Library.
 """
 import argparse, base64, hashlib, json, os, re, subprocess, sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from art_check import check_doc
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, 'art', 'experiments', 'bay-kit')
@@ -55,12 +57,16 @@ def main():
             layers[ly] = fn
         p = parts.setdefault(code, {'name': re.sub(r'\s*[—-]\s*[a-z]\s*$', '', doc.get('name', code)), 'w': doc.get('w'), 'h': doc.get('h'), 'variants': {}})
         p['variants'][letter] = {'layers': layers, 'version': e['id'], 'w': doc.get('w'), 'h': doc.get('h'),
-                                 'pivot': (doc.get('markers') or {}).get('pivot'), 'ready': bool(doc.get('ready'))}
+                                 'pivot': (doc.get('markers') or {}).get('pivot'), 'ready': bool(doc.get('ready')), 'check': check_doc(doc)}
     man = {'source': a.ref, 'commit': commit, 'count': sum(len(p['variants']) for p in parts.values()), 'parts': parts}
     json.dump(man, open(os.path.join(OUT, 'parts.json'), 'w'), indent=1)
     print(f"{man['count']} variants in {len(parts)} parts from {a.ref} {commit[:7]} -> {os.path.relpath(OUT, ROOT)}")
     for code, p in parts.items():
-        print(f"  {code} {p['name']}: {''.join(sorted(p['variants']))}")
+        print(f"  {code} {p['name']}: " + ' '.join(f"{v}:{(e['check'] or {}).get('verdict','-')}" for v, e in sorted(p['variants'].items())))
+        for v, e in sorted(p['variants'].items()):
+            c = e['check'] or {}
+            if c.get('verdict') != 'pass':
+                print(f"      {code}{v} {c.get('verdict')}: colours {c.get('colours')} near {c.get('near')} lone {c.get('lone')} detail {c.get('detail')} · {'; '.join(c.get('notes', []))}")
 
 
 if __name__ == '__main__':

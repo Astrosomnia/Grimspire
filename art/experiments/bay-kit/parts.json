@@ -21,7 +21,16 @@
       12,
       127
      ],
-     "ready": false
+     "ready": false,
+     "check": {
+      "colours": 10,
+      "near": 0.0,
+      "lone": 0.033,
+      "soft": 0.0,
+      "detail": 0.252,
+      "verdict": "pass",
+      "notes": []
+     }
     },
     "b": {
      "layers": {
@@ -36,7 +45,18 @@
       12,
       127
      ],
-     "ready": false
+     "ready": false,
+     "check": {
+      "colours": 9,
+      "near": 0.0,
+      "lone": 0.024,
+      "soft": 0.0,
+      "detail": 0.293,
+      "verdict": "warn",
+      "notes": [
+       "busier than the kit bar (0.28)"
+      ]
+     }
     },
     "c": {
      "layers": {
@@ -51,7 +71,18 @@
       12,
       127
      ],
-     "ready": false
+     "ready": false,
+     "check": {
+      "colours": 10,
+      "near": 0.0,
+      "lone": 0.013,
+      "soft": 0.0,
+      "detail": 0.314,
+      "verdict": "warn",
+      "notes": [
+       "busier than the kit bar (0.28)"
+      ]
+     }
     }
    }
   },
@@ -73,7 +104,18 @@
       12,
       127
      ],
-     "ready": false
+     "ready": false,
+     "check": {
+      "colours": 10,
+      "near": 0.0,
+      "lone": 0.014,
+      "soft": 0.0,
+      "detail": 0.311,
+      "verdict": "warn",
+      "notes": [
+       "busier than the kit bar (0.28)"
+      ]
+     }
     },
     "b": {
      "layers": {
@@ -88,7 +130,16 @@
       12,
       127
      ],
-     "ready": false
+     "ready": false,
+     "check": {
+      "colours": 10,
+      "near": 0.0,
+      "lone": 0.035,
+      "soft": 0.0,
+      "detail": 0.235,
+      "verdict": "pass",
+      "notes": []
+     }
     }
    }
   },
@@ -110,7 +161,16 @@
       12,
       127
      ],
-     "ready": false
+     "ready": false,
+     "check": {
+      "colours": 9,
+      "near": 0.0,
+      "lone": 0.024,
+      "soft": 0.0,
+      "detail": 0.207,
+      "verdict": "pass",
+      "notes": []
+     }
     },
     "b": {
      "layers": {
@@ -125,7 +185,16 @@
       12,
       127
      ],
-     "ready": false
+     "ready": false,
+     "check": {
+      "colours": 8,
+      "near": 0.0,
+      "lone": 0.028,
+      "soft": 0.0,
+      "detail": 0.186,
+      "verdict": "pass",
+      "notes": []
+     }
     }
    }
   },
@@ -147,7 +216,18 @@
       12,
       127
      ],
-     "ready": false
+     "ready": false,
+     "check": {
+      "colours": 10,
+      "near": 0.0,
+      "lone": 0.035,
+      "soft": 0.0,
+      "detail": 0.294,
+      "verdict": "warn",
+      "notes": [
+       "busier than the kit bar (0.28)"
+      ]
+     }
     },
     "b": {
      "layers": {
@@ -162,7 +242,18 @@
       12,
       127
      ],
-     "ready": false
+     "ready": false,
+     "check": {
+      "colours": 9,
+      "near": 0.0,
+      "lone": 0.024,
+      "soft": 0.0,
+      "detail": 0.29,
+      "verdict": "warn",
+      "notes": [
+       "busier than the kit bar (0.28)"
+      ]
+     }
     }
    }
   },
@@ -184,7 +275,16 @@
       12,
       127
      ],
-     "ready": false
+     "ready": false,
+     "check": {
+      "colours": 5,
+      "near": 0.0,
+      "lone": 0.027,
+      "soft": 0.0,
+      "detail": 0.219,
+      "verdict": "pass",
+      "notes": []
+     }
     }
    }
   },
@@ -206,7 +306,18 @@
       0,
       15
      ],
-     "ready": false
+     "ready": false,
+     "check": {
+      "colours": 10,
+      "near": 0.0,
+      "lone": 0.035,
+      "soft": 0.0,
+      "detail": 0.331,
+      "verdict": "warn",
+      "notes": [
+       "busier than the kit bar (0.28)"
+      ]
+     }
     },
     "b": {
      "layers": {
@@ -221,7 +332,18 @@
       0,
       15
      ],
-     "ready": false
+     "ready": false,
+     "check": {
+      "colours": 7,
+      "near": 0.0,
+      "lone": 0.009,
+      "soft": 0.0,
+      "detail": 0.282,
+      "verdict": "warn",
+      "notes": [
+       "busier than the kit bar (0.28)"
+      ]
+     }
     }
    }
   },
@@ -243,7 +365,18 @@
       0,
       15
      ],
-     "ready": false
+     "ready": false,
+     "check": {
+      "colours": 9,
+      "near": 0.0,
+      "lone": 0.062,
+      "soft": 0.0,
+      "detail": 0.34,
+      "verdict": "warn",
+      "notes": [
+       "busier than the kit bar (0.28)"
+      ]
+     }
     }
    }
   },
@@ -265,7 +398,18 @@
       0,
       33
      ],
-     "ready": false
+     "ready": false,
+     "check": {
+      "colours": 10,
+      "near": 0.0,
+      "lone": 0.042,
+      "soft": 0.0,
+      "detail": 0.335,
+      "verdict": "warn",
+      "notes": [
+       "busier than the kit bar (0.28)"
+      ]
+     }
     },
     "b": {
      "layers": {
@@ -280,7 +424,16 @@
       0,
       33
      ],
-     "ready": false
+     "ready": false,
+     "check": {
+      "colours": 7,
+      "near": 0.0,
+      "lone": 0.022,
+      "soft": 0.0,
+      "detail": 0.241,
+      "verdict": "pass",
+      "notes": []
+     }
     }
    }
   },
@@ -301,7 +454,16 @@
       0,
       127
      ],
-     "ready": false
+     "ready": false,
+     "check": {
+      "colours": 5,
+      "near": 0.0,
+      "lone": 0.018,
+      "soft": 0.0,
+      "detail": 0.191,
+      "verdict": "pass",
+      "notes": []
+     }
     },
     "b": {
      "layers": {
@@ -315,7 +477,16 @@
       0,
       127
      ],
-     "ready": false
+     "ready": false,
+     "check": {
+      "colours": 5,
+      "near": 0.0,
+      "lone": 0.009,
+      "soft": 0.0,
+      "detail": 0.104,
+      "verdict": "pass",
+      "notes": []
+     }
     }
    }
   },
@@ -336,7 +507,16 @@
       0,
       127
      ],
-     "ready": false
+     "ready": false,
+     "check": {
+      "colours": 5,
+      "near": 0.0,
+      "lone": 0.009,
+      "soft": 0.0,
+      "detail": 0.062,
+      "verdict": "pass",
+      "notes": []
+     }
     },
     "b": {
      "layers": {
@@ -350,7 +530,16 @@
       0,
       127
      ],
-     "ready": false
+     "ready": false,
+     "check": {
+      "colours": 5,
+      "near": 0.0,
+      "lone": 0.011,
+      "soft": 0.0,
+      "detail": 0.166,
+      "verdict": "pass",
+      "notes": []
+     }
     }
    }
   },
@@ -371,7 +560,16 @@
       0,
       127
      ],
-     "ready": false
+     "ready": false,
+     "check": {
+      "colours": 5,
+      "near": 0.0,
+      "lone": 0.011,
+      "soft": 0.0,
+      "detail": 0.117,
+      "verdict": "pass",
+      "notes": []
+     }
     }
    }
   },
@@ -393,7 +591,16 @@
       0,
       63
      ],
-     "ready": false
+     "ready": false,
+     "check": {
+      "colours": 10,
+      "near": 0.0,
+      "lone": 0.027,
+      "soft": 0.0,
+      "detail": 0.199,
+      "verdict": "pass",
+      "notes": []
+     }
     },
     "b": {
      "layers": {
@@ -408,7 +615,16 @@
       0,
       63
      ],
-     "ready": false
+     "ready": false,
+     "check": {
+      "colours": 9,
+      "near": 0.0,
+      "lone": 0.013,
+      "soft": 0.0,
+      "detail": 0.198,
+      "verdict": "pass",
+      "notes": []
+     }
     }
    }
   }

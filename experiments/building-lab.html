@@ -942,8 +942,9 @@ async function loadParts(){let base=null,man=null;
       const out={};if(im.body&&!(e.layers.back&&!e.layers.height))out.body=bakeLit(im.body,im.height);if(im.back)out.back=im.back;if(out.body||out.back){(SK.lit[code]=SK.lit[code]||{})[v]=out;nv++}}}
   SK.ready=true;$('#oSkin').disabled=false;$('#skN').textContent=`(${nv})`;
   const used=['BK01','BK02','BK03','BK04','BK05','BK06','BK07','BK08','BK09','BK10','BK11','BK12'];
-  $('#partsList').innerHTML=`${nv} variants from <code>${man.source}</code> ${String(man.commit).slice(0,7)}<br>`+Object.entries(man.parts).map(([c,p])=>`<div>${used.includes(c)?'●':'○'} ${p.name.replace(/^BK\d+\s*/,'')} <b>${c}</b> · ${Object.keys(p.variants).sort().join('')}</div>`).join('')+
-    `<div style="margin-top:4px">● placed by the generator · ○ in the kit, not placed yet</div>`;
+  const vc={pass:'var(--green)',warn:'var(--amber)',fail:'var(--red)'},vt=e=>{const k=e.check;return k?`${k.verdict}: ${k.colours} colours, detail ${k.detail} (kit bar 0.28), near ${k.near}, lone ${k.lone}${k.notes.length?' · '+k.notes.join('; '):''}`:'not measured'};
+  $('#partsList').innerHTML=`${nv} variants from <code>${man.source}</code> ${String(man.commit).slice(0,7)}<br>`+Object.entries(man.parts).map(([c,p])=>`<div>${used.includes(c)?'●':'○'} ${p.name.replace(/^BK\d+\s*/,'')} <b>${c}</b> · ${Object.entries(p.variants).sort().map(([v,e])=>`<span title="${vt(e)}" style="color:${vc[e.check?.verdict]||'inherit'};cursor:help">${v}</span>`).join('')}</div>`).join('')+
+    `<div style="margin-top:4px">● placed by the generator · ○ in the kit, not placed yet. Letters: <span style="color:var(--green)">pass</span> · <span style="color:var(--amber)">busier than the bar</span> · <span style="color:var(--red)">painted or downscaled</span> (hover for numbers)</div>`;
   if($('#oSkin').checked)cards.forEach(paintCard)}
 loadParts();
 
