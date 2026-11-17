@@ -61,7 +61,9 @@ On the 128 px bay grid, game scale 1 (normal density), at the art bar: flat tone
 - **Keep / cut** on each. The tool records which rule choices each building used; after a batch it shifts the weights toward kept, away from cut. The weight table is visible and has sliders for manual overrides.
 - **Lock** a building you love: it becomes a fixed template the generator can reuse.
 - **Export** the tuned rule table straight into the game.
-- Later: sketch a rough layout and let the rules dress it (Tiny Glade-style authoring for key levels and set pieces).
+- Sketch a rough layout (text or a doodle) and let the rules dress it: in the lab now, first cut.
+- **Skinned toggle (once parts exist):** the lab gets a Placeholder / Skinned switch that runs the same buildings through the dressing step (neighbour lookup) with the real parts, using the same code the game will use. Parts land in the repo as they're approved; any part not drawn yet falls back to its placeholder shape, so it can be switched on as soon as the first few arrive. The repo / GitHub Pages copy loads them straight from the repo; the private artifact ships them as its own files.
+- Jarred (16 Nov): nearly every lab building is already viable, so culling is light; the reject filter is low priority.
 
 ## Order
 1. Claude: generator + playground on placeholder shapes.
