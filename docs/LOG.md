@@ -6,6 +6,11 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-16 · Claude · Building lab: walk access is a rule, not a guarantee
+
+- Jarred: not every floor needs to be walkable; jetpacks, rappel cords and girders exist for that. Sealed rooms are the only other check that matters. No kit-reach colouring; he'll eyeball it.
+- New rule `circ.fix` (walk access fixed: every floor / ground only / none, equal odds) left to attrition. Sealed rooms are always opened. Unwalkable floors now show as dim grey dots, not red boxes; the badge reads `walk n/m` in neutral grey. Checked over 120 lots in all three modes: no sealed rooms.
+
 ## 2026-11-16 · Claude · Building lab: one-bay towers
 
 - `foot.bays` gains a **1** option (15). A lone bay is always a tower: two outer walls and a hollow about 104 art px wide, height from base storeys (+2 if the end-tower rule rolls yes), ladders only (a stair needs a neighbouring bay to land on), spire when the spire rule rolls yes. Its massing roll is skipped so learning isn't fed a choice that did nothing. 72 one-bay lots all fully reachable; normal batches unchanged (120/120).

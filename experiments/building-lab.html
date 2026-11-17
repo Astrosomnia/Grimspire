@@ -93,9 +93,9 @@ main{flex:1;min-width:0;padding:10px;display:grid;grid-template-columns:repeat(a
 <aside id="panel">
   <div class="legend">
     <span><i style="background:#a7afc0"></i>Body</span><span><i style="background:#2f3546"></i>Back</span><span><i style="background:#1c2029"></i>Far Back</span>
-    <span><i style="background:#e0a545"></i>ladder</span><span><i style="background:var(--cyan)"></i>reachable</span><span><i style="background:var(--red)"></i>not reachable</span>
+    <span><i style="background:#e0a545"></i>ladder</span><span><i style="background:var(--cyan)"></i>reachable</span><span><i style="background:#7d8597"></i>not walkable (kit)</span><span><i style="border:1px dashed var(--red)"></i>sealed</span>
   </div>
-  <p class="small">Keep or cut buildings, then <b>Learn → next batch</b>: every rule choice a kept building used gets more likely, every choice a cut one used gets less. Pin a rule to stop learning moving it. Routes use the game's own walk, jump, fall and ladder physics.</p>
+  <p class="small">Keep or cut buildings, then <b>Learn → next batch</b>: every rule choice a kept building used gets more likely, every choice a cut one used gets less. Pin a rule to stop learning moving it. Walk routes use the game's own walk, jump, fall and ladder physics; grey floors are left for jetpack, rope and girders.</p>
   <h2>Batch</h2>
   <div class="small" id="batchInfo"></div>
   <div class="opt" style="grid-template-columns:110px 1fr 38px"><span>learning</span><input type="range" id="lr" min="1.05" max="2" step="0.05"><span class="pc" id="lrv"></span></div>
@@ -167,6 +167,7 @@ const RULES=[
  ['circ.side',4,'Next link side',{alternate:60,same:20,random:20}],
  ['circ.extra',4,'Second link per storey',{yes:20,no:80}],
  ['circ.drop',4,'Drop hole',{yes:35,no:65}],
+ ['circ.fix',4,'Walk access fixed (the rest is jetpack, rope, girder)',{every:34,ground:33,none:33}],
  ['open.door',5,'Ground end wall',{door:65,arcade:15,wall:20}],
  ['open.upper',5,'Upper end wall',{window:50,wall:35,door:15}],
  ['open.terrace',5,'Wall onto a lower roof',{door:60,window:25,wall:15}],
@@ -244,7 +245,9 @@ function genLot(seed,opt){opt=opt||{};
   else{const n=Math.min(bays(),Math.floor((W-200)/g.bay));slots=[{x0:(W-n*g.bay)/2+R(-80,80),n}]}
   for(const s of slots)L.blds.push(genBuilding(L,s,C,opt.sketch?JSON.parse(JSON.stringify(opt.sketch)):null));
   L.massing=L.blds.map(M=>M.type).join(' + ');
-  // ---- the circulation check (pass 4's guarantee), before bridges and ruin
+  // ---- the circulation check, before bridges and ruin. How much walking access it guarantees is a rule;
+  // sealed rooms are always opened (kit can't get a shell into a room with no way in)
+  L.fixMode=opt.sketch?'every':pick('circ.fix');
   fixLot(L);
   for(const M of L.blds)M.snap=snapshot(M);
   // ---- pass 7: bridges and connectors
@@ -596,7 +599,7 @@ function analyse(L){const o=emitLot(L),mk=raster(L,o),a=AS();
 // the guarantee: every floor reachable. Fixes, in order: a door to a reachable neighbour, a ladder from a reachable
 // floor below, a ladder up the outside wall to a door. Deterministic, so a seed is always the same building.
 function fixLot(L){const g=ST.grid;let A;if(window.__NOFIX){L.A=analyse(L);return}
-  for(let round=0;round<12;round++){A=analyse(L);const bad=A.cells.filter(f=>!f.reached).sort((p,q)=>p.r-q.r);
+  for(let round=0;round<12;round++){A=analyse(L);const bad=A.cells.filter(f=>!f.reached&&(L.fixMode==='every'||(L.fixMode==='ground'&&f.r===0))).sort((p,q)=>p.r-q.r);
     if(!bad.length){if(!A.pockets.length||!openPockets(L,A))break;continue}const done=new Set();
     for(const f of bad){const M=f.M;if(done.has(M))continue;done.add(M);const{c,r}=f,ok=(cc,rr)=>A.cells.some(e=>e.M===M&&e.c===cc&&e.r===rr&&e.reached);let fixed=false;
       for(const dc of[-1,1]){const k=dc<0?c:c+1;if(cellAt(M,c+dc,r)&&ok(c+dc,r)&&['wall','window'].includes(M.piers[k][r])){M.piers[k][r]='door';fix(L,M,`door in inner wall (${c},${r})`);fixed=true;break}}
@@ -654,9 +657,9 @@ function render(L,cv,opt){const A=L.A,o=A.o,s=cv.width/L.W,g=ST.grid;
   if(opt.grid)lay('grid',y=>paint(y,o.grid,'#3ff3ff'));
   x.translate(0,-oy*s);const a=AS(),k=s/a,{GW,GH}=A.mk,vis=A.R.vis,hurt=A.R.hurt,R=A.R,dot=Math.max(1.2,s*2.2);
   if(opt.route){x.fillStyle='#3ff3ff';for(let i=0;i<vis.length;i++)if(vis[i]&&(i%GW)%4===0){const gx=i%GW,gy=(i/GW)|0;x.fillStyle=hurt[i]?'#ffb347':'#3ff3ff';x.fillRect(gx*k-dot/2,gy*k-dot/2,dot,dot)}
-    x.fillStyle='#ff4d6d';for(let gx=2;gx<GW-2;gx+=6)for(let gy=2;gy<GH-2;gy++){if(!R.sol(gx,gy)&&R.solB(gx,gy+1)&&!R.solB(gx,gy-14)&&!vis[gy*GW+gx]){
+    x.fillStyle='rgba(125,133,151,.55)';for(let gx=2;gx<GW-2;gx+=6)for(let gy=2;gy<GH-2;gy++){if(!R.sol(gx,gy)&&R.solB(gx,gy+1)&&!R.solB(gx,gy-14)&&!vis[gy*GW+gx]){
       let near=false;for(let d=-3;d<=3&&!near;d++)for(let e=-3;e<=3;e++)if(vis[(gy+e)*GW+gx+d]){near=true;break}if(!near)x.fillRect(gx*k-dot/2,gy*k-dot/2,dot,dot)}}}
-  for(const f of A.cells)if(!f.reached){const g=ST.grid,x0=(f.M.x0+f.c*g.bay+g.pier/2)*s,y0=(f.M.base-f.r*g.storey-g.slab)*s;x.strokeStyle='#ff4d6d';x.lineWidth=Math.max(1,s*3);x.strokeRect(x0,y0-(g.storey-g.slab-4)*s,(g.bay-g.pier)*s,(g.storey-g.slab-4)*s)}
+  for(const f of A.cells)if(false&&!f.reached){const g=ST.grid,x0=(f.M.x0+f.c*g.bay+g.pier/2)*s,y0=(f.M.base-f.r*g.storey-g.slab)*s;x.strokeStyle='#ff4d6d';x.lineWidth=Math.max(1,s*3);x.strokeRect(x0,y0-(g.storey-g.slab-4)*s,(g.bay-g.pier)*s,(g.storey-g.slab-4)*s)}
   for(const[px,py,pw,pz]of L.pockets||[]){x.strokeStyle='#ff4d6d';x.setLineDash([4,3]);x.lineWidth=Math.max(1,s*3);x.strokeRect(px*s-3,py*s-3,pw*s+6,pz*s+6);x.setLineDash([])}
   // a trooper for scale, by the left entry
   const tx=34,ty=L.tY(34),th=ST.grid.troop;x.save();x.setTransform(s,0,0,s,0,-oy*s);x.fillStyle='#ff2e88';x.beginPath();x.arc(tx,ty-th+7,7,0,Math.PI*2);x.fill();
@@ -691,7 +694,7 @@ function makeCard(i){const el=document.createElement('div');el.className='card';
   el.querySelector('canvas').onclick=()=>openZoom(i);
   el.querySelector('.k1').onclick=()=>mark(i,1);el.querySelector('.k2').onclick=()=>mark(i,-1);el.querySelector('.k3').onclick=()=>lock(i);return el}
 function badges(L){const c=L.chk,b=[];const cls=(ok,warn)=>ok?'ok':warn?'warn':'bad';
-  b.push(`<span class="bd ${cls(c.reached===c.present,c.reached>=c.present-1)}" title="floors a trooper can reach / floors">reach ${c.reached}/${c.present}</span>`);
+  b.push(`<span class="bd" title="floors a trooper can walk to / floors (the rest is jetpack, rope or girder)">walk ${c.reached}/${c.present}</span>`);
   b.push(`<span class="bd ${cls(c.jump===c.reached,c.jump>=c.reached*.5)}" title="reachable floors with room for a full jump (${PH.JUMPCLEAR} game px)">jump ${c.jump}/${c.reached}</span>`);
   b.push(`<span class="bd ${cls(c.arc>=130,c.arc>=90)}" title="tallest clear space over a reachable floor, game px. Arcs need about 130">arc ${c.arc}</span>`);
   b.push(`<span class="bd ${cls(c.entries>=3,c.entries>=1)}" title="ways for a shot to get in: doors, windows, arcades, ruin breaks">in ${c.entries}</span>`);
@@ -707,7 +710,7 @@ function lock(i){const cd=cards[i];if(!cd.L)return;cd.lock=!cd.lock;
   else ST.tpl=ST.tpl.filter(t=>t.seed!==cd.L.seed);save();buildPanel();paintCard(cd);status()}
 function status(){const k=cards.filter(c=>c.mark>0).length,x=cards.filter(c=>c.mark<0).length;
   const done=cards.filter(c=>c.L),ok=done.filter(c=>c.L.chk.reached===c.L.chk.present).length;
-  msg(`<b>${k}</b> kept · <b>${x}</b> cut · fully reachable <b>${ok}/${done.length}</b>${ST.lastLearn?' · last learn: '+ST.lastLearn:''}`)}
+  msg(`<b>${k}</b> kept · <b>${x}</b> cut · sealed rooms in <b>${done.filter(c=>c.L.chk.sealed).length}</b>${ST.lastLearn?' · last learn: '+ST.lastLearn:''}`)}
 function generate(){const my=++busy,ss=seeds(),grid=$('#cards');grid.innerHTML='';cards=ss.map((sd,i)=>({i,seed:sd,mark:0,lock:false,el:makeCard(i),L:null}));
   cards.forEach(c=>grid.appendChild(c.el));dirty=false;$('#bRoll').classList.remove('hot');buildPanel();
   const sk=ST.sketch?parseSketch(ST.sketch):null;let i=0;
@@ -729,7 +732,7 @@ function openZoom(i){const cd=cards[i];if(!cd.L)return;zoomI=i;const L=cd.L,z=$(
   const cv=$('#zc0');cv.width=Math.min(1600,Math.round(Math.min(innerWidth-20,1200)*(devicePixelRatio||1)));cv.style.width=Math.min(innerWidth-20,1200)+'px';render(L,cv,opts());
   $('#zt').textContent=`${L.massing} · ${L.kind} · seed ${L.seed}`;
   const byPass={};for(const key in L.rec){const p=RULE[key][1];(byPass[p]=byPass[p]||[]).push(`${RULE[key][2]}: ${Object.entries(L.rec[key]).map(([o,n])=>n>1?`${o}×${n}`:o).join(', ')}`)}
-  const c=L.chk;let h=`<div><div class="p">Checks</div>floors reached ${c.reached}/${c.present}<br>room for a full jump ${c.jump}/${c.reached}<br>tallest clear space ${c.arc} game px (arcs want ~130)<br>shot entries ${c.entries} · sealed pockets ${c.sealed}<br>bridges ${c.bridges}</div>`;
+  const c=L.chk;let h=`<div><div class="p">Checks</div>floors walkable ${c.reached}/${c.present} (walk access: ${L.fixMode})<br>room for a full jump ${c.jump}/${c.reached}<br>tallest clear space ${c.arc} game px (arcs want ~130)<br>shot entries ${c.entries} · sealed pockets ${c.sealed}<br>bridges ${c.bridges}</div>`;
   h+=`<div><div class="p">Auto-fixes</div>${L.fixes.length?L.fixes.join('<br>'):'none needed'}</div>`;
   for(const p of Object.keys(byPass).sort())h+=`<div><div class="p">${PASSES[p]}</div>${byPass[p].join('<br>')}</div>`;
   $('#zinfo').innerHTML=h;zbtn()}
