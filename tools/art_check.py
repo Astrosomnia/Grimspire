@@ -16,8 +16,9 @@ Measures the Body (or the Back for Back-only parts), at the size it's drawn in g
 - light: how much brighter one side's outer edges are than the opposite side's (top vs bottom, left vs right).
   Painted directional light shows up here; the lit look adds light from the Height, so kit parts should be near 0
   (K05d 3, original K08 8). Warn over 12.
-- spread: the tonal range inside the piece (std of brightness). Flat material painting sits around 9-10 (K05d,
-  K08, Priority A); painted light and shadow pushes it to 16+. Warn over 13 on kit parts.
+- spread: the tonal range inside the piece (std of brightness), reported only. Darkened recesses (ambient
+  occlusion) raise it legitimately: the lit shader takes shape from the Height and multiplies light over the Body,
+  so a darker recess stays dark in any light and reads as depth. Only directional light (above) is a problem.
 
 Verdict: fail on the downscale tells (near, lone, soft, colours over 32); warn on detail over the tier's line or
 13-32 colours; otherwise pass. Tiers: kit parts (K, BK, R) 0.28 / 0.35; statues and landmarks (S, and anything passed
@@ -85,8 +86,8 @@ def measure(im, game_scale=1.0, tier='kit'):
         v = 'fail' if v == 'fail' else 'warn'
     if len(uniq) > LIMITS['colours_warn'] and v == 'pass':
         v, _ = 'warn', notes.append(f'{len(uniq)} colours on one part')
-    if tier != 'landmark' and (light > 12 or spread > 13):
-        notes.append('painted light and shadow (leave it to the Height)')
+    if tier != 'landmark' and light > 12:
+        notes.append('one side painted lit (leave the light to the Height and the scene)')
         v = 'fail' if v == 'fail' else 'warn'
     if lone > LIMITS['lone_warn'] and v == 'pass':
         v, _ = 'warn', notes.append('scattered single pixels')

@@ -9,8 +9,8 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 ## 2026-11-17 · Jarred / Claude · Rule: no painted light; the art check catches it
 
 - Jarred: the art is painting light and shadow instead of letting the Height do it. A tall apse/niche piece shows it: right-hand edges 18 steps brighter than the left (directional light), tonal spread 16–18 against 9–10 for K05d, the original K08 and Priority A, and the recess painted near-black. It's also another downscaled painting (3,329 colours as delivered; at ~180 art px it fails: 644 colours, 67% stray pixels, soft edges).
-- Contract: the Body is material, not light; depth goes in the Height; recesses go low in the Height or into the Back.
-- `tools/art_check.py` gains **light** (edge brightness one side vs the other; warn over 12) and **spread** (tonal range; warn over 13) for kit parts. Priority A mostly passes; three variants are flagged for painted light (BK04b window pier, BK08b arch span, BK10a lancet back bay).
+- **Refined (Jarred asked if this was too strict; it was, partly):** the lit shader takes shape from the Height and multiplies light over the Body, so darkened recesses (ambient occlusion) are fine as long as they aren't near-black; only painted directional light (a lit side, highlight rims, shaded undersides) fights the engine. Contract and check adjusted: `light` still warns, `spread` is reported only.
+- `tools/art_check.py` gains **light** (edge brightness one side vs the other; warn over 12) and **spread** (tonal range, reported only) for kit parts. Priority A mostly passes; three variants are flagged for painted light (BK04b window pier, BK08b arch span, BK10a lancet back bay).
 - **Ask (ChatGPT):** redraw at 1× on the grid with flat material tones; put the form in the Height.
 
 ## 2026-11-17 · Claude · Art check on every import (`tools/art_check.py`)

@@ -270,7 +270,7 @@
       "verdict": "warn",
       "notes": [
        "busier than the kit bar (0.28)",
-       "painted light and shadow (leave it to the Height)"
+       "one side painted lit (leave the light to the Height and the scene)"
       ]
      }
     }
@@ -464,7 +464,7 @@
       "spread": 12.2,
       "verdict": "warn",
       "notes": [
-       "painted light and shadow (leave it to the Height)"
+       "one side painted lit (leave the light to the Height and the scene)"
       ]
      }
     }
@@ -555,7 +555,7 @@
       "spread": 5.8,
       "verdict": "warn",
       "notes": [
-       "painted light and shadow (leave it to the Height)"
+       "one side painted lit (leave the light to the Height and the scene)"
       ]
      }
     },
