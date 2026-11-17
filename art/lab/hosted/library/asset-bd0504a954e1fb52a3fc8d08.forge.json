@@ -1,0 +1,32 @@
+{
+  "forge": 1,
+  "code": "BK80",
+  "name": "BK80 Rope bridge · rope repeat — c",
+  "w": 32,
+  "h": 20,
+  "fps": 1,
+  "base": 19,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "pivot": [
+      0,
+      19
+    ]
+  },
+  "ready": false,
+  "notes": "Batch2/2b draft,17 Nov2026. BK80rope. 1x navy stone/iron,12-tone maximum. Native-grid pixel drawing; generated studies used as composition references only. No source raster resampled. Native source linked in receipt. User asked richer S01-like carved forms, not stripped-back blocks. Geometric anchor[0,20], Forge pivot clipped to last valid pixel. Bridge components:32×6repeat planks,16×64endpost,32×20Backrope. Use each listed component version, not only familycurrent. Body/Height/Guts masks exact; independent geometric depth, coarse provisional rubble core. Lighting/traversal/destruction need lab integration. Not approved or live.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAUCAYAAADskT9PAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAAGElEQVRIie3BAQEAAACCIP+vbkhAAQDwbgoUAAHY2CoxAAAAAElFTkSuQmCC",
+      "back": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAUCAYAAADskT9PAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAAcklEQVRIie2PQQqAMAwE+4g9efT/f1QqUqIQTZs0C+KA0kPdGQuWdSskDnd9MSKaF+chM+LiBDugkhmhupAQ8erAxAjTNsSlyIiuXQRHDO3h9tFIiHsDjoGIH1CHnsZ675vQRq2PSy6hiSVUuYQm/vkkOxFBp4GXi57FAAAAAElFTkSuQmCC",
+      "height": null,
+      "guts": null,
+      "emis": null,
+      "trim": null,
+      "cloth": null
+    }
+  ],
+  "asset_id": "custom-2a76834a-fc0a-4308-87b6-5fce836bc87b",
+  "state_key": ""
+}

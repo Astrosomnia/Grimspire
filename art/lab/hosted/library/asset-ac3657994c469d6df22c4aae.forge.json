@@ -1,0 +1,32 @@
+{
+  "forge": 1,
+  "code": "BK97",
+  "name": "BK97 Crane · jib — a",
+  "w": 80,
+  "h": 48,
+  "fps": 1,
+  "base": 47,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "pivot": [
+      0,
+      47
+    ]
+  },
+  "ready": false,
+  "notes": "Batch2/2b draft,17 Nov2026. BK97jib. 1x navy stone/iron,12-tone maximum. Native-grid pixel drawing; generated studies used as composition references only. No source raster resampled. Native source linked in receipt. User asked richer S01-like carved forms, not stripped-back blocks. Geometric anchor[0,48], Forge pivot clipped to last valid pixel. Jib/chain Back;48×8platform Body. Chain length by128repeat/crop; platform reaches floor at chainbottom. No collision from overheadjib. Body/Height/Guts masks exact; independent geometric depth, coarse provisional rubble core. Lighting/traversal/destruction need lab integration. Not approved or live.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAAAwCAYAAACG5f33AAAACXBIWXMAAAPoAAAD6AG1e1JrAAAAJklEQVRoge3BAQ0AAADCoPdPbQ43oAAAAAAAAAAAAAAAAAAAgE4NPDAAARbnD5kAAAAASUVORK5CYII=",
+      "back": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAAAwCAYAAACG5f33AAAACXBIWXMAAAPoAAAD6AG1e1JrAAABUUlEQVRoge2W0QrCMAxF8wk+XEEK+uCL//+FE4WgSLfFpe2y9h7o06C7OaRN5XJ7TP8spDtX+jgQCrwvNsRaA1FgsombE0mB6X953xIpMFHgVHKw5TrtdL6+V+4bOzAtC1R5cxIpMDUWKAcFUY6wHAwUugdnXfQsEAUHyVAC4ZjCuofZg3XDUcT9stpAvQhEBXlFfizBwV7irAEkKNhbnDWIBARR5FnCSCAQSZw1lAQAEcVZw1UPUElcs+whQmQIL84atGkYOZA4a+AoORAg46bgETIgqjxL+D3/jcjilD2CogdxSsvAcIgLKe9Fq9DoTZxSOzx6FafUKgI9HtccNQrBCOKUkgVhJHFKicIwojjFWyBGlvdia5HDi9sqkOI2CvSIQy/HNYelcIpbwNtZGK3jfqE8J+w6JzyuTnjPOeGQcMLp6oTPEid80znhg1hcPAHE2OI5dXQMoAAAAABJRU5ErkJggg==",
+      "height": null,
+      "guts": null,
+      "emis": null,
+      "trim": null,
+      "cloth": null
+    }
+  ],
+  "asset_id": "custom-5990bbb4-8283-4e65-9a32-e05849cbbf09",
+  "state_key": ""
+}

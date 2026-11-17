@@ -1,0 +1,32 @@
+{
+  "forge": 1,
+  "code": "BK80",
+  "name": "BK80 Rope bridge · end post — b",
+  "w": 16,
+  "h": 64,
+  "fps": 1,
+  "base": 63,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "pivot": [
+      0,
+      63
+    ]
+  },
+  "ready": false,
+  "notes": "Batch2/2b draft,17 Nov2026. BK80post. 1x navy stone/iron,12-tone maximum. Native-grid pixel drawing; generated studies used as composition references only. No source raster resampled. Native source linked in receipt. User asked richer S01-like carved forms, not stripped-back blocks. Geometric anchor[0,64], Forge pivot clipped to last valid pixel. Bridge components:32×6repeat planks,16×64endpost,32×20Backrope. Use each listed component version, not only familycurrent. Body/Height/Guts masks exact; independent geometric depth, coarse provisional rubble core. Lighting/traversal/destruction need lab integration. Not approved or live.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAABACAYAAAATffeWAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAAa0lEQVRYhWOQV9P/TwlmGDXg/3AIAxiQUdL+TwqGaxxGBoAAsgIJOXUUTFDzEDZAfsBTovyoAQwDHwbDICkjg1EDGEbDgGE0DEBgNC8wjIYBw2gYUJwXZAa8pSozYAbID3gLRX7UAIYBDwMA9ZZvveZWl6kAAAAASUVORK5CYII=",
+      "back": null,
+      "height": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAABACAYAAAATffeWAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAAaklEQVRYhe2WMQrAMAwD9WQ/xaOfoR+6ZEhJhw4lg2iQQFPIDYcNBsneKQzoExzMVFV/6f3xIMBIZvZsRDy6vuEt+U8A5ZNIA6B3cMAorzEAdgA7GPEuwA5gB9u7UPJLtWQAyi8UGgC5gwtUFsxZA6zK8wAAAABJRU5ErkJggg==",
+      "guts": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAABACAYAAAATffeWAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAAZ0lEQVRYhe2WMQrAMAwD9QwNJUOXDv3/+xwyFNItxAFjI4FH3XAk2GB7zDMQwCo4+LJdLAQYcZUTAxj+EikA4h3Mue7XVuZXmiMA5AByMKK/ADlACQfMeeIcA9CzVJMDGH6hUACEO+ic6Er9w3TFHAAAAABJRU5ErkJggg==",
+      "emis": null,
+      "trim": null,
+      "cloth": null
+    }
+  ],
+  "asset_id": "custom-2a76834a-fc0a-4308-87b6-5fce836bc87b",
+  "state_key": ""
+}

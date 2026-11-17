@@ -1,0 +1,32 @@
+{
+  "forge": 1,
+  "code": "BK96",
+  "name": "BK96 Scaffold · ladder — d",
+  "w": 26,
+  "h": 128,
+  "fps": 1,
+  "base": 127,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "pivot": [
+      0,
+      127
+    ]
+  },
+  "ready": false,
+  "notes": "Batch2/2b draft,17 Nov2026. BK96ladder. 1x navy stone/iron,12-tone maximum. Native-grid pixel drawing; generated studies used as composition references only. No source raster resampled. Native source linked in receipt. User asked richer S01-like carved forms, not stripped-back blocks. Geometric anchor[0,128], Forge pivot clipped to last valid pixel. Two6high Body rungs at y0,y64; rails Back; repeat128 yields uniform64spacing, top rung flushfloor. Runtime ladder/rung semantics required.Scaffold posts/braces Back; deck8thick solid. Stack128 to max3storeys. Body/Height/Guts masks exact; independent geometric depth, coarse provisional rubble core. Lighting/traversal/destruction need lab integration. Not approved or live.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAACACAYAAAAVt3nrAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAAQElEQVRoge3ZoQkAQAhAUQcxWd1/Pq/cDGJ4D8yC2H5k9WxMWJROV/8ZAAAAAACAy1I/KkWslxsfAAAAAABw2ANOhrbQwDWuqAAAAABJRU5ErkJggg==",
+      "back": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAACACAYAAAAVt3nrAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAAk0lEQVRoge3SsQnEAAzF0D+Eqiuz/45Je00IKEUaPXBrg/C2jd9x/s9e4m5fh56UTqOvsyidReksSmdROovSWZTOonQWpbMonUXpLEpnUTqL0lmUzqJ0FqWzKJ1F6SxKZ1E6i9JZlM6idBalsyidReksSmdROovSWZTOonQWpbMonUXpLEpnUTqL0lmUzqJ01qfpLq+nPEyFr7p1AAAAAElFTkSuQmCC",
+      "height": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAACACAYAAAAVt3nrAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAAPUlEQVRoge3ZsQkAMAgAQfef4jdNmswgKe7AWhC7n+pszFiU0/WeAQAAAAAA+Fn6UYpYy40PAAAAAAD42AWBPH/2xeAq9AAAAABJRU5ErkJggg==",
+      "guts": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAACACAYAAAAVt3nrAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAAQElEQVRoge3ZoQkAQAhAUccwWd1/Qq/cDGJ4D8yC2H5k9WxMWJROV/8ZAAAAAACAy1I/KkWslxsfAAAAAABw2ANJZKgwRUyjngAAAABJRU5ErkJggg==",
+      "emis": null,
+      "trim": null,
+      "cloth": null
+    }
+  ],
+  "asset_id": "custom-2b06e8f8-f265-490b-915f-8b3a52a613ad",
+  "state_key": ""
+}

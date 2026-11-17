@@ -1,0 +1,32 @@
+{
+  "forge": 1,
+  "code": "BK95",
+  "name": "BK95 Flying arch · free pier — c",
+  "w": 28,
+  "h": 128,
+  "fps": 1,
+  "base": 127,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "pivot": [
+      0,
+      127
+    ]
+  },
+  "ready": false,
+  "notes": "Batch2/2b draft,17 Nov2026. BK95pier. 1x navy stone/iron,12-tone maximum. Native-grid pixel drawing; generated studies used as composition references only. No source raster resampled. Native source linked in receipt. User asked richer S01-like carved forms, not stripped-back blocks. Geometric anchor[0,128], Forge pivot clipped to last valid pixel.  Body/Height/Guts masks exact; independent geometric depth, coarse provisional rubble core. Lighting/traversal/destruction need lab integration. Not approved or live.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAACACAYAAAAYqQmsAAAACXBIWXMAAAPoAAAD6AG1e1JrAAABK0lEQVRoge2bQQqDMBBFPUQWQYYMuLCLLnr/06UIFdLBRK3RkvZ9mJ3wmGFeXEQ7HR/xyuoAKiMdWZrHuxZzZLjHM6uzASi1RzolfcCH26GSNRhAz0gDS3PQw+kgvsxDTU7/3wPqwhv+d4CaQFw/FKHSHFANbK4cVJoCqlmSHDCFVgOmsFKX0gxQC+MsjVVqAJdguS7lE+CW7nJdylFgCbYElaaAbgPMQmUvcG93pS47gPJXI3U7YLlNXQV+2l2uS4CRkTqWZkSLVzhpHGdpz9vCBC0cWvRoYYIWDi36FrXQgyUAhQvLwJXsjUvn/bdrW0q4x5/CSD1LE9DCBC08WgS0MEELjxYBLUzQwqNFQItvaiEVvscvFcB42ki18k84ulIAIyNVlmZ834MnqlbdMRXt3+4AAAAASUVORK5CYII=",
+      "back": null,
+      "height": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAACACAYAAAAYqQmsAAAACXBIWXMAAAPoAAAD6AG1e1JrAAABJUlEQVRoge2bwW3DMAxFNSbH4Cg8agQeuaGKAHGhEpFqx04Cte8DvPqBBJ99kFUior2zCsBgpMHSxE8tttRa2yur5ACsV4/0FjNrW6nqqbLuWWUUgMpIlaU5oYW7v89Dd/+uvwf0DjaD2pJA7yAiMoXackBPsK1GUFsK6GlJRsAeehmwh826tGWAPhnnbKx2BfARbNSlPQPc092oSzsLnMEeQW0poOyAZagdBR7tbtZlAWj/aqRyADba1F+Bz3Y36hJgY6TC0jha3MObRniXCl+LFLQQtBC0SEELQQtZUQs/WQbQOLBUjmSVQ+fjp2t7yjjHv4WRKkujaJGCFooWihYpaKFooWiRghaKFooWn9Si8q9+XfU2QnDvKbjZFdxdax+9nfcFrDI0fLOGWL0AAAAASUVORK5CYII=",
+      "guts": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAACACAYAAAAYqQmsAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAAzElEQVRoge2YMQrFMAxDewwNwoOXDLn/+Vo+nw4xdEtCC0+QWaDqJbUPRTt3ngNDEWlQmjZicWs5f1UYanakP237frcwFJEGpSkCC30eC2c/V5wDQxNpUpoOFn9x05i7NHktisDCYJFgUcRsoc/PFsIwiLRRmlFgIbAIsCgCC4FFvB0Lsy9NNsKdnfcosDBYJFgUgYXBIsGiCCw8Gwuxawt2be3l05MwDCJtlGYUWAgsAiw2IKGnJwpDzYrUi3akfvopxtBEmpSmDz24AB0bySLWU5jcAAAAAElFTkSuQmCC",
+      "emis": null,
+      "trim": null,
+      "cloth": null
+    }
+  ],
+  "asset_id": "custom-a4a1be8f-d672-4652-82fb-6ab732fe28c7",
+  "state_key": ""
+}

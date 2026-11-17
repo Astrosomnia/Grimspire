@@ -1,0 +1,32 @@
+{
+  "forge": 1,
+  "code": "BK11",
+  "name": "BK11 Back bay, arcade — b",
+  "w": 128,
+  "h": 128,
+  "fps": 1,
+  "base": 127,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "pivot": [
+      0,
+      127
+    ]
+  },
+  "ready": false,
+  "notes": "Native-grid rear wall revision, 17 Nov 2026. Quiet coursing and sparse adornments. Darker than Body. Original window/arcade transparency retained. Back only, no collision. Additional variant with a new letter; all previous wall variants retained.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAAV0lEQVR4nO3BMQEAAADCoPVPbQwfoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKC7AQCPAAFPBGUdAAAAAElFTkSuQmCC",
+      "back": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAC+0lEQVR4nO2dMW/iQBQGvSunT5E0kdLk//+mNCeluS3og8RJUYhy5rhgsL1vd2YkGgT2+9bjtzZgkx6eXg6DYMm1C5C6KAAcBYBTXYD9+/vHg8q+cv7qAkhdFACOAsBRADgKAEcB4CgAHAWAowBwFACOAsBRADgKAEcB4CgAHAWAowBwFACOAsAJI0B5ex1IlCB5Qwiw+/0r1KCszTFnhLw5ysY/EmFQ1mSab5ofJ4AMXAHO7e29doFyJlfNLlBNgJ82cm8SlKB5qwhwJmy68HXNUQLnzcEGI8SgkPKm+8fnze4PcGauOxmEYRhOarp/fB5aY9dA3tpnAWnm862TZj6/OmmrO4T8o7VdEvqv2h6eXoZWKI3kzYEH4+R1rRwPlIby5sCDscmg7Be+Pj963k0FWGAwmuoEpcG8Wx4E3nqg09qBYar8/roCfLM2LRjma1nRukBpNO/aHWAti6N2g9TYctcR4NPWtTdSitIFSsN5c+N7aJROkFpdz+IClLfXTTfK1uvrLe/SAtTaGK43gADV5uSN5uAu8y4lgHNxHVIEAUKcl0/Ow9ckTdbXdN6xg73+f7Ut+U1nGjrMm3v6bH7Bz+IxeWv/IEQqc7MAUfaGreopneW1A8DJPe0Na9dVOsxrB4CjAHAUAE7ubT5cq77SaV47ABwFgJN7bIdz6hzv7j4ety4nAtfUaQeAowBwFADO7PsDfF7zHvm78SmHW66133We1w4AZ/zpCLgHCBmvzTurA7RyOrRU3QWQ1ykAjgLAUQA4uff58Nr6CySvHQCOAsBRADgKAEcB4CgAHAWAowBwFACOAsBRADgKAEcB4CgAHAWAowBwFACOAsBRADgKAEcB4CgAHAWAowBwxiX/Nzc6pKyX5rUDwEHcH+AIKeulee0AcBQAjgLAUQA4CgBHAeAoABwFgKMAcBQAjgLAUQA4CgBnvPJ9s/+nvnEOQ6fYAeAoABwFgKMAcBQAjgLAUQA4CgBHAeAoABwFgKMAcBQAjgLAUQA4fwC4qSTGG/sASgAAAABJRU5ErkJggg==",
+      "height": null,
+      "guts": null,
+      "emis": null,
+      "trim": null,
+      "cloth": null
+    }
+  ],
+  "asset_id": "custom-6451fdfb-8798-4b93-9dec-bc5745c7d790",
+  "state_key": ""
+}

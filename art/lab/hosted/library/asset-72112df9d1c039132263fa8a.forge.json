@@ -1,0 +1,32 @@
+{
+  "forge": 1,
+  "code": "BK50",
+  "name": "BK50 Lean-to roof · two bays — b",
+  "w": 256,
+  "h": 128,
+  "fps": 1,
+  "base": 127,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "pivot": [
+      0,
+      127
+    ]
+  },
+  "ready": false,
+  "notes": "Batch2/2b draft,17 Nov2026. BK50b. 1x navy stone/iron,12-tone maximum. Native-grid pixel drawing; generated studies used as composition references only. No source raster resampled. Native source linked in receipt. User asked richer S01-like carved forms, not stripped-back blocks. Geometric anchor[0,128], Forge pivot clipped to last valid pixel.  Thin16 roof; rise(h−16) overwidth; slope under40deg. No incidental underside columns. Body/Height/Guts masks exact; independent geometric depth, coarse provisional rubble core. Lighting/traversal/destruction need lab integration. Not approved or live.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAACACAYAAADktbcKAAAACXBIWXMAAAPoAAAD6AG1e1JrAAADMUlEQVR4nO3bu24bMRAFUH3GFosUaVLk/78vgVMGtskVVhxq7jmAKgOGQPtyhq/HA4hz/vz95+NT/T2AguCbACA4+CYACA6+CQBCQ28CgPDgHz9+/ftUf2egIPgmAAgJ/WfBNwFAcPBNAPBGvgr2M6E3AcCbOAeV/dng6wBgU1da+2eD7x4AbObOtf0o+CYACA6+CQAa7eZfDb4JAJoG/8rvrxgDiHNuUO0FHwQf6LC+Py5UfX9xaNTmHzb5IHd9f3wzAVSPB0Q4bexBlnOzYzwVH4qCf9zwGs8xHmzsHFR2wYdmzgutvTYfmjg329SzvofA4D8AwQdu5hgPAmnzIZDgQ6AVwT+8xoPM9f3hNR7ktvmH13iQF/zzm3cA/h9go9C7pgtNzFZhwYdGRgF3TRcamm3t3c+HJna7tHPa2IO84D8AwQfe8BhPxYfNOL+HQKo9BFoRfK/xILTN9xoPgtv80QRQPSbQXuX63ms8KGJjD8LMVuE71vdu7MEmRgF3aQcaml3Tu60HTey2trebDwu4pguBdqv41eMBEQQfwmjzIZBqD4FWBN9rPAhr8/8/+7exB4Hre6/xIHh97zUeBAbf+T0UmK3Cd7b5gg/FRgFfXe3d2IMFZlt7bT40stPZvWoPTY/xBB+K2c2HQIIPYbT5EEjwIdCKNv/K5l71eECEVev72QmgejygvYo2fzQBVI8JtFe5m//Zz6rHAyI4xoMws1X4VRVfmw8FRgF3TRcaml3Tq/bQyE5n9zb2oOkxnuBDsd1281V8CAy+PzosIPgQxvoeAq2o9lda/erxgAir2vzZCaB6PKC9ijZ/NAFUjwm0V7m+/+pn1WMC7dnNh0CzVdj5PTQxCvgr23zreygyu55X7aGRnc7uberBIjb2IEzlMZ6KD0VUewgk+BBGmw+BVgTfjj5sZlXovcaDjayu9l7jQfD63ms8KGJtD4Fmq7BNPWhi5jGO4EPwazzXdKGJV+/kO7uHDdnYg0Be40GwHa7ofnyqxwEiOcaDYI7xIJiLOxDMazwI5jUeBPMaD4I5xoNgrulCMPfzIZjbehDMFV0I5m4+BPMoB4J5jQe5/gJkyjTLmXAJ+wAAAABJRU5ErkJggg==",
+      "back": null,
+      "height": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAACACAYAAADktbcKAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAD20lEQVR4nO3d0YqkMBAF0PlkH/2U/O0uPTDQiK3RNiZWnQO+7MMyCFWJqVz65wdIp5Ty7/X0/juADoWvAUDiwtcAIHHhawCQtOg1AEhe+NM0/T69/2agQ+FrAJCk6NcKXwOAxIWvAcCDLAt7nuff50zRawDwEOXDyr7WAI4Uvh0ADKpma//eAM4UvnsAMJgj3/Z/DeBs4WsAMIgzh3pHG4CLQBDoNH+ubABuAkLAMd680QCO/P+93wekUC6c3X9qAAofghf+tNIAFD4Evq03bTQAW30YRGlc9O+rfW0D6P1OILxyY+HXNIDe7wNSKB0K32oPDyn68uU1XYUPgygrBXlFGs9qDwMrjdN4tvkwmHJjGs82HwZROqTxHOxBZ6VjGs8YDx5U+NPBBqDwIeAYb74ojfd6er8TCO/q2f0sjQfja3VpZ5bGg3yFPy0agG0+BPu+nyoO9aTxYBCti36SxoPx9Cj88rYDcJoPgbf5xRgPxlC7Cit8CGRrCy6NB0G1TuO5pguDOfLdLY0HQZw51JPGg4f75jRfGg8Sj/H2GoAxHgSe33+bxns9P8A4hS+NB0G0vq0njQfBt/nSePAAo6XxfN9D0MJ/bwCKHpIVvtUeOqhdha/4vlf4MIitLbg0HgS1twpL40EwR7bf0niQeH7fMo1njAeDn+ZL40HiMZ40HgTf5kvjwcO1urTjt/Eg8W09aTwIvs3fOtH323iQqPBrbgIa48GN7lrt1x5pPEhY+FZ76KB2Fb5ym6/wobPR0nivp/c7gfD2ilAaDwJqncbzfQ8BxnjSeJD4NF8aDxKP8aTxIPg2vzaM4zQfkhT+WgMwxoPBtCj6tQZgdg+JCv9vxZfGg+Db/K3ve2k8SLLaf7oItPy33u8DUuhZ+GtP7/cB4dWuwgofAtnagq81AGk8CGBv2y2NBwHVfndL40HiMZ40HiQ+zW+RxnOiDw8Z40njQeL5/acGYLWHh3/fS+PBw7Uoemk8SF740niQZJsvjQcD61H47xeBjPEg8Dbf7B4GUrsKK3wIYmsLLo0HQe1tv6XxIKDa725pPEh8sHemATjYgyBjPGk8SDzGk8aDxPN7aTxIfFvPb+NB4mu6R38b7/X0ficQ3l3XdP02HiQs/L2bgFZ7CLLNl8aDAd292vu2hwEsC1EaD4K7I41nxYfB7G27lw2gddEb48ENaotRGg8SH+xJ40HiE31pPAhghDSe73vo5Oz8XhoPAjg7xls2AKs9PNDZMZ40HgRwdn4vjQcBSONBYtJ4kJgxHiQmlAOJGeNBYub3kJgrupCYu/mQmFAOJCaNB3n9B5A6h2gbHr3UAAAAAElFTkSuQmCC",
+      "guts": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAACACAYAAADktbcKAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAD20lEQVR4nO3cQY7UMBQE0Bwji4gFGxbc/3yDeoE0asFMpxO7bP/3pOzhN1VJHJttA8o5fv7+eFzpPwcQCL4CgMLBVwBQOPgKAIqGXgFA8eAfFgGhbvAVABQNvQKA4sE/vAJA3eArACgcfAUARUOvAKB48A9rAFA3+AoAgvYfvz4eVzL8jys5Aygb/F0BQN3g7+ECSM8DSgd/DxVAeh6wVQ/9HiiA9ExgefuJ4PcqgPRMYHn7G8FvWQDpeUAJ+4XgtyiA9DxgefsNob+7ANIzgeXtNwf/agGk5wElHI0X6c4WRnoesLyjcejfKYD0TGB5R8fgv1oA6ZnA8o5A8L8qgPQ8oIR9gNN4gg+dQ5/Yint8UQD+AUDn4KcLYAPaS2zFPQQfspJ78Q93fBg39D0LYAPGC37LAtiA9pJ78Q/BhzlDf3cBbMBcwb+jADZgzuC/WwAbMH/wzxbABqwR+jMFsAHrBf+rAtiA9h5hS4Z/fyoAvzl0CP3na4QC2IC+wR+hADYgE/xUAfi9oYNXP68JPizind107vgwubtW4e+80jOB5d39GU7oYQJ3f4YTfBhcq3d1j/kwsNaLdN7tYUC9Ps9Z1INioT9TAOmZwPISwf+uANIzgeWl9+I/F0B6HlDCKIdx/hZAeh6wvPRe/H9d6ZnA8tJ78YUeAkY5jONuD504jQcFXdlO644Pk7rjII3HfJjMnUdovd/DBFr8pxlXCyA9E1heq+BfKYD0TGB5rYN/tgDS84ASegX/1QJIzwOW1zv0rxRAeiawvEfQkuF/LoD0PKCEz6EboQDS84DlvfsObn8+TOzqIpyDOTChu1bhncaDidy1Ci/4MIkWn+Gcv4fB3f0ZTuhhAq2+wzuUA4Nq+R1e8KFY8K8UQHomsLzWwT9bAOl5QAm9gv9qAaTnAcvrHfpXCiA9E1jeKIdxBB86choPCvrXo3by7p+eByzvu0U2wYcFvfp5zd0eFnJ2U43HfJjcle203u9hUnccpLGwB5O58wit1XwoGPw7CiA9D1hei9BfLYD0TGB5rYN/tgDS84AS0nvxn6/0PKCE1HZcwYeQlt/h3y0A/xigsR4bcc4UgB8cOuixEefM5UeHxnrvxBN8GEDPnXiCD4NIbMX1mA9hia24gg9Bqa24gg9Bia24Qg9hyb34PuPBIqG/WgCJOUAprYP/TgGkZwLL6xX8VwsgPQ8ooXfwvyuA9DyghFTw/1cA6XlAKaMUQHoOUFIy/Om/O5Qn+FCYOz4U5jEfCvN+D4VZ2IPCHMOFwpzGg8KcxoPCnMaDwpzGg8KcxoPCnMaDwpzGg7r+AEYSKaMprHVvAAAAAElFTkSuQmCC",
+      "emis": null,
+      "trim": null,
+      "cloth": null
+    }
+  ],
+  "asset_id": "custom-62c57220-a32c-4149-b539-496909096c2d",
+  "state_key": ""
+}

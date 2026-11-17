@@ -1,0 +1,32 @@
+{
+  "forge": 1,
+  "code": "BK98",
+  "name": "BK98 Gallery railing and corbel — a",
+  "w": 44,
+  "h": 60,
+  "fps": 1,
+  "base": 59,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "pivot": [
+      0,
+      26
+    ]
+  },
+  "ready": false,
+  "notes": "Batch2/2b draft,17 Nov2026. BK98. 1x navy stone/iron,12-tone maximum. Native-grid pixel drawing; generated studies used as composition references only. No source raster resampled. Native source linked in receipt. User asked richer S01-like carved forms, not stripped-back blocks. Geometric anchor[0,26], Forge pivot clipped to last valid pixel. Canvas44×60 resolves lab: rail26 ABOVE floor, deck12,corbel22 below; anchor(0,26)atdoorfloor. Rail Back, deck/corbel Body. Body/Height/Guts masks exact; independent geometric depth, coarse provisional rubble core. Lighting/traversal/destruction need lab integration. Not approved or live.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACwAAAA8CAYAAAAdUliaAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAAr0lEQVRoge3WMQrDMBBE0TmGiyVFmhS+//kSFKwmjbAlWTvhf1Bp81jwWhIREREREREREf1p8dzfTkerAeEG3h6v7wEcWSa8HQ+4HNmBg49uZ0tEpj0cbj+OcALL6fIjl9uaevt9Ye9in4odCZ4OHQm+DdsLvhXaC16CvQKevgVGgpdCz4CXT/UMOA20BU411RY4JbTWmmQqbMkKW7KB1qywJRtozQpbsoHqyAor6QNVMszJ+nyC1QAAAABJRU5ErkJggg==",
+      "back": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACwAAAA8CAYAAAAdUliaAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAAXUlEQVRoge3XMQqAMBBFwT3EVr/M/e+orQt2KirMQNqwhJdAqrO2P616e4A2cD6eRF30+H5t4OWEWxIHLl28EpMkIolJEpHEJIlIYpJEJDFJIvd+uQAAAAAAgDqxA+aGP+ejdoL5AAAAAElFTkSuQmCC",
+      "height": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACwAAAA8CAYAAAAdUliaAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAAtklEQVRoge3VQQrEIAyF4RzVI7j0GC5zW0uGupmNY9Umb3g/ZFfKR6CpCGOMMcYYY4wxxhj701S1IY14AxQNXEr5DMEaZcM55+Y55Qb/+jweWPnRKa+ERrrDivbj0FlwrbV5jTwJCmvBQHvfL0wpLc1R7E7wcehO8GvYVfCr0FWwC/YJ+PgV2Al2hc6A3bc6Aw4DHYFDbXUEDgntjTYZCmtBYS0YaA8Ka8FAe1BYCwYqd1BYEbkA0Y0LCIt7fc8AAAAASUVORK5CYII=",
+      "guts": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACwAAAA8CAYAAAAdUliaAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAAjElEQVRoge3XOwrDMBQF0bcMFUaFGxfe//oULuR1bozBYcIcUD8IfaskSZIkSZL0p7b9XL8cYx63hsGbM3y4JJabbnpKnJ7Dw4tj92peqMdPUV5r9RQqNjChDRUbmNCGig1UbGBC291f6+VP9k2DEtpQsYEJbajYQMUGJrShYgMT2lCxgQmtL1RsVX0Ab4fKBTUSxZkAAAAASUVORK5CYII=",
+      "emis": null,
+      "trim": null,
+      "cloth": null
+    }
+  ],
+  "asset_id": "custom-2a8d8261-97a7-4d2b-b81c-d8c68aac37da",
+  "state_key": ""
+}

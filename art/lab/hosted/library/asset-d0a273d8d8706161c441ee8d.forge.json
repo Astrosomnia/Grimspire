@@ -1,0 +1,32 @@
+{
+  "forge": 1,
+  "code": "BK40",
+  "name": "BK40 Switchback stair — a",
+  "w": 128,
+  "h": 128,
+  "fps": 1,
+  "base": 127,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "pivot": [
+      0,
+      127
+    ]
+  },
+  "ready": false,
+  "notes": "Batch2/2b draft,17 Nov2026. BK40. 1x navy stone/iron,12-tone maximum. Native-grid pixel drawing; generated studies used as composition references only. No source raster resampled. Native source linked in receipt. User asked richer S01-like carved forms, not stripped-back blocks. Geometric anchor[0,128], Forge pivot clipped to last valid pixel. Lower foot left at128, middle landing right at64, top left at0. Four16 risers per flight,32 tread. Foreground flights16thick; decorative end/newel remnants Back. Body/Height/Guts masks exact; independent geometric depth, coarse provisional rubble core. Lighting/traversal/destruction need lab integration. Not approved or live.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAACXBIWXMAAAPoAAAD6AG1e1JrAAABi0lEQVR4nO3csW3FQAwFQZfB4MGBEwfuv77vMi7YGUAFCLcSQAb3tZ+/z8vni7cEECeAOAHECSDuvn8/L5/X758ngDgBxAkgTgBxAogzBsYJIE4AcQKIEwBPCTBOAHECiBNAnADirKLjBBAngDgBxAkgTgBxxsA4AcQJIE4AcQLgqbkfoW0CaJsA2iaAtgmg7dyP0HYCaDsBtJ0A2k4AbSeAthkD2yaAtgmgbQJomwB4SYBx8wdqmwDaJoC2CaDtrKLbTgBtJ4C2E0DbCaDtBNA2Y2DbBNA2AbRNAG0TQNsE0DYBtE0AbRNA2wTQdlbBbSeAthNA2wmg7QTQdgJomzGwbQJomwDaJoC2CcAB8NB8gW0TQNsE0DYBtJ1VbNsJoO0E0HYCaDsBtJ0A2mYMbJsA2iaAtgmgbQJwADzkC4wTQJwA4gQQZxUbJ4A4AcQJIE4AcQKIMwbGCSBOAHECiBPAYw4gTgBxAogTQJwA4qxi4wQQJ4A4AcQJIE4AccbAOAHECSBOAHECaPsHTGA5Sx4ew2wAAAAASUVORK5CYII=",
+      "back": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAA+ElEQVR4nO3dsQmAABAEQYu4yND+e9QiDER2Br6DTY8/dl73mzv4NwHECSBOAHECiBNAnADiBBAngDgBxAkgTgBxAogTQJwA4gQQJ4A4AcQJIE4AcQKIE0CcAOIEAAAAAAAAAAAAAAAAAB8w7Imbhx9tE0DbBNA2AbRNAG0TQNsE0DYBtE0AbRNA2wTQNgG0TQBtE0DbBNA2AbRNAG0TQNsE0DYBtE0AbRNA2wQAAAAAAAAAAAAAAABdhgVxAogTQJwA4gQQJ4A4AcQJIE4AcQKIE0CcAOIEECeAOAHECSBOAHECiBNAnADiBBAngDgBxAkAAAAAoOEB+sPjzF3RIzIAAAAASUVORK5CYII=",
+      "height": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAACXBIWXMAAAPoAAAD6AG1e1JrAAABg0lEQVR4nO3cwQ3DMAwEwZTMcq5bpww9dgZwAYbWBsiHftu+l8+PtwQQJ4A4AcQJIO7uvpfP6/fPE0CcAOIEECeAOAHEGQPjBBAngDgBxAmApwQYJ4A4AcQJIE4AcVbRcQKIE0CcAOIEECeAOGNgnADiBBAngDgB8NTcj9A2AbRNAG0TQNsE0HbuR2g7AbSdANpOAG0ngLYTQNuMgW0TQNsE0DYBtE0AvCTAuPkDtU0AbRNA2wTQdlbRbSeAthNA2wmg7QTQdgJomzGwbQJomwDaJoC2CaBtAmibANomgLYJoG0CaDur4LYTQNsJoO0E0HYCaDsBtM0Y2DYBtE0AbRNA2wTgAHhovsC2CaBtAmibANrOKrbtBNB2Amg7AbSdANpOAG0zBrZNAG0TQNsE0DYBOAAe8gXGCSBOAHECiLOKjRNAnADiBBAngDgBxBkD4wQQJ4A4AcQJ4DEHECeAOAHECSBOAHFWsXECiBNAnADiBBAngDhjYJwA4gQQJ4A4AbT9Ac5KomhG+AzeAAAAAElFTkSuQmCC",
+      "guts": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAACXBIWXMAAAPoAAAD6AG1e1JrAAABhklEQVR4nO3csY3EMBAEQYVBY3DGO2d8/vHpwqDRVcAGIKhFY0HoOZ/ve3Me7hJAnADiBBAngDgBxAkgTgBxAogTQJwA4gQQJ4A4AcQJIE4AXLW///fmPAiAi5wAcQKIE0CcAOIEECeAOIuoOAHECSBOAHECiBNAnADiBMBVcx+hbQJomwDaJoC2CaBtAmibANomgLYJoG0CaJsA2iaAtgmgbQJomwDaJgBuEmDcnEBtE0DbBNA2AbRNAG0TQNsE0DYBtE0AbRNA2wTQNgG0TQBtE0DbBNA2AbRNAG0TQNsE0DYBtE0AbRNA2wTQdj7f9+bcfv68I4C2I4C2I4C2I4C2I4C2I4C2I4C7ZhHTNgG0TQBtE0DbBNA2AbRNAG0TQNsE0DYBtE0AbRNA2wTQNgG0TQBtE4AXwEW+wDgBxAkgTgBxAogTQJwA4gQQJ4A4AcQJIE4AcQKIE0CcAC7zg4I4AcQJIE4AcQKIE0CcAOIEEGcREyeAOAHECSBOAHECiBNAnADafkT2RUvN/yM2AAAAAElFTkSuQmCC",
+      "emis": null,
+      "trim": null,
+      "cloth": null
+    }
+  ],
+  "asset_id": "custom-116b56ef-828e-454c-8ec3-21339837928d",
+  "state_key": ""
+}

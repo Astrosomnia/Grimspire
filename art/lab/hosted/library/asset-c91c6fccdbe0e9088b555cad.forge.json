@@ -1,0 +1,32 @@
+{
+  "forge": 1,
+  "code": "BK50",
+  "name": "BK50 Lean-to roof · one bay — a",
+  "w": 128,
+  "h": 64,
+  "fps": 1,
+  "base": 63,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "pivot": [
+      0,
+      63
+    ]
+  },
+  "ready": false,
+  "notes": "Batch2/2b draft,17 Nov2026. BK50a. 1x navy stone/iron,12-tone maximum. Native-grid pixel drawing; generated studies used as composition references only. No source raster resampled. Native source linked in receipt. User asked richer S01-like carved forms, not stripped-back blocks. Geometric anchor[0,64], Forge pivot clipped to last valid pixel.  Thin16 roof; rise(h−16) overwidth; slope under40deg. No incidental underside columns. Body/Height/Guts masks exact; independent geometric depth, coarse provisional rubble core. Lighting/traversal/destruction need lab integration. Not approved or live.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAABACAYAAADS1n9/AAAACXBIWXMAAAPoAAAD6AG1e1JrAAABxUlEQVR4nO2YMY7DMAwE/QwVxBVprsj/3+cgVx0COJEUW0tpZwBXLhJryCXtbQNL4nbfn5f6f4BIPAVgLD0oAG/pQQGsS1SKZwQYS4/bfS8/v3+X+r/DQOn/xVMAkxInSKcAJiPeSO2RTgFMQFR2da94RkBSojHWe6RTAIvP9VJx8Ro4ofQ4UTwFMJH4crJ0CsBcepAAOaXHQPGMgETiy2Dpz+uq57ckBNLpePNuLw3drz6npYgkEf+pANTntBTxRmymuY74QeLjxG/xLHTJiMZYR/oCRJK5TsQjfmeu0+07y1yCiI8vY56IT8Ass30DpMNkEV86Ox7Ri0R84Vu891wvfIvXi/8UwVfGezm4P/hY1qZGLlv8YrTGuurVLeh2jXjlBh9I10pXdfsGWunfiifiE0C3G4J0Q4h4UxTd3jPf1ee0FMqIbykA9TkthSLi333xQ/wgjqSq3tmP7o86Dwtq5I6UTsQPoDXSEb8IM2zwRPwFqJc5xIvJLF59NhYg3ZwMnU63CyHizRnd8ernhRd6hbcWwOvvQhJ6O72mANTPBhX0xvvR/ZrfhESwxZvDhxpz2OLNYYs3hy3eHLZ4c3h926x5ADxEGmbmc0NdAAAAAElFTkSuQmCC",
+      "back": null,
+      "height": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAABACAYAAADS1n9/AAAACXBIWXMAAAPoAAAD6AG1e1JrAAACBUlEQVR4nO2ay66DMAxE+eQs+ZT521a36gIhuHk0xIl9RmIN8hk7zrTbhkJK0uvvsf4OZAQeAwSGLgwQG7owgF+pEDxHQGDokl4ppc9j/e1oIPQjeAywqNQBOgZYTLqAuu/752mBjgEWkDJdfWeAUvAcAZNKhWP9aIBa6BjAwbm+fw3QCp5r4ILQdej2VgOQAywIPl2ArDEAQZAT6KnCAKXvsa6NW6lTUFNrgNr3WdfJnfQg9DsDtLzTuk6upEHQrwwA+GDgdboG0u2BoOvw5Awwui6upZsi98jif93iAW8AXh2z+B7gn6xBOGlwFg/0CSTDLJ5uXwx8ygQxdHuQLX7vlMVzrk8KXZmzvVcWz0I3GfhUmcTR7YGgpxsD0OkLQv/1+raTxdtrNPREFh8bui5yAJY5Q/C5X8OeAK/Mu0fVI4RyAMjiHWqVLF50uw34swFGg9+QHfRjt5PFL6rWcVuaxDHig1zfSgzAiHcGvcQAQHcy4msMwBY/gUZAvzIAW3wg6Mdu53/xzkd87mwvMYBVjVzqqsBk8c71X3eRxTtV6Ug/G6D3iC95rGvlSrXFJ4t3ohWyeLr9QbVu8bUGAPqkar26kcU70QxZPCPeUK1b/NkAQF9UZPHBNSKLZ8RPLLL44Gq9uvG/eCdiiw8utvjg4r4eXGzxwcXVLbi4rwcXQc0WWm81tcOtmOisjwAAAABJRU5ErkJggg==",
+      "guts": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAABACAYAAADS1n9/AAAACXBIWXMAAAPoAAAD6AG1e1JrAAABuklEQVR4nO2YMW7EMAwE+QwWRIprUtz/3+fA3SGVz6a4FHcHUJ/sTGLLZoKSeL2P86B/DgESrwCIpYcC4JYeCmAucVG8HgHE0kMBcEsPBbAvkSRejwBi6aEAuKWHAuhLFInXI4BYeigAPP7ze5wHKf886B1oxbsC4JXuCoBbuiuAufhF8ehHAHonaukODAC91Sj8gfjKANA7jcITpFcEgN5pFJ4sfWUA6K1G4QvFZwaA3mkUXiA9IwD0TqPwYulPAkBvNQpv8C3+SiTonUZR9RYeDwNA7zSKyrfweBgAeqtRIK5hcSMA9E6jQFzD4sZB7zQK9D08JH4/8ZUBmOglvSIAE7l0+RATEr+/9OwATOwlPSsAE/uKvxuAiTzOQVHivwnARK70z9M5ABPrxHcNwMR66d0CMFErvUsAJnDiUQHIeSIZH1EknVB6VQDorUaRLX5VAOidRrFKenYA6J1GUSE9KwD0VqOoFn83APRO46i+hv0/V0NB7zSWzgGgt6GgWwDoPejoEgB6B1qQ8tG/uwAEoNGbIfHk6K+dHP2LJ0fPdnL0QkeO3uLJ0fWNHN3ZydGHGnL0hc6o+QNHcRCCG49fWQAAAABJRU5ErkJggg==",
+      "emis": null,
+      "trim": null,
+      "cloth": null
+    }
+  ],
+  "asset_id": "custom-62c57220-a32c-4149-b539-496909096c2d",
+  "state_key": ""
+}

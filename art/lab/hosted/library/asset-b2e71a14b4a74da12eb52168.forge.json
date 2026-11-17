@@ -1,0 +1,32 @@
+{
+  "forge": 1,
+  "code": "BK51",
+  "name": "BK51 Gable · one bay — a",
+  "w": 128,
+  "h": 54,
+  "fps": 1,
+  "base": 53,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "pivot": [
+      0,
+      53
+    ]
+  },
+  "ready": false,
+  "notes": "Batch2/2b draft,17 Nov2026. BK51a. 1x navy stone/iron,12-tone maximum. Native-grid pixel drawing; generated studies used as composition references only. No source raster resampled. Native source linked in receipt. User asked richer S01-like carved forms, not stripped-back blocks. Geometric anchor[0,54], Forge pivot clipped to last valid pixel.  Native per-width gable, 128/256/384 width; no stretching. Flat baseline. Body/Height/Guts masks exact; independent geometric depth, coarse provisional rubble core. Lighting/traversal/destruction need lab integration. Not approved or live.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAAA2CAYAAAAPrZGjAAAACXBIWXMAAAPoAAAD6AG1e1JrAAACa0lEQVR4nO2Zz2rDMAyH8xA+mGImyGE95LD3f7qNlW4EE8tK/Cey/BPokobi+PskOe2yTB70+fV99xoQN8KndwLCxPAJEswNnnYZ1g3dYFb4hG5gN87AJ4wEW5EC7D+er4QEE8P3kMBmcFUdw/cCCfCqaBB+WLdXQgJDIa36X/C0e/XDSJgUPkECG1ECnyDBHOBj+IG5Jh0Jdz//1FHa8sMu0Q0mhU+JToDDoeI484qXgp86A1DifvxoZKzquYNgKOwGd++TyagBnwNPwm4ACSaAT5UkQDfoBJ97ncvBd4/19EjAuaBT1Jj3nADusf5nTgCMhMFaPgc/Bu8yIkACw/BJ2A0gwSDz/gp8uiABzgUd4F+p+iM4e7B7uC5zLRZBIhpeFZXBl4J2GTEggfJ5L6l+Dr4TSiCVDp2gUtVL5r2k+iXwXeLeq/Kd+Wt5mSlaVD1X/dx5wDECpL7jrISQoBP80vbvCscARkJh5XMVVCrAvvVK4PuPZ5EA3HNM949i66qXCpCTgKK1lQqAkdAZvkSAlAR0sLZaAkx7LugNXypAarN9dE9NAaaT4Mq8LwF/VoB4s/3B57UF4J7Z1Lmgd9VfFcC/Nzv1WSsBzHaDO1p+qQCeyZYCmJNAA/zRBAhWJJCAT82+XgKUJjVee+5ccCTCoiE0VL0FAcJo3UBLy7ckQBhFghx87mF6CtAqQ+dn+LuuQgKNVW9NgFDQDZrC7wkSAmyX92Ba+MitvgStNzU+N4yWXvn6VcMfYQODgfWrhT/KBgYD61cJf6QNDAbWrw7+aBsYDKxfDfhRNzAYWb8K+MjtfgkAYZtaxB/7wCm+fpbLKwAAAABJRU5ErkJggg==",
+      "back": null,
+      "height": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAAA2CAYAAAAPrZGjAAAACXBIWXMAAAPoAAAD6AG1e1JrAAACbUlEQVR4nO2Zzc3DIAxAMyYD5MAIHoVjjozAdv3Uqp8UoWKc8BNj25IvbdQS3rOBZNuUR0rp9fQYLB6En75pEBTDTyaBbvDplABg3UAr/GTdQG5cgZ9sSZAVJcD7vn/SJFAMfzcJZAZW1Tn8nSCBHRUFwgeAT5oEgoJa9W/wx3F8MpfA9gWK4B8mgYxogX+YBDrA5/AB+Yy6JDx9/6qjteXDKa0bKIUfYzQJVosrR7wS/Df4mCV2vZ0QhFV9KaHDkvD0PImMHvAx8JHYDUwCBfBjJwmsG0yCjx3navCdc5eXBNsXTIpeRzwMvvtmTQBbEhY931PAu4oIJoFg+JHYDUyCRdb7O/DjDQlsXzAB/p2q/yXAGewZrqt8lovw63/sqMgcPhW0q4hhEjBf7ynVj8F3RAlK/2mdYFDVU9Z7SvVT4LvCtZQu0PpqedMUI6oeq35sP+AQAUq/URvD3W6waYiR8Fvbv2tcBmxJaISPVVCrAN77S3sA732TANh9qHujOLrqqQLUJIgn+D0EsCVhMnyKACUJYga/pwBq9wWz4VMFOEsQT5lf01MAdRL0eqQ7SoBcAv/j+94CYPcsal8wu+rvCuC/EpS+GyWA2G7wRMtvFcAjOVIAcRJwgL+aACBFghGPdHsL0JpxkADY3NRE2DgEh6qXIACs1g24tHxJAsAqEsx4pNtDgFEJg+/h7iPkR+BzqHppAkBDNxgKP4Tw4p4zBAgM7hNLtfAtQ38JRk/qf7tbFR4wHz9r+CtMYBAwfrbwV5nAIGD8LOGvNIFBwPjZwV9tAoOA8bMBv+oEBiHjZwHfMjwvgUEIqkX8A6WfSdKbqmnlAAAAAElFTkSuQmCC",
+      "guts": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAAA2CAYAAAAPrZGjAAAACXBIWXMAAAPoAAAD6AG1e1JrAAABq0lEQVR4nO3ZOw7CMBREUZYxxRMFjQv2vz5QuhT8Euz3m7FED3MPJhKXC/nBdTyi34NO0LHb/bEBEALS+LYDIARk4V8BgCBwxbc3AHQbkMS3DwCEgCC+fQEgBM3j2w8AhKBp+CMAIAg949tBALoNmsW3EwCEoFF8OwlACJrEtz8ACEHx8DMAQH8k1Y5vEwAIQuH4NhGAboOC8W0yACEoFH4VAOi5oE58WwRACIrEt4UABKFAfHMAoNsgcXxzAiAECcN7A4AeDvPFN2cAQvDleMfAdbhi27+O3ortT0R8BAIQggTxEQyAHkHEb3A2AGB9OIx6CMsIAGwIXg3ADgAsCD4NwA4A3SH8OgA7AHRDcGYAdgDoguCfAdgBoDqCGQOwA0BVBDMHYAeAahBWDcAOANkReAzADgBZEXgOwA4A2RBEDMAOAFkQRA7ADgCREDINwA4A3ggyDsAOAF4IMg/ADgCrEVQYgB0AViGoNAA7AMxEUHUAdgCYAaHDAOwAcBaBAoxWAFPGZ/kGIsnnTxdfAIY7+DThBWCEfgFSxNcNMEJ//sLjC8AIBbAheALJPdDnApZuwgAAAABJRU5ErkJggg==",
+      "emis": null,
+      "trim": null,
+      "cloth": null
+    }
+  ],
+  "asset_id": "custom-ba2287c4-3497-4206-bd6e-9e06bace7cd0",
+  "state_key": ""
+}

@@ -1,0 +1,32 @@
+{
+  "forge": 1,
+  "code": "BK73",
+  "name": "BK73 Fallen column — a",
+  "w": 96,
+  "h": 24,
+  "fps": 1,
+  "base": 23,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "pivot": [
+      0,
+      23
+    ]
+  },
+  "ready": false,
+  "notes": "Batch2/2b draft,17 Nov2026. BK73. 1x navy stone/iron,12-tone maximum. Native-grid pixel drawing; generated studies used as composition references only. No source raster resampled. Native source linked in receipt. User asked richer S01-like carved forms, not stripped-back blocks. Geometric anchor[0,24], Forge pivot clipped to last valid pixel.  Body/Height/Guts masks exact; independent geometric depth, coarse provisional rubble core. Lighting/traversal/destruction need lab integration. Not approved or live.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAAAYCAYAAAAF6fiUAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAA2klEQVRoge2YwQqDMAyG8xA5yAgTetgOHvb+T7ddhoi0BdPYtPz5IUcT/T6jKFFEFUnbV3dkxExArW4ZaN504pyBr69PtprldLU8SXIsTAVcbYgmRO4SoG0YAja9gBJMjQCULRADXtVmIaAcK17mDb2LH2kvj/nQAvgA30sCpADOgIfdgOX57lpcgN9rPrQAdgRvJWCXMKOA5SSh92x4ARwbMN4LWJzPx/0RhC5hDQHJVQKkABngC7iVV/wLupDhBRBAxFpAaUgIqEcjgFqDfvcPyQMVPv3Tev0/GWtlgcNSwZgAAAAASUVORK5CYII=",
+      "back": null,
+      "height": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAAAYCAYAAAAF6fiUAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAA0klEQVRoge2YUQqEMAxEc8Qco8eZo/SGuz+LLNIWTGPTMhnIp4m+ZxQVyZgC4GM7MuMmYFSvDHRvenDuwGutzZqWs9TyIWmxcBXwtCGbELwlwNowBcAuoAfTIoBlC+DAa9gsBfTjxcu9YXSp6lUR86kF6B/8KAmUArQBnnYDSilLSzvwV82nFqCB4L0EXBJOFFBuElbPpheguQH7vYARfD7hjyB2CTUFaKgESgHY4At4llf+C3qQ7QUIQeAtoDckBYxjESCzYb/7t+TBCl9+mb3+L84p8MYtFjkqAAAAAElFTkSuQmCC",
+      "guts": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAAAYCAYAAAAF6fiUAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAArklEQVRoge2Xuw6AIAxF+YwOxIGFwf//PkyMcVSB8pCem3QEwj2lLc6hIskWU9lKpAbgKZocqL7pwgDU4HSlbMD8T751IftjSSsAzckuItH0qXYzixBE0ycA5Ek9UbUB5IYP+9AYdW8ABAAkXgAlKFGCgs0ecPcBmnAEgOcFMIYKJWinB/ARizRhb2gKOiehZl/sBSWzA3AGJD0SFgDvGpKg1rN/Sj+smu8u1d7/AKNwPBKNzO4FAAAAAElFTkSuQmCC",
+      "emis": null,
+      "trim": null,
+      "cloth": null
+    }
+  ],
+  "asset_id": "custom-9e6f5af5-c5ed-4ee6-b006-f2568ef2a6d7",
+  "state_key": ""
+}

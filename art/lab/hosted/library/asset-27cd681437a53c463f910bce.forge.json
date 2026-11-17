@@ -1,0 +1,32 @@
+{
+  "forge": 1,
+  "code": "BK93",
+  "name": "BK93 Setback ledge edge — a",
+  "w": 56,
+  "h": 16,
+  "fps": 1,
+  "base": 15,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "pivot": [
+      0,
+      15
+    ]
+  },
+  "ready": false,
+  "notes": "Batch2/2b draft,17 Nov2026. BK93. 1x navy stone/iron,12-tone maximum. Native-grid pixel drawing; generated studies used as composition references only. No source raster resampled. Native source linked in receipt. User asked richer S01-like carved forms, not stripped-back blocks. Geometric anchor[0,16], Forge pivot clipped to last valid pixel.  Body/Height/Guts masks exact; independent geometric depth, coarse provisional rubble core. Lighting/traversal/destruction need lab integration. Not approved or live.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAAQCAYAAABDebxFAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAATklEQVRIiWOQUdL+P5wxw0A7YNh7UEJOHYxHPag0GoP/sSZRWBIZrphhoB0w6kG50Rj8P5pEJYZzISMzWtFrj7ZkZEabatojt7EtQ2MMAAdi2+3NApIBAAAAAElFTkSuQmCC",
+      "back": null,
+      "height": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAAQCAYAAABDebxFAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAAWklEQVRIie2WMQrAUAhDPapHyOhR3m0tFLoVOn1+azO8TcRg0ATQk4ndA4wXWFUnFog32LcWldQ7uSy6qn88FWTmq5EFyhvs0RbV148MfvQ4yeCoxn/DNos5AH1Z+Vml2clSAAAAAElFTkSuQmCC",
+      "guts": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAAQCAYAAABDebxFAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAASElEQVRIiWOQkFP/P5BYRkmbpphh1INyozH4fzSJyo3mwf+jhYzSaCn6f7SakBit6NVHWzISo0019dG2qMxoY1t7tDchAw0EAGdV1D0ZVJkjAAAAAElFTkSuQmCC",
+      "emis": null,
+      "trim": null,
+      "cloth": null
+    }
+  ],
+  "asset_id": "custom-25a54f4d-c669-4aaa-9342-158e5cb753d5",
+  "state_key": ""
+}

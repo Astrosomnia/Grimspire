@@ -1,0 +1,369 @@
+{
+  "style": "Create ONE production game sprite for Grimspire's modular gothic building kit. TRANSPARENT background; orthographic 2D side elevation, NO perspective, isometric view, ground, scene, labels or text. Logical dimensions below; enlarge with hard nearest-neighbour-style pixel blocks. Heavy scannable silhouette, minimum detail4 logical pixels except structural thin beams. Dark navy stone/iron (mid RGB28,34,43), 8–12 FLAT tones at most. Broad recessed architectural forms, no bright rim lighting, gradients, grain, dithering, soft edges, weather noise or baked shadow/glow. Strong original gothic shape, simple but not plain. Maintain open negative space. ",
+  "specs": [
+    [
+      "BK40",
+      128,
+      128,
+      "Switchback stair",
+      "Two flights of gothic stone stairs in strict 2D side elevation: lower flight climbs from bottom LEFT to a landing at middle RIGHT, upper flight returns to top LEFT. Each flight four broad treads, each16 high and32 wide. Thin16-thick flights, completely transparent between them. Heavy end sockets, spare stone panels, no railing."
+    ],
+    [
+      "BK41",
+      128,
+      128,
+      "Broken stair",
+      "Side view stone stair rises from bottom LEFT to top RIGHT, eight16-high sixteen-wide treads, thin20-thick support; TWO central treads missing, clear32-wide gap in middle. Broad broken masonry ends, transparent underneath; broken edges have heavy fractures, no rubble noise."
+    ],
+    [
+      "BK42",
+      128,
+      128,
+      "Outside stair",
+      "One diagonal stair rising bottomLEFT to topRIGHT: eight16-high sixteen-wide steps, thin16-thick stair. Three bold triangular cantilever corbels below, wide transparent gaps, no solid wall or background, no rails."
+    ],
+    [
+      "BK43",
+      128,
+      128,
+      "Spiral stair",
+      "Dark interior spiral staircase behind an open one-bay tower. One full128-high repeating storey, heavy central spindle, two broad winding flights, foot on LEFT and half-storey landing RIGHT. Rear interior only, no surrounding walls. 2D side elevation, not isometric. Large clear negative spaces."
+    ],
+    [
+      "BK44",
+      32,
+      16,
+      "Roof hatch",
+      "Small roof hatch cross-section: square stone roof edge on each side, narrow metal raised hatch lid behind. Clear24-wide opening through a32-wide slab, slab16 thick. Minimal robust shape."
+    ],
+    [
+      "BK50a",
+      128,
+      64,
+      "Lean-to roof · one bay",
+      "Single lean-to stone roof SIDE VIEW, slopes UP toward RIGHT at about26degrees, fullwidth128 rise64, thin16-thick roof and simple block fascia. Transparent under roof, no walls. Stepped coarse pixels and broad band at eave."
+    ],
+    [
+      "BK50b",
+      256,
+      128,
+      "Lean-to roof · two bays",
+      "Single long lean-to roof SIDE VIEW, slopes UP toward RIGHT at about26degrees, width256 rise128, thin16-thick ribbed roof with broad but sparse supports. Transparent below, no building."
+    ],
+    [
+      "BK51a",
+      128,
+      54,
+      "Gable · one bay",
+      "Single symmetrical triangular gothic stone gable roof in SIDE ELEVATION, width128 height54, apex centred, broad stepped coping and one simple deep triangular recessed panel. No building walls underneath. Flat baseline, no crockets outside silhouette."
+    ],
+    [
+      "BK51b",
+      256,
+      108,
+      "Gable · two bays",
+      "Single symmetrical gothic gable roof triangle, width256 height108. Broad heavy coping, central pointed recess flanked by two chunky triangular panels. Flat baseline, no walls or ground. Sparse strong ribs."
+    ],
+    [
+      "BK51c",
+      384,
+      162,
+      "Gable · three bays",
+      "Single wide monumental gothic gable triangular roof, width384 height162. Strong apex, thick coping, central broad blind pointed arch with two large flat side panels divided by stout ribs. Flat baseline, no building below."
+    ],
+    [
+      "BK52a",
+      128,
+      64,
+      "Broken gable · one bay",
+      "A broken triangular one-bay gothic roof, width128 height64. Large crown section missing, a broad48-wide hole right of centre drops through full roof. Two thick exposed diagonal rafters with fractured ends frame opening, heavy chunks, clear silhouette, no loose small rubble."
+    ],
+    [
+      "BK52b",
+      256,
+      112,
+      "Broken gable · two bays",
+      "Wide ruined gothic gable roof, width256 height112. Right shoulder largely gone, a64-wide traversable break right of centre; broad surviving left triangular roof and thick exposed broken rafters. Heavy sculpted stone fragments, transparent hole, no building walls."
+    ],
+    [
+      "BK53",
+      128,
+      104,
+      "Cupola",
+      "One-bay gothic cupola, width128 height104. Low fluted half-dome with a stout blunt finial and broad square cornice. Ribbed dome silhouette with3-5 broad segments. Small open arcade drum below dome, visible dark interior; do not turn it into a tall spire. No walls below."
+    ],
+    [
+      "BK54",
+      128,
+      128,
+      "Belfry top",
+      "One-bay open gothic belfry, width128 height128: narrow16-wide side piers, low pointed roof, large single open arch, one hanging heavy iron bell in dark rear interior. Floor slab16 high, no extra building. Wide opening lets shots pass. Bell behind front structure."
+    ],
+    [
+      "BK55",
+      128,
+      32,
+      "Roof terrace edge",
+      "Wide low gothic roof edge SIDE VIEW,128wide32high total. Flat16-thick roof slab low, low broad parapet silhouette16 above it. TWO stout gargoyle drain-spout faces at quarterpoints, simply carved angular mouths, broad fascia. No tall posts."
+    ],
+    [
+      "BK90deck",
+      32,
+      16,
+      "Cantilever · deck repeat",
+      "32-wide16-thick rectangular stone-and-iron cantilever deck repeat. Broad iron binding around a simple two-block slab; perfectly flat top/bottom, matching left/right edges. NO posts or brace, isolated deck only."
+    ],
+    [
+      "BK90brace",
+      64,
+      64,
+      "Cantilever · diagonal brace",
+      "Large right triangle iron-and-stone cantilever brace,64wide64high: vertical wall bracket at LEFT, broad horizontal top arm pointing RIGHT, heavy diagonal member from bottomLEFT to topRIGHT. Clear triangular hole. Chunky sockets, no surface texture."
+    ],
+    [
+      "BK90lamp",
+      16,
+      80,
+      "Cantilever · end lamp",
+      "Narrow gothic lamp post,16wide80tall, small squared footing, slender stout post, enclosed hexagonal lantern at top with four large dark glass panes. No glow or halo; glass neutral pale grey, stone/iron navy. Crisp silhouette."
+    ],
+    [
+      "BK91",
+      32,
+      24,
+      "Cantilever · snapped end",
+      "32wide24high snapped end of stone-and-iron deck. Left joins full rectangular16-thick slab at top. Right ends in a strong diagonal jagged fracture with two bent exposed iron bars below. Large clean fracture planes, no tiny debris."
+    ],
+    [
+      "BK92bracket",
+      36,
+      32,
+      "Jetty bracket",
+      "36out32high corbel supporting an oversailing upper wall. Wall at LEFT, broad top flat to RIGHT; stepped concave underside, heavy three-tier stone bracket with one deep triangular recess. No surrounding wall."
+    ],
+    [
+      "BK92slab",
+      48,
+      16,
+      "Jetty oversail slab",
+      "48wide16high flat roof/floor slab end extending from left wall to right. Dark navy ashlar with simple deep fascia and square end cap at RIGHT. Flat top, no obstruction."
+    ],
+    [
+      "BK93",
+      56,
+      16,
+      "Setback ledge edge",
+      "56wide16high stone ledge edge, flat top, broad dark drip moulding along underside, plain fascia and squared endpoints. Quiet architectural stone, no tiny mortar."
+    ],
+    [
+      "BK94",
+      58,
+      180,
+      "Apse",
+      "Tall narrow half-round gothic apse projecting RIGHT from a wall at LEFT,58wide180high. Domed cap at top, bulging ribbed right edge, broad horizontal floor band near bottom. Interior hollow cutaway seen through open LEFT edge; firing slit in RIGHT wall30 above floor. A dark nook, NOT a solid filled tower. No attached building."
+    ],
+    [
+      "BK95arch128",
+      128,
+      64,
+      "Flying arch · 128 span",
+      "Thin flying buttress arch SIDE VIEW from highLEFT to lowerRIGHT, span128 rise48, arch thickness16. Walkable top gradually descends, broad block voussoirs, entirely open underneath. NO pier or wall included, one curved thin arch only."
+    ],
+    [
+      "BK95arch160",
+      160,
+      64,
+      "Flying arch · 160 span",
+      "Long thin flying buttress arch SIDE VIEW from highLEFT to lowerRIGHT, span160 rise48, thickness16. Walkable smooth shallow top, broad quiet block voussoirs, transparent underneath. No pier/walls."
+    ],
+    [
+      "BK95pier",
+      28,
+      128,
+      "Flying arch · free pier",
+      "Freestanding narrow gothic pier28wide128tall, broad square crown and plinth, stout single recessed shaft. Architectural support to a flying arch, no attached arch, restrained broad vertical moulding."
+    ],
+    [
+      "BK96deck",
+      64,
+      8,
+      "Scaffold · deck",
+      "64wide8high flat iron scaffold deck, simple thick two-panel plank plate, square ends, completely flat top. Thin durable silhouette, no rail or supports."
+    ],
+    [
+      "BK96post",
+      12,
+      128,
+      "Scaffold · post",
+      "12wide128high straight scaffold iron post, two chunky collars at quarter and threequarter height. Flat squared ends, dark navy metal, no rust or grain, no diagonal braces."
+    ],
+    [
+      "BK96brace",
+      64,
+      128,
+      "Scaffold · brace",
+      "One long diagonal iron scaffold brace from bottomLEFT to topRIGHT across64wide128high,8-thick beam with thick squared sockets at both ends. Fully transparent around, no frame or post."
+    ],
+    [
+      "BK96ladder",
+      26,
+      128,
+      "Scaffold · ladder",
+      "26wide128high gothic iron ladder segment side/front elevation. Two narrow vertical rails, THREE wide solid rungs at y0,y64,y122, sparse climbable structure. Chunky square mounting sockets, no surrounding scaffold."
+    ],
+    [
+      "BK97jib",
+      80,
+      48,
+      "Crane · jib",
+      "Gothic iron crane jib arm80wide48high, vertical mounting at LEFT, horizontal beam across TOP extending RIGHT, diagonal triangular support from bottomLEFT toward far upperRIGHT. Open triangle, one stout pulley at upperRIGHT. No chain/platform yet."
+    ],
+    [
+      "BK97chain",
+      8,
+      128,
+      "Crane · chain",
+      "One vertical chain128tall8wide, dark navy heavy angular square links, sparse chunky side silhouette, flat colours, straight hanging. No attachment, weight or other object."
+    ],
+    [
+      "BK97platform",
+      48,
+      8,
+      "Crane · hanging platform",
+      "48wide8high suspended iron platform deck, flat walk surface, thick reinforced ends with simple bolt sockets. No chain, no railing. Solid broad flat band."
+    ],
+    [
+      "BK98",
+      44,
+      26,
+      "Gallery railing and corbel",
+      "Small side-view gallery projecting RIGHT from wall at LEFT,44out26totalheight. Simple thick slab across centre, low sturdy railing above with two open slots, one compact triangular corbel below. No whole building."
+    ],
+    [
+      "BK60",
+      64,
+      128,
+      "Window with balcony",
+      "Wall cross-section24wide128tall at LEFT plus40-wide outside stone balcony projecting RIGHT. Window opening56 tall, sill30above floor. Balcony top lines up with sill, diagonal stone support below; large quiet stone blocks and pointed window head. No railing blocking shots, no backgroundwall."
+    ],
+    [
+      "BK61",
+      24,
+      128,
+      "Arrow slit",
+      "24wide128high narrow gothic wall cross-section with small12-high firing slit at shoulder height near bottom, centred around30above floor. Full-width cut THROUGH wall shows transparent beyond. Heavy broad stone blocks and narrow recessed bands; no background."
+    ],
+    [
+      "BK62",
+      128,
+      128,
+      "Grand doorway",
+      "Whole-bay monumental gothic doorway,128wide128high. Heavy side piers, one large84-high pointed opening clear through, arch broad heavy voussoirs and squared cornice, flat16-thick threshold slab. Restrained fluted reveals, large dark empty interior. No door leaf."
+    ],
+    [
+      "BK63a",
+      40,
+      128,
+      "Buttress · one storey",
+      "40wide128high stepped gothic buttress attached wall at LEFT, projecting RIGHT. Right silhouette is climbable16-high staircase steps tapering upward. Heavy broad flat blocks and two wide recessed vertical panels, flat foot, no separate wall."
+    ],
+    [
+      "BK63b",
+      40,
+      256,
+      "Buttress · two storeys",
+      "40wide256high tall slender stepped gothic buttress, wall LEFT projecting RIGHT. Right side terraces taper upward, every small silhouette step at most16high. Three stout belt collars at64 intervals and deep broad central groove, flatfoot, no attachedwall."
+    ],
+    [
+      "BK63c",
+      40,
+      384,
+      "Buttress · three storeys",
+      "40wide384high very tall narrow gothic buttress, wallLEFT, right-side stepped taper upward; repeated broad supports on128storey cadence. Strong squarefoot and receding crest; simple deep vertical groove, no texture noise. No surroundingbuilding."
+    ],
+    [
+      "BK64",
+      48,
+      128,
+      "Corbelled turret",
+      "48wide128high gothic turret projecting RIGHT from wallLEFT. Squat pointed cap, narrow dark window, hollow interior, heavy corbelled tapered base beneath with strong undercut. Side-view cutaway, left open where attached, no standalone fulltower."
+    ],
+    [
+      "BK65",
+      128,
+      64,
+      "Gallery on corbels",
+      "128wide64high side-elevation outside gallery. Flat16-thick deck across top, THREE strong stepped stone corbels beneath, clear wide gaps. Broad restrained fascia and simple blind arc recess; no railing or wholebuilding."
+    ],
+    [
+      "BK70",
+      128,
+      128,
+      "Back bay · rose glass",
+      "Square128x128 dark chapel INTERIOR rear wall. One large64-diameter rose window centred near x64,y50, eight broad petals around central roundel, thick simple stone tracery. Glass flat neutral grey-blue and solid, no glow halo. Surrounding quiet large ashlar blocks, not an exterior facade."
+    ],
+    [
+      "BK71",
+      128,
+      128,
+      "Back bay · shelves and niches",
+      "Square128x128 dark interior crypt library wall: three big recessed shelves, two tall arch niches, a few chunky broad book/urn silhouettes. Quiet dark navy, architectural interior only, large flat clusters, no tiny book lines, no writing."
+    ],
+    [
+      "BK72",
+      128,
+      128,
+      "Back bay · collapsed",
+      "Square128x128 rear interior wall mostly collapsed, large open central void to transparent sky, broken stone shoulders only at edges and broad rubble heap atfoot. Large readable heavy fragments, no gravel or dust."
+    ],
+    [
+      "BK73",
+      96,
+      24,
+      "Fallen column",
+      "96wide24high fallen fluted gothic column lying horizontally on floor, thick cracked shaft, broken capital at RIGHT and base fragment LEFT. Broad large fractures, heavy flat bottom, no tiny debris, no surrounding scene."
+    ],
+    [
+      "BK74",
+      24,
+      128,
+      "Cracked pier",
+      "24wide128high gothic recessed pier with squarecapital/foot. One large diagonal through-crack crossing shaft at middle, transparent gap4-8high with chunky offset fracture planes. Otherwise quiet repeatedstone; dramatic one-time ruin variant."
+    ],
+    [
+      "BK75",
+      128,
+      28,
+      "Sagging slab",
+      "128wide28high sideview bowed stone floor slab:16thick, endpoints topy0, middle dips12. Broad continuous shallow sag; heavy sparse voussoirs, flat chunky contours, no holes, no finegrain."
+    ],
+    [
+      "BK80plank",
+      32,
+      6,
+      "Rope bridge · plank repeat",
+      "32wide6high flat dark navy bridge plank deck repeat, broad two wood/iron boards with one central broad seam. Flat top and square endpoints, no rope orpost, no woodgrain."
+    ],
+    [
+      "BK80post",
+      16,
+      64,
+      "Rope bridge · end post",
+      "16wide64high stout bridge anchor post in dark navy wood/iron. Broad flat cap, large rope collar near top and heavy squared foot. No longrope orotherobjects, no woodgrain."
+    ],
+    [
+      "BK80rope",
+      32,
+      20,
+      "Rope bridge · rope repeat",
+      "32wide20high short shallow sagging rope segment dark navy,4thick rope, endpoints at top and middle drops12. One stout simple rope arc, no micro braided texture, transparent around."
+    ],
+    [
+      "BK81",
+      128,
+      128,
+      "Covered bridge",
+      "128wide128high modular covered gothic bridge side elevation: flat16-thick deck atbottom, thin shallow gabled roof overhead,12-wide sideposts left/right; big open central corridor with84headroom. Broad roof fascia, simple diagonal rear brace, no solid infill wall, endpoints join repeats."
+    ]
+  ]
+}

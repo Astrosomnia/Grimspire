@@ -1,0 +1,32 @@
+{
+  "forge": 1,
+  "code": "BK61",
+  "name": "BK61 Arrow slit — a",
+  "w": 24,
+  "h": 128,
+  "fps": 1,
+  "base": 127,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "pivot": [
+      0,
+      127
+    ]
+  },
+  "ready": false,
+  "notes": "Batch2/2b draft,17 Nov2026. BK61. 1x navy stone/iron,12-tone maximum. Native-grid pixel drawing; generated studies used as composition references only. No source raster resampled. Native source linked in receipt. User asked richer S01-like carved forms, not stripped-back blocks. Geometric anchor[0,128], Forge pivot clipped to last valid pixel. Shots-only full-through slit y76..87 (12high) centred30abovefloor112. NOT a12px-thick hole in sideview; full pier thickness is cut. Body/Height/Guts masks exact; independent geometric depth, coarse provisional rubble core. Lighting/traversal/destruction need lab integration. Not approved or live.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAACACAYAAAARQqnWAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAAr0lEQVRoge2ZOwqAQAxE9xgphhTTWOz9zxdbK0FB1ugLbD0wJC+fHfKsJ99AQMstitzqyTcQiO9bJFDh1ZUsBIxFph9kd5pGewHBIv+SRXEzY4RAYJHIIlNoCSoMTScNZ6NlTqaKYvAqRsdiuhYLSLBCiS3TLOJ58ZRAEATxhhB30+TymxzH/cUfECHgg0X9/zIDgVxtkSg0wyKDa3dvOAFNczVNo72A2teBEPC5RTtpZA7CvzRUkAAAAABJRU5ErkJggg==",
+      "back": null,
+      "height": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAACACAYAAAARQqnWAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAArklEQVRoge2ZQQrEMAwD82Q9xcf5rfe+lBYWStbtCHyNQMSynCyg76wlAdslStJ31pIgz5cIrYLdnYwEKBHOg0x304wnQC/i8V5UVf1dv96YOjhLglai9hYtGy1aRXTTcuDEkRlTRRm8YnSM6bpcQNoVqt0y20U8Z08JQgjxDyhjS4wteX1sYfwPCBJwIdH8v8xIkN0SYaOhF6FdM32iRTfNbjfNeALG9wEScC7RB05robYLYHD0AAAAAElFTkSuQmCC",
+      "guts": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAACACAYAAAARQqnWAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAAnUlEQVRoge3aOwrEUAgF0CzDQixsLN7+12f2MBAmw5wLrxZE78fkipp98l0KhBaFKQqLVqiisGkRnCGZ83JXkX32yXcpkFqUpigtWqOKxqZNcA7JPC93FcG+17e9aShQWlSmqCzaoIrBpkNw1r1o/7wAAMAbkD/PpqlAa1G7FxV3PVLmSJkjZa7D7Lpdr/N++EAR/i9KAaRFqP48I9w46/rTK87nZAAAAABJRU5ErkJggg==",
+      "emis": null,
+      "trim": null,
+      "cloth": null
+    }
+  ],
+  "asset_id": "custom-b7e0bd4a-632e-4cb7-89aa-c513a79e498c",
+  "state_key": ""
+}

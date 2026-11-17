@@ -1,0 +1,32 @@
+{
+  "forge": 1,
+  "code": "BK55",
+  "name": "BK55 Roof terrace edge — a",
+  "w": 128,
+  "h": 32,
+  "fps": 1,
+  "base": 31,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "pivot": [
+      0,
+      31
+    ]
+  },
+  "ready": false,
+  "notes": "Batch2/2b draft,17 Nov2026. BK55. 1x navy stone/iron,12-tone maximum. Native-grid pixel drawing; generated studies used as composition references only. No source raster resampled. Native source linked in receipt. User asked richer S01-like carved forms, not stripped-back blocks. Geometric anchor[0,32], Forge pivot clipped to last valid pixel.  Body/Height/Guts masks exact; independent geometric depth, coarse provisional rubble core. Lighting/traversal/destruction need lab integration. Not approved or live.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAAAgCAYAAADaInAlAAAACXBIWXMAAAPoAAAD6AG1e1JrAAABFUlEQVR4nO2YsQ6DMAxE/REZrMoiUoYyMPT/v46qA3OhaTjHPku3587PJkGExWKxhlZ9vvZfFaE1Nbn/rgAihFA9+7e27SPVa/7Q6HNaUv8EoBEA9/TPugXqBP5Fl3UfpX8H8NHI82pC/7cDUB7tlKICUJz5JwALAUg9AZodgLsvQj0BoC91FtD/NM/AKABUZ/4JQCMAqSfACAABsMQDAPsEXL39RtsAxYl/QYVwNQB0Iy2ofwLQ+gI83tMEYNIJMAKQewVadgBQv0bPBoD+navB/QsyhG9CN0wT+BePQaCbpIn8i7cQ0I3RZP7FSxDoM2hS/y4AoFYcADM8ozxLJz8/AWgEgBPUuAHgq4jacn4CqA2awRt/feLyxpLrQQAAAABJRU5ErkJggg==",
+      "back": null,
+      "height": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAAAgCAYAAADaInAlAAAACXBIWXMAAAPoAAAD6AG1e1JrAAABNUlEQVR4nO2XQQ7DIAwEeWKOeQJHH3mGj34Kv6NqpUpV1bQpBGzwWtq7dz12SAgoFArVtXLOpVYrjCY7998UwAohZMv+mbn0VKv5p3r3yU79AwAGAObpn/UK5An8hxhj6aWrA7irZ7/Rof/hAOz7fkqrArAb8w8AIgBwvQHROwCjH0ItAWg/6nhB/9P8Bq4CQDbmHwAwAHC9AQwAAAA7XoAgIqWnjsxs2/ZR3wLo3as49B+0Qvg3AO1ByqL+AYC0BZhSeggATLoBAgB8n0DxDgARlVGqCWBkf1ShJwCz+h8KwHsIv6Q9XLoYAIv+hwNwJgjtoVJHAKz5VwPgKATtgdIgAKz4DxYCnHHwdAEAryBo9R9WCBD9Uz0AM/xGWVaavH8AIAAAGyS4AOqnCBKfnwBIVDO4Ac7ks0blU0oXAAAAAElFTkSuQmCC",
+      "guts": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAAAgCAYAAADaInAlAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAAvElEQVR4nO3VMQ6DMBQEUR9jC2sLNyly//PBCYIiRQTEzJfcY/NGfwzHcZxTJ31tn85c78PzhF8T+P1/eoAnPELufP+jj/vH+eYBzjyB318AFQC6gAhAAAEH4AooOwABVADoAiIAAQQcgCug7AAEUAGgC4gABBBwAK6AsgMQQAWALiACEEDAAbgCyg5AABUAuoAIQAABBzCu/gB6gbn4/gJYAkAXMAUggAkOwBWw2AEIYAkAXcAUgAAmOIAdcWSy/uQbBA4AAAAASUVORK5CYII=",
+      "emis": null,
+      "trim": null,
+      "cloth": null
+    }
+  ],
+  "asset_id": "custom-652c4ca7-dd2e-4d02-9dfa-57d220a320c9",
+  "state_key": ""
+}

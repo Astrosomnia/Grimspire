@@ -1,0 +1,32 @@
+{
+  "forge": 1,
+  "code": "BK54",
+  "name": "BK54 Belfry top — a",
+  "w": 128,
+  "h": 128,
+  "fps": 1,
+  "base": 127,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "pivot": [
+      0,
+      127
+    ]
+  },
+  "ready": false,
+  "notes": "Batch2/2b draft,17 Nov2026. BK54. 1x navy stone/iron,12-tone maximum. Native-grid pixel drawing; generated studies used as composition references only. No source raster resampled. Native source linked in receipt. User asked richer S01-like carved forms, not stripped-back blocks. Geometric anchor[0,128], Forge pivot clipped to last valid pixel.  Bell Back only; side piers16, floor112, roof at top; open shot corridor. Body/Height/Guts masks exact; independent geometric depth, coarse provisional rubble core. Lighting/traversal/destruction need lab integration. Not approved or live.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAACXBIWXMAAAPoAAAD6AG1e1JrAAACtUlEQVR4nO2aO27jQBAFeQwGDyLAwA4U+P6n00YLeI21ZXKGmk9VAZ0ZYE+/mrZMeVmgZL8/PlfrfuTFgT+rRViBRyHGpnbgUYi+eXXgUYi5Al9v7/+UQnTGbwM8G/izSuXnt55n95y9wbUCXw8KUbo5Fjq1VvhVga+VNoVCVAr86hu+diLCNBti9sBXhRg78NbPy+gbYvTAR+snrYWYPfBM1u/lgR9tfLQBpvPzHD139Rv+rIGrB9Qq+Hxz/lefs/T8xat9mgHAL0CxAK0OdnQAy0FS+fmt51UsQK8HqBX4M2r318s8l94bbBU4RYhle/t4lBQl8F6FKM3vMgFmD7wXIboRgB54KyGaC2Dg58ALcHJu05LZN0DrAY9GRheg9QBnI9/MuRsBWg+IRmoJ4Kf0OTidowLMgQLAiRuATWq8cPvp1aOf8PunOD8FGBsFgBM3AJsoAJsoAJsoAJsoAJsoAJsoAJsoAJsoAJsoAJsoAJsoAJsoAJsoAJsoAJsoAJsoAJsoAJsoAJsoAJsoAJsoAJsoAJsoAJsoAJsoAJsoAJsoAJsoAJsoAJsoAJsoAJsoAJsoAJsoAJsoAJsoAJsoAJsoAJsoAJsoAJsoAJsoAJsoAJsoAJsoAJsoAJsoAJsoAJsoAJsoAJsoAJsoAJsoAJsoAJsoAJsoAJsoAJsoAJsoAJsoAJsoAJsoAJsoAJsoAJuUCPD5B35TLz+d/EhxfgowNgoAJ24ANjkrwPb28SippqeWpTg/BRgbBYCzuQHYbArAZlMANpsCsNkUgM1WKsDRFwjWfaoZKMDePgS0AP/7unKkWgfvXwF2BfAG7eAN8PU/R6x31AwU4NY+BAXoYBArtNwAt/YhKEAHg1ih5Qa4wQVo/WfI30Za9xFo/wqwK4A3aHcDNF9F1p35K8C6N53BH8lR5YqLE4+zAAAAAElFTkSuQmCC",
+      "back": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAACXBIWXMAAAPoAAAD6AG1e1JrAAABJ0lEQVR4nO3cO04DMRRAUS/iFSMKChr2v0JoEZ+K+Vi650iuU7zriR0lWQsAAAAAAAAAAAAAAAAAYHPz8vbx21o0CCBOAHECiBNAnADiBBAngDgBxAkgTgBxAogTQJwA4gQQJ4A4AcQJIE4AcQIIDvfMtdiXAOIEECeAsDuGP84B+/o6oOP1/dQ1AtifAOIEEOcMECeAsDuHP24C+xFAnADiBBAngDgBhD0x/HET2IcA4gQQJ4A4AcQJIOzJ4Y+bwPOeHv74mrgAFt3dP54Chj8i6O788SQw/BGBnT8iuMbZP/C4ey0EwD9ctTO/P7KPC19HAJsF8NcJ/vAWsB8BcCr3+DgBxAkAfxNX53N8fkSwAAAAAAAAAAAAAAAAAAAAAAAAAGA97hOyRcoyloXwWgAAAABJRU5ErkJggg==",
+      "height": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAC5klEQVR4nO2aQY6rMBAFc2Qvc4y37GNww3xppEjzR8owxA4GqkrqVRbY/YrGoNxuUKrq8b1mr0d2DnytbsIKvBTi3IwOvBTi2OwdeCnEtQJvrf1XCnEw1gK53+9f9W7ga1WDrz+7n4dn6x24FsDWwNtGIbYKoBCdga8FMDrwtlK9AuCEGP2MfQawd/DthwCeIXYKfC2A2QI0+qHy04GPFmDr9Vrn9S8nxN6B7x1A21nAwwsxO/DZI7gNFuDwQsx+D98qwOgG1h/3P3pf075DvNuAvQJ/JcDewdeL/X96v70CvBQC3wD4DdAtwGVG4A9GX/9TAvy1X90CrC3g04Fv3thgavD6Rgvwbj9fbqx3AWcPnPIafFuW5dFTlMCPJsRTgN78PibA1QOfLcThBKAHvsbo/hxGAAN/D7wAb/btstTVJ8DsBp+NOrsAsxt4NepFnw8jwOwG0ahRAnhKvwZv56gA10AB4JQTgE2N+OCW5PGsn58ev/82bZfyK935KcC5UQA4cQKwiQKwiQKwiQKwiQKwiQKwiQKwiQKwiQKwiQKwiQKwiQKwiQKwiQKwiQKwiQKwiQKwiQKwiQKwiQKwiQKwiQKwiQKwiQKwiQKwiQKwiQKwiQKwiQKwiQKwiQKwiQKwiQKwiQKwiQKwiQKwiQKwiQKwiQKwiQKwiQKwiQKwiQKwiQKwiQKwiQKwiQKwiQKwiQKwiQKwiQKwiQKwiQKwiQKwiQKwiQKwiQKwiQKwiQKwiQKwiQKwiQKwiQKwiQKwiQKwSY8AVfXYUrvvTn6lOz8FODcKAKecAGzqXQGWZXn01NRdy607PwU4NwoAZ3ECsFkUgM2iAGwWBWCzKACbpVeArR8QrLpUDxSg5oeAFuB+v3/V7HUUdP0KUArgHVTgCfDznyN717OBs9fRoOtXgKYA3kHNCeAIbT4CfIY2zwAeohrsEDj7NeTsr1H3k69fAUoBvIPKCTB9FFnFfARYNbUH/wCwuja15DLk/wAAAABJRU5ErkJggg==",
+      "guts": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAACXBIWXMAAAPoAAAD6AG1e1JrAAACh0lEQVR4nO3dQW7bMAAFUR3jLz688KaL3P98KVqkRewidWTalqiZAbRNQvKREhIoXhZoPb+9/7py+vH72vrnsRct+PWVDwDXlwty0AX/LoAI4pgLfi+ACOIYC/4oABHEnAv+LAARxBwL/ioAEcQ+F3wrABHEZX8mZKuF3xpArsa/HL1bE0AH0Ktrmb3RCaAD6Gwgnj0BdADdG4itJ4AOoK8GsfcJoAPoo0HMPgF0AF0L4ugTQAfQr0DgJ+AjGoC/ECgAlpXlYOPHAVi74Leabfw4AMuLy87GjwOw7KwI4LkAlsmKJ8AYgOVgxVvA/wEssLKXZ4DNvrFdtNUz2MsAXA7XbjU9gJsjtFXtHsC64dhomwMYHoE9NAHAiycAuwiAXe4F8Dnv/3N316J/TgBzJwB48QRgFwGwiwDYRQDsIgB2EQC7CIBdBMAuAmAXAbCLANhFAOwiAHYZBTD8BWzThv+cL4C5EwC8egKwqwDYVQDsKgB2FQC7CoBdBcCuAmBXAbCrANhVAOwqAHYVALsKgF0FwK4CYFcBsKsA2FUA7CoAdhUAu44C8N/EzZ1vBsGLr4axiwDYRQDsIgB2EQC7CIBdBMAuAmAXAbCLANhFAOwiAHYRALsIgF0EwC4CYBcBsIsA2EUA7CIAdhEAuwiAXfy8AHb1zSB2FQC7CoBdRwB89wHCzw2ae/G/RCCAuRMAvHoCsOu9ANYe/T4LzL3w/0AQwNwJAF49AdhVAOwqAHYVALsKgF23BjB6jQ5g9Ap8/AI4CQC9AyIAAQS8AbwFnNgbQAAnAaB3QAQggIA3wPAvEtyBb1OfQAI4szeAAM4CQO+ACkAABW8AbwFn9gYQwFkA6B1AB/ATbaijkqvGWjQAAAAASUVORK5CYII=",
+      "emis": null,
+      "trim": null,
+      "cloth": null
+    }
+  ],
+  "asset_id": "custom-e0333cf1-be1a-487c-8e39-443c55836286",
+  "state_key": ""
+}

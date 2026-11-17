@@ -1,0 +1,32 @@
+{
+  "forge": 1,
+  "code": "BK71",
+  "name": "BK71 Back bay · shelves and niches — a",
+  "w": 128,
+  "h": 128,
+  "fps": 1,
+  "base": 127,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "pivot": [
+      0,
+      127
+    ]
+  },
+  "ready": false,
+  "notes": "Batch2/2b draft,17 Nov2026. BK71. 1x navy stone/iron,12-tone maximum. Native-grid pixel drawing; generated studies used as composition references only. No source raster resampled. Native source linked in receipt. User asked richer S01-like carved forms, not stripped-back blocks. Geometric anchor[0,128], Forge pivot clipped to last valid pixel.  Body/Height/Guts masks exact; independent geometric depth, coarse provisional rubble core. Lighting/traversal/destruction need lab integration. Not approved or live.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAAV0lEQVR4nO3BMQEAAADCoPVPbQwfoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKC7AQCPAAFPBGUdAAAAAElFTkSuQmCC",
+      "back": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAACXBIWXMAAAPoAAAD6AG1e1JrAAADtUlEQVR4nO2bsW7rMAxF/QkaaEAg4A5a+v9f6OI9tECGJEgcUaTEM3BLHJE8vJdW0U20nURLW4PN+wBEAwAgaCgAELScFlD24394n0OS5g8ACgCpJ0AAAAAk8QBgAZp7AABAASD1BAgAAIAkHgAsQHMPAAAoAKSeAAEAAJDEA4AFaO4BAAAFgDATUL++Xc8ig+I2TxTgF4B/RfmL1Ztfb/IEAAA40+8At1OxsgrUO3mmV4B7RVkRgvokz9QKAADfeQG4NwkrqkANnKcbAI+8MFJxJEGeW7Rl6F5hZoWgTpBnCABuixJpOiRBnlu0qYg0HZIgzy1iUaIURxLk6QrAs6JEkUhZPM8t6lREmA5JkOf2yuF6xJWi9Pju6KiT5TkEgKtT0ev7Xs2vE+Q5xAJ6JDWDDdQJ8zQHoBfV0XeBOmmewwHoKbE9zld+n716ni4A9PY0i+koHQCYIc8QAHxSFKvpKAYARMxzOABWG23v6SgfAjBLnm4AvNMEj+konQHo0fyRKgAAOwCYTb+VAvScjvIBAJbTP0oFTBQAAA4AuKoAr34WBWhrKsA7n41kAcVA/nvmOQyAK5PZA4CrxSkXARjh/yP2AADYAQAF2FEALECxgO7+/+pkXd0BevhjuWABI/3feg/ougMAwAEAKMCBAmABRz4LeOSL1jvAp8Upb+4AHv5vCQEA7ACAAuwoABagWMASYb0DSJAItwNECQBoAOANoQQEHQUI0DRZGYDV3o8lSZ4AoMkBsDqcZ2FW+a0y4LcBYE8OAN7YclsAADQAYDtupgrw6FkoQGBpFADILY0CAAAgWAAKIOwAWICwBLIDyMVd55W9gnuARZdAeeO5XAQtBoBceDY3gYsAIB88f3SeXAUrAAz3xpUvgqTDb6AAAHBiASjAyQ6ABZwsgewAJ28BEy2BhdfA3G8BBQAAoHATmFsBygUl8MqTm0C1A+BVCDxBBwC1BeAZCBGULv2/h8ukAQDGhZHgAQAAcGIBKMAZZgfgz8HHlK+7ZgB4hrX31iDRBQArOj1j5BTWyfMEgD05AEhjy20Bln5JtPA1AAD1bwIABCiEJA0UQP2bAAABCiFJAwVQ/yYAQIBCSNJAAdS/CQAQoBCSNFAA9W8CAAQohCQNFED9mwAAAQohSQMFUP8mAECAQkjSQAHUvwkAEKAQkjRQAPVvAgAEKIQkDRRA/ZsAAAEKIUkDBVD/JgBAgEJI0kAB1L8JABCgEJI0UAD1bwIABCiEJA0UQP2bAAABCiFJ4wd4iXVjqogS4AAAAABJRU5ErkJggg==",
+      "height": null,
+      "guts": null,
+      "emis": null,
+      "trim": null,
+      "cloth": null
+    }
+  ],
+  "asset_id": "custom-0fae35eb-3d5a-42b3-8022-18fa2c5d8c99",
+  "state_key": ""
+}

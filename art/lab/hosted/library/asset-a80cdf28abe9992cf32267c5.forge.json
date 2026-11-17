@@ -1,0 +1,32 @@
+{
+  "forge": 1,
+  "code": "BK65",
+  "name": "BK65 Gallery on corbels — a",
+  "w": 128,
+  "h": 64,
+  "fps": 1,
+  "base": 63,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "pivot": [
+      0,
+      63
+    ]
+  },
+  "ready": false,
+  "notes": "Batch2/2b draft,17 Nov2026. BK65. 1x navy stone/iron,12-tone maximum. Native-grid pixel drawing; generated studies used as composition references only. No source raster resampled. Native source linked in receipt. User asked richer S01-like carved forms, not stripped-back blocks. Geometric anchor[0,64], Forge pivot clipped to last valid pixel.  Body/Height/Guts masks exact; independent geometric depth, coarse provisional rubble core. Lighting/traversal/destruction need lab integration. Not approved or live.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAABACAYAAADS1n9/AAAACXBIWXMAAAPoAAAD6AG1e1JrAAAB3klEQVR4nO2YO26FMBBFWQYFIhJFXEzh/a+OyJFonvKAS+B57DlHcm3fjz8wTIutDAvrwVB7AQyLXYBxTr+j9jqmoOunAAsFYActgU+ATQAjhfSAAsz1Q6AADowYgw5OgLl+CBTAgRFj0MEJMAcvQO3PkG0htdcxBV0/BVgoADto4QSofhQxLOYVwLC6b4Cv77w+OYYPg56s5YNhOXahKUCmAFwBmROAN0COeQW8vgqv/lL884VZAfQkLR8MS7ELfccEXsxCT9LzoQApdqH/O8HbP0yNGjZF04NhiQJcbdjuP+YGd8wUUc8TE9QyCz1Jz4cCpNiFvjqBx+MSPUnP5+4CVEsePeulfK4UwGv4BfQkLZ+7DBucgJ6k5aMa5jn8AnpMy0cxzHv4BfSYls9Zw1oIv4Ae0/I5Mszr59470GP3FWAv/BYLgB7BsCOzWisAegTDzpjVUgHQs8NZc1otAHoOwDCLXWgKYBSAI9M4AbgzjSuAR5M/eAN4M+zDUABvhn0YtwUYnIIe0/LBMItd6J52fwE9puXTU/gF9IhgmG8ez6en3V9Aj0hP4RfQI4Jhvnk8n552fwE9Ij2FX0CPCIb55vF8etr9BfSI9BL8BnpEegq/gB6RXoLfQM8g8QO+YKVK3k2o4wAAAABJRU5ErkJggg==",
+      "back": null,
+      "height": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAABACAYAAADS1n9/AAAACXBIWXMAAAPoAAAD6AG1e1JrAAAB30lEQVR4nO2XSW7DMAxFdVQeQUsfg0sdQzd0wQIBiqKJQ9eOKPE9gNtYf9CQ0lrbmZbWgzJ6AUzLXYBt275n9Dpa0vVTgEYB2EEt8QlQa91HzsPA0euoSddPASoFYAdVTgCO0MoVwB1aeQPwiKrJHoGj/4bM/jdqm3z9FKBRAHZQ4wQYfhQxLecVwLSxb4De+37nlA+Dnu7LB8N67kJTgE4BuAI6JwBvgJ7zClDV/eeIyKn5/Ts2ZQDoEV8+GCa5C33FB6KYhR7x50MBJHeh//uBv358ZsM0mx4MEwpwtmHP2jXrjtGMeu74wCiz0CP+fCiA5C702Q9EPC7RI/58ri7AsOTRs5/K50wBooZvoEd8+VxlWAkCesSXj9ewyOEb6FFfPh7DoodvoEd9+bxr2AzhG+hRXz5HhkX9u/cM9Oh1BXgV/owFQI/DsCOzZisAehyGvWPWTAVAzwveNWfWAqDnAAzT3IWmAEoBODKVE4A7U7kCeDTFgzdANMM+DAWIZtiHCVuAEhT0qC8fDNPchV5p9xvoUV8+K4VvoMcJhsXm9nxW2v0GepysFL6BHicYFpvb81lp9xvocbJS+AZ6nGBYbG7PZ6Xdb6DHySrBP0CPk5XCN9DjZJXgH6CnuPgCFLgh1FZIwhsAAAAASUVORK5CYII=",
+      "guts": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAABACAYAAADS1n9/AAAACXBIWXMAAAPoAAAD6AG1e1JrAAAB00lEQVR4nO2ZMa7DMAxDdQwNhoe/ZPD9z5fCwO8BnEaOQj0CnQuGj5KamvfjfPLT/sajHy/u36o/AC/uHwA6AJRugAMAAHjhArACeu0CAEAHgNINcAAAAC9cAFZAr10AAOgAULoBDgAA4IULwArotQsAAB0ASjfAASA2YNusaAAsuZ90KyD7A3MxPwAAACcTgAlwsgJYAefjN8DufXllZ7qYn6XxPwUABwCotP9KY1zMz1L7t3zBZq2C2sT8LAMNAAMAmACDCcAKGKyAt+//KzuziflZPmiVxv8UABwAwAQ4npsA9rDungD2Mj/L7zOUwr8bAEug0PCnlMK/EwBLotDwp5TCvwsAS6TQ8KeUwr8DAEum0PCnlML/FQBLqNDwpwBgAAATYDABWAGDFcANkE/cAMEPrHED8CugcQPwM7BxA/AewBKKGyD4gTVuAG6Axg3ADdCq3gDhX7BZq+8yXMzP8kpTCv8XACypwl/TA8ABACrtvzoBLLHC/6NRCn9K4f+MrX4AILdSAWAvkFL7t/hRCn9KKfwtfgAgt1IAYC+SUvu3+FEKf0op/C1+ACC3HgXAXiil9m/xoxL8VyrBb/OjFP6UUvhb/KgE/5VK8PavaD8fHPduTvemRZoAAAAASUVORK5CYII=",
+      "emis": null,
+      "trim": null,
+      "cloth": null
+    }
+  ],
+  "asset_id": "custom-58d249bc-51b2-422b-afd7-07dd7f7c1556",
+  "state_key": ""
+}

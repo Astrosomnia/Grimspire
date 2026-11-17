@@ -1,0 +1,32 @@
+{
+  "forge": 1,
+  "code": "BK60",
+  "name": "BK60 Window with balcony — a",
+  "w": 64,
+  "h": 128,
+  "fps": 1,
+  "base": 127,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "pivot": [
+      0,
+      127
+    ]
+  },
+  "ready": false,
+  "notes": "Batch2/2b draft,17 Nov2026. BK60. 1x navy stone/iron,12-tone maximum. Native-grid pixel drawing; generated studies used as composition references only. No source raster resampled. Native source linked in receipt. User asked richer S01-like carved forms, not stripped-back blocks. Geometric anchor[0,128], Forge pivot clipped to last valid pixel. Wallx0..23; floor112, slit y26..81, balcony x24..63 top82. Balcony rests at sill30abovefloor. Body/Height/Guts masks exact; independent geometric depth, coarse provisional rubble core. Lighting/traversal/destruction need lab integration. Not approved or live.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAACACAYAAAC7gW9qAAAACXBIWXMAAAPoAAAD6AG1e1JrAAABYElEQVR4nO3cO24DMQxFUS2DxYOLNCq4//U5SDFNEOQzMUVKvAdQawzf6DuAPPTmz8g2qhMBOD1ADAHvOwfYYz4j26jOCGDSA4whMJkDrOskKDZCzkZInTdCogc4PUAMAWcOEJOgswqo4zJonAYnp0HjNDj7ngat+xAAAAAAAAAAAAAAAAAAAAAAAAAAAADn0Bc3vu9ekoz+P5KQ2+0iAD+6B/z0bOP0HkAAj+QeYMG30/99u10E4PQAMQScOUBMgs4+QGyEnJ2gmrWR/QDZbbQo8q8fRHRQu/VFSAe0X38Ss+DT1ucHi/jN28XvGMDLCt8tAL3yre8WgCIK3yEARb31HQJQdOEXLV6eSrz1qgFoZeGVAtDqt14pAGUWnxlAeuGZAahK8RkBlCn8os7Ff2hb+EWdi8/YCpcpPCuAUY0tCmBUZQsCGJVZcACjOusegDosdd8RATg9QAwBbzsHvAOXyPS7C6PEAwAAAABJRU5ErkJggg==",
+      "back": null,
+      "height": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAACACAYAAAC7gW9qAAAACXBIWXMAAAPoAAAD6AG1e1JrAAABYklEQVR4nO3cO47DMAxFUS3VS2CpZbB8u/UgA6gJZhIgtkQqvAdQG5jP1K9wmqRz5mjZiQBEB4gpoLprgJmdM0fLzgjA6ABjChhrgFVdBMVBSByEVPkgJDpAdICYAmINEIug2AVUcRs0boPGbdC4DVrd26BVnwIAAAAAAAAAAAAAAAAAAAAAAAAAAOB7uPv5PD79SPKv35r9HyWXv253AvCv7oDe++8o2wGdAHpsB9jkr9PfjdEB/37d7gTgdIAzBZw1wFkEnXOAcxDyeidBBT9g9GjRDxA9WokiX1Hl4h/KFj7Y5NvY84Mdx3F53Fb8jgHcVvhuAejOt75bAJpR+A4BaNZb3yEAzS580OLtKcVbzxqAVhaeKQCtfuuZAlBk8ZEBhBceGYCyFB8RQJrCB1Uu/qFs4YMqFx9xFE5TeFQALRtbFEDLyhYE0DKzyQG07Kx6AKqw1b0iAhAdIKaAyq4BP7tVycd9uj7YAAAAAElFTkSuQmCC",
+      "guts": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAACACAYAAAC7gW9qAAAACXBIWXMAAAPoAAAD6AG1e1JrAAABRUlEQVR4nO3cMY7CMBAFUB/jFxZFGhe5//myoqBdEGDi2O9J6Zkvxx6PFEpu7ej5lNFFAM0KiFeg2QNiE2xOgTgGmz4gGqGmE4xWuLkLxGWouQ3GdbiZB8RApJkIxUismQnGULSZCmfGsXjd9qPnU0ZXVw8AAAAAAAAAAAAAAAAAAJhH7fzh5LOn9x86Pv20twpgtwKqV2C3B1Sb4O4UqI7BXR9QNUK7TrBqhXd3gbrKZSgn/4CzL2NFALf5V8C/A5FMHsDTiVAmDeDlkVgmDODl4mcLoLwjkwTwVvEzBFA+lQsH8HHxVw2gfFMuFsBXi79SAKWXXCCAbsVfIYDSWwYNoHvhIwdQfikDBfDTwkcLoJwlJwdwWuEjBFBGkFULf8jKxd8tW/hD/eJE5vSm5h115eLvBLBZAYdXYLMHHDbBbc1T4A+FzNVTcZEpwwAAAABJRU5ErkJggg==",
+      "emis": null,
+      "trim": null,
+      "cloth": null
+    }
+  ],
+  "asset_id": "custom-fd547ff5-936e-4d9d-b586-fe47560d7ddb",
+  "state_key": ""
+}

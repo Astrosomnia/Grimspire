@@ -1,0 +1,32 @@
+{
+  "forge": 1,
+  "code": "BK94",
+  "name": "BK94 Apse — a",
+  "w": 58,
+  "h": 180,
+  "fps": 1,
+  "base": 179,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "pivot": [
+      0,
+      122
+    ]
+  },
+  "ready": false,
+  "notes": "Batch2/2b draft,17 Nov2026. BK94. 1x navy stone/iron,12-tone maximum. Native-grid pixel drawing; generated studies used as composition references only. No source raster resampled. Native source linked in receipt. User asked richer S01-like carved forms, not stripped-back blocks. Geometric anchor[0,122], Forge pivot clipped to last valid pixel. Matches lab quarter-round apse: floor122, cap outer radius58 and inner44 centred(0,58), wall14. Firing slit RIGHT y52..91 (40high), sill30. Below-floor foundation58 extends to180; cut left joins ground door. Body/Height/Guts masks exact; independent geometric depth, coarse provisional rubble core. Lighting/traversal/destruction need lab integration. Not approved or live.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADoAAAC0CAYAAADFAT+AAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAB+klEQVR4nO2dMW4dMQwFeQwVDyrYuND9z8fAXRLE+JuVFiJXM8D2HpPvSV7Y/iYfYScgH3H1sVNEVVlek6JlpLVQNLV061+PiKYTbv0rrj6lhdt/iK6Q3yYqH1Oid6W3iOri84R0SlHdkE8jq4UNOyNcSlQXpLcJ6yHRGeGysroh/JjsJ54UTif7O6uFt6xyRmHLhE6S/eYpWcuKJoWPkm3/ELbMCNnBZPXXKpda4dlVRjY7WnT02CmyVgWR13G5nKwKK5rYqjCbV6sEU/VrK2yVuJNXVczq7ApbJZiqM9Uou77fkFX/3MBWiZmroVVjpoGtEseIzshaNRD1wyeqk2Qboi9cX1VcXQAAAAAAAAAAAAAAAAAAAAAAgE/89NvWZf9/w08g2plosLqZIaOdjAYZzQwZ7WQ0yGhmyGgno0FGM0NGOxkNMpoZMtrJaJDRzJDRTkaDjL4yo7r55/7VHtv9BRwj2hZ8gheifuJE26KPEsv+2DGiOmV1hehgotq8BSVXV4gOJipWd5BRe+sFQbtbF1FnosHqOhkNyki07uB4Eefo4MLQuAIO7rpacalvCd658gK7v+gFtt7686gQHUxUrO4go6KMfH8zcrw452hwYXBuRmN7YVBGThkFZeSU0dheGJSRU0ZBGTllNLYXBmXklFFQRv7nN+EXu7Jf27SGHxUAAAAASUVORK5CYII=",
+      "back": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADoAAAC0CAYAAADFAT+AAAAACXBIWXMAAAPoAAAD6AG1e1JrAAABfklEQVR4nO3SwY3cQBAEQRpRr37Kfx8lF9R3y2EtGAHMfwqd1wUAAPAVMn/+Xm8Zmv9411uG5tuH54dDv25wfjn0a0bng0OrB+eGoZWDc+PQqrG5eWjN4Bwa+vjYHBz66NgcHvrY4Dw09PjYPDj06Ng8PPTY2BQMPTI2BSNfNTR3j03BwCNjUzDuyNgUDHvt0NwxNgWjjoxNwaDXD80nr5qCyx25agrGHBmbgiGGzssumk+MTcEIQ+eDV03BtY5cNQUDDJ2XXjS/GZuCzxs6LrqXghylO9LdS0GO0h3p7qUgR+mOdPdSkKN0R7p7KchRuiPdvRTkKN2R7l4KcpTuSHcvBTlKd6S7l4IcpTvS3UtBjtId6e6lIEfpjnT3UpCjdEe6eynIUboj3b0U5Cjdke5eCnKU7kh3LwU5Sneku5eCHKU70t1LQY7SHenupSBH6Y5091KQo3RHunspyFG6I929FOQo3ZHuXgpylO5IFwAAAAAAAAAAAAAAAODq8w/y0SoMkHVzRgAAAABJRU5ErkJggg==",
+      "height": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADoAAAC0CAYAAADFAT+AAAAACXBIWXMAAAPoAAAD6AG1e1JrAAACEUlEQVR4nO2dQU4DMRAE57k++pgnzBN87J8OCgIphKBs4l3sWVdJc0FISeHpXsMhmKSwFZAUW8dWEVVmeXWKppHWjqJTS5dSDhGdTriUElsntXB5QXQP+WGikrpE35UeIqqNc4T0lKJ6Q34aWe3YsD3CqUS1QXqYsA4S7RFOK6s3hA+TfcaRwtPJ3rK38JBVnlHYZkIryV45StZmRZ3CS8mWB8I2M0JWnKzuVjnVCveuMrKzo50ePbaKrGVB5FWby8mysEcTWxZ682qZ4FS1bYUtE+/kVRmz2rvClglOVZxqpF3fK2RVzxvYMtFzNbRs9DSwZWIZ0R5ZywaiWvxEtZJsQfSE66uMqwsAAAAAAAAAAAAAAAAAAAAAAPCM1lrcTq3117S777mOZQPRyokGqzszZLSS0SCjM0NGKxkNMjozZLSS0SCjM0NGKxkNMjozZLSS0SCjM0NGKxkNMnrKjLYHXzzj2Og3sIzo5XL5HEQbJxovrW590Fr/Od+re/Tr2DKijTJqtG7j8dKGXwxaW13U3WOFsdFvAFHnRCPF6pavz749/eoWRJ0TdVbXyahTRk7rBo8X5zkaXBgKV8Dgrus7XOrLH/8x/Wxjy4j6BH/mOOXvo46oc6LO6joZdcrIxzcjjxfnORpcGJybkQ8vDMrIKaOgjJwy8uGFQRk5ZRSUkVNGPrwwKCOnjIIy8p8/hA9YVJOEF+ELWAAAAABJRU5ErkJggg==",
+      "guts": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADoAAAC0CAYAAADFAT+AAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAB7klEQVR4nO2cMY4DIQwAeYYLywUNBf9/n08UkU53iS6XZVmznpG2zwgbjGVSxJqXDIg1f/crWURlZ3k5KLqNtEwUDS0tJ4mGE5aTRcMIyyLRy4VlsehlwnKR6HJhuVhUa/c0orpCVoKIni4swURvK6tPRJfl7TNWi14q+50VorcS1jdEw8g+OFM0nOwgjeiD2aJby+o/RUPLDmaKbimrH4qGl9UfP/bI0VR2QCeIbiUrE6qrsgMyqZQsOyBZRFPJShbRAbJ2w1UdEMLGqnraEC47kSZXB4jazVZ0wKrazVZVsmxIqWQli+gAUWNFfcvQvW2z+xmIVlbUtwxdAAAAAAAAAAAAAAAAAAAAAACAv2CU1Rhl9S1HWdOErjKv2xlM3nKMldCthK4TupEhRys56uRoZMjRSo46ORoZcrSSo06ORoYcreSok6ORSZOjkqWBLZ+K6oF/q5jxHflXG0SNFe2ErpKjnc1I2XU7x4twjjYKBqEEbNS6TlFfub0417TKfdS5eBsdBqeVYjTH/FcXcFUX7tW3qlApiBor6oSukaPOZlTZdZ3jpXKOOgWDUAI2al2hqG/cXoRrWuc+qly8Ox0GpZViNMecLqBt2O5Upjs7Y6zKvG5nMFmZwG6Mmgsz9Y3HA8JzkMq7F7/TA58v7UACV7+Sl7cAAAAASUVORK5CYII=",
+      "emis": null,
+      "trim": null,
+      "cloth": null
+    }
+  ],
+  "asset_id": "custom-ca4385df-2662-4505-bafa-86f8fa88642b",
+  "state_key": ""
+}

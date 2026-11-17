@@ -1,0 +1,886 @@
+[
+  {
+    "id": "BK40",
+    "code": "BK40",
+    "title": "Switchback stair",
+    "w": 128,
+    "h": 128,
+    "anchor": [
+      0,
+      128
+    ],
+    "bodyPixels": 4096,
+    "backPixels": 1152,
+    "emissivePixels": 0,
+    "file": "BK40.forge.json",
+    "batch": "2",
+    "placement": "Lower foot left at128, middle landing right at64, top left at0. Four16 risers per flight,32 tread. Foreground flights16thick; decorative end/newel remnants Back."
+  },
+  {
+    "id": "BK41",
+    "code": "BK41",
+    "title": "Broken stair",
+    "w": 128,
+    "h": 128,
+    "anchor": [
+      0,
+      128
+    ],
+    "bodyPixels": 1856,
+    "backPixels": 0,
+    "emissivePixels": 0,
+    "file": "BK41.forge.json",
+    "batch": "2",
+    "placement": "Eight16 risers,16 treads,20thick. Middle x48..79 removed,32-wide gap. Foot left128,top right0."
+  },
+  {
+    "id": "BK42",
+    "code": "BK42",
+    "title": "Outside stair",
+    "w": 128,
+    "h": 128,
+    "anchor": [
+      0,
+      128
+    ],
+    "bodyPixels": 2496,
+    "backPixels": 2431,
+    "emissivePixels": 0,
+    "file": "BK42.forge.json",
+    "batch": "2",
+    "placement": "Eight16 risers; corbels Back to preserve under-stair access; footleft128,topright0."
+  },
+  {
+    "id": "BK43",
+    "code": "BK43",
+    "title": "Spiral stair",
+    "w": 128,
+    "h": 128,
+    "anchor": [
+      0,
+      128
+    ],
+    "bodyPixels": 512,
+    "backPixels": 4960,
+    "emissivePixels": 0,
+    "file": "BK43.forge.json",
+    "batch": "2",
+    "placement": "Body only left16×16 ledge at y112 and right16×16 ledge at y48. Spiral Back, repeat128."
+  },
+  {
+    "id": "BK44",
+    "code": "BK44",
+    "title": "Roof hatch",
+    "w": 32,
+    "h": 16,
+    "anchor": [
+      0,
+      16
+    ],
+    "bodyPixels": 128,
+    "backPixels": 65,
+    "emissivePixels": 0,
+    "file": "BK44.forge.json",
+    "batch": "2",
+    "placement": "24wide clear aperture x4..27; lid Back, margins4."
+  },
+  {
+    "id": "BK50a",
+    "code": "BK50",
+    "title": "Lean-to roof · one bay",
+    "w": 128,
+    "h": 64,
+    "anchor": [
+      0,
+      64
+    ],
+    "bodyPixels": 2048,
+    "backPixels": 0,
+    "emissivePixels": 0,
+    "file": "BK50a.forge.json",
+    "batch": "2",
+    "placement": " Thin16 roof; rise(h−16) overwidth; slope under40deg. No incidental underside columns."
+  },
+  {
+    "id": "BK50b",
+    "code": "BK50",
+    "title": "Lean-to roof · two bays",
+    "w": 256,
+    "h": 128,
+    "anchor": [
+      0,
+      128
+    ],
+    "bodyPixels": 4096,
+    "backPixels": 0,
+    "emissivePixels": 0,
+    "file": "BK50b.forge.json",
+    "batch": "2",
+    "placement": " Thin16 roof; rise(h−16) overwidth; slope under40deg. No incidental underside columns."
+  },
+  {
+    "id": "BK51a",
+    "code": "BK51",
+    "title": "Gable · one bay",
+    "w": 128,
+    "h": 54,
+    "anchor": [
+      0,
+      54
+    ],
+    "bodyPixels": 3483,
+    "backPixels": 0,
+    "emissivePixels": 0,
+    "file": "BK51a.forge.json",
+    "batch": "2",
+    "placement": " Native per-width gable, 128/256/384 width; no stretching. Flat baseline."
+  },
+  {
+    "id": "BK51b",
+    "code": "BK51",
+    "title": "Gable · two bays",
+    "w": 256,
+    "h": 108,
+    "anchor": [
+      0,
+      108
+    ],
+    "bodyPixels": 13878,
+    "backPixels": 0,
+    "emissivePixels": 0,
+    "file": "BK51b.forge.json",
+    "batch": "2",
+    "placement": " Native per-width gable, 128/256/384 width; no stretching. Flat baseline."
+  },
+  {
+    "id": "BK51c",
+    "code": "BK51",
+    "title": "Gable · three bays",
+    "w": 384,
+    "h": 162,
+    "anchor": [
+      0,
+      162
+    ],
+    "bodyPixels": 31185,
+    "backPixels": 0,
+    "emissivePixels": 0,
+    "file": "BK51c.forge.json",
+    "batch": "2",
+    "placement": " Native per-width gable, 128/256/384 width; no stretching. Flat baseline."
+  },
+  {
+    "id": "BK52a",
+    "code": "BK52",
+    "title": "Broken gable · one bay",
+    "w": 128,
+    "h": 64,
+    "anchor": [
+      0,
+      64
+    ],
+    "bodyPixels": 1705,
+    "backPixels": 0,
+    "emissivePixels": 0,
+    "file": "BK52a.forge.json",
+    "batch": "2",
+    "placement": " Through-drop gap x56..103 on128 orx128..191 on256; preserve transparent gap."
+  },
+  {
+    "id": "BK52b",
+    "code": "BK52",
+    "title": "Broken gable · two bays",
+    "w": 256,
+    "h": 112,
+    "anchor": [
+      0,
+      112
+    ],
+    "bodyPixels": 8572,
+    "backPixels": 0,
+    "emissivePixels": 0,
+    "file": "BK52b.forge.json",
+    "batch": "2",
+    "placement": " Through-drop gap x56..103 on128 orx128..191 on256; preserve transparent gap."
+  },
+  {
+    "id": "BK53",
+    "code": "BK53",
+    "title": "Cupola",
+    "w": 128,
+    "h": 104,
+    "anchor": [
+      0,
+      104
+    ],
+    "bodyPixels": 7094,
+    "backPixels": 944,
+    "emissivePixels": 0,
+    "file": "BK53.forge.json",
+    "batch": "2",
+    "placement": " Arcade openings Back, dome/drum edges and floor Body."
+  },
+  {
+    "id": "BK54",
+    "code": "BK54",
+    "title": "Belfry top",
+    "w": 128,
+    "h": 128,
+    "anchor": [
+      0,
+      128
+    ],
+    "bodyPixels": 5856,
+    "backPixels": 1317,
+    "emissivePixels": 0,
+    "file": "BK54.forge.json",
+    "batch": "2",
+    "placement": " Bell Back only; side piers16, floor112, roof at top; open shot corridor."
+  },
+  {
+    "id": "BK55",
+    "code": "BK55",
+    "title": "Roof terrace edge",
+    "w": 128,
+    "h": 32,
+    "anchor": [
+      0,
+      32
+    ],
+    "bodyPixels": 3646,
+    "backPixels": 0,
+    "emissivePixels": 0,
+    "file": "BK55.forge.json",
+    "batch": "2",
+    "placement": ""
+  },
+  {
+    "id": "BK90deck",
+    "code": "BK90",
+    "title": "Cantilever · deck repeat",
+    "w": 32,
+    "h": 16,
+    "anchor": [
+      0,
+      16
+    ],
+    "bodyPixels": 512,
+    "backPixels": 0,
+    "emissivePixels": 0,
+    "file": "BK90deck.forge.json",
+    "batch": "2b",
+    "placement": "Assembly:32repeat deck, separate64brace,16×48decorative end lamp; Body glass is for emission only, import lamp as noncolliding decoration. Fit deck70–150 by whole repeats plus crop endpoint; brace underdeck. Light separated."
+  },
+  {
+    "id": "BK90brace",
+    "code": "BK90",
+    "title": "Cantilever · diagonal brace",
+    "w": 64,
+    "h": 64,
+    "anchor": [
+      0,
+      64
+    ],
+    "bodyPixels": 1539,
+    "backPixels": 0,
+    "emissivePixels": 0,
+    "file": "BK90brace.forge.json",
+    "batch": "2b",
+    "placement": "Assembly:32repeat deck, separate64brace,16×48decorative end lamp; Body glass is for emission only, import lamp as noncolliding decoration. Fit deck70–150 by whole repeats plus crop endpoint; brace underdeck. Light separated."
+  },
+  {
+    "id": "BK90lamp",
+    "code": "BK90",
+    "title": "Cantilever · end lamp",
+    "w": 16,
+    "h": 48,
+    "anchor": [
+      0,
+      48
+    ],
+    "bodyPixels": 50,
+    "backPixels": 324,
+    "emissivePixels": 50,
+    "file": "BK90lamp.forge.json",
+    "batch": "2b",
+    "placement": "Assembly:32repeat deck, separate64brace,16×48decorative end lamp; Body glass is for emission only, import lamp as noncolliding decoration. Fit deck70–150 by whole repeats plus crop endpoint; brace underdeck. Light separated."
+  },
+  {
+    "id": "BK91",
+    "code": "BK91",
+    "title": "Cantilever · snapped end",
+    "w": 32,
+    "h": 24,
+    "anchor": [
+      0,
+      24
+    ],
+    "bodyPixels": 496,
+    "backPixels": 0,
+    "emissivePixels": 0,
+    "file": "BK91.forge.json",
+    "batch": "2b",
+    "placement": ""
+  },
+  {
+    "id": "BK92bracket",
+    "code": "BK92",
+    "title": "Jetty bracket",
+    "w": 36,
+    "h": 32,
+    "anchor": [
+      0,
+      32
+    ],
+    "bodyPixels": 783,
+    "backPixels": 0,
+    "emissivePixels": 0,
+    "file": "BK92bracket.forge.json",
+    "batch": "2b",
+    "placement": "Assembly:36×32bracket plus48×16oversail slab. Attach at wallface; wallshift36."
+  },
+  {
+    "id": "BK92slab",
+    "code": "BK92",
+    "title": "Jetty oversail slab",
+    "w": 48,
+    "h": 16,
+    "anchor": [
+      0,
+      16
+    ],
+    "bodyPixels": 768,
+    "backPixels": 0,
+    "emissivePixels": 0,
+    "file": "BK92slab.forge.json",
+    "batch": "2b",
+    "placement": "Assembly:36×32bracket plus48×16oversail slab. Attach at wallface; wallshift36."
+  },
+  {
+    "id": "BK93",
+    "code": "BK93",
+    "title": "Setback ledge edge",
+    "w": 56,
+    "h": 16,
+    "anchor": [
+      0,
+      16
+    ],
+    "bodyPixels": 896,
+    "backPixels": 0,
+    "emissivePixels": 0,
+    "file": "BK93.forge.json",
+    "batch": "2b",
+    "placement": ""
+  },
+  {
+    "id": "BK94",
+    "code": "BK94",
+    "title": "Apse",
+    "w": 58,
+    "h": 180,
+    "anchor": [
+      0,
+      122
+    ],
+    "bodyPixels": 4820,
+    "backPixels": 4335,
+    "emissivePixels": 0,
+    "file": "BK94.forge.json",
+    "batch": "2b",
+    "placement": "Matches lab quarter-round apse: floor122, cap outer radius58 and inner44 centred(0,58), wall14. Firing slit RIGHT y52..91 (40high), sill30. Below-floor foundation58 extends to180; cut left joins ground door."
+  },
+  {
+    "id": "BK95arch128",
+    "code": "BK95",
+    "title": "Flying arch · 128 span",
+    "w": 128,
+    "h": 64,
+    "anchor": [
+      0,
+      0
+    ],
+    "bodyPixels": 2048,
+    "backPixels": 0,
+    "emissivePixels": 0,
+    "file": "BK95arch128.forge.json",
+    "batch": "2b",
+    "placement": "16thick arch,48totaldrop, source baseline contract span. Anchor at highlefttop; pier separate. Lab chooses terrain-dependent drop: integration may adapt masked paint to procedural curve, do not stretch texture blindly."
+  },
+  {
+    "id": "BK95arch160",
+    "code": "BK95",
+    "title": "Flying arch · 160 span",
+    "w": 160,
+    "h": 64,
+    "anchor": [
+      0,
+      0
+    ],
+    "bodyPixels": 2560,
+    "backPixels": 0,
+    "emissivePixels": 0,
+    "file": "BK95arch160.forge.json",
+    "batch": "2b",
+    "placement": "16thick arch,48totaldrop, source baseline contract span. Anchor at highlefttop; pier separate. Lab chooses terrain-dependent drop: integration may adapt masked paint to procedural curve, do not stretch texture blindly."
+  },
+  {
+    "id": "BK95pier",
+    "code": "BK95",
+    "title": "Flying arch · free pier",
+    "w": 28,
+    "h": 128,
+    "anchor": [
+      0,
+      128
+    ],
+    "bodyPixels": 2928,
+    "backPixels": 0,
+    "emissivePixels": 0,
+    "file": "BK95pier.forge.json",
+    "batch": "2b",
+    "placement": ""
+  },
+  {
+    "id": "BK96deck",
+    "code": "BK96",
+    "title": "Scaffold · deck",
+    "w": 64,
+    "h": 8,
+    "anchor": [
+      0,
+      8
+    ],
+    "bodyPixels": 512,
+    "backPixels": 0,
+    "emissivePixels": 0,
+    "file": "BK96deck.forge.json",
+    "batch": "2b",
+    "placement": "Scaffold posts/braces Back; deck8thick solid. Stack128 to max3storeys."
+  },
+  {
+    "id": "BK96post",
+    "code": "BK96",
+    "title": "Scaffold · post",
+    "w": 12,
+    "h": 128,
+    "anchor": [
+      0,
+      128
+    ],
+    "bodyPixels": 0,
+    "backPixels": 864,
+    "emissivePixels": 0,
+    "file": "BK96post.forge.json",
+    "batch": "2b",
+    "placement": "Scaffold posts/braces Back; deck8thick solid. Stack128 to max3storeys."
+  },
+  {
+    "id": "BK96brace",
+    "code": "BK96",
+    "title": "Scaffold · brace",
+    "w": 64,
+    "h": 128,
+    "anchor": [
+      0,
+      128
+    ],
+    "bodyPixels": 0,
+    "backPixels": 1113,
+    "emissivePixels": 0,
+    "file": "BK96brace.forge.json",
+    "batch": "2b",
+    "placement": "Scaffold posts/braces Back; deck8thick solid. Stack128 to max3storeys."
+  },
+  {
+    "id": "BK96ladder",
+    "code": "BK96",
+    "title": "Scaffold · ladder",
+    "w": 26,
+    "h": 128,
+    "anchor": [
+      0,
+      128
+    ],
+    "bodyPixels": 312,
+    "backPixels": 1024,
+    "emissivePixels": 0,
+    "file": "BK96ladder.forge.json",
+    "batch": "2b",
+    "placement": "Two6high Body rungs at y0,y64; rails Back; repeat128 yields uniform64spacing, top rung flushfloor. Runtime ladder/rung semantics required.Scaffold posts/braces Back; deck8thick solid. Stack128 to max3storeys."
+  },
+  {
+    "id": "BK97jib",
+    "code": "BK97",
+    "title": "Crane · jib",
+    "w": 80,
+    "h": 48,
+    "anchor": [
+      0,
+      48
+    ],
+    "bodyPixels": 0,
+    "backPixels": 1533,
+    "emissivePixels": 0,
+    "file": "BK97jib.forge.json",
+    "batch": "2b",
+    "placement": "Jib/chain Back;48×8platform Body. Chain length by128repeat/crop; platform reaches floor at chainbottom. No collision from overheadjib."
+  },
+  {
+    "id": "BK97chain",
+    "code": "BK97",
+    "title": "Crane · chain",
+    "w": 8,
+    "h": 128,
+    "anchor": [
+      0,
+      128
+    ],
+    "bodyPixels": 0,
+    "backPixels": 544,
+    "emissivePixels": 0,
+    "file": "BK97chain.forge.json",
+    "batch": "2b",
+    "placement": "Jib/chain Back;48×8platform Body. Chain length by128repeat/crop; platform reaches floor at chainbottom. No collision from overheadjib."
+  },
+  {
+    "id": "BK97platform",
+    "code": "BK97",
+    "title": "Crane · hanging platform",
+    "w": 48,
+    "h": 8,
+    "anchor": [
+      0,
+      8
+    ],
+    "bodyPixels": 384,
+    "backPixels": 0,
+    "emissivePixels": 0,
+    "file": "BK97platform.forge.json",
+    "batch": "2b",
+    "placement": "Jib/chain Back;48×8platform Body. Chain length by128repeat/crop; platform reaches floor at chainbottom. No collision from overheadjib."
+  },
+  {
+    "id": "BK98",
+    "code": "BK98",
+    "title": "Gallery railing and corbel",
+    "w": 44,
+    "h": 60,
+    "anchor": [
+      0,
+      26
+    ],
+    "bodyPixels": 880,
+    "backPixels": 440,
+    "emissivePixels": 0,
+    "file": "BK98.forge.json",
+    "batch": "2b",
+    "placement": "Canvas44×60 resolves lab: rail26 ABOVE floor, deck12,corbel22 below; anchor(0,26)atdoorfloor. Rail Back, deck/corbel Body."
+  },
+  {
+    "id": "BK60",
+    "code": "BK60",
+    "title": "Window with balcony",
+    "w": 64,
+    "h": 128,
+    "anchor": [
+      0,
+      128
+    ],
+    "bodyPixels": 2759,
+    "backPixels": 0,
+    "emissivePixels": 0,
+    "file": "BK60.forge.json",
+    "batch": "2",
+    "placement": "Wallx0..23; floor112, slit y26..81, balcony x24..63 top82. Balcony rests at sill30abovefloor."
+  },
+  {
+    "id": "BK61",
+    "code": "BK61",
+    "title": "Arrow slit",
+    "w": 24,
+    "h": 128,
+    "anchor": [
+      0,
+      128
+    ],
+    "bodyPixels": 2784,
+    "backPixels": 0,
+    "emissivePixels": 0,
+    "file": "BK61.forge.json",
+    "batch": "2",
+    "placement": "Shots-only full-through slit y76..87 (12high) centred30abovefloor112. NOT a12px-thick hole in sideview; full pier thickness is cut."
+  },
+  {
+    "id": "BK62",
+    "code": "BK62",
+    "title": "Grand doorway",
+    "w": 128,
+    "h": 128,
+    "anchor": [
+      0,
+      128
+    ],
+    "bodyPixels": 10664,
+    "backPixels": 0,
+    "emissivePixels": 0,
+    "file": "BK62.forge.json",
+    "batch": "2",
+    "placement": "Pointed door centred64, crown28, opening80wide; floor112,threshold16."
+  },
+  {
+    "id": "BK63a",
+    "code": "BK63",
+    "title": "Buttress · one storey",
+    "w": 40,
+    "h": 128,
+    "anchor": [
+      0,
+      128
+    ],
+    "bodyPixels": 3120,
+    "backPixels": 0,
+    "emissivePixels": 0,
+    "file": "BK63a.forge.json",
+    "batch": "2",
+    "placement": " Native40wide by128/256/384; step cadence16, modest outward increments. No stretched one-storey art."
+  },
+  {
+    "id": "BK63b",
+    "code": "BK63",
+    "title": "Buttress · two storeys",
+    "w": 40,
+    "h": 256,
+    "anchor": [
+      0,
+      256
+    ],
+    "bodyPixels": 6256,
+    "backPixels": 0,
+    "emissivePixels": 0,
+    "file": "BK63b.forge.json",
+    "batch": "2",
+    "placement": " Native40wide by128/256/384; step cadence16, modest outward increments. No stretched one-storey art."
+  },
+  {
+    "id": "BK63c",
+    "code": "BK63",
+    "title": "Buttress · three storeys",
+    "w": 40,
+    "h": 384,
+    "anchor": [
+      0,
+      384
+    ],
+    "bodyPixels": 9392,
+    "backPixels": 0,
+    "emissivePixels": 0,
+    "file": "BK63c.forge.json",
+    "batch": "2",
+    "placement": " Native40wide by128/256/384; step cadence16, modest outward increments. No stretched one-storey art."
+  },
+  {
+    "id": "BK64",
+    "code": "BK64",
+    "title": "Corbelled turret",
+    "w": 48,
+    "h": 128,
+    "anchor": [
+      0,
+      128
+    ],
+    "bodyPixels": 1519,
+    "backPixels": 3024,
+    "emissivePixels": 0,
+    "file": "BK64.forge.json",
+    "batch": "2",
+    "placement": ""
+  },
+  {
+    "id": "BK65",
+    "code": "BK65",
+    "title": "Gallery on corbels",
+    "w": 128,
+    "h": 64,
+    "anchor": [
+      0,
+      64
+    ],
+    "bodyPixels": 4337,
+    "backPixels": 0,
+    "emissivePixels": 0,
+    "file": "BK65.forge.json",
+    "batch": "2",
+    "placement": ""
+  },
+  {
+    "id": "BK70",
+    "code": "BK70",
+    "title": "Back bay · rose glass",
+    "w": 128,
+    "h": 128,
+    "anchor": [
+      0,
+      128
+    ],
+    "bodyPixels": 3212,
+    "backPixels": 16384,
+    "emissivePixels": 1376,
+    "file": "BK70.forge.json",
+    "batch": "2",
+    "placement": "Rear-layer rose wall. Body contains solid glass/tracery disc, Height included, Emissive aligned to glass. Import as BACK/REAR object: do NOT stamp this Body disc into collision. This is the contract’s Body-of-Back glass case."
+  },
+  {
+    "id": "BK71",
+    "code": "BK71",
+    "title": "Back bay · shelves and niches",
+    "w": 128,
+    "h": 128,
+    "anchor": [
+      0,
+      128
+    ],
+    "bodyPixels": 0,
+    "backPixels": 16384,
+    "emissivePixels": 0,
+    "file": "BK71.forge.json",
+    "batch": "2",
+    "placement": ""
+  },
+  {
+    "id": "BK72",
+    "code": "BK72",
+    "title": "Back bay · collapsed",
+    "w": 128,
+    "h": 128,
+    "anchor": [
+      0,
+      128
+    ],
+    "bodyPixels": 0,
+    "backPixels": 8743,
+    "emissivePixels": 0,
+    "file": "BK72.forge.json",
+    "batch": "2",
+    "placement": ""
+  },
+  {
+    "id": "BK73",
+    "code": "BK73",
+    "title": "Fallen column",
+    "w": 96,
+    "h": 24,
+    "anchor": [
+      0,
+      24
+    ],
+    "bodyPixels": 1350,
+    "backPixels": 0,
+    "emissivePixels": 0,
+    "file": "BK73.forge.json",
+    "batch": "2",
+    "placement": ""
+  },
+  {
+    "id": "BK74",
+    "code": "BK74",
+    "title": "Cracked pier",
+    "w": 24,
+    "h": 128,
+    "anchor": [
+      0,
+      128
+    ],
+    "bodyPixels": 2308,
+    "backPixels": 0,
+    "emissivePixels": 0,
+    "file": "BK74.forge.json",
+    "batch": "2",
+    "placement": ""
+  },
+  {
+    "id": "BK75",
+    "code": "BK75",
+    "title": "Sagging slab",
+    "w": 128,
+    "h": 28,
+    "anchor": [
+      0,
+      28
+    ],
+    "bodyPixels": 2048,
+    "backPixels": 0,
+    "emissivePixels": 0,
+    "file": "BK75.forge.json",
+    "batch": "2",
+    "placement": "16thick slab in128×28canvas. Top0 at ends,dip12 atcentre; bottom28 atcentre. NOT vertically compressed to16."
+  },
+  {
+    "id": "BK80plank",
+    "code": "BK80",
+    "title": "Rope bridge · plank repeat",
+    "w": 32,
+    "h": 6,
+    "anchor": [
+      0,
+      6
+    ],
+    "bodyPixels": 192,
+    "backPixels": 0,
+    "emissivePixels": 0,
+    "file": "BK80plank.forge.json",
+    "batch": "2",
+    "placement": "Bridge components:32×6repeat planks,16×64endpost,32×20Backrope. Use each listed component version, not only familycurrent."
+  },
+  {
+    "id": "BK80post",
+    "code": "BK80",
+    "title": "Rope bridge · end post",
+    "w": 16,
+    "h": 64,
+    "anchor": [
+      0,
+      64
+    ],
+    "bodyPixels": 800,
+    "backPixels": 0,
+    "emissivePixels": 0,
+    "file": "BK80post.forge.json",
+    "batch": "2",
+    "placement": "Bridge components:32×6repeat planks,16×64endpost,32×20Backrope. Use each listed component version, not only familycurrent."
+  },
+  {
+    "id": "BK80rope",
+    "code": "BK80",
+    "title": "Rope bridge · rope repeat",
+    "w": 32,
+    "h": 20,
+    "anchor": [
+      0,
+      20
+    ],
+    "bodyPixels": 0,
+    "backPixels": 128,
+    "emissivePixels": 0,
+    "file": "BK80rope.forge.json",
+    "batch": "2",
+    "placement": "Bridge components:32×6repeat planks,16×64endpost,32×20Backrope. Use each listed component version, not only familycurrent."
+  },
+  {
+    "id": "BK81",
+    "code": "BK81",
+    "title": "Covered bridge",
+    "w": 128,
+    "h": 128,
+    "anchor": [
+      0,
+      128
+    ],
+    "bodyPixels": 6224,
+    "backPixels": 854,
+    "emissivePixels": 0,
+    "file": "BK81.forge.json",
+    "batch": "2",
+    "placement": ""
+  }
+]

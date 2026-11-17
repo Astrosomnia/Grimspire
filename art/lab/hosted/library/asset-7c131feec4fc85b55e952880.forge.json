@@ -1,0 +1,32 @@
+{
+  "forge": 1,
+  "code": "BK90",
+  "name": "BK90 Cantilever · deck repeat — a",
+  "w": 32,
+  "h": 16,
+  "fps": 1,
+  "base": 15,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "pivot": [
+      0,
+      15
+    ]
+  },
+  "ready": false,
+  "notes": "Batch2/2b draft,17 Nov2026. BK90deck. 1x navy stone/iron,12-tone maximum. Native-grid pixel drawing; generated studies used as composition references only. No source raster resampled. Native source linked in receipt. User asked richer S01-like carved forms, not stripped-back blocks. Geometric anchor[0,16], Forge pivot clipped to last valid pixel. Assembly:32repeat deck, separate64brace,16×48decorative end lamp; Body glass is for emission only, import lamp as noncolliding decoration. Fit deck70–150 by whole repeats plus crop endpoint; brace underdeck. Light separated. Body/Height/Guts masks exact; independent geometric depth, coarse provisional rubble core. Lighting/traversal/destruction need lab integration. Not approved or live.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAQCAYAAAB3AH1ZAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAARElEQVRIiWOQUdL+P5CYYcg5QF5NHy8edYAMqVEgIaf+nxQMC2pixQlhhlEHSIxGgdwAJ0KZ0YJIaYgVxTIDXRlRGwMANfPLV7k5DwEAAAAASUVORK5CYII=",
+      "back": null,
+      "height": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAQCAYAAAB3AH1ZAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAARUlEQVRIiWOYMWPG/4HEDEPOAStWrMCLRx0wg9QoKCgo+E8KhgU1seKEMMOoAwpGo6BggBPhjNGCaMYQK4pnDHRlRG0MAFjjTQxW7mTHAAAAAElFTkSuQmCC",
+      "guts": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAQCAYAAAB3AH1ZAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAALUlEQVRIiWOQkFP/P5CYYdQBEqNRIDeaCNVHs+H/0YJIYrQolhutjNQHLB0AAK5NuB9qX2ZvAAAAAElFTkSuQmCC",
+      "emis": null,
+      "trim": null,
+      "cloth": null
+    }
+  ],
+  "asset_id": "custom-cacebae2-83c0-4517-b935-87758cd8d308",
+  "state_key": ""
+}

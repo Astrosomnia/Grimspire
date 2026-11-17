@@ -1,0 +1,32 @@
+{
+  "forge": 1,
+  "code": "BK96",
+  "name": "BK96 Scaffold · brace — c",
+  "w": 64,
+  "h": 128,
+  "fps": 1,
+  "base": 127,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "pivot": [
+      0,
+      127
+    ]
+  },
+  "ready": false,
+  "notes": "Batch2/2b draft,17 Nov2026. BK96brace. 1x navy stone/iron,12-tone maximum. Native-grid pixel drawing; generated studies used as composition references only. No source raster resampled. Native source linked in receipt. User asked richer S01-like carved forms, not stripped-back blocks. Geometric anchor[0,128], Forge pivot clipped to last valid pixel. Scaffold posts/braces Back; deck8thick solid. Stack128 to max3storeys. Body/Height/Guts masks exact; independent geometric depth, coarse provisional rubble core. Lighting/traversal/destruction need lab integration. Not approved or live.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAACACAYAAAC7gW9qAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAAN0lEQVR4nO3BMQEAAADCoPVPbQwfoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAzgaAgAABjzeL4AAAAABJRU5ErkJggg==",
+      "back": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAACACAYAAAC7gW9qAAAACXBIWXMAAAPoAAAD6AG1e1JrAAABcElEQVR4nO2dsa0lMQzEpogJDAUbOHH/FfrDDRxw6SMFbAGkpFlnSn6s1nfu/3z5tVLA5wRcV+AzA64h+PkXuP4GP98B14fQ50vwop7Crzr7/uvLL1fJ8KELKBk+dAElw79SwNj96/gPcP9r+G1u+pcMH7qAkuFDF1AyfOgCSoYPXUDJ8K8UMHb/Ov4D3P8afpub/iXDhy6gZPjQBZQMH7qAkuFDF1Ay/CsFjN2/jv8A97+G3+amf8nwoQsoGT50ASXDhy6gZPjQBZQM/0oBY/ev4z/A/a/ht7npXzJ86AJKhg9dQMnwoQsoGT50ASXDv1LA2P3r+A9w/2v4bW76lwwfuoCS4UMXUDJ86AJKhg9dQMnwrxQwdv86/gPc/xp+m5v+JcOHLqBk+NAFlAwfuoCS4UMXUDL8KwWM3b+O/wD3v4bf5qZ/yfA4AcsLjccLjcsLjccLjcsLjccLjcsLjccLjcsLjYd1oXH5EDroh9AfyQm/Y/Q+x+oAAAAASUVORK5CYII=",
+      "height": null,
+      "guts": null,
+      "emis": null,
+      "trim": null,
+      "cloth": null
+    }
+  ],
+  "asset_id": "custom-2b06e8f8-f265-490b-915f-8b3a52a613ad",
+  "state_key": ""
+}

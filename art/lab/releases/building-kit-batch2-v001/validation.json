@@ -1,0 +1,445 @@
+{
+  "passed": true,
+  "images": 52,
+  "families": 34,
+  "checks": [
+    "schema",
+    "dimension",
+    "1x density",
+    "draft flags",
+    "binary alpha",
+    "Body/Height/Guts exact masks",
+    "greyscale Height",
+    "<=12 flat Body tones",
+    "unique components",
+    "repeat seams",
+    "flat deck tops",
+    "broken stair gap",
+    "stair risers",
+    "hatch cut",
+    "window/slit cut",
+    "belfry/bridge headroom",
+    "slab dip12",
+    "apse slit30 sill",
+    "ladder64 spacing",
+    "Emissive over Body"
+  ],
+  "assets": [
+    {
+      "id": "BK40",
+      "w": 128,
+      "h": 128,
+      "bodyPixels": 4096,
+      "bodyTones": 2,
+      "sha256": "ff8e9c5e280fbdfd521e9ff9647eadedb831c7940e0b0ca44916f9bb2863e859"
+    },
+    {
+      "id": "BK41",
+      "w": 128,
+      "h": 128,
+      "bodyPixels": 1856,
+      "bodyTones": 3,
+      "sha256": "ff117e60d3877b15b42b647b3b8ac23d966ce6368a7fc145a52372ff9df3d362"
+    },
+    {
+      "id": "BK42",
+      "w": 128,
+      "h": 128,
+      "bodyPixels": 2496,
+      "bodyTones": 3,
+      "sha256": "cd9294d8ae5d5630fed1d5fa8298e70454f079ecc8617d4b3e59cdab6b6bc110"
+    },
+    {
+      "id": "BK43",
+      "w": 128,
+      "h": 128,
+      "bodyPixels": 512,
+      "bodyTones": 2,
+      "sha256": "340e3e348cf964a90a5d0ff54944b21fd42fbdeef67a71e747447690a6ff7e6a"
+    },
+    {
+      "id": "BK44",
+      "w": 32,
+      "h": 16,
+      "bodyPixels": 128,
+      "bodyTones": 1,
+      "sha256": "7332f6a549a7ab57c96109216bc6c33386a59fb15ab89e8df38e1e19ab135b66"
+    },
+    {
+      "id": "BK50a",
+      "w": 128,
+      "h": 64,
+      "bodyPixels": 2048,
+      "bodyTones": 2,
+      "sha256": "6ed0ad133815778abd7dbfb3eef0fe4edbe4ac8359076aa5a02fc311ef943940"
+    },
+    {
+      "id": "BK50b",
+      "w": 256,
+      "h": 128,
+      "bodyPixels": 4096,
+      "bodyTones": 2,
+      "sha256": "0fa19fde8e27fe3195edab506351afc800a4bfd3413393daa9668fce0f3b703a"
+    },
+    {
+      "id": "BK51a",
+      "w": 128,
+      "h": 54,
+      "bodyPixels": 3483,
+      "bodyTones": 4,
+      "sha256": "bdd7e5cfbc4976b574e299ad9ac595bf3e8009c0ff50eaa78f0ef5e8040f36c7"
+    },
+    {
+      "id": "BK51b",
+      "w": 256,
+      "h": 108,
+      "bodyPixels": 13878,
+      "bodyTones": 4,
+      "sha256": "e5fee3fa3b9b49792567b5bf9d3031e56dcc98d81066ff5bb3d754aea2c4d6c2"
+    },
+    {
+      "id": "BK51c",
+      "w": 384,
+      "h": 162,
+      "bodyPixels": 31185,
+      "bodyTones": 4,
+      "sha256": "776131f1ea26fdbb7cbf26532cf44c8c6d7413996cbd7f106e0aade85e2c82a5"
+    },
+    {
+      "id": "BK52a",
+      "w": 128,
+      "h": 64,
+      "bodyPixels": 1705,
+      "bodyTones": 4,
+      "sha256": "9ac0cca74282c65447694b8edadc6148083134fc677fb1580cf44fb1f7b78a31"
+    },
+    {
+      "id": "BK52b",
+      "w": 256,
+      "h": 112,
+      "bodyPixels": 8572,
+      "bodyTones": 4,
+      "sha256": "3d4d8afcd262a1a035767a275a34784c025e249bd0a2b4b39878af476fae8288"
+    },
+    {
+      "id": "BK53",
+      "w": 128,
+      "h": 104,
+      "bodyPixels": 7094,
+      "bodyTones": 3,
+      "sha256": "8c458d3c98b27f2e74194e66cf9e916daa41f6e438fccfaebf72bd33f1254fb3"
+    },
+    {
+      "id": "BK54",
+      "w": 128,
+      "h": 128,
+      "bodyPixels": 5856,
+      "bodyTones": 3,
+      "sha256": "6a11dfbfba2d16375a0cc80541d680a773f84ee84bf4649ff0487e5e39dbc1e8"
+    },
+    {
+      "id": "BK55",
+      "w": 128,
+      "h": 32,
+      "bodyPixels": 3646,
+      "bodyTones": 4,
+      "sha256": "ddc6c97f03f28ede391c9d5d901ecdb419619cb248877c847be029ed2c6387de"
+    },
+    {
+      "id": "BK90deck",
+      "w": 32,
+      "h": 16,
+      "bodyPixels": 512,
+      "bodyTones": 3,
+      "sha256": "b53af42f245adfcb21f8d7c699c71ba1f2734404b2f4b30403a1cd60a51d2078"
+    },
+    {
+      "id": "BK90brace",
+      "w": 64,
+      "h": 64,
+      "bodyPixels": 1539,
+      "bodyTones": 3,
+      "sha256": "71d01c7421db8eb26e752a546ddd8cc051b841d057dcaa5c17922d8777e22c01"
+    },
+    {
+      "id": "BK90lamp",
+      "w": 16,
+      "h": 48,
+      "bodyPixels": 50,
+      "bodyTones": 1,
+      "sha256": "89b358ad259a3e0a3020f1bae3ed6945bcb22b9c6f4f0a39c94aec4790f16ae3"
+    },
+    {
+      "id": "BK91",
+      "w": 32,
+      "h": 24,
+      "bodyPixels": 496,
+      "bodyTones": 2,
+      "sha256": "c62b90f872a7cdd40d11e1ef552d34cbc8e90183b0e37af0eadb83dc608d7fc7"
+    },
+    {
+      "id": "BK92bracket",
+      "w": 36,
+      "h": 32,
+      "bodyPixels": 783,
+      "bodyTones": 3,
+      "sha256": "879637fedb96db786aefcea78ba61eb6d29a4b2854c5d0bc0d0a49d4115204cc"
+    },
+    {
+      "id": "BK92slab",
+      "w": 48,
+      "h": 16,
+      "bodyPixels": 768,
+      "bodyTones": 2,
+      "sha256": "f3a946d72b690e6e3a516ba7d4c2971427534dbcf69e2eeff06b1857c2caed49"
+    },
+    {
+      "id": "BK93",
+      "w": 56,
+      "h": 16,
+      "bodyPixels": 896,
+      "bodyTones": 2,
+      "sha256": "b21b03cdee29917ddf820bcafaa2e8ea3a9be8536fc75caf2db812b95db29c4f"
+    },
+    {
+      "id": "BK94",
+      "w": 58,
+      "h": 180,
+      "bodyPixels": 4820,
+      "bodyTones": 2,
+      "sha256": "57cb32948fc3285b9da57a954052266e117e8a9598f9856b2fc26884387669cf"
+    },
+    {
+      "id": "BK95arch128",
+      "w": 128,
+      "h": 64,
+      "bodyPixels": 2048,
+      "bodyTones": 2,
+      "sha256": "b975035bfaa009e29793671b5452b7af9b35ef403bdfe3c25025ab207aa673e6"
+    },
+    {
+      "id": "BK95arch160",
+      "w": 160,
+      "h": 64,
+      "bodyPixels": 2560,
+      "bodyTones": 2,
+      "sha256": "fa4f0b7d5745034d8da7eeedffca0832e9e03327f4ef6101b72de9bcd9f9860d"
+    },
+    {
+      "id": "BK95pier",
+      "w": 28,
+      "h": 128,
+      "bodyPixels": 2928,
+      "bodyTones": 4,
+      "sha256": "a8ce0f1e7d9a268f50e2c37c52fffaf63561e27f5a5550be9d84da3dcaa9e413"
+    },
+    {
+      "id": "BK96deck",
+      "w": 64,
+      "h": 8,
+      "bodyPixels": 512,
+      "bodyTones": 2,
+      "sha256": "e06407d1781b129e18f33400037484995c177ecbee3773f8b811018d261ad451"
+    },
+    {
+      "id": "BK96post",
+      "w": 12,
+      "h": 128,
+      "bodyPixels": 0,
+      "bodyTones": 0,
+      "sha256": "daa51ac6870b697936c77ec1beccc86669e80fdb458f405b3590f708f723ed4d"
+    },
+    {
+      "id": "BK96brace",
+      "w": 64,
+      "h": 128,
+      "bodyPixels": 0,
+      "bodyTones": 0,
+      "sha256": "5b3807d5cebc4599b006b3e28b813f6a2261b589d063f260420476fdba3c116b"
+    },
+    {
+      "id": "BK96ladder",
+      "w": 26,
+      "h": 128,
+      "bodyPixels": 312,
+      "bodyTones": 1,
+      "sha256": "917ba601096e576e1ab8bd383c830bf59a9403c70d35ee83c3aee8d22f991245"
+    },
+    {
+      "id": "BK97jib",
+      "w": 80,
+      "h": 48,
+      "bodyPixels": 0,
+      "bodyTones": 0,
+      "sha256": "0efae5bf3ea6f4a9cff05dc13843c8cfac37b043226bc82bcf884aa2fad97dff"
+    },
+    {
+      "id": "BK97chain",
+      "w": 8,
+      "h": 128,
+      "bodyPixels": 0,
+      "bodyTones": 0,
+      "sha256": "75f80c4e49b874a97d1467af4ff56a31fdf67e546cbb3398bb57039a3a5b200d"
+    },
+    {
+      "id": "BK97platform",
+      "w": 48,
+      "h": 8,
+      "bodyPixels": 384,
+      "bodyTones": 2,
+      "sha256": "32c88b6ce5a0a31c02342f820a94e4f297a1095641b82f9fe5f058a9c55ac87d"
+    },
+    {
+      "id": "BK98",
+      "w": 44,
+      "h": 60,
+      "bodyPixels": 880,
+      "bodyTones": 2,
+      "sha256": "d7d2f36f385c8aded692e42b5ab9780a0e20e8b1ec153c9741a31e007689ce53"
+    },
+    {
+      "id": "BK60",
+      "w": 64,
+      "h": 128,
+      "bodyPixels": 2759,
+      "bodyTones": 2,
+      "sha256": "6698bdaf5996e2123b3ab1d7c81c6c63531a14916a449c10fec3ea63bb0a4902"
+    },
+    {
+      "id": "BK61",
+      "w": 24,
+      "h": 128,
+      "bodyPixels": 2784,
+      "bodyTones": 2,
+      "sha256": "37f6ab3102ab62b916de153240f4eb27d39f02be90e08929298dd3af1043da81"
+    },
+    {
+      "id": "BK62",
+      "w": 128,
+      "h": 128,
+      "bodyPixels": 10664,
+      "bodyTones": 4,
+      "sha256": "a242b5a0b08008bdb0ead5728630b5817e3445ddf7aa1023e7d740ac4b11639d"
+    },
+    {
+      "id": "BK63a",
+      "w": 40,
+      "h": 128,
+      "bodyPixels": 3120,
+      "bodyTones": 4,
+      "sha256": "66591ecaa94a4205633cc8bc73ef0b5c4ccb973e9520370b1f13d1efbea6bb0c"
+    },
+    {
+      "id": "BK63b",
+      "w": 40,
+      "h": 256,
+      "bodyPixels": 6256,
+      "bodyTones": 4,
+      "sha256": "e2438f6782d323b36c7bfeb791840a76fe9bc8b7a32280ecc45aecb325d8ce71"
+    },
+    {
+      "id": "BK63c",
+      "w": 40,
+      "h": 384,
+      "bodyPixels": 9392,
+      "bodyTones": 4,
+      "sha256": "f9384a38864de78897b227962e90ae814857f1d1bd35ebf9538d8b295b5b5516"
+    },
+    {
+      "id": "BK64",
+      "w": 48,
+      "h": 128,
+      "bodyPixels": 1519,
+      "bodyTones": 2,
+      "sha256": "b15b8ee64f1b574ccfe79965de8a678a4284b35dee97e1e89e5f12841248f2de"
+    },
+    {
+      "id": "BK65",
+      "w": 128,
+      "h": 64,
+      "bodyPixels": 4337,
+      "bodyTones": 3,
+      "sha256": "0c3c3a3a52d09abbce6bfb9c264f9651afb6cd93ea509ce45a2af97ed08a20ca"
+    },
+    {
+      "id": "BK70",
+      "w": 128,
+      "h": 128,
+      "bodyPixels": 3212,
+      "bodyTones": 3,
+      "sha256": "ed68eb0805e30aaf4b67bbdb9e5b86ac807a8d3fddb84b01172ebf7694bd26a1"
+    },
+    {
+      "id": "BK71",
+      "w": 128,
+      "h": 128,
+      "bodyPixels": 0,
+      "bodyTones": 0,
+      "sha256": "ac73ff50d3b5471f0a7ba832274c55d9e061de5e6cdc38298aed2664cb2a80c2"
+    },
+    {
+      "id": "BK72",
+      "w": 128,
+      "h": 128,
+      "bodyPixels": 0,
+      "bodyTones": 0,
+      "sha256": "87b96e5b0c017b830e0c22d5879d84bd568e567811b57a1464712aa34a54a893"
+    },
+    {
+      "id": "BK73",
+      "w": 96,
+      "h": 24,
+      "bodyPixels": 1350,
+      "bodyTones": 4,
+      "sha256": "26e3b4e2109c27349735e0b90c72b1be9987310ea159533c5fa40d3828903622"
+    },
+    {
+      "id": "BK74",
+      "w": 24,
+      "h": 128,
+      "bodyPixels": 2308,
+      "bodyTones": 4,
+      "sha256": "1d8c0c66ba3f71ee684f6f2d29fc6e6ddc00b695b0bff8d247c9e28bc3461ba8"
+    },
+    {
+      "id": "BK75",
+      "w": 128,
+      "h": 28,
+      "bodyPixels": 2048,
+      "bodyTones": 2,
+      "sha256": "ec7474f4f2d042ac38e919dffd3dd1a8d99cf122135327d79185ef4c5d15ef06"
+    },
+    {
+      "id": "BK80plank",
+      "w": 32,
+      "h": 6,
+      "bodyPixels": 192,
+      "bodyTones": 2,
+      "sha256": "aa2b09d2c19ba4e58abaca9ecbe4d6fac7922a1bda467ed94dfa72a20b34c4cc"
+    },
+    {
+      "id": "BK80post",
+      "w": 16,
+      "h": 64,
+      "bodyPixels": 800,
+      "bodyTones": 3,
+      "sha256": "2cebe1def0faf3c4960ac5135c6d34c8e09bf08b93c37964432ab8a2c5861f71"
+    },
+    {
+      "id": "BK80rope",
+      "w": 32,
+      "h": 20,
+      "bodyPixels": 0,
+      "bodyTones": 0,
+      "sha256": "453fad78ed55c7a8f87186e3707178f48f5c5ef93890079f211663fcd8509891"
+    },
+    {
+      "id": "BK81",
+      "w": 128,
+      "h": 128,
+      "bodyPixels": 6224,
+      "bodyTones": 2,
+      "sha256": "7a41ad0addbfddbdef0c341aabb0a2483cd21d22e7876cbeed99e680379c828e"
+    }
+  ]
+}

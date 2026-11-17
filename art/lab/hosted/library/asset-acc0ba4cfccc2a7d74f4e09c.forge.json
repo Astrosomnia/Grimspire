@@ -1,0 +1,32 @@
+{
+  "forge": 1,
+  "code": "BK95",
+  "name": "BK95 Flying arch · 128 span — a",
+  "w": 128,
+  "h": 64,
+  "fps": 1,
+  "base": 63,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "pivot": [
+      0,
+      0
+    ]
+  },
+  "ready": false,
+  "notes": "Batch2/2b draft,17 Nov2026. BK95arch128. 1x navy stone/iron,12-tone maximum. Native-grid pixel drawing; generated studies used as composition references only. No source raster resampled. Native source linked in receipt. User asked richer S01-like carved forms, not stripped-back blocks. Geometric anchor[0,0], Forge pivot clipped to last valid pixel. 16thick arch,48totaldrop, source baseline contract span. Anchor at highlefttop; pier separate. Lab chooses terrain-dependent drop: integration may adapt masked paint to procedural curve, do not stretch texture blindly. Body/Height/Guts masks exact; independent geometric depth, coarse provisional rubble core. Lighting/traversal/destruction need lab integration. Not approved or live.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAABACAYAAADS1n9/AAAACXBIWXMAAAPoAAAD6AG1e1JrAAABwUlEQVR4nO3azW6DMBBFYT8Gi1EX3XTR93++VKGlyiII/Htn7HMkdo0A96sxbpJ9fj+OI9F6vQI4O9TXSGIAoJi4UgCgmKSWAEARsO3j63EcOb/Yks+wpnAO4OxoDQAQwQDk4gDEQgB6Y+A1NBCAESh6j8dy9QbQG4V6/ML3bmEXFYR6LEOW88rnCcTVz6rHNUylf21qEDlY1GM8NYDRKEoAgGEQAMVMwZqhYT0AjERRiiFROxheQIChc5FAMCsMKgIIMAxuJgyJ/KAAwkTVAGiNwpgV9JUCaInBgOAn9ePCMgCqx2r6lBgsYwZSj9MyKTBYxk6oenyWSj0rGBD8pJgVDAg+AwINx2DMCP4zINAzINB/LBZp7+66oHSdwBohUJaxFdwDgvr+6a+ebw5ACJQBgY6YEWgPCNQNwtnnWSguDGHjCylrQ9j4QkqsTPT6qL5vEq0RQLAYBGNHMWY2eDbgseA0AwI9Y31Ae6MeC79nI7ddAahdKKrvj250BaBmRrhzfnLSOwS1jwb1PZF4oVhyfpoIgvoeqEE1CFqcnwLPBurrJjGE1uenYBDU10md4x9DlNgKpj22gmmPrWBKB4Qf/PoaZul3/FYAAAAASUVORK5CYII=",
+      "back": null,
+      "height": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAABACAYAAADS1n9/AAAACXBIWXMAAAPoAAAD6AG1e1JrAAACFklEQVR4nO2b0Y6EIAxF+WQf+ZT+7W5i1mSy0Qi19Q5wTtJnoZ4BWpliZj9HFFiPTwGuQj1GEAuAFBPjFQApJiFSAKQYkG3bfo7oebG11j2QYiIBriJaAA6ZgwlwFpECIMTAAni3EISYUIDW7QMZFhIgWwp1/obnM5lvCZAlhDqXQ9KS2GwBPELcHULVeR0G768tU4AWIXqqEHWOpxbAu4U8lcFbhqrzPbUArdtHRET0IQr4ZXjyAiIFiDhMFshZJTKFuDuDIEMyaiF6DqGsCi/xphDeKgQZXiZLhogy1DgraIgQQdmJLKAXIqsPYcigxytApAyGCN/DG1XF1inDlYDqXE2PUgbrWIHUeVoGhQzW0QlV52cp3hShdrbC1blZjmwZ6r8yFBG+mAwR6kUfAhEWkaEGfYxS52Np7IEI0bei1blYGnOI0NuKRoRBsEYJsr9GqvOwPNYogLeURISBsAYBMkVQzx/+iCwjEWFgDBHggBUBdhAB0kS4OoRyUFxYhMqFlLVFqFxIWVuEyoWUtUWoH61oGkkLilAdF1LUc4YTvBI8uZByNg4YTISICynqOcMDEaIupJyNAb6AuxcX9fd49TzhhjsBekpHBBgUuxHA00hiBRgQO5HA20g6RFDPCRxENJKO8DwfJhJBPQcI4IkEEc+HgVcD9bhBLEL082EwEdTjhGRoBUOhFQw7tIJhh1YwlEOEXyl7w63QG2QyAAAAAElFTkSuQmCC",
+      "guts": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAABACAYAAADS1n9/AAAACXBIWXMAAAPoAAAD6AG1e1JrAAABgElEQVR4nO3ZwWrDMBBFUX3GLB5dZNNF/v/7Wjo0EAoxwbU0T9K9oHUc+yDLUouPz6/HaLRfzwBejeprpGIAoFi4swBAsUhXAgDFhPUGAArzKgA8D93uLDJ3B/B3lN6Q3XIEAIiBzQCA2aFjswEAxMXNDoDZ4Z+tBAAMJ1oVABjebAcAYDhoNwBgOGg3ALrd8xqO7gl1huEAIJ4GD/zNVgUQQDjfSgACDNe0AoBgVri2WQEEEPo0G4AAQ99mAhDMCv276iGNWIM0mguDOs0sOBiUKwABYXyOAASEmtwACAh1OQEQEGpzASAg1BcGANhHMEgGAIBgkooBAMEkFQMAglEqBPAzqv8//VYFAAhmqQgAEAxTAQAgGKYCAEAwTAUAWCgapsEAgGCaBgMAgmkaDAAIpmkwANYHpmkgACAYFwMBAMG4AAL1Om84Gvmj5BcAKGMGoMYrgDLWAJSxCKSMrwDK+Aykxj4AZWwEUcZOIGVsBVPjLIAyDoMo4zSQ2gPCN8dbE4ICJXeyAAAAAElFTkSuQmCC",
+      "emis": null,
+      "trim": null,
+      "cloth": null
+    }
+  ],
+  "asset_id": "custom-a4a1be8f-d672-4652-82fb-6ab732fe28c7",
+  "state_key": ""
+}

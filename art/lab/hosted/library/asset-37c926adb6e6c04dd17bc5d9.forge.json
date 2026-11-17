@@ -1,0 +1,32 @@
+{
+  "forge": 1,
+  "code": "BK96",
+  "name": "BK96 Scaffold · post — b",
+  "w": 12,
+  "h": 128,
+  "fps": 1,
+  "base": 127,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "pivot": [
+      0,
+      127
+    ]
+  },
+  "ready": false,
+  "notes": "Batch2/2b draft,17 Nov2026. BK96post. 1x navy stone/iron,12-tone maximum. Native-grid pixel drawing; generated studies used as composition references only. No source raster resampled. Native source linked in receipt. User asked richer S01-like carved forms, not stripped-back blocks. Geometric anchor[0,128], Forge pivot clipped to last valid pixel. Scaffold posts/braces Back; deck8thick solid. Stack128 to max3storeys. Body/Height/Guts masks exact; independent geometric depth, coarse provisional rubble core. Lighting/traversal/destruction need lab integration. Not approved or live.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAACACAYAAAA/B4hEAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAAHUlEQVRYhe3BMQEAAADCoPVPbQlPoAAAAAAAAL4GGIAAAcC0KpoAAAAASUVORK5CYII=",
+      "back": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAwAAACACAYAAAA/B4hEAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAAbElEQVRYhe3XIQ4AIQxE0R5iBRmBwHD/E7K2YlasICnh/6SypnmmEalHY7mJr1gQV/JBQ9C4nEbrc/2ZYKHvuFJBGjkWxJV80BA0fNAQNHzQEDR80NA5NBr/w6zwNBWkkWNBXMkHDUHDV4PGCzPgdJ0FKP2SAAAAAElFTkSuQmCC",
+      "height": null,
+      "guts": null,
+      "emis": null,
+      "trim": null,
+      "cloth": null
+    }
+  ],
+  "asset_id": "custom-2b06e8f8-f265-490b-915f-8b3a52a613ad",
+  "state_key": ""
+}

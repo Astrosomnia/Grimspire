@@ -1,0 +1,32 @@
+{
+  "forge": 1,
+  "code": "BK52",
+  "name": "BK52 Broken gable · one bay — a",
+  "w": 128,
+  "h": 64,
+  "fps": 1,
+  "base": 63,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "pivot": [
+      0,
+      63
+    ]
+  },
+  "ready": false,
+  "notes": "Batch2/2b draft,17 Nov2026. BK52a. 1x navy stone/iron,12-tone maximum. Native-grid pixel drawing; generated studies used as composition references only. No source raster resampled. Native source linked in receipt. User asked richer S01-like carved forms, not stripped-back blocks. Geometric anchor[0,64], Forge pivot clipped to last valid pixel.  Through-drop gap x56..103 on128 orx128..191 on256; preserve transparent gap. Body/Height/Guts masks exact; independent geometric depth, coarse provisional rubble core. Lighting/traversal/destruction need lab integration. Not approved or live.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAABACAYAAADS1n9/AAAACXBIWXMAAAPoAAAD6AG1e1JrAAABrElEQVR4nO2asW6DQBAF7yNSoAjlJBdJ4SL//3WJkGwFIwyR4W7f7s5IFK6AnQGfDaUAAAAAAAAAAAAAAAAAAABoUj+/f6yPAQzlE0By+QSQXD4RJGNN/vDxxTogs3wCSC6fAJLLHy9XFoNR2RI/l8+vgeTyCSC5/Omz9THDSex936/Jv29IcM5/FnvP5BNAcvkEkFw+ASSQ/0z8fG1gfT5gJJ8AAv67h/yAtJDP1Z9cPgtAByA/MS3lc/WLg/zEID8xreVz6w/2OBf5j7j9V7OH/Ax3gOrxRZee8qNHUL297XTkRQ4i2J9nyfA4lzvBH9PsXESgID/is4DhNkPpCFTkz/dVgjDMZikZQevf+K8GIDOgg0znJBuBmvzlPt/eL+4jqLfZyUWgKD9qAFUtAlX5kQOoKhEoy48YwLgyU7MI1OUvj8F8kXQCa+dlEoEH+ZEDGC0jsBRKANeXZ5FOfrMhGGJ6/j0ELR8UEcAjZhdBryuUALYxuRP2kk8A+5w5a8nvfO4A25w97647I4DjtJh5tx0RwHFazb3LThS24pyx9WysBRFAMQtgmv0vZ8Jma0JAzCgAAAAASUVORK5CYII=",
+      "back": null,
+      "height": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAABACAYAAADS1n9/AAAACXBIWXMAAAPoAAAD6AG1e1JrAAABsElEQVR4nO2by42DMBQAKZMCKMKl+OgjJbg7IiTQZrOERAv2+81IHPYEeTMYsoRhAAAAAAAAAAAAAAAAAAAA0EmtdZE+BhCUTwDB5RNAcPlEEIwj+dM0cR8QWT4BBJdPAMHlp5SWUgqXAY+ciX+WTwDB5RNAcPnr39LHDDfx6Xp/JH/fkGCcb2723skngODyCSC4fAIIIP+d+H2b55n7gKjyCcDhf/eQ75AW8jn7g8vnBtAAyA9MS/mc/cpBfmCQH5jW8ln6nT3ORf5vzP7kvYf8CCtAtfjeQ0/53iOo1t57uPJDDiL4i6mXX+56nMtK8MM6OxMRaJDv8VnAtM1QdQRa5O8BeIpgepqlyghaf8f/bwBeIkgpLWoj0Cb/NYBxHM1HULbZqYtAo3yvARRtEWiV7zmAoiUCzfI9BpAOZioWgXb5rwF4uBFM2+cSj8CCfM8BJMkIcs6Llc1bAPnCLMQPQMM2GCdLfv4egvbljQCOETsJep2hBHCOyErYSz4BfObOWau85rMCnHP3vLvujACu02Lm3XZEANdpNfcuO9GwDcbJrWcjLYgABrEA1tk/ACygzGsQoOiNAAAAAElFTkSuQmCC",
+      "guts": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAABACAYAAADS1n9/AAAACXBIWXMAAAPoAAAD6AG1e1JrAAABkklEQVR4nO3aQU7DQAxG4RyDBWLBhgX3P19RFyAEZdw0M4wn/p6UfZP/1fHY2TYAAAAAAAAAAAAAAHLy/Pp+mf0bMDF8AhQPnwDFwydBMW6FrwoUD58AxcMnQPHwSXBi7g1fFTghTy9vlz3X7N+LieEToHj4JDgJR8JXBYqHT4Di4ROgePgkWJDe4asCi3Ad3Ai/KJ+TOwIU5PvoVukvxs/Zvfd+IW4tbwhQhL+2d7r+ArTWt458Jyfa3xPgxNzzAYeBT5tlh1r3fsGjArRZcrK55xMuTWCb5cbbe8J3DIxZasexN3yTwJhlFl2PhG8XELPEtvPR8EcJkO4BHSD9PR4Jf6QAaR7QQVLfY4+QjgoUXdviPGe9x17/UgK0SSl6zzJNgDbpql3v9zQB2qR65Y1o1AjQJk3fM6pTJ0CbFM3vqPAJEDP9BDQyfALETD0Gjw6fADHTZiH/ET4BYnr1SFvG8AkQ07NJThc+AWJ6n5JShU+AmBHH5DThE2COAL8kmBU+AeYJ8CXBzPAJsE0V4CrBB7F5NYA8egsSAAAAAElFTkSuQmCC",
+      "emis": null,
+      "trim": null,
+      "cloth": null
+    }
+  ],
+  "asset_id": "custom-724d99ff-4830-414c-97bc-ed9c6ff21718",
+  "state_key": ""
+}

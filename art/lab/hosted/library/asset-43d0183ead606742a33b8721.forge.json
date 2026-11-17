@@ -1,0 +1,32 @@
+{
+  "forge": 1,
+  "code": "BK72",
+  "name": "BK72 Back bay · collapsed — a",
+  "w": 128,
+  "h": 128,
+  "fps": 1,
+  "base": 127,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "pivot": [
+      0,
+      127
+    ]
+  },
+  "ready": false,
+  "notes": "Batch2/2b draft,17 Nov2026. BK72. 1x navy stone/iron,12-tone maximum. Native-grid pixel drawing; generated studies used as composition references only. No source raster resampled. Native source linked in receipt. User asked richer S01-like carved forms, not stripped-back blocks. Geometric anchor[0,128], Forge pivot clipped to last valid pixel.  Body/Height/Guts masks exact; independent geometric depth, coarse provisional rubble core. Lighting/traversal/destruction need lab integration. Not approved or live.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAAV0lEQVR4nO3BMQEAAADCoPVPbQwfoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKC7AQCPAAFPBGUdAAAAAElFTkSuQmCC",
+      "back": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAACXBIWXMAAAPoAAAD6AG1e1JrAAADCElEQVR4nO2dQW7bQAxF5whesJsC3fD+d2yQ1ECLtglsizPkJ98DtLbz+USOpFG87Lv/PHksCCOkHgigCwIMxqI68ukOwBiIAQGGY3SAuVhkN2YE6IEAwzE6wGxMXQCuBF4nvA4IoAUCDMfoAHOxHaOYEaADAgzHOnUArgSeY1sNEEADBBiO0QFmYwgwF9u5DstcA7AQfAwEgEUHgMUIgMUaABaLQFhtrgJu337wttALIACsFh2AewHXQABYdABYjABYL43f91V4hYP6xfB07tmFR4A4Xso9+wqAK4EYWAMMxrgPMBdTvxGUHaAyIfkjgCZhJyBnvx6hHRgBtAgfwcx+HbaswRBAg22L8AwBssNUw3bWAgFqs/1k5Oyvy5FujAA1OTaOmf31OFqTYx8ED3G8IyNALVoKkB2qGoYAs7FOAmSHqYohwGysgwDZISpjCACm3AEo33UQAJZkB6BucSDAcEytA2QH1hFTEgAJ4pETAAnikRMACWLZViNe+9Zhy2v5vPs/XICdI4BxEIvcGgAJ4pEW4OMDYbYASHAdeQGQ4BotBECC1wivQaYASPAcW/Kn+BpsOwERQIN2AmQHqoTtrAMC1Gb7icjZX5cjnZjWX5NjoxgB6nGyJjwMKkhLAbJDVcEOFh8Bhhf/mADZwSpgCcVHgCK8b81qK0B2uNW53ffmtRQgO1wFbggwF7v/eHbLDpAdbnXsnlNbAZDgc/7MqLUASPAvf+fTXgAk+M3/shkhABL8IqvIJQSYLoIVKHYJASZKYAUKXUqA7hJYgcI+XAd+Mv46mRlK/H+AL7+AILcChQvLP7sFqYwDK5DTluyzv0BVCaxAJqMEyJbACvz94wU4KUF28FbkKBsEBffZAlyVIPu7m8hRPiiK7rMF+EqC7O9lDQ6ZECm4zxaAwxEACZwOgATOCEACZw2ABM4iEAmcqwAkcC4DkcC5D4AEzo0gJHDuBCKBcysYCZxnAUjgPAxCAudpIBI4j4ORwNkPgATOhhAkcHYEIYGzJQwJnD2BSOAfGbwBuGyf0lY3Z7EAAAAASUVORK5CYII=",
+      "height": null,
+      "guts": null,
+      "emis": null,
+      "trim": null,
+      "cloth": null
+    }
+  ],
+  "asset_id": "custom-03e54aeb-1a28-43de-a69c-a3c9c5ffbe5b",
+  "state_key": ""
+}

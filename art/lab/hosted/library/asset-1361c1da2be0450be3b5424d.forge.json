@@ -1,0 +1,32 @@
+{
+  "forge": 1,
+  "code": "BK90",
+  "name": "BK90 Cantilever · end lamp — c",
+  "w": 16,
+  "h": 48,
+  "fps": 1,
+  "base": 47,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "pivot": [
+      0,
+      47
+    ]
+  },
+  "ready": false,
+  "notes": "Batch2/2b draft,17 Nov2026. BK90lamp. 1x navy stone/iron,12-tone maximum. Native-grid pixel drawing; generated studies used as composition references only. No source raster resampled. Native source linked in receipt. User asked richer S01-like carved forms, not stripped-back blocks. Geometric anchor[0,48], Forge pivot clipped to last valid pixel. Assembly:32repeat deck, separate64brace,16×48decorative end lamp; Body glass is for emission only, import lamp as noncolliding decoration. Fit deck70–150 by whole repeats plus crop endpoint; brace underdeck. Light separated. Body/Height/Guts masks exact; independent geometric depth, coarse provisional rubble core. Lighting/traversal/destruction need lab integration. Not approved or live.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAwCAYAAAAYX/pXAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAAK0lEQVRIiWNgGAXDFUjIqf9Hx6MGqI+GgRy9w2AUjIJRMApGwSgYBUMZAAC61UP5JW5BHQAAAABJRU5ErkJggg==",
+      "back": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAwCAYAAAAYX/pXAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAAZklEQVRIiWNgIAAk5NT/E1KDVzMMU6RZghoGSJBiiAQWzQQNkcCjiSiDJAbcABCgSDMIjBrAMBoGDBSGgcTwyEzIQERK6T8yZiAViIwawDAaBgyjYcAwGgYgMJoXGAYoDCRGZhsJAEths9QdyvqzAAAAAElFTkSuQmCC",
+      "height": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAwCAYAAAAYX/pXAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAAK0lEQVRIiWNgGAXDFTg4OPxHx6MGOIyGgQO9w2AUjIJRMApGwSgYBUMZAAC2kVdPNX6U/AAAAABJRU5ErkJggg==",
+      "guts": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAwCAYAAAAYX/pXAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAAK0lEQVRIiWNgGAXDFUjIqf9Hx6MGqI+GgRy9w2AUjIJRMApGwSgYBUMZAAC61UP5JW5BHQAAAABJRU5ErkJggg==",
+      "emis": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAwCAYAAAAYX/pXAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAAK0lEQVRIiWNgGAXDFSTF+fxHx6MG+IyGQRy9w2AUjIJRMApGwSgYBUMZAACWUWYndIrRkAAAAABJRU5ErkJggg==",
+      "trim": null,
+      "cloth": null
+    }
+  ],
+  "asset_id": "custom-cacebae2-83c0-4517-b935-87758cd8d308",
+  "state_key": ""
+}

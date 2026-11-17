@@ -1,0 +1,32 @@
+{
+  "forge": 1,
+  "code": "BK41",
+  "name": "BK41 Broken stair — a",
+  "w": 128,
+  "h": 128,
+  "fps": 1,
+  "base": 127,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "pivot": [
+      0,
+      127
+    ]
+  },
+  "ready": false,
+  "notes": "Batch2/2b draft,17 Nov2026. BK41. 1x navy stone/iron,12-tone maximum. Native-grid pixel drawing; generated studies used as composition references only. No source raster resampled. Native source linked in receipt. User asked richer S01-like carved forms, not stripped-back blocks. Geometric anchor[0,128], Forge pivot clipped to last valid pixel. Eight16 risers,16 treads,20thick. Middle x48..79 removed,32-wide gap. Foot left128,top right0. Body/Height/Guts masks exact; independent geometric depth, coarse provisional rubble core. Lighting/traversal/destruction need lab integration. Not approved or live.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAACXBIWXMAAAPoAAAD6AG1e1JrAAABlUlEQVR4nO3dsUoDURBA0XzGFIOChRYW/v/XxUpIoRLYImzuOZA+kMs+5g2ulwuntm+f1yOfR39/DhJA3HoCtK0A2lYAbfPycT3yefT356DbH/P1/euujwCeyAigbX4J4K/HvSfAExoBtM0/AfxMCJ4AT2wE0DaOgLYRQNsYA9v25ir43osg6+Anustfu4BzWwG0rQDaVgBt6wxvG/v8tjHHt40A2sZVbtsIoG2sc9tGAG3jCGgbAbSNMbBt7fPPbS1z2lYAbSuAthVA29rnt419ftuY49tGAG3jKrdtBNA21rltI4C2cQS0jQDaxhjYtvb5bWsX0LYCaFsBtK0AAAAAAAAAAAAAAAAAAIASf1wZJ4A4AcQJIE4Acd63H+c9e3ECiPOq1TgBxHndepwA4hwBcQKIMwbGed/+yfnnyXECiBNAnADi7PPj7PPjzPFxAohzlRsngDjr3DgBxDkC4gQQZwyMs88/OcucOAHECSBOAHH2+XH2+XHm+DgBxLnKjRNAnHVunADiHAFxAogzBsbZ57d9A/i4JmdhG4oiAAAAAElFTkSuQmCC",
+      "back": null,
+      "height": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAACXBIWXMAAAPoAAAD6AG1e1JrAAABk0lEQVR4nO3dMYoCQRBA0T2uYYUepY7hDV3YyEAWYQKZ+e9B54KfaboLx58fTm13n0fWtz8/Bwkgbj0B2lYAbSuAtpl5Hlnf/vwc9PplPh6Pj5YALmQE0DZvArjdbm+XJ8AFjQDa5p8A7vf73/IEuLARQNvYAtpGAG3jGNi2L1fBn14EGQdf6C5/zQLObQXQtgJoWwG0rT28bczz28Y5vm0E0DaucttGAG1jnNs2AmgbW0DbCKBtHAPb1jz/3NYwp20F0LYCaFsBtK15ftuY57eNc3zbCKBtXOW2jQDaxji3bQTQNraAthFA2zgGtq15ftuaBbStANpWAG0rAAAAAAAAAAAAAAAAAACgxI8r4wQQJ4A4AcQJIM779uO8Zy9OAHFetRongDivW48TQJwtIE4AcY6Bcd63f3L+PDlOAHECiBNAnHl+nHl+nHN8nADiXOXGCSDOODdOAHG2gDgBxDkGxpnnn5xhTpwA4gQQJ4A48/w48/w45/g4AcS5yo0TQJxxbpwA4mwBcQKIcwyMM89v+wV+IlX+22IhmgAAAABJRU5ErkJggg==",
+      "guts": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAACXBIWXMAAAPoAAAD6AG1e1JrAAABWUlEQVR4nO3dMWrEMABFwT2Gik+KNCly//PtHsLFIt4MqBfoIRvLxq8XV9vv//vJ+Pb8eUgAcbMDtE0AbRNA2wTQNgG0TQBtE0DbBNA2AbRNAG0TQNsE0DYBtE0A7QWcAO42AbRNAG0TQNtcw9smgLYJoG0CaDs/f+8n49vz5yEBxB07QNsRQNsRQNsRQNsRQNsRQPtBzhHA3SaAtgmgbQJom8OctgmgbQJomwDaJoC2CaBtAmibANomgLYJoG0CaJsA2o7z/LYjgLYjgLYjAAAAAAAAAAAAAAAAAACgxMeVcQKIE0CcAOIEECeAOAHECSBOAHECiBNAnADiBBAngDgBxAkgvoB+uHA5AcQJIE4AcW7i4gQQJ4A4AcQJIE4AcQKIE0CcAOIEECeAOAHEF1AAlxNAnADiBBDnGh4ngDgBxAkgznv5cQKIE0CcAOIEECeAOAHECaDtA8NWBZcUmQf2AAAAAElFTkSuQmCC",
+      "emis": null,
+      "trim": null,
+      "cloth": null
+    }
+  ],
+  "asset_id": "custom-f99611a0-a38a-49b9-baf3-9f64bfd5e000",
+  "state_key": ""
+}

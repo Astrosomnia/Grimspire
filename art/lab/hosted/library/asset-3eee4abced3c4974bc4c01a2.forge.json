@@ -1,0 +1,32 @@
+{
+  "forge": 1,
+  "code": "BK10",
+  "name": "BK10 Back bay, lancet window — d",
+  "w": 128,
+  "h": 128,
+  "fps": 1,
+  "base": 127,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "pivot": [
+      0,
+      127
+    ]
+  },
+  "ready": false,
+  "notes": "Native-grid rear wall revision, 17 Nov 2026. Quiet coursing and sparse adornments. Darker than Body. Original window/arcade transparency retained. Back only, no collision. Additional variant with a new letter; all previous wall variants retained.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAAV0lEQVR4nO3BMQEAAADCoPVPbQwfoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKC7AQCPAAFPBGUdAAAAAElFTkSuQmCC",
+      "back": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAACrklEQVR4nO3dsU4bQRRA0ZnVWEpSU0QUKdLk/z8nbSp/AURiJSOQiRwLOzH27sx79x7JBUKGtefO2y1gXe/uv++KsKbeB6C+DADOAOC6BzA/Pb0+qObOr797AOrLAOAMAM4A4AwAzgDgDADOAOAMAM4A4AwADh9Aa5tChg6g7RefHAE2gONFb9AIkAGcWuwGjAAXwNEi1+2vn/XM99Ob4ItfXpAjmOiL/4YaASKAfy0+OYKJtvj/8ZR65vnpTLTFP7X73+y/j4kgdQCXLv65CLJKG8DBrr1o8U9FkHUKdA+gbTavj5EWf80Ilnj9oQJY0C1HeC1JpQtgv0v/LNhHd/87z68ZTwWpArj14hMiaFn+L+/T5y9rjepaStm9RPD78aFEl2kC/LX4t9r9J35emmuCmuEOIa1tFl38Q1+//Tj8cjfPsSdohgnQczfWElz4AI4vyJbc/e/9/OgXhOED0HVSBbD07l/796whdACjjN82yHHgAtD10gSw9ljeJjkNhA1gtLHbBjue9AEIHMCou60NelzpAhjlfLxNcB2QIgCBAhh9zLbBjy98AKON4W3w00D4AHQdA4AzADgDgDMAOAOAMwA4A4AzADgDgDMAOAOAMwA4A4AzALhw9weI8AcXc6D31AkA13reoSqrFug9dQLATSOcLyOdM7O9/u4BqC8DgDMAOAOAMwA4A4AzADgDgDMAOAOAMwA4A4AzALhW4gv/eQc9hQ/g6AMcdCFPAXAGAGcAcOGuAaJ/SNNonABwBgBnAHAGANf9IjDSf9FkfP1OADgDgDMAuHD3B9BtOQHgvD8AnBMAzgDgDADOAOAMAM4A4AwAzgDgDADOAOAMAM4A4AwAzgDgDADOAOAMAM4A4AwAzgDgDADOAOAMAM4A4AwAzgDgDADOAOAMAO4Z3iSKqfEShIYAAAAASUVORK5CYII=",
+      "height": null,
+      "guts": null,
+      "emis": null,
+      "trim": null,
+      "cloth": null
+    }
+  ],
+  "asset_id": "custom-59264620-3d1f-4eb7-8f59-3b7b262b89c4",
+  "state_key": ""
+}

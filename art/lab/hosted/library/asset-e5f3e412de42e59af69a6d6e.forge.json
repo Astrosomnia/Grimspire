@@ -1,0 +1,32 @@
+{
+  "forge": 1,
+  "code": "BK74",
+  "name": "BK74 Cracked pier — a",
+  "w": 24,
+  "h": 128,
+  "fps": 1,
+  "base": 127,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "pivot": [
+      0,
+      127
+    ]
+  },
+  "ready": false,
+  "notes": "Batch2/2b draft,17 Nov2026. BK74. 1x navy stone/iron,12-tone maximum. Native-grid pixel drawing; generated studies used as composition references only. No source raster resampled. Native source linked in receipt. User asked richer S01-like carved forms, not stripped-back blocks. Geometric anchor[0,128], Forge pivot clipped to last valid pixel.  Body/Height/Guts masks exact; independent geometric depth, coarse provisional rubble core. Lighting/traversal/destruction need lab integration. Not approved or live.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAACACAYAAAARQqnWAAAACXBIWXMAAAPoAAAD6AG1e1JrAAABKUlEQVRoge2aQQqEMAxFc4gsRIKBLnThwvufLsMsOohoa6vBUf+HbPv0N02ClrSfzDMIAIVF+vdZFCVhtDODlgJAchYtbWq6oSgktzgAAouax2SR9tONATorw/cD6EozcQFwG84H6Oyp54A55BQAt+EXAFjKHl6xqXoPFICURcv839qDb1TtQWrxJeSFAM34z4l9AMDuZREnFt/KpCxg79PzxlsAYLDIkEV02UGLcgdEuQOi3AFR7oAod0BUdbmmQmltP6gBVTUcOku5k0zeAD4KKq1F5A3gUtDRakreAMVcxLBIVrJIC+MlAMEPii3BIrnF/4MGAIFFAVnU4aAFlIoR1XRAwxnRMg1ThWHwMoyO9MzpWnDXMVx1W1MPfJfQHQGAwSL7+yz6AP2TjcR2XkAKAAAAAElFTkSuQmCC",
+      "back": null,
+      "height": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAACACAYAAAARQqnWAAAACXBIWXMAAAPoAAAD6AG1e1JrAAABKElEQVRoge2aQQ6EIAxFe8weg6N0yRG67A07cYEhRnFAGkfn/6RLefgppQmQmXlkEAAGi+zns6go5+wzg7YCIJ9ZtEhEvERKqSuk+nZ3cAAEFqXXZJGqPhigqms8D6DV4HuQaQBmng/QatY1oIZMATDzGgB4yx7esWl4DRSAlkXb/D9agyWG1qA1+BbyhwA98Z8b6wCAP8sibgx+lEmngG9nzwd/AYDDIkcW0W0brSgcUBQOKAoHFIUDisIBRcPlmjqlo+fBCGjowKFZOtvJFA3gq6DeWkTRAO4FXa2mFA1Q9EUMi2Qni7Qz/gQguKA4EiySR9wfJAAEFgmyKGGjCUqFoJomHDiCI9PRVTgaL0frSO/srjPeOua7Xmsa3l3b3W9+DQC72aIPBIde7jRyEJ0AAAAASUVORK5CYII=",
+      "guts": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAACACAYAAAARQqnWAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAA5UlEQVRoge2YMQ5DIQxDOYaHiCFLB+5/PjoxRvxSSJH6LLH9jyXLCXGK6qufPAUCIZGud9HAsYsHINBMop0ylQgQCImEi0Sh1UmrMG99xykQGBIZLopAoRmtwuimxoPjPJl++1QhRsdKyqxfBvFdbipPcZxglehjgoHjBAPHCQaW1znhBwGW90Xhh5P/HxOkaZrmDmX5XFkVq6zeo6wuqlWbCoIBxnf7+WxqEDgSOS5yCq3RKhrdtPHgdPZFneG3M76LhCNCoIixlaRf/3YZok2XKyKBQJFEu3KZRYsRCAyJ7HYXvQGqwnOl2LW7sgAAAABJRU5ErkJggg==",
+      "emis": null,
+      "trim": null,
+      "cloth": null
+    }
+  ],
+  "asset_id": "custom-7c4b3538-dee2-4c02-9a20-334366b79887",
+  "state_key": ""
+}

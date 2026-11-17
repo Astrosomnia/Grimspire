@@ -1,0 +1,32 @@
+{
+  "forge": 1,
+  "code": "BK43",
+  "name": "BK43 Spiral stair — a",
+  "w": 128,
+  "h": 128,
+  "fps": 1,
+  "base": 127,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "pivot": [
+      0,
+      127
+    ]
+  },
+  "ready": false,
+  "notes": "Batch2/2b draft,17 Nov2026. BK43. 1x navy stone/iron,12-tone maximum. Native-grid pixel drawing; generated studies used as composition references only. No source raster resampled. Native source linked in receipt. User asked richer S01-like carved forms, not stripped-back blocks. Geometric anchor[0,128], Forge pivot clipped to last valid pixel. Body only left16×16 ledge at y112 and right16×16 ledge at y48. Spiral Back, repeat128. Body/Height/Guts masks exact; independent geometric depth, coarse provisional rubble core. Lighting/traversal/destruction need lab integration. Not approved or live.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAAvklEQVR4nO3dIQ7DMBAAwTzD4FQQUtD/vy99Q2SQVjsjGdtgddIhHwcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAC3zPm5ds692/g5AogbE6BtBNA2Amhbr/e1c55+P5sEELdMgLYlgLYlgLYlgLaxBraNANpGAG0jgLYRAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA/B8fDsQJIE4AcQKIE0Ccr0fjBBAngDgBxAkgTgBx1sA4AcQJIE4AcQJo+wJt9scfxv3aIwAAAABJRU5ErkJggg==",
+      "back": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAACXBIWXMAAAPoAAAD6AG1e1JrAAADQ0lEQVR4nO2ZMY7dMAwFfYhXCClSpMn9T5hgiwBbLLiMbFl65Azg7hcmZr5A29fVBP349effNX7+/vLSp9/svl+4wWeRX10E0EDy/8ofnAA9JBNAc8kE0EQyO0BzyQTQXDIBNJdMAJNUkRzNxWNggLPkCAJI4iw5ggCSOEuOIIAkzpKzc7EDBDhLjiCAJM6SIwggibPkCAJoxHenGDtAAWb3FL4GNpdMAM0lE0ATyewAzSUTQHPJBNBcMgFMUkVyNBfvAQKcJUcQQBJnyREEkMRZcgQBJHGWnJ2LHSDAWXIEASRxlhxBAEmcJUd0DUCFZrlF5QBU9NR+FPcANLmXfcy1+96PwCEA3ZAcXTtmOY5TAtAiyQRwUADaIJkd4OUAdJhkAlgQgIwkE8BkACoimQAWBDCQXIenxA7+yb0CEMd1/QCE5Po8vQSKxcuLFQFcUD+AC+oHMF78FvA2lWZZ/hQg0wA4xRoEoBtvLHff+xE4BKBFr6V3zHIcpwSgRZIJ4KAAtEEyTzIvB6DDJBPAggBkJJkAJgNQEckEsCCAgeQ6PCV28E/uFYA4rusHICTX5+klUCxeXqwI4IL6AVxQP4Dx4rcAeIHZlzgiAB9WvMETAdSXTADNJRNAE8nsAM0lE0BzyQTQXDIBTFJFcjQXj4EBzpIjCCCJs+QIAkjiLDmCAJI4S87OxQ4Q4Cw5ggCSOEuOIIAkzpIjCKAR351i7AAFmN1T+BrYXDIBNJdMAE0kswM0l0wAzSUTQHPJBDBJFcnRXLwHCHCWHEEASZwlRxBAEmfJEQSQxFlydi52gABnyREEkMRZcgQBJHGWHNE1ABWa5RaVA1DRU/tR3APQ5F72Mdfuez8ChwB0Q3J07ZjlOE4JQIskE8BBAWiDZHaAlwPQYZIJYEEAMpJMAJMBqIhkAlgQwEByHZ4SO/gn9wpAHNf1AxCS6/P0EigWLy9WBHBB/QAuqB/AePFbwNtUmmX5U4BMA+AUaxCAbryx3H3vR+AQgBa9lt4xy3GcEoAWSSaAgwLQBsk8ybwcgA6TTAALApCRZAKYDEBFJBPAggAGkuvwlNjBP7lXAOK4rh+AkFyfp5dAsXh5sSKAC3yYDeAqzl8DM7AJaXRuVAAAAABJRU5ErkJggg==",
+      "height": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAAt0lEQVR4nO3dMQrEMAwAwTxZz9FvkzcEF3dhZ8C1XSwCVb4uAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAXtnd++S8u42/I4C4NQHaVgBtK4C2mblPzq/fzyEBxI0J0DYCaBsBtI0A2tYa2LYCaFsBtK0A2lYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADwPT4ciBNAnADiBBAngDhfj8YJIE4AcQKIE0CcAOKsgXECiBNAnADiBND2AC/YNEyfDwfDAAAAAElFTkSuQmCC",
+      "guts": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAAuUlEQVR4nO3dIQ4CQRBFQY6B+EFgENz/fMsZNiuAvKqk9bR4aTu3GwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKfs+T6uzLnX+DkCiJsL0DYBtE0AbRNA2wTQNgG0TQBtE0DbBNA2AbRNAG0TQNsE0DYBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADA/7k/XseV+fb+XCSAOAHECSBOAHECiBNAnADifDwYJ4A4AcQJIE4AcQKIE0CcANo+cPrKH3tvyYoAAAAASUVORK5CYII=",
+      "emis": null,
+      "trim": null,
+      "cloth": null
+    }
+  ],
+  "asset_id": "custom-ad54c2d7-1810-44c2-9206-1d77899b4100",
+  "state_key": ""
+}

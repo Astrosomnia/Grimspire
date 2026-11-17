@@ -1,0 +1,32 @@
+{
+  "forge": 1,
+  "code": "BK63",
+  "name": "BK63 Buttress · three storeys — c",
+  "w": 40,
+  "h": 384,
+  "fps": 1,
+  "base": 383,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "pivot": [
+      0,
+      383
+    ]
+  },
+  "ready": false,
+  "notes": "Batch2/2b draft,17 Nov2026. BK63c. 1x navy stone/iron,12-tone maximum. Native-grid pixel drawing; generated studies used as composition references only. No source raster resampled. Native source linked in receipt. User asked richer S01-like carved forms, not stripped-back blocks. Geometric anchor[0,384], Forge pivot clipped to last valid pixel.  Native40wide by128/256/384; step cadence16, modest outward increments. No stretched one-storey art. Body/Height/Guts masks exact; independent geometric depth, coarse provisional rubble core. Lighting/traversal/destruction need lab integration. Not approved or live.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAGACAYAAADfxiBaAAAACXBIWXMAAAPoAAAD6AG1e1JrAAADzElEQVR4nO2aQY6jMBBFOYQXrag0JXnBLLzg/qfLrLqnFRGD/W1D4H3J+6eXqgKcmiymZ+5MR8cAFINBNRi8jcGvP39/DoAlwaAaDKrBYG+Dhw9sA1AMBtVgUA0G1WBQDQbVYPDyBn1ennsPgGvBoBoMjhozh40aA1AMBtVgUA0G1VzKoB0BagCKwaAaDKrBoBoMqsGgGgyquaRBGwlpAIrBoBoMqsGgGgyqwaAaDKq5rEEbBWkAisGgGgyqwaAaDKrBoBoMXt6gF+wPHrJX6ACKweDlDZowZmzEuAFQDQbVYFANBtXcwqD1hARQDQbVYFANBtVgUA0G1WBQzW0MWi9QANVgUA0G1WBQDQbVYFANBtXczqC1hgRQDQbVYFANBtVgUA0G1WDw8ga9wWqU91yXAlANBi9v0DqMGWs5agBUg0E1GFRzSYM+LwBWG/z9OLMRP/WlAH3lpcDOAvgbKjzi5wD6BuQQwFe47+NnAHytuTVAz0AC6G/s7bU43RrQM/UHYKnBNXthx888qQFQze0NmlqHvQ0agDMG86EGI128MGayoUnioCbZe+yoRx2ALS6Pas90dkBTQAGMGEzUYDY0SaRJEk2SDU0SaZJEkxyyGuWtVqYAnDG4UIOnedRZzZcdgBGDiRrMhiaJBzeJ71wyOwTQCzfhhgKWbsFZLWQNYMkFuo0GrLnlt1GAa0Dh5R/35juFCmAo3ITrCri1JuUFFpsD7tnhCgWQXQFz2x+hx9LjFuBee6HAYjfALbjQY48GwNjRYM3PG1rvFAI4Y3BpXoNWUotH1KAB+MDg/1CDM02yMGayoUnmQU2iHANwPqlB63ymswPaHkgAIwYTNZgNTRJpkkSTZEOTRJok0STZtPrucPEA6BicqcFnVZMc/aizra87ACMGEzVoNEn8kDHjhVtwQwG9cMFsKKAX3KoWQyqAXnn1OwRQvZ+2noDvYMLKalQJZBPAHFx4s7+1F1IG3AILIqQEWAIXKiGbAtZsf3gvwFq40GIzsxSwFC6oezRbgKq9oG5mlgDWwgVlMzMH2Mpe2GlRAlThwg6LAIarG7Q1SAAfGFyoQaNJHoyZxKAOt3+SeIf/UazlsxjAWGHwiDOdHdBeQQGMGEzUoNEkkTGTGNTGkyTyLH7ysmA9Xrd6v9a7cAB0DM7U4HOzSc760WTfowbAiMFEDRpNEj9szLiwR9gd0As2jYYDesFd9G7IFoBeeWE+BNAb3Ox3A/Q3EGsrKLWQP4BnPdPRAHZ2wK+NsgLQVIO/u/eMZzo9oNEkiS5+3npQ28b5B9Y3ZMvQxUL/AAAAAElFTkSuQmCC",
+      "back": null,
+      "height": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAGACAYAAADfxiBaAAAACXBIWXMAAAPoAAAD6AG1e1JrAAADz0lEQVR4nO2aQXLbMBAE+Uw8wUcf9Yw58gl7xA+VSip2HJUEEhyAoMieKpx86Wphl6I8k6R76UyjIwDNYNANBi9j8OPj4/sAWBMMusGgGwz2Njh8YQtAMxh0g0E3GHSDQTcYdIPB0xvMOd/XHgCfBYNuMLjXmhm2agSgGQy6waAbDLo5lUGNABWAZjDoBoNuMOgGg24w6AaDbk5pUHtCCkAzGHSDQTcYdINBNxh0g0E3pzWovSAFoBkMusGgGwy6waAbDLrB4OkN5or+4JBeYQbQDAZPb1DGmtEe6wZANxh0g0E3GHRzCYPqCQmgGwy6waAbDLrBoBsMusGgm8sYVC9QAN1g0A0G3WDQDQbdYNANBt1czqBaQwLoBoNuMOgGg24w6AaDbjB4eoO5QTUq96xLAegGg6c3qA5rRi1XDYBuMOgGg25OaTAiANxs8Le9r6M9PupTAcYPuLWQ016AP6FSSu8DGAuQuwA+wn2dOALg4517BhgFSADjhb21FqdLA0bh/gFYa/CZvbTiY57cAOjm8gbl3sPeBgVgYLAc7qCY4mDNFMOQaKchWXs06lEHYIsfj7ae6eiAckABFAbFHSyGIRFDIoakGIZEDIkYkiHVqNyqMgVgxmDmDh7mUactb3YACoPiDhbDkGjwkMTKktkQwKhswu0KWNuC01bILYA1P6Brb8Atv/JrL8BnQOnhP+7NO4UOYKpswnUFXKpJRYXF5oBrOlypArIrYKn9kXqUHpcA19pLFRa7AS7BpR49GgDV0eCWjze17hQCGBiM5ndQNXdxxB0UgAmD/8IdDIYkWDPFMCSx05A4RwDGQQ2q85mODqg1kAAKg+IOFsOQiCERQ1IMQyKGRAzJoep5ubZXOBosA5gxmI89JBr8VqeltzsAhUFxB8WQ6E3WTFS24HYFjI1VvV0Aw6jqLUI6gNGgqtcN0P19Wj0BX8GkJ9WoGsgmgCW49KK/tRbSBlwCSyakBVgDlzZCNgXc0v6IXoBb4VKLZmYtYC1ccns0S4CuveQ2M2sAt8Ilp5lZAmxlL620aAG6cGmFRQDT2Q3qGSSACYPBHRRDklgzYlGnyz9JwmzAxco3POsLK4CqNDjiTEcH1CMogMKguINiSMSaEYtaPEnEs/jOlwX1+Lo1uhKVl+pSoyEygBmD+dhDooO+1elr1QAoDIo7KIZEb7ZmwugRdgcMs6LXFTAa1fT+g2wBGI1rek0Bo8Ev+90Ao7JHuAVymuf5fuQzjQaYjw54u93+HADnXgY/Pz/vI8/tL+Crvx8fcGZIZqb4fulFPS+cXxui4pk1Q9jlAAAAAElFTkSuQmCC",
+      "guts": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAGACAYAAADfxiBaAAAACXBIWXMAAAPoAAAD6AG1e1JrAAACt0lEQVR4nO3ZMW4jMRBEUR+jA4IBEwa8//m02GCThT2WXBqNPPM+oLzw0UWyRx/V523r93E0JWAIgykMpjCYwmAKgykMflzdYB0dtAQMYTCFwdMbbGPd7vkJ+BUMpjCYwuCrDB52FjYBQxhMYTCFwRQGUxhMYfD0BuvOxf2wJb4EDGEwhcEUBlMYTGEwhcGUUxqsV4YsAUMYTGHw9AbbA4v7IUt8EzCEwRQGU05rsL0qZBMwhMEUBlMYTGEwhcEUBk9vsH64uL9siS8BQxhMYTCFwRQGUxhMYTDlEgZrz5ACpjCYwuDpDbZgcW+vWOIFTGEwhcGUyxhsewUVMIXBFAZTGExhMIXBFAZPb7CetLjXXku8gCkMpjCYwmAKgykMpjCYckmD9cyQAqYwmMLg6Q22Jy/u7dkLvIApDKYwmHJZg+1ZQQVMYTCFwRQGUxhMYTCFwdMbrJ0W93rWEi9gZ3CawU2UpCvJVJJNlKQryVSSw0tSybtQwM7gNIObKEkPS7L34t7SJV7AweAyg5soyfhFJWk/CSngYHCZwU2UZCjJUpJNlGQoyVKSt/myUD9Z4AXsDE4zuImSdCWZSrKJknQlmUrydiWpR96FAnYGpxncREl6WJJXfzxqj/5nIuBgcJnBTZRk/OKStHtCCjgYXGZwEyUZSrKUZBMlGUqylORtvyxUn9+/CwXsDE4z2JSkO2amg7rcJN1d/DkeC/0kj4X2VUgBO4PTDDYl6TseM0d/PKrv/uAWcDC4zGApybjIMVOfhRRwMLjMYCnJcMwsB3Vzkwx38c1joe3x3Hqnz2/tsyVewM7gNINNSbpjZjqoy03S3cU3j4W60nOr/QspYGdwmsGmJH3HY+bd/oao/5d4AQeDywyWkoyLHjP1N6SAg8FlBktJhmNmOaibm2S4i28eC22H59YfMXLDL6TjO20AAAAASUVORK5CYII=",
+      "emis": null,
+      "trim": null,
+      "cloth": null
+    }
+  ],
+  "asset_id": "custom-88e08a4c-c240-4caf-8a70-a69c73937e35",
+  "state_key": ""
+}

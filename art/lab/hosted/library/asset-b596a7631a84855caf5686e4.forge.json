@@ -1,0 +1,32 @@
+{
+  "forge": 1,
+  "code": "BK96",
+  "name": "BK96 Scaffold · deck — a",
+  "w": 64,
+  "h": 8,
+  "fps": 1,
+  "base": 7,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "pivot": [
+      0,
+      7
+    ]
+  },
+  "ready": false,
+  "notes": "Batch2/2b draft,17 Nov2026. BK96deck. 1x navy stone/iron,12-tone maximum. Native-grid pixel drawing; generated studies used as composition references only. No source raster resampled. Native source linked in receipt. User asked richer S01-like carved forms, not stripped-back blocks. Geometric anchor[0,8], Forge pivot clipped to last valid pixel. Scaffold posts/braces Back; deck8thick solid. Stack128 to max3storeys. Body/Height/Guts masks exact; independent geometric depth, coarse provisional rubble core. Lighting/traversal/destruction need lab integration. Not approved or live.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAAAICAYAAABJYvnfAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAAOUlEQVRIiWOQUdL+P5Ixw0A7YKAxg4Sc+v+RjBkG2gEDjRkGOgnCHDJiywCJkR4AMgOMGQbaAQONAYyWye9RG+l0AAAAAElFTkSuQmCC",
+      "back": null,
+      "height": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAAAICAYAAABJYvnfAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAAOUlEQVRIieXUsQ0AMAwCQUamZBS2daQs8QXF9S8LWW1vmegAmmzfMtEBNNETTPLN/oCsH6Aw0QG0B35sUMyggx+bAAAAAElFTkSuQmCC",
+      "guts": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAAAICAYAAABJYvnfAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAAL0lEQVRIiWOQkFP/P5BYRkl7QDHDaADIjaaA/6NZQG60DPg/WgjKjdYC/0diNQgABlLEH9CXnqEAAAAASUVORK5CYII=",
+      "emis": null,
+      "trim": null,
+      "cloth": null
+    }
+  ],
+  "asset_id": "custom-2b06e8f8-f265-490b-915f-8b3a52a613ad",
+  "state_key": ""
+}

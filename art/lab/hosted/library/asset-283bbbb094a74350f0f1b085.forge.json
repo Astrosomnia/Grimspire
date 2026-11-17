@@ -1,0 +1,32 @@
+{
+  "forge": 1,
+  "code": "BK90",
+  "name": "BK90 Cantilever · diagonal brace — b",
+  "w": 64,
+  "h": 64,
+  "fps": 1,
+  "base": 63,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "pivot": [
+      0,
+      63
+    ]
+  },
+  "ready": false,
+  "notes": "Batch2/2b draft,17 Nov2026. BK90brace. 1x navy stone/iron,12-tone maximum. Native-grid pixel drawing; generated studies used as composition references only. No source raster resampled. Native source linked in receipt. User asked richer S01-like carved forms, not stripped-back blocks. Geometric anchor[0,64], Forge pivot clipped to last valid pixel. Assembly:32repeat deck, separate64brace,16×48decorative end lamp; Body glass is for emission only, import lamp as noncolliding decoration. Fit deck70–150 by whole repeats plus crop endpoint; brace underdeck. Light separated. Body/Height/Guts masks exact; independent geometric depth, coarse provisional rubble core. Lighting/traversal/destruction need lab integration. Not approved or live.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAACXBIWXMAAAPoAAAD6AG1e1JrAAABSklEQVR4nO2aMQ6DQAwE/QwKFEsUUKTg/68j2jLl3dl3XuORaJOdEVxSIPvxfZgvPe+hS1YLVICj7oCnHoHD7gzYPtff9bozYKsAV90Bm+UjIMFx/x8gwakAZ90Bz2sfgb3h57L7QySzPGsAM3nGAKbybAHM5ZkCuMizBHCTZwjgKh89gLt85ABT5KMGmCYfMcBU+WgBpstHCrBEPkqAZfIRAiyVXx1guTxY9cUh5MGKLw8jD2YPCCUPZo4IJw9mDQkpD2aMCSsPvAeFlgeeo8LLA69hFPLAYxyNPLAeSCUPLEfSyQOroZTywGIsrTwYHUwtD0ZG08uD3uEp5EHP+DTyoFUglTxofakolbxXAGFCjQMIG2oYQBjRxtfNU8lbBRBmdDCAsKMDASQD2nkISha0I4BkQltfL8+GVoC77gCtR+CuM0Bfegj+ADhYglE2Uf9CAAAAAElFTkSuQmCC",
+      "back": null,
+      "height": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAACXBIWXMAAAPoAAAD6AG1e1JrAAABQElEQVR4nO2asQ3DMAwEObJG0Sjc0MGXKSWT0j/NA9wmfwdbSWGbcz7Kl7u/uuy2QAeYfQc8/QjMuDNgjPF3fe4MGB1g9B0wIh8BIyf9f4CR0wG874Dns4/AXPi53P4QqyyvGiBMXjFAqLxagHB5pQAp8ioB0uQVAqTKswdIl2cOcESeNcAxecYAR+XZAhyXZwpwRZ4lwDV5hgBX5W8HuC4Pbn0xhTy48eU08uD0ACp5cHIEnTw4NYRSHpwYQysPsgdRy4PMUfTyIGuYhDzIGCcjD6IHSsmDyJFy8iBqqKQ8iBgrKw/eDpaWB29Gy8uD3eEl5MHO+DLyYFWglDxYfamolHxWAFPCgwOYGh4YwBTxxdfNS8lHBTBl/GUAU8dfBLAK+OYhaFXwjQBWCV99vbwa3gG87wDvR8D7DPCPHoI/CHKa/pyTl+gAAAAASUVORK5CYII=",
+      "guts": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAACXBIWXMAAAPoAAAD6AG1e1JrAAABWElEQVR4nO2YOw7DQAhEOYaL1RZpUuT+59toikhW/rZhBwwjucW8p/1gy9Kvg/m0y436SAnotQJGbYFeZ8CoQ7DXLTDqGuyvEsR5zOcAcZ4ScKkVMNJugbYF9FOWoAJU4KMKUIOPKEAVPpoAdfhIAkzgowgwg48gwBTeuwBzeM8CpsB7FTAN3qOAqfDIlJf8mS0/ZNRe2pwIoMB7EUCD9yCACs8WgPpUeKaAR30qPEvAuj79Gm6TBTzXp88gbaKAd/XpA1ibJOBTffr02SYI+FafPXqLtYBf9dkfXmIp4FfttQA9IuUmxajuWoAukXKjYlDTes5QbVbODI9oNhkOHtFqNCQ8otFsWHjkaMOh4ZEjTYeHR/Y2fgp4ZE/zp4FHtgKcCn7rT0n6D0yLLJnhkdTwSGp4JDU8khoeSQ2PpIZHUsMjqeGR1PBICei1AkZtgV5nwMh6CN4BH4JSea9PZnAAAAAASUVORK5CYII=",
+      "emis": null,
+      "trim": null,
+      "cloth": null
+    }
+  ],
+  "asset_id": "custom-cacebae2-83c0-4517-b935-87758cd8d308",
+  "state_key": ""
+}

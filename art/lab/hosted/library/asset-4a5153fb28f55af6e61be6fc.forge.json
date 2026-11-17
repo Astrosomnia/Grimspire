@@ -1,0 +1,32 @@
+{
+  "forge": 1,
+  "code": "BK92",
+  "name": "BK92 Jetty oversail slab — b",
+  "w": 48,
+  "h": 16,
+  "fps": 1,
+  "base": 15,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "pivot": [
+      0,
+      15
+    ]
+  },
+  "ready": false,
+  "notes": "Batch2/2b draft,17 Nov2026. BK92slab. 1x navy stone/iron,12-tone maximum. Native-grid pixel drawing; generated studies used as composition references only. No source raster resampled. Native source linked in receipt. User asked richer S01-like carved forms, not stripped-back blocks. Geometric anchor[0,16], Forge pivot clipped to last valid pixel. Assembly:36×32bracket plus48×16oversail slab. Attach at wallface; wallshift36. Body/Height/Guts masks exact; independent geometric depth, coarse provisional rubble core. Lighting/traversal/destruction need lab integration. Not approved or live.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAQCAYAAABQrvyxAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAATElEQVRIiWOQUdL+P5Qxw0A7QGaoe0BCTh2MRz0gM1RjQAJqwFDFDAPtAIlRD8gNfChKjCYhuSGciWVGKzLt0ZpYYig3JWQoxEPeAwB2TiotXc0OvwAAAABJRU5ErkJggg==",
+      "back": null,
+      "height": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAQCAYAAABQrvyxAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAAS0lEQVRIie2WMQoAMAgD+2THPOV+a6H0Be0ggQw3Ch4qcQHtzJpuAHcBSYcI4DqBqupJdAVe6yNQmYCyQm19xCTISBLL+ZXgE3uBDUbRywoqES5QAAAAAElFTkSuQmCC",
+      "guts": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAQCAYAAABQrvyxAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAAQUlEQVRIiWOQkFP/P5BYRkmbIsww6gG50Rj4P5qEJEYzsfpoKSQzWozKjVZk/0drYqXRpoT6aGNOYrQ1qk1SnQAAaeUgPaONiKEAAAAASUVORK5CYII=",
+      "emis": null,
+      "trim": null,
+      "cloth": null
+    }
+  ],
+  "asset_id": "custom-c768bf48-4147-4846-baea-bb3bb4f5fcb2",
+  "state_key": ""
+}

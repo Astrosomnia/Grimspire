@@ -1,0 +1,32 @@
+{
+  "forge": 1,
+  "code": "BK09",
+  "name": "BK09 Back bay, plain — d",
+  "w": 128,
+  "h": 128,
+  "fps": 1,
+  "base": 127,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "pivot": [
+      0,
+      127
+    ]
+  },
+  "ready": false,
+  "notes": "Native-grid rear wall revision, 17 Nov 2026. Quiet coursing and sparse adornments. Darker than Body. Original window/arcade transparency retained. Back only, no collision. Additional variant with a new letter; all previous wall variants retained.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAAV0lEQVR4nO3BMQEAAADCoPVPbQwfoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAKC7AQCPAAFPBGUdAAAAAElFTkSuQmCC",
+      "back": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAABpUlEQVR4nO3cQYrCQBBAUZXyBrNyOfe/oQ0jzBmEgrz/wH06fCoNsXP/ef3+3cJ6bF9AdhUArgBw6wGc9/v/pzrL618PILsKAFcAuALAFQCuAHAFgCsAXAHgCgBXALgCwBUArgBwBYArAFwB4AoAVwC4AsAVAK4AcAWAm/ULeD5vsllefxMAVwC4AsCNfC4vTQDebO9Cs6s9AI4P4ODfJ+AD0BUArgBwBYArAFwB4AoAVwC4AsAVAK4AcOv/Cdw2+NvQJgCuAHAFgCsAXAHgCgBXALgCwBUArgBwBYArAFwB4Gbmmm/DzvnuaZ+56H1qAuAKAFcAuPn2s/KqzkXvUxMAtx6Afj7/LK9/PYDsKgBcAeAKAFcAuALAFQCuAHAFgCsAXAHgCgBXALgCwBUArgBwBYArAFwB4AoAVwC4AsAVAG79W8H6t3pnef1NAFwB4AoAN/K5vDQBeLO9C82u9gC4AsAVAK4AcAWAKwBcAeAKAFcAuALAFQCuAHAFgCsAXAHgCgBXALgCwBUArgBwBYArAFwB4AoAVwC4AsAVAK4AcAWA+wCqSy8ObKnuAQAAAABJRU5ErkJggg==",
+      "height": null,
+      "guts": null,
+      "emis": null,
+      "trim": null,
+      "cloth": null
+    }
+  ],
+  "asset_id": "custom-92e62e90-ea60-4dea-8c3b-4545d247ecd6",
+  "state_key": ""
+}

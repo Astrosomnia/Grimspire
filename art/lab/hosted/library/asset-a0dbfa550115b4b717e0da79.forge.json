@@ -1,0 +1,32 @@
+{
+  "forge": 1,
+  "code": "BK42",
+  "name": "BK42 Outside stair — a",
+  "w": 128,
+  "h": 128,
+  "fps": 1,
+  "base": 127,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "pivot": [
+      0,
+      127
+    ]
+  },
+  "ready": false,
+  "notes": "Batch2/2b draft,17 Nov2026. BK42. 1x navy stone/iron,12-tone maximum. Native-grid pixel drawing; generated studies used as composition references only. No source raster resampled. Native source linked in receipt. User asked richer S01-like carved forms, not stripped-back blocks. Geometric anchor[0,128], Forge pivot clipped to last valid pixel. Eight16 risers; corbels Back to preserve under-stair access; footleft128,topright0. Body/Height/Guts masks exact; independent geometric depth, coarse provisional rubble core. Lighting/traversal/destruction need lab integration. Not approved or live.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAB1UlEQVR4nO3ZsWqUURhF0TzGKT4ULLSw8P2fLlZCCpXAFGGy14LpA9n8l3vPywtP7b79fH3k99F/Pw8SQNz5ArSdANpOAG378uP1kd9H//086O0/8+v3X+/6CeATmQDa9pcA/vW59wX4hCaAtv0ngD83BF+AT2wCaJsjoG0CaJtrYNu9eQp+70OQOfgTveWfLeC5nQDaTgBtJ4C2c4a3zZ7fNvf4tgmgbZ5y2yaAtplz2yaAtjkC2iaAtrkGtp09/7mdMaftBNB2Amg7AbSdPb9t9vy2uce3TQBt85TbNgG0zZzbNgG0zRHQNgG0zTWw7ez5z+2MOW0ngLYTQNsJoO3s+W2z57fNPb5tAmibp9y2CaBt5ty2CaBtjoC2CaBtroFtZ89/bsacOAHECSBOAHH2/Dh7fpx7fJwA4jzlxgkgzpwbJ4A4R0CcAOJcA+Ps+U/OmBMngDgBxAkgzp4fZ8+Pc4+PE0Ccp9w4AcSZc+MEEOcIiBNAnGtgnD3/yRlz4gQQJ4A4AcTZ8+Ps+XHu8XECiPOUGyeAOHNunADiHAFxAohzDYyz5z85Y06cAOIEECeAOHt+nD0/zj0+TgBxnnLjBBBnzo0TQJwjIE4Aca6Bcfb8tt/X3qaE/P53hgAAAABJRU5ErkJggg==",
+      "back": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAACXBIWXMAAAPoAAAD6AG1e1JrAAACjklEQVR4nO3cMY7bMBBGYR9hikkTIE3uf8ekTWPD2RVFjv/vAa7WxQrvQSKHgh8PAAAAAAAAAAAAjKF//v6z+3/ARvkCCJff7gDZ8lsA2fJbANnyWwDZ8lsA2fJbANnyWwDZ8lsA2fJbANnyWwDZ8lsA2fJbANnyWwDZ8lsAs+k3JdePXwJIll8CyJZfAsiWXwLIll8CyJZfAsiWXwLIll8CyJZfAsiWXwLIll8CyJZfAsiWXwKYQS+SL4BB9AL5AhhEL5AvgEG0NQD6zcWgOcCH0v8RgLOAD6S/GMCrGJ59b/e1YmEE/8YggOAA+sVn93XiCQLAwx1gOP3NW6wABtMXPGM9+4fSFy6yLPyG0Revsq34B9ELtlm2ekPohfts+/zD6cWDFgOeg+kbJm0me4fSN45ajXUPo2+etZvnH0RvOGxxkHMIvfG0zSneZnrzcavj24208/ZcDGKC8cZNMO/KL+/cZcsvAWTLLwFkyy8BZMsvAWTLLwFkyy8BZMsvAWTLLwFkyy8BZMsvAWTLLwFkyy8BzGCV/BLAHFbILwHMYYX8EsAcrAHgd/jSeXc34CzgQ/lqAO19gM/higj6nwXks7/tvk7cEEC/+BBwKAKAn2GbzndvsR4Bg7niGevZP5QrF1kWfsO4epVtxT+IFdssW70hrNxn2+cfzupBiwHPwdwxaTPZO5Q7R63Guodx96zdPP8gdtySHeQcws7TNqd4m9m9Gnd8uxHn7cEYxATjjZtg3pXvnbtw+QIIly+AcPkCCJcvgHD5AgiXL4Bw+QIIly+AcPkCCJcvgHD5AgiXL4AhrJIvgEGskC+AQayQL4BBWAPA7/Cl8+5uwFnAh/LVAF6tGZ59b/e1PoL4C3IlUebSpWQ+AAAAAElFTkSuQmCC",
+      "height": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAB00lEQVR4nO3ZMUqkQRhF0Vmu4QtdyrcMd+jARAYyCB1I9z0H/lzw0kXV+/OHp3Z3n498v/338yABxJ1fgLYTQNsJoG3b5yPfb//9POjrP/Pj4+NHnwBeyATQtm8CeHt7+/bzC/CCJoC2/SeA9/f3f59fgBc2AbTNEdA2AbTNNbDtvjwF//QhyBz8Qm/5Zwt4bieAthNA2wmg7ZzhbbPnt809vm0CaJun3LYJoG3m3LYJoG2OgLYJoG2ugW1nz39uZ8xpOwG0nQDaTgBtZ89vmz2/be7xbRNA2zzltk0AbTPntk0AbXMEtE0AbXMNbDt7/nM7Y07bCaDtBNB2Amg7e37b7Pltc49vmwDa5im3bQJomzm3bQJomyOgbQJom2tg29nzn5sxJ04AcQKIE0CcPT/Onh/nHh8ngDhPuXECiDPnxgkgzhEQJ4A418A4e/6TM+bECSBOAHECiLPnx9nz49zj4wQQ5yk3TgBx5tw4AcQ5AuIEEOcaGGfPf3LGnDgBxAkgTgBx9vw4e36ce3ycAOI85cYJIM6cGyeAOEdAnADiXAPj7PlPzpgTJ4A4AcQJIM6eH2fPj3OPjxNAnKfcOAHEmXPjBBDnCIgTQJxrYJw9v+0vRxcDR5R8/kMAAAAASUVORK5CYII=",
+      "guts": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAYAAADDPmHLAAAACXBIWXMAAAPoAAAD6AG1e1JrAAABm0lEQVR4nO3bMWrAMBQFwRzjF48UaVLk/udLDuEimJ0B9QYvsrCkjw9ebV8/v0/Gfz8/DwkgbmaAtgmgbQJomwDaJoC2CaBtAmibANomgLYJoG0CaJsA2iaAtgmg/QIngHebANomgLYJoG2+4W0TQNsE0DYBtN3n9++T8d/Pz0MCiDszQNsJoO0E0HYCaDsBtJ0A2j9yTgDvNgG0TQBtE0DbbOa0TQBtE0DbBNA2AbRNAG0TQNsE0DYBtE0AbRNA2wTwbvdwP95+/sudANpOAG0ngLZzJq/tBNB2Amg7AbSdANpOAG0ngLYTQNsJoO0E0HYCaDsBvJvLmXECiBNAnADiHMqME0CcAOIEEOdHTpwA4gQQJ4A4AcQJIE4AcQJ4OZcz4wQQJ4A4AcRZxMUJIE4AcQKIE0CcAOIEECeAOAHECSBOAHECiL9AFzteTgBxAogTQJxFXJwA4gQQJ4A4AcQJIE4AcQKIE0CcAOIEECeAl3M5M04AcQKIE0CcRVycAOIEECeAOOfy4wQQJ4A4AcQJIE4AcQKIE0DbHx3jccQ5fn+FAAAAAElFTkSuQmCC",
+      "emis": null,
+      "trim": null,
+      "cloth": null
+    }
+  ],
+  "asset_id": "custom-4c6e1b5d-94f6-4f65-860c-aded947a363a",
+  "state_key": ""
+}

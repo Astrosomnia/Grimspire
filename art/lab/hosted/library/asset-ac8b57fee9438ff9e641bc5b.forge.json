@@ -1,0 +1,32 @@
+{
+  "forge": 1,
+  "code": "BK91",
+  "name": "BK91 Cantilever · snapped end — a",
+  "w": 32,
+  "h": 24,
+  "fps": 1,
+  "base": 23,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "pivot": [
+      0,
+      23
+    ]
+  },
+  "ready": false,
+  "notes": "Batch2/2b draft,17 Nov2026. BK91. 1x navy stone/iron,12-tone maximum. Native-grid pixel drawing; generated studies used as composition references only. No source raster resampled. Native source linked in receipt. User asked richer S01-like carved forms, not stripped-back blocks. Geometric anchor[0,24], Forge pivot clipped to last valid pixel.  Body/Height/Guts masks exact; independent geometric depth, coarse provisional rubble core. Lighting/traversal/destruction need lab integration. Not approved or live.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAYCAYAAACbU/80AAAACXBIWXMAAAPoAAAD6AG1e1JrAAAAcklEQVRIieXTMQqAMBBE0TnGFIOFjYX3P19kG0EMJIjuLPhh2+wLJNC6N+fAujyyLo+syyPr8ojL1rIGvZgI6CKYDLghaABcEDQBTgTdb0Cu75cBwExy3fw3AI0Qcj/CUa8f+CRVAyA7VQLAlSoAvjj3AKVrsYNf7TpYAAAAAElFTkSuQmCC",
+      "back": null,
+      "height": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAYCAYAAACbU/80AAAACXBIWXMAAAPoAAAD6AG1e1JrAAAAa0lEQVRIieXTQQrAIAxE0Rx3jjM3tmRTkAqW0uYH+iFb8wQN24OcQJdn6PIMXZ6hyzNJo2pilQoBS4SKAReEAMCEEAQ4EaLfgKnvVwGIO5m6+W8A3iFMP8Jdrx/4JHcDRHXuBAgqdwB8ce4B94riNSVchg8AAAAASUVORK5CYII=",
+      "guts": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAYCAYAAACbU/80AAAACXBIWXMAAAPoAAAD6AG1e1JrAAAAYUlEQVRIieWSMQqAQAwE9xlT2fr/FyppLAQ5EL0J3EDa7LBs2PbDvKjhhRpeqOGFGl6o4cs1QIcNcJdAErgkWGUDeQIjdGYDWV6AUQvYIxzx+cM30E0gs6GTQCzoIPDH3xMckaJfXrsCUwAAAABJRU5ErkJggg==",
+      "emis": null,
+      "trim": null,
+      "cloth": null
+    }
+  ],
+  "asset_id": "custom-a90c6733-46ac-4e02-a206-2cc2c519f268",
+  "state_key": ""
+}

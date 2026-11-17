@@ -1,0 +1,77 @@
+[
+  {
+    "id": "BK09c",
+    "code": "BK09",
+    "title": "BK09 Back bay, plain \u2014 c",
+    "w": 128,
+    "h": 128,
+    "anchor": [
+      0,
+      128
+    ],
+    "file": "BK09a-rear-v2.forge.json",
+    "asset_id": "custom-92e62e90-ea60-4dea-8c3b-4545d247ecd6",
+    "batch": "rear-revision",
+    "variant": "c"
+  },
+  {
+    "id": "BK09d",
+    "code": "BK09",
+    "title": "BK09 Back bay, plain \u2014 d",
+    "w": 128,
+    "h": 128,
+    "anchor": [
+      0,
+      128
+    ],
+    "file": "BK09b-rear-v2.forge.json",
+    "asset_id": "custom-92e62e90-ea60-4dea-8c3b-4545d247ecd6",
+    "batch": "rear-revision",
+    "variant": "d"
+  },
+  {
+    "id": "BK10c",
+    "code": "BK10",
+    "title": "BK10 Back bay, lancet window \u2014 c",
+    "w": 128,
+    "h": 128,
+    "anchor": [
+      0,
+      128
+    ],
+    "file": "BK10a-rear-v2.forge.json",
+    "asset_id": "custom-59264620-3d1f-4eb7-8f59-3b7b262b89c4",
+    "batch": "rear-revision",
+    "variant": "c"
+  },
+  {
+    "id": "BK10d",
+    "code": "BK10",
+    "title": "BK10 Back bay, lancet window \u2014 d",
+    "w": 128,
+    "h": 128,
+    "anchor": [
+      0,
+      128
+    ],
+    "file": "BK10b-rear-v2.forge.json",
+    "asset_id": "custom-59264620-3d1f-4eb7-8f59-3b7b262b89c4",
+    "batch": "rear-revision",
+    "variant": "d"
+  },
+  {
+    "id": "BK11b",
+    "code": "BK11",
+    "title": "BK11 Back bay, arcade \u2014 b",
+    "w": 128,
+    "h": 128,
+    "anchor": [
+      0,
+      128
+    ],
+    "file": "BK11-rear-v2.forge.json",
+    "asset_id": "custom-6451fdfb-8798-4b93-9dec-bc5745c7d790",
+    "batch": "rear-revision",
+    "variant": "b"
+  }
+]

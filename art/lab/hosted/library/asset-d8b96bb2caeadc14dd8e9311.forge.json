@@ -1,0 +1,32 @@
+{
+  "forge": 1,
+  "code": "BK63",
+  "name": "BK63 Buttress · one storey — a",
+  "w": 40,
+  "h": 128,
+  "fps": 1,
+  "base": 127,
+  "pixel_scale": 12,
+  "game_scale": 1,
+  "markers": {
+    "pivot": [
+      0,
+      127
+    ]
+  },
+  "ready": false,
+  "notes": "Batch2/2b draft,17 Nov2026. BK63a. 1x navy stone/iron,12-tone maximum. Native-grid pixel drawing; generated studies used as composition references only. No source raster resampled. Native source linked in receipt. User asked richer S01-like carved forms, not stripped-back blocks. Geometric anchor[0,128], Forge pivot clipped to last valid pixel.  Native40wide by128/256/384; step cadence16, modest outward increments. No stretched one-storey art. Body/Height/Guts masks exact; independent geometric depth, coarse provisional rubble core. Lighting/traversal/destruction need lab integration. Not approved or live.",
+  "frames": [
+    {
+      "body": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAACACAYAAAB5sSvuAAAACXBIWXMAAAPoAAAD6AG1e1JrAAABM0lEQVR4nO2cOw6DMBAFfYgUKFrF0hak2IL7n450EUViPg+wE2ak7Z8mfmuQUJJ5jKVJtTECimBQBYOXMdg9nu8h4BowqIJBFQwebbD68jYCimBQBYMqGFTBoAoGVTD49wZzP4x7TCJgj8FtcAZrrJlTV48RUASDKhhUwaDKZQzaUYEJqIJBFQyqYFAFgyoYVMGgymUN2l6hCegYDM5gEUrilCQoSRFK4pQkKEkzJbEtz4cEdAwGZ7AIJXFKEpSkCCVxShKU5JRvt/JR3yHWDpQJ2GNwaLskVvGtzpa86RHQMRicQaMk/kNrJvdDuwHz5EZoLmD+cG3t8pOrAfOC+7VawLziIeD0gN+C3O6+a8jZPyOpPal2AGs9YDdzrAhoqsFpe1uc1HxAoyRBi8dLL2qbmRewKCJG6wg5EAAAAABJRU5ErkJggg==",
+      "back": null,
+      "height": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAACACAYAAAB5sSvuAAAACXBIWXMAAAPoAAAD6AG1e1JrAAABOUlEQVR4nO2aMY7CMBQFfcwcIWXKHOOVPsIvfUMjoRVipcVAXoK9ZEZyRTMa8iwikSTV1km9EYImFHSh4GkKzvN8Owi+AwVdKOhCwaMLdr+8haAJBV0o6EJBFwq6UNCFgl9fsJRS9zgJwULBbfAM9rhmPnr1CEETCrpQ0IWCLqcpqKOEEXShoAsFXSjoQkEXCrpQ0OW0BbWXNIKioHgGmzASMRIxkiaMRIxEjGSYkWjL70MERUHxDDZhJGIkYiRNGIkYiRjJR/67VY76H2JvoYJgoWAZeyTq+FanV970EBQFxTMoRqJ/dM1ExLiCEXE7wwnGnZwr+UvYFYw/xPYUtQTjBTn7K98q+EhkmqZdJVPOuY58Um+BPLrguq7Xg2A+quCyLLXnWX8EH30+vmBmJJkV11Nf1PnJuQCyqbdxq+93xgAAAABJRU5ErkJggg==",
+      "guts": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAACACAYAAAB5sSvuAAAACXBIWXMAAAPoAAAD6AG1e1JrAAABCElEQVR4nO2aMQ6EMAwEeYYLy4WbFP7/+0J7Op2CjgVyBzMS/WrkNQlisWh99CyzMQKKYFAFgyoYVMGgCgZVMLg83aDNDm0EFMGgCgZvb9Cz+rcPAV/BoAoGVTA4w+Clu9EJKIJBFQyqYFAFgyoYVMHg7Q3ajov7pZd7I6AIBlUwqIJBFQyqYFAFgyqPNWhHhSZgYLAxg0MoSYglOeri7mdd7gmYGCxmcAglyT8qie/ZiwRMDBYzOISSJCUpSjKEkiQlKUryM18W7MOzeUYkYGCwMYNOSYI101jUxpskeBd3Dgv2hOOWvwcmYGCwMYNOSeLENTPz45Fnbf9rQ8DEYDGDRknyvDWzAva61/Gl+iM4AAAAAElFTkSuQmCC",
+      "emis": null,
+      "trim": null,
+      "cloth": null
+    }
+  ],
+  "asset_id": "custom-88e08a4c-c240-4caf-8a70-a69c73937e35",
+  "state_key": ""
+}
