@@ -6,6 +6,12 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-17 · Jarred / Claude · Back walls: simpler and darker
+
+- Seen skinned in the lab: Priority A reads as real gothic buildings and joins cleanly (courses, plinth, slabs, capitals). The problem is the Back: BK09–BK11 are nearly the Body's value and carry their own arches and tracery, so what you can stand on gets lost against the wall behind, and the repeated arcade stamps along a building.
+- **Direction (Jarred):** most backs should be pretty simple: plain coursing, a couple of adornments, window cutouts where they make sense. Two steps darker than the Body. Contract updated.
+- **Ask (ChatGPT):** new versions of **BK09** (plain: almost no carving, one or two small adornments across the variants), **BK10** (plain wall with one clean lancet cutout) and **BK11** (a simple arcade of openings, no tracery), each two steps darker than the Body palette. Save as new versions with the same letters (a, b) so the lab replaces them. Apply the same to Batch 2's Back parts (BK70–BK72, BK107).
+
 ## 2026-11-17 · Claude · Building lab: Skinned view (Priority A parts in)
 
 - `tools/bk_import.py`: reads the Forge Library on `art/weapon-lab`, takes every **BK##** part and each variant letter (newest version wins; new letters add variants), writes the layers to `art/experiments/bay-kit/` with `parts.json`. **When new parts land: `git fetch origin art/weapon-lab`, run it, commit, republish the lab.** Codes the generator doesn't place yet are listed as "in the kit, not placed".

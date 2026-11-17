@@ -101,7 +101,7 @@ Per [`WORLD-ART.md`](WORLD-ART.md): **Body** (flat, dark, collision), **Height**
 - **Big forms first.** A pier reads as a pier from across the map: its base, its shaft, its capital. Detail goes where it earns attention: doorways, window heads, capitals.
 - **Flat paint, no baked light.** No painted rims or highlights; the lit look adds those from the sky, neon and blasts. Dark navy stone, the kit's tone ramp (masonry about RGB 28/34/43).
 - **Heights as depth planes:** pier faces and ribs high, wall faces middle, window and door reveals low. Smooth within each plane. Not a copy of the drawing's brightness.
-- **Back is a step darker and simpler** than the Body: the inside of the building, never more facade. Far Back lighter and hazier still, toward the sky.
+- **Back is two steps darker and much simpler** than the Body (Jarred, 17 Nov, after seeing Priority A skinned): mostly plain coursing, with a couple of adornments and a window cutout where it makes sense, never more arcades, tracery or carving. The Body is what catches the eye; the Back only says "inside". If the back of a room competes with the piers in front, it's too busy. Far Back lighter and hazier still, toward the sky.
 - **Seams must disappear.** Courses line up at 16; joints land on bay lines; a pier and the slab beside it share the same stone. Test two of each part side by side before saving.
 - **Judge at play zoom next to terrain**, in the lab's Skinned view once it exists, not as a sprite.
 
