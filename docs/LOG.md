@@ -6,6 +6,19 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-16 · Claude · Building lab playground (`experiments/building-lab.html`)
+
+- Built per [`BUILDING-SYSTEM.md`](BUILDING-SYSTEM.md). Standalone, no game code touched. Private test artifact for Jarred: https://claude.ai/artifact/CduDGcmy6973jLS3gwY78R (also runs from the repo file).
+- **What it does:** 24 seeded lots per batch in the play-diagram style (Body light, Back and Far Back darker, ladders amber, reachable route cyan, unreachable red, a trooper for scale). Generator passes 1–8 from one weight table of 40 rules (footprint, massing, floors and roofs, circulation, openings, rooms and dressing, bridges and connectors, ruin), on the 128 px bay grid. Every rule is a slider with a pin; keep/cut then **Learn → next batch** nudges each choice toward kept and away from cut (capped per batch). **Lock** saves a building's space (massing, floors, circulation, openings) as a template the generator reuses with fresh rooms, bridges and ruin. That's the Dead Cells room-template layer. **Sketch** box: type a rough bay layout and get 24 dressings of it (the Townscaper/Tiny Glade idea, first cut). **Export/Import** the rule table as JSON for the game. State persists per browser.
+- **Checks use the game's own trooper physics** (walk step-up 10, head check 18, drop 8, jump −255/140, gravity 620, rung rules), in game px: floors reached, room for a full jump, tallest clear space (arcs), shot entries, sealed pockets (air a trooper can reach but a shell can't). Drop-in start points are open-air ground, as in the game. When a floor or room fails, the circulation check adds a door, a ladder from below or above, or an outside ladder, or opens a window; each fix is listed on the card (`auto n`).
+- **Result:** 120 lots over five batches: all fully reachable, no sealed rooms, about one auto-fix per lot.
+- **Findings for the game and the parts:**
+  - **Rung spacing:** the game's rung check looks 26–58 px above the feet and a jump rises 52, so at the sewer's 22 px spacing a trooper climbs two rungs per jump and can miss a top rung flush with a floor. The lab spaces rungs 27–44 game px apart so every jump lands on the next one. Worth matching if game ladders ever end at a floor.
+  - **Jump headroom:** a 128 px storey leaves about 60 game px clear; a full jump needs 76. At 128 only about half the reachable floors fit a full jump (halls and top rooms); at 160 it's 77%, and the rest is arch spans eating headroom. Decide before ChatGPT draws the parts: keep 128 and accept bonking in single-storey rooms (today's tenements do the same), or go to ~160. The Grid sliders in the lab show the effect.
+  - **Stairs split a storey in side view:** a flight's foot is reached from one side only, so the bays under its high end need their own way in. The generator now gives those a door at ground; higher up, the check adds a ladder.
+- Dressing is already partly neighbour-driven (parapets and gargoyles on exposed roof edges, arch spans between piers, corbels on outer walls, steps down to lower ground). A full Townscaper-style neighbour lookup belongs with the real parts.
+- **Next (Jarred):** play a few batches, keep/cut, lock favourites, and call the storey height. **Next (Claude):** once the rules feel right, port them into `index.html` behind a flag, still on placeholder shapes, and play rounds.
+
 ## 2026-11-16 · Claude · Building system plan
 
 - Jarred and Claude agreed the next backbone: the procedural generator decides the space (interiors to fight in, not solid lumps), a library of small drawn parts decides the look, a few hand-drawn landmarks stay on top. North star: Tiny Glade.

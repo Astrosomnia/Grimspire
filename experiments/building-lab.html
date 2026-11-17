@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Grimspire · Building lab</title>
+<style>
+:root{--bg:#0b0d12;--panel:#12151d;--line:#262b38;--text:#cfd5e2;--dim:#7d8597;--cyan:#3ff3ff;--mag:#ff2e88;--amber:#ffb347;--red:#ff4d6d;--green:#7dff9a}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--text);font:13px/1.35 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+button,select,input,textarea{font:inherit;color:inherit}
+button{background:#1b1f2a;border:1px solid var(--line);border-radius:4px;padding:5px 9px;cursor:pointer}
+button:hover{border-color:#3a4156}
+button.hot{border-color:var(--cyan);color:var(--cyan)}
+header{position:sticky;top:0;z-index:5;background:rgba(11,13,18,.96);border-bottom:1px solid var(--line);padding:8px 10px;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+header h1{font-size:14px;margin:0 8px 0 0;letter-spacing:.04em}
+header .sp{flex:1}
+header label{display:flex;gap:4px;align-items:center;color:var(--dim)}
+#msg{width:100%;color:var(--dim);font-size:12px;min-height:1em}
+#msg b{color:var(--text);font-weight:normal}
+#wrap{display:flex;align-items:flex-start}
+aside{width:330px;flex:none;border-right:1px solid var(--line);background:var(--panel);padding:8px 10px 40px;position:sticky;top:0;max-height:100vh;overflow:auto}
+aside h2{font-size:12px;color:var(--dim);margin:14px 0 4px;text-transform:uppercase;letter-spacing:.08em}
+.rule{border-top:1px solid var(--line);padding:6px 0}
+.rule .hd{display:flex;justify-content:space-between;gap:6px;align-items:center}
+.rule .hd span{color:var(--text)}
+.rule .hd label{color:var(--dim);font-size:11px;display:flex;gap:3px;align-items:center}
+.rule .k{color:var(--dim);font-size:11px}
+.opt{display:grid;grid-template-columns:80px 1fr 38px;gap:6px;align-items:center;font-size:12px}
+.opt input{width:100%;accent-color:var(--cyan)}
+.opt .pc{text-align:right;color:var(--dim)}
+.opt.moved .pc{color:var(--amber)}
+main{flex:1;min-width:0;padding:10px;display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:10px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:6px;overflow:hidden;display:flex;flex-direction:column}
+.card.keep{border-color:var(--green)}
+.card.cut{border-color:var(--red);opacity:.55}
+.card.lock{box-shadow:0 0 0 1px var(--amber) inset}
+.card canvas{width:100%;display:block;cursor:zoom-in;background:#0b0d12}
+.card .ft{padding:6px 8px;display:flex;flex-direction:column;gap:5px}
+.card .row{display:flex;gap:5px;align-items:center;flex-wrap:wrap}
+.card .ttl{flex:1;color:var(--text)}
+.card .seed{color:var(--dim);font-size:11px}
+.bd{font-size:11px;padding:1px 5px;border-radius:3px;border:1px solid var(--line);color:var(--dim)}
+.bd.ok{color:var(--green);border-color:#2c5a3a}
+.bd.warn{color:var(--amber);border-color:#5a4a2c}
+.bd.bad{color:var(--red);border-color:#5a2c36}
+.card .act button{padding:3px 8px}
+.card.keep .k1{background:#173322;border-color:var(--green)}
+.card.cut .k2{background:#3a1820;border-color:var(--red)}
+.card.lock .k3{background:#3a2e14;border-color:var(--amber)}
+#zoom,#modal{position:fixed;inset:0;background:rgba(5,6,9,.94);z-index:20;display:flex;flex-direction:column;padding:10px;gap:8px;overflow:auto}
+#zoom[hidden],#modal[hidden]{display:none}
+#zoom canvas{max-width:100%;align-self:center;background:#0b0d12;border:1px solid var(--line)}
+#zinfo{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:4px 16px;font-size:12px}
+#zinfo .p{color:var(--dim);margin-top:6px}
+#modal textarea{width:100%;min-height:50vh;background:#0e1118;border:1px solid var(--line);border-radius:4px;padding:8px;font-size:12px}
+.tpl{display:flex;gap:6px;align-items:center;padding:3px 0;font-size:12px}
+.tpl span{flex:1}
+#sketch textarea{width:100%;height:110px;background:#0e1118;border:1px solid var(--line);border-radius:4px;padding:6px;font-size:13px;line-height:1.1}
+.legend{font-size:11px;color:var(--dim);display:flex;flex-wrap:wrap;gap:4px 10px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:2px;vertical-align:-1px;margin-right:3px}
+.small{font-size:11px;color:var(--dim)}
+@media (max-width:760px){
+  #wrap{display:block}
+  aside{width:auto;position:static;max-height:none;border-right:0;border-bottom:1px solid var(--line)}
+  aside.shut{display:none}
+  main{grid-template-columns:1fr 1fr;gap:6px;padding:6px}
+  .card .ft{padding:4px 5px}
+}
+@media (max-width:420px){main{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+  <h1>GRIMSPIRE · BUILDING LAB</h1>
+  <button id="bNext" class="hot" title="Shift the weights toward kept buildings and away from cut ones, then roll 24 new">Learn → next batch</button>
+  <button id="bRoll" title="24 new buildings with the current weights">Reroll</button>
+  <button id="bRules">Rules</button>
+  <span class="sp"></span>
+  <label><input type="checkbox" id="oRoute" checked>route</label>
+  <label><input type="checkbox" id="oBack" checked>back</label>
+  <label><input type="checkbox" id="oGrid">grid</label>
+  <button id="bExport">Export</button>
+  <button id="bImport">Import</button>
+  <div id="msg"></div>
+</header>
+<div id="wrap">
+<aside id="panel">
+  <div class="legend">
+    <span><i style="background:#a7afc0"></i>Body</span><span><i style="background:#2f3546"></i>Back</span><span><i style="background:#1c2029"></i>Far Back</span>
+    <span><i style="background:#e0a545"></i>ladder</span><span><i style="background:var(--cyan)"></i>reachable</span><span><i style="background:var(--red)"></i>not reachable</span>
+  </div>
+  <p class="small">Keep or cut buildings, then <b>Learn → next batch</b>: every rule choice a kept building used gets more likely, every choice a cut one used gets less. Pin a rule to stop learning moving it. Routes use the game's own walk, jump, fall and ladder physics.</p>
+  <h2>Batch</h2>
+  <div class="small" id="batchInfo"></div>
+  <div class="opt" style="grid-template-columns:110px 1fr 38px"><span>learning</span><input type="range" id="lr" min="1.05" max="2" step="0.05"><span class="pc" id="lrv"></span></div>
+  <h2>Sketch</h2>
+  <div id="sketch">
+    <div class="small">A rough layout, top storey first. <b>#</b> bay, <b>.</b> empty, <b>S</b>/<b>s</b> stair rising right/left, <b>L</b> ladder up, <b>H</b> hall (no floor). The rules dress the rest.</div>
+    <textarea id="sk" spellcheck="false">#...
+##.#
+#S##
+##s#</textarea>
+    <div class="row" style="display:flex;gap:6px;margin-top:4px"><button id="bSketch">Dress this sketch ×24</button><button id="bUnsketch">Back to generator</button></div>
+  </div>
+  <h2>Templates <span class="small">(locked buildings)</span></h2>
+  <div id="tpls" class="small"></div>
+  <h2>Grid <span class="small">(art px)</span></h2>
+  <div id="gridOpts"></div>
+  <div id="rules"></div>
+  <h2>Reset</h2>
+  <button id="bReset">Reset weights</button> <button id="bResetAll">Reset everything</button>
+</aside>
+<main id="cards"></main>
+</div>
+<div id="zoom" hidden>
+  <div class="row" style="display:flex;gap:6px;align-items:center"><b id="zt" style="flex:1"></b><button id="zk">Keep</button><button id="zc">Cut</button><button id="zl">Lock</button><button id="zx">Close</button></div>
+  <canvas id="zc0"></canvas>
+  <div id="zinfo"></div>
+</div>
+<div id="modal" hidden>
+  <div class="row" style="display:flex;gap:6px;align-items:center"><b id="mt" style="flex:1"></b><button id="mCopy">Copy</button><button id="mApply">Apply</button><button id="mx">Close</button></div>
+  <div class="small" id="mh"></div>
+  <textarea id="mta" spellcheck="false"></textarea>
+</div>
+<script>
+'use strict';
+/* =====================================================================================================
+   Grimspire building lab (16 Nov 2026). Standalone: no game code. See docs/BUILDING-SYSTEM.md.
+   The generator decides the space; parts will decide the look later. Shapes here are placeholders in the
+   play-diagram style. Every rule and percentage lives in RULES and is tuned from the panel or by keep/cut.
+   Units: art px at trooper density (trooper ~50 art px). Physics runs in game px (trooper 27 game px)
+   with the game's own numbers: walk step-up 10, head check 18, drop 8, jump vy -255 vx 140, gravity 620,
+   fall damage over 480 px/s, rungs every 22 px from 30 px up, a rising trooper passes up through rungs.
+   ===================================================================================================== */
+const $=s=>document.querySelector(s);
+const mulberry=a=>()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296};
+const hash=(...n)=>{let h=2166136261;for(const v of n){h^=v&0xffffffff;h=Math.imul(h,16777619)}return h>>>0};
+
+// ---------------------------------------------------------------- rule table: [key, pass, label, {option: weight}]
+const PASSES=['Templates','1 · Footprint','2 · Massing','3 · Floors & roofs','4 · Circulation','5 · Openings','6 · Rooms & dressing','7 · Bridges & connectors','8 · Ruin'];
+const RULES=[
+ ['tpl.use',0,'Use a locked template',{yes:15,no:85}],
+ ['lot.kind',1,'Lot',{single:50,pair:35,rock:15}],
+ ['foot.bays',1,'Bays wide',{2:15,3:30,4:30,5:15,6:10}],
+ ['foot.ground',1,'Ground',{flat:40,slope:35,steps:25}],
+ ['mass.type',2,'Massing',{hall:16,keep:14,twin:16,stepped:16,towerwing:22,cloister:16}],
+ ['mass.base',2,'Base storeys',{1:30,2:45,3:25}],
+ ['mass.endTower',2,'End bay rises +2 as a tower',{yes:40,no:60}],
+ ['floor.hall',3,'Double-height hall',{yes:30,no:70}],
+ ['floor.balcony',3,'Balcony in the hall',{yes:50,no:50}],
+ ['roof.type',3,'Roof',{parapet:24,crenel:22,gable:16,broken:16,flat:22}],
+ ['roof.spire',3,'Spire on a lone tower',{yes:60,no:40}],
+ ['struct.arch',3,'Arch spans under slabs',{yes:55,no:45}],
+ ['circ.link',4,'Storey link',{stair:65,ladder:35}],
+ ['circ.side',4,'Next link side',{alternate:60,same:20,random:20}],
+ ['circ.extra',4,'Second link per storey',{yes:20,no:80}],
+ ['circ.drop',4,'Drop hole',{yes:35,no:65}],
+ ['open.door',5,'Ground end wall',{door:65,arcade:15,wall:20}],
+ ['open.upper',5,'Upper end wall',{window:50,wall:35,door:15}],
+ ['open.terrace',5,'Wall onto a lower roof',{door:60,window:25,wall:15}],
+ ['open.inner',5,'Inner pier',{open:55,door:30,wall:15}],
+ ['open.back',5,'Back window (per column, aligned)',{lancet:35,round:15,arcade:15,none:35}],
+ ['room.purpose',6,'Room purpose',{hall:30,chapel:20,gallery:20,crypt:15,ruin:15}],
+ ['far.type',6,'Far Back',{colonnade:40,vault:30,litwin:30}],
+ ['orn.gargoyle',6,'Gargoyle on a roof corner',{yes:45,no:55}],
+ ['orn.banner',6,'Banner in a room',{yes:40,no:60}],
+ ['orn.brazier',6,'Brazier in a room',{yes:35,no:65}],
+ ['orn.niche',6,'Statue niche',{yes:30,no:70}],
+ ['orn.corbel',6,'Corbels under floors',{yes:40,no:60}],
+ ['bridge.count',7,'Bridges between buildings',{0:10,1:55,2:35}],
+ ['bridge.span',7,'Span',{plain:30,arched:30,ribbed:15,truss:15,rope:10}],
+ ['bridge.ruin',7,'Bridge ruin',{intact:55,gap:25,collapse:20}],
+ ['bridge.mid',7,'Middle piece (long spans)',{none:70,chapel:10,gate:10,lamp:10}],
+ ['bridge.walkway',7,'High walkway between tops',{yes:30,no:70}],
+ ['bridge.buttress',7,'Flying buttress ramp',{yes:30,no:70}],
+ ['bridge.ladder',7,'Outside ladder',{yes:30,no:70}],
+ ['ruin.level',8,'Ruin',{none:25,light:45,heavy:30}],
+ ['ruin.slab',8,'Slabs knocked out',{0:45,1:35,2:20}],
+ ['ruin.shear',8,'Sheared top (heavy)',{yes:55,no:45}],
+ ['ruin.corner',8,'Collapsed corner (heavy)',{yes:40,no:60}],
+ ['ruin.sky',8,'Rear wall open to sky',{yes:40,no:60}],
+];
+const RULE=Object.fromEntries(RULES.map(r=>[r[0],r]));
+const GRID0={bay:128,storey:128,pier:24,slab:16,troop:50};
+const GRIDL={bay:['Bay width',96,192],storey:['Storey height',96,192],pier:['Pier',16,40],slab:['Slab',8,28]};
+const PH={G:620,JVY:-255,JVX:140,UP:10,HEAD:18,DROP:8,BODY:24,HURT:480,FALLVX:40,TROOP:27,RSP:22,RLOW:30,RT:3,JUMPCLEAR:76};
+const KEY='grimspire.buildinglab.v1';
+
+let ST;
+function fresh(){const w={};for(const r of RULES)w[r[0]]={...r[3]};return{w,pin:{},tpl:[],batch:1,base:(Math.random()*1e9)|0,lr:1.3,grid:{...GRID0},moved:{},sketch:null}}
+function load(){try{const s=JSON.parse(localStorage.getItem(KEY));if(s&&s.w){const f=fresh();for(const k in f.w)if(s.w[k])for(const o in f.w[k])if(typeof s.w[k][o]==='number')f.w[k][o]=s.w[k][o];return Object.assign(f,s,{w:f.w,grid:Object.assign({},GRID0,s.grid)})}}catch(e){}return fresh()}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(ST))}catch(e){}}
+ST=load();{const m=/base=(\d+)/.exec(location.hash);if(m){ST.base=+m[1];ST.batch=1}}
+const AS=()=>PH.TROOP/ST.grid.troop;// art px -> game px
+
+function mkPick(rng,rec){return(key,allow)=>{const W=ST.w[key];let ks=Object.keys(W);if(allow)ks=ks.filter(allow);if(!ks.length)return null;
+  let tot=0;for(const k of ks)tot+=Math.max(0,W[k]);let ch=ks[ks.length-1];
+  if(tot>0){let v=rng()*tot;for(const k of ks){v-=Math.max(0,W[k]);if(v<=0){ch=k;break}}}else ch=ks[Math.floor(rng()*ks.length)];
+  (rec[key]=rec[key]||{})[ch]=(rec[key][ch]||0)+1;return ch}}
+
+// ---------------------------------------------------------------- shapes
+const Rc=(x,y,w,h,e)=>Object.assign({k:'r',x,y,w,h},e);
+const Pg=(p,e)=>Object.assign({k:'p',p},e);
+const Ci=(x,y,r,e)=>Object.assign({k:'c',x,y,r},e);
+const Ln=(p,e)=>Object.assign({k:'l',p,lw:2},e);
+// an opening: straight sides, round or pointed top. y is the bottom
+function arch(cx,y,w,h,pointed){const p=[[cx-w/2,y],[cx-w/2,y-h+w/2]];const N=8;
+  for(let i=1;i<N;i++){const a=Math.PI-i*Math.PI/N;let px=cx+Math.cos(a)*w/2,py=y-h+w/2-Math.sin(a)*w/2;if(pointed)py-=Math.sin(a)*w*.35*(1-Math.abs(Math.cos(a)));p.push([px,py])}
+  p.push([cx+w/2,y-h+w/2],[cx+w/2,y]);return p}
+function jag(rng,a,b,amp,n){const p=[];for(let i=0;i<=n;i++){const t=i/n;p.push([a[0]+(b[0]-a[0])*t+(i&&i<n?(rng()-.5)*amp:0),a[1]+(b[1]-a[1])*t+(i&&i<n?(rng()-.5)*amp:0)])}return p}
+function mound(rng,cx,y,w,h){const p=[[cx-w/2,y+4]];const n=6;for(let i=1;i<n;i++){const t=i/n;p.push([cx-w/2+w*t,y-h*Math.sin(t*Math.PI)*(.7+rng()*.5)])}p.push([cx+w/2,y+4]);return p}
+
+// ---------------------------------------------------------------- generator
+const cellAt=(M,c,r)=>c>=0&&c<M.n&&r>=0&&r<M.h[c]?M.cells[c][r]:null;
+function genLot(seed,opt){opt=opt||{};
+  const g=ST.grid,rng=mulberry(seed),rec={},pick=mkPick(rng,rec),R=(a,b)=>a+(b-a)*rng(),RI=(a,b)=>a+Math.floor(rng()*(b-a+1)),C={rng,pick,R,RI};
+  const W=1200,H=1000,GY=900;
+  const L={seed,rec,W,H,GY,blds:[],bridges:[],ladders:[],ramps:[],rub:[],cuts:[],fixes:[],notes:[]};
+  // ---- pass 1: footprint and ground
+  const kind=opt.sketch?'single':pick('lot.kind');L.kind=kind;
+  const gk=pick('foot.ground');L.ground=gk;
+  const ph=R(0,6.28),amp=gk==='flat'?2:4,slope=gk==='slope'?(rng()<.5?-1:1)*R(50,140):0,steps=[];
+  if(gk==='steps'){const k=RI(1,3);for(let i=0;i<k;i++)steps.push([R(.1,.9)*W,(rng()<.5?-1:1)*R(20,56)])}
+  L.tY=x=>{let y=GY+slope*(x/W-.5)+amp*Math.sin(x/53+ph)+amp*.6*Math.sin(x/17+ph*2);for(const[sx,dy]of steps)if(x>sx)y+=dy;return y};
+  const bays=()=>+pick('foot.bays');let slots;
+  if(opt.sketch)slots=[{x0:(W-opt.sketch.n*g.bay)/2,n:opt.sketch.n}];
+  else if(kind==='pair'){let n1=bays(),n2=bays(),gap=R(170,380);
+    while((n1+n2)*g.bay+gap>W-180){if(n1>=n2&&n1>2)n1--;else if(n2>2)n2--;else{gap=Math.max(120,W-180-(n1+n2)*g.bay);break}}
+    const x0=(W-(n1+n2)*g.bay-gap)/2+R(-30,30);slots=[{x0,n:n1},{x0:x0+n1*g.bay+gap,n:n2}];L.gap=gap}
+  else if(kind==='rock'){const n=Math.min(Math.floor((W-520)/g.bay),bays()),side=rng()<.5?-1:1,rw=R(150,240),rg=R(110,230),tot=n*g.bay+rg+rw,x0=(W-tot)/2;
+    const bx=side<0?x0+rw+rg:x0,rx=side<0?x0:x0+n*g.bay+rg;L.rock={x0:rx,w:rw,top:GY-R(130,340),side};slots=[{x0:bx,n}]}
+  else{const n=Math.min(bays(),Math.floor((W-200)/g.bay));slots=[{x0:(W-n*g.bay)/2+R(-80,80),n}]}
+  for(const s of slots)L.blds.push(genBuilding(L,s,C,opt.sketch?JSON.parse(JSON.stringify(opt.sketch)):null));
+  L.massing=L.blds.map(M=>M.type).join(' + ');
+  // ---- the circulation check (pass 4's guarantee), before bridges and ruin
+  fixLot(L);
+  for(const M of L.blds)M.snap=snapshot(M);
+  // ---- pass 7: bridges and connectors
+  connectors(L,C);
+  // ---- pass 8: ruin
+  for(const M of L.blds)ruin(L,M,C);
+  // ---- reachability again, so a ruined building is still a level
+  fixLot(L);
+  finalChecks(L);
+  return L}
+
+function genBuilding(L,slot,C,forced){
+  const g=ST.grid,{pick,rng,R,RI}=C;
+  const maxRows=Math.max(2,Math.min(6,Math.floor((L.GY-280)/g.storey)));
+  let n=slot.n,h=[],type;
+  if(!forced&&ST.tpl.length&&pick('tpl.use')==='yes'){const t=ST.tpl[Math.floor(rng()*ST.tpl.length)];forced=JSON.parse(JSON.stringify(t.s));forced.tpl=t.name;
+    if(forced.n>slot.n+1&&L.kind==='pair')forced=null}
+  const M={n,h,type:'',cells:[],piers:[],roofs:[],forceOpen:{},forceDoor:{},rub:[],cuts:[],backCuts:[],farCuts:[],ext:[],noPar:{},fixes:[]};
+  if(forced){M.n=n=forced.n;M.h=h=forced.h.map(v=>Math.max(1,Math.min(v,maxRows)));M.type=type=forced.tpl?'template':'sketch';M.tpl=forced.tpl;M.cloister=forced.cloister}
+  else{
+    // ---- pass 2: massing
+    type=pick('mass.type',o=>!(o==='twin'&&n<3)&&!(o==='cloister'&&n<2));let b=+pick('mass.base');
+    if(type==='keep'){n=Math.min(n,3);b=Math.min(maxRows,b+RI(1,2))}
+    const dir=rng()<.5?1:-1,tc=rng()<.5?0:n-1;
+    for(let c=0;c<n;c++){const i=dir>0?c:n-1-c;
+      h[c]=type==='hall'?Math.max(2,Math.min(b,3)):type==='keep'?b:type==='twin'?((c===0||c===n-1)?b+2:b):
+        type==='stepped'?Math.max(1,b+2-i):type==='towerwing'?(c===tc?b+RI(2,3):b):type==='cloister'?2:b}
+    if(type==='hall')M.forceHall=true;if(type==='cloister')M.cloister=true;
+    if(n>=2&&!['twin','keep','cloister'].includes(type)&&pick('mass.endTower')==='yes'){const e=rng()<.5?0:n-1;h[e]+=2}
+    for(let c=0;c<n;c++)h[c]=Math.max(1,Math.min(maxRows,h[c]));
+    M.n=n;M.h=h;M.type=type}
+  const x0=slot.x0+(slot.n-n)*g.bay/2;M.x0=x0;
+  let top=1e9,bot=0;for(let x=x0-g.pier;x<=x0+n*g.bay+g.pier;x+=4){const y=L.tY(x);top=Math.min(top,y);bot=Math.max(bot,y)}
+  M.base=Math.round(top);M.foot=Math.round(bot);
+  const maxH=Math.max(...h);
+  // ---- pass 3: floors and roofs
+  for(let c=0;c<n;c++){M.cells[c]=[];for(let r=0;r<h[c];r++){const f=forced?.cells?.[c]?.[r];
+    M.cells[c][r]={c,r,floor:f?f.floor:(r?'slab':'ground'),stair:f?f.stair:0,ladder:f?f.ladder:null,holes:f?f.holes||[]:[],hall:f?!!f.hall:false,well:f?!!f.well:false,arrive:f?!!f.arrive:false}}}
+  if(!forced){
+    if((M.forceHall||pick('floor.hall')==='yes')){const cand=[];
+      for(let r=1;r<maxRows;r++){let s=-1;for(let c=0;c<=n;c++){const ok=c<n&&h[c]>r;if(ok&&s<0)s=c;if(!ok&&s>=0){if(c-s>=2)cand.push([r,s,c-1]);s=-1}}}
+      if(cand.length){const[r,c0,c1]=cand[RI(0,cand.length-1)];for(let c=c0;c<=c1;c++){M.cells[c][r].floor='none';M.cells[c][r].hall=true;M.cells[c][r-1].hall=true}
+        M.hallRow=r;if(pick('floor.balcony')==='yes'){const e=rng()<.5?c0:c1;M.cells[e][r].floor=e===c0?'balcL':'balcR'}}}}
+  if(forced?.roofs)M.roofs=forced.roofs;
+  else{let c=0;while(c<n){let e=c;while(e+1<n&&h[e+1]===h[c])e++;
+    const lone=c===e&&(n===1||(h[c]>=(c>0?h[c-1]:0)+2&&h[c]>=(c<n-1?h[c+1]:0)+2));
+    const t=lone&&pick('roof.spire')==='yes'?'spire':pick('roof.type',o=>o!=='gable'||e-c<=2);M.roofs.push({c0:c,c1:e,type:t,gar:[]});c=e+1}}
+  M.arch=forced&&forced.arch!==undefined?forced.arch:pick('struct.arch')==='yes';
+  // ---- pass 4: circulation
+  if(!forced){
+    const side=pick('circ.side');let lastD=rng()<.5?1:-1;
+    const src=(c,r)=>{const s=cellAt(M,c,r);return s&&(s.floor==='ground'||s.floor==='slab')&&!s.stair&&!s.ladder&&!s.well};
+    const link=(r,t,run)=>{const inR=c=>c>=run[0]&&c<=run[1];
+      if(t==='stair'){const cs=[];
+        for(let c=0;c<n;c++)for(const d of[1,-1]){const w=cellAt(M,c,r+1),tg=cellAt(M,c+d,r+1);
+          if(!inR(c)||!inR(c+d)||!src(c,r)||!w||!tg||tg.floor!=='slab'||tg.well||w.stair||w.ladder||w.arrive)continue;
+          const lo=c-d,loOK=lo>=0&&lo<n?!!cellAt(M,lo,r)&&['ground','slab'].includes(cellAt(M,lo,r).floor):r===0;if(!loOK)continue;cs.push([c,d])}
+        if(!cs.length)return false;let pool=cs;
+        if(side!=='random'){const p=cs.filter(([c,d])=>side==='alternate'?d!==lastD:d===lastD);if(p.length)pool=p}
+        const[c,d]=pool[Math.floor(rng()*pool.length)];M.cells[c][r].stair=d;const w=M.cells[c][r+1];w.floor='well';w.well=true;M.cells[c+d][r+1].arrive=true;lastD=d;return true}
+      const cs=[];for(let c=0;c<n;c++){const t2=cellAt(M,c,r+1);if(inR(c)&&src(c,r)&&t2&&t2.floor==='slab'&&!t2.well)cs.push(c)}
+      if(!cs.length)return false;const c=cs[Math.floor(rng()*cs.length)],s=side==='alternate'?-lastD:side==='same'?lastD:(rng()<.5?1:-1);
+      M.cells[c][r].ladder={s,to:r+1};lastD=s;return true};
+    // one link (two with circ.extra) into every separate run of bays on the storey above: twin towers, a stepped block
+    for(let r=0;r<maxH-1;r++){const runs=[];let a=-1;for(let c=0;c<=n;c++){const on=c<n&&h[c]>r+1;if(on&&a<0)a=c;if(!on&&a>=0){runs.push([a,c-1]);a=-1}}
+      for(const run of runs){const k=pick('circ.extra')==='yes'?2:1;for(let i=0;i<k;i++){const t=pick('circ.link');if(!link(r,t,run)&&t==='stair')link(r,'ladder',run)}}}
+    if(pick('circ.drop')==='yes'){const cs=[];for(let c=0;c<n;c++)for(let r=1;r<h[c];r++){const s=M.cells[c][r];if(s.floor==='slab'&&!s.arrive&&!s.stair)cs.push(s)}
+      if(cs.length){const s=cs[Math.floor(rng()*cs.length)];s.holes.push(R(.35,.65))}}}
+  // stairs need the pier at the top open and the low end reachable
+  for(let c=0;c<n;c++)for(let r=0;r<h[c];r++){const d=M.cells[c][r].stair;if(!d)continue;
+    M.forceOpen[(d>0?c+1:c)+','+(r+1)]=1;const lo=c-d;if(lo>=0&&lo<n)M.forceOpen[(d>0?c:c+1)+','+r]=1;else M.forceDoor[(d>0?0:n)+','+r]=1;
+    // in side view a flight splits its storey: its foot is reached from one side only. At ground, the far side gets its own door
+    if(r===0&&c+d>=0&&c+d<n)M.forceDoor[(d>0?n:0)+',0']=1}
+  // ---- pass 5: openings
+  if(forced?.piers){M.piers=forced.piers;M.backWin=forced.backWin}
+  else{M.backWin=[];
+    for(let k=0;k<=n;k++){M.piers[k]=[];for(let r=0;r<maxH;r++){const a=cellAt(M,k-1,r),b=cellAt(M,k,r);let kind='none';
+      if(a&&b){kind=(a.hall&&b.hall&&r>=1)||(a.floor==='none'&&b.floor==='none')?'open':M.cloister&&r===0?'arcade':pick('open.inner');
+        if(M.forceOpen[k+','+r]&&kind==='wall')kind='open'}
+      else if(a||b){const other=a?k:k-1;
+        kind=r===0?(M.cloister?'arcade':pick('open.door')):(other>=0&&other<n&&h[other]===r)?pick('open.terrace'):pick('open.upper')}
+      if(M.forceDoor[k+','+r]&&kind!=='arcade')kind='door';
+      M.piers[k][r]=kind}}
+    if(!['door','arcade'].includes(M.piers[0][0])&&!['door','arcade'].includes(M.piers[n][0]))M.piers[rng()<.5?0:n][0]='door';
+    for(let c=0;c<n;c++)M.backWin[c]=M.cloister?'arcade':pick('open.back')}
+  for(const[kr]of Object.entries(M.forceOpen)){const[k,r]=kr.split(',').map(Number);if(M.piers[k]&&M.piers[k][r]==='wall')M.piers[k][r]='open'}
+  // ---- pass 6: rooms and dressing
+  M.rooms=[];
+  for(let r=0;r<maxH;r++){let cur=null;for(let c=0;c<n;c++){const s=cellAt(M,c,r);if(!s){cur=null;continue}
+    if(cur&&['wall','door'].includes(M.piers[c][r]))cur=null;
+    if(!cur){cur={r,cells:[],id:M.rooms.length};M.rooms.push(cur)}cur.cells.push(c);s.room=cur.id}}
+  for(const rm of M.rooms){const cs=rm.cells.map(c=>M.cells[c][rm.r]);
+    if(cs.every(s=>s.floor==='none'||s.well)&&rm.r>0){const below=M.cells[rm.cells[0]][rm.r-1];rm.purpose=M.rooms[below.room]?.purpose||'hall';rm.upper=true}
+    else if(cs.some(s=>s.stair))rm.purpose='stairhall';
+    else{const top=rm.cells.every(c=>rm.r===h[c]-1);rm.purpose=pick('room.purpose',o=>(o!=='crypt'||rm.r===0)&&(o!=='gallery'||top||rm.r>0))}
+    rm.banner=!rm.upper&&pick('orn.banner')==='yes';rm.brazier=!rm.upper&&pick('orn.brazier')==='yes';rm.niche=!rm.upper&&(rm.purpose==='chapel'||pick('orn.niche')==='yes');
+    for(const s of cs){s.back=rm.purpose==='chapel'&&rm.r===h[s.c]-1?'vault':rm.purpose==='gallery'?'arcade':rm.purpose==='crypt'?'crypt':rm.purpose==='ruin'?'rubble':'wall';s.purpose=rm.purpose}}
+  M.far=pick('far.type');M.corbel=pick('orn.corbel')==='yes';
+  for(const rf of M.roofs){const hl=rf.c0===0||h[rf.c0-1]<h[rf.c0],hr=rf.c1===n-1||h[rf.c1+1]<h[rf.c1];
+    rf.gar=[hl&&pick('orn.gargoyle')==='yes',hr&&pick('orn.gargoyle')==='yes']}
+  M.rng=hash(L.seed,M.x0|0);
+  return M}
+
+// what a locked template keeps: the space (massing, floors, circulation, openings); rooms, bridges and ruin re-roll
+function snapshot(M){return{n:M.n,h:M.h.slice(),cloister:!!M.cloister,arch:M.arch,roofs:M.roofs.map(r=>({c0:r.c0,c1:r.c1,type:r.type})),
+  cells:M.cells.map(col=>col.map(s=>({floor:s.floor,stair:s.stair,ladder:s.ladder?{...s.ladder}:null,holes:s.holes.slice(),hall:s.hall,well:s.well,arrive:s.arrive}))),
+  piers:M.piers.map(p=>p.slice()),backWin:M.backWin.slice()}}
+
+function parseSketch(txt){const rows=txt.split('\n').map(s=>s.replace(/\s+$/,'')).filter(s=>s.length);if(!rows.length)return null;
+  const n=Math.max(...rows.map(s=>s.length)),m=rows.length;if(n<1||n>6)return{err:'1 to 6 columns'};
+  const ch=(c,r)=>(rows[m-1-r]||'')[c]||'.';const h=[],cells=[];
+  for(let c=0;c<n;c++){let k=0;while(k<m&&ch(c,k)!=='.')k++;h[c]=Math.max(1,k);cells[c]=[];
+    for(let r=0;r<h[c];r++){const x=ch(c,r)==='.'?'#':ch(c,r);cells[c][r]={floor:r?(x==='H'?'none':'slab'):'ground',stair:x==='S'?1:x==='s'?-1:0,ladder:x==='L'?{s:-1,to:r+1}:null,holes:[],hall:x==='H',well:false,arrive:false}}}
+  for(let c=0;c<n;c++)for(let r=0;r<h[c];r++){const s=cells[c][r];if(s.stair){const w=cells[c][r+1],t=cells[c+s.stair]?.[r+1];if(!w||!t){s.stair=0;continue}w.floor='well';w.well=true;t.arrive=true}
+    if(s.ladder&&!cells[c][r+1])s.ladder=null;if(s.hall&&r>0)cells[c][r-1].hall=true}
+  return{n,h,cells}}
+
+// ---- pass 7: bridges and connectors
+function connectors(L,C){const g=ST.grid,{pick,rng,R,RI}=C,X=(M,c)=>M.x0+c*g.bay,Y=(M,r)=>M.base-r*g.storey,FT=(M,r)=>Y(M,r)-g.slab;
+  const walkRoof=t=>['parapet','crenel','flat','broken'].includes(t);
+  const deck=(x0,y0,x1,y1,o)=>{const b={x0,y0,x1,y1,...o};L.bridges.push(b);return b};
+  if(L.blds.length===2){const[A,B]=L.blds,ca=A.n-1,cb=0,gap=B.x0-X(A,A.n);
+    const cand=[];for(let r=1;r<Math.min(A.h[ca],B.h[cb]);r++){const ya=FT(A,r),yb=FT(B,r);if(Math.abs(ya-yb)<=56)cand.push(r)}
+    let k=Math.min(cand.length,+pick('bridge.count'));
+    while(k-->0&&cand.length){const r=cand.splice(Math.floor(rng()*cand.length),1)[0];
+      A.piers[A.n][r]='door';B.piers[0][r]='door';
+      const b=deck(X(A,A.n)+g.pier/2,FT(A,r),B.x0-g.pier/2,FT(B,r),{span:pick('bridge.span'),ruin:pick('bridge.ruin'),r});
+      if(b.ruin==='intact'&&gap>=300)b.mid=pick('bridge.mid')}
+    if(pick('bridge.walkway')==='yes'){const ra=A.roofs.find(f=>f.c1===ca),rb=B.roofs.find(f=>f.c0===cb),ya=FT(A,A.h[ca]),yb=FT(B,B.h[cb]);
+      if(ra&&rb&&walkRoof(ra.type)&&walkRoof(rb.type)&&Math.abs(ya-yb)<=56&&Math.min(A.h[ca],B.h[cb])>=2&&!L.bridges.some(b=>b.r===A.h[ca])){
+        A.noPar.r=1;B.noPar.l=1;deck(X(A,A.n)+g.pier/2,ya,B.x0-g.pier/2,yb,{span:'walk',ruin:'intact',r:'roof'})}}}
+  if(L.rock){const M=L.blds[0],rk=L.rock,side=rk.side,k=side<0?0:M.n,c=side<0?0:M.n-1;let best=null;
+    for(let r=1;r<M.h[c];r++){const d=Math.abs(FT(M,r)-rk.top);if(d<=90&&(!best||d<best.d))best={r,d}}
+    if(best&&pick('bridge.count')!=='0'){M.piers[k][best.r]='door';const xw=side<0?M.x0-g.pier/2:X(M,M.n)+g.pier/2,xr=side<0?rk.x0+rk.w*.8:rk.x0+rk.w*.2;
+      deck(Math.min(xw,xr),side<0?rk.top:FT(M,best.r),Math.max(xw,xr),side<0?FT(M,best.r):rk.top,{span:pick('bridge.span'),ruin:'intact',r:best.r,rock:1})}}
+  // a flying buttress: a ramp from ground up to an upper door, outside the building
+  if(pick('bridge.buttress')==='yes'){const opts=[];
+    for(const M of L.blds)for(const sd of[-1,1]){const c=sd<0?0:M.n-1,k=sd<0?0:M.n;if(M.h[c]<2||M.forceDoor[k+',0'])continue;
+      const xw=sd<0?M.x0-g.pier/2:X(M,M.n)+g.pier/2,rise=L.tY(xw+sd*10)-FT(M,1),run=rise*1.15,xf=xw+sd*run;
+      if(xf<30||xf>L.W-30)continue;if(L.blds.some(o=>o!==M&&xf>o.x0-30&&xf<X(o,o.n)+30))continue;if(L.rock&&xf>L.rock.x0-20&&xf<L.rock.x0+L.rock.w+20)continue;
+      if(L.bridges.some(b=>b.r===1&&((sd>0&&b.x0>=xw-30)||(sd<0&&b.x1<=xw+30))))continue;opts.push({M,sd,k,xw,xf})}
+    if(opts.length){const o=opts[Math.floor(rng()*opts.length)];o.M.piers[o.k][1]='door';o.M.piers[o.k][0]='wall';
+      const ok2=o.k?0:o.M.n;if(!['door','arcade'].includes(o.M.piers[ok2][0]))o.M.piers[ok2][0]='door';L.ramps.push({x0:o.xw,y0:FT(o.M,1),x1:o.xf,y1:L.tY(o.xf)})}}
+  if(pick('bridge.ladder')==='yes'){const opts=[];
+    for(const M of L.blds)for(const sd of[-1,1]){const c=sd<0?0:M.n-1,k=sd<0?0:M.n;for(let r=1;r<M.h[c];r++){
+      const lx=sd<0?M.x0-g.pier/2-16:X(M,M.n)+g.pier/2+16;if(L.ramps.some(p=>Math.min(p.x0,p.x1)-20<lx&&Math.max(p.x0,p.x1)+20>lx))continue;
+      if(L.bridges.some(b=>b.x0-20<lx&&b.x1+20>lx))continue;opts.push({M,k,r,lx})}}
+    if(opts.length){const o=opts[Math.floor(rng()*opts.length)];o.M.piers[o.k][o.r]='door';L.ladders.push({x:o.lx,y0:L.tY(o.lx),y1:FT(o.M,o.r),why:'outside ladder'})}}}
+
+// ---- pass 8: ruin
+function ruin(L,M,C){const g=ST.grid,{pick,rng,R,RI}=C,B=g.bay,SH=g.storey,SL=g.slab,X=c=>M.x0+c*B,Y=r=>M.base-r*SH,n=M.n,h=M.h;
+  const lvl=pick('ruin.level');M.ruin=lvl;if(lvl==='none')return;
+  // slabs knocked out, rubble on the floor below
+  let ns=+pick('ruin.slab');if(lvl==='light')ns=Math.min(ns,1);
+  const sl=[];for(let c=0;c<n;c++)for(let r=1;r<h[c];r++){const s=M.cells[c][r];if(s.floor==='slab'&&!s.arrive&&!s.stair&&!s.ladder)sl.push(s)}
+  for(let i=0;i<ns&&sl.length;i++){const s=sl.splice(Math.floor(rng()*sl.length),1)[0],xa=X(s.c)+R(0,26),xb=X(s.c+1)-R(0,26),y=Y(s.r)-SL;
+    M.cuts.push(Pg([...jag(rng,[xa,y-6],[xa+R(-8,8),y+SL+6],10,3),...jag(rng,[xb,y+SL+6],[xb,y-6],10,3)]));s.floor='broken';
+    const below=cellAt(M,s.c,s.r-1);if(below)M.rub.push(Pg(mound(rng,(xa+xb)/2+R(-14,14),Y(s.r-1)-SL,R(50,72),R(16,28))))}
+  if(pick('ruin.sky')==='yes'){const cs=[];for(let c=0;c<n;c++)cs.push([c,h[c]-1]);const k=lvl==='heavy'?2:1;
+    for(let i=0;i<k&&cs.length;i++){const[c,r]=cs.splice(Math.floor(rng()*cs.length),1)[0],x=X(c),y=Y(r+1);
+      const p=[[x,y-40],...jag(rng,[x,y+R(20,60)],[x+B,y+R(20,70)],26,5),[x+B,y-40]];M.backCuts.push(Pg(p));M.farCuts.push(Pg(p))}}
+  if(lvl!=='heavy')return;
+  if(pick('ruin.shear')==='yes'){const sd=rng()<.5?-1:1,c=sd<0?0:n-1,top=Y(h[c]),ex=sd<0?X(0)-30:X(n)+30,d1=R(.5,1.3)*SH,w1=R(.8,1.8)*B;
+    const ix=ex-sd*(w1+30),p=[[ex,top-260],[ex,top+d1],...jag(rng,[ex,top+d1],[ix,top-10],22,6),[ix,top-260]];M.cuts.push(Pg(p));
+    const pb=[[ex,top-260],[ex,top+d1-36],...jag(rng,[ex,top+d1-36],[ix+sd*30,top-30],30,7),[ix+sd*30,top-260]];M.backCuts.push(Pg(pb));M.farCuts.push(Pg(pb));
+    M.sheared=sd;let rr=Math.max(0,Math.floor((M.base-(top+d1))/SH));if(cellAt(M,c,rr))M.rub.push(Pg(mound(rng,X(c)+B/2,Y(rr)-SL,R(56,84),R(18,30))))}
+  if(pick('ruin.corner')==='yes'){const sd=rng()<.5?-1:1,c=sd<0?0:n-1;if(h[c]>=2&&M.sheared!==sd){const r=h[c]-1-(rng()<.5&&h[c]>2?1:0),ex=sd<0?X(0)-30:X(n)+30,y0=Y(r+1)-30,y1=Y(r)+R(-10,20),wi=R(.35,.7)*B;
+    M.cuts.push(Pg([[ex,y0],...jag(rng,[ex-sd*wi,y0],[ex-sd*wi*R(.6,1.1),y1],18,4),[ex,y1]]));
+    M.rub.push(Pg(mound(rng,ex+sd*R(10,30),L.tY(ex+sd*20),R(60,100),R(20,40))))}}}
+
+// ---------------------------------------------------------------- geometry: every layer as shapes
+function emitLot(L){const o={far:[],farFx:[],farCut:[],back:[],backFx:[],backCut:[],body:[],cut:[],rub:[],rung:[],decoB:[],decoF:[],terrain:null,grid:[]};
+  const tp=[[0,L.H]];for(let x=0;x<=L.W;x+=6)tp.push([x,L.tY(x)]);tp.push([L.W,L.H]);o.terrain=Pg(tp);
+  if(L.rock){const rk=L.rock,r=mulberry(hash(L.seed,77)),p=[[rk.x0,L.tY(rk.x0)+6]];
+    p.push([rk.x0+rk.w*.12,rk.top+r()*40+30],[rk.x0+rk.w*.2,rk.top+r()*6],[rk.x0+rk.w*.5,rk.top-r()*4],[rk.x0+rk.w*.8,rk.top+r()*6],[rk.x0+rk.w*.9,rk.top+30+r()*40],[rk.x0+rk.w,L.tY(rk.x0+rk.w)+6],[rk.x0+rk.w,L.H],[rk.x0,L.H]);o.body.push(Pg(p,{rock:1}))}
+  for(const M of L.blds)emitB(M,o,L);
+  for(const b of L.bridges)emitBridge(b,o,L);
+  // a stair ramp up the outside (K16-style): solid stepped mass from the ground to an upper door
+  for(const p of L.ramps){const ns=Math.max(3,Math.round((p.y1-p.y0)/15)),dx=(p.x1-p.x0)/ns,dy=(p.y1-p.y0)/ns,pts=[[p.x0,p.y0]];
+    for(let i=0;i<ns;i++)pts.push([p.x0+(i+1)*dx-(i<ns-1?0:0),p.y0+i*dy],[p.x0+(i+1)*dx,p.y0+(i+1)*dy]);
+    pts.push([p.x1,Math.max(p.y1,L.tY(p.x1))+30],[p.x0,Math.max(p.y1,L.tY(p.x0))+30]);o.body.push(Pg(pts))}
+  for(const ld of L.ladders)emitLadder(o,ld.x,ld.y0,ld.y1);
+  o.cut.push(...L.cuts);o.rub.push(...L.rub);
+  return o}
+
+function emitLadder(o,x,yLow,yTop){// yLow: the floor it starts from; yTop: the floor top it reaches (top rung flush with it)
+  // rung spacing: the game's rung check looks 26-58 px above the feet and a jump rises 52, so the next rung has to sit
+  // 27-44 game px up or a trooper skips it (the game's 22 px sewer spacing climbs two rungs a jump). Top rung flush with the floor.
+  const a=AS(),D=(yLow-yTop)*a,k=Math.max(1,Math.ceil(D/44)),s=D/k/a,rw=26;
+  for(let i=0;i<k;i++)o.rung.push(Rc(x-rw/2,yTop+i*s,rw,PH.RT/a));
+  const low=yTop+(k-1)*s;
+  o.decoB.push(Ln([[x-rw/2+2,yTop-8],[x-rw/2+2,low+8]],{col:'#7a6232',lw:2}),Ln([[x+rw/2-2,yTop-8],[x+rw/2-2,low+8]],{col:'#7a6232',lw:2}))}
+
+function emitB(M,o,L){const g=ST.grid,B=g.bay,SH=g.storey,P=g.pier,SL=g.slab,X=c=>M.x0+c*B,Y=r=>M.base-r*SH,n=M.n,h=M.h,maxH=Math.max(...h),rr=mulberry(M.rng);
+  const DOOR=84,SILL=44,WIN=56;
+  // far back: what shows through the Back's openings
+  for(let c=0;c<n;c++){o.far.push(Rc(X(c),Y(h[c]),B,h[c]*SH));
+    for(let r=0;r<h[c];r++){const x=X(c),y=Y(r+1);
+      if(M.far==='colonnade')for(let i=0;i<3;i++)o.farFx.push(Rc(x+14+i*44,y+8,9,SH-8,{col:'#262b38'}));
+      else if(M.far==='vault'){o.farFx.push(Ln(arch(x+B/2,y+SH,B-10,SH-6,true),{col:'#2a3040',lw:3}))}
+      else if(rr()<.45)o.farFx.push(Rc(x+B/2-9,y+SH*.32,18,30,{col:'rgba(255,170,60,.55)'}))}}
+  // back: the room's rear wall
+  for(let c=0;c<n;c++)for(let r=0;r<h[c];r++){const s=M.cells[c][r],x=X(c),y=Y(r+1),yb=Y(r)-SL,cx=x+B/2,w=M.backWin[c];
+    o.back.push(Rc(x,y,B,SH));
+    const bk=s.back||'wall';
+    if(bk==='arcade')o.backCut.push(Pg(arch(cx,yb,B-30,SH-SL-22,false)));
+    else if(bk==='crypt'){o.backCut.push(Pg(arch(cx-24,yb,30,48,false)),Pg(arch(cx+24,yb,30,48,false)))}
+    else if(bk==='rubble'){for(let i=0;i<5;i++)o.backFx.push(Pg(mound(rr,x+12+rr()*(B-24),yb,18+rr()*20,8+rr()*10),{col:'#3a4156'}));if(w!=='none')o.backCut.push(Ci(cx+(rr()-.5)*30,y+SH*.4,10+rr()*8))}
+    else{if(w==='lancet')o.backCut.push(Pg(arch(cx,yb-30,32,62,true)));else if(w==='round')o.backCut.push(Ci(cx,y+SH*.42,17));else if(w==='arcade')o.backCut.push(Pg(arch(cx,yb,B-34,SH-SL-30,false)))}
+    if(bk==='vault')for(const f of[.25,.5,.75])o.backFx.push(Ln([[x+B*f,yb],[x+B*f,y+30],[cx,y+4]],{col:'#454d63',lw:2})),o.backFx.push(Ln(arch(cx,y+SH*.55,B-8,SH*.55,true),{col:'#454d63',lw:2}));
+    const rm=M.rooms[s.room];if(!rm)continue;
+    if(rm.niche&&rm.cells[0]===c&&!rm.upper){const nx=x+(w==='none'?B/2:B*.22);o.backFx.push(Pg(arch(nx,yb-6,26,58,true),{col:'#1d212c'}),Ci(nx,yb-50,5,{col:'#566079'}),Pg([[nx-6,yb-6],[nx-8,yb-44],[nx+8,yb-44],[nx+6,yb-6]],{col:'#566079'}))}
+    if(rm.banner&&rm.cells[Math.floor(rm.cells.length/2)]===c){const bx=x+B*.72;o.decoB.push(Pg([[bx-10,y+4],[bx+10,y+4],[bx+10,y+54],[bx,y+46],[bx-10,y+54]],{col:'#7a2350'}))}
+    if(rm.brazier&&rm.cells[rm.cells.length-1]===c&&!s.stair){const bx=x+B*.3;o.decoF.push(Pg([[bx-8,yb-14],[bx+8,yb-14],[bx+4,yb-6],[bx-4,yb-6]],{col:'#6f7789'}),Rc(bx-2,yb-6,4,6,{col:'#6f7789'}),Pg([[bx-6,yb-14],[bx,yb-28],[bx+6,yb-14]],{col:'#ffb347'}))}}
+  // body: plinth (ground floor), slabs, roofs
+  o.body.push(Rc(X(0)-P/2,Y(0)-SL,n*B+P,M.foot-Y(0)+SL+40));
+  for(let c=0;c<n;c++){for(let r=1;r<=h[c];r++){const y=Y(r)-SL;
+      if(r===h[c]){o.body.push(Rc(X(c)-P/2,y,B+P,SL));continue}
+      const f=M.cells[c][r].floor;if(f==='slab'||f==='broken')o.body.push(Rc(X(c)-P/2,y,B+P,SL));else if(f==='balcL')o.body.push(Rc(X(c)-P/2,y,B*.5+P/2,SL));else if(f==='balcR')o.body.push(Rc(X(c)+B*.5,y,B*.5+P/2,SL));
+      // a stairwell or hall: the neighbours' slabs stop at the pier, not inside the opening
+      for(const s of M.cells[c][r].holes)o.cut.push(Rc(X(c)+B*s-22,y-1,44,SL+40))}}
+  // piers: outer walls and inner piers with their openings
+  for(let k=0;k<=n;k++)for(let r=0;r<maxH;r++){const kind=M.piers[k]?.[r];if(!kind||kind==='none')continue;const x=X(k),yt=Y(r+1),yb=Y(r)-SL;
+    if(kind==='open'){o.back.push(Rc(x-P*.35,yt,P*.7,SH));continue}
+    o.body.push(Rc(x-P/2,yt,P,SH));
+    if(kind==='door')o.cut.push(Pg(arch(x,yb,P+2,DOOR,false).map(([a,b])=>[a<x?x-P/2-1:x+P/2+1,b])));
+    else if(kind==='window')o.cut.push(Rc(x-P/2-1,yb-SILL-WIN,P+2,WIN));
+    else if(kind==='arcade')o.cut.push(Rc(x-P/2-1,yb-(SH-SL-26),P+2,SH-SL-26))}
+  // arch spans hanging under the slabs
+  if(M.arch)for(let c=0;c<n;c++)for(let r=0;r<h[c];r++){const s=M.cells[c][r],up=r+1<h[c]?M.cells[c][r+1]:null;if(up&&(up.floor==='none'||up.well))continue;if(s.well&&!up)continue;
+    const L0=M.piers[c][r],R0=M.piers[c+1][r];if(L0==='none'||R0==='none')continue;const x=X(c)+P/2,w=B-P,y=Y(r+1);
+    const p=[[x,y],[x,y+34]];for(let i=1;i<12;i++){const a=Math.PI-i*Math.PI/12;p.push([x+w/2+Math.cos(a)*w/2,y+34-Math.sin(a)*28])}p.push([x+w,y+34],[x+w,y]);o.body.push(Pg(p))}
+  // stairs: a thin flight with risers a trooper can walk up
+  for(let c=0;c<n;c++)for(let r=0;r<h[c];r++){const d=M.cells[c][r].stair;if(!d)continue;
+    const fr=Y(r)-SL,ft=Y(r+1)-SL,xs=d>0?X(c)+P/2:X(c+1)-P/2,xe=d>0?X(c+1)+3:X(c)-3,ns=Math.ceil((fr-ft)/15),run=(xe-xs)/ns,rise=(fr-ft)/ns,T=20,p=[[xs,fr]];
+    for(let i=0;i<ns;i++)p.push([xs+i*run,fr-(i+1)*rise],[xs+(i+1)*run,fr-(i+1)*rise]);p.push([xe,ft+T],[xs+run*1.2,fr]);o.body.push(Pg(p))}
+  // ladders and their holes
+  for(let c=0;c<n;c++)for(let r=0;r<h[c];r++){const ld=M.cells[c][r].ladder;if(!ld)continue;let lx=ld.s<0?X(c)+P/2+16:X(c+1)-P/2-16;
+    // up to a balcony: rise beside its open edge, no hole
+    const tf=ld.to<h[c]?M.cells[c][ld.to].floor:'';if(tf==='balcL')lx=X(c)+B*.5+15;else if(tf==='balcR')lx=X(c)+B*.5-15;
+    emitLadder(o,lx,Y(r)-SL,Y(ld.to)-SL);for(let q=r+1;q<=ld.to;q++)if(!(q===ld.to&&tf.startsWith('balc')))o.cut.push(Rc(lx-16,Y(q)-SL-1,32,SL+40))}// through the arch span under the slab too
+  for(const e of M.ext)emitLadder(o,e.x,e.y0,e.y1);
+  // roofs
+  for(const rf of M.roofs){const ht=h[rf.c0],yR=Y(ht)-SL,xa=X(rf.c0)-P/2,xb=X(rf.c1+1)+P/2,hl=rf.c0===0||h[rf.c0-1]<ht,hr=rf.c1===n-1||h[rf.c1+1]<ht;
+    if(rf.type==='parapet'){if(hl&&!(rf.c0===0&&M.noPar.l))o.body.push(Rc(xa,yR-26,P,26));if(hr&&!(rf.c1===n-1&&M.noPar.r))o.body.push(Rc(xb-P,yR-26,P,26))}
+    else if(rf.type==='crenel'){for(let x=xa;x<xb-8;x+=30)if(!((x<xa+40&&rf.c0===0&&M.noPar.l)||(x>xb-50&&rf.c1===n-1&&M.noPar.r)))o.body.push(Rc(x,yR-16,15,16))}
+    else if(rf.type==='gable')o.body.push(Pg([[xa-6,yR+2],[(xa+xb)/2,yR-(xb-xa)*.42],[xb+6,yR+2]]));
+    else if(rf.type==='spire'){o.body.push(Pg([[xa-4,yR+2],[(xa+xb)/2,yR-B*1.55],[xb+4,yR+2]]));o.body.push(Rc(xa-6,yR-14,10,14),Rc(xb-4,yR-14,10,14));
+      o.decoF.push(Pg([[xa-6,yR-14],[xa-1,yR-40],[xa+4,yR-14]],{col:'#7d8597'}),Pg([[xb-4,yR-14],[xb+1,yR-40],[xb+6,yR-14]],{col:'#7d8597'}))}
+    else if(rf.type==='broken'){const p=[[xa,yR+1]];for(let x=xa;x<=xb;x+=16)p.push([x,yR-4-rr()*34*(Math.sin((x-xa)/(xb-xa)*Math.PI)*.8+.2)]);p.push([xb,yR+1]);o.body.push(Pg(p))}
+    for(const[i,on]of rf.gar.entries()){if(!on)continue;const gx=i?xb:xa,sd=i?1:-1,gy=yR+4;
+      o.decoF.push(Pg([[gx,gy],[gx+sd*20,gy+2],[gx+sd*26,gy+10],[gx+sd*16,gy+12],[gx+sd*10,gy+20],[gx,gy+18]],{col:'#8a93a6'}),Ci(gx+sd*21,gy+7,2,{col:'#ff2e88'}))}}
+  // corbels under upper floors on the outer walls
+  if(M.corbel)for(const k of[0,n]){const c=k?n-1:0,sd=k?1:-1;for(let r=1;r<=h[c];r++){const x=X(k)+sd*P/2,y=Y(r)-SL;o.body.push(Pg([[x,y],[x+sd*12,y],[x+sd*12,y+6],[x,y+16]]))}}
+  // steps down from a ground door to lower ground outside
+  for(const k of[0,n]){if(!['door','arcade'].includes(M.piers[k][0]))continue;const sd=k?1:-1,x=X(k)+sd*P/2,ft=Y(0)-SL,drop=L.tY(x+sd*12)-ft;
+    if(drop>14){const ns=Math.ceil(drop/14),rise=drop/(ns+1);for(let i=1;i<=ns;i++){const xx=sd<0?x-i*16:x+(i-1)*16;o.body.push(Rc(xx,ft+i*rise,16,L.tY(xx+8)-ft-i*rise+30))}}}
+  o.cut.push(...M.cuts);o.backCut.push(...M.backCuts);o.farCut.push(...M.farCuts);o.rub.push(...M.rub);
+  for(let c=0;c<=n;c++)o.grid.push(Ln([[X(c),Y(0)],[X(c),Y(maxH)]],{col:'rgba(63,243,255,.18)',lw:1}));
+  for(let r=0;r<=maxH;r++)o.grid.push(Ln([[X(0),Y(r)],[X(n),Y(r)]],{col:'rgba(63,243,255,.18)',lw:1}))}
+
+function emitBridge(b,o,L){const rr=mulberry(hash(L.seed,b.x0|0,b.y0|0)),T=b.span==='rope'?6:16,len=b.x1-b.x0,yAt=x=>b.y0+(b.y1-b.y0)*(x-b.x0)/len;
+  const sag=b.span==='rope'?Math.min(30,len*.08):0,ys=x=>yAt(x)+sag*Math.sin((x-b.x0)/len*Math.PI);
+  let segs=[[b.x0,b.x1]];
+  if(b.ruin==='gap'){const m=b.x0+len*(.35+rr()*.3),w=Math.min(len*.5,60+rr()*80);segs=[[b.x0,m-w/2],[m+w/2,b.x1]]}
+  else if(b.ruin==='collapse'){const s=len*(.15+rr()*.15);segs=[[b.x0,b.x0+s],[b.x1-s*(.6+rr()*.8),b.x1]];
+    o.rub.push(Pg(mound(rr,(segs[0][1]+segs[1][0])/2,L.tY((segs[0][1]+segs[1][0])/2),Math.min(140,len*.5),26+rr()*20)))}
+  for(const[xa,xb]of segs){if(xb-xa<4)continue;const p=[];for(let x=xa;x<=xb+.1;x+=Math.max(4,(xb-xa)/24))p.push([x,ys(x)]);
+    const q=p.map(([x,y])=>[x,y+T]).reverse();if(b.ruin!=='intact'){if(xa>b.x0)q.push([xa+6,ys(xa)+T+8]);if(xb<b.x1)p.push([xb-4,ys(xb)+T+10])}o.body.push(Pg([...p,...q]))}
+  const spans=Math.max(1,Math.round(len/ST.grid.bay)),piers=[];if(len>ST.grid.bay*2.2&&b.span!=='rope'&&b.span!=='walk')for(let i=1;i<spans;i++)piers.push(b.x0+len*i/spans);
+  for(const px of piers){if(!segs.some(([a,c])=>px>a+10&&px<c-10)&&b.ruin!=='intact')continue;const y=yAt(px)+T;o.body.push(Rc(px-14,y,28,L.tY(px)-y+30))}
+  const pts=[b.x0,...piers,b.x1];
+  if(b.span==='arched'||b.span==='ribbed')for(let i=0;i<pts.length-1;i++){const a=pts[i],c=pts[i+1],w=c-a,rise=Math.min(46,w*.3),p=[];
+    if(!segs.some(([s0,s1])=>a>=s0-1&&c<=s1+1))continue;
+    for(let j=0;j<=12;j++){const t=j/12,x=a+w*t;p.push([x,yAt(x)+T-1])}for(let j=12;j>=0;j--){const t=j/12,x=a+w*t;p.push([x,yAt(x)+T+rise*(1-Math.sin(t*Math.PI))])}o.body.push(Pg(p));
+    if(b.span==='ribbed')for(let j=1;j<4;j++){const x=a+w*j/4;o.backFx.push(Ln([[x,yAt(x)+T],[x,L.tY(x)]],{col:'#3a4156',lw:3}))}}
+  if(b.span==='truss')for(let i=0;i<len/40;i++){const x=b.x0+i*40;o.decoB.push(Ln([[x,yAt(x)-30],[x+20,yAt(x+20)],[x+40,yAt(x+40)-30]],{col:'#5c6477',lw:3}),Ln([[x,yAt(x)-30],[x+40,yAt(x+40)-30]],{col:'#5c6477',lw:3}))}
+  if(b.span==='rope'||b.span==='walk'){for(const x of[b.x0+6,b.x1-6])o.decoF.push(Rc(x-3,yAt(x)-34,6,34,{col:'#8a93a6'}));o.decoF.push(Ln([[b.x0+6,yAt(b.x0)-30],[(b.x0+b.x1)/2,ys((b.x0+b.x1)/2)-22],[b.x1-6,yAt(b.x1)-30]],{col:'#8a93a6',lw:2}))}
+  if(b.mid){const xm=(b.x0+b.x1)/2,y=yAt(xm);
+    if(b.mid==='chapel'){for(const sd of[-1,1]){o.body.push(Rc(xm+sd*58-8,y-124,16,124));o.cut.push(Rc(xm+sd*58-9,y-84,18,84))}o.body.push(Rc(xm-68,y-136,136,14),Pg([[xm-72,y-134],[xm,y-190],[xm+72,y-134]]));o.back.push(Rc(xm-58,y-124,116,124))}
+    else if(b.mid==='gate'){o.body.push(Rc(xm-40,y-150,80,150));o.cut.push(Pg(arch(xm,y,46,96,true)));o.body.push(Rc(xm-46,y-150,92,10))}
+    else o.decoF.push(Rc(xm-3,y-70,6,70,{col:'#8a93a6'}),Ci(xm,y-74,7,{col:'#ffb347'}))}}
+
+// ---------------------------------------------------------------- raster + physics (game px)
+const _cv={};function cnv(k,w,h){let c=_cv[k];if(!c){c=_cv[k]=document.createElement('canvas')}if(c.width!==w||c.height!==h){c.width=w;c.height=h}const x=c.getContext('2d',{willReadFrequently:true});x.setTransform(1,0,0,1,0,0);x.globalCompositeOperation='source-over';x.clearRect(0,0,w,h);return[c,x]}
+function path(x,s){x.beginPath();if(s.k==='r')x.rect(s.x,s.y,s.w,s.h);else if(s.k==='c')x.arc(s.x,s.y,s.r,0,Math.PI*2);else{x.moveTo(s.p[0][0],s.p[0][1]);for(let i=1;i<s.p.length;i++)x.lineTo(s.p[i][0],s.p[i][1]);if(s.k==='p')x.closePath()}}
+function paint(x,ops,col,mode){x.globalCompositeOperation=mode||'source-over';for(const s of ops){path(x,s);if(s.k==='l'){x.strokeStyle=mode==='destination-out'?'#000':(s.col||col);x.lineWidth=s.lw||2;x.stroke()}else{x.fillStyle=mode==='destination-out'?'#000':(s.col||col);x.fill()}}x.globalCompositeOperation='source-over'}
+
+function raster(L,o){const a=AS(),GW=Math.ceil(L.W*a),GH=Math.ceil(L.H*a);
+  let[c,x]=cnv('mask',GW,GH);x.setTransform(a,0,0,a,0,0);paint(x,[o.terrain],'#fff');paint(x,o.body,'#fff');paint(x,o.cut,'#fff','destination-out');paint(x,o.rub,'#fff');
+  let d=x.getImageData(0,0,GW,GH).data;const body=new Uint8Array(GW*GH);for(let i=0;i<body.length;i++)body[i]=d[i*4+3]>127?1:0;
+  [c,x]=cnv('mask',GW,GH);x.setTransform(a,0,0,a,0,0);paint(x,o.rung,'#fff');d=x.getImageData(0,0,GW,GH).data;
+  const rung=new Uint8Array(GW*GH);for(let i=0;i<rung.length;i++)rung[i]=d[i*4+3]>60?1:0;
+  return{GW,GH,body,rung}}
+
+function reach(mk,seeds){const{GW,GH,body,rung}=mk;
+  const sol=(x,y)=>{x|=0;y|=0;if(x<0||x>=GW)return true;if(y<0)return false;if(y>=GH)return true;const i=y*GW+x;return body[i]===1||rung[i]===1};
+  const solB=(x,y)=>{x|=0;y|=0;if(x<0||x>=GW)return true;if(y<0)return false;if(y>=GH)return true;return body[y*GW+x]===1};
+  const isR=(x,y)=>{x|=0;y|=0;return x>=0&&x<GW&&y>=0&&y<GH&&rung[y*GW+x]===1};
+  const vis=new Uint8Array(GW*GH),hurt=new Uint8Array(GW*GH),q=[];
+  const add=(x,y,v)=>{x|=0;y|=0;if(x<1||x>=GW-1||y<1||y>=GH)return;const i=y*GW+x;if(v>PH.HURT)hurt[i]=1;if(vis[i])return;vis[i]=1;q.push(i)};
+  const dt=1/60;
+  const air=(x,y,vx,vy)=>{let fx=x+.5,fy=y-1;for(let t=0;t<400;t++){vy+=PH.G*dt;
+      if(vx){const nx=fx+vx*dt;if(solB(nx,fy-4)||solB(nx,fy-12)||solB(nx,fy-20))vx=0;else fx=nx}
+      let ny=fy+vy*dt;
+      if(vy<0){for(let yy=Math.floor(fy)-1;yy>=ny;yy--)if(solB(fx,yy-PH.BODY+2)&&!isR(fx,yy-PH.BODY+2)){vy=0;ny=yy;break}}
+      else for(let yy=Math.floor(fy);yy<=Math.floor(ny);yy++)if(sol(fx,yy+1)){add(fx,yy,vy);return}
+      fy=ny;if(fy>=GH)return}};
+  const rungAbove=(x,y)=>{for(let yy=y-26;yy>y-58;yy--)for(const dx of[-3,0,3])if(isR(x+dx,yy))return true;return false};
+  for(const[sx,sy]of seeds)add(sx,sy,0)
+  while(q.length){const i=q.pop(),x=i%GW,y=(i/GW)|0;
+    for(const dir of[-1,1]){const nx=x+dir;let ny=y,k=0;while(sol(nx,ny)&&k<11){ny--;k++}
+      if(k>=11||sol(nx,ny-PH.HEAD))continue;let d=0;while(!sol(nx,ny+1)&&d<8){ny++;d++}
+      if(d>=8)air(nx,ny,dir*PH.FALLVX,0);else add(nx,ny,0)}
+    if(rungAbove(x,y))air(x,y,0,PH.JVY);else if(!(x&1)){air(x,y,-PH.JVX,PH.JVY);air(x,y,PH.JVX,PH.JVY)}}
+  return{vis,hurt,sol,solB}}
+
+function floorStat(M,c,r,mk,R){const a=AS(),g=ST.grid,s=M.cells[c][r];if(['none','well','broken'].includes(s.floor))return null;
+  let xa=M.x0+c*g.bay+g.pier/2+4,xb=M.x0+(c+1)*g.bay-g.pier/2-4;if(s.floor==='balcL')xb=M.x0+c*g.bay+g.bay*.5-2;if(s.floor==='balcR')xa=M.x0+c*g.bay+g.bay*.5+2;
+  const yt=(M.base-r*g.storey-g.slab)*a;let pres=0,tot=0,reached=false,clear=0;
+  if(s.stair){// a stair bay: the flight is the floor; under its high end is just space
+    const y1=yt-g.storey*a;for(let gx=Math.ceil(xa*a);gx<=xb*a&&!reached;gx+=2)for(let gy=Math.floor(y1)-3;gy<=yt+3;gy++)if(R.vis[gy*mk.GW+gx]){reached=true;break}
+    return{reached,clear:Math.round((g.storey-g.slab)*a)}}
+  for(let gx=Math.ceil(xa*a);gx<=xb*a;gx+=2){tot++;for(let gy=Math.floor(yt)-5;gy<=yt+5;gy++)if(!R.solB(gx,gy)&&R.solB(gx,gy+1)){pres++;if(R.vis[gy*mk.GW+gx])reached=true;
+      let k=1;while(k<200&&!R.solB(gx,gy-k))k++;clear=Math.max(clear,k);break}}
+  return pres>=tot*.3?{reached,clear}:null}
+
+function analyse(L){const o=emitLot(L),mk=raster(L,o),a=AS();
+  // troopers drop in from the sky, so every open-sky patch of ground (and the top of a rock) is a start point; roofs aren't
+  const{GW,GH,body}=mk,air=new Uint8Array(GW*GH),aq=[];const push=i=>{if(!air[i]&&!body[i]){air[i]=1;aq.push(i)}};
+  for(let x=0;x<GW;x++)push(x);for(let y=0;y<GH;y++){push(y*GW);push(y*GW+GW-1)}
+  while(aq.length){const i=aq.pop(),x=i%GW;if(x>0)push(i-1);if(x<GW-1)push(i+1);if(i>=GW)push(i-GW);if(i<GW*(GH-1))push(i+GW)}
+  const g=ST.grid,inB=ax=>L.blds.some(M=>ax>M.x0-g.pier&&ax<M.x0+M.n*g.bay+g.pier)||L.ramps.some(p=>ax>Math.min(p.x0,p.x1)-4&&ax<Math.max(p.x0,p.x1)+4);
+  const seeds=[];for(let gx=2;gx<mk.GW-2;gx+=6){const ax=gx/a;
+    if(L.rock&&ax>L.rock.x0&&ax<L.rock.x0+L.rock.w){let gy=0;while(gy<mk.GH-1&&!mk.body[(gy+1)*mk.GW+gx])gy++;seeds.push([gx,gy]);continue}
+    if(inB(ax))continue;let gy=Math.round(L.tY(ax)*a)+4;while(gy>0&&mk.body[gy*mk.GW+gx])gy--;if(!mk.body[(gy-14)*mk.GW+gx]&&air[gy*GW+gx])seeds.push([gx,gy])}
+  const R=reach(mk,seeds);const cells=[];
+  for(const M of L.blds)for(let c=0;c<M.n;c++)for(let r=0;r<M.h[c];r++){const f=floorStat(M,c,r,mk,R);if(f)cells.push({M,c,r,...f})}
+  // sealed pockets: enclosed air a trooper can walk into but a shell can't reach
+  const pockets=[],seen=new Uint8Array(GW*GH);
+  for(let i=0;i<GW*GH;i++){if(body[i]||air[i]||seen[i])continue;let n=0,hit=false,x0=1e9,y0=1e9,x1=0,y1=0;const st=[i];seen[i]=1;
+    while(st.length){const j=st.pop(),x=j%GW,y=(j/GW)|0;n++;if(R.vis[j])hit=true;x0=Math.min(x0,x);x1=Math.max(x1,x);y0=Math.min(y0,y);y1=Math.max(y1,y);
+      for(const k of[x>0?j-1:-1,x<GW-1?j+1:-1,j-GW,j+GW])if(k>=0&&k<GW*GH&&!body[k]&&!air[k]&&!seen[k]){seen[k]=1;st.push(k)}}
+    if(n>300&&hit)pockets.push([x0/a,y0/a,(x1-x0+1)/a,(y1-y0+1)/a])}
+  return{o,mk,R,cells,pockets}}
+
+// the guarantee: every floor reachable. Fixes, in order: a door to a reachable neighbour, a ladder from a reachable
+// floor below, a ladder up the outside wall to a door. Deterministic, so a seed is always the same building.
+function fixLot(L){const g=ST.grid;let A;if(window.__NOFIX){L.A=analyse(L);return}
+  for(let round=0;round<12;round++){A=analyse(L);const bad=A.cells.filter(f=>!f.reached).sort((p,q)=>p.r-q.r);
+    if(!bad.length){if(!A.pockets.length||!openPockets(L,A))break;continue}const done=new Set();
+    for(const f of bad){const M=f.M;if(done.has(M))continue;done.add(M);const{c,r}=f,ok=(cc,rr)=>A.cells.some(e=>e.M===M&&e.c===cc&&e.r===rr&&e.reached);let fixed=false;
+      for(const dc of[-1,1]){const k=dc<0?c:c+1;if(cellAt(M,c+dc,r)&&ok(c+dc,r)&&['wall','window'].includes(M.piers[k][r])){M.piers[k][r]='door';fix(L,M,`door in inner wall (${c},${r})`);fixed=true;break}}
+      if(fixed)continue;
+      for(let rb=r-1;rb>=0&&!fixed;rb--){const s=cellAt(M,c,rb);if(!s||!ok(c,rb)||s.stair)continue;
+        if(s.ladder){if(s.ladder.to<r){s.ladder.to=r;fix(L,M,`ladder (${c},${rb}) extended to storey ${r}`);fixed=true}continue}
+        if(['balcL','balcR'].includes(s.floor))continue;
+        s.ladder={s:M.piers[c][rb]==='wall'?-1:M.piers[c+1][rb]==='wall'?1:-1,to:r};fix(L,M,`ladder (${c},${rb})→${r}`);fixed=true}
+      if(fixed)continue;
+      // a ladder down to it from a reachable floor above (cut off under a stair, or a ground room with no door left)
+      for(let ra=r+1;ra<M.h[c]&&!fixed;ra++){const u=cellAt(M,c,ra);if(!u||['none','well','broken'].includes(u.floor))continue;if(!ok(c,ra))break;
+        let clear=true;for(let q=r;q<ra;q++){const m=cellAt(M,c,q);if(m.stair||(m.ladder&&q>r))clear=false}if(!clear)break;
+        const s=cellAt(M,c,r);if(s.ladder&&s.ladder.to>=ra)break;const sd=s.floor==='balcR'?1:s.floor==='balcL'?-1:M.piers[c][r]==='wall'?-1:M.piers[c+1][r]==='wall'?1:-1;
+        if(s.ladder)s.ladder.to=ra;else s.ladder={s:sd,to:ra};
+        fix(L,M,`ladder down from storey ${ra} to (${c},${r})`);fixed=true}
+      if(fixed)continue;
+      for(const k of[c,c+1]){const out=k===c?c-1:c+1;if(cellAt(M,out,r))continue;if(out>=0&&out<M.n&&M.h[out]>r)continue;
+        const sd=k===c?-1:1,lx=M.x0+k*g.bay+sd*(g.pier/2+16),base=out>=0&&out<M.n?M.base-M.h[out]*g.storey-g.slab:L.tY(lx);
+        if(M.ext.some(e=>Math.abs(e.x-lx)<4)||L.ladders.some(e=>Math.abs(e.x-lx)<30)||L.ramps.some(p=>Math.min(p.x0,p.x1)-20<lx&&Math.max(p.x0,p.x1)+20>lx))continue;
+        M.piers[k][r]='door';M.ext.push({x:lx,y0:base,y1:M.base-r*g.storey-g.slab});fix(L,M,`outside ladder to storey ${r}`);fixed=true;break}
+      if(!fixed)done.delete(M)}}
+  L.A=A}
+function fix(L,M,s){L.fixes.push(s)}
+// open a sealed pocket to the outside: a window (or a door at ground) in an outer wall of a room inside it
+function openPockets(L,A){const g=ST.grid;let did=false;
+  for(const[px,py,pw,ph]of A.pockets){let done=false;
+    for(const f of A.cells){if(done)break;const M=f.M,{c,r}=f,cx=M.x0+(c+.5)*g.bay,cy=M.base-(r+.5)*g.storey;if(cx<px||cx>px+pw||cy<py||cy>py+ph)continue;
+      for(const k of[c,c+1]){const out=k===c?c-1:c+1;if(cellAt(M,out,r))continue;const kd=M.piers[k][r];
+        if(kd==='wall'||(kd==='window'&&r===0)){M.piers[k][r]=r===0?'door':'window';fix(L,M,`${r===0?'door':'window'} to open a sealed room (${c},${r})`);done=did=true;break}}}}
+  return did}
+
+function finalChecks(L){const A=L.A||analyse(L),{mk,R}=A,a=AS();
+  const present=A.cells.length,reached=A.cells.filter(f=>f.reached).length,jump=A.cells.filter(f=>f.reached&&f.clear>=PH.JUMPCLEAR).length;
+  let arc=0;for(const f of A.cells)if(f.reached)arc=Math.max(arc,f.clear);
+  let entries=0;for(const M of L.blds){for(let k=0;k<=M.n;k++)for(let r=0;r<M.piers[k].length;r++){const kd=M.piers[k][r],ext=!cellAt(M,k-1,r)!==!cellAt(M,k,r);if(ext&&['door','window','arcade'].includes(kd))entries++}
+    if(M.sheared)entries+=2;entries+=M.cuts.length?1:0}
+  const sealed=A.pockets.length;L.pockets=A.pockets;
+  L.chk={present,reached,jump,arc:Math.round(arc),entries,sealed,bridges:L.bridges.length,hurt:0}}
+
+// ---------------------------------------------------------------- drawing
+function render(L,cv,opt){const A=L.A,o=A.o,s=cv.width/L.W,g=ST.grid;
+  // crop to the content: from just above the tallest thing to just under the ground, same scale on every card
+  let top=L.GY;for(const M of L.blds)top=Math.min(top,M.base-Math.max(...M.h)*g.storey-(M.roofs.some(r=>r.type==='spire')?g.bay*1.7:M.roofs.some(r=>r.type==='gable')?g.bay*1.1:50));
+  for(const b of L.bridges)top=Math.min(top,b.y0-200,b.y1-200);if(L.rock)top=Math.min(top,L.rock.top-40);top=Math.max(0,Math.min(top,L.GY-560));
+  const oy=top,H=Math.round((L.GY+70-oy)*s);if(cv.height!==H)cv.height=H;const x=cv.getContext('2d');
+  x.setTransform(1,0,0,1,0,0);const gr=x.createLinearGradient(0,0,0,H);gr.addColorStop(0,'#141825');gr.addColorStop(1,'#0b0d12');x.fillStyle=gr;x.fillRect(0,0,cv.width,H);
+  const lay=(k,fn)=>{const[c,y]=cnv(k,cv.width,H);y.setTransform(s,0,0,s,0,-oy*s);fn(y);x.drawImage(c,0,0)};
+  if(opt.back){
+    lay('far',y=>{paint(y,o.far,'#1c2029');y.globalCompositeOperation='source-atop';paint(y,o.farFx,'#262b38','source-atop');paint(y,o.farCut,'#000','destination-out')});
+    lay('back',y=>{paint(y,o.back,'#2f3546');paint(y,o.backFx,'#3a4156','source-atop');paint(y,o.backCut,'#000','destination-out')});
+    lay('decoB',y=>paint(y,o.decoB,'#7a2350'))}
+  lay('body',y=>{paint(y,[o.terrain],'#4f5668');paint(y,o.body.filter(b=>b.rock),'#5b6273');paint(y,o.body.filter(b=>!b.rock),'#a7afc0');paint(y,o.cut,'#000','destination-out');paint(y,o.rub,'#7d8597')});
+  lay('rung',y=>paint(y,o.rung,'#e0a545'));
+  lay('decoF',y=>paint(y,o.decoF,'#8a93a6'));
+  if(opt.grid)lay('grid',y=>paint(y,o.grid,'#3ff3ff'));
+  x.translate(0,-oy*s);const a=AS(),k=s/a,{GW,GH}=A.mk,vis=A.R.vis,hurt=A.R.hurt,R=A.R,dot=Math.max(1.2,s*2.2);
+  if(opt.route){x.fillStyle='#3ff3ff';for(let i=0;i<vis.length;i++)if(vis[i]&&(i%GW)%4===0){const gx=i%GW,gy=(i/GW)|0;x.fillStyle=hurt[i]?'#ffb347':'#3ff3ff';x.fillRect(gx*k-dot/2,gy*k-dot/2,dot,dot)}
+    x.fillStyle='#ff4d6d';for(let gx=2;gx<GW-2;gx+=6)for(let gy=2;gy<GH-2;gy++){if(!R.sol(gx,gy)&&R.solB(gx,gy+1)&&!R.solB(gx,gy-14)&&!vis[gy*GW+gx]){
+      let near=false;for(let d=-3;d<=3&&!near;d++)for(let e=-3;e<=3;e++)if(vis[(gy+e)*GW+gx+d]){near=true;break}if(!near)x.fillRect(gx*k-dot/2,gy*k-dot/2,dot,dot)}}}
+  for(const f of A.cells)if(!f.reached){const g=ST.grid,x0=(f.M.x0+f.c*g.bay+g.pier/2)*s,y0=(f.M.base-f.r*g.storey-g.slab)*s;x.strokeStyle='#ff4d6d';x.lineWidth=Math.max(1,s*3);x.strokeRect(x0,y0-(g.storey-g.slab-4)*s,(g.bay-g.pier)*s,(g.storey-g.slab-4)*s)}
+  for(const[px,py,pw,pz]of L.pockets||[]){x.strokeStyle='#ff4d6d';x.setLineDash([4,3]);x.lineWidth=Math.max(1,s*3);x.strokeRect(px*s-3,py*s-3,pw*s+6,pz*s+6);x.setLineDash([])}
+  // a trooper for scale, by the left entry
+  const tx=34,ty=L.tY(34),th=ST.grid.troop;x.save();x.setTransform(s,0,0,s,0,-oy*s);x.fillStyle='#ff2e88';x.beginPath();x.arc(tx,ty-th+7,7,0,Math.PI*2);x.fill();
+  x.fillRect(tx-8,ty-th+14,16,th*.45);x.fillRect(tx-8,ty-th*.5+6,6,th*.5-6);x.fillRect(tx+2,ty-th*.5+6,6,th*.5-6);x.fillRect(tx+8,ty-th+20,16,5);x.restore();x.setTransform(1,0,0,1,0,0)}
+
+// ---------------------------------------------------------------- UI
+let cards=[],zoomI=-1,busy=0,dirty=false;
+const pct=w=>{const t=Object.values(w).reduce((a,b)=>a+Math.max(0,b),0)||1;return Object.fromEntries(Object.entries(w).map(([k,v])=>[k,Math.round(Math.max(0,v)/t*100)]))};
+function msg(h){$('#msg').innerHTML=h}
+function buildPanel(){const box=$('#rules');box.innerHTML='';let pass=-1;
+  for(const[key,p,label,opts]of RULES){if(p!==pass){pass=p;const h=document.createElement('h2');h.textContent=PASSES[p];box.appendChild(h)}
+    const d=document.createElement('div');d.className='rule';const pc=pct(ST.w[key]);
+    d.innerHTML=`<div class="hd"><span>${label}</span><label title="pinned rules are never moved by learning"><input type="checkbox" ${ST.pin[key]?'checked':''} data-pin="${key}">pin</label></div><div class="k">${key}</div>`+
+      Object.keys(opts).map(o=>`<div class="opt ${ST.moved[key+'.'+o]?'moved':''}"><span>${o}</span><input type="range" min="0" max="100" step="1" value="${Math.round(ST.w[key][o])}" data-k="${key}" data-o="${o}"><span class="pc" id="pc-${key}-${o}">${pc[o]}%</span></div>`).join('');
+    box.appendChild(d)}
+  box.querySelectorAll('input[type=range]').forEach(el=>el.oninput=()=>{ST.w[el.dataset.k][el.dataset.o]=+el.value;const pc=pct(ST.w[el.dataset.k]);for(const o in pc)$(`#pc-${el.dataset.k.replace(/\./g,'\\.')}-${o}`).textContent=pc[o]+'%';save();setDirty()});
+  box.querySelectorAll('input[data-pin]').forEach(el=>el.onchange=()=>{ST.pin[el.dataset.pin]=el.checked;save()});
+  const gb=$('#gridOpts');gb.innerHTML=Object.entries(GRIDL).map(([k,[l,mn,mx]])=>`<div class="opt" style="grid-template-columns:110px 1fr 38px"><span>${l}</span><input type="range" min="${mn}" max="${mx}" step="4" value="${ST.grid[k]}" data-g="${k}"><span class="pc" id="g-${k}">${ST.grid[k]}</span></div>`).join('')+
+    `<div class="small">Trooper ${ST.grid.troop} art px (27 game px). A jump needs about ${Math.round(PH.JUMPCLEAR/AS())} art px of clear headroom.</div>`;
+  gb.querySelectorAll('input').forEach(el=>el.oninput=()=>{ST.grid[el.dataset.g]=+el.value;$('#g-'+el.dataset.g).textContent=el.value;save();setDirty()});
+  $('#lr').value=ST.lr;$('#lrv').textContent=ST.lr.toFixed(2);
+  $('#batchInfo').textContent=`batch ${ST.batch} · base seed ${ST.base}${ST.sketch?' · dressing a sketch':''}`;
+  const tb=$('#tpls');tb.innerHTML=ST.tpl.length?'':'None yet. Lock a building to add it.';
+  ST.tpl.forEach((t,i)=>{const d=document.createElement('div');d.className='tpl';d.innerHTML=`<span>${t.name}</span><button data-i="${i}">remove</button>`;d.querySelector('button').onclick=()=>{ST.tpl.splice(i,1);save();buildPanel();cards.forEach(c=>c.lock=ST.tpl.some(t=>t.seed===c.L.seed&&t.bi===0));cards.forEach(paintCard)};tb.appendChild(d)})}
+function setDirty(){dirty=true;$('#bRoll').classList.add('hot')}
+
+function seeds(){const out=[];for(let i=0;i<24;i++)out.push(hash(ST.base,ST.batch,i));return out}
+function opts(){return{route:$('#oRoute').checked,back:$('#oBack').checked,grid:$('#oGrid').checked}}
+function makeCard(i){const el=document.createElement('div');el.className='card';
+  el.innerHTML=`<canvas width="600" height="500"></canvas><div class="ft"><div class="row"><span class="ttl"></span><span class="seed"></span></div><div class="row bds"></div>
+  <div class="row act"><button class="k1" title="keep">✓ keep</button><button class="k2" title="cut">✗ cut</button><button class="k3" title="lock as a template">lock</button></div></div>`;
+  el.querySelector('canvas').onclick=()=>openZoom(i);
+  el.querySelector('.k1').onclick=()=>mark(i,1);el.querySelector('.k2').onclick=()=>mark(i,-1);el.querySelector('.k3').onclick=()=>lock(i);return el}
+function badges(L){const c=L.chk,b=[];const cls=(ok,warn)=>ok?'ok':warn?'warn':'bad';
+  b.push(`<span class="bd ${cls(c.reached===c.present,c.reached>=c.present-1)}" title="floors a trooper can reach / floors">reach ${c.reached}/${c.present}</span>`);
+  b.push(`<span class="bd ${cls(c.jump===c.reached,c.jump>=c.reached*.5)}" title="reachable floors with room for a full jump (${PH.JUMPCLEAR} game px)">jump ${c.jump}/${c.reached}</span>`);
+  b.push(`<span class="bd ${cls(c.arc>=130,c.arc>=90)}" title="tallest clear space over a reachable floor, game px. Arcs need about 130">arc ${c.arc}</span>`);
+  b.push(`<span class="bd ${cls(c.entries>=3,c.entries>=1)}" title="ways for a shot to get in: doors, windows, arcades, ruin breaks">in ${c.entries}</span>`);
+  if(c.sealed)b.push(`<span class="bd bad" title="air pockets a shell can't reach">sealed ${c.sealed}</span>`);
+  if(L.fixes.length)b.push(`<span class="bd" title="the circulation check added:\n${L.fixes.join('\n')}">auto ${L.fixes.length}</span>`);
+  return b.join('')}
+function paintCard(cd){const el=cd.el,L=cd.L;el.className='card'+(cd.mark>0?' keep':cd.mark<0?' cut':'')+(cd.lock?' lock':'');if(!L)return;
+  el.querySelector('.ttl').textContent=L.massing+(L.kind!=='single'?` · ${L.kind}`:'');el.querySelector('.seed').textContent='#'+(L.seed%100000);
+  el.querySelector('.bds').innerHTML=badges(L);const cv=el.querySelector('canvas');cv.width=Math.min(900,Math.round(el.clientWidth*(devicePixelRatio||1))||600);render(L,cv,opts())}
+function mark(i,v){const cd=cards[i];cd.mark=cd.mark===v?0:v;paintCard(cd);status()}
+function lock(i){const cd=cards[i];if(!cd.L)return;cd.lock=!cd.lock;
+  if(cd.lock){cd.L.blds.forEach((M,bi)=>ST.tpl.push({name:`${M.type} ${M.n}×${Math.max(...M.h)} #${cd.L.seed%100000}${cd.L.blds.length>1?'/'+(bi+1):''}`,seed:cd.L.seed,bi,s:M.snap}));if(!cd.mark)cd.mark=1}
+  else ST.tpl=ST.tpl.filter(t=>t.seed!==cd.L.seed);save();buildPanel();paintCard(cd);status()}
+function status(){const k=cards.filter(c=>c.mark>0).length,x=cards.filter(c=>c.mark<0).length;
+  const done=cards.filter(c=>c.L),ok=done.filter(c=>c.L.chk.reached===c.L.chk.present).length;
+  msg(`<b>${k}</b> kept · <b>${x}</b> cut · fully reachable <b>${ok}/${done.length}</b>${ST.lastLearn?' · last learn: '+ST.lastLearn:''}`)}
+function generate(){const my=++busy,ss=seeds(),grid=$('#cards');grid.innerHTML='';cards=ss.map((sd,i)=>({i,seed:sd,mark:0,lock:false,el:makeCard(i),L:null}));
+  cards.forEach(c=>grid.appendChild(c.el));dirty=false;$('#bRoll').classList.remove('hot');buildPanel();
+  const sk=ST.sketch?parseSketch(ST.sketch):null;let i=0;
+  const step=()=>{if(my!==busy)return;const t0=performance.now();while(i<cards.length&&performance.now()-t0<40){const cd=cards[i++];
+      try{cd.L=genLot(cd.seed,sk&&!sk.err?{sketch:sk}:{});cd.lock=ST.tpl.some(t=>t.seed===cd.seed);paintCard(cd)}catch(e){console.error(e);cd.el.querySelector('.ttl').textContent='error: '+e.message}}
+    status();if(i<cards.length)setTimeout(step,0)};step()}
+
+function learn(){const marked=cards.filter(c=>c.mark&&c.L);if(!marked.length)return'nothing marked, weights unchanged';const moves=[];ST.moved={};
+  for(const[key]of RULES){if(ST.pin[key])continue;const W=ST.w[key],s={};let any=false;
+    for(const c of marked){const u=c.L.rec[key];if(!u)continue;any=true;const tot=Object.values(u).reduce((a,b)=>a+b,0);for(const o in u)s[o]=(s[o]||0)+c.mark*u[o]/tot}
+    if(!any)continue;const before=pct(W),m=marked.filter(c=>c.L.rec[key]).length;
+    // a nudge, not a lurch: the vote is averaged over the marked buildings that rolled this rule, scaled by how many there were
+    for(const o in s){if(W[o]<=0)continue;const v=s[o]/Math.sqrt(m);W[o]=Math.max(.5,W[o]*Math.min(1.6,Math.max(.62,Math.pow(ST.lr,v))))}
+    const t=Object.values(W).reduce((a,b)=>a+b,0);for(const o in W)W[o]=Math.round(W[o]/t*1000)/10;
+    const after=pct(W);for(const o in after){const d=after[o]-before[o];if(Math.abs(d)>=2){moves.push([Math.abs(d),`${key} ${o} ${before[o]}→${after[o]}%`]);ST.moved[key+'.'+o]=1}}}
+  moves.sort((a,b)=>b[0]-a[0]);return moves.length?moves.slice(0,6).map(m=>m[1]).join(', ')+(moves.length>6?` (+${moves.length-6} more)`:''):'no rule moved 2% or more'}
+
+function openZoom(i){const cd=cards[i];if(!cd.L)return;zoomI=i;const L=cd.L,z=$('#zoom');z.hidden=false;
+  const cv=$('#zc0');cv.width=Math.min(1600,Math.round(Math.min(innerWidth-20,1200)*(devicePixelRatio||1)));cv.style.width=Math.min(innerWidth-20,1200)+'px';render(L,cv,opts());
+  $('#zt').textContent=`${L.massing} · ${L.kind} · seed ${L.seed}`;
+  const byPass={};for(const key in L.rec){const p=RULE[key][1];(byPass[p]=byPass[p]||[]).push(`${RULE[key][2]}: ${Object.entries(L.rec[key]).map(([o,n])=>n>1?`${o}×${n}`:o).join(', ')}`)}
+  const c=L.chk;let h=`<div><div class="p">Checks</div>floors reached ${c.reached}/${c.present}<br>room for a full jump ${c.jump}/${c.reached}<br>tallest clear space ${c.arc} game px (arcs want ~130)<br>shot entries ${c.entries} · sealed pockets ${c.sealed}<br>bridges ${c.bridges}</div>`;
+  h+=`<div><div class="p">Auto-fixes</div>${L.fixes.length?L.fixes.join('<br>'):'none needed'}</div>`;
+  for(const p of Object.keys(byPass).sort())h+=`<div><div class="p">${PASSES[p]}</div>${byPass[p].join('<br>')}</div>`;
+  $('#zinfo').innerHTML=h;zbtn()}
+function zbtn(){const cd=cards[zoomI];$('#zk').className=cd.mark>0?'hot':'';$('#zc').className=cd.mark<0?'hot':'';$('#zl').className=cd.lock?'hot':''}
+$('#zx').onclick=()=>{$('#zoom').hidden=true};$('#zk').onclick=()=>{mark(zoomI,1);zbtn()};$('#zc').onclick=()=>{mark(zoomI,-1);zbtn()};$('#zl').onclick=()=>{lock(zoomI);zbtn()};
+addEventListener('keydown',e=>{if(e.key==='Escape'){$('#zoom').hidden=true;$('#modal').hidden=true}});
+
+function exportJSON(){const rules={};for(const[k]of RULES)rules[k]=pct(ST.w[k]);
+  return JSON.stringify({grimspire_building_rules:1,exported:new Date().toISOString(),batch:ST.batch,grid:ST.grid,physics:PH,rules,pinned:Object.keys(ST.pin).filter(k=>ST.pin[k]),templates:ST.tpl},null,1)}
+function modal(t,h,txt,apply){$('#modal').hidden=false;$('#mt').textContent=t;$('#mh').textContent=h;$('#mta').value=txt;$('#mApply').hidden=!apply;$('#mApply').onclick=apply}
+$('#mx').onclick=()=>{$('#modal').hidden=true};
+$('#mCopy').onclick=async()=>{try{await navigator.clipboard.writeText($('#mta').value);$('#mCopy').textContent='Copied'}catch(e){$('#mta').select();document.execCommand('copy');$('#mCopy').textContent='Copied'}setTimeout(()=>$('#mCopy').textContent='Copy',1200)};
+$('#bExport').onclick=()=>modal('Export rule table','The tuned weights (as percentages), grid, physics and locked templates. This is what the game generator will read; copy it into the repo or the chat.',exportJSON());
+$('#bImport').onclick=()=>modal('Import rule table','Paste an exported rule table, then Apply.','',()=>{try{const j=JSON.parse($('#mta').value);for(const k in j.rules||{})if(ST.w[k])for(const o in j.rules[k])if(o in ST.w[k])ST.w[k][o]=j.rules[k][o];
+  if(j.grid)Object.assign(ST.grid,j.grid);if(j.templates)ST.tpl=j.templates;ST.pin={};for(const k of j.pinned||[])ST.pin[k]=true;save();$('#modal').hidden=true;ST.batch++;generate()}catch(e){$('#mh').textContent='Not valid JSON: '+e.message}});
+$('#bNext').onclick=()=>{ST.lastLearn=learn();ST.batch++;save();generate()};
+$('#bRoll').onclick=()=>{ST.batch++;save();generate()};
+$('#bRules').onclick=()=>{$('#panel').classList.toggle('shut');if(innerWidth>760)$('#panel').hidden=!$('#panel').hidden};
+$('#lr').oninput=e=>{ST.lr=+e.target.value;$('#lrv').textContent=ST.lr.toFixed(2);save()};
+['#oRoute','#oBack','#oGrid'].forEach(s=>$(s).onchange=()=>cards.forEach(paintCard));
+$('#bSketch').onclick=()=>{const p=parseSketch($('#sk').value);if(!p||p.err){msg('Sketch: '+(p?.err||'empty'));return}ST.sketch=$('#sk').value;ST.batch++;save();generate()};
+$('#bUnsketch').onclick=()=>{ST.sketch=null;ST.batch++;save();generate()};
+$('#bReset').onclick=()=>{for(const r of RULES)ST.w[r[0]]={...r[3]};ST.pin={};ST.moved={};ST.lastLearn='';save();setDirty();buildPanel()};
+$('#bResetAll').onclick=e=>{const b=e.target;if(!b.dataset.arm){b.dataset.arm=1;b.textContent='Click again: wipes templates too';setTimeout(()=>{delete b.dataset.arm;b.textContent='Reset everything'},3000);return}ST=fresh();save();generate()};
+let rt;addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>cards.forEach(paintCard),200)});
+if(innerWidth<=760)$('#panel').classList.add('shut');
+if(ST.sketch)$('#sk').value=ST.sketch;
+window.__LAB={genLot,analyse,cards:()=>cards,ST:()=>ST,parseSketch};
+generate();
+</script>
+</body>
+</html>

@@ -31,7 +31,7 @@ Prototype in HTML/canvas to nail the loop, weapons and feel, then rebuild in **G
 - **Phase 3 (started 2 Nov):** the generated world made cohesive with hand art. In: sockets and decorative set-piece placement. Next: the redrawn set pieces (ChatGPT), pixel-art effects, art-grid craters and debris from terrain; later one grade over everything, material tiles, a modular architecture kit and a composition director. See `WORLD-ART.md`
 
 ## Next up
-- **Building lab playground** (Claude): generator passes + weight learning on placeholder shapes, per `BUILDING-SYSTEM.md`. ChatGPT draws the bay-kit parts in parallel.
+- **Building lab: tune, then port** (Jarred, then Claude): playground built (`experiments/building-lab.html`). Jarred tunes by keep/cut and calls the storey height; Claude ports the rules into the game behind a flag. ChatGPT draws the bay-kit parts in parallel.
 - **North Star look, all maps (Jarred, 2 Nov):** one look everywhere (sky, horizon, water, lighting, decor), variety from the layouts. Order: (1) ~~kit stamped, drowned district in rotation, look on, set pieces live~~ (done 2 Nov, GV 19); (2) convert spires (towers in water, bridges), then canyon (drowned gorge between cliffs), islands (over open water, piers), ruins (shores and drowned streets), one per push with a playtest each: own starting water level, rock base cut into shores and outcrops, same kit; (3) retire the classic look. Work happens on `phase3`.
 - **Art direction:** continue the Ash Legion trooper (magenta, cloth as drawn) by hand at game scale (idle, aim, both facings, walk, jump-pack ignition, flight, landing)
 - **Throwing arm:** separate arm and throw motion for grenades and other thrown items
@@ -46,6 +46,7 @@ Prototype in HTML/canvas to nail the loop, weapons and feel, then rebuild in **G
 - The roguelike prototype (expect big changes to core systems)
 
 ## Done
+- **Building lab playground (16 Nov):** `experiments/building-lab.html`, generator passes 1–8 from one weight table, game-physics reach and artillery checks with auto-fixes, keep/cut learning, lock-as-template, sketch dressing, export. Private artifact for Jarred. No game code changed
 - **De-dappled kit refresh (16 Nov, GV 72):** ChatGPT's depth refreshes of K01–K16, K12, K13, S01/S03/S07/S09 with dapple removed (`deblob.py`), K10 rose glass fixed, rocks R01–R11 with baked grit; K17 kept original. Forge revision `20261116T223943Z-ef850d01`
 - **Layered kit refresh (15 Nov, GV 69):** K05a/b bridges and K01/a/b shafts at 2× with Back, K12/K13 with Back and restored windows, new rocks R10 (terraced crag) and R11 (natural arch) in the rock pools; Forge revision `20261116T055346Z-a8e03c00`
 - **Shores (13 Nov, GV 67):** every non-drowned map ends in ground running down into the water, not a cliff cut off by the boundary
