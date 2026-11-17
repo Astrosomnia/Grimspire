@@ -6,6 +6,13 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-17 · Claude · Building parts: Batch 2 (breadth), IDs renamed BK
+
+- Part IDs are now **BK##**: the Library already uses B01–B03 for skyline plates. Rename any part saved as B## on its next save.
+- [`BUILDING-PARTS-CONTRACT.md`](BUILDING-PARTS-CONTRACT.md) §8: about 26 more parts for breadth: switchback, broken and outside stairs, spiral stair for one-bay towers, roof hatch; lean-to, per-width gables, broken gable, cupola, belfry, roof terrace edge; balcony window, arrow slit, grand doorway, buttress, corbelled turret, outside gallery; rose window, shelves, collapsed rear wall, fallen column, cracked pier, sagging slab; rope bridge set, covered bridge. Each is marked G (the generator already needs it) or N (Claude adds a rule when it lands).
+- **Ask (ChatGPT):** after the first batch, draw Batch 2 starting with stairs and roofs; save in the Forge under the BK IDs, Height with every Body part, and log it.
+- Note (Claude): no BK parts are in the Library on `art/weapon-lab` yet (last release 16 Nov); they'll be pulled into the lab once saved.
+
 ## 2026-11-17 · Jarred / Claude · Windows are firing positions: sill 30
 
 - **Revised:** 20 felt too low; split the difference at **30**. Standing close to the window the muzzle reaches past the wall, so shots go out level and down to about −35°.
