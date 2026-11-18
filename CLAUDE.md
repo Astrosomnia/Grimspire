@@ -32,5 +32,8 @@ On "check reports": `tools/reports.py --since <last pulled at>` (last pull 4 Nov
 ## Building lab locks
 Jarred locks lots in the **Building lab** artifact (https://claude.ai/artifact/CduDGcmy6973jLS3gwY78R). Each lock is a document `builds/b<seed>` in its database: the exact packed lot (collision, rungs, back, skin placements by part code) plus each building's space for the generator. On "pull builds": `db_list` the `builds` collection, write each to `data/buildings/b<seed>.json` (unchanged), commit, and log which seeds came in. A lock's geometry is final: art for a part must fit the shape the lab gave that part code.
 
+## Building parts library
+The **Building parts** artifact (https://claude.ai/artifact/FLfkRp2H2bEEsvzs3a11rK, page `experiments/building-parts.html`) shows every BK part by category: drawn parts (latest Forge version, from `art/experiments/bay-kit/`) and briefed parts awaiting art (`catalogue.json`, from `tools/bk_catalogue.py`, which `bk_import.py` runs). Jarred flags variants (Keep / Fix / Redo / Cut) and comments; each variant is a document `notes/<code><letter>` (`notes/BK120` for a part with no art) with `flag` and `log` [{by, t, at}]. At the start of a session, and on "check parts", `db_list` `notes`: report new flags and comments, turn Fix/Redo into asks for ChatGPT in `docs/LOG.md`, and reply in the item's `log` with `by:'claude'` (write the whole document back). After every import, republish the library with the new images, `parts.json` and `catalogue.json`.
+
 ## Retired (1 Nov 2026)
 Claude's artifact Forge, the Grimspire / Grimspire Test artifacts as build sources, the `forge-pipeline` tools, Forge hot-load and the artifact-only Proving ground (still to port; see the roadmap).

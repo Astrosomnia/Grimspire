@@ -6,6 +6,11 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-17 · Claude · Building parts library
+
+- New artifact **Grimspire Building Parts** (https://claude.ai/artifact/FLfkRp2H2bEEsvzs3a11rK; page `experiments/building-parts.html`): every BK part by category (walls, floors and arches, back walls, base, stairs, roofs and crowns, outer-wall shapes, bridges and aqueducts, ruin, ornament, cover). Drawn parts show the published version only (what the lab and game use) with variants, adorned `+` versions, Lit / Body / Back / Height / Glow views, size, art check and whether the generator places them. Briefed parts with no art yet show as awaiting art with their spec. Filters: flagged, with comments, awaiting art, drawn but not placed; search; a `#bk51` link opens a part.
+- Feedback: flag each variant Keep / Fix / Redo / Cut and comment; saved in the artifact's database (`notes/<code><letter>`), which Claude reads and replies in. Catalogue: `tools/bk_catalogue.py` → `art/experiments/bay-kit/catalogue.json` (drawn + briefed from contract §8 on), run by `bk_import.py`. The lab's Parts panel links to it.
+
 ## 2026-11-17 · Claude · Back walls break with the walls in front of them
 
 - Jarred: in the test lab, destroying a building left its background floating. Cause: blasts cut the back-art layer (`baCtx`) but never `bctx`, where test mode draws each lot's back fill and normal maps draw their procedural back walls and ruined facades. And the cached back layer (`NS.backN`) only refreshed after a blast on maps with drawn back art. Now `carve`/`carveLine` cut `bctx` at the same 0.8× radius as back art (a back wall breaks a bit less than its front), and the cache refreshes wherever it exists, lit or not. Normal maps get it too. `det.py` all MATCH; `dsim.py` IDENTICAL (back walls aren't solid, so no GV bump).

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Grimspire Building Parts</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+/* One visual world: the game's night stone. Layout: summary + filters on top, category bands of part cards, a detail sheet over them. */
+:root{
+  --bg:#0e1016;--panel:#161922;--raise:#1e2230;--line:#2b3040;--text:#dfe2ea;--muted:#8d93a6;
+  --accent:#ff2e88;--love:#5fd39a;--fix:#e0a545;--redo:#ff5c7a;--cut:#6f7586;--claude:#9ab8ff;
+  --display:'Cinzel',Georgia,serif;--body:'IBM Plex Sans',system-ui,sans-serif;--mono:'IBM Plex Mono',ui-monospace,monospace;
+  color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--text);font:15px/1.45 var(--body)}
+button,input,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+header{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);padding:12px 16px 10px}
+.top{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 16px}
+h1{font:600 20px/1.2 var(--display);letter-spacing:.06em;margin:0;text-wrap:balance}
+.sum{display:flex;flex-wrap:wrap;gap:4px 14px;color:var(--muted);font-size:13px;font-variant-numeric:tabular-nums}
+.sum b{color:var(--text);font-weight:600}
+.bar{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;align-items:center}
+.chip{border:1px solid var(--line);background:var(--panel);border-radius:999px;padding:4px 11px;font-size:13px;white-space:nowrap}
+.chip[aria-pressed="true"]{border-color:var(--accent);color:#fff;background:color-mix(in srgb,var(--accent) 22%,var(--panel))}
+#q{flex:1 1 160px;min-width:0;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:5px 10px;font-size:14px}
+.cats{display:flex;gap:6px;overflow-x:auto;margin-top:8px;padding-bottom:2px;scrollbar-width:thin}
+.cats a{color:var(--muted);text-decoration:none;font-size:12.5px;white-space:nowrap;padding:2px 8px;border-radius:6px;border:1px solid transparent}
+.cats a:hover{border-color:var(--line);color:var(--text)}
+main{padding:8px 16px 60px;max-width:1500px;margin:0 auto}
+section{margin-top:22px}
+section h2{font:600 15px/1.2 var(--display);letter-spacing:.08em;margin:0 0 10px;display:flex;gap:10px;align-items:baseline}
+section h2 span{font:500 12px var(--body);letter-spacing:0;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(172px,1fr));gap:10px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:0;text-align:left;display:flex;flex-direction:column;overflow:hidden;position:relative}
+.card:hover{border-color:#3a4155}
+.card .pv{height:132px;display:grid;place-items:center;background:
+  repeating-conic-gradient(#141720 0 25%,#181c26 0 50%) 0 0/16px 16px;border-bottom:1px solid var(--line)}
+.card canvas,.sheet canvas{image-rendering:pixelated;max-width:100%}
+.card .meta{padding:7px 9px 9px;display:flex;flex-direction:column;gap:4px}
+.code{font:500 12px var(--mono);color:var(--muted)}
+.nm{font-size:13.5px;font-weight:500;line-height:1.25}
+.tags{display:flex;flex-wrap:wrap;gap:4px}
+.t{font-size:11px;padding:1px 6px;border-radius:5px;border:1px solid var(--line);color:var(--muted)}
+.t.await{border-style:dashed;color:#c9b27a;border-color:#6b5d3a}
+.t.warn{color:var(--fix);border-color:#5a4a2a}.t.fail{color:var(--redo);border-color:#5d2a37}
+.t.off{color:#7d8597}
+.stripe{position:absolute;inset:0 auto 0 0;width:4px}
+.f-love{background:var(--love)}.f-fix{background:var(--fix)}.f-redo{background:var(--redo)}.f-cut{background:var(--cut)}
+.cnt{position:absolute;top:6px;right:6px;font:500 11px var(--mono);background:#0009;border-radius:6px;padding:1px 6px}
+.empty{color:var(--muted);padding:30px 0}
+/* detail sheet */
+.scrim{position:fixed;inset:0;background:#000a;z-index:10;display:none}
+.scrim.on{display:block}
+.sheet{position:fixed;z-index:11;top:0;right:0;bottom:0;width:min(760px,100%);background:var(--panel);border-left:1px solid var(--line);overflow-y:auto;display:none;padding:16px 18px 40px}
+.sheet.on{display:block}
+.sh-top{display:flex;gap:10px;align-items:flex-start;justify-content:space-between}
+.sh-top h3{font:600 19px/1.25 var(--display);margin:2px 0 0;text-wrap:balance}
+.x{background:var(--raise);border:1px solid var(--line);border-radius:8px;padding:4px 10px}
+.stage{margin-top:12px;border:1px solid var(--line);border-radius:10px;min-height:220px;display:grid;place-items:center;padding:14px;background:
+  repeating-conic-gradient(#141720 0 25%,#181c26 0 50%) 0 0/16px 16px;overflow:auto}
+.seg{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.seg button{background:var(--raise);border:1px solid var(--line);border-radius:7px;padding:3px 10px;font-size:13px}
+.seg button[aria-pressed="true"]{border-color:var(--accent);color:#fff}
+.seg button:disabled{opacity:.35;cursor:default}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:3px 14px;margin-top:14px;font-size:13.5px}
+.kv dt{color:var(--muted)}.kv dd{margin:0;font-variant-numeric:tabular-nums}
+.brief{margin-top:12px;background:var(--raise);border:1px solid var(--line);border-radius:8px;padding:10px 12px;font-size:13.5px;max-width:65ch}
+.brief b{display:block;font-size:12px;color:var(--muted);font-weight:500;margin-bottom:3px}
+h4{font:600 13px var(--display);letter-spacing:.08em;margin:20px 0 8px}
+.flags{display:flex;flex-wrap:wrap;gap:6px}
+.flags button{background:var(--raise);border:1px solid var(--line);border-radius:8px;padding:5px 12px;font-size:13.5px;display:flex;gap:6px;align-items:center}
+.flags i{width:9px;height:9px;border-radius:50%;display:inline-block}
+.flags button[aria-pressed="true"]{color:#fff;border-color:currentColor}
+.log{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+.msg{background:var(--raise);border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-size:14px;max-width:65ch;white-space:pre-wrap}
+.msg.claude{border-color:#34436a;background:#1a2133}
+.msg small{display:block;color:var(--muted);font-size:11.5px;margin-bottom:2px}
+.msg.claude small{color:var(--claude)}
+form{margin-top:10px;display:flex;flex-direction:column;gap:8px;max-width:65ch}
+textarea{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:8px 10px;min-height:76px;resize:vertical}
+.post{align-self:flex-start;background:var(--accent);border:0;border-radius:8px;padding:6px 16px;font-weight:600;color:#fff}
+.post:disabled{opacity:.5}
+.note{font-size:12.5px;color:var(--muted)}
+.vrow{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+.vrow figure{margin:0;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:6px;display:flex;flex-direction:column;align-items:center;gap:4px}
+.vrow figcaption{font:500 11px var(--mono);color:var(--muted)}
+.vrow figure[aria-current="true"]{border-color:var(--accent)}
+@media (max-width:600px){.grid{grid-template-columns:repeat(auto-fill,minmax(146px,1fr))}.card .pv{height:112px}.sheet{padding:14px 14px 40px}}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<header>
+  <div class="top"><h1>Grimspire · Building parts</h1><div class="sum" id="sum">Loading parts…</div></div>
+  <div class="bar" role="group" aria-label="Filter">
+    <button class="chip" data-f="all" aria-pressed="true">All</button>
+    <button class="chip" data-f="flagged" aria-pressed="false">Flagged</button>
+    <button class="chip" data-f="talk" aria-pressed="false">With comments</button>
+    <button class="chip" data-f="await" aria-pressed="false">Awaiting art</button>
+    <button class="chip" data-f="unplaced" aria-pressed="false">Drawn, not placed</button>
+    <input id="q" type="search" placeholder="Search code or name" aria-label="Search parts">
+  </div>
+  <nav class="cats" id="cats" aria-label="Categories"></nav>
+</header>
+<main id="main"></main>
+<div class="scrim" id="scrim"></div>
+<aside class="sheet" id="sheet" aria-label="Part detail"></aside>
+<script>
+const $=s=>document.querySelector(s),el=(t,a={},...k)=>{const e=document.createElement(t);for(const[n,v]of Object.entries(a))n==='class'?e.className=v:n.startsWith('on')?e[n]=v:e.setAttribute(n,v);for(const c of k)e.append(c);return e};
+const FLAGS=[['love','Keep','--love'],['fix','Fix','--fix'],['redo','Redo','--redo'],['cut','Cut','--cut']];
+const ST={cat:null,parts:null,base:'',imgs:{},notes:{},filter:'all',q:'',open:null,view:'lit',variant:null,db:null,owner:false,dbState:'none'};
+
+// ---- lit preview: the lab's bake (Height shapes the light; top edges catch the sky)
+function bakeLit(body,height){const w=body.width,h=body.height,c=document.createElement('canvas');c.width=w;c.height=h;const x=c.getContext('2d',{willReadFrequently:true});x.drawImage(body,0,0);
+  const d=x.getImageData(0,0,w,h),b=d.data;let hd=null;if(height){const t=document.createElement('canvas');t.width=w;t.height=h;const tx=t.getContext('2d',{willReadFrequently:true});tx.drawImage(height,0,0);hd=tx.getImageData(0,0,w,h).data}
+  const H=(i,j)=>{i=Math.max(0,Math.min(w-1,i));j=Math.max(0,Math.min(h-1,j));return hd?hd[(j*w+i)*4]/255:.5},A=(i,j)=>i<0||j<0||i>=w||j>=h?0:b[(j*w+i)*4+3];
+  for(let j=0;j<h;j++)for(let i=0;i<w;i++){const p=(j*w+i)*4;if(b[p+3]<128)continue;let k=1.18+.35*H(i,j)+2.6*(H(i-1,j-1)-H(i+1,j+1));
+    let rr=b[p]*k+6,gg=b[p+1]*k+6,bb=b[p+2]*k+10;if(A(i,j-1)<128||A(i,j-2)<128){rr+=34;gg+=14;bb+=40}else if(A(i-1,j)<128){rr+=14;gg+=10;bb+=24}
+    b[p]=Math.min(255,rr);b[p+1]=Math.min(255,gg);b[p+2]=Math.min(255,bb)}
+  x.putImageData(d,0,0);return c}
+const loadImg=src=>new Promise(r=>{const im=new Image();im.onload=()=>r(im);im.onerror=()=>r(null);im.src=src});
+async function layers(code,v){const k=code+v;if(ST.imgs[k])return ST.imgs[k];const e=ST.parts[code].variants[v],L=e.layers,o={};
+  await Promise.all(['body','back','height','emis'].map(async ly=>{if(L[ly])o[ly]=await loadImg(ST.base+L[ly])}));
+  const backOnly=L.back&&!L.height;o.lit=o.body&&!backOnly?bakeLit(o.body,o.height):null;if(backOnly)o.body=null;return ST.imgs[k]=o}
+// composite for a view: lit/body sit over the Back like in the game; Back, Height and Glow show alone
+function compose(o,view){const src=o.body||o.back||o.height;if(!src)return null;const w=src.width,h=src.height,c=document.createElement('canvas');c.width=w;c.height=h;const x=c.getContext('2d');x.imageSmoothingEnabled=false;
+  if(view==='lit'||view==='body'){if(o.back){x.globalAlpha=.85;x.drawImage(o.back,0,0);x.globalAlpha=1}const top=view==='lit'?o.lit:o.body;if(top)x.drawImage(top,0,0);if(view==='lit'&&o.emis){x.globalCompositeOperation='lighter';x.drawImage(o.emis,0,0)}}
+  else{const im=o[view==='glow'?'emis':view];if(!im)return null;if(view==='height'){x.fillStyle='#000';x.fillRect(0,0,w,h)}x.drawImage(im,0,0)}
+  return c}
+function fit(c,maxW,maxH,cap=4){const r=Math.min(maxW/c.width,maxH/c.height),s=r<1?r:Math.min(cap,Math.floor(r));c.style.width=c.width*s+'px';c.style.height=c.height*s+'px';return c}
+const cleanName=(code,n)=>n.replace(new RegExp('^'+code+'\\s*'),'').trim();
+const vLabel=v=>v.endsWith('+')?v[0]+'+ adorned':v;
+const noteId=(code,v)=>v?code+v:code;
+const partNotes=code=>Object.values(ST.notes).filter(n=>n.code===code);
+const flagOf=code=>{const order=['redo','fix','cut','love'];const fs=partNotes(code).map(n=>n.flag).filter(Boolean);return order.find(f=>fs.includes(f))||null};
+const talkOf=code=>partNotes(code).reduce((s,n)=>s+(n.log||[]).length,0);
+
+// ---- grid
+function visible(code){const p=ST.cat.parts[code],q=ST.q.trim().toLowerCase();
+  if(q&&!(code.toLowerCase().includes(q)||p.name.toLowerCase().includes(q)||(p.brief&&p.brief.name.toLowerCase().includes(q))))return false;
+  if(ST.filter==='flagged')return!!flagOf(code);if(ST.filter==='talk')return talkOf(code)>0;if(ST.filter==='await')return!p.drawn;if(ST.filter==='unplaced')return p.drawn&&!p.placed;return true}
+function cardFor(code){const p=ST.cat.parts[code],f=flagOf(code),n=talkOf(code);
+  const pv=el('div',{class:'pv'}),tags=el('div',{class:'tags'});
+  if(!p.drawn)tags.append(el('span',{class:'t await'},'awaiting art'));else{tags.append(el('span',{class:'t'},p.variants.map(vLabel).join(' · ')));const ck=ST.parts[code].variants[p.variants[0]].check;if(ck&&ck.verdict!=='pass')tags.append(el('span',{class:'t '+ck.verdict},'check: '+ck.verdict))}
+  if(!p.placed)tags.append(el('span',{class:'t off'},'not placed'));
+  const b=el('button',{class:'card','aria-label':`${code} ${p.name}`,onclick:()=>openSheet(code)},pv,el('div',{class:'meta'},el('span',{class:'code'},code),el('span',{class:'nm'},cleanName(code,p.name)),tags));
+  if(f)b.append(el('span',{class:'stripe f-'+f}));if(n)b.append(el('span',{class:'cnt'},'💬 '+n));
+  if(p.drawn)layers(code,p.variants[0]).then(o=>{const c=compose(o,'lit')||compose(o,'back');if(c)pv.append(fit(c,150,108,3))});
+  else pv.append(el('span',{class:'note'},p.brief?p.brief.size:''));
+  return b}
+function render(){const m=$('#main');m.textContent='';let any=false;
+  for(const cat of ST.cat.cats){const codes=Object.keys(ST.cat.parts).filter(c=>ST.cat.parts[c].cat===cat&&visible(c));if(!codes.length)continue;any=true;
+    const id='c-'+cat.toLowerCase().replace(/[^a-z]+/g,'-');const g=el('div',{class:'grid'});codes.forEach(c=>g.append(cardFor(c)));
+    m.append(el('section',{id},el('h2',{},cat,el('span',{},`${codes.length} part${codes.length>1?'s':''}`)),g))}
+  if(!any)m.append(el('p',{class:'empty'},'Nothing matches this filter.'));
+  const cats=$('#cats');cats.textContent='';for(const s of m.querySelectorAll('section'))cats.append(el('a',{href:'#'+s.id},s.querySelector('h2').firstChild.textContent));
+  summary()}
+function summary(){const P=Object.values(ST.cat.parts),drawn=P.filter(p=>p.drawn).length,fl={};let talk=0;
+  for(const c in ST.cat.parts){const f=flagOf(c);if(f)fl[f]=(fl[f]||0)+1;talk+=talkOf(c)}
+  const s=$('#sum');s.textContent='';const add=(n,t)=>s.append(el('span',{},el('b',{},String(n)),' '+t));
+  add(drawn,'drawn');add(P.length-drawn,'awaiting art');for(const[f,l]of FLAGS)if(fl[f])add(fl[f],l.toLowerCase());add(talk,'comments');
+  s.append(el('span',{},ST.dbState==='on'?'notes saved for Claude':ST.dbState==='slow'?'can’t reach the notes yet':'notes need the Claude artifact'))}
+
+// ---- detail sheet
+function openSheet(code){ST.open=code;const p=ST.cat.parts[code];ST.variant=p.drawn?p.variants[0]:null;ST.view='lit';
+  $('#scrim').classList.add('on');$('#sheet').classList.add('on');try{history.replaceState(null,'','#'+code.toLowerCase())}catch(e){}drawSheet()}
+function closeSheet(){ST.open=null;$('#scrim').classList.remove('on');$('#sheet').classList.remove('on');try{history.replaceState(null,'',location.pathname)}catch(e){}render()}
+async function drawSheet(){const code=ST.open;if(!code)return;const p=ST.cat.parts[code],sh=$('#sheet'),v=ST.variant,nid=noteId(code,v),note=ST.notes[nid]||{};
+  sh.textContent='';
+  sh.append(el('div',{class:'sh-top'},el('div',{},el('span',{class:'code'},code+(p.cat?' · '+p.cat:'')),el('h3',{},cleanName(code,p.name))),el('button',{class:'x',onclick:closeSheet},'Close')));
+  if(p.drawn){const o=await layers(code,v),stage=el('div',{class:'stage'}),c=compose(o,ST.view);stage.append(c?fit(c,Math.min(700,innerWidth-60),420,6):el('span',{class:'note'},'This variant has no '+ST.view+' layer.'));sh.append(stage);
+    const views=[['lit','Lit'],['body','Body'],['back','Back'],['height','Height'],['glow','Glow']],seg=el('div',{class:'seg',role:'group','aria-label':'Layer'});
+    for(const[k,l]of views){const has=k==='lit'?!!(o.lit||o.back):k==='glow'?!!o.emis:!!o[k];seg.append(el('button',{'aria-pressed':String(ST.view===k),onclick:()=>{ST.view=k;drawSheet()},...(has?{}:{disabled:''})},l))}sh.append(seg);
+    if(p.variants.length>1){const row=el('div',{class:'vrow'});for(const vv of p.variants){const oo=await layers(code,vv),cc=compose(oo,'lit')||compose(oo,'back');
+        const fig=el('figure',{'aria-current':String(vv===v),role:'button',tabindex:'0',onclick:()=>{ST.variant=vv;drawSheet()},onkeydown:e=>{if(e.key==='Enter'){ST.variant=vv;drawSheet()}}},cc?fit(cc,120,80,2):'',el('figcaption',{},vLabel(vv)));row.append(fig)}
+      sh.append(el('h4',{},'Variants'),row)}
+    const e=ST.parts[code].variants[v],ck=e.check||{},dl=el('dl',{class:'kv'});const kv=(k,val)=>dl.append(el('dt',{},k),el('dd',{},String(val)));
+    kv('Variant',vLabel(v));kv('Size',`${e.w} × ${e.h} px`);kv('Layers',Object.keys(e.layers).join(', '));kv('Placed by the lab',p.placed?'yes':'not yet');
+    if(ck.verdict)kv('Art check',`${ck.verdict} · ${ck.colours} colours · detail ${ck.detail}`);kv('Forge version',e.version);sh.append(dl)}
+  else sh.append(el('div',{class:'stage'},el('span',{class:'note'},'Awaiting art. The lab already places this part as a flat placeholder.')));
+  if(p.brief)sh.append(el('div',{class:'brief'},el('b',{},`Brief · contract §${p.brief.section} · ${p.brief.size}`),p.brief.spec));
+  // flags + comments
+  sh.append(el('h4',{},p.drawn?`Flag variant ${vLabel(v)}`:'Flag'));
+  const fl=el('div',{class:'flags'});for(const[f,l,c]of FLAGS){const on=note.flag===f;fl.append(el('button',{'aria-pressed':String(on),style:on?`color:var(${c})`:'',onclick:()=>save(nid,code,v,{flag:on?null:f})},el('i',{style:`background:var(${c})`}),l))}
+  sh.append(fl);
+  sh.append(el('h4',{},'Comments'));const log=el('div',{class:'log'});
+  for(const m of note.log||[])log.append(el('div',{class:'msg'+(m.by==='claude'?' claude':'')},el('small',{},(m.by==='claude'?'Claude':m.by==='jarred'?'Jarred':'Viewer')+' · '+new Date(m.at).toLocaleString([], {month:'short',day:'numeric',hour:'numeric',minute:'2-digit'})),m.t));
+  if(!(note.log||[]).length)log.append(el('span',{class:'note'},'No comments yet.'));sh.append(log);
+  const ta=el('textarea',{id:'cmt','aria-label':'Comment',placeholder:'What should change? Be as specific as you like: a pixel, a proportion, a feeling.'}),btn=el('button',{class:'post',type:'submit'},'Post comment');
+  const form=el('form',{onsubmit:async ev=>{ev.preventDefault();const t=ta.value.trim();if(!t)return;btn.disabled=true;const ok=await save(nid,code,v,{add:t});btn.disabled=false;if(ok)ta.value=''}},ta,btn);
+  if(!ST.db)form.append(el('span',{class:'note'},'Comments save only in the Claude artifact.'));sh.append(form)}
+
+// ---- notes: one document per variant (notes/BK51a, notes/BK51a+, notes/BK120 for a part awaiting art)
+let saving=Promise.resolve();
+function save(nid,code,v,ch){if(!ST.db){alertBox('Comments and flags save only in the Claude artifact.');return Promise.resolve(false)}
+  const cur=ST.notes[nid]||{code,v:v||null,flag:null,log:[]},next={code,v:v||null,flag:'flag'in ch?ch.flag:cur.flag,log:(cur.log||[]).slice(),at:Date.now()};
+  if(ch.add)next.log.push({by:ST.owner?'jarred':'viewer',t:ch.add,at:Date.now()});
+  ST.notes[nid]=next;drawSheet();
+  saving=saving.then(()=>ST.db.doc('notes/'+nid).set(next)).then(()=>true).catch(e=>{alertBox('Couldn’t save that: '+(e.code||e.message)+'. Try again in a moment.');return false});return saving}
+function alertBox(t){const n=el('div',{role:'status',style:'position:fixed;left:16px;right:16px;bottom:16px;z-index:20;background:#2a1a22;border:1px solid var(--redo);border-radius:10px;padding:10px 12px;max-width:520px'},t);document.body.append(n);setTimeout(()=>n.remove(),5000)}
+
+// ---- boot
+async function boot(){let cat=null,parts=null;
+  for(const b of['art/experiments/bay-kit/','../art/experiments/bay-kit/']){try{const[r1,r2]=await Promise.all([fetch(b+'catalogue.json',{cache:'no-cache'}),fetch(b+'parts.json',{cache:'no-cache'})]);if(r1.ok&&r2.ok){cat=await r1.json();parts=(await r2.json()).parts;ST.base=b;break}}catch(e){}}
+  if(!cat){$('#sum').textContent='The parts catalogue didn’t load. Run tools/bk_import.py, then republish.';return}
+  ST.cat=cat;ST.parts=parts;render();
+  const h=location.hash.slice(1).toUpperCase();if(h&&cat.parts[h])openSheet(h);
+  connect()}
+async function connect(){if(!window.claude||typeof claude.use!=='function')return;let db=null,user=null;try{[db,user]=await Promise.all([claude.use('db'),claude.use('user')])}catch(e){}if(!db)return;ST.db=db;
+  try{ST.owner=user?!!(await user.isOwner()):false}catch(e){}
+  const t=setTimeout(()=>{if(ST.dbState!=='on'){ST.dbState='slow';summary()}},10000);
+  db.collection('notes').onSnapshot(s=>{if(!s.metadata.fromCache)clearTimeout(t);ST.dbState='on';const n={};for(const d of s.docs){const x=d.data();if(x&&x.code)n[d.id]=x}ST.notes=n;
+      if(ST.open)drawSheet();else render()},e=>{clearTimeout(t);ST.dbState='slow';summary()})}
+for(const b of document.querySelectorAll('.chip'))b.onclick=()=>{ST.filter=b.dataset.f;for(const c of document.querySelectorAll('.chip'))c.setAttribute('aria-pressed',String(c===b));render()};
+$('#q').oninput=e=>{ST.q=e.target.value;render()};
+$('#scrim').onclick=closeSheet;addEventListener('keydown',e=>{if(e.key==='Escape'&&ST.open)closeSheet()});
+addEventListener('hashchange',()=>{const h=location.hash.slice(1).toUpperCase();if(ST.cat&&ST.cat.parts[h]&&ST.open!==h)openSheet(h)});
+boot();
+</script>
+</body>
+</html>

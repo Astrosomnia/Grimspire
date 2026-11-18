@@ -1,0 +1,1253 @@
+{
+ "cats": [
+  "Walls and piers",
+  "Floors and arches",
+  "Back walls",
+  "Base",
+  "Stairs and ladders",
+  "Roofs and crowns",
+  "Outer wall shapes",
+  "Bridges and aqueducts",
+  "Ruin and rubble",
+  "Ornament",
+  "Cover and props",
+  "Other"
+ ],
+ "parts": {
+  "BK01": {
+   "cat": "Walls and piers",
+   "name": "BK01 Pier, outer wall",
+   "brief": null,
+   "placed": true,
+   "drawn": true,
+   "variants": [
+    "a",
+    "b",
+    "c"
+   ]
+  },
+  "BK02": {
+   "cat": "Walls and piers",
+   "name": "BK02 Pier, inner",
+   "brief": null,
+   "placed": true,
+   "drawn": true,
+   "variants": [
+    "a",
+    "b"
+   ]
+  },
+  "BK03": {
+   "cat": "Walls and piers",
+   "name": "BK03 Pier with doorway",
+   "brief": null,
+   "placed": true,
+   "drawn": true,
+   "variants": [
+    "a",
+    "b"
+   ]
+  },
+  "BK04": {
+   "cat": "Walls and piers",
+   "name": "BK04 Pier with window",
+   "brief": null,
+   "placed": true,
+   "drawn": true,
+   "variants": [
+    "a",
+    "b"
+   ]
+  },
+  "BK05": {
+   "cat": "Walls and piers",
+   "name": "BK05 Arcade pier",
+   "brief": null,
+   "placed": true,
+   "drawn": true,
+   "variants": [
+    "a"
+   ]
+  },
+  "BK06": {
+   "cat": "Floors and arches",
+   "name": "BK06 Floor slab",
+   "brief": null,
+   "placed": true,
+   "drawn": true,
+   "variants": [
+    "a",
+    "b"
+   ]
+  },
+  "BK07": {
+   "cat": "Floors and arches",
+   "name": "BK07 Slab, finished end",
+   "brief": null,
+   "placed": true,
+   "drawn": true,
+   "variants": [
+    "a"
+   ]
+  },
+  "BK08": {
+   "cat": "Floors and arches",
+   "name": "BK08 Arch span",
+   "brief": null,
+   "placed": true,
+   "drawn": true,
+   "variants": [
+    "a",
+    "b"
+   ]
+  },
+  "BK09": {
+   "cat": "Back walls",
+   "name": "BK09 Back bay, plain",
+   "brief": null,
+   "placed": true,
+   "drawn": true,
+   "variants": [
+    "a",
+    "b",
+    "c",
+    "d"
+   ]
+  },
+  "BK10": {
+   "cat": "Back walls",
+   "name": "BK10 Back bay, lancet window",
+   "brief": null,
+   "placed": true,
+   "drawn": true,
+   "variants": [
+    "a",
+    "b",
+    "c",
+    "d"
+   ]
+  },
+  "BK11": {
+   "cat": "Back walls",
+   "name": "BK11 Back bay, arcade",
+   "brief": null,
+   "placed": true,
+   "drawn": true,
+   "variants": [
+    "a",
+    "b"
+   ]
+  },
+  "BK12": {
+   "cat": "Base",
+   "name": "BK12 Ground plinth",
+   "brief": null,
+   "placed": true,
+   "drawn": true,
+   "variants": [
+    "a",
+    "b"
+   ]
+  },
+  "BK40": {
+   "cat": "Stairs and ladders",
+   "name": "Switchback stair",
+   "brief": {
+    "name": "Switchback stair",
+    "size": "128 \u00d7 128",
+    "spec": "Two half-storey flights (4 risers of 16 each) with a landing at mid-height against one pier: the foot and the top are on the same side, so it doesn't cut the storey in two. **N**",
+    "section": 8
+   },
+   "placed": true,
+   "drawn": true,
+   "variants": [
+    "a"
+   ]
+  },
+  "BK41": {
+   "cat": "Stairs and ladders",
+   "name": "Broken stair",
+   "brief": {
+    "name": "Broken stair",
+    "size": "128 \u00d7 128",
+    "spec": "A flight with 2\u20133 treads missing in the middle: a jumpable gap (under 60 wide). **G** (ruin pass)",
+    "section": 8
+   },
+   "placed": true,
+   "drawn": true,
+   "variants": [
+    "a"
+   ]
+  },
+  "BK42": {
+   "cat": "Stairs and ladders",
+   "name": "Outside stair along a wall",
+   "brief": {
+    "name": "Outside stair along a wall",
+    "size": "128 \u00d7 128",
+    "spec": "Steps cantilevered off an outer wall, rising one storey to a door, open underneath. **N**",
+    "section": 8
+   },
+   "placed": true,
+   "drawn": true,
+   "variants": [
+    "a"
+   ]
+  },
+  "BK43": {
+   "cat": "Stairs and ladders",
+   "name": "Spiral stair (Back) + landing ledges",
+   "brief": {
+    "name": "Spiral stair (Back) + landing ledges",
+    "size": "128 wide",
+    "spec": "For one-bay towers: the spiral drawn in the Back; Body is short ledges (16 deep) every half storey on alternating walls, jumpable. **N**",
+    "section": 8
+   },
+   "placed": true,
+   "drawn": true,
+   "variants": [
+    "a"
+   ]
+  },
+  "BK44": {
+   "cat": "Stairs and ladders",
+   "name": "Roof hatch",
+   "brief": {
+    "name": "Roof hatch",
+    "size": "32 \u00d7 16",
+    "spec": "Where a ladder comes up through a roof. **G**",
+    "section": 8
+   },
+   "placed": false,
+   "drawn": true,
+   "variants": [
+    "a"
+   ]
+  },
+  "BK45": {
+   "cat": "Stairs and ladders",
+   "name": "Outside stair \u00b7 a tread, b fill",
+   "brief": {
+    "name": "Outside stair \u00b7 a tread, b fill",
+    "size": "a 16 \u00d7 16, b 16 \u00d7 32",
+    "spec": "The ramp up to an upper door and the doorsteps, now 16 px risers. a: one tread block, its top the walking surface, drawn for a flight going down to the right. b: masonry fill repeated under each tread down to the ground",
+    "section": 11
+   },
+   "placed": true,
+   "drawn": false,
+   "variants": []
+  },
+  "BK47": {
+   "cat": "Stairs and ladders",
+   "name": "Stair turret \u00b7 a storey, b cap, c base",
+   "brief": {
+    "name": "Stair turret \u00b7 a storey, b cap, c base",
+    "size": "a 64 \u00d7 128, b 64 \u00d7 72, c 64 \u00d7 32",
+    "spec": "Drawn for the right. A narrow tower climbed by jumps. a: outer wall x 52\u201364 full height (slits are Back); ledge x 32\u201352, rows 64\u201376; landing at the next storey's door, x 0\u201324, rows 0\u201312; the shaft is Back. b: cone from the apex (row 0) to row 64, then the wall top to row 72. c: the floor slab and base",
+    "section": 11
+   },
+   "placed": true,
+   "drawn": false,
+   "variants": []
+  },
+  "BK50": {
+   "cat": "Roofs and crowns",
+   "name": "Lean-to roof",
+   "brief": {
+    "name": "Lean-to roof",
+    "size": "1\u20132 bays",
+    "spec": "A sloped roof against a taller column: what stepped buildings need. Walkable slope (under 40\u00b0). **N**",
+    "section": 8
+   },
+   "placed": true,
+   "drawn": true,
+   "variants": [
+    "a",
+    "b"
+   ]
+  },
+  "BK51": {
+   "cat": "Roofs and crowns",
+   "name": "Gable, 1 / 2 / 3 bays",
+   "brief": {
+    "name": "Gable, 1 / 2 / 3 bays",
+    "size": "as BK19",
+    "spec": "One per width, so BK19 isn't stretched. **G**",
+    "section": 8
+   },
+   "placed": true,
+   "drawn": true,
+   "variants": [
+    "a",
+    "b",
+    "c"
+   ]
+  },
+  "BK52": {
+   "cat": "Roofs and crowns",
+   "name": "Broken gable",
+   "brief": {
+    "name": "Broken gable",
+    "size": "1\u20132 bays",
+    "spec": "Rafters showing, a hole a trooper can drop through. **G** (ruin)",
+    "section": 8
+   },
+   "placed": true,
+   "drawn": true,
+   "variants": [
+    "a",
+    "b"
+   ]
+  },
+  "BK53": {
+   "cat": "Roofs and crowns",
+   "name": "Cupola / small dome",
+   "brief": {
+    "name": "Cupola / small dome",
+    "size": "1 bay",
+    "spec": "Crowns a one-bay tower instead of a spire. **N**",
+    "section": 8
+   },
+   "placed": true,
+   "drawn": true,
+   "variants": [
+    "a"
+   ]
+  },
+  "BK54": {
+   "cat": "Roofs and crowns",
+   "name": "Belfry top",
+   "brief": {
+    "name": "Belfry top",
+    "size": "1 bay",
+    "spec": "Open arches with a bell; shots pass, troopers stand on the floor. **N**",
+    "section": 8
+   },
+   "placed": true,
+   "drawn": true,
+   "variants": [
+    "a"
+   ]
+  },
+  "BK55": {
+   "cat": "Roofs and crowns",
+   "name": "Flat roof terrace edge",
+   "brief": {
+    "name": "Flat roof terrace edge",
+    "size": "128",
+    "spec": "Low parapet with drain spouts (gargoyle spouts): a walkable roof that still reads as a roof. **G**",
+    "section": 8
+   },
+   "placed": true,
+   "drawn": true,
+   "variants": [
+    "a"
+   ]
+  },
+  "BK60": {
+   "cat": "Walls and piers",
+   "name": "Window with outside balcony",
+   "brief": {
+    "name": "Window with outside balcony",
+    "size": "24 + 40 out",
+    "spec": "A firing position: a small ledge outside the window, 40 deep. **N**",
+    "section": 8
+   },
+   "placed": true,
+   "drawn": true,
+   "variants": [
+    "a"
+   ]
+  },
+  "BK61": {
+   "cat": "Walls and piers",
+   "name": "Arrow slit",
+   "brief": {
+    "name": "Arrow slit",
+    "size": "24 \u00d7 128",
+    "spec": "Narrow (12 wide) slot at shoulder height: shots only. **N**",
+    "section": 8
+   },
+   "placed": true,
+   "drawn": true,
+   "variants": [
+    "a"
+   ]
+  },
+  "BK62": {
+   "cat": "Walls and piers",
+   "name": "Grand doorway",
+   "brief": {
+    "name": "Grand doorway",
+    "size": "128 \u00d7 128",
+    "spec": "Ground-floor entrance across a whole bay: a big arch with a porch step. **N**",
+    "section": 8
+   },
+   "placed": false,
+   "drawn": true,
+   "variants": [
+    "a"
+   ]
+  },
+  "BK63": {
+   "cat": "Outer wall shapes",
+   "name": "Buttress",
+   "brief": {
+    "name": "Buttress",
+    "size": "40 out \u00d7 1\u20133 storeys",
+    "spec": "Stepped buttress against an outer wall; its top steps are climbable. **N**",
+    "section": 8
+   },
+   "placed": true,
+   "drawn": true,
+   "variants": [
+    "a",
+    "b",
+    "c"
+   ]
+  },
+  "BK64": {
+   "cat": "Outer wall shapes",
+   "name": "Corbelled turret",
+   "brief": {
+    "name": "Corbelled turret",
+    "size": "48 out \u00d7 1 storey",
+    "spec": "Hangs off an upper corner. **N**",
+    "section": 8
+   },
+   "placed": true,
+   "drawn": true,
+   "variants": [
+    "a"
+   ]
+  },
+  "BK65": {
+   "cat": "Outer wall shapes",
+   "name": "Gallery on corbels",
+   "brief": {
+    "name": "Gallery on corbels",
+    "size": "128 \u00d7 40 out",
+    "spec": "An outside walkway along an upper storey. **N**",
+    "section": 8
+   },
+   "placed": true,
+   "drawn": true,
+   "variants": [
+    "a"
+   ]
+  },
+  "BK66": {
+   "cat": "Walls and piers",
+   "name": "Great window",
+   "brief": {
+    "name": "Great window",
+    "size": "24 \u00d7 256",
+    "spec": "A two-storey end pier for a double-height hall. Solid except one opening: rows 26\u2013210, the full 24 wide (sill 30 above the lower floor). Floor at row 240",
+    "section": 11
+   },
+   "placed": true,
+   "drawn": false,
+   "variants": []
+  },
+  "BK69": {
+   "cat": "Walls and piers",
+   "name": "Fighting balcony",
+   "brief": {
+    "name": "Fighting balcony",
+    "size": "88 \u00d7 156",
+    "spec": "Drawn for the right. Pier x 0\u201324 with a door (84 tall, standing on row 112). Platform x 24\u201388, rows 112\u2013124. Parapet x 80\u201388, rows 84\u2013112 (cover). Corbel under the platform: a triangle from (24, 124) to (64, 124) to (24, 152)",
+    "section": 11
+   },
+   "placed": true,
+   "drawn": false,
+   "variants": []
+  },
+  "BK70": {
+   "cat": "Back walls",
+   "name": "Back bay, rose window",
+   "brief": {
+    "name": "Back bay, rose window",
+    "size": "128 \u00d7 128",
+    "spec": "Chapel. Glass solid in the Body of the Back, lit in Emissive. **G**",
+    "section": 8
+   },
+   "placed": true,
+   "drawn": true,
+   "variants": [
+    "a"
+   ]
+  },
+  "BK71": {
+   "cat": "Back walls",
+   "name": "Back bay, shelves and niches",
+   "brief": {
+    "name": "Back bay, shelves and niches",
+    "size": "128 \u00d7 128",
+    "spec": "A library or crypt wall. **N**",
+    "section": 8
+   },
+   "placed": true,
+   "drawn": true,
+   "variants": [
+    "a"
+   ]
+  },
+  "BK72": {
+   "cat": "Back walls",
+   "name": "Back bay, collapsed to sky",
+   "brief": {
+    "name": "Back bay, collapsed to sky",
+    "size": "128 \u00d7 128",
+    "spec": "The rear wall mostly gone, rubble at its foot. **G**",
+    "section": 8
+   },
+   "placed": true,
+   "drawn": true,
+   "variants": [
+    "a"
+   ]
+  },
+  "BK73": {
+   "cat": "Ruin and rubble",
+   "name": "Fallen column on a floor",
+   "brief": {
+    "name": "Fallen column on a floor",
+    "size": "96 \u00d7 24",
+    "spec": "Cover. **N**",
+    "section": 8
+   },
+   "placed": true,
+   "drawn": true,
+   "variants": [
+    "a"
+   ]
+  },
+  "BK74": {
+   "cat": "Walls and piers",
+   "name": "Cracked pier",
+   "brief": {
+    "name": "Cracked pier",
+    "size": "24 \u00d7 128",
+    "spec": "A variant of BK01 with a through-crack. **G**",
+    "section": 8
+   },
+   "placed": true,
+   "drawn": true,
+   "variants": [
+    "a"
+   ]
+  },
+  "BK75": {
+   "cat": "Floors and arches",
+   "name": "Sagging slab",
+   "brief": {
+    "name": "Sagging slab",
+    "size": "128 \u00d7 16",
+    "spec": "Bowed in the middle, still walkable (the dip is under 12). **G**",
+    "section": 8
+   },
+   "placed": true,
+   "drawn": true,
+   "variants": [
+    "a"
+   ]
+  },
+  "BK76": {
+   "cat": "Back walls",
+   "name": "Back bay \u00b7 rear stair and landing",
+   "brief": {
+    "name": "Back bay \u00b7 rear stair and landing",
+    "size": "128 \u00d7 128",
+    "spec": "Back. In stair halls",
+    "section": 11
+   },
+   "placed": true,
+   "drawn": false,
+   "variants": []
+  },
+  "BK77": {
+   "cat": "Back walls",
+   "name": "Back bay \u00b7 rib vault",
+   "brief": {
+    "name": "Back bay \u00b7 rib vault",
+    "size": "128 \u00d7 128",
+    "spec": "Back. Under a top-floor vault",
+    "section": 11
+   },
+   "placed": true,
+   "drawn": false,
+   "variants": []
+  },
+  "BK78": {
+   "cat": "Back walls",
+   "name": "Back bay \u00b7 dark passage",
+   "brief": {
+    "name": "Back bay \u00b7 dark passage",
+    "size": "128 \u00d7 128",
+    "spec": "Back. A doorway into darkness, now and then",
+    "section": 11
+   },
+   "placed": true,
+   "drawn": false,
+   "variants": []
+  },
+  "BK80": {
+   "cat": "Bridges and aqueducts",
+   "name": "Rope bridge set",
+   "brief": {
+    "name": "Rope bridge set",
+    "size": "posts + plank repeat",
+    "spec": "Planks 6 thick, posts at each end. **G**",
+    "section": 8
+   },
+   "placed": true,
+   "drawn": true,
+   "variants": [
+    "a",
+    "b",
+    "c"
+   ]
+  },
+  "BK81": {
+   "cat": "Bridges and aqueducts",
+   "name": "Covered bridge",
+   "brief": {
+    "name": "Covered bridge",
+    "size": "128 repeat",
+    "spec": "A deck with a roof and side openings: a corridor between buildings. **N**",
+    "section": 8
+   },
+   "placed": true,
+   "drawn": true,
+   "variants": [
+    "a"
+   ]
+  },
+  "BK83": {
+   "cat": "Bridges and aqueducts",
+   "name": "Stone deck \u00b7 repeat",
+   "brief": {
+    "name": "Stone deck \u00b7 repeat",
+    "size": "32 \u00d7 16",
+    "spec": "Plain, arched, ribbed and high-walkway spans. The top row is the walking surface",
+    "section": 11
+   },
+   "placed": true,
+   "drawn": false,
+   "variants": []
+  },
+  "BK84": {
+   "cat": "Bridges and aqueducts",
+   "name": "Bridge pier \u00b7 repeat",
+   "brief": {
+    "name": "Bridge pier \u00b7 repeat",
+    "size": "28 \u00d7 128",
+    "spec": "Repeated down from the deck to the ground",
+    "section": 11
+   },
+   "placed": true,
+   "drawn": false,
+   "variants": []
+  },
+  "BK85": {
+   "cat": "Bridges and aqueducts",
+   "name": "Arch under the deck \u00b7 a plain, b ribbed",
+   "brief": {
+    "name": "Arch under the deck \u00b7 a plain, b ribbed",
+    "size": "128 \u00d7 39",
+    "spec": "From pier centre to pier centre. Solid between the deck underside (row 0) and the curve y = 38 \u00d7 (1 \u2212 sin(\u03c0x/128)): 38 deep at the piers, 0 at the middle",
+    "section": 11
+   },
+   "placed": true,
+   "drawn": false,
+   "variants": []
+  },
+  "BK86": {
+   "cat": "Bridges and aqueducts",
+   "name": "Aqueduct \u00b7 a upper arch, b pier, c lower arch, d channel deck",
+   "brief": {
+    "name": "Aqueduct \u00b7 a upper arch, b pier, c lower arch, d channel deck",
+    "size": "a 128 \u00d7 53, b 28 \u00d7 128, c 128 \u00d7 60, d 32 \u00d7 24",
+    "spec": "d: the deck, 24 thick, with the water channel on top (a dark slot and a glint; Emissive allowed). a: under the deck, solid above the curve y = 52 \u00d7 (1 \u2212 sin(\u03c0x/128)). b: pier repeat. c: the lower tier on tall aqueducts: a 20-row band, then the same arch curve 40 deep below it",
+    "section": 11
+   },
+   "placed": true,
+   "drawn": false,
+   "variants": []
+  },
+  "BK87": {
+   "cat": "Bridges and aqueducts",
+   "name": "Chain walkway \u00b7 a deck, b hanger, c overhead beam",
+   "brief": {
+    "name": "Chain walkway \u00b7 a deck, b hanger, c overhead beam",
+    "size": "a 32 \u00d7 8, b 8 \u00d7 32, c 32 \u00d7 12",
+    "spec": "a: iron deck, solid. b: vertical chain, Back, repeated from the beam down to the deck every 64. c: Back, 112 above the deck",
+    "section": 11
+   },
+   "placed": true,
+   "drawn": false,
+   "variants": []
+  },
+  "BK88": {
+   "cat": "Bridges and aqueducts",
+   "name": "Iron girder \u00b7 repeat",
+   "brief": {
+    "name": "Iron girder \u00b7 repeat",
+    "size": "64 \u00d7 92",
+    "spec": "Top chord rows 0\u20138 (solid, walkable). Deck rows 80\u201392 (solid). The diagonals between them are Back; the 72-row gap must stay open (troopers walk through it)",
+    "section": 11
+   },
+   "placed": true,
+   "drawn": false,
+   "variants": []
+  },
+  "BK89": {
+   "cat": "Bridges and aqueducts",
+   "name": "Bridge step",
+   "brief": {
+    "name": "Bridge step",
+    "size": "16 \u00d7 32",
+    "spec": "A stepped bridge between floors at different heights: one 16 riser and its tread, with the stringer below, drawn rising to the right",
+    "section": 11
+   },
+   "placed": true,
+   "drawn": false,
+   "variants": []
+  },
+  "BK90": {
+   "cat": "Outer wall shapes",
+   "name": "Cantilever stub, intact",
+   "brief": {
+    "name": "Cantilever stub, intact",
+    "size": "70\u2013150 \u00d7 16, repeat 32",
+    "spec": "A deck sticking out of an upper door into nothing, with a diagonal brace under it and a lamp post at the end. Ledge, perch, jump-off",
+    "section": 9
+   },
+   "placed": true,
+   "drawn": true,
+   "variants": [
+    "a",
+    "b",
+    "c"
+   ]
+  },
+  "BK91": {
+   "cat": "Outer wall shapes",
+   "name": "Cantilever stub, snapped",
+   "brief": {
+    "name": "Cantilever stub, snapped",
+    "size": "end piece 32 \u00d7 24",
+    "spec": "The ragged broken end of BK90",
+    "section": 9
+   },
+   "placed": true,
+   "drawn": true,
+   "variants": [
+    "a"
+   ]
+  },
+  "BK92": {
+   "cat": "Outer wall shapes",
+   "name": "Jetty bracket + oversail",
+   "brief": {
+    "name": "Jetty bracket + oversail",
+    "size": "36 out \u00d7 32",
+    "spec": "The corbelled bracket under an upper storey that oversails by 36; leaves an undercut below. Plus the slab end that carries the wall out",
+    "section": 9
+   },
+   "placed": true,
+   "drawn": true,
+   "variants": [
+    "a",
+    "b"
+   ]
+  },
+  "BK93": {
+   "cat": "Outer wall shapes",
+   "name": "Setback ledge edge",
+   "brief": {
+    "name": "Setback ledge edge",
+    "size": "56 \u00d7 16",
+    "spec": "Where an upper storey steps in 44: the ledge left at the step, with a drip moulding",
+    "section": 9
+   },
+   "placed": true,
+   "drawn": true,
+   "variants": [
+    "a"
+   ]
+  },
+  "BK94": {
+   "cat": "Outer wall shapes",
+   "name": "Apse",
+   "brief": {
+    "name": "Apse",
+    "size": "58 out \u00d7 about 180",
+    "spec": "A hollow half-round bump off the ground storey: a nook reached through the ground door, with a firing slit (sill 30)",
+    "section": 9
+   },
+   "placed": true,
+   "drawn": true,
+   "variants": [
+    "a"
+   ]
+  },
+  "BK95": {
+   "cat": "Outer wall shapes",
+   "name": "Flying arch + pier",
+   "brief": {
+    "name": "Flying arch + pier",
+    "size": "110\u2013170 span",
+    "spec": "A thin arch (16) from an upper door down to a free-standing pier: walkable on top, open underneath",
+    "section": 9
+   },
+   "placed": true,
+   "drawn": true,
+   "variants": [
+    "a",
+    "b",
+    "c"
+   ]
+  },
+  "BK96": {
+   "cat": "Outer wall shapes",
+   "name": "Scaffold set",
+   "brief": {
+    "name": "Scaffold set",
+    "size": "64 wide",
+    "spec": "Deck (8 thick), post, brace, ladder: stacks to three storeys up an outer wall. Thin and destructible-looking",
+    "section": 9
+   },
+   "placed": true,
+   "drawn": true,
+   "variants": [
+    "a",
+    "b",
+    "c",
+    "d"
+   ]
+  },
+  "BK97": {
+   "cat": "Outer wall shapes",
+   "name": "Crane jib + hanging platform",
+   "brief": {
+    "name": "Crane jib + hanging platform",
+    "size": "jib 40\u201390, platform 48 \u00d7 8",
+    "spec": "A timber or iron arm off a tower top with a platform or cage on a chain",
+    "section": 9
+   },
+   "placed": true,
+   "drawn": true,
+   "variants": [
+    "a",
+    "b",
+    "c"
+   ]
+  },
+  "BK98": {
+   "cat": "Outer wall shapes",
+   "name": "Gallery railing",
+   "brief": {
+    "name": "Gallery railing",
+    "size": "44 out \u00d7 26",
+    "spec": "The rail and corbel for a short outside gallery off an upper door",
+    "section": 9
+   },
+   "placed": true,
+   "drawn": true,
+   "variants": [
+    "a"
+   ]
+  },
+  "BK100": {
+   "cat": "Ruin and rubble",
+   "name": "Debris scatter",
+   "brief": {
+    "name": "Debris scatter",
+    "size": "70\u2013100 \u00d7 6\u20139",
+    "spec": "Low, walkable (under 16 tall): chips and blocks on a floor",
+    "section": 10
+   },
+   "placed": false,
+   "drawn": false,
+   "variants": []
+  },
+  "BK101": {
+   "cat": "Ruin and rubble",
+   "name": "Rubble heap, half-bay",
+   "brief": {
+    "name": "Rubble heap, half-bay",
+    "size": "56\u201372 \u00d7 18\u201328",
+    "spec": "Replaces BK24 as the standard heap",
+    "section": 10
+   },
+   "placed": false,
+   "drawn": false,
+   "variants": []
+  },
+  "BK102": {
+   "cat": "Ruin and rubble",
+   "name": "Rubble mound, full-bay",
+   "brief": {
+    "name": "Rubble mound, full-bay",
+    "size": "100\u2013128 \u00d7 34\u201348",
+    "spec": "Real cover",
+    "section": 10
+   },
+   "placed": false,
+   "drawn": false,
+   "variants": []
+  },
+  "BK103": {
+   "cat": "Ruin and rubble",
+   "name": "Rubble ramp",
+   "brief": {
+    "name": "Rubble ramp",
+    "size": "86\u2013112 run \u00d7 112 rise",
+    "spec": "Fallen floor piled up against what's left of a slab: the way up in a ruin. Top surface walkable (steps under 18)",
+    "section": 10
+   },
+   "placed": false,
+   "drawn": false,
+   "variants": []
+  },
+  "BK104": {
+   "cat": "Ruin and rubble",
+   "name": "Fallen slab, leaning",
+   "brief": {
+    "name": "Fallen slab, leaning",
+    "size": "about 100 \u00d7 14",
+    "spec": "A chunk of floor tilted 25\u201340\u00b0; climbable, cover",
+    "section": 10
+   },
+   "placed": false,
+   "drawn": false,
+   "variants": []
+  },
+  "BK105": {
+   "cat": "Ruin and rubble",
+   "name": "Fallen beams",
+   "brief": {
+    "name": "Fallen beams",
+    "size": "64\u201396 wide",
+    "spec": "Timber rafters and joists under a broken roof (BK52)",
+    "section": 10
+   },
+   "placed": false,
+   "drawn": false,
+   "variants": []
+  },
+  "BK106": {
+   "cat": "Ruin and rubble",
+   "name": "Choked doorway",
+   "brief": {
+    "name": "Choked doorway",
+    "size": "48\u201364 \u00d7 26\u201334",
+    "spec": "Rubble in a doorway: too tall to walk through (over 18), low enough to jump",
+    "section": 10
+   },
+   "placed": false,
+   "drawn": false,
+   "variants": []
+  },
+  "BK107": {
+   "cat": "Ruin and rubble",
+   "name": "Back rubble",
+   "brief": {
+    "name": "Back rubble",
+    "size": "128 \u00d7 up to 64",
+    "spec": "Heaps and fallen blocks in the Back of a ruined room: reads as ruin, never blocks",
+    "section": 10
+   },
+   "placed": false,
+   "drawn": false,
+   "variants": []
+  },
+  "BK108": {
+   "cat": "Ruin and rubble",
+   "name": "Small debris pieces",
+   "brief": {
+    "name": "Small debris pieces",
+    "size": "10\u201324 \u00d7 4\u20138",
+    "spec": "4\u20136 single chunks for scattering",
+    "section": 10
+   },
+   "placed": false,
+   "drawn": false,
+   "variants": []
+  },
+  "BK110": {
+   "cat": "Roofs and crowns",
+   "name": "Spire",
+   "brief": {
+    "name": "Spire",
+    "size": "164 \u00d7 202",
+    "spec": "Base on row 200. A triangle from x 2 and 162 to the apex at (82, 0); pinnacles 10 \u00d7 14 on the base corners (x 0\u201310 and 154\u2013164, rows 184\u2013198) with points up to row 158",
+    "section": 11
+   },
+   "placed": true,
+   "drawn": false,
+   "variants": []
+  },
+  "BK111": {
+   "cat": "Roofs and crowns",
+   "name": "Merlon",
+   "brief": {
+    "name": "Merlon",
+    "size": "15 \u00d7 16",
+    "spec": "One merlon; the lab repeats them every 30 along a crenellated roof",
+    "section": 11
+   },
+   "placed": true,
+   "drawn": false,
+   "variants": []
+  },
+  "BK112": {
+   "cat": "Ornament",
+   "name": "Gargoyle",
+   "brief": {
+    "name": "Gargoyle",
+    "size": "26 \u00d7 20",
+    "spec": "On a roof corner, drawn for the right. Decoration",
+    "section": 11
+   },
+   "placed": true,
+   "drawn": false,
+   "variants": []
+  },
+  "BK113": {
+   "cat": "Ornament",
+   "name": "Banner \u00b7 a short, b long, c torn",
+   "brief": {
+    "name": "Banner \u00b7 a short, b long, c torn",
+    "size": "20 \u00d7 50",
+    "spec": "Hung in a room; drawn behind the play layer",
+    "section": 11
+   },
+   "placed": true,
+   "drawn": false,
+   "variants": []
+  },
+  "BK114": {
+   "cat": "Ornament",
+   "name": "Brazier",
+   "brief": {
+    "name": "Brazier",
+    "size": "16 \u00d7 28",
+    "spec": "On a floor (Emissive flame)",
+    "section": 11
+   },
+   "placed": true,
+   "drawn": false,
+   "variants": []
+  },
+  "BK115": {
+   "cat": "Ornament",
+   "name": "Statue in a niche",
+   "brief": {
+    "name": "Statue in a niche",
+    "size": "32 \u00d7 64",
+    "spec": "Back",
+    "section": 11
+   },
+   "placed": true,
+   "drawn": false,
+   "variants": []
+  },
+  "BK116": {
+   "cat": "Ornament",
+   "name": "Corbel",
+   "brief": {
+    "name": "Corbel",
+    "size": "12 \u00d7 16",
+    "spec": "Under an outer floor end, drawn for the right",
+    "section": 11
+   },
+   "placed": true,
+   "drawn": false,
+   "variants": []
+  },
+  "BK117": {
+   "cat": "Stairs and ladders",
+   "name": "Ladder \u00b7 a rung, b rail",
+   "brief": {
+    "name": "Ladder \u00b7 a rung, b rail",
+    "size": "a 26 \u00d7 6, b 4 \u00d7 32",
+    "spec": "a: one rung (the lab spaces rungs 50\u201380 px apart). b: Back, repeated",
+    "section": 11
+   },
+   "placed": true,
+   "drawn": false,
+   "variants": []
+  },
+  "BK118": {
+   "cat": "Bridges and aqueducts",
+   "name": "Bridge lamp",
+   "brief": {
+    "name": "Bridge lamp",
+    "size": "16 \u00d7 82",
+    "spec": "Post 6 wide in the middle, lamp head at the top (Emissive)",
+    "section": 11
+   },
+   "placed": true,
+   "drawn": false,
+   "variants": []
+  },
+  "BK119": {
+   "cat": "Bridges and aqueducts",
+   "name": "Bridge middle \u00b7 a chapel, b gatehouse",
+   "brief": {
+    "name": "Bridge middle \u00b7 a chapel, b gatehouse",
+    "size": "a 144 \u00d7 190, b 92 \u00d7 150",
+    "spec": "a: side walls 16 wide centred at x 14 and 130, rows 66\u2013190, each with an 84-tall doorway at the bottom; roof slab x 4\u2013140, rows 54\u201368; gable to the apex at (72, 0); Back wall between. b: a tower x 6\u201386, rows 0\u2013150, with an arch 46 wide \u00d7 96 tall at the bottom centre; cap x 0\u201392, rows 0\u201310",
+    "section": 11
+   },
+   "placed": true,
+   "drawn": false,
+   "variants": []
+  },
+  "BK120": {
+   "cat": "Roofs and crowns",
+   "name": "Dome \u00b7 a 2 bays, b 3 bays",
+   "brief": {
+    "name": "Dome \u00b7 a 2 bays, b 3 bays",
+    "size": "a 280 \u00d7 182, b 408 \u00d7 235",
+    "spec": "Drum: full width, the bottom 40 rows. Dome: a half-ellipse on the drum, full width, rising 118 (a) or 171 (b). Lantern: 16 wide \u00d7 26 at the top centre. Walkable over the top. Windows in the drum are Back only (one per bay, about 20 \u00d7 26, centred on each bay)",
+    "section": 11
+   },
+   "placed": true,
+   "drawn": false,
+   "variants": []
+  },
+  "BK122": {
+   "cat": "Roofs and crowns",
+   "name": "Steep roof \u00b7 a 1 bay, b 2 bays",
+   "brief": {
+    "name": "Steep roof \u00b7 a 1 bay, b 2 bays",
+    "size": "a 164 \u00d7 124, b 292 \u00d7 226",
+    "spec": "A triangle from the bottom corners to the top centre. Steeper than BK51 (apex 0.8 \u00d7 the width)",
+    "section": 11
+   },
+   "placed": true,
+   "drawn": false,
+   "variants": []
+  },
+  "BK123": {
+   "cat": "Roofs and crowns",
+   "name": "Tower crown",
+   "brief": {
+    "name": "Tower crown",
+    "size": "184 \u00d7 54",
+    "spec": "Machicolated crown on a lone tower: merlons 16 \u00d7 24 at x 0, 60, 108, 168 (rows 0\u201324); a ledge 16 wide at each end, rows 24\u201336 (x 0\u201316 and 168\u2013184); a corbel under each ledge down to row 54. The middle, rows 24\u201340, sits on the roof slab and is open above it",
+    "section": 11
+   },
+   "placed": true,
+   "drawn": false,
+   "variants": []
+  },
+  "BK125": {
+   "cat": "Roofs and crowns",
+   "name": "Pinnacle",
+   "brief": {
+    "name": "Pinnacle",
+    "size": "16 \u00d7 48",
+    "spec": "Decoration on a parapet end; not solid",
+    "section": 11
+   },
+   "placed": true,
+   "drawn": false,
+   "variants": []
+  },
+  "BK126": {
+   "cat": "Bridges and aqueducts",
+   "name": "Broken bridge end",
+   "brief": {
+    "name": "Broken bridge end",
+    "size": "32 \u00d7 40",
+    "spec": "Heavy fractured end of a stone or aqueduct deck, drawn breaking on the right",
+    "section": 11
+   },
+   "placed": true,
+   "drawn": false,
+   "variants": []
+  },
+  "BK127": {
+   "cat": "Floors and arches",
+   "name": "Long arch span \u00b7 a 2 bays, b 3 bays",
+   "brief": {
+    "name": "Long arch span \u00b7 a 2 bays, b 3 bays",
+    "size": "a 256 \u00d7 56, b 384 \u00d7 78",
+    "spec": "Like BK08, but one arch across a room whose inner piers are open (only a back column). It hangs under the slab from pier centre to pier centre: solid from row 0 down to the curve, 56 (a) or 78 (b) deep at the ends and 10 (a) or 14 (b) at the crown. Draw it as a real arch, with a visible ring and springers that land on the end piers",
+    "section": 12
+   },
+   "placed": true,
+   "drawn": false,
+   "variants": []
+  },
+  "BK130": {
+   "cat": "Bridges and aqueducts",
+   "name": "Pipe bridge \u00b7 a pipe, b support",
+   "brief": {
+    "name": "Pipe bridge \u00b7 a pipe, b support",
+    "size": "a 32 \u00d7 40, b 12 \u00d7 128",
+    "spec": "A big iron or stone pipe as a walkway: a's top is the walking surface; b repeats down to the ground",
+    "section": 11
+   },
+   "placed": true,
+   "drawn": false,
+   "variants": []
+  },
+  "BK140": {
+   "cat": "Cover and props",
+   "name": "Low wall",
+   "brief": {
+    "name": "Low wall",
+    "size": "48 \u00d7 26",
+    "spec": "Cover on a floor; solid",
+    "section": 11
+   },
+   "placed": true,
+   "drawn": false,
+   "variants": []
+  },
+  "BK141": {
+   "cat": "Cover and props",
+   "name": "Pews",
+   "brief": {
+    "name": "Pews",
+    "size": "64 \u00d7 18",
+    "spec": "Chapel. Low enough to walk over (under 19)",
+    "section": 11
+   },
+   "placed": true,
+   "drawn": false,
+   "variants": []
+  },
+  "BK142": {
+   "cat": "Cover and props",
+   "name": "Altar",
+   "brief": {
+    "name": "Altar",
+    "size": "40 \u00d7 30",
+    "spec": "Chapel end bay; cover",
+    "section": 11
+   },
+   "placed": true,
+   "drawn": false,
+   "variants": []
+  },
+  "BK143": {
+   "cat": "Cover and props",
+   "name": "Crates \u00b7 a stack of one, b stack of two",
+   "brief": {
+    "name": "Crates \u00b7 a stack of one, b stack of two",
+    "size": "a 32 \u00d7 32, b 32 \u00d7 48",
+    "spec": "Halls, galleries, crypts; cover",
+    "section": 11
+   },
+   "placed": true,
+   "drawn": false,
+   "variants": []
+  }
+ }
+}
