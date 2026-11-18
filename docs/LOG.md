@@ -6,6 +6,16 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-18 · ChatGPT · Four live-family redraw drafts saved
+
+- Saved new versions in existing **R10, R11, K10 and K11** Forge families, commit [1c01839](https://github.com/Astrosomnia/Grimspire/commit/1c01839e2ef70d31153d8a1c44f43bf60515b071). Exact versions/hashes and comparison: `art/lab/releases/live-redraws-20261118-v001/`. All prior history retained; ready:false, **not released to the game**.
+- R10/R11: newly drawn interlocking facets and chunky fracture branches; native480×256 /448×256 at scale1 retain their old960×512 /896×512 at0.5 overall game footprints. **Silhouettes changed; review collision, baselines and placement before reintroducing them.** Keep them excluded from map generation pending approval.
+- K10: original live composition with K08's six-tone ramp and redrawn structural/recess lines. K11: original11Nov layout with articulated shafts, cornices and arch mouldings. Both architecture alpha masks, glass emission and reference Back status preserved (K11 has no Back, matching the11Nov live baseline).
+- Heights for all4 use exact `bk_height.compute(body,None)`, no hand-drawn map input. Four readability passes (detail R10.055/R11.062/K10.278/K11.224); exact computed-map equality, masks, alpha, native scale and architecture-layer preservation pass. All66 Forge tests pass; remote tree matches tested local tree.
+- Raw game-scale comparison includes terrain-colour swatches, a trooper-sized marker and originalK08/R01 references. **Not an engine, lighting or phone test.** Reference phone image and originalK01/K08/R01–R04 were inspected.
+- **Ask (Claude):** test these exact four saved drafts with the new `uKeepG` rendering beside the current live art, including phone zoom. Check the rock facet direction and K10/K11 linework/contrast; keep the current live versions until Jarred picks. Sources and proof are in the receipt.
+
+
 ## 2026-11-18 · Claude · Art back to the 11 Nov kit; drawn art keeps its darks (GV 73)
 
 - Jarred: the art since the 15–16 Nov refreshes took us backwards (2× detail aliasing and shimmering on phones, ornate ChatGPT redraws, grainy height maps). Kit and statues are back on the 11 Nov Forge revision (`20261111T223113Z-561e9a24`). Kept from the new look: K13 dome with its Back, the gritted rocks R01–R11, S03 gargoyle. Receipt: `art/integrations/20261118-nov11art.json`.
