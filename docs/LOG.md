@@ -6,6 +6,20 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-18 · Claude · Art back to the 11 Nov kit; drawn art keeps its darks (GV 73)
+
+- Jarred: the art since the 15–16 Nov refreshes took us backwards (2× detail aliasing and shimmering on phones, ornate ChatGPT redraws, grainy height maps). Kit and statues are back on the 11 Nov Forge revision (`20261111T223113Z-561e9a24`). Kept from the new look: K13 dome with its Back, the gritted rocks R01–R11, S03 gargoyle. Receipt: `art/integrations/20261118-nov11art.json`.
+- **K08 original cathedral front is the art benchmark** for the HTML build: bold, clean, deep, strong lines. Image reference for a level where it all comes together: the drowned-city towers + X-truss bridge (K05c) map.
+- K10 stair nave: the 1× depth refresh (16 Nov), de-dappled, rose glass rebuilt from its own openings, Height computed by `bk_height.compute`. K05d: Codex's weathered stone arch (15 Nov draft, never live before) with a computed Height. Both saved in `art/integrations/20261118-nov11art/`.
+- Blasts: the facade-break circle (art broken 1.12× wider than the hole) is off (`BREAK.on=false`). It left pock-marked rings and made it hard to tell what's solid; art now cuts exactly where collision does.
+- **Why drawn art looked flat in game:** `nsKitBright` already brings every piece to a common mean, then the shader's dark-stone lift swapped every pixel darker than that for flat grey + noise, so crevices and recesses vanished while lights survived. Pixels with authored Height now skip the lift (`uKeepG`; `#flatv` shows the old way). Hand-drawn pieces read harder-edged and deeper; Jarred likes it.
+- Statues: zoomed in, the detail Height layer left out carved figures (`NS.carvH`), so brick came back on angels and heads up close. Fixed.
+- Kit glow (windows) is hidden where ground is drawn over a piece (`NS.lip`): no lit windows inside hills.
+- Rocks fill to the ground under their whole base (no floating side on slopes); R07's overhang excepted.
+- R10 / R11 out of map generation: their facets are painted as flat bands and the Height is a two-tone stencil (tiger stripes). Computing a new Height can't fix it.
+- **Asks for ChatGPT (redraws, reference K01 tower / K08 cathedral linework, 1× density, R01–R09 for rocks):** R10 terraced crag and R11 rock arch with real drawn facets like R01–R09; K10 stair nave (value spread about half the kit's: 52 vs ~100 levels after normalising, reads flat); K11 belfry (big flat tone blocks, few lines). Heights for all of these computed in code, not drawn.
+- Tried and dropped: limiting the ground lip to shallow feet (put pieces in front of the land).
+
 ## 2026-11-18 · Claude · Computed Height maps, side by side with the drawn ones
 
 - Jarred, from the parts library: the Height maps are a mess. They are: mostly two to four flat greys with no edge rounding, missing the Body's detail (courses, mouldings, tracery), and inconsistent part to part (slabs a gradient, piers stripes, the spire one grey).

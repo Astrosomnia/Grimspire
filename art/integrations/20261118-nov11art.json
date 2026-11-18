@@ -1,0 +1,21 @@
+{
+ "revision": "20261118T190000Z-nov11art",
+ "at": "2026-11-18",
+ "by": "claude",
+ "gv": 73,
+ "base": "Forge revision 20261111T223113Z-561e9a24 (11 Nov kit) for every K and S piece",
+ "kept_from_live": [
+  "K13 (dome with Back)",
+  "R01-R11 (gritted rocks)",
+  "S03 (gargoyle)"
+ ],
+ "changed": {
+  "K10": "asset-9380246937cea1e02e4838c1 (1x depth refresh), de-dappled, rose glass rebuilt from its openings, Height computed (bk_height.compute)",
+  "K05d": "asset-f2da02da1d4233050494d8f1 (Codex weathered stone arch, 15 Nov draft), Height computed (bk_height.compute)"
+ },
+ "files": [
+  "art/integrations/20261118-nov11art/K10-depth-refresh-cleaned.forge.json",
+  "art/integrations/20261118-nov11art/K05d-weathered-arch.forge.json"
+ ],
+ "payload_sha256": "31741d5d9d0a524339a8a22ba14bd2a3aa85e33467c9ff8b3dc9b12ceeb0da4f"
+}

@@ -46,6 +46,7 @@ Prototype in HTML/canvas to nail the loop, weapons and feel, then rebuild in **G
 - The roguelike prototype (expect big changes to core systems)
 
 ## Done
+- **Back to the 11 Nov kit (18 Nov, GV 73):** 15–16 Nov refreshes rolled back except K13 dome, gritted rocks, S03; K10 cleaned 1× refresh, K05d weathered arch; facade-break circle off; drawn art keeps its darks (no dark-stone lift); statues no brick when zoomed; no kit glow inside hills; rocks seated on their whole base; R10/R11 out until redrawn. See LOG 18 Nov.
 - **Building lab playground (16 Nov):** `experiments/building-lab.html`, generator passes 1–8 from one weight table, game-physics reach and artillery checks with auto-fixes, keep/cut learning, lock-as-template, sketch dressing, export. Private artifact for Jarred. No game code changed
 - **De-dappled kit refresh (16 Nov, GV 72):** ChatGPT's depth refreshes of K01–K16, K12, K13, S01/S03/S07/S09 with dapple removed (`deblob.py`), K10 rose glass fixed, rocks R01–R11 with baked grit; K17 kept original. Forge revision `20261116T223943Z-ef850d01`
 - **Layered kit refresh (15 Nov, GV 69):** K05a/b bridges and K01/a/b shafts at 2× with Back, K12/K13 with Back and restored windows, new rocks R10 (terraced crag) and R11 (natural arch) in the rock pools; Forge revision `20261116T055346Z-a8e03c00`
