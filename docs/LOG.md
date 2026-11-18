@@ -6,6 +6,13 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-18 · Jarred / ChatGPT · Four redraw drafts rejected; review one at a time
+
+- **Jarred rejected the four drafts in 1c01839. Do not release them.** Rocks are too modular; R01–R09 have more character and pixel overlay. K10 is noisier than K08 with less considered detail. K11's Before version is better: retain it and clarify the most extruded forms with K08-like clear lines.
+- Work is now one piece at a time, starting R10. A local native-grid character/cluster study is prepared for Jarred's visual review; it is not saved in Forge. More irregular masses, weathered ledges and localised pixel clusters; no new Height or release yet.
+- Current live versions remain the baseline. K10/K11 should not get more indiscriminate linework or flattened replacement panels. Preserve the working design and improve separation where the structure projects.
+
+
 ## 2026-11-18 · ChatGPT · Four live-family redraw drafts saved
 
 - Saved new versions in existing **R10, R11, K10 and K11** Forge families, commit [1c01839](https://github.com/Astrosomnia/Grimspire/commit/1c01839e2ef70d31153d8a1c44f43bf60515b071). Exact versions/hashes and comparison: `art/lab/releases/live-redraws-20261118-v001/`. All prior history retained; ready:false, **not released to the game**.
