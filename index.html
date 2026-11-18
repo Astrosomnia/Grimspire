@@ -1157,7 +1157,9 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
   // terrain. At each end that sits on the ground, a rubble apron eases the terrain up to the piece over 25–60 px.
   // Only ever adds ground: the hills and cliffs around stay as generated.
   const seatAll=()=>{if(!seats.length)return;const lip=new Path2D(),fill=pts=>{poly(g,pts)};
-    for(const st of seats){const c=[];for(let x=Math.ceil(st.x0);x<=st.x1;x+=3){const b=st.bot(x);c.push(b==null?null:[x,b,hAt(x)])}
+    for(const st of seats){const c=[];// (18 Nov) columns run 2 px past both edges and always land on the last one: stepping by 3 from the left left a sliver of the piece's foot showing at its right edge
+      const xa=st.x0-2,xb=st.x1+2,xs=[];for(let x=xa;x<xb;x+=3)xs.push(x);xs.push(xb);
+      for(const x of xs){const b=st.bot(Math.min(st.x1-.01,Math.max(st.x0,x)));c.push(b==null?null:[x,b,hAt(x)])}
       // runs of columns that touch down
       let run=[];const flush=()=>{if(run.length<2){run=[];return}
         // the lip's height wanders smoothly (knots every ~15 px), not tooth by tooth
@@ -5045,7 +5047,7 @@ function netCatchUp(){if(S.mode!=='online'||NET.role!=='watch')return;const behi
   if(behind>300&&!NET.skip)for(let i=0;i<Math.min(6,behind-240);i++)tick()}
 function netGameOver(){if(NET.role!=='act')clearNet()}
 function netLeave(){document.title=TITLE0;chatStop();if(NET.unC)NET.unC();if(NET.unM)NET.unM();NET.unC=NET.unM=null;NET.role=null;NET.started=false;S.mode='hot';$('#netBar').hidden=true}
-const GV=73;// bump on every release that changes the sim
+const GV=74;// bump on every release that changes the sim
 function startOnline(code,me,d){BE.update(code,{['vers.'+me]:GV,['arts.'+me]:window.GRIMSPIRE_ART_SIM||''}).catch(()=>{});NET.code=code;NET.me=me;NET.round=d.round||0;NET.snapK=-1;NET.snap=null;NET.matchAtt=d.att||'';NET.started=true;NET.leaving=false;saveNet();
   $('#net').hidden=true;if(!CHAT.un)chatStart();const cfg=Object.assign(mkCfg('online',d.seats,d.mode==='teams'),{mode:'online'});newGame('online',d.seed,cfg);S.genOK=true;
   const base=NET.round*1e5,has=d.snapK!=null&&d.snapK>=base&&d.snap;

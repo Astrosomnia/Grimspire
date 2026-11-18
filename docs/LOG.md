@@ -6,6 +6,10 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-18 · Claude · Tower feet no longer show through the ground (GV 74)
+
+- Jarred: every tower showed a sliver of its base through the wall. Cause: the ground lip over a seated piece was sampled every 3 px from the left edge, so it stopped up to 3 px short of the right edge and that column of the tower's foot showed through. Seating columns now run 2 px past both edges and always land on the last one. Check over 4 maps: where the lip covers 6 px inside a tower edge, the edge column was uncovered 263/369 times before, 9/373 after.
+
 ## 2026-11-18 · Jarred / ChatGPT · Four redraw drafts rejected; review one at a time
 
 - **Jarred rejected the four drafts in 1c01839. Do not release them.** Rocks are too modular; R01–R09 have more character and pixel overlay. K10 is noisier than K08 with less considered detail. K11's Before version is better: retain it and clarify the most extruded forms with K08-like clear lines.
