@@ -295,3 +295,9 @@ Order of `+` versions: roofs and crowns first (below), then doors BK03, the plin
 | BK52 a/b, BK55 | Broken gable, terrace edge | `+`: broken tracery, a carved cornice |
 
 Roofs carry the skyline, so they get more ornament than the walls below them. That contrast, busy roofs over quiet walls, is the look we're after.
+
+### Long arch span (added 17 Nov)
+
+| ID | Part | Size | Shape |
+|---|---|---|---|
+| BK127 | Long arch span · a 2 bays, b 3 bays | a 256 × 56, b 384 × 78 | Like BK08, but one arch across a room whose inner piers are open (only a back column). It hangs under the slab from pier centre to pier centre: solid from row 0 down to the curve, 56 (a) or 78 (b) deep at the ends and 10 (a) or 14 (b) at the crown. Draw it as a real arch, with a visible ring and springers that land on the end piers |

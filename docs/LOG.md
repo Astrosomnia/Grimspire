@@ -6,6 +6,10 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-17 · Claude · Arches span from support to support
+
+- Jarred, on the phone test: what are the curved/angled wedges at the top of rooms; shouldn't one span the whole way? Right: where an inner pier is open (no pier, only a back column), the lab still hung one arch per bay, so two arches met in mid-air and read as wedges. Arches now run between real supports: a run of two or three bays joined by open piers gets one long arch (BK127 a/b, 56 or 78 deep at the ends); wider open spans get none. Single bays keep BK08. Brief: contract §11, Long arch span. 1,500 lots: none sealed.
+
 ## 2026-11-17 · Claude · Building characters, two styles per building, adorned versions
 
 - Jarred: characters, kept broad (don't pre-kill options); each building uses one or two styles once it starts, not anything goes. Roofs matter: he likes the live spires and ornament, not the lab roofs; we'll need adorned and unadorned versions of everything.

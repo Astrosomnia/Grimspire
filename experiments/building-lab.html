@@ -653,9 +653,13 @@ function emitB(M,o,L){const g=ST.grid,B=g.bay,SH=g.storey,P=g.pier,SL=g.slab,X=c
     else if(kind==='window')o.cut.push(Rc(x-P/2-1,yb-SILL-WIN,P+2,WIN,sk));
     else if(kind==='arcade')o.cut.push(Rc(x-P/2-1,yb-(SH-SL-26),P+2,SH-SL-26,sk))}
   // arch spans hanging under the slabs
-  if(M.arch)for(let c=0;c<n;c++)for(let r=0;r<h[c];r++){const s=M.cells[c][r],up=r+1<h[c]?M.cells[c][r+1]:null;if(up&&(up.floor==='none'||up.well))continue;if(s.well&&!up)continue;
-    const L0=M.piers[c][r],R0=M.piers[c+1][r];if(L0==='none'||R0==='none')continue;const x=X(c)+P/2,w=B-P,y=Y(r+1);
-    const p=[[x,y],[x,y+34]];for(let i=1;i<12;i++){const a=Math.PI-i*Math.PI/12;p.push([x+w/2+Math.cos(a)*w/2,y+34-Math.sin(a)*28])}p.push([x+w,y+34],[x+w,y]);o.body.push(Pg(p,{sk:'BK08'}));art(o.art,'BK08',X(c),y)}
+  // an arch runs from real support to real support: across an open pier (only a back column) it carries on, so a two- or
+  // three-bay room gets one long arch (BK127), deeper at its ends; wider open spans get none
+  const archOk=(c,r)=>{const s=cellAt(M,c,r);if(!s)return false;const up=r+1<h[c]?M.cells[c][r+1]:null;return!(up&&(up.floor==='none'||up.well))&&!(s.well&&!up)},sup=k=>!['open','none',undefined].includes(k);
+  if(M.arch)for(let r=0;r<maxH;r++)for(let c=0;c<n;){if(!archOk(c,r)||!sup(M.piers[c][r])){c++;continue}let e=c;while(e<n&&archOk(e,r)&&!sup(M.piers[e+1]?.[r]))e++;
+    if(e>=n||!archOk(e,r)||!sup(M.piers[e+1]?.[r])){c=e+1;continue}const k=e-c+1;if(k<=3){const x=X(c)+P/2,w=k*B-P,y=Y(r+1),d=34+22*(k-1),cr=6+4*(k-1);
+      const p=[[x,y],[x,y+d]];for(let i=1;i<16;i++){const a=Math.PI-i*Math.PI/16;p.push([x+w/2+Math.cos(a)*w/2,y+d-Math.sin(a)*(d-cr)])}p.push([x+w,y+d],[x+w,y]);
+      o.body.push(Pg(p,{sk:k===1?'BK08':'BK127'}));art(o.art,k===1?'BK08':'BK127',X(c),y,k===1?null:{l:k===2?'a':'b'})}c=e+1}
   // stairs: a thin flight with risers a trooper can walk up
   for(let c=0;c<n;c++)for(let r=0;r<h[c];r++){const d=M.cells[c][r].stair;if(!d)continue;
     const sty=M.cells[c][r].sty||'straight',cv=sty==='switchback'?'BK40a':sty==='spiral'?'BK43a':ruined&&hv(c,r,41)<.35?'BK41a':null;
@@ -1096,7 +1100,7 @@ async function loadParts(){let base=null,man=null;
   for(const[code,p]of Object.entries(man.parts)){for(const[v,e]of Object.entries(p.variants)){const im={};for(const ly of['body','back','height'])if(e.layers[ly])im[ly]=await loadImg(base+e.layers[ly]);
       const out={};if(im.body&&!(e.layers.back&&!e.layers.height))out.body=bakeLit(im.body,im.height);if(im.back)out.back=im.back;if(out.body||out.back){(SK.lit[code]=SK.lit[code]||{})[v]=out;nv++}}}
   SK.ready=true;$('#oSkin').disabled=false;$('#skN').textContent=`(${nv})`;
-  const used=['BK01','BK02','BK03','BK04','BK05','BK06','BK07','BK08','BK09','BK10','BK11','BK12','BK42','BK51','BK52','BK53','BK54','BK55','BK70','BK71','BK72','BK73','BK74','BK75','BK80','BK81','BK90','BK91','BK92','BK93','BK94','BK95','BK96','BK97','BK98','BK40','BK41','BK43','BK50','BK60','BK61','BK63','BK64','BK65','BK45','BK47','BK66','BK69','BK76','BK77','BK78','BK83','BK84','BK85','BK86','BK87','BK88','BK89','BK110','BK111','BK112','BK113','BK114','BK115','BK116','BK117','BK118','BK119','BK120','BK122','BK123','BK125','BK126','BK130','BK140','BK141','BK142','BK143'];
+  const used=['BK01','BK02','BK03','BK04','BK05','BK06','BK07','BK08','BK09','BK10','BK11','BK12','BK42','BK51','BK52','BK53','BK54','BK55','BK70','BK71','BK72','BK73','BK74','BK75','BK80','BK81','BK90','BK91','BK92','BK93','BK94','BK95','BK96','BK97','BK98','BK40','BK41','BK43','BK50','BK60','BK61','BK63','BK64','BK65','BK45','BK47','BK66','BK69','BK76','BK77','BK78','BK83','BK84','BK85','BK86','BK87','BK88','BK89','BK110','BK111','BK112','BK113','BK114','BK115','BK116','BK117','BK118','BK119','BK120','BK122','BK123','BK125','BK126','BK130','BK140','BK141','BK142','BK143','BK127'];
   const vc={pass:'var(--green)',warn:'var(--amber)',fail:'var(--red)'},vt=e=>{const k=e.check;return k?`${k.verdict}: ${k.colours} colours, detail ${k.detail} (kit bar 0.28), near ${k.near}, lone ${k.lone}${k.notes.length?' · '+k.notes.join('; '):''}`:'not measured'};
   $('#partsList').innerHTML=`${nv} variants from <code>${man.source}</code> ${String(man.commit).slice(0,7)}<br>`+Object.entries(man.parts).map(([c,p])=>`<div>${used.includes(c)?'●':'○'} ${p.name.replace(/^BK\d+\s*/,'')} <b>${c}</b> · ${Object.entries(p.variants).sort().map(([v,e])=>`<span title="${vt(e)}" style="color:${vc[e.check?.verdict]||'inherit'};cursor:help">${v}</span>`).join('')}</div>`).join('')+
     `<div style="margin-top:4px">● placed by the generator · ○ in the kit, not placed yet. Letters: <span style="color:var(--green)">pass</span> · <span style="color:var(--amber)">busier than the bar</span> · <span style="color:var(--red)">painted or downscaled</span> (hover for numbers)</div>`;
