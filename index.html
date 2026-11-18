@@ -1610,7 +1610,7 @@ vec3 band(vec3 L,ivec2 t,float n){float l=max(L.r,max(L.g,L.b));if(l<.0005)retur
   float q=max(i+(f>1.-Z?step(bay(t),(f-(1.-Z))/Z):0.),.6)/n;return L*(q*q/l);}
 `;
   const FS_SCENE0=COMMON+`
-uniform sampler2D uAlb,uGuts,uGraf,uEmis,uBack,uSoot,uBlur,uBake,uAtlas,uLM,uLD,uFx,uDyn,uHeight,uDet,uDetH;uniform float uKeepV;uniform float uDetOn,uDetHOn,uLMs,uLDOn;
+uniform sampler2D uAlb,uGuts,uGraf,uEmis,uBack,uSoot,uBlur,uBake,uAtlas,uLM,uLD,uFx,uDyn,uHeight,uDet,uDetH;uniform float uDetOn,uDetHOn,uLMs,uLDOn;
 uniform vec2 uRes,uCam;uniform float uScale,uTime,uSump,uBleed,uHz;uniform vec4 uSp[2];
 uniform vec4 uL[${NL}];uniform vec3 uLC[${NL}];uniform int uNL;
 out vec4 o;
@@ -1697,7 +1697,7 @@ vec3 world(vec2 w){
     N=normalize(vec3(-(gd*mix(2.6,4.,au)+ge*mix(3.4,2.05,au)+gb*.5*fw),1.));
     float edge=1.-smoothstep(.52,.9,e);
     stone=pow(A.rgb,vec3(1.25))*vec3(.8,.8,.94);
-    {float sl=lum(stone);vec3 flat=mix(stone,vec3(.27,.29,.36)*(.82+.36*h1(floor(q/2.)+3.)),smoothstep(.3,.04,sl));/* (18 Nov) drawn art with Height keeps its own values: lifted by a curve, not flattened to one grey */float s2=max(sl,.004),nl=mix(.15+1.9*s2,s2,smoothstep(.12,.45,s2));vec3 kept=mix(stone*(nl/s2),vec3(.27,.29,.36)*(nl/.292),.45);stone=mix(flat,kept,au*uKeepV);}
+    {float sl=lum(stone);stone=mix(stone,vec3(.27,.29,.36)*(.82+.36*h1(floor(q/2.)+3.)),smoothstep(.3,.04,sl));}
     stone*=mix(1.,(.78+.34*tn)*mix(.5,1.,b0),fw);
     // grime on the art's own pixel grid: wet streaks under ledges (no per-pixel dots: Jarred, 16 Nov)
     vec2 gp=floor(q);
@@ -2162,7 +2162,7 @@ function litFrame0(lights,shx,shy){const gl=LIT.gl,T=LIT.T;
   const G=LIT.bg;litBind(S,'uAtlas',11,G.atlas);
   litBind(S,'uFx',14,G.fx);litBind(S,'uDyn',15,G.dyn);gl.uniform1f(S.u.uHz,Math.min(sump,H*.66));
   const k=DPR*scale*rs,cx=cam.x-shx/scale,cy=cam.y-shy/scale;
-  gl.uniform2f(S.u.uRes,gw,gh);gl.uniform2f(S.u.uCam,cx,cy);gl.uniform1f(S.u.uScale,k);if(S.u.uKeepV)gl.uniform1f(S.u.uKeepV,/(^#|&)flatv\b/.test(location.hash)?0:1);gl.uniform1f(S.u.uTime,time);gl.uniform1f(S.u.uSump,sump);gl.uniform1f(S.u.uBleed,BLEED);gl.uniform1f(S.u.uLow,LIT.coarse?1:0);
+  gl.uniform2f(S.u.uRes,gw,gh);gl.uniform2f(S.u.uCam,cx,cy);gl.uniform1f(S.u.uScale,k);gl.uniform1f(S.u.uTime,time);gl.uniform1f(S.u.uSump,sump);gl.uniform1f(S.u.uBleed,BLEED);gl.uniform1f(S.u.uLow,LIT.coarse?1:0);
   const NL=LIT.NL,vx=cx+gw/k/2,vy=cy+gh/k/2,vr=Math.hypot(gw,gh)/k/2;
   const M=LIT.lm||(LIT.lm=new Map()),dtL=Math.min(.1,Math.max(.001,time-(LIT.t0===undefined?time:LIT.t0)));LIT.t0=time;
   for(const s of M.values())s.tg=-1;
