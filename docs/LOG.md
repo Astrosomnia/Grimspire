@@ -6,6 +6,11 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-17 · Claude · Vertical slice: lab buildings skinned and lit in the game
+
+- `index.html`, `#bldtest` only: at boot the game loads the building kit from `art/experiments/bay-kit/` (parts.json + layers) into `labArt` as `BK01a`… (game_scale 27/50), with the same variant order as the lab. `labSkin` turns each skin placement in a packed lot into a lit kit piece over the lot's own collision. Body goes to `NS.kit` and the deco layer (so ornament outside collision isn't clipped); Back goes to the back-art layer; crops clip, mirrored crops keep their anchor end. The flying arch's column shear isn't applied in the game yet. `#noskin` turns it off. Every ▶ play in the lab now opens skinned. Normal maps untouched: `det.py` all MATCH.
+- Slice: lab seeds 3017139 (gabled tower, cantilever, buttress) and 4973132 (gabled hall, apse, inner stair) on the test island, against a normal map. Jarred's call: see where the look lands before defining composition rules (budgets per building, rhythm per floor, building characters, locks as templates).
+
 ## 2026-11-17 · Claude · Batch 3 in the lab as placeholders; brief written
 
 - Jarred: the lab needs future options in it now, or every lock goes stale as assets arrive; take about half of ChatGPT's catalogue, weighted to set pieces and the bridge/aqueduct family. Agreed rule: **the lab's shape is the contract.** Locks store part codes and geometry; a part with no art shows as a placeholder until its art arrives, and the art must fit the shape.

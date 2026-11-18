@@ -968,7 +968,16 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
       bctx.fillStyle='#16181f';for(const o of L.back||[])shape(bctx,o);bctx.globalCompositeOperation='destination-out';for(const o of L.backCut||[])shape(bctx,o);bctx.globalCompositeOperation='source-over';
       both(gg=>{for(const o of L.body||[])shape(gg,o);gg.globalCompositeOperation='destination-out';for(const o of L.cut||[])shape(gg,o);gg.globalCompositeOperation='source-over';for(const o of L.rub||[])shape(gg,o);
         for(const o of L.rung||[]){const[a,b]=tx(o.x,o.y),rx=Math.round(a),ry=Math.round(b),rw=Math.max(8,Math.round(o.w*k));gg.fillRect(rx,ry,rw,3);NS.labRungs.push([rx,ry,rw])}});
+      if(NS.bk)labSkin(L,tx,k);
       (genTerrain.blds=genTerrain.blds||[]).push({x0:cx,x1:cx+w,base:y0,fh:69,fl:3,side0:1});occ.push([cx-10,cx+w+10]);cx+=w+gap}};
+  // a placement {code,x,y,v,l,f,cw,ch,ly}: Body becomes a lit kit piece (and joins the deco layer so ornament outside the
+  // collision still shows), Back goes to the back-art layer. Crops clip; flipped crops keep the drawing's anchor end.
+  const labSkin=(L,tx,k)=>{const dc=decoC.getContext('2d'),one=(a,layers)=>{const vs=NS.bk[a.code];if(!vs)return;const id=a.code+(a.l&&vs.includes(a.l)?a.l:vs[(a.v>>>0)%vs.length]),A=labArt.get(id);if(!A)return;const f=A.frames[0],src=f.body||f.back;
+      const W=src.width,H=src.height,cw=Math.min(W,a.cw||W),ch=Math.min(H,a.ch||H),[px,py]=tx(a.f?a.x+cw-W:a.x,a.y),[qx,qy]=tx(a.x,a.y),clip=[qx,qy,cw*k,ch*k],w=W*k,h=H*k;
+      const draw=(c,img)=>{c.save();c.imageSmoothingEnabled=false;c.beginPath();c.rect(...clip);c.clip();if(a.f){c.translate(px+w,py);c.scale(-1,1);c.drawImage(img,0,0,w,h)}else c.drawImage(img,px,py,w,h);c.restore()};
+      for(const ly of a.ly||layers){if(ly==='back'&&f.back){draw(baCtx,f.back);NS.backArt=true}
+        if(ly==='body'&&f.body){draw(dc,f.body);NS.kit.push({id,x:px,y:py,w,h,flip:!!a.f,body:f.body,solid:f.body,emis:f.emis,light:null,clip})}}};
+    for(const a of L.art||[])one(a,['back','body']);for(const a of L.artBack||[])one(a,['back']);for(const a of L.artRub||[])one(a,['body'])};
   const labTest=()=>{if(NS.labTest&&NS.labTest.lots&&NS.labTest.lots.length)labLots(NS.labTest.lots);else{labBld(W*.3,69);labBld(W*.7,86)}};
   // (13 Nov, Jarred) no more facades: near-black back slabs that the lit look draws as solid towers in front of the skyline.
   // Fewer tenements; a building only goes where it fits clean (flatX)
@@ -4011,6 +4020,12 @@ if(/(^#|&)bldtest\b/.test(location.hash)){(async()=>{
   if(m)try{const b=atob(m[1].replace(/-/g,'+').replace(/_/g,'/')),u=Uint8Array.from(b,c=>c.charCodeAt(0));
     NS.labTest=JSON.parse(await new Response(new Blob([u]).stream().pipeThrough(new DecompressionStream('deflate-raw'))).text())}catch(e){console.warn('bldtest data',e)}
   NS.labTestOn=true;const cfg=mkCfg('hot',[0],false);cfg.squad=1;cfg.mode='hot';
+  // the building kit (art/experiments/bay-kit, written by tools/bk_import.py) as lit kit pieces; same variant order as the lab
+  if(!/(^#|&)noskin\b/.test(location.hash))try{let base='',man=null;for(const t of['art/experiments/bay-kit/','../art/experiments/bay-kit/']){try{const r=await fetch(t+'parts.json',{cache:'no-cache'});if(r.ok){man=await r.json();base=t;break}}catch(e){}}if(!man)throw new Error('no parts.json');const ld=u=>new Promise(r=>{const i=new Image();i.onload=()=>r(i);i.onerror=()=>r(null);i.src=base+u});
+    NS.bk={};await Promise.all(Object.entries(man.parts).map(async([code,p])=>{for(const[v,e]of Object.entries(p.variants)){const L=e.layers,im={};for(const ly of['body','back','height','emis'])if(L[ly])im[ly]=await ld(L[ly]);
+      const body=im.body&&!(L.back&&!L.height)?im.body:null;if(!body&&!im.back)continue;(NS.bk[code]=NS.bk[code]||[]).push(v);
+      labArt.set(code+v,{doc:{name:p.name,w:e.w,h:e.h,game_scale:27/50},frames:[{body,height:im.height||null,back:im.back||null,emis:im.emis||null,guts:null,trim:null,cloth:null}]})}}));
+    for(const c in NS.bk)NS.bk[c].sort()}catch(e){console.warn('building kit',e);NS.bk=null}
   const go=()=>{newGame('hot',undefined,cfg);for(const w of ARS)if(w.ammo>=0&&!w.off)S.ammo[0][w.id]=99;
     const t=troopers[0],b=(genTerrain.blds||[])[0];if(t&&b){const x=Math.max(60,b.x0-50);t.x=x;t.y=surf(x);t.face=1}};
   setTimeout(go,50);setInterval(()=>{if(NS.labTestOn&&S.phase==='aim')S.timer=TURN_SECS},500)})()}
