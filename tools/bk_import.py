@@ -72,4 +72,5 @@ def main():
 if __name__ == '__main__':
     main()
     import bk_masks; bk_masks.main()  # collision from art for the parts that take it
+    import bk_height; bk_height.main()  # computed Height maps (hgen) beside the drawn ones
     import bk_catalogue; bk_catalogue.main()  # the parts library's catalogue

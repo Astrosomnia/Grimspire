@@ -4025,7 +4025,7 @@ if(/(^#|&)bldtest\b/.test(location.hash)){(async()=>{
   NS.labTestOn=true;const cfg=mkCfg('hot',[0],false);cfg.squad=1;cfg.mode='hot';
   // the building kit (art/experiments/bay-kit, written by tools/bk_import.py) as lit kit pieces; same variant order as the lab
   if(!/(^#|&)noskin\b/.test(location.hash))try{let base='',man=null;for(const t of['art/experiments/bay-kit/','../art/experiments/bay-kit/']){try{const r=await fetch(t+'parts.json',{cache:'no-cache'});if(r.ok){man=await r.json();base=t;break}}catch(e){}}if(!man)throw new Error('no parts.json');const ld=u=>new Promise(r=>{const i=new Image();i.onload=()=>r(i);i.onerror=()=>r(null);i.src=base+u});
-    NS.bk={};await Promise.all(Object.entries(man.parts).map(async([code,p])=>{for(const[v,e]of Object.entries(p.variants)){const L=e.layers,im={};for(const ly of['body','back','height','emis'])if(L[ly])im[ly]=await ld(L[ly]);
+    NS.bk={};await Promise.all(Object.entries(man.parts).map(async([code,p])=>{for(const[v,e]of Object.entries(p.variants)){const L=e.layers,im={},hg=/(^#|&)hgen\b/.test(location.hash)&&L.hgen;for(const ly of['body','back','height','emis'])if(L[ly])im[ly]=await ld(ly==='height'&&hg?L.hgen:L[ly]);
       const body=im.body&&!(L.back&&!L.height)?im.body:null;if(!body&&!im.back)continue;(NS.bk[code]=NS.bk[code]||[]).push(v);
       labArt.set(code+v,{doc:{name:p.name,w:e.w,h:e.h,game_scale:27/50},frames:[{body,height:im.height||null,back:im.back||null,emis:im.emis||null,guts:null,trim:null,cloth:null}]})}}));
     for(const c in NS.bk)NS.bk[c].sort()}catch(e){console.warn('building kit',e);NS.bk=null}

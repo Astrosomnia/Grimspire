@@ -125,12 +125,12 @@ function bakeLit(body,height){const w=body.width,h=body.height,c=document.create
   x.putImageData(d,0,0);return c}
 const loadImg=src=>new Promise(r=>{const im=new Image();im.onload=()=>r(im);im.onerror=()=>r(null);im.src=src});
 async function layers(code,v){const k=code+v;if(ST.imgs[k])return ST.imgs[k];const e=ST.parts[code].variants[v],L=e.layers,o={};
-  await Promise.all(['body','back','height','emis'].map(async ly=>{if(L[ly])o[ly]=await loadImg(ST.base+L[ly])}));
-  const backOnly=L.back&&!L.height;o.lit=o.body&&!backOnly?bakeLit(o.body,o.height):null;if(backOnly)o.body=null;return ST.imgs[k]=o}
+  await Promise.all(['body','back','height','emis','hgen'].map(async ly=>{if(L[ly])o[ly]=await loadImg(ST.base+L[ly])}));
+  const backOnly=L.back&&!L.height;o.lit=o.body&&!backOnly?bakeLit(o.body,o.height):null;o.litgen=o.body&&!backOnly&&o.hgen?bakeLit(o.body,o.hgen):null;if(backOnly)o.body=null;return ST.imgs[k]=o}
 // composite for a view: lit/body sit over the Back like in the game; Back, Height and Glow show alone
 function compose(o,view){const src=o.body||o.back||o.height;if(!src)return null;const w=src.width,h=src.height,c=document.createElement('canvas');c.width=w;c.height=h;const x=c.getContext('2d');x.imageSmoothingEnabled=false;
-  if(view==='lit'||view==='body'){if(o.back){x.globalAlpha=.85;x.drawImage(o.back,0,0);x.globalAlpha=1}const top=view==='lit'?o.lit:o.body;if(top)x.drawImage(top,0,0);if(view==='lit'&&o.emis){x.globalCompositeOperation='lighter';x.drawImage(o.emis,0,0)}}
-  else{const im=o[view==='glow'?'emis':view];if(!im)return null;if(view==='height'){x.fillStyle='#000';x.fillRect(0,0,w,h)}x.drawImage(im,0,0)}
+  if(view==='lit'||view==='litgen'||view==='body'){if(o.back){x.globalAlpha=.85;x.drawImage(o.back,0,0);x.globalAlpha=1}const top=view==='lit'?o.lit:view==='litgen'?o.litgen:o.body;if(top)x.drawImage(top,0,0);if(view!=='body'&&o.emis){x.globalCompositeOperation='lighter';x.drawImage(o.emis,0,0)}}
+  else{const im=o[view==='glow'?'emis':view];if(!im)return null;if(view==='height'||view==='hgen'){x.fillStyle='#000';x.fillRect(0,0,w,h)}x.drawImage(im,0,0)}
   return c}
 function fit(c,maxW,maxH,cap=4){const r=Math.min(maxW/c.width,maxH/c.height),s=r<1?r:Math.min(cap,Math.floor(r));c.style.width=c.width*s+'px';c.style.height=c.height*s+'px';return c}
 const cleanName=(code,n)=>n.replace(new RegExp('^'+code+'\\s*'),'').trim();
@@ -174,8 +174,8 @@ async function drawSheet(){const code=ST.open;if(!code)return;const p=ST.cat.par
   sh.textContent='';
   sh.append(el('div',{class:'sh-top'},el('div',{},el('span',{class:'code'},code+(p.cat?' · '+p.cat:'')),el('h3',{},cleanName(code,p.name))),el('button',{class:'x',onclick:closeSheet},'Close')));
   if(p.drawn){const o=await layers(code,v),stage=el('div',{class:'stage'}),c=compose(o,ST.view);stage.append(c?fit(c,Math.min(700,innerWidth-60),420,6):el('span',{class:'note'},'This variant has no '+ST.view+' layer.'));sh.append(stage);
-    const views=[['lit','Lit'],['body','Body'],['back','Back'],['height','Height'],['glow','Glow']],seg=el('div',{class:'seg',role:'group','aria-label':'Layer'});
-    for(const[k,l]of views){const has=k==='lit'?!!(o.lit||o.back):k==='glow'?!!o.emis:!!o[k];seg.append(el('button',{'aria-pressed':String(ST.view===k),onclick:()=>{ST.view=k;drawSheet()},...(has?{}:{disabled:''})},l))}sh.append(seg);
+    const views=[['lit','Lit · drawn height'],['litgen','Lit · computed'],['body','Body'],['back','Back'],['height','Height · drawn'],['hgen','Height · computed'],['glow','Glow']],seg=el('div',{class:'seg',role:'group','aria-label':'Layer'});
+    for(const[k,l]of views){const has=k==='lit'?!!(o.lit||o.back):k==='litgen'?!!o.litgen:k==='glow'?!!o.emis:!!o[k];seg.append(el('button',{'aria-pressed':String(ST.view===k),onclick:()=>{ST.view=k;drawSheet()},...(has?{}:{disabled:''})},l))}sh.append(seg);
     if(p.variants.length>1){const row=el('div',{class:'vrow'});for(const vv of p.variants){const oo=await layers(code,vv),cc=compose(oo,'lit')||compose(oo,'back');
         const fig=el('figure',{'aria-current':String(vv===v),role:'button',tabindex:'0',onclick:()=>{ST.variant=vv;drawSheet()},onkeydown:e=>{if(e.key==='Enter'){ST.variant=vv;drawSheet()}}},cc?fit(cc,120,80,2):'',el('figcaption',{},vLabel(vv)));row.append(fig)}
       sh.append(el('h4',{},'Variants'),row)}

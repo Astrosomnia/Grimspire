@@ -6,6 +6,12 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-18 · Claude · Computed Height maps, side by side with the drawn ones
+
+- Jarred, from the parts library: the Height maps are a mess. They are: mostly two to four flat greys with no edge rounding, missing the Body's detail (courses, mouldings, tracery), and inconsistent part to part (slabs a gradient, piers stripes, the spire one grey).
+- `tools/bk_height.py` (run by `bk_import.py`) computes a Height map for every lit Body part from its own art: a 3 px bevel in from the silhouette and any hole, relief from the Body's local lightness (lighter = raised, darker = recessed), and the drawn map, blurred, for the big forms only. Writes `<vid>_hgen.png`, adds `hgen` to `parts.json`. 62 computed.
+- A/B: the parts library shows Lit · drawn height / Lit · computed and Height · drawn / Height · computed for every part; in the game's test mode, `&hgen` on a ▶ play link swaps in the computed maps. The lab and game keep the drawn maps until Jarred picks. `det.py` all MATCH.
+
 ## 2026-11-17 · Claude · Building parts library
 
 - New artifact **Grimspire Building Parts** (https://claude.ai/artifact/FLfkRp2H2bEEsvzs3a11rK; page `experiments/building-parts.html`): every BK part by category (walls, floors and arches, back walls, base, stairs, roofs and crowns, outer-wall shapes, bridges and aqueducts, ruin, ornament, cover). Drawn parts show the published version only (what the lab and game use) with variants, adorned `+` versions, Lit / Body / Back / Height / Glow views, size, art check and whether the generator places them. Briefed parts with no art yet show as awaiting art with their spec. Filters: flagged, with comments, awaiting art, drawn but not placed; search; a `#bk51` link opens a part.
