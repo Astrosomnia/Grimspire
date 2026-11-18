@@ -1,0 +1,50 @@
+[
+  {
+    "id": "R10",
+    "code": "R10",
+    "title": "R10 · Terraced crag — drawn facets",
+    "w": 480,
+    "h": 256,
+    "file": "R10.forge.json",
+    "asset_id": "custom-8c3322ab-d01b-41c9-b236-6771c4ed3234",
+    "version_id": "asset-f93c9fc670f28fbf2b34c163",
+    "library_path": "art/lab/hosted/library/asset-f93c9fc670f28fbf2b34c163.forge.json",
+    "sha256": "f93c9fc670f28fbf2b34c163e4482ccc79cfb7f69972a4ecf6c38d859f1cf799"
+  },
+  {
+    "id": "R11",
+    "code": "R11",
+    "title": "R11 · Rock arch — drawn facets",
+    "w": 448,
+    "h": 256,
+    "file": "R11.forge.json",
+    "asset_id": "custom-ce291fbb-f13b-4289-81f5-a60f19025f54",
+    "version_id": "asset-3a9287086cab6fe41fe2dd8e",
+    "library_path": "art/lab/hosted/library/asset-3a9287086cab6fe41fe2dd8e.forge.json",
+    "sha256": "3a9287086cab6fe41fe2dd8ec07347d42099d465ebeb806abeffe6fa8f0636ba"
+  },
+  {
+    "id": "K10",
+    "code": "K10",
+    "title": "K10 · Stair nave — restored recesses and linework",
+    "w": 768,
+    "h": 363,
+    "file": "K10.forge.json",
+    "asset_id": "custom-69e744de-9aa4-4007-bc22-08e58ac5e2f5",
+    "version_id": "asset-4ca24a69d4ad147ee77d7321",
+    "library_path": "art/lab/hosted/library/asset-4ca24a69d4ad147ee77d7321.forge.json",
+    "sha256": "4ca24a69d4ad147ee77d7321057ef5926085f9b6d8dd6c1f9ea8a66ad5283285"
+  },
+  {
+    "id": "K11",
+    "code": "K11",
+    "title": "K11 · Belfry — articulated masonry and arches",
+    "w": 576,
+    "h": 524,
+    "file": "K11.forge.json",
+    "asset_id": "custom-5848d5c6-ad13-4bc0-8c9d-0a6e508e6a62",
+    "version_id": "asset-153932b7d40fb33ebd637f1f",
+    "library_path": "art/lab/hosted/library/asset-153932b7d40fb33ebd637f1f.forge.json",
+    "sha256": "153932b7d40fb33ebd637f1f990ac537929b3af6992948de43115d408231ba16"
+  }
+]

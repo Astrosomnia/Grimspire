@@ -1,0 +1,65 @@
+{
+  "passed": true,
+  "checks": [
+    "native1x",
+    "binary alpha",
+    "exact computed Height with no drawn input",
+    "Body/Height/Guts alpha registration",
+    "architecture alpha/Back/Emissive preservation",
+    "readability"
+  ],
+  "assets": [
+    {
+      "code": "R10",
+      "colours": 4,
+      "near": 0.0,
+      "lone": 0.0,
+      "soft": 0.0,
+      "detail": 0.055,
+      "light": 2.8,
+      "spread": 11.4,
+      "verdict": "pass",
+      "notes": [],
+      "normalisedRange": 66.3
+    },
+    {
+      "code": "R11",
+      "colours": 4,
+      "near": 0.0,
+      "lone": 0.0,
+      "soft": 0.0,
+      "detail": 0.062,
+      "light": 6.1,
+      "spread": 12.2,
+      "verdict": "pass",
+      "notes": [],
+      "normalisedRange": 65.2
+    },
+    {
+      "code": "K10",
+      "colours": 6,
+      "near": 0.0,
+      "lone": 0.005,
+      "soft": 0.0,
+      "detail": 0.278,
+      "light": 8.4,
+      "spread": 13.2,
+      "verdict": "pass",
+      "notes": [],
+      "normalisedRange": 131.8
+    },
+    {
+      "code": "K11",
+      "colours": 6,
+      "near": 0.0,
+      "lone": 0.005,
+      "soft": 0.0,
+      "detail": 0.224,
+      "light": 11.1,
+      "spread": 15.0,
+      "verdict": "pass",
+      "notes": [],
+      "normalisedRange": 123.3
+    }
+  ]
+}
