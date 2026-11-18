@@ -6,6 +6,13 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-17 · Claude · Batch 3 in the lab as placeholders; brief written
+
+- Jarred: the lab needs future options in it now, or every lock goes stale as assets arrive; take about half of ChatGPT's catalogue, weighted to set pieces and the bridge/aqueduct family. Agreed rule: **the lab's shape is the contract.** Locks store part codes and geometry; a part with no art shows as a placeholder until its art arrives, and the art must fit the shape.
+- **Coded existing placeholders** (they had no art or code): spire BK110, merlon BK111, gargoyle BK112, banner BK113, brazier BK114, niche statue BK115, corbel BK116, ladder rung/rail BK117, bridge lamp BK118, bridge chapel/gatehouse BK119, outside stair and doorsteps BK45 (now 16 px risers, 1:1), stone deck BK83, bridge pier BK84, arch under the deck BK85. Bridge arches now sit at a fixed 128, centred, with plain abutments at the ends.
+- **New, placeholder only:** roofs dome (BK120, 2–3 bays), steep (BK122, 1–2 bays), tower crown (BK123), pinnacles (BK125); great window through a double-height hall (BK66); fighting balcony (BK69); stair turret (BK47, climbed by alternating jump ledges, a door into every storey); stepped bridges between floors up to 136 apart (BK89); aqueduct span with a second tier when tall, and an aqueduct off the lot edge (BK86); chain walkway (BK87); iron girder with a walkable top chord (BK88); pipe bridge (BK130); heavy broken bridge ends (BK126); back bays rear stair (BK76), rib vault (BK77), dark passage (BK78); cover: low wall, pews, altar, crates (BK140–143). Dropped: a zigzag iron outside stair (in side view its flights cross with no headroom).
+- Brief for ChatGPT: `BUILDING-PARTS-CONTRACT.md` §11, with each part's exact shape. 400 lots: none sealed, no errors.
+
 ## 2026-11-17 · Claude · Locks saved to the lab's database; the rest of the kit placed
 
 - **Locking:** the Building lab artifact now has a database. ▸ lock writes the whole lot to `builds/b<seed>`: exact collision, rungs, back, skin placements by part code, each building's space, the checks and the sketch if one was used. ▸ unlock deletes it. Locks made earlier in a browser carry over the first time the page reaches the database. Only Jarred can write locks. The panel shows where locks are kept; copies without a database (GitHub Pages) still keep them in the browser. Claude pulls them on "pull builds" (CLAUDE.md).

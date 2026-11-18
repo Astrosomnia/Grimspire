@@ -165,8 +165,8 @@ const RULES=[
  ['mass.endTower',2,'End bay rises +2 as a tower',{yes:40,no:60}],
  ['floor.hall',3,'Double-height hall',{yes:30,no:70}],
  ['floor.balcony',3,'Balcony in the hall',{yes:50,no:50}],
- ['roof.type',3,'Roof',{parapet:24,crenel:22,gable:16,broken:16,flat:22,leanto:16}],
- ['roof.crown',3,'Crown on a lone tower',{spire:45,cupola:20,belfry:20,none:30}],
+ ['roof.type',3,'Roof',{parapet:24,crenel:22,gable:16,broken:16,flat:22,leanto:16,dome:12,steep:12}],
+ ['roof.crown',3,'Crown on a lone tower',{spire:45,cupola:20,belfry:20,crown:20,none:30}],
  ['struct.arch',3,'Arch spans under slabs',{yes:55,no:45}],
  ['circ.link',4,'Storey link',{stair:65,ladder:35}],
  ['circ.stair',4,'Stair style',{straight:60,switchback:25,spiral:15}],
@@ -175,7 +175,7 @@ const RULES=[
  ['circ.drop',4,'Drop hole',{yes:35,no:65}],
  ['circ.fix',4,'Walk access fixed (the rest is jetpack, rope, girder)',{every:34,ground:33,none:33}],
  ['open.door',5,'Ground end wall',{door:65,arcade:15,wall:20}],
- ['open.upper',5,'Upper end wall',{window:40,wall:28,door:12,slit:10,balcony:10}],
+ ['open.upper',5,'Upper end wall',{window:36,wall:26,door:11,slit:9,balcony:9,fighting:9}],
  ['open.terrace',5,'Wall onto a lower roof',{door:60,window:25,wall:15}],
  ['open.inner',5,'Inner pier',{open:55,door:30,wall:15}],
  ['open.back',5,'Back window (per column, aligned)',{lancet:35,round:15,arcade:15,none:35}],
@@ -186,14 +186,18 @@ const RULES=[
  ['orn.brazier',6,'Brazier in a room',{yes:35,no:65}],
  ['orn.niche',6,'Statue niche',{yes:30,no:70}],
  ['orn.corbel',6,'Corbels under floors',{yes:40,no:60}],
+ ['orn.pinnacle',6,'Pinnacles on parapet ends',{yes:35,no:65}],
+ ['room.cover',6,'Cover in rooms (pews, altar, crates, low walls)',{none:35,some:45,lots:20}],
  ['bridge.count',7,'Bridges between buildings',{0:10,1:55,2:35}],
- ['bridge.span',7,'Span',{plain:30,arched:30,ribbed:15,truss:15,rope:10}],
+ ['bridge.span',7,'Span',{plain:24,arched:24,ribbed:12,truss:10,rope:8,aqueduct:12,chain:6,girder:8,pipe:5}],
+ ['bridge.steps',7,'Stepped bridge between floors at different heights',{yes:50,no:50}],
+ ['lot.aqueduct',7,'Aqueduct running off the lot',{yes:25,no:75}],
  ['bridge.ruin',7,'Bridge ruin',{intact:55,gap:25,collapse:20}],
  ['bridge.mid',7,'Middle piece (long spans)',{none:70,chapel:10,gate:10,lamp:10}],
  ['bridge.walkway',7,'High walkway between tops',{yes:30,no:70}],
  ['bridge.buttress',7,'Flying buttress ramp',{yes:30,no:70}],
  ['bridge.ladder',7,'Outside ladder',{yes:30,no:70}],
- ['sil.wall',8,'Outer wall shape (each side)',{none:40,jetty:12,setback:10,stub:12,gallery:8,scaffold:7,apse:6,flyer:5,buttress:8,turret:6}],
+ ['sil.wall',8,'Outer wall shape (each side)',{none:40,jetty:12,setback:10,stub:12,gallery:8,scaffold:7,apse:6,flyer:5,buttress:8,turret:6,stairturret:6}],
  ['sil.gallery',8,'Gallery length',{short:50,long:50}],
  ['sil.stubEnd',8,'Cantilever end',{intact:55,snapped:45}],
  ['sil.crane',8,'Crane arm off the top',{yes:10,no:90}],
@@ -314,8 +318,8 @@ function genBuilding(L,slot,C,forced){
   if(forced?.roofs)M.roofs=forced.roofs;
   else{let c=0;while(c<n){let e=c;while(e+1<n&&h[e+1]===h[c])e++;
     const lone=c===e&&(n===1||(h[c]>=(c>0?h[c-1]:0)+2&&h[c]>=(c<n-1?h[c+1]:0)+2));
-    const tl=c>0&&h[c-1]>h[c],tr=e<n-1&&h[e+1]>h[c],cr=lone?pick('roof.crown'):'none',t=cr!=='none'?cr:pick('roof.type',o=>(o!=='gable'||e-c<=2)&&(o!=='leanto'||(tl!==tr&&e-c<=1)));M.roofs.push({c0:c,c1:e,type:t,gar:[]});c=e+1}}
-  M.arch=forced&&forced.arch!==undefined?forced.arch:pick('struct.arch')==='yes';
+    const tl=c>0&&h[c-1]>h[c],tr=e<n-1&&h[e+1]>h[c],cr=lone?pick('roof.crown'):'none',t=cr!=='none'?cr:pick('roof.type',o=>(o!=='gable'||e-c<=2)&&(o!=='leanto'||(tl!==tr&&e-c<=1))&&(o!=='dome'||(e-c>=1&&e-c<=2))&&(o!=='steep'||e-c<=1));M.roofs.push({c0:c,c1:e,type:t,gar:[]});c=e+1}}
+  M.arch=forced&&forced.arch!==undefined?forced.arch:pick('struct.arch')==='yes';M.pinn=pick('orn.pinnacle')==='yes';
   // ---- pass 4: circulation
   if(!forced){
     const side=pick('circ.side');let lastD=rng()<.5?1:-1;
@@ -366,7 +370,7 @@ function genBuilding(L,slot,C,forced){
     if(cs.every(s=>s.floor==='none'||s.well)&&rm.r>0){const below=M.cells[rm.cells[0]][rm.r-1];rm.purpose=M.rooms[below.room]?.purpose||'hall';rm.upper=true}
     else if(cs.some(s=>s.stair))rm.purpose='stairhall';
     else{const top=rm.cells.every(c=>rm.r===h[c]-1);rm.purpose=pick('room.purpose',o=>(o!=='crypt'||rm.r===0)&&(o!=='gallery'||top||rm.r>0))}
-    rm.banner=!rm.upper&&pick('orn.banner')==='yes';rm.brazier=!rm.upper&&pick('orn.brazier')==='yes';rm.niche=!rm.upper&&(rm.purpose==='chapel'||pick('orn.niche')==='yes');
+    rm.cover=!rm.upper&&rm.purpose!=='ruin'?pick('room.cover'):'none';rm.banner=!rm.upper&&pick('orn.banner')==='yes';rm.brazier=!rm.upper&&pick('orn.brazier')==='yes';rm.niche=!rm.upper&&(rm.purpose==='chapel'||pick('orn.niche')==='yes');
     for(const s of cs){s.back=rm.purpose==='chapel'&&rm.r===h[s.c]-1?'vault':rm.purpose==='gallery'?'arcade':rm.purpose==='crypt'?'crypt':rm.purpose==='ruin'?'rubble':'wall';s.purpose=rm.purpose}}
   M.far=pick('far.type');M.corbel=pick('orn.corbel')==='yes';
   for(const rf of M.roofs){const hl=rf.c0===0||h[rf.c0-1]<h[rf.c0],hr=rf.c1===n-1||h[rf.c1+1]<h[rf.c1];
@@ -393,11 +397,11 @@ function connectors(L,C){const g=ST.grid,{pick,rng,R,RI}=C,X=(M,c)=>M.x0+c*g.bay
   const walkRoof=t=>['parapet','crenel','flat','broken'].includes(t);
   const deck=(x0,y0,x1,y1,o)=>{const b={x0,y0,x1,y1,...o};L.bridges.push(b);return b};
   if(L.blds.length===2){const[A,B]=L.blds,ca=A.n-1,cb=0,gap=B.x0-X(A,A.n);
-    const cand=[];for(let r=1;r<Math.min(A.h[ca],B.h[cb]);r++){const ya=FT(A,r),yb=FT(B,r);if(Math.abs(ya-yb)<=56)cand.push(r)}
+    const lim=pick('bridge.steps')==='yes'?136:56,cand=[];for(let r=1;r<Math.min(A.h[ca],B.h[cb]);r++){const ya=FT(A,r),yb=FT(B,r);if(Math.abs(ya-yb)<=lim)cand.push(r)}
     let k=Math.min(cand.length,+pick('bridge.count'));
     while(k-->0&&cand.length){const r=cand.splice(Math.floor(rng()*cand.length),1)[0];
       A.piers[A.n][r]='door';B.piers[0][r]='door';
-      const b=deck(X(A,A.n)+g.pier/2,FT(A,r),B.x0-g.pier/2,FT(B,r),{span:pick('bridge.span'),ruin:pick('bridge.ruin'),r});
+      const dy=Math.abs(FT(A,r)-FT(B,r)),b=deck(X(A,A.n)+g.pier/2,FT(A,r),B.x0-g.pier/2,FT(B,r),{span:dy>40?'steps':pick('bridge.span'),ruin:dy>40?'intact':pick('bridge.ruin'),r});
       if(b.ruin==='intact'&&gap>=300)b.mid=pick('bridge.mid')}
     if(pick('bridge.walkway')==='yes'){const ra=A.roofs.find(f=>f.c1===ca),rb=B.roofs.find(f=>f.c0===cb),ya=FT(A,A.h[ca]),yb=FT(B,B.h[cb]);
       if(ra&&rb&&walkRoof(ra.type)&&walkRoof(rb.type)&&Math.abs(ya-yb)<=56&&Math.min(A.h[ca],B.h[cb])>=2&&!L.bridges.some(b=>b.r===A.h[ca])){
@@ -406,12 +410,15 @@ function connectors(L,C){const g=ST.grid,{pick,rng,R,RI}=C,X=(M,c)=>M.x0+c*g.bay
     for(let r=1;r<M.h[c];r++){const d=Math.abs(FT(M,r)-rk.top);if(d<=90&&(!best||d<best.d))best={r,d}}
     if(best&&pick('bridge.count')!=='0'){M.piers[k][best.r]='door';const xw=side<0?M.x0-g.pier/2:X(M,M.n)+g.pier/2,xr=side<0?rk.x0+rk.w*.8:rk.x0+rk.w*.2;
       deck(Math.min(xw,xr),side<0?rk.top:FT(M,best.r),Math.max(xw,xr),side<0?FT(M,best.r):rk.top,{span:pick('bridge.span'),ruin:'intact',r:best.r,rock:1})}}
+  if(pick('lot.aqueduct')==='yes'){const opts=[];for(const[M,sd]of[[L.blds[0],-1],[L.blds[L.blds.length-1],1]]){const c=sd<0?0:M.n-1,k=sd<0?0:M.n,r=M.h[c]-1;if(r<1)continue;
+      const xw=sd<0?M.x0-g.pier/2:X(M,M.n)+g.pier/2;if(L.rock&&(sd<0?L.rock.x0<xw:L.rock.x0>xw))continue;if(Math.abs(xw-(sd<0?0:L.W))<200)continue;if(L.bridges.some(b=>b.r===r&&(sd<0?b.x1<=xw+30:b.x0>=xw-30)))continue;opts.push({M,sd,k,r,xw})}
+    if(opts.length){const o=opts[Math.floor(rng()*opts.length)],y=FT(o.M,o.r);o.M.piers[o.k][o.r]='door';deck(o.sd<0?0:o.xw,y,o.sd<0?o.xw:L.W,y,{span:'aqueduct',ruin:rng()<.25?'gap':'intact',r:o.r,aq:1,edge:o.sd})}}
   // a flying buttress: a ramp from ground up to an upper door, outside the building
   if(pick('bridge.buttress')==='yes'){const opts=[];
     for(const M of L.blds)for(const sd of[-1,1]){const c=sd<0?0:M.n-1,k=sd<0?0:M.n;if(M.h[c]<2||M.forceDoor[k+',0'])continue;
-      const xw=sd<0?M.x0-g.pier/2:X(M,M.n)+g.pier/2,rise=L.tY(xw+sd*10)-FT(M,1),run=rise*1.15,xf=xw+sd*run;
+      const xw=sd<0?M.x0-g.pier/2:X(M,M.n)+g.pier/2,rise=L.tY(xw+sd*10)-FT(M,1),run=Math.ceil(rise/16)*16,xf=xw+sd*run;
       if(xf<30||xf>L.W-30)continue;if(L.blds.some(o=>o!==M&&xf>o.x0-30&&xf<X(o,o.n)+30))continue;if(L.rock&&xf>L.rock.x0-20&&xf<L.rock.x0+L.rock.w+20)continue;
-      if(L.bridges.some(b=>b.r===1&&((sd>0&&b.x0>=xw-30)||(sd<0&&b.x1<=xw+30))))continue;opts.push({M,sd,k,xw,xf})}
+      if(L.bridges.some(b=>(b.r===1||b.aq)&&((sd>0&&b.x0>=xw-30)||(sd<0&&b.x1<=xw+30))))continue;opts.push({M,sd,k,xw,xf})}
     if(opts.length){const o=opts[Math.floor(rng()*opts.length)];o.M.piers[o.k][1]='door';o.M.piers[o.k][0]='wall';
       const ok2=o.k?0:o.M.n;if(!['door','arcade'].includes(o.M.piers[ok2][0]))o.M.piers[ok2][0]='door';L.ramps.push({x0:o.xw,y0:FT(o.M,1),x1:o.xf,y1:L.tY(o.xf)})}}
   if(pick('bridge.ladder')==='yes'){const opts=[];
@@ -432,9 +439,13 @@ function silhouette(L,M,C){const g=ST.grid,{pick,rng,R,RI}=C,B=g.bay,SH=g.storey
   const span=(a,b,y,t,e)=>Rc(Math.min(a,b),y,Math.abs(b-a),t,e);
   for(const sd of[-1,1]){const k=sd<0?0:n,c=sd<0?0:n-1,xe=X(k),xo=xe+sd*P/2,hc=h[c];
     if(used(xe+sd*30))continue;
-    const t=pick('sil.wall',o=>!(['jetty','setback','stub','gallery','scaffold','flyer','turret'].includes(o)&&hc<2));if(t==='none')continue;
+    const t=pick('sil.wall',o=>!(['jetty','setback','stub','gallery','scaffold','flyer','turret','stairturret'].includes(o)&&hc<2));if(t==='none')continue;
     if(t==='buttress'){const k3=Math.min(3,hc),H=k3*SH,cv='BK63'+'abc'[k3-1];if(!free(xe,xe+sd*(40+P)))continue;const bx=ox(sd,xo,40),by=Y(0)-H;
       S.body.push(...maskOps(cv,bx,by,sd<0));AP(S.art,'BK63',bx,by,v,{l:'abc'[k3-1],f:sd<0});(M.silSide=M.silSide||{})[sd]={t,r0:0};M.silShape=(M.silShape||[]).concat(t);continue}
+    if(t==='stairturret'){const W=64;if(!free(xe,xe+sd*(W+P+10)))continue;const e={sk:'BK47'},bx=ox(sd,xo,W),top=FT(hc)-20,gnd=L.tY(xo+sd*W/2);
+      for(let r=0;r<hc;r++){M.piers[k][r]='door';AP(S.art,'BK47',bx,FT(r)-SH,v,{l:'a',f:sd<0});if(r<hc-1)S.body.push(span(xo+sd*(W-32),xo+sd*(W-12),FT(r)-64,12,e),span(xo,xo+sd*24,FT(r+1),12,e))}
+      S.back.push(span(xo,xo+sd*W,top,FT(0)-top,e));S.body.push(span(xo+sd*(W-12),xo+sd*W,top,gnd-top+30,e),span(xo,xo+sd*W,FT(0),gnd-FT(0)+30,e),Pg([[xo,top],[xo+sd*(W/2),top-64],[xo+sd*(W+4),top],[xo+sd*(W+4),top+8],[xo,top+8]],e));
+      AP(S.art,'BK47',bx,top-64,v,{l:'b',f:sd<0});AP(S.art,'BK47',bx,FT(0),v,{l:'c',f:sd<0});(M.silSide=M.silSide||{})[sd]={t,r0:-1};M.silShape=(M.silShape||[]).concat(t);continue}
     if(t==='turret'){const r=hc-1;if(!free(xe,xe+sd*(48+P)))continue;M.piers[k][r]='door';const bx=ox(sd,xo,48),by=FT(r)-112;
       S.body.push(...maskOps('BK64a',bx,by,sd<0));AP(S.art,'BK64',bx,by,v,{f:sd<0});(M.silSide=M.silSide||{})[sd]={t,r0:r-1};M.silShape=(M.silShape||[]).concat(t);continue}
     if(t==='jetty'){const J=36,r0=RI(1,hc-1);if(!free(xe,xe+sd*(J+P)))continue;
@@ -531,9 +542,10 @@ function emitLot(L){const o={far:[],farFx:[],farCut:[],back:[],backFx:[],backCut
   for(const M of L.blds)emitB(M,o,L);
   for(const b of L.bridges)emitBridge(b,o,L);
   // a stair ramp up the outside (K16-style): solid stepped mass from the ground to an upper door
-  for(const p of L.ramps){const ns=Math.max(3,Math.round((p.y1-p.y0)/15)),dx=(p.x1-p.x0)/ns,dy=(p.y1-p.y0)/ns,pts=[[p.x0,p.y0]];
+  for(const p of L.ramps){const ns=Math.max(3,Math.round(Math.abs(p.x1-p.x0)/16)),dx=(p.x1-p.x0)/ns,dy=(p.y1-p.y0)/ns,pts=[[p.x0,p.y0]],v=hash(L.seed,p.x0|0,45);
     for(let i=0;i<ns;i++)pts.push([p.x0+(i+1)*dx-(i<ns-1?0:0),p.y0+i*dy],[p.x0+(i+1)*dx,p.y0+(i+1)*dy]);
-    pts.push([p.x1,Math.max(p.y1,L.tY(p.x1))+30],[p.x0,Math.max(p.y1,L.tY(p.x0))+30]);o.body.push(Pg(pts))}
+    pts.push([p.x1,Math.max(p.y1,L.tY(p.x1))+30],[p.x0,Math.max(p.y1,L.tY(p.x0))+30]);o.body.push(Pg(pts,{sk:'BK45'}));
+    for(let i=0;i<ns;i++){const xa=Math.min(p.x0+i*dx,p.x0+(i+1)*dx),y=p.y0+i*dy;AP(o.art,'BK45',xa,y,v,{l:'a',f:dx<0});tileY(o.art,'BK45',xa,y+16,L.tY(xa+8)+8,v,{l:'b'},32)}}
   for(const ld of L.ladders)emitLadder(o,ld.x,ld.y0,ld.y1);
   o.cut.push(...L.cuts);o.rub.push(...L.rub);
   return o}
@@ -553,7 +565,9 @@ function emitLadder(o,x,yLow,yTop,sk){// yLow: the floor it starts from; yTop: t
   // rung spacing: the game's rung check looks 26-58 px above the feet and a jump rises 52, so the next rung has to sit
   // 27-44 game px up or a trooper skips it (the game's 22 px sewer spacing climbs two rungs a jump). Top rung flush with the floor.
   const a=AS(),D=(yLow-yTop)*a,k=Math.max(1,Math.ceil(D/44)),s=D/k/a,rw=26;
-  for(let i=0;i<k;i++)o.rung.push(Rc(x-rw/2,yTop+i*s,rw,PH.RT/a,sk));
+  const e117=sk||{sk:'BK117'},v=hash(x|0,yTop|0,117);
+  for(let i=0;i<k;i++){o.rung.push(Rc(x-rw/2,yTop+i*s,rw,PH.RT/a,e117));if(!sk)AP(o.art,'BK117',x-rw/2,yTop+i*s,v,{l:'a'})}
+  if(!sk)for(const rx of[x-rw/2,x+rw/2-4])tileY(o.artBack,'BK117',rx,yTop-8,yLow+8,v,{l:'b'},32);sk=e117;
   const low=yTop+(k-1)*s;
   o.decoB.push(Ln([[x-rw/2+2,yTop-8],[x-rw/2+2,low+8]],{col:'#7a6232',lw:2,...sk}),Ln([[x+rw/2-2,yTop-8],[x+rw/2-2,low+8]],{col:'#7a6232',lw:2,...sk}))}
 
@@ -571,7 +585,7 @@ function emitB(M,o,L){const g=ST.grid,B=g.bay,SH=g.storey,P=g.pier,SL=g.slab,X=c
   for(let c=0;c<n;c++)for(let r=0;r<h[c];r++){const s=M.cells[c][r],x=X(c),y=Y(r+1),yb=Y(r)-SL,cx=x+B/2,w=M.backWin[c];
     const bk=s.back||'wall',rm0=M.rooms[s.room],mid=rm0&&rm0.cells[Math.floor(rm0.cells.length/2)]===c;
     let bcode=bk==='arcade'||(bk!=='crypt'&&bk!=='rubble'&&w==='arcade')?'BK11':(bk==='wall'||bk==='vault')&&w==='lancet'?'BK10':'BK09';
-    if(s.sky||bk==='rubble')bcode='BK72';else if(bk==='crypt')bcode='BK71';else if(s.purpose==='chapel'&&mid&&w!=='arcade')bcode='BK70';
+    if(s.sky||bk==='rubble')bcode='BK72';else if(bk==='crypt')bcode='BK71';else if(s.purpose==='chapel'&&mid&&w!=='arcade')bcode='BK70';else if(s.purpose==='stairhall'&&!s.stair)bcode='BK76';else if(bk==='vault')bcode='BK77';else if(bcode==='BK09'&&hv(c,r,78)<.15)bcode='BK78';
     o.back.push(Rc(x,y,B,SH,{sk:bcode}));art(o.artBack,bcode,x,y,bcode==='BK70'?{ly:['back','body']}:null);const sk={sk:bcode};
     if(bk==='arcade')o.backCut.push(Pg(arch(cx,yb,B-30,SH-SL-22,false),sk));
     else if(bk==='crypt'){o.backCut.push(Pg(arch(cx-24,yb,30,48,false),sk),Pg(arch(cx+24,yb,30,48,false),sk))}
@@ -579,9 +593,13 @@ function emitB(M,o,L){const g=ST.grid,B=g.bay,SH=g.storey,P=g.pier,SL=g.slab,X=c
     else{if(w==='lancet')o.backCut.push(Pg(arch(cx,yb-30,32,62,true),sk));else if(w==='round')o.backCut.push(Ci(cx,y+SH*.42,17,sk));else if(w==='arcade')o.backCut.push(Pg(arch(cx,yb,B-34,SH-SL-30,false),sk))}
     if(bk==='vault')for(const f of[.25,.5,.75])o.backFx.push(Ln([[x+B*f,yb],[x+B*f,y+30],[cx,y+4]],{col:'#454d63',lw:2})),o.backFx.push(Ln(arch(cx,y+SH*.55,B-8,SH*.55,true),{col:'#454d63',lw:2}));
     const rm=M.rooms[s.room];if(!rm)continue;
-    if(rm.niche&&rm.cells[0]===c&&!rm.upper){const nx=x+(w==='none'?B/2:B*.22);o.backFx.push(Pg(arch(nx,yb-6,26,58,true),{col:'#1d212c'}),Ci(nx,yb-50,5,{col:'#566079'}),Pg([[nx-6,yb-6],[nx-8,yb-44],[nx+8,yb-44],[nx+6,yb-6]],{col:'#566079'}))}
-    if(rm.banner&&rm.cells[Math.floor(rm.cells.length/2)]===c){const bx=x+B*.72;o.decoB.push(Pg([[bx-10,y+4],[bx+10,y+4],[bx+10,y+54],[bx,y+46],[bx-10,y+54]],{col:'#7a2350'}))}
-    if(rm.brazier&&rm.cells[rm.cells.length-1]===c&&!s.stair){const bx=x+B*.3;o.decoF.push(Pg([[bx-8,yb-14],[bx+8,yb-14],[bx+4,yb-6],[bx-4,yb-6]],{col:'#6f7789'}),Rc(bx-2,yb-6,4,6,{col:'#6f7789'}),Pg([[bx-6,yb-14],[bx,yb-28],[bx+6,yb-14]],{col:'#ffb347'}))}}
+    if(rm.niche&&rm.cells[0]===c&&!rm.upper){const nx=x+(w==='none'?B/2:B*.22),e={sk:'BK115'};o.backFx.push(Pg(arch(nx,yb-6,26,58,true),{col:'#1d212c',...e}),Ci(nx,yb-50,5,{col:'#566079',...e}),Pg([[nx-6,yb-6],[nx-8,yb-44],[nx+8,yb-44],[nx+6,yb-6]],{col:'#566079',...e}));art(o.artBack,'BK115',nx-16,yb-70)}
+    if(rm.banner&&rm.cells[Math.floor(rm.cells.length/2)]===c){const bx=x+B*.72;o.decoB.push(Pg([[bx-10,y+4],[bx+10,y+4],[bx+10,y+54],[bx,y+46],[bx-10,y+54]],{col:'#7a2350',sk:'BK113'}));art(o.artBack,'BK113',bx-10,y+4,{ly:['body']})}
+    if(rm.brazier&&rm.cells[rm.cells.length-1]===c&&!s.stair){const bx=x+B*.3,e={sk:'BK114'};o.decoF.push(Pg([[bx-8,yb-14],[bx+8,yb-14],[bx+4,yb-6],[bx-4,yb-6]],{col:'#6f7789',...e}),Rc(bx-2,yb-6,4,6,{col:'#6f7789',...e}),Pg([[bx-6,yb-14],[bx,yb-28],[bx+6,yb-14]],{col:'#ffb347',...e}));art(o.art,'BK114',bx-8,yb-28)}
+    if(rm.cover&&rm.cover!=='none'&&!s.stair&&!s.ladder&&!s.well&&!s.arrive&&!s.holes.length&&s.floor!=='none'&&(rm.cover==='lots'||hv(c,r,140)<.5)){
+      const kinds=s.purpose==='chapel'?(rm.cells[rm.cells.length-1]===c?['altar']:['pews']):s.purpose==='crypt'?['crates']:['crates','low'],kd=kinds[Math.floor(hv(c,r,141)*kinds.length)];
+      const[cw,ch,cc]=kd==='altar'?[40,30,'BK142']:kd==='pews'?[64,18,'BK141']:kd==='crates'?[32,hv(c,r,143)<.5?32:48,'BK143']:[48,26,'BK140'],cx0=x+B/2-cw/2+Math.round((hv(c,r,142)-.5)*24);
+      o.body.push(Rc(cx0,yb-ch,cw,ch,{sk:cc}));art(o.art,cc,cx0,yb-ch,cc==='BK143'?{l:ch>32?'b':'a'}:null)}}
   // body: plinth (ground floor), slabs, roofs
   o.body.push(Rc(X(0)-P/2,Y(0)-SL,n*B+P,M.foot-Y(0)+SL+40));for(let c=0;c<n;c++)art(o.art,'BK12',X(c),Y(0)-SL);
   for(let c=0;c<n;c++){for(let r=1;r<=h[c];r++){const y=Y(r)-SL;
@@ -594,6 +612,12 @@ function emitB(M,o,L){const g=ST.grid,B=g.bay,SH=g.storey,P=g.pier,SL=g.slab,X=c
   for(let k=0;k<=n;k++)for(let r=0;r<maxH;r++){const kind=M.piers[k]?.[r];if(!kind||kind==='none')continue;const rp=M.sil&&M.sil.pier[k+','+r],x=rp?rp.x:X(k),yt=Y(r+1),yb=Y(r)-SL;
     if(rp&&rp.col)o.back.push(Rc(X(k)-P*.35,yt,P*.7,SH));
     if(kind==='open'){o.back.push(Rc(x-P*.35,yt,P*.7,SH));continue}
+    if(M.great&&M.great[k+','+r]===2)continue;// the upper half of a great window
+    if(kind==='window'&&(k===0||k===n)&&r+1<maxH&&cellAt(M,k?n-1:0,r+1)?.floor==='none'&&['window','wall'].includes(M.piers[k][r+1])){
+      (M.great=M.great||{})[k+','+(r+1)]=2;const e={sk:'BK66'},yt2=Y(r+2);o.body.push(Rc(x-P/2,yt2,P,2*SH,e));o.cut.push(Rc(x-P/2-1,yb-SILL-WIN-SH,P+2,WIN+SH,e));art(o.art,'BK66',x-P/2,yt2);continue}
+    if(kind==='fighting'){// a deep balcony: door, a 64 px platform, a parapet to fight from
+      const sd=k?1:-1,e={sk:'BK69'},ax=sd>0?x-P/2:x-P/2-64;o.body.push(Rc(x-P/2,yt,P,SH,e));o.cut.push(Pg(arch(x,yb,P+2,DOOR,false).map(([a,b])=>[a<x?x-P/2-1:x+P/2+1,b]),e));
+      const px=sd>0?x+P/2:x-P/2-64;o.body.push(Rc(px,yb,64,12,e),Rc(sd>0?px+56:px,yb-28,8,28,e),Pg([[x+sd*P/2,yb+12],[x+sd*(P/2+40),yb+12],[x+sd*P/2,yb+40]],e));art(o.art,'BK69',ax,yt,{f:sd<0});continue}
     if(kind==='slit'||kind==='balcony'){const f=kind==='balcony'&&k===0,cv=kind==='slit'?'BK61a':'BK60a',ax=f?x-P/2-40:x-P/2;o.body.push(...maskOps(cv,ax,yt,f));art(o.art,cv.slice(0,4),ax,yt,{f});continue}
     const ext=!cellAt(M,k-1,r)!==!cellAt(M,k,r),pc=kind==='door'?'BK03':kind==='window'?'BK04':kind==='arcade'?'BK05':ruined&&hv(k,r,74)<.3?'BK74':ext?'BK01':'BK02',sk={sk:pc};
     o.body.push(Rc(x-P/2,yt,P,SH,sk));art(o.art,pc,x-P/2,yt);
@@ -622,47 +646,77 @@ function emitB(M,o,L){const g=ST.grid,B=g.bay,SH=g.storey,P=g.pier,SL=g.slab,X=c
     const nb=rf.c1-rf.c0+1,x0=X(rf.c0);
     if(rf.type==='parapet'){const pl=hl&&!(rf.c0===0&&M.noPar.l),pr=hr&&!(rf.c1===n-1&&M.noPar.r);
       if(pl)o.body.push(Rc(xa,yR-26,P,26,{sk:'BK55'}));if(pr)o.body.push(Rc(xb-P,yR-26,P,26,{sk:'BK55'}));
-      if(pl)art(o.art,'BK55',x0,yR-16);if(pr&&(nb>1||!pl))art(o.art,'BK55',X(rf.c1),yR-16)}
+      if(pl)art(o.art,'BK55',x0,yR-16);if(pr&&(nb>1||!pl))art(o.art,'BK55',X(rf.c1),yR-16);
+      if(M.pinn)for(const[on,px]of[[pl,xa],[pr,xb-P]])if(on){const e={sk:'BK125'};o.decoF.push(Pg([[px+4,yR-26],[px+P/2,yR-74],[px+P-4,yR-26]],{col:'#7d8597',...e}));art(o.art,'BK125',px+P/2-8,yR-74)}}
+    else if(rf.type==='dome'){// drum 40 with a dome of 0.42 x its width and a lantern; walkable over the top
+      const w=xb-xa,rise=Math.round(w*.42),e={sk:'BK120'},p=[[xa,yR-40]];for(let i=0;i<=16;i++){const a=Math.PI-i*Math.PI/16;p.push([xa+w/2+Math.cos(a)*w/2,yR-40-Math.sin(a)*rise])}p.push([xb,yR-40]);
+      o.body.push(Rc(xa,yR-40,w,40,e),Pg(p,e),Rc(xa+w/2-8,yR-40-rise-24,16,26,e));for(let c=rf.c0;c<=rf.c1;c++)o.backFx.push(Rc(X(c)+B/2-10,yR-34,20,26,{col:'#1d212c',...e}));
+      art(o.art,'BK120',xa,yR-40-rise-24,{l:nb===2?'a':'b'})}
+    else if(rf.type==='steep'){const w=xb-xa,ap=Math.round(w*.8),e={sk:'BK122'};o.body.push(Pg([[xa-6,yR+2],[(xa+xb)/2,yR-ap],[xb+6,yR+2]],e));art(o.art,'BK122',xa-6,yR-ap,{l:nb===1?'a':'b'})}
+    else if(rf.type==='crown'){// machicolated crown: the roof widened 16 each side on corbels, merlons at the ends and between
+      const e={sk:'BK123'};o.body.push(Rc(xa-16,yR,16,12,e),Rc(xb,yR,16,12,e),Pg([[xa-16,yR+12],[xa,yR+12],[xa,yR+30]],e),Pg([[xb+16,yR+12],[xb,yR+12],[xb,yR+30]],e));
+      for(const mx of[xa-16,xa+44,xb-60,xb])o.body.push(Rc(mx,yR-24,16,24,e));art(o.art,'BK123',xa-16,yR-24)}
     else if(rf.type==='leanto'){const two=nb===2,cv=two?'BK50b':'BK50a',hh=two?128:64,f=rf.c0>0&&h[rf.c0-1]>ht;o.body.push(...maskOps(cv,x0,yR-hh,f));art(o.art,'BK50',x0,yR-hh,{l:two?'b':'a',f})}
     else if(rf.type==='belfry'){// open bell storey: two piers, a gabled cap, a shot corridor through the middle
       o.body.push(Rc(x0+4,yR-104,12,104,{sk:'BK54'}),Rc(x0+112,yR-104,12,104,{sk:'BK54'}),Pg([[x0-2,yR-84],[x0+B/2,yR-112],[x0+B+2,yR-84],[x0+B+2,yR-80],[x0-2,yR-80]],{sk:'BK54'}));art(o.art,'BK54',x0,yR-112)}
     else if(rf.type==='cupola'){const p=[[x0,yR-32]];for(let i=0;i<=12;i++){const a=Math.PI-i*Math.PI/12;p.push([x0+B/2+Math.cos(a)*B/2,yR-40-Math.sin(a)*52])}p.push([x0+B,yR-32]);
       o.body.push(Pg(p,{sk:'BK53'}),Rc(x0+4,yR-34,12,26,{sk:'BK53'}),Rc(x0+112,yR-34,12,26,{sk:'BK53'}),Rc(x0,yR-8,B,8,{sk:'BK53'}));art(o.art,'BK53',x0,yR-104)}
-    else if(rf.type==='crenel'){for(let x=xa;x<xb-8;x+=30)if(!((x<xa+40&&rf.c0===0&&M.noPar.l)||(x>xb-50&&rf.c1===n-1&&M.noPar.r)))o.body.push(Rc(x,yR-16,15,16))}
+    else if(rf.type==='crenel'){for(let x=xa;x<xb-8;x+=30)if(!((x<xa+40&&rf.c0===0&&M.noPar.l)||(x>xb-50&&rf.c1===n-1&&M.noPar.r))){o.body.push(Rc(x,yR-16,15,16,{sk:'BK111'}));art(o.art,'BK111',x,yR-16)}}
     else if(rf.type==='gable'){o.body.push(Pg([[xa-6,yR+2],[(xa+xb)/2,yR-(xb-xa)*.42],[xb+6,yR+2]],nb<=3?{sk:'BK51'}:{}));if(nb<=3)art(o.art,'BK51',x0,yR-[54,108,162][nb-1],{l:'abc'[nb-1]})}
-    else if(rf.type==='spire'){o.body.push(Pg([[xa-4,yR+2],[(xa+xb)/2,yR-B*1.55],[xb+4,yR+2]]));o.body.push(Rc(xa-6,yR-14,10,14),Rc(xb-4,yR-14,10,14));
-      o.decoF.push(Pg([[xa-6,yR-14],[xa-1,yR-40],[xa+4,yR-14]],{col:'#7d8597'}),Pg([[xb-4,yR-14],[xb+1,yR-40],[xb+6,yR-14]],{col:'#7d8597'}))}
+    else if(rf.type==='spire'){const e={sk:'BK110'};o.body.push(Pg([[xa-4,yR+2],[(xa+xb)/2,yR-B*1.55],[xb+4,yR+2]],e));o.body.push(Rc(xa-6,yR-14,10,14,e),Rc(xb-4,yR-14,10,14,e));
+      o.decoF.push(Pg([[xa-6,yR-14],[xa-1,yR-40],[xa+4,yR-14]],{col:'#7d8597',...e}),Pg([[xb-4,yR-14],[xb+1,yR-40],[xb+6,yR-14]],{col:'#7d8597',...e}));art(o.art,'BK110',xa-6,yR-198)}
     else if(rf.type==='broken'){const p=[[xa,yR+1]];for(let x=xa;x<=xb;x+=16)p.push([x,yR-4-rr()*34*(Math.sin((x-xa)/(xb-xa)*Math.PI)*.8+.2)]);p.push([xb,yR+1]);o.body.push(Pg(p,{sk:'BK52'}));
       for(let c=rf.c0;c<=rf.c1;){const two=rf.c1-c>=1;art(o.art,'BK52',X(c),yR-(two?112:64),{l:two?'b':'a'});c+=two?2:1}}
     for(const[i,on]of rf.gar.entries()){if(!on)continue;if(M.silSide&&M.silSide[i?1:-1]&&((i&&rf.c1===n-1)||(!i&&rf.c0===0)))continue;const gx=i?xb:xa,sd=i?1:-1,gy=yR+4;
-      o.decoF.push(Pg([[gx,gy],[gx+sd*20,gy+2],[gx+sd*26,gy+10],[gx+sd*16,gy+12],[gx+sd*10,gy+20],[gx,gy+18]],{col:'#8a93a6'}),Ci(gx+sd*21,gy+7,2,{col:'#ff2e88'}))}}
+      o.decoF.push(Pg([[gx,gy],[gx+sd*20,gy+2],[gx+sd*26,gy+10],[gx+sd*16,gy+12],[gx+sd*10,gy+20],[gx,gy+18]],{col:'#8a93a6',sk:'BK112'}),Ci(gx+sd*21,gy+7,2,{col:'#ff2e88',sk:'BK112'}));art(o.art,'BK112',sd>0?gx:gx-26,gy,{f:sd<0})}}
   // corbels under upper floors on the outer walls
-  if(M.corbel)for(const k of[0,n]){const c=k?n-1:0,sd=k?1:-1,ss=M.silSide&&M.silSide[sd];for(let r=1;r<=h[c];r++){if(ss&&(ss.t==='jetty'?r>=ss.r0:r>ss.r0))continue;const x=X(k)+sd*P/2,y=Y(r)-SL;o.body.push(Pg([[x,y],[x+sd*12,y],[x+sd*12,y+6],[x,y+16]]))}}
+  if(M.corbel)for(const k of[0,n]){const c=k?n-1:0,sd=k?1:-1,ss=M.silSide&&M.silSide[sd];for(let r=1;r<=h[c];r++){if(ss&&(ss.t==='jetty'?r>=ss.r0:r>ss.r0))continue;const x=X(k)+sd*P/2,y=Y(r)-SL;o.body.push(Pg([[x,y],[x+sd*12,y],[x+sd*12,y+6],[x,y+16]],{sk:'BK116'}));art(o.art,'BK116',sd>0?x:x-12,y,{f:sd<0})}}
   // steps down from a ground door to lower ground outside
   for(const k of[0,n]){if(!['door','arcade'].includes(M.piers[k][0]))continue;const sd=k?1:-1,x=X(k)+sd*P/2,ft=Y(0)-SL,drop=L.tY(x+sd*12)-ft;
-    if(drop>14){const ns=Math.ceil(drop/14),rise=drop/(ns+1);for(let i=1;i<=ns;i++){const xx=sd<0?x-i*16:x+(i-1)*16;o.body.push(Rc(xx,ft+i*rise,16,L.tY(xx+8)-ft-i*rise+30))}}}
+    if(drop>14){const ns=Math.ceil(drop/14),rise=drop/(ns+1),v=hash(M.rng,k,46);for(let i=1;i<=ns;i++){const xx=sd<0?x-i*16:x+(i-1)*16,y=ft+i*rise;o.body.push(Rc(xx,y,16,L.tY(xx+8)-y+30,{sk:'BK45'}));
+      AP(o.art,'BK45',xx,y,v,{l:'a',f:sd>0});tileY(o.art,'BK45',xx,y+16,L.tY(xx+8)+8,v,{l:'b'},32)}}}
   if(M.sil){const S=M.sil;o.body.push(...S.body);o.cut.push(...S.cut);o.back.push(...S.back);o.backCut.push(...S.backCut);o.farCut.push(...S.backCut);o.decoB.push(...S.decoB);o.decoF.push(...S.deco);
     for(const l of S.ladders)emitLadder(o,l.x,l.y0,l.y1,l.sk);o.art.push(...S.art);o.artBack.push(...S.artBack)}
   o.cut.push(...M.cuts);o.backCut.push(...M.backCuts);o.farCut.push(...M.farCuts);o.rub.push(...M.rub);if(M.artRub)o.artRub.push(...M.artRub);
   for(let c=0;c<=n;c++)o.grid.push(Ln([[X(c),Y(0)],[X(c),Y(maxH)]],{col:'rgba(63,243,255,.18)',lw:1}));
   for(let r=0;r<=maxH;r++)o.grid.push(Ln([[X(0),Y(r)],[X(n),Y(r)]],{col:'rgba(63,243,255,.18)',lw:1}))}
 
-function emitBridge(b,o,L){const v=hash(L.seed,b.x0|0,b.y0|0,80),rr=mulberry(hash(L.seed,b.x0|0,b.y0|0)),T=b.span==='rope'?6:16,len=b.x1-b.x0,yAt=x=>b.y0+(b.y1-b.y0)*(x-b.x0)/len;
+function emitBridge(b,o,L){const v=hash(L.seed,b.x0|0,b.y0|0,80),rr=mulberry(hash(L.seed,b.x0|0,b.y0|0)),T={rope:6,chain:8,girder:12,aqueduct:24,pipe:40}[b.span]||16,len=b.x1-b.x0,yAt=x=>b.y0+(b.y1-b.y0)*(x-b.x0)/len;
+  if(b.span==='steps'){// flat decks either end, a flight of 16 px risers in the middle
+    const dy=b.y1-b.y0,ns=Math.max(1,Math.round(Math.abs(dy)/16)),rs=dy/ns,run=Math.min(ns*16,len-32),st=run/ns,xs=(b.x0+b.x1)/2-run/2,p=[[b.x0,b.y0]],e={sk:'BK89'};
+    for(let i=0;i<ns;i++){const xi=xs+i*st;p.push([xi,b.y0+i*rs],[xi,b.y0+(i+1)*rs]);AP(o.art,'BK89',xi,Math.min(b.y0+i*rs,b.y0+(i+1)*rs),v,{f:dy>0,cw:Math.ceil(st)})}
+    o.body.push(Pg([...p,[b.x1,b.y1],[b.x1,b.y1+16],[xs+run,b.y1+16],[xs,b.y0+16],[b.x0,b.y0+16]],e));
+    for(const[a,c,y]of[[b.x0,xs,b.y0],[xs+run,b.x1,b.y1]])for(let x=a;x<c-1;x+=32)AP(o.art,'BK83',x,y,v,{l:'a',cw:Math.min(32,c-x)});return}
   const sag=b.span==='rope'?Math.min(30,len*.08):0,ys=x=>yAt(x)+sag*Math.sin((x-b.x0)/len*Math.PI);
   let segs=[[b.x0,b.x1]];
   if(b.ruin==='gap'){const m=b.x0+len*(.35+rr()*.3),w=Math.min(len*.5,60+rr()*80);segs=[[b.x0,m-w/2],[m+w/2,b.x1]]}
   else if(b.ruin==='collapse'){const s=len*(.15+rr()*.15);segs=[[b.x0,b.x0+s],[b.x1-s*(.6+rr()*.8),b.x1]];
     o.rub.push(Pg(mound(rr,(segs[0][1]+segs[1][0])/2,L.tY((segs[0][1]+segs[1][0])/2),Math.min(140,len*.5),26+rr()*20)))}
   for(const[xa,xb]of segs){if(xb-xa<4)continue;const p=[];for(let x=xa;x<=xb+.1;x+=Math.max(4,(xb-xa)/24))p.push([x,ys(x)]);
-    const q=p.map(([x,y])=>[x,y+T]).reverse();if(b.ruin!=='intact'){if(xa>b.x0)q.push([xa+6,ys(xa)+T+8]);if(xb<b.x1)p.push([xb-4,ys(xb)+T+10])}o.body.push(Pg([...p,...q],b.span==='rope'?{sk:'BK80'}:{}));
+    const q=p.map(([x,y])=>[x,y+T]).reverse();if(b.ruin!=='intact'){if(xa>b.x0)q.push([xa+6,ys(xa)+T+8]);if(xb<b.x1)p.push([xb-4,ys(xb)+T+10])}o.body.push(Pg([...p,...q],{sk:{rope:'BK80',plain:'BK83',arched:'BK83',ribbed:'BK83',walk:'BK83',chain:'BK87',aqueduct:'BK86',pipe:'BK130',girder:'BK88'}[b.span]||''}));
+    if(b.ruin!=='intact'&&['plain','arched','ribbed','aqueduct'].includes(b.span)){if(xa>b.x0)AP(o.art,'BK126',xa,ys(xa)-4,v,{f:true});if(xb<b.x1)AP(o.art,'BK126',xb-32,ys(xb)-4,v)}
+    if(b.span==='chain')for(let x=xa;x<xb-1;x+=32)AP(o.art,'BK87',x,ys(x),v,{l:'a',cw:Math.min(32,xb-x)});
+    if(b.span==='pipe')for(let x=xa;x<xb-1;x+=32)AP(o.art,'BK130',x,ys(x),v,{l:'a',cw:Math.min(32,xb-x)});
+    if(b.span==='aqueduct')for(let x=xa;x<xb-1;x+=32)AP(o.art,'BK86',x,ys(x),v,{l:'d',cw:Math.min(32,xb-x)});
     if(b.span==='rope')for(let x=xa;x<xb-1;x+=32){const w=Math.min(32,xb-x);AP(o.art,'BK80',x,ys(x+w/2),v,{l:'a',cw:w});if(b.ruin==='intact')AP(o.artBack,'BK80',x,ys(x+w/2)-26,v,{l:'c',cw:w})}}
-  const spans=Math.max(1,Math.round(len/ST.grid.bay)),piers=[];if(len>ST.grid.bay*2.2&&b.span!=='rope'&&b.span!=='walk')for(let i=1;i<spans;i++)piers.push(b.x0+len*i/spans);
-  for(const px of piers){if(!segs.some(([a,c])=>px>a+10&&px<c-10)&&b.ruin!=='intact')continue;const y=yAt(px)+T;o.body.push(Rc(px-14,y,28,L.tY(px)-y+30))}
-  const pts=[b.x0,...piers,b.x1];
-  if(b.span==='arched'||b.span==='ribbed')for(let i=0;i<pts.length-1;i++){const a=pts[i],c=pts[i+1],w=c-a,rise=Math.min(46,w*.3),p=[];
+  const AB=128,piers=[],stone=['plain','arched','ribbed','walk'].includes(b.span);
+  const aq=b.span==='aqueduct',hung=['rope','walk','chain'].includes(b.span);
+  if(!hung&&(len>ST.grid.bay*2.2||(aq&&len>=160))){const k=Math.max(1,Math.floor((len-48)/AB));let s0=(b.x0+b.x1)/2-k*AB/2;if(b.edge)s0=b.edge<0?b.x1-24-k*AB:b.x0+24;for(let i=0;i<=k;i++)piers.push(s0+i*AB)}
+  if(stone)for(const[xa,xb]of segs)if(xb-xa>=4)for(let x=xa;x<xb-1;x+=32){const w=Math.min(32,xb-x);AP(o.art,'BK83',x,yAt(x+w/2),v,{l:'a',cw:w})}
+  for(const px of piers){if(!segs.some(([a,c])=>px>a+10&&px<c-10)&&b.ruin!=='intact')continue;const y=yAt(px)+T,pc=aq?'BK86':b.span==='pipe'?'BK130':'BK84',pw=b.span==='pipe'?12:28;
+    o.body.push(Rc(px-pw/2,y,pw,L.tY(px)-y+30,{sk:pc}));tileY(o.art,pc,px-pw/2,y,L.tY(px)+8,v,aq||b.span==='pipe'?{l:'b'}:{},128)}
+  if(aq)for(let i=0;i<piers.length-1;i++){const a=piers[i],c=piers[i+1],w=c-a,yd=yAt(a+w/2)+T,e={sk:'BK86'};if(!segs.some(([s0,s1])=>a>=s0-1&&c<=s1+1))continue;
+    const top=[],bot=[];for(let j=0;j<=12;j++){const t=j/12,x=a+w*t;top.push([x,yd-1]);bot.push([x,yd+52*(1-Math.sin(t*Math.PI))])}o.body.push(Pg([...top,...bot.reverse()],e));AP(o.art,'BK86',a,yd-1,v,{l:'a'});
+    const gnd=Math.min(L.tY(a),L.tY(c));if(gnd-yd>240){const ym=Math.round((yd+gnd)/2),q=[],u=[];for(let j=0;j<=12;j++){const t=j/12,x=a+w*t;q.push([x,ym]);u.push([x,ym+20+40*(1-Math.sin(t*Math.PI))])}o.body.push(Pg([...q,...u.reverse()],e));AP(o.art,'BK86',a,ym,v,{l:'c'})}}
+  if(b.span==='girder')for(const[xa,xb]of segs){if(xb-xa<4)continue;const e={sk:'BK88'};o.body.push(Pg([[xa,yAt(xa)-80],[xb,yAt(xb)-80],[xb,yAt(xb)-72],[xa,yAt(xa)-72]],e));
+    for(let x=xa;x<xb-1;x+=64){const w=Math.min(64,xb-x);o.decoB.push(Ln([[x,yAt(x)],[x+w/2,yAt(x+w/2)-72],[x+w,yAt(x+w)]],{col:'#5c6477',lw:3,...e}));AP(o.art,'BK88',x,yAt(x+w/2)-80,v,{cw:w})}}
+  if(b.span==='chain'){const e={sk:'BK87'},ya=Math.min(b.y0,b.y1)-112;o.decoB.push(Ln([[b.x0,ya],[b.x1,ya]],{col:'#5c6477',lw:4,...e}));for(let x=b.x0+32;x<b.x1-16;x+=64){o.decoB.push(Ln([[x,ya],[x,yAt(x)]],{col:'#7d8597',lw:2,...e}));tileY(o.artBack,'BK87',x-4,ya,yAt(x),v,{l:'b'},32)}
+    for(let x=b.x0;x<b.x1-1;x+=32)AP(o.artBack,'BK87',x,ya-6,v,{l:'c',cw:Math.min(32,b.x1-x)})}
+  if(b.span==='arched'||b.span==='ribbed')for(let i=0;i<piers.length-1;i++){const a=piers[i],c=piers[i+1],w=c-a,rise=38,p=[],e={sk:'BK85'};
     if(!segs.some(([s0,s1])=>a>=s0-1&&c<=s1+1))continue;
-    for(let j=0;j<=12;j++){const t=j/12,x=a+w*t;p.push([x,yAt(x)+T-1])}for(let j=12;j>=0;j--){const t=j/12,x=a+w*t;p.push([x,yAt(x)+T+rise*(1-Math.sin(t*Math.PI))])}o.body.push(Pg(p));
-    if(b.span==='ribbed')for(let j=1;j<4;j++){const x=a+w*j/4;o.backFx.push(Ln([[x,yAt(x)+T],[x,L.tY(x)]],{col:'#3a4156',lw:3}))}}
+    for(let j=0;j<=12;j++){const t=j/12,x=a+w*t;p.push([x,yAt(x)+T-1])}for(let j=12;j>=0;j--){const t=j/12,x=a+w*t;p.push([x,yAt(x)+T+rise*(1-Math.sin(t*Math.PI))])}o.body.push(Pg(p,e));
+    AP(o.art,'BK85',a,yAt(a+w/2)+T,v,{l:b.span==='ribbed'?'b':'a'});
+    if(b.span==='ribbed')for(let j=1;j<4;j++){const x=a+w*j/4;o.backFx.push(Ln([[x,yAt(x)+T],[x,L.tY(x)]],{col:'#3a4156',lw:3,...e}))}}
   // a level truss reads as a covered bridge (deck 16 at the bottom of the 128 drawing, corridor clear above it)
   const cov=b.span==='truss'&&Math.abs(b.y1-b.y0)<4&&b.ruin==='intact',e81=cov?{sk:'BK81'}:{};
   if(b.span==='truss')for(let i=0;i<len/40;i++){const x=b.x0+i*40;o.decoB.push(Ln([[x,yAt(x)-30],[x+20,yAt(x+20)],[x+40,yAt(x+40)-30]],{col:'#5c6477',lw:3,...e81}),Ln([[x,yAt(x)-30],[x+40,yAt(x+40)-30]],{col:'#5c6477',lw:3,...e81}))}
@@ -670,9 +724,9 @@ function emitBridge(b,o,L){const v=hash(L.seed,b.x0|0,b.y0|0,80),rr=mulberry(has
   if(b.span==='rope'||b.span==='walk'){const e=b.span==='rope'?{sk:'BK80'}:{};for(const x of[b.x0+6,b.x1-6]){o.decoF.push(Rc(x-3,yAt(x)-34,6,34,{col:'#8a93a6',...e}));if(b.span==='rope')AP(o.art,'BK80',x-8,yAt(x)+6-64,v,{l:'b'})}
     o.decoF.push(Ln([[b.x0+6,yAt(b.x0)-30],[(b.x0+b.x1)/2,ys((b.x0+b.x1)/2)-22],[b.x1-6,yAt(b.x1)-30]],{col:'#8a93a6',lw:2,...e}))}
   if(b.mid){const xm=(b.x0+b.x1)/2,y=yAt(xm);
-    if(b.mid==='chapel'){for(const sd of[-1,1]){o.body.push(Rc(xm+sd*58-8,y-124,16,124));o.cut.push(Rc(xm+sd*58-9,y-84,18,84))}o.body.push(Rc(xm-68,y-136,136,14),Pg([[xm-72,y-134],[xm,y-190],[xm+72,y-134]]));o.back.push(Rc(xm-58,y-124,116,124))}
-    else if(b.mid==='gate'){o.body.push(Rc(xm-40,y-150,80,150));o.cut.push(Pg(arch(xm,y,46,96,true)));o.body.push(Rc(xm-46,y-150,92,10))}
-    else o.decoF.push(Rc(xm-3,y-70,6,70,{col:'#8a93a6'}),Ci(xm,y-74,7,{col:'#ffb347'}))}}
+    if(b.mid==='chapel'){const e={sk:'BK119'};for(const sd of[-1,1]){o.body.push(Rc(xm+sd*58-8,y-124,16,124,e));o.cut.push(Rc(xm+sd*58-9,y-84,18,84,e))}o.body.push(Rc(xm-68,y-136,136,14,e),Pg([[xm-72,y-134],[xm,y-190],[xm+72,y-134]],e));o.back.push(Rc(xm-58,y-124,116,124,e));AP(o.art,'BK119',xm-72,y-190,v,{l:'a'})}
+    else if(b.mid==='gate'){const e={sk:'BK119'};o.body.push(Rc(xm-40,y-150,80,150,e));o.cut.push(Pg(arch(xm,y,46,96,true),e));o.body.push(Rc(xm-46,y-150,92,10,e));AP(o.art,'BK119',xm-46,y-150,v,{l:'b'})}
+    else{o.decoF.push(Rc(xm-3,y-70,6,70,{col:'#8a93a6',sk:'BK118'}),Ci(xm,y-74,7,{col:'#ffb347',sk:'BK118'}));AP(o.art,'BK118',xm-8,y-82,v)}}}
 
 // ---------------------------------------------------------------- raster + physics (game px)
 const _cv={};function cnv(k,w,h){let c=_cv[k];if(!c){c=_cv[k]=document.createElement('canvas')}if(c.width!==w||c.height!==h){c.width=w;c.height=h}const x=c.getContext('2d',{willReadFrequently:true});x.setTransform(1,0,0,1,0,0);x.globalCompositeOperation='source-over';x.clearRect(0,0,w,h);return[c,x]}
@@ -794,7 +848,7 @@ function render(L,cv,opt){const A=L.A,o=A.o,s=cv.width/L.W,g=ST.grid,sk=opt.skin
   const lay=(k,fn)=>{const[c,y]=cnv(k,cv.width,H);y.setTransform(s,0,0,s,0,-oy*s);fn(y);x.drawImage(c,0,0)};
   if(opt.back){
     lay('far',y=>{paint(y,o.far,'#1c2029');y.globalCompositeOperation='source-atop';paint(y,o.farFx,'#262b38','source-atop');paint(y,o.farCut,'#000','destination-out')});
-    lay('back',y=>{paint(y,keep(o.back),sk?'#1b202a':'#2f3546');if(sk){arts(y,o.artBack,'back');arts(y,o.art,'back')}paint(y,o.backFx,'#3a4156','source-atop');paint(y,keep(o.backCut),'#000','destination-out')});
+    lay('back',y=>{paint(y,keep(o.back),sk?'#1b202a':'#2f3546');if(sk){arts(y,o.artBack,'back');arts(y,o.art,'back')}paint(y,keep(o.backFx),'#3a4156','source-atop');paint(y,keep(o.backCut),'#000','destination-out')});
     lay('decoB',y=>paint(y,keep(o.decoB),'#7a2350'))}
   lay('body',y=>{paint(y,[o.terrain],sk?'#2e3442':'#4f5668');paint(y,o.body.filter(b=>b.rock),sk?'#353c4c':'#5b6273');paint(y,keep(o.body.filter(b=>!b.rock)),sk?'#2b313d':'#a7afc0');
     if(sk)arts(y,o.art,'body');paint(y,keep(o.cut),'#000','destination-out');paint(y,keep(o.rub),sk?'#3d4555':'#7d8597');if(sk)arts(y,o.artRub,'body')});
@@ -1008,7 +1062,7 @@ async function loadParts(){let base=null,man=null;
   for(const[code,p]of Object.entries(man.parts)){for(const[v,e]of Object.entries(p.variants)){const im={};for(const ly of['body','back','height'])if(e.layers[ly])im[ly]=await loadImg(base+e.layers[ly]);
       const out={};if(im.body&&!(e.layers.back&&!e.layers.height))out.body=bakeLit(im.body,im.height);if(im.back)out.back=im.back;if(out.body||out.back){(SK.lit[code]=SK.lit[code]||{})[v]=out;nv++}}}
   SK.ready=true;$('#oSkin').disabled=false;$('#skN').textContent=`(${nv})`;
-  const used=['BK01','BK02','BK03','BK04','BK05','BK06','BK07','BK08','BK09','BK10','BK11','BK12','BK42','BK51','BK52','BK53','BK54','BK55','BK70','BK71','BK72','BK73','BK74','BK75','BK80','BK81','BK90','BK91','BK92','BK93','BK94','BK95','BK96','BK97','BK98','BK40','BK41','BK43','BK50','BK60','BK61','BK63','BK64','BK65'];
+  const used=['BK01','BK02','BK03','BK04','BK05','BK06','BK07','BK08','BK09','BK10','BK11','BK12','BK42','BK51','BK52','BK53','BK54','BK55','BK70','BK71','BK72','BK73','BK74','BK75','BK80','BK81','BK90','BK91','BK92','BK93','BK94','BK95','BK96','BK97','BK98','BK40','BK41','BK43','BK50','BK60','BK61','BK63','BK64','BK65','BK45','BK47','BK66','BK69','BK76','BK77','BK78','BK83','BK84','BK85','BK86','BK87','BK88','BK89','BK110','BK111','BK112','BK113','BK114','BK115','BK116','BK117','BK118','BK119','BK120','BK122','BK123','BK125','BK126','BK130','BK140','BK141','BK142','BK143'];
   const vc={pass:'var(--green)',warn:'var(--amber)',fail:'var(--red)'},vt=e=>{const k=e.check;return k?`${k.verdict}: ${k.colours} colours, detail ${k.detail} (kit bar 0.28), near ${k.near}, lone ${k.lone}${k.notes.length?' · '+k.notes.join('; '):''}`:'not measured'};
   $('#partsList').innerHTML=`${nv} variants from <code>${man.source}</code> ${String(man.commit).slice(0,7)}<br>`+Object.entries(man.parts).map(([c,p])=>`<div>${used.includes(c)?'●':'○'} ${p.name.replace(/^BK\d+\s*/,'')} <b>${c}</b> · ${Object.entries(p.variants).sort().map(([v,e])=>`<span title="${vt(e)}" style="color:${vc[e.check?.verdict]||'inherit'};cursor:help">${v}</span>`).join('')}</div>`).join('')+
     `<div style="margin-top:4px">● placed by the generator · ○ in the kit, not placed yet. Letters: <span style="color:var(--green)">pass</span> · <span style="color:var(--amber)">busier than the bar</span> · <span style="color:var(--red)">painted or downscaled</span> (hover for numbers)</div>`;

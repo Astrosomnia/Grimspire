@@ -207,3 +207,69 @@ Ruined buildings need more than one heap. The lab's ruin pass (9) now rolls heap
 | BK108 | Small debris pieces | 10–24 × 4–8 | 4–6 single chunks for scattering |
 
 Same palette and restraint as the kit. Rubble is where some texture is welcome, but in chunks (2 game px and up), not grain.
+
+## 11. Batch 3: set pieces, bridges, aqueducts and the unpainted placeholders (17 Nov)
+
+About half of the long catalogue ([`BUILDING-PARTS-CATALOGUE.md`](BUILDING-PARTS-CATALOGUE.md)), weighted to set pieces (domes, big roofs, stairs, windows) and the bridge and aqueduct family, plus art for shapes the lab already places with nothing drawn on them.
+
+**The shape comes first this time.** Every part below is already in the building lab as a placeholder, and Jarred is locking buildings that use them. A locked building keeps its collision for good, so each drawing must fit the shape given here exactly: solid where it says solid, open where it says open. Decoration, Back detail and silhouette inside those lines are free. Open the lab's Skinned view to see each one in place; parts with no art show as flat placeholders.
+
+All sizes in art px; x0,y0 is the drawing's top-left. "Drawn for the right" means the wall is on the left and the part reaches right; the lab mirrors it for the left. Body needs a Height map as always (§3).
+
+### Set pieces
+
+| ID | Part | Size | Shape (Body unless noted) |
+|---|---|---|---|
+| BK120 | Dome · a 2 bays, b 3 bays | a 280 × 182, b 408 × 235 | Drum: full width, the bottom 40 rows. Dome: a half-ellipse on the drum, full width, rising 118 (a) or 171 (b). Lantern: 16 wide × 26 at the top centre. Walkable over the top. Windows in the drum are Back only (one per bay, about 20 × 26, centred on each bay) |
+| BK122 | Steep roof · a 1 bay, b 2 bays | a 164 × 124, b 292 × 226 | A triangle from the bottom corners to the top centre. Steeper than BK51 (apex 0.8 × the width) |
+| BK123 | Tower crown | 184 × 54 | Machicolated crown on a lone tower: merlons 16 × 24 at x 0, 60, 108, 168 (rows 0–24); a ledge 16 wide at each end, rows 24–36 (x 0–16 and 168–184); a corbel under each ledge down to row 54. The middle, rows 24–40, sits on the roof slab and is open above it |
+| BK125 | Pinnacle | 16 × 48 | Decoration on a parapet end; not solid |
+| BK66 | Great window | 24 × 256 | A two-storey end pier for a double-height hall. Solid except one opening: rows 26–210, the full 24 wide (sill 30 above the lower floor). Floor at row 240 |
+| BK69 | Fighting balcony | 88 × 156 | Drawn for the right. Pier x 0–24 with a door (84 tall, standing on row 112). Platform x 24–88, rows 112–124. Parapet x 80–88, rows 84–112 (cover). Corbel under the platform: a triangle from (24, 124) to (64, 124) to (24, 152) |
+| BK45 | Outside stair · a tread, b fill | a 16 × 16, b 16 × 32 | The ramp up to an upper door and the doorsteps, now 16 px risers. a: one tread block, its top the walking surface, drawn for a flight going down to the right. b: masonry fill repeated under each tread down to the ground |
+| BK47 | Stair turret · a storey, b cap, c base | a 64 × 128, b 64 × 72, c 64 × 32 | Drawn for the right. A narrow tower climbed by jumps. a: outer wall x 52–64 full height (slits are Back); ledge x 32–52, rows 64–76; landing at the next storey's door, x 0–24, rows 0–12; the shaft is Back. b: cone from the apex (row 0) to row 64, then the wall top to row 72. c: the floor slab and base |
+
+### Bridges and aqueducts
+
+Bridge arches now sit at a fixed 128 (pier centre to pier centre), centred on the span; the leftover at each end is a plain deck. Pieces repeat along a span, so keep repeats seamless.
+
+| ID | Part | Size | Shape |
+|---|---|---|---|
+| BK83 | Stone deck · repeat | 32 × 16 | Plain, arched, ribbed and high-walkway spans. The top row is the walking surface |
+| BK84 | Bridge pier · repeat | 28 × 128 | Repeated down from the deck to the ground |
+| BK85 | Arch under the deck · a plain, b ribbed | 128 × 39 | From pier centre to pier centre. Solid between the deck underside (row 0) and the curve y = 38 × (1 − sin(πx/128)): 38 deep at the piers, 0 at the middle |
+| BK86 | Aqueduct · a upper arch, b pier, c lower arch, d channel deck | a 128 × 53, b 28 × 128, c 128 × 60, d 32 × 24 | d: the deck, 24 thick, with the water channel on top (a dark slot and a glint; Emissive allowed). a: under the deck, solid above the curve y = 52 × (1 − sin(πx/128)). b: pier repeat. c: the lower tier on tall aqueducts: a 20-row band, then the same arch curve 40 deep below it |
+| BK87 | Chain walkway · a deck, b hanger, c overhead beam | a 32 × 8, b 8 × 32, c 32 × 12 | a: iron deck, solid. b: vertical chain, Back, repeated from the beam down to the deck every 64. c: Back, 112 above the deck |
+| BK88 | Iron girder · repeat | 64 × 92 | Top chord rows 0–8 (solid, walkable). Deck rows 80–92 (solid). The diagonals between them are Back; the 72-row gap must stay open (troopers walk through it) |
+| BK89 | Bridge step | 16 × 32 | A stepped bridge between floors at different heights: one 16 riser and its tread, with the stringer below, drawn rising to the right |
+| BK126 | Broken bridge end | 32 × 40 | Heavy fractured end of a stone or aqueduct deck, drawn breaking on the right |
+| BK130 | Pipe bridge · a pipe, b support | a 32 × 40, b 12 × 128 | A big iron or stone pipe as a walkway: a's top is the walking surface; b repeats down to the ground |
+| BK118 | Bridge lamp | 16 × 82 | Post 6 wide in the middle, lamp head at the top (Emissive) |
+| BK119 | Bridge middle · a chapel, b gatehouse | a 144 × 190, b 92 × 150 | a: side walls 16 wide centred at x 14 and 130, rows 66–190, each with an 84-tall doorway at the bottom; roof slab x 4–140, rows 54–68; gable to the apex at (72, 0); Back wall between. b: a tower x 6–86, rows 0–150, with an arch 46 wide × 96 tall at the bottom centre; cap x 0–92, rows 0–10 |
+
+### Unpainted placeholders (the lab already places these)
+
+| ID | Part | Size | Notes |
+|---|---|---|---|
+| BK110 | Spire | 164 × 202 | Base on row 200. A triangle from x 2 and 162 to the apex at (82, 0); pinnacles 10 × 14 on the base corners (x 0–10 and 154–164, rows 184–198) with points up to row 158 |
+| BK111 | Merlon | 15 × 16 | One merlon; the lab repeats them every 30 along a crenellated roof |
+| BK112 | Gargoyle | 26 × 20 | On a roof corner, drawn for the right. Decoration |
+| BK113 | Banner · a short, b long, c torn | 20 × 50 | Hung in a room; drawn behind the play layer |
+| BK114 | Brazier | 16 × 28 | On a floor (Emissive flame) |
+| BK115 | Statue in a niche | 32 × 64 | Back |
+| BK116 | Corbel | 12 × 16 | Under an outer floor end, drawn for the right |
+| BK117 | Ladder · a rung, b rail | a 26 × 6, b 4 × 32 | a: one rung (the lab spaces rungs 50–80 px apart). b: Back, repeated |
+
+### Back bays and cover
+
+| ID | Part | Size | Notes |
+|---|---|---|---|
+| BK76 | Back bay · rear stair and landing | 128 × 128 | Back. In stair halls |
+| BK77 | Back bay · rib vault | 128 × 128 | Back. Under a top-floor vault |
+| BK78 | Back bay · dark passage | 128 × 128 | Back. A doorway into darkness, now and then |
+| BK140 | Low wall | 48 × 26 | Cover on a floor; solid |
+| BK141 | Pews | 64 × 18 | Chapel. Low enough to walk over (under 19) |
+| BK142 | Altar | 40 × 30 | Chapel end bay; cover |
+| BK143 | Crates · a stack of one, b stack of two | a 32 × 32, b 32 × 48 | Halls, galleries, crypts; cover |
+
+**Dropped from the catalogue for now:** a zigzag iron outside stair. In a side view its flights cross with no headroom, so the stair turret takes its place. Also dropped: gates and portcullises, which need a gameplay call first.
