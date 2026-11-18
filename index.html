@@ -1156,7 +1156,7 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
   // it is solid, and drawn again in front of the art (NS.lip), so the line where art meets terrain is covered by
   // terrain. At each end that sits on the ground, a rubble apron eases the terrain up to the piece over 25–60 px.
   // Only ever adds ground: the hills and cliffs around stay as generated.
-  const seatAll=()=>{if(!seats.length)return;const lip=new Path2D(),fill=pts=>{poly(g,pts)};
+  const LIPMAX=24,seatAll=()=>{if(!seats.length)return;const lip=new Path2D(),fill=pts=>{poly(g,pts)};
     for(const st of seats){const c=[];for(let x=Math.ceil(st.x0);x<=st.x1;x+=3){const b=st.bot(x);c.push(b==null?null:[x,b,hAt(x)])}
       // runs of columns that touch down
       let run=[];const flush=()=>{if(run.length<2){run=[];return}
@@ -1166,7 +1166,10 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
         for(let i=0;i+1<under.length;i++)if(under[i+1][0]-under[i][0]<=4)fill([[under[i][0],under[i][1]-1],[under[i+1][0]+1,under[i+1][1]-1],[under[i+1][0]+1,under[i+1][2]+12],[under[i][0],under[i][2]+12]]);
         fill(top.concat(bot.slice().reverse()));
         // in front of the art: everything from the lip down, so a buried foot never shows through the ground
-        const lp=top.concat(deep.reverse());lip.moveTo(lp[0][0],lp[0][1]);for(const p of lp)lip.lineTo(p[0],p[1]);lip.closePath();run=[]};
+        // (18 Nov, Jarred) only where the piece's foot is near the ground: where a hill rises well over the foot, the ground
+        // stays behind the piece instead of being painted across its face (no land inside buildings)
+        let sub=[];const lipOut=()=>{if(sub.length>1){const lp=sub.map(i=>top[i]).concat(sub.map(i=>deep[i]).reverse());lip.moveTo(lp[0][0],lp[0][1]);for(const p of lp)lip.lineTo(p[0],p[1]);lip.closePath()}sub=[]};
+        run.forEach(([x,b,gy],i)=>{if(b-gy<=LIPMAX)sub.push(i);else lipOut()});lipOut();run=[]};
       for(const p of c){if(p&&p[1]>p[2]-40)run.push(p);else flush()}flush();
       // aprons where an end sits near the ground
       for(const sd of[-1,1]){const ex=sd<0?st.x0+2:st.x1-2,b=st.bot(ex),gy=hAt(ex);if(b==null||b<gy-40)continue;
@@ -1607,7 +1610,7 @@ vec3 band(vec3 L,ivec2 t,float n){float l=max(L.r,max(L.g,L.b));if(l<.0005)retur
   float q=max(i+(f>1.-Z?step(bay(t),(f-(1.-Z))/Z):0.),.6)/n;return L*(q*q/l);}
 `;
   const FS_SCENE0=COMMON+`
-uniform sampler2D uAlb,uGuts,uGraf,uEmis,uBack,uSoot,uBlur,uBake,uAtlas,uLM,uLD,uFx,uDyn,uHeight,uDet,uDetH;uniform float uDetOn,uDetHOn,uLMs,uLDOn;
+uniform sampler2D uAlb,uGuts,uGraf,uEmis,uBack,uSoot,uBlur,uBake,uAtlas,uLM,uLD,uFx,uDyn,uHeight,uDet,uDetH;uniform float uKeepV;uniform float uDetOn,uDetHOn,uLMs,uLDOn;
 uniform vec2 uRes,uCam;uniform float uScale,uTime,uSump,uBleed,uHz;uniform vec4 uSp[2];
 uniform vec4 uL[${NL}];uniform vec3 uLC[${NL}];uniform int uNL;
 out vec4 o;
@@ -1694,7 +1697,7 @@ vec3 world(vec2 w){
     N=normalize(vec3(-(gd*mix(2.6,4.,au)+ge*mix(3.4,2.05,au)+gb*.5*fw),1.));
     float edge=1.-smoothstep(.52,.9,e);
     stone=pow(A.rgb,vec3(1.25))*vec3(.8,.8,.94);
-    {float sl=lum(stone);stone=mix(stone,vec3(.27,.29,.36)*(.82+.36*h1(floor(q/2.)+3.)),smoothstep(.3,.04,sl));}
+    {float sl=lum(stone);vec3 flat=mix(stone,vec3(.27,.29,.36)*(.82+.36*h1(floor(q/2.)+3.)),smoothstep(.3,.04,sl));/* (18 Nov) drawn art with Height keeps its own values: lifted by a curve, not flattened to one grey */float s2=max(sl,.004),nl=mix(.15+1.9*s2,s2,smoothstep(.12,.45,s2));vec3 kept=mix(stone*(nl/s2),vec3(.27,.29,.36)*(nl/.292),.45);stone=mix(flat,kept,au*uKeepV);}
     stone*=mix(1.,(.78+.34*tn)*mix(.5,1.,b0),fw);
     // grime on the art's own pixel grid: wet streaks under ledges (no per-pixel dots: Jarred, 16 Nov)
     vec2 gp=floor(q);
@@ -2097,7 +2100,7 @@ function litDetail(gw,gh,k,cx,cy){const gl=LIT.gl,G=LIT.bg;
   if(NS.lip){g.save();g.clip(NS.lip);g.drawImage(terr,0,0);g.restore()}
   g.globalCompositeOperation='destination-in';g.drawImage(kit?unionC:terr,0,0);g.globalCompositeOperation='source-over';
   gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,G.det);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,c);
-  if(!LIT.hasHeight)return;
+  if(!LIT.needH)return;
   const h=LIT.dh||(LIT.dh=document.createElement('canvas'));if(h.width!==gw||h.height!==gh){h.width=gw;h.height=gh}
   const hg=h.getContext('2d');hg.setTransform(1,0,0,1,0,0);hg.globalCompositeOperation='source-over';hg.clearRect(0,0,gw,gh);hg.imageSmoothingEnabled=false;
   hg.setTransform(k,0,0,k,-cx*k,-cy*k);
@@ -2106,6 +2109,7 @@ function litDetail(gw,gh,k,cx,cy){const gl=LIT.gl,G=LIT.bg;
     hg.globalCompositeOperation='destination-out';hg.drawImage(p.body,0,0,p.w,p.h);
     if(height){hg.globalCompositeOperation='source-over';hg.drawImage(litMaskedHeight(p.body,height),0,0,p.w,p.h)}hg.restore()}
   if(NS.lip){hg.save();hg.clip(NS.lip);hg.globalCompositeOperation='destination-out';hg.drawImage(terr,0,0);hg.restore()}
+  hg.globalCompositeOperation='source-over';for(const r of NS.carvH||[])hg.drawImage(r.c,r.x,r.y);// (18 Nov) statues keep their carved relief zoomed in, so no brick
   hg.globalCompositeOperation='destination-in';hg.drawImage(NS.kit&&NS.kit.length?unionC:terr,0,0);hg.globalCompositeOperation='source-over';
   gl.bindTexture(gl.TEXTURE_2D,G.deth);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,h)}
 function litPatch(src,x0,y0,w,h){const c=LIT.sc2||(LIT.sc2=document.createElement('canvas'));c.width=w;c.height=h;const g=c.getContext('2d');g.globalCompositeOperation='copy';g.drawImage(src,x0,y0,w,h,0,0,w,h);return c}
@@ -2126,6 +2130,7 @@ function litBuild0(){const gl=LIT.gl,T=LIT.T;for(const k in T){gl.deleteTexture(
   T.graf=litTex(litPatch(graf,0,0,W,H),false);T.soot=litTex(litPatch(scorchC,0,0,W,H),false);
   const ec=mk(W*K,H*K),eg=ec.getContext('2d');eg.imageSmoothingEnabled=false;eg.setTransform(K,0,0,K,0,0);
   for(const p of(NS.kit||[]))if(p.emis){eg.save();if(p.flip){eg.translate(p.x+p.w,p.y);eg.scale(-1,1);eg.drawImage(p.emis,0,0,p.w,p.h)}else eg.drawImage(p.emis,p.x,p.y,p.w,p.h);eg.restore()}
+  if(NS.lip){eg.save();eg.clip(NS.lip);eg.globalCompositeOperation='destination-out';eg.drawImage(terr,0,0);eg.restore()}// (18 Nov) no lit windows inside the hill
   T.emis=litTex(ec,true);T.back=litTex(litPatch(nsBack(),0,0,W,H),true);
   litFree(LIT.lmT);if(LIT.lmD)gl.deleteTexture(LIT.lmD);LIT.lmT=litTarget(W>>1,H>>1,true,false);
   // second target: each light's direction, weighted by its brightness, summed (float maps only: it goes negative)
@@ -2153,11 +2158,11 @@ function litFrame0(lights,shx,shy){const gl=LIT.gl,T=LIT.T;
   litBind(S,'uSoot',5,T.soot);litBind(S,'uBlur',6,LIT.blB.t);litBind(S,'uBake',7,LIT.bake.t);
   litBind(S,'uHeight',8,T.height);
   {const k0=DPR*scale*rs,on=!!LIT.fine;if(on){litDetail(gw,gh,k0,cam.x-shx/scale,cam.y-shy/scale);gl.useProgram(S.p);litBind(S,'uAlb',0,T.alb)}
-    litBind(S,'uDet',9,LIT.bg.det);litBind(S,'uDetH',10,LIT.bg.deth);gl.uniform1f(S.u.uDetOn,on?1:0);gl.uniform1f(S.u.uDetHOn,on&&LIT.hasHeight?1:0)}
+    litBind(S,'uDet',9,LIT.bg.det);litBind(S,'uDetH',10,LIT.bg.deth);gl.uniform1f(S.u.uDetOn,on?1:0);gl.uniform1f(S.u.uDetHOn,on&&LIT.needH?1:0)}
   const G=LIT.bg;litBind(S,'uAtlas',11,G.atlas);
   litBind(S,'uFx',14,G.fx);litBind(S,'uDyn',15,G.dyn);gl.uniform1f(S.u.uHz,Math.min(sump,H*.66));
   const k=DPR*scale*rs,cx=cam.x-shx/scale,cy=cam.y-shy/scale;
-  gl.uniform2f(S.u.uRes,gw,gh);gl.uniform2f(S.u.uCam,cx,cy);gl.uniform1f(S.u.uScale,k);gl.uniform1f(S.u.uTime,time);gl.uniform1f(S.u.uSump,sump);gl.uniform1f(S.u.uBleed,BLEED);gl.uniform1f(S.u.uLow,LIT.coarse?1:0);
+  gl.uniform2f(S.u.uRes,gw,gh);gl.uniform2f(S.u.uCam,cx,cy);gl.uniform1f(S.u.uScale,k);if(S.u.uKeepV)gl.uniform1f(S.u.uKeepV,/(^#|&)flatv\b/.test(location.hash)?0:1);gl.uniform1f(S.u.uTime,time);gl.uniform1f(S.u.uSump,sump);gl.uniform1f(S.u.uBleed,BLEED);gl.uniform1f(S.u.uLow,LIT.coarse?1:0);
   const NL=LIT.NL,vx=cx+gw/k/2,vy=cy+gh/k/2,vr=Math.hypot(gw,gh)/k/2;
   const M=LIT.lm||(LIT.lm=new Map()),dtL=Math.min(.1,Math.max(.001,time-(LIT.t0===undefined?time:LIT.t0)));LIT.t0=time;
   for(const s of M.values())s.tg=-1;
