@@ -972,7 +972,7 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
       (genTerrain.blds=genTerrain.blds||[]).push({x0:cx,x1:cx+w,base:y0,fh:69,fl:3,side0:1});occ.push([cx-10,cx+w+10]);cx+=w+gap}};
   // a placement {code,x,y,v,l,f,cw,ch,ly}: Body becomes a lit kit piece (and joins the deco layer so ornament outside the
   // collision still shows), Back goes to the back-art layer. Crops clip; flipped crops keep the drawing's anchor end.
-  const labSkin=(L,tx,k)=>{const dc=decoC.getContext('2d'),one=(a,layers)=>{const vs=NS.bk[a.code];if(!vs)return;const id=a.code+(a.l&&vs.includes(a.l)?a.l:vs[(a.v>>>0)%vs.length]),A=labArt.get(id);if(!A)return;const f=A.frames[0],src=f.body||f.back;
+  const labSkin=(L,tx,k)=>{const dc=decoC.getContext('2d'),one=(a,layers)=>{const vs=NS.bk[a.code];if(!vs)return;const pl=vs.filter(x=>!x.endsWith('+')),b0=a.l&&pl.includes(a.l)?a.l:pl[(a.v>>>0)%pl.length],id=a.code+(a.ad&&vs.includes(b0+'+')?b0+'+':b0),A=labArt.get(id);if(!A)return;const f=A.frames[0],src=f.body||f.back;
       const W=src.width,H=src.height,cw=Math.min(W,a.cw||W),ch=Math.min(H,a.ch||H),[px,py]=tx(a.f?a.x+cw-W:a.x,a.y),[qx,qy]=tx(a.x,a.y),clip=[qx,qy,cw*k,ch*k],w=W*k,h=H*k;
       const draw=(c,img)=>{c.save();c.imageSmoothingEnabled=false;c.beginPath();c.rect(...clip);c.clip();if(a.f){c.translate(px+w,py);c.scale(-1,1);c.drawImage(img,0,0,w,h)}else c.drawImage(img,px,py,w,h);c.restore()};
       for(const ly of a.ly||layers){if(ly==='back'&&f.back){draw(baCtx,f.back);NS.backArt=true}

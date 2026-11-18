@@ -5,7 +5,7 @@
     python3 tools/bk_import.py --ref <git ref>
 
 Scans art/lab/hosted/library.json on the art branch for entries whose code is BK + digits. Variants are versions
-inside an asset, named "... — a", "— b"; the newest entry for each code + letter wins, so a fixed variant replaces
+inside an asset, named "... — a", "— b" ("— a+" is slot a's adorned version: same shape, more ornament); the newest entry for each code + letter wins, so a fixed variant replaces
 the old one and a new letter adds a variant. Writes each layer as a PNG to art/experiments/bay-kit/ and a manifest,
 parts.json, that the lab reads. Safe to rerun whenever new parts land: it rewrites the folder from the Library.
 """
@@ -33,7 +33,7 @@ def main():
         code = str(e.get('code') or '')
         if not re.fullmatch(r'BK\d{2,3}', code):
             continue
-        m = re.search(r'[—-]\s*([a-z])\s*$', str(e.get('name') or ''))
+        m = re.search(r'[—-]\s*([a-z]\+?)\s*$', str(e.get('name') or ''))
         pick[(code, m.group(1) if m else 'a')] = e
     os.makedirs(OUT, exist_ok=True)
     for f in os.listdir(OUT):
@@ -43,7 +43,7 @@ def main():
     for (code, letter), e in sorted(pick.items()):
         doc = json.loads(git_show(a.ref, e['path']))
         fr = (doc.get('frames') or [{}])[0]
-        vid = f'{code}{letter}'
+        vid = f'{code}{letter[0]}' + ('_ad' if letter.endswith('+') else '')
         layers = {}
         for ly in LAYERS:
             v = fr.get(ly)
@@ -55,7 +55,7 @@ def main():
             fn = f'{vid}_{ly}.png'
             open(os.path.join(OUT, fn), 'wb').write(raw)
             layers[ly] = fn
-        p = parts.setdefault(code, {'name': re.sub(r'\s*[—-]\s*[a-z]\s*$', '', doc.get('name', code)), 'w': doc.get('w'), 'h': doc.get('h'), 'variants': {}})
+        p = parts.setdefault(code, {'name': re.sub(r'\s*[—-]\s*[a-z]\+?\s*$', '', doc.get('name', code)), 'w': doc.get('w'), 'h': doc.get('h'), 'variants': {}})
         p['variants'][letter] = {'layers': layers, 'version': e['id'], 'w': doc.get('w'), 'h': doc.get('h'),
                                  'pivot': (doc.get('markers') or {}).get('pivot'), 'ready': bool(doc.get('ready')), 'check': check_doc(doc)}
     man = {'source': a.ref, 'commit': commit, 'count': sum(len(p['variants']) for p in parts.values()), 'parts': parts}

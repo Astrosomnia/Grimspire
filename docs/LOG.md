@@ -6,6 +6,14 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-17 · Claude · Building characters, two styles per building, adorned versions
+
+- Jarred: characters, kept broad (don't pre-kill options); each building uses one or two styles once it starts, not anything goes. Roofs matter: he likes the live spires and ornament, not the lab roofs; we'll need adorned and unadorned versions of everything.
+- **Character** (`bld.char`: keep, chapel, tower, house, works, mixed) is picked first and leans the building's other picks by ×0.2–4. It never bans anything, and `mixed` leans nothing. **Two styles at most:** once a building has used a style for a LOCK rule (roof, crown, every opening rule, back window, stair style, outer-wall shape, gallery, cantilever end, cover, far back), it keeps to at most two; 'none' stays free. Ornament (banner, brazier, niche, gargoyle) is decided once per building and then shows in about half the places it could. After one outer-wall shape, the other side leans plain (none ×3). **Art:** one variant per part per building, with a second about one time in five. Cards show the character.
+- **Adornment:** `bld.adorn` (plain / some / rich; chapels lean rich, works plain) marks placements to use a part's `+` version when one exists (some: roofs, crowns, doors, plinth, outer-wall pieces). `bk_import.py` takes "— a+" as slot a's adorned version (files `BK51a_ad_*.png`); the lab and the game's test mode pick it. Pinnacles now also go on gable, steep and crenel ends.
+- **Fixer:** a sealed pocket away from any bay's centre (over rubble, under a sheared roof) now opens a wall of the bay it sits in. 1,500 lots: none sealed; no building uses more than two styles.
+- Brief: `BUILDING-PARTS-CONTRACT.md` §12, the `+` convention and the roofs redone in the language of the live K02/K03 tops, plain and adorned. `det.py` all MATCH.
+
 ## 2026-11-17 · Claude · Vertical slice: lab buildings skinned and lit in the game
 
 - `index.html`, `#bldtest` only: at boot the game loads the building kit from `art/experiments/bay-kit/` (parts.json + layers) into `labArt` as `BK01a`… (game_scale 27/50), with the same variant order as the lab. `labSkin` turns each skin placement in a packed lot into a lit kit piece over the lot's own collision. Body goes to `NS.kit` and the deco layer (so ornament outside collision isn't clipped); Back goes to the back-art layer; crops clip, mirrored crops keep their anchor end. The flying arch's column shear isn't applied in the game yet. `#noskin` turns it off. Every ▶ play in the lab now opens skinned. Normal maps untouched: `det.py` all MATCH.

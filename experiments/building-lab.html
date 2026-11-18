@@ -160,6 +160,8 @@ const RULES=[
  ['lot.kind',1,'Lot',{single:50,pair:35,rock:15}],
  ['foot.bays',1,'Bays wide',{1:15,2:15,3:30,4:30,5:15,6:10}],
  ['foot.ground',1,'Ground',{flat:40,slope:35,steps:25}],
+ ['bld.char',2,'Character (leans the other rules, bans nothing)',{keep:18,chapel:18,tower:14,house:18,works:14,mixed:18}],
+ ['bld.adorn',2,'Adornment (needs the + versions of parts)',{plain:30,some:45,rich:25}],
  ['mass.type',2,'Massing',{hall:16,keep:14,twin:16,stepped:16,towerwing:22,cloister:16}],
  ['mass.base',2,'Base storeys',{1:30,2:45,3:25}],
  ['mass.endTower',2,'End bay rises +2 as a tower',{yes:40,no:60}],
@@ -226,10 +228,31 @@ const DBS={db:null,state:'local',err:0};// the lab's database, when this copy ha
 ST=load();{const m=/base=(\d+)/.exec(location.hash);if(m){ST.base=+m[1];ST.batch=1}}
 const AS=()=>PH.TROOP/ST.grid.troop;// art px -> game px
 
-function mkPick(rng,rec){return(key,allow)=>{const W=ST.w[key];let ks=Object.keys(W);if(allow)ks=ks.filter(allow);if(!ks.length)return null;
-  let tot=0;for(const k of ks)tot+=Math.max(0,W[k]);let ch=ks[ks.length-1];
-  if(tot>0){let v=rng()*tot;for(const k of ks){v-=Math.max(0,W[k]);if(v<=0){ch=k;break}}}else ch=ks[Math.floor(rng()*ks.length)];
-  (rec[key]=rec[key]||{})[ch]=(rec[key][ch]||0)+1;return ch}}
+// A building's character leans its picks (x0.2..x4, never zero, so nothing is banned). Once a building has used a style for a
+// rule in LOCK it keeps to at most two ('none' stays free); ornament in ONCE is decided once per building and then shows in
+// about half the places it could. After one outer-wall shape, the other side leans to plain.
+const CHAR={
+  keep:{'bld.adorn':{some:1.5},'mass.type':{keep:3,hall:.7},'roof.type':{crenel:3,parapet:1.5,gable:.5,steep:.5,dome:.4,broken:.7},'roof.crown':{crown:3,spire:.6,cupola:.5},
+    'open.upper':{slit:3,fighting:2.5,window:.6,balcony:.5},'sil.wall':{buttress:2,turret:2.5,stairturret:2,scaffold:.5,gallery:.5,apse:.3},'room.purpose':{chapel:.4},'room.cover':{some:1.5,lots:1.5},'orn.banner':{yes:1.5}},
+  chapel:{'bld.adorn':{rich:3,plain:.4},'mass.type':{hall:2.5},'floor.hall':{yes:2},'roof.type':{gable:2.5,steep:3,dome:2,crenel:.3,flat:.4,leanto:.6},'roof.crown':{spire:1.5,belfry:2.5,cupola:1.5,crown:.3},
+    'open.upper':{window:1.6,slit:.3,fighting:.3,balcony:.5},'open.back':{lancet:2.5,none:.5},'room.purpose':{chapel:4},'orn.niche':{yes:2},'orn.pinnacle':{yes:2.5},'sil.wall':{apse:3,flyer:3,buttress:2,scaffold:.3,stub:.4,jetty:.4,turret:.5}},
+  tower:{'bld.adorn':{some:1.5,rich:1.5},'mass.type':{towerwing:2.5,keep:1.5,hall:.5,cloister:.5},'mass.endTower':{yes:2.5},'mass.base':{3:2},'roof.crown':{spire:1.5,belfry:1.5,cupola:1.5,crown:1.5,none:.4},
+    'sil.wall':{stairturret:2.5,turret:2,stub:1.5,gallery:1.5,apse:.3}},
+  house:{'roof.type':{gable:2,leanto:2,broken:1.2,crenel:.4,dome:.4},'open.upper':{window:1.5,balcony:3,slit:.3,fighting:.4},'floor.balcony':{yes:2},
+    'sil.wall':{jetty:3,gallery:2.5,setback:2,stub:1.5,buttress:.5,apse:.3,flyer:.3},'orn.banner':{yes:.7},'room.cover':{some:1.3}},
+  works:{'bld.adorn':{plain:3,rich:.3},'roof.type':{flat:2.5,leanto:2.5,parapet:1.3,gable:.5,steep:.3,dome:.3},'roof.crown':{crown:.5,none:2},'sil.wall':{scaffold:3,stub:2.5,stairturret:1.5,gallery:1.5,apse:.2,flyer:.4},
+    'sil.crane':{yes:4},'room.cover':{lots:3,some:1.5},'open.upper':{slit:1.5,balcony:.5},'orn.banner':{yes:.4},'orn.niche':{yes:.3},'room.purpose':{chapel:.2}},
+  mixed:{}};
+const LOCK=new Set(['roof.type','roof.crown','open.door','open.upper','open.terrace','open.inner','open.back','circ.stair','sil.wall','sil.gallery','sil.stubEnd','room.cover','far.type']);
+const ONCE=new Set(['orn.banner','orn.brazier','orn.niche','orn.gargoyle']);
+function mkPick(rng,rec){const pk=(key,allow)=>{const W=ST.w[key],M=pk.cur;let ks=Object.keys(W);if(allow)ks=ks.filter(allow);if(!ks.length)return null;
+  if(M&&ONCE.has(key)&&M.memo[key]){const v=M.memo[key];const r=rng();return v==='no'?'no':r<.5?'yes':'no'}
+  if(M&&LOCK.has(key)){const used=M.memo[key]||[],cap=used.length>=2||(used.length===1&&rng()<.75);if(cap){const k2=ks.filter(k=>used.includes(k)||k==='none');if(k2.length)ks=k2}}
+  const mul=(M&&CHAR[M.char]&&CHAR[M.char][key])||{},quiet=key==='sil.wall'&&M&&(M.memo[key]||[]).length?{none:3}:{},wt=k=>Math.max(0,W[k])*(mul[k]||1)*(quiet[k]||1);
+  let tot=0;for(const k of ks)tot+=wt(k);let ch=ks[ks.length-1];
+  if(tot>0){let v=rng()*tot;for(const k of ks){v-=wt(k);if(v<=0){ch=k;break}}}else ch=ks[Math.floor(rng()*ks.length)];
+  if(M){if(ONCE.has(key))M.memo[key]=ch;else if(LOCK.has(key)&&ch!=='none'){const u=M.memo[key]=M.memo[key]||[];if(!u.includes(ch))u.push(ch)}}
+  (rec[key]=rec[key]||{})[ch]=(rec[key][ch]||0)+1;return ch};pk.cur=null;return pk}
 
 // ---------------------------------------------------------------- shapes
 const Rc=(x,y,w,h,e)=>Object.assign({k:'r',x,y,w,h},e);
@@ -264,7 +287,7 @@ function genLot(seed,opt){opt=opt||{};
     const bx=side<0?x0+rw+rg:x0,rx=side<0?x0:x0+n*g.bay+rg;L.rock={x0:rx,w:rw,top:GY-R(130,340),side};slots=[{x0:bx,n}]}
   else{const n=Math.min(bays(),Math.floor((W-200)/g.bay));slots=[{x0:(W-n*g.bay)/2+R(-80,80),n}]}
   for(const s of slots)L.blds.push(genBuilding(L,s,C,opt.sketch?JSON.parse(JSON.stringify(opt.sketch)):null));
-  L.massing=L.blds.map(M=>M.type).join(' + ');
+  L.massing=L.blds.map(M=>M.char+' '+M.type).join(' + ');
   // ---- the circulation check, before bridges and ruin. How much walking access it guarantees is a rule;
   // sealed rooms are always opened (kit can't get a shell into a room with no way in)
   L.fixMode=opt.sketch?'every':pick('circ.fix');
@@ -287,7 +310,8 @@ function genBuilding(L,slot,C,forced){
   let n=slot.n,h=[],type;
   if(!forced&&ST.tpl.length&&pick('tpl.use')==='yes'){const t=ST.tpl[Math.floor(rng()*ST.tpl.length)];forced=JSON.parse(JSON.stringify(t.s));forced.tpl=t.name;
     if(forced.n>slot.n+1&&L.kind==='pair')forced=null}
-  const M={n,h,type:'',cells:[],piers:[],roofs:[],forceOpen:{},forceDoor:{},rub:[],cuts:[],backCuts:[],farCuts:[],ext:[],noPar:{},fixes:[]};
+  const M={n,h,type:'',cells:[],piers:[],roofs:[],forceOpen:{},forceDoor:{},rub:[],cuts:[],backCuts:[],farCuts:[],ext:[],noPar:{},fixes:[],memo:{}};
+  M.char=forced&&forced.char||pick('bld.char');pick.cur=M;M.adorn=pick('bld.adorn');
   if(forced){M.n=n=forced.n;M.h=h=forced.h.map(v=>Math.max(1,Math.min(v,maxRows)));M.type=type=forced.tpl?'template':'sketch';M.tpl=forced.tpl;M.cloister=forced.cloister}
   else{
     // ---- pass 2: massing
@@ -376,11 +400,11 @@ function genBuilding(L,slot,C,forced){
   for(const rf of M.roofs){const hl=rf.c0===0||h[rf.c0-1]<h[rf.c0],hr=rf.c1===n-1||h[rf.c1+1]<h[rf.c1];
     rf.gar=[hl&&pick('orn.gargoyle')==='yes',hr&&pick('orn.gargoyle')==='yes']}
   M.rng=hash(L.seed,M.x0|0);
-  return M}
+  pick.cur=null;return M}
 
 // what a locked template keeps: the space (massing, floors, circulation, openings); rooms, bridges and ruin re-roll
 function snapshot(M){return{n:M.n,h:M.h.slice(),cloister:!!M.cloister,arch:M.arch,roofs:M.roofs.map(r=>({c0:r.c0,c1:r.c1,type:r.type})),
-  cells:M.cells.map(col=>col.map(s=>({floor:s.floor,stair:s.stair,sty:s.sty,ladder:s.ladder?{...s.ladder}:null,holes:s.holes.slice(),hall:s.hall,well:s.well,arrive:s.arrive}))),
+  char:M.char,adorn:M.adorn,cells:M.cells.map(col=>col.map(s=>({floor:s.floor,stair:s.stair,sty:s.sty,ladder:s.ladder?{...s.ladder}:null,holes:s.holes.slice(),hall:s.hall,well:s.well,arrive:s.arrive}))),
   piers:M.piers.map(p=>p.slice()),backWin:M.backWin.slice()}}
 
 function parseSketch(txt){const rows=txt.split('\n').map(s=>s.replace(/\s+$/,'')).filter(s=>s.length);if(!rows.length)return null;
@@ -431,7 +455,8 @@ function connectors(L,C){const g=ST.grid,{pick,rng,R,RI}=C,X=(M,c)=>M.x0+c*g.bay
 // ---- pass 8: silhouette. Each outer wall may get one shape that breaks the box: an oversailing upper storey (jetty),
 // a stepped-back upper storey with a ledge (setback), a cantilever stub off an upper door, a corbelled gallery, a
 // scaffold with decks and a ladder, a hollow apse with a firing slit, or a flying arch to a pier. Plus a crane arm.
-function silhouette(L,M,C){const g=ST.grid,{pick,rng,R,RI}=C,B=g.bay,SH=g.storey,P=g.pier,SL=g.slab,X=c=>M.x0+c*B,Y=r=>M.base-r*SH,FT=r=>Y(r)-SL,n=M.n,h=M.h;
+function silhouette(L,M,C){C.pick.cur=M;try{silhouette0(L,M,C)}finally{C.pick.cur=null}}
+function silhouette0(L,M,C){const g=ST.grid,{pick,rng,R,RI}=C,B=g.bay,SH=g.storey,P=g.pier,SL=g.slab,X=c=>M.x0+c*B,Y=r=>M.base-r*SH,FT=r=>Y(r)-SL,n=M.n,h=M.h;
   const S=M.sil={body:[],cut:[],back:[],backCut:[],deco:[],decoB:[],ladders:[],pier:{},art:[],artBack:[]};
   const v=hash(M.rng,91),ox=(sd,x,w)=>sd>0?x:x-w;// left-hand parts are the right-hand drawings mirrored
   const used=x=>L.bridges.some(b=>x>b.x0-30&&x<b.x1+30)||L.ramps.some(p=>x>Math.min(p.x0,p.x1)-30&&x<Math.max(p.x0,p.x1)+30)||L.ladders.some(l=>Math.abs(l.x-x)<40)||M.ext.some(e=>Math.abs(e.x-x)<40);
@@ -539,7 +564,10 @@ function emitLot(L){const o={far:[],farFx:[],farCut:[],back:[],backFx:[],backCut
   const tp=[[0,L.H]];for(let x=0;x<=L.W;x+=6)tp.push([x,L.tY(x)]);tp.push([L.W,L.H]);o.terrain=Pg(tp);
   if(L.rock){const rk=L.rock,r=mulberry(hash(L.seed,77)),p=[[rk.x0,L.tY(rk.x0)+6]];
     p.push([rk.x0+rk.w*.12,rk.top+r()*40+30],[rk.x0+rk.w*.2,rk.top+r()*6],[rk.x0+rk.w*.5,rk.top-r()*4],[rk.x0+rk.w*.8,rk.top+r()*6],[rk.x0+rk.w*.9,rk.top+30+r()*40],[rk.x0+rk.w,L.tY(rk.x0+rk.w)+6],[rk.x0+rk.w,L.H],[rk.x0,L.H]);o.body.push(Pg(p,{rock:1}))}
-  for(const M of L.blds)emitB(M,o,L);
+  // adornment: a building's level marks which placements use a part's '+' version when one exists
+  const ADS=/^BK(0[13]|12|4[57]|5\d|6[0-6]|69|9\d|11[0-6]|12\d)$/;
+  for(const M of L.blds){const n0=[o.art.length,o.artBack.length,o.artRub.length];emitB(M,o,L);
+    if(M.adorn&&M.adorn!=='plain')[o.art,o.artBack,o.artRub].forEach((ls,i)=>{for(let j=n0[i];j<ls.length;j++)if(M.adorn==='rich'||ADS.test(ls[j].code))ls[j].ad=1})}
   for(const b of L.bridges)emitBridge(b,o,L);
   // a stair ramp up the outside (K16-style): solid stepped mass from the ground to an upper door
   for(const p of L.ramps){const ns=Math.max(3,Math.round(Math.abs(p.x1-p.x0)/16)),dx=(p.x1-p.x0)/ns,dy=(p.y1-p.y0)/ns,pts=[[p.x0,p.y0]],v=hash(L.seed,p.x0|0,45);
@@ -574,7 +602,7 @@ function emitLadder(o,x,yLow,yTop,sk){// yLow: the floor it starts from; yTop: t
 function emitB(M,o,L){const g=ST.grid,B=g.bay,SH=g.storey,P=g.pier,SL=g.slab,X=c=>M.x0+c*B,Y=r=>M.base-r*SH,n=M.n,h=M.h,maxH=Math.max(...h),rr=mulberry(M.rng);
   const DOOR=84,SILL=30,WIN=56;
   // skinned parts: where each one goes (drawn only if the part exists; otherwise the placeholder stays)
-  const art=(list,code,x,y,opt)=>AP(list,code,x,y,hash(M.rng,x|0,y|0,+code.slice(2)),opt),ruined=M.ruin&&M.ruin!=='none',hv=(...a)=>(hash(M.rng,...a)>>>0)/4294967296;// sill 30 (Jarred, 17 Nov): a trooper close to the window fires out, since the muzzle reaches past the wall; can't walk out
+  const art=(list,code,x,y,opt)=>AP(list,code,x,y,hash(M.rng,+code.slice(2),(hash(M.rng,x|0,y|0)>>>0)%5===0?7:0),opt),ruined=M.ruin&&M.ruin!=='none',hv=(...a)=>(hash(M.rng,...a)>>>0)/4294967296;// sill 30 (Jarred, 17 Nov): a trooper close to the window fires out, since the muzzle reaches past the wall; can't walk out
   // far back: what shows through the Back's openings
   for(let c=0;c<n;c++){o.far.push(Rc(X(c),Y(h[c]),B,h[c]*SH));
     for(let r=0;r<h[c];r++){const x=X(c),y=Y(r+1);
@@ -667,6 +695,7 @@ function emitB(M,o,L){const g=ST.grid,B=g.bay,SH=g.storey,P=g.pier,SL=g.slab,X=c
       o.decoF.push(Pg([[xa-6,yR-14],[xa-1,yR-40],[xa+4,yR-14]],{col:'#7d8597',...e}),Pg([[xb-4,yR-14],[xb+1,yR-40],[xb+6,yR-14]],{col:'#7d8597',...e}));art(o.art,'BK110',xa-6,yR-198)}
     else if(rf.type==='broken'){const p=[[xa,yR+1]];for(let x=xa;x<=xb;x+=16)p.push([x,yR-4-rr()*34*(Math.sin((x-xa)/(xb-xa)*Math.PI)*.8+.2)]);p.push([xb,yR+1]);o.body.push(Pg(p,{sk:'BK52'}));
       for(let c=rf.c0;c<=rf.c1;){const two=rf.c1-c>=1;art(o.art,'BK52',X(c),yR-(two?112:64),{l:two?'b':'a'});c+=two?2:1}}
+    if(M.pinn&&['gable','steep','crenel'].includes(rf.type))for(const[on,px]of[[hl,xa],[hr,xb-P]])if(on){const e={sk:'BK125'};o.decoF.push(Pg([[px+4,yR-(rf.type==='crenel'?16:0)],[px+P/2,yR-48-(rf.type==='crenel'?16:0)],[px+P-4,yR-(rf.type==='crenel'?16:0)]],{col:'#7d8597',...e}));art(o.art,'BK125',px+P/2-8,yR-48-(rf.type==='crenel'?16:0))}
     for(const[i,on]of rf.gar.entries()){if(!on)continue;if(M.silSide&&M.silSide[i?1:-1]&&((i&&rf.c1===n-1)||(!i&&rf.c0===0)))continue;const gx=i?xb:xa,sd=i?1:-1,gy=yR+4;
       o.decoF.push(Pg([[gx,gy],[gx+sd*20,gy+2],[gx+sd*26,gy+10],[gx+sd*16,gy+12],[gx+sd*10,gy+20],[gx,gy+18]],{col:'#8a93a6',sk:'BK112'}),Ci(gx+sd*21,gy+7,2,{col:'#ff2e88',sk:'BK112'}));art(o.art,'BK112',sd>0?gx:gx-26,gy,{f:sd<0})}}
   // corbels under upper floors on the outer walls
@@ -823,7 +852,11 @@ function openPockets(L,A){const g=ST.grid;let did=false;
   for(const[px,py,pw,ph]of A.pockets){let done=false;
     for(const f of A.cells){if(done)break;const M=f.M,{c,r}=f,cx=M.x0+(c+.5)*g.bay,cy=M.base-(r+.5)*g.storey;if(cx<px||cx>px+pw||cy<py||cy>py+ph)continue;
       for(const k of[c,c+1]){const out=k===c?c-1:c+1;if(cellAt(M,out,r))continue;const kd=M.piers[k][r];
-        if(kd==='wall'||(kd==='window'&&r===0)){M.piers[k][r]=r===0?'door':'window';fix(L,M,`${r===0?'door':'window'} to open a sealed room (${c},${r})`);done=did=true;break}}}}
+        if(kd==='wall'||(kd==='window'&&r===0)){M.piers[k][r]=r===0?'door':'window';fix(L,M,`${r===0?'door':'window'} to open a sealed room (${c},${r})`);done=did=true;break}}}
+    // a pocket off a bay's centre (above rubble, under a sheared roof): open a wall of the nearest bay, outer first
+    if(!done){const qx=px+pw/2,qy=py+ph/2,M=L.blds.find(m=>qx>=m.x0&&qx<m.x0+m.n*g.bay),c=M?Math.floor((qx-M.x0)/g.bay):-1,r=M?Math.floor((M.base-qy)/g.storey):-1;
+      if(M&&cellAt(M,c,r)){for(const k of[c,c+1].sort((a,b)=>(cellAt(M,a===c?c-1:c+1,r)?1:0)-(cellAt(M,b===c?c-1:c+1,r)?1:0))){const outer=!cellAt(M,k===c?c-1:c+1,r);
+        if(M.piers[k][r]==='wall'){M.piers[k][r]=outer&&r>0?'window':'door';fix(L,M,`${M.piers[k][r]} to open a sealed pocket near (${c},${r})`);did=true;break}}}}}
   return did}
 
 function finalChecks(L){const A=L.A||analyse(L),{mk,R}=A,a=AS();
@@ -842,7 +875,7 @@ function render(L,cv,opt){const A=L.A,o=A.o,s=cv.width/L.W,g=ST.grid,sk=opt.skin
   const oy=top,H=Math.round((L.GY+70-oy)*s);if(cv.height!==H)cv.height=H;const x=cv.getContext('2d');
   x.setTransform(1,0,0,1,0,0);const gr=x.createLinearGradient(0,0,0,H);if(sk){gr.addColorStop(0,'#5a5f78');gr.addColorStop(.7,'#3a3e52');gr.addColorStop(1,'#262938')}else{gr.addColorStop(0,'#141825');gr.addColorStop(1,'#0b0d12')}x.fillStyle=gr;x.fillRect(0,0,cv.width,H);
   const keep=ops=>sk?ops.filter(q=>!(q.sk&&SK.has(q.sk))):ops,arts=(y,list,layer)=>{y.imageSmoothingEnabled=false;for(const a of list)for(const ly of a.ly||[layer]){
-    const im=a.l?SK.lit[a.code]?.[a.l]?.[ly]:SK.pick(a.code,a.v,ly);if(!im)continue;const w=Math.min(im.width,a.cw||1e9),h=Math.min(im.height,a.ch||1e9);
+    const lt=SK.letter(a.code,a),im=lt&&SK.lit[a.code]?.[lt]?.[ly];if(!im)continue;const w=Math.min(im.width,a.cw||1e9),h=Math.min(im.height,a.ch||1e9);
     y.save();y.translate(a.f?a.x+w:a.x,a.y);if(a.f)y.scale(-1,1);
     if(a.sh)for(let i=0;i<w;i++)y.drawImage(im,i,0,1,h,i,Math.round(a.sh*i/w),1,h);else y.drawImage(im,0,0,w,h,0,0,w,h);y.restore()}};
   const lay=(k,fn)=>{const[c,y]=cnv(k,cv.width,H);y.setTransform(s,0,0,s,0,-oy*s);fn(y);x.drawImage(c,0,0)};
@@ -1046,7 +1079,8 @@ $('#bPlayLocked').onclick=()=>playInGame(ST.tpl.map(t=>t.lot).filter(Boolean));
 // The lab shows any part that exists and keeps the placeholder for the rest, so new parts appear as soon as the
 // importer has run. A cheap light is baked from each part's Height (top-left light, sky rim) for the preview only;
 // the game's lit look does the real lighting.
-const SK={ready:false,parts:{},lit:{},has:c=>!!SK.lit[c],pick:(c,v,layer)=>{const L=SK.lit[c];if(!L)return null;const k=Object.keys(L);const e=L[k[v%k.length]];return e&&e[layer]}};
+const SK={ready:false,parts:{},lit:{},has:c=>!!SK.lit[c],letter:(c,a)=>{const L=SK.lit[c];if(!L)return null;const k=Object.keys(L).filter(x=>!x.endsWith('+'));const b=a.l&&k.includes(a.l)?a.l:k[(a.v>>>0)%k.length];return a.ad&&L[b+'+']?b+'+':b},
+  pick:(c,v,layer)=>{const L=SK.lit[c];if(!L)return null;const k=Object.keys(L).filter(x=>!x.endsWith('+'));const e=L[k[v%k.length]];return e&&e[layer]}};
 function bakeLit(body,height){const w=body.width,h=body.height,c=document.createElement('canvas');c.width=w;c.height=h;const x=c.getContext('2d',{willReadFrequently:true});x.drawImage(body,0,0);
   const d=x.getImageData(0,0,w,h),b=d.data;let hd=null;if(height){const t=document.createElement('canvas');t.width=w;t.height=h;const tx=t.getContext('2d',{willReadFrequently:true});tx.drawImage(height,0,0);hd=tx.getImageData(0,0,w,h).data}
   const H=(i,j)=>{i=Math.max(0,Math.min(w-1,i));j=Math.max(0,Math.min(h-1,j));return hd?hd[(j*w+i)*4]/255:.5},A=(i,j)=>i<0||j<0||i>=w||j>=h?0:b[(j*w+i)*4+3];

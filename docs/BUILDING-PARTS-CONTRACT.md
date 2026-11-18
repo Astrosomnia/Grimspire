@@ -273,3 +273,25 @@ Bridge arches now sit at a fixed 128 (pier centre to pier centre), centred on th
 | BK143 | Crates · a stack of one, b stack of two | a 32 × 32, b 32 × 48 | Halls, galleries, crypts; cover |
 
 **Dropped from the catalogue for now:** a zigzag iron outside stair. In a side view its flights cross with no headroom, so the stair turret takes its place. Also dropped: gates and portcullises, which need a gameplay call first.
+
+## 12. Adorned versions, and the roofs redone (17 Nov)
+
+**Adorned versions.** Jarred wants a plain and an adorned version of nearly everything. Save the adorned one in the Forge as the same slot with a `+`: "BK51 Gable · one bay — a+" is the adorned version of "— a". Same size, same anchors, same collision; only the ornament changes: crockets, finials, tracery, carved string courses, pinnacles, statuary in niches. The plain version stays restrained, so a plain building reads as quiet masonry. Every building in the lab has an adornment level: plain, some (roofs, crowns, doors, the plinth and outer-wall pieces get the `+`) or rich (everything that has one). Chapels lean rich, works lean plain. Where a `+` doesn't exist yet the plain version shows, so they can come in any order. The importer takes them as they're saved.
+
+Order of `+` versions: roofs and crowns first (below), then doors BK03, the plinth BK12, outer piers BK01, then the outer-wall shapes (BK60–69, BK90–98).
+
+**Roofs, redone.** Jarred likes the live game's tower tops: the stepped-buttress spire (K02), split pinnacles (K02a), the open bell cage (K02b), merlons with corner pinnacles (K03). He doesn't like the lab roofs. Redraw the BK roofs in that language, vertical, layered and pinnacled, at the BK sizes and shapes already given. Each gets a plain version (the existing letter, replaced) and an adorned `+` version:
+
+| ID | Roof | Notes |
+|---|---|---|
+| BK110 | Spire | The K02 family at one bay: stepped buttresses at the base, a lucarne, pinnacles at the corners. Plain = a clean stepped spire |
+| BK51 a/b/c | Gable, 1–3 bays | Steeper gables read better; keep the shape (§8), add a coped edge and a finial. `+`: crockets up the edges, a gable window, pinnacles at the eaves |
+| BK122 a/b | Steep roof | `+`: a ridge cresting and lucarnes |
+| BK123 | Tower crown | The K03 language at the BK size (§11) |
+| BK111 | Merlon | Plain block; `+` with a cap and an arrow cross |
+| BK125 | Pinnacle | Now also on gable, steep and crenel ends. `+`: crocketed |
+| BK53, BK54 | Cupola, belfry | `+`: the K02b bell-cage richness |
+| BK120 a/b | Dome | Ribs and a lantern; `+`: lucarnes in the drum, a crocketed lantern |
+| BK52 a/b, BK55 | Broken gable, terrace edge | `+`: broken tracery, a carved cornice |
+
+Roofs carry the skyline, so they get more ornament than the walls below them. That contrast, busy roofs over quiet walls, is the look we're after.
