@@ -6,6 +6,10 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-17 · Claude · Back walls break with the walls in front of them
+
+- Jarred: in the test lab, destroying a building left its background floating. Cause: blasts cut the back-art layer (`baCtx`) but never `bctx`, where test mode draws each lot's back fill and normal maps draw their procedural back walls and ruined facades. And the cached back layer (`NS.backN`) only refreshed after a blast on maps with drawn back art. Now `carve`/`carveLine` cut `bctx` at the same 0.8× radius as back art (a back wall breaks a bit less than its front), and the cache refreshes wherever it exists, lit or not. Normal maps get it too. `det.py` all MATCH; `dsim.py` IDENTICAL (back walls aren't solid, so no GV bump).
+
 ## 2026-11-17 · Claude · Arches span from support to support
 
 - Jarred, on the phone test: what are the curved/angled wedges at the top of rooms; shouldn't one span the whole way? Right: where an inner pier is open (no pier, only a back column), the lab still hung one arch per bay, so two arches met in mid-air and read as wedges. Arches now run between real supports: a run of two or three bays joined by open piers gets one long arch (BK127 a/b, 56 or 78 deep at the ends); wider open spans get none. Single bays keep BK08. Brief: contract §11, Long arch span. 1,500 lots: none sealed.
