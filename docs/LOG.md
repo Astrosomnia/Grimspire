@@ -6,6 +6,13 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-17 · Claude · Locks saved to the lab's database; the rest of the kit placed
+
+- **Locking:** the Building lab artifact now has a database. ▸ lock writes the whole lot to `builds/b<seed>`: exact collision, rungs, back, skin placements by part code, each building's space, the checks and the sketch if one was used. ▸ unlock deletes it. Locks made earlier in a browser carry over the first time the page reaches the database. Only Jarred can write locks. The panel shows where locks are kept; copies without a database (GitHub Pages) still keep them in the browser. Claude pulls them on "pull builds" (CLAUDE.md).
+- **Collision from art:** `tools/bk_masks.py` (run by `bk_import.py`) turns the Body alpha of BK40/41/43/50/60/61/63/64/65 into 4 px rectangles inside the lab, so a redrawn part brings its own collision.
+- **New rules:** Stair style (straight / switchback / spiral; ruins break a third of straight flights with BK41). The switchback's foot sits on its arrival side and its landing leaves 40 px of headroom, so its arrival side opens on both storeys and the far side gets the ground door. Upper end wall adds slit (BK61) and balcony (BK60). Roof adds lean-to (BK50 a/b, one or two bays against exactly one taller neighbour, rising toward it). Outer wall adds buttress (BK63 a/b/c by storeys) and turret (BK64, top storey, its pier becomes a door). Gallery length short (BK98) / long (BK65).
+- 400 lots: none sealed, no errors. Not placed: BK44 roof hatch (no ladder reaches a roof yet) and BK62 grand doorway (a 128-wide façade doesn't fit the side section; it may suit a gatehouse bay later).
+
 ## 2026-11-17 · Claude · Circulation and roof fixes re-imported and checked
 
 - `bk_import.py` from [fe53862](https://github.com/Astrosomnia/Grimspire/commit/fe53862): new BK40a, BK41a, BK42a, BK43a, BK50a/b, BK81a; all pass the art check. Review (Claude): all four asks met. Stairs are solid flights with a 1:1 stringer, the spiral reads as a spiral (newel and tread fans in Back), the lean-to has tile courses and a drip end, and the covered bridge's posts are Back so tiles join into one walkable corridor.

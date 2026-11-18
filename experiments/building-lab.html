@@ -118,6 +118,7 @@ main{flex:1;min-width:0;padding:10px;display:grid;grid-template-columns:repeat(a
   <h2>Parts <span class="small">(building kit from the Forge)</span></h2>
   <div id="partsList" class="small">Loading…</div>
   <h2>Templates <span class="small">(locked buildings)</span></h2>
+  <div class="small" id="dbState" style="margin-bottom:4px"></div>
   <div id="tpls" class="small"></div>
   <button id="bPlayLocked" style="margin-top:6px">▶ Test locked buildings in game</button>
   <h2>Grid <span class="small">(art px)</span></h2>
@@ -164,16 +165,17 @@ const RULES=[
  ['mass.endTower',2,'End bay rises +2 as a tower',{yes:40,no:60}],
  ['floor.hall',3,'Double-height hall',{yes:30,no:70}],
  ['floor.balcony',3,'Balcony in the hall',{yes:50,no:50}],
- ['roof.type',3,'Roof',{parapet:24,crenel:22,gable:16,broken:16,flat:22}],
+ ['roof.type',3,'Roof',{parapet:24,crenel:22,gable:16,broken:16,flat:22,leanto:16}],
  ['roof.crown',3,'Crown on a lone tower',{spire:45,cupola:20,belfry:20,none:30}],
  ['struct.arch',3,'Arch spans under slabs',{yes:55,no:45}],
  ['circ.link',4,'Storey link',{stair:65,ladder:35}],
+ ['circ.stair',4,'Stair style',{straight:60,switchback:25,spiral:15}],
  ['circ.side',4,'Next link side',{alternate:60,same:20,random:20}],
  ['circ.extra',4,'Second link per storey',{yes:20,no:80}],
  ['circ.drop',4,'Drop hole',{yes:35,no:65}],
  ['circ.fix',4,'Walk access fixed (the rest is jetpack, rope, girder)',{every:34,ground:33,none:33}],
  ['open.door',5,'Ground end wall',{door:65,arcade:15,wall:20}],
- ['open.upper',5,'Upper end wall',{window:50,wall:35,door:15}],
+ ['open.upper',5,'Upper end wall',{window:40,wall:28,door:12,slit:10,balcony:10}],
  ['open.terrace',5,'Wall onto a lower roof',{door:60,window:25,wall:15}],
  ['open.inner',5,'Inner pier',{open:55,door:30,wall:15}],
  ['open.back',5,'Back window (per column, aligned)',{lancet:35,round:15,arcade:15,none:35}],
@@ -191,7 +193,8 @@ const RULES=[
  ['bridge.walkway',7,'High walkway between tops',{yes:30,no:70}],
  ['bridge.buttress',7,'Flying buttress ramp',{yes:30,no:70}],
  ['bridge.ladder',7,'Outside ladder',{yes:30,no:70}],
- ['sil.wall',8,'Outer wall shape (each side)',{none:40,jetty:12,setback:10,stub:12,gallery:8,scaffold:7,apse:6,flyer:5}],
+ ['sil.wall',8,'Outer wall shape (each side)',{none:40,jetty:12,setback:10,stub:12,gallery:8,scaffold:7,apse:6,flyer:5,buttress:8,turret:6}],
+ ['sil.gallery',8,'Gallery length',{short:50,long:50}],
  ['sil.stubEnd',8,'Cantilever end',{intact:55,snapped:45}],
  ['sil.crane',8,'Crane arm off the top',{yes:10,no:90}],
  ['ruin.level',9,'Ruin',{none:25,light:45,heavy:30}],
@@ -215,6 +218,7 @@ let ST;
 function fresh(){const w={};for(const r of RULES)w[r[0]]={...r[3]};return{w,pin:{},tpl:[],batch:1,base:(Math.random()*1e9)|0,lr:1.3,grid:{...GRID0},moved:{},sketch:null}}
 function load(){try{const s=JSON.parse(localStorage.getItem(KEY));if(s&&s.w){const f=fresh();for(const k in f.w)if(s.w[k])for(const o in f.w[k])if(typeof s.w[k][o]==='number')f.w[k][o]=s.w[k][o];return Object.assign(f,s,{w:f.w,grid:Object.assign({},GRID0,s.grid)})}}catch(e){}return fresh()}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(ST))}catch(e){}}
+const DBS={db:null,state:'local',err:0};// the lab's database, when this copy has one (the Claude artifact)
 ST=load();{const m=/base=(\d+)/.exec(location.hash);if(m){ST.base=+m[1];ST.batch=1}}
 const AS=()=>PH.TROOP/ST.grid.troop;// art px -> game px
 
@@ -301,7 +305,7 @@ function genBuilding(L,slot,C,forced){
   const maxH=Math.max(...h);
   // ---- pass 3: floors and roofs
   for(let c=0;c<n;c++){M.cells[c]=[];for(let r=0;r<h[c];r++){const f=forced?.cells?.[c]?.[r];
-    M.cells[c][r]={c,r,floor:f?f.floor:(r?'slab':'ground'),stair:f?f.stair:0,ladder:f?f.ladder:null,holes:f?f.holes||[]:[],hall:f?!!f.hall:false,well:f?!!f.well:false,arrive:f?!!f.arrive:false}}}
+    M.cells[c][r]={c,r,floor:f?f.floor:(r?'slab':'ground'),stair:f?f.stair:0,sty:f?f.sty:undefined,ladder:f?f.ladder:null,holes:f?f.holes||[]:[],hall:f?!!f.hall:false,well:f?!!f.well:false,arrive:f?!!f.arrive:false}}}
   if(!forced){
     if((M.forceHall||pick('floor.hall')==='yes')){const cand=[];
       for(let r=1;r<maxRows;r++){let s=-1;for(let c=0;c<=n;c++){const ok=c<n&&h[c]>r;if(ok&&s<0)s=c;if(!ok&&s>=0){if(c-s>=2)cand.push([r,s,c-1]);s=-1}}}
@@ -310,7 +314,7 @@ function genBuilding(L,slot,C,forced){
   if(forced?.roofs)M.roofs=forced.roofs;
   else{let c=0;while(c<n){let e=c;while(e+1<n&&h[e+1]===h[c])e++;
     const lone=c===e&&(n===1||(h[c]>=(c>0?h[c-1]:0)+2&&h[c]>=(c<n-1?h[c+1]:0)+2));
-    const cr=lone?pick('roof.crown'):'none',t=cr!=='none'?cr:pick('roof.type',o=>o!=='gable'||e-c<=2);M.roofs.push({c0:c,c1:e,type:t,gar:[]});c=e+1}}
+    const tl=c>0&&h[c-1]>h[c],tr=e<n-1&&h[e+1]>h[c],cr=lone?pick('roof.crown'):'none',t=cr!=='none'?cr:pick('roof.type',o=>(o!=='gable'||e-c<=2)&&(o!=='leanto'||(tl!==tr&&e-c<=1)));M.roofs.push({c0:c,c1:e,type:t,gar:[]});c=e+1}}
   M.arch=forced&&forced.arch!==undefined?forced.arch:pick('struct.arch')==='yes';
   // ---- pass 4: circulation
   if(!forced){
@@ -323,7 +327,7 @@ function genBuilding(L,slot,C,forced){
           const lo=c-d,loOK=lo>=0&&lo<n?!!cellAt(M,lo,r)&&['ground','slab'].includes(cellAt(M,lo,r).floor):r===0;if(!loOK)continue;cs.push([c,d])}
         if(!cs.length)return false;let pool=cs;
         if(side!=='random'){const p=cs.filter(([c,d])=>side==='alternate'?d!==lastD:d===lastD);if(p.length)pool=p}
-        const[c,d]=pool[Math.floor(rng()*pool.length)];M.cells[c][r].stair=d;const w=M.cells[c][r+1];w.floor='well';w.well=true;M.cells[c+d][r+1].arrive=true;lastD=d;return true}
+        const[c,d]=pool[Math.floor(rng()*pool.length)];M.cells[c][r].stair=d;M.cells[c][r].sty=pick('circ.stair');const w=M.cells[c][r+1];w.floor='well';w.well=true;M.cells[c+d][r+1].arrive=true;lastD=d;return true}
       const cs=[];for(let c=0;c<n;c++){const t2=cellAt(M,c,r+1);if(inR(c)&&src(c,r)&&t2&&t2.floor==='slab'&&!t2.well)cs.push(c)}
       if(!cs.length)return false;const c=cs[Math.floor(rng()*cs.length)],s=side==='alternate'?-lastD:side==='same'?lastD:(rng()<.5?1:-1);
       M.cells[c][r].ladder={s,to:r+1};lastD=s;return true};
@@ -334,7 +338,10 @@ function genBuilding(L,slot,C,forced){
       if(cs.length){const s=cs[Math.floor(rng()*cs.length)];s.holes.push(R(.35,.65))}}}
   // stairs need the pier at the top open and the low end reachable
   for(let c=0;c<n;c++)for(let r=0;r<h[c];r++){const d=M.cells[c][r].stair;if(!d)continue;
-    M.forceOpen[(d>0?c+1:c)+','+(r+1)]=1;const lo=c-d;if(lo>=0&&lo<n)M.forceOpen[(d>0?c:c+1)+','+r]=1;else M.forceDoor[(d>0?0:n)+','+r]=1;
+    const sty=M.cells[c][r].sty;M.forceOpen[(d>0?c+1:c)+','+(r+1)]=1;
+    if(sty==='switchback'){M.forceOpen[(d>0?c+1:c)+','+r]=1;if(r===0&&c-d>=0&&c-d<n)M.forceDoor[(d>0?0:n)+',0']=1;continue}
+    if(sty==='spiral')continue;// two ledges: walkable underneath from both sides
+    const lo=c-d;if(lo>=0&&lo<n)M.forceOpen[(d>0?c:c+1)+','+r]=1;else M.forceDoor[(d>0?0:n)+','+r]=1;
     // in side view a flight splits its storey: its foot is reached from one side only. At ground, the far side gets its own door
     if(r===0&&c+d>=0&&c+d<n)M.forceDoor[(d>0?n:0)+',0']=1}
   // ---- pass 5: openings
@@ -369,7 +376,7 @@ function genBuilding(L,slot,C,forced){
 
 // what a locked template keeps: the space (massing, floors, circulation, openings); rooms, bridges and ruin re-roll
 function snapshot(M){return{n:M.n,h:M.h.slice(),cloister:!!M.cloister,arch:M.arch,roofs:M.roofs.map(r=>({c0:r.c0,c1:r.c1,type:r.type})),
-  cells:M.cells.map(col=>col.map(s=>({floor:s.floor,stair:s.stair,ladder:s.ladder?{...s.ladder}:null,holes:s.holes.slice(),hall:s.hall,well:s.well,arrive:s.arrive}))),
+  cells:M.cells.map(col=>col.map(s=>({floor:s.floor,stair:s.stair,sty:s.sty,ladder:s.ladder?{...s.ladder}:null,holes:s.holes.slice(),hall:s.hall,well:s.well,arrive:s.arrive}))),
   piers:M.piers.map(p=>p.slice()),backWin:M.backWin.slice()}}
 
 function parseSketch(txt){const rows=txt.split('\n').map(s=>s.replace(/\s+$/,'')).filter(s=>s.length);if(!rows.length)return null;
@@ -425,7 +432,11 @@ function silhouette(L,M,C){const g=ST.grid,{pick,rng,R,RI}=C,B=g.bay,SH=g.storey
   const span=(a,b,y,t,e)=>Rc(Math.min(a,b),y,Math.abs(b-a),t,e);
   for(const sd of[-1,1]){const k=sd<0?0:n,c=sd<0?0:n-1,xe=X(k),xo=xe+sd*P/2,hc=h[c];
     if(used(xe+sd*30))continue;
-    const t=pick('sil.wall',o=>!(['jetty','setback','stub','gallery','scaffold','flyer'].includes(o)&&hc<2));if(t==='none')continue;
+    const t=pick('sil.wall',o=>!(['jetty','setback','stub','gallery','scaffold','flyer','turret'].includes(o)&&hc<2));if(t==='none')continue;
+    if(t==='buttress'){const k3=Math.min(3,hc),H=k3*SH,cv='BK63'+'abc'[k3-1];if(!free(xe,xe+sd*(40+P)))continue;const bx=ox(sd,xo,40),by=Y(0)-H;
+      S.body.push(...maskOps(cv,bx,by,sd<0));AP(S.art,'BK63',bx,by,v,{l:'abc'[k3-1],f:sd<0});(M.silSide=M.silSide||{})[sd]={t,r0:0};M.silShape=(M.silShape||[]).concat(t);continue}
+    if(t==='turret'){const r=hc-1;if(!free(xe,xe+sd*(48+P)))continue;M.piers[k][r]='door';const bx=ox(sd,xo,48),by=FT(r)-112;
+      S.body.push(...maskOps('BK64a',bx,by,sd<0));AP(S.art,'BK64',bx,by,v,{f:sd<0});(M.silSide=M.silSide||{})[sd]={t,r0:r-1};M.silShape=(M.silShape||[]).concat(t);continue}
     if(t==='jetty'){const J=36,r0=RI(1,hc-1);if(!free(xe,xe+sd*(J+P)))continue;
       for(let r=r0;r<hc;r++)S.pier[k+','+r]={x:xe+sd*J,col:1};(M.silSide=M.silSide||{})[sd]={t:'jetty',r0};
       for(let r=r0;r<=hc;r++){S.body.push(span(xe,xe+sd*(J+P/2),Y(r)-SL,SL,{sk:'BK92'}));AP(S.art,'BK92',ox(sd,xe,48),Y(r)-SL,v,{l:'b',f:sd<0})}
@@ -438,6 +449,8 @@ function silhouette(L,M,C){const g=ST.grid,{pick,rng,R,RI}=C,B=g.bay,SH=g.storey
       for(let r=r0;r<hc;r++)S.pier[k+','+r]={x:xe-sd*I};(M.silSide=M.silSide||{})[sd]={t:'setback',r0};
       const y0=Y(hc)-SL-90,a=xe-sd*(I-P/2),b=xe+sd*(P/2+3);S.cut.push(span(a,b,y0,FT(r0)-y0));S.backCut.push(span(a,b,y0,FT(r0)-y0));AP(S.art,'BK93',ox(sd,xe-sd*(I-P/2),56),FT(r0),v,{f:sd<0});
       M.silShape=(M.silShape||[]).concat('setback')}
+    else if(t==='gallery'&&pick('sil.gallery')==='long'){const r=RI(1,hc-1);if(!free(xe,xe+sd*(128+P)))continue;M.piers[k][r]='door';const bx=ox(sd,xo,128);
+      S.body.push(...maskOps('BK65a',bx,FT(r),sd<0));AP(S.art,'BK65',bx,FT(r),v,{f:sd<0});M.silShape=(M.silShape||[]).concat('gallery')}
     else if(t==='stub'||t==='gallery'){const r=RI(1,hc-1),len=t==='gallery'?44:R(70,150);if(!free(xe,xe+sd*(len+P)))continue;
       M.piers[k][r]='door';const y=FT(r),x1=xo+sd*len,snapped=t==='stub'&&pick('sil.stubEnd')==='snapped';
       const kc=t==='gallery'?'BK98':'BK90',e={sk:kc};
@@ -527,6 +540,11 @@ function emitLot(L){const o={far:[],farFx:[],farCut:[],back:[],backFx:[],backCut
 
 // a skinned part placement. opt: l fixed variant letter (component parts), f mirror (parts are drawn for the right-hand side),
 // cw/ch crop, sh extra drop across the width (columns shifted, never stretched), ly layers to draw
+// BK_MASKS_BEGIN (written by tools/bk_masks.py from the parts' Body alpha; don't edit by hand)
+const MASK={"BK40a":{"w":128,"h":128,"r":[[0,0,32,16],[0,16,64,8],[4,24,60,4],[12,28,52,4],[20,32,76,4],[28,36,68,4],[36,40,60,4],[44,44,52,4],[52,48,76,4],[60,52,68,4],[68,56,60,4],[76,60,52,4],[84,64,44,4],[92,68,36,4],[96,72,32,8],[64,80,64,4],[64,84,52,4],[124,84,4,4],[64,88,44,4],[64,92,36,4],[32,96,60,4],[32,100,52,4],[32,104,44,4],[32,108,36,4],[0,112,60,4],[0,116,52,4],[0,120,44,4],[0,124,36,4]]},"BK41a":{"w":128,"h":128,"r":[[112,0,16,16],[96,16,32,8],[96,24,28,4],[96,28,24,4],[80,32,36,4],[80,36,32,4],[80,40,28,4],[80,44,24,4],[80,48,20,4],[80,52,16,4],[80,56,12,4],[80,60,8,4],[80,64,4,4],[32,80,16,16],[16,96,32,8],[16,104,28,4],[16,108,24,4],[0,112,36,4],[0,116,32,4],[0,120,28,4],[0,124,24,4]]},"BK43a":{"w":128,"h":128,"r":[[112,48,16,16],[0,112,16,16]]},"BK50a":{"w":128,"h":64,"r":[[124,0,4,4],[112,4,16,4],[100,8,28,4],[92,12,36,4],[80,16,44,4],[68,20,44,4],[60,24,40,4],[48,28,44,4],[36,32,44,4],[28,36,40,4],[16,40,44,4],[4,44,44,4],[0,48,36,4],[0,52,28,4],[0,56,16,4],[0,60,8,4]]},"BK50b":{"w":256,"h":128,"r":[[252,0,4,4],[240,4,16,4],[232,8,24,4],[224,12,32,4],[216,16,36,4],[204,20,40,4],[196,24,36,4],[188,28,36,4],[176,32,40,4],[168,36,36,4],[160,40,36,4],[152,44,36,4],[140,48,40,4],[132,52,36,4],[124,56,36,4],[112,60,40,4],[104,64,40,4],[96,68,36,4],[88,72,36,4],[76,76,40,4],[68,80,36,4],[60,84,36,4],[52,88,36,4],[40,92,40,4],[32,96,36,4],[24,100,36,4],[12,104,40,4],[4,108,36,4],[0,112,32,4],[0,116,24,4],[0,120,16,4],[0,124,8,4]]},"BK60a":{"w":64,"h":128,"r":[[0,0,24,28],[0,80,64,20],[0,100,52,4],[0,104,48,4],[0,108,40,4],[0,112,36,4],[0,116,28,4],[0,120,24,8]]},"BK61a":{"w":24,"h":128,"r":[[0,0,24,76],[0,88,24,40]]},"BK63a":{"w":40,"h":128,"r":[[0,0,8,16],[0,16,12,16],[0,32,20,16],[0,48,24,16],[0,64,28,16],[0,80,32,16],[0,96,36,16],[0,112,40,16]]},"BK63b":{"w":40,"h":256,"r":[[0,0,8,16],[0,16,12,32],[0,48,16,32],[0,80,20,32],[0,112,24,16],[0,128,28,32],[0,160,32,32],[0,192,36,32],[0,224,40,32]]},"BK63c":{"w":40,"h":384,"r":[[0,0,8,16],[0,16,12,48],[0,64,16,48],[0,112,20,48],[0,160,24,48],[0,208,28,48],[0,256,32,32],[0,288,36,48],[0,336,40,48]]},"BK64a":{"w":48,"h":128,"r":[[0,0,4,4],[0,4,12,4],[0,8,20,4],[0,12,28,4],[4,16,32,4],[12,20,32,4],[20,24,28,4],[28,28,8,4],[36,80,12,32],[0,112,44,4],[0,116,36,4],[0,120,28,4],[0,124,20,4]]},"BK65a":{"w":128,"h":64,"r":[[0,0,128,16],[0,16,24,12],[52,16,24,12],[104,16,24,12],[0,28,20,4],[52,28,20,4],[104,28,20,4],[0,32,16,20],[52,32,16,20],[104,32,16,20],[0,52,12,4],[52,52,12,4],[104,52,12,4],[0,56,8,4],[52,56,8,4],[104,56,8,4],[0,60,4,4],[52,60,4,4],[104,60,4,4]]}};
+// BK_MASKS_END
+// collision rectangles for a part placed at x,y (top-left of the drawing), mirrored like the art
+function maskOps(cv,x,y,f,e){const m=MASK[cv];if(!m)return[];return m.r.map(([rx,ry,w,h])=>Rc(f?x+m.w-rx-w:x+rx,y+ry,w,h,e))}
 const AP=(list,code,x,y,v,opt)=>list.push(Object.assign({code,x:Math.round(x),y:Math.round(y),v:v>>>0},opt||{}));
 // tile a part along x (crop the last one) or down y
 function tileX(list,code,x0,x1,y,v,opt,step){const sd=x1<x0?-1:1,len=Math.abs(x1-x0);for(let d=0;d<len-.5;d+=step){const w=Math.min(step,len-d);AP(list,code,sd>0?x0+d:x0-d-w,y,v,Object.assign({cw:w,f:sd<0},opt))}}
@@ -576,6 +594,7 @@ function emitB(M,o,L){const g=ST.grid,B=g.bay,SH=g.storey,P=g.pier,SL=g.slab,X=c
   for(let k=0;k<=n;k++)for(let r=0;r<maxH;r++){const kind=M.piers[k]?.[r];if(!kind||kind==='none')continue;const rp=M.sil&&M.sil.pier[k+','+r],x=rp?rp.x:X(k),yt=Y(r+1),yb=Y(r)-SL;
     if(rp&&rp.col)o.back.push(Rc(X(k)-P*.35,yt,P*.7,SH));
     if(kind==='open'){o.back.push(Rc(x-P*.35,yt,P*.7,SH));continue}
+    if(kind==='slit'||kind==='balcony'){const f=kind==='balcony'&&k===0,cv=kind==='slit'?'BK61a':'BK60a',ax=f?x-P/2-40:x-P/2;o.body.push(...maskOps(cv,ax,yt,f));art(o.art,cv.slice(0,4),ax,yt,{f});continue}
     const ext=!cellAt(M,k-1,r)!==!cellAt(M,k,r),pc=kind==='door'?'BK03':kind==='window'?'BK04':kind==='arcade'?'BK05':ruined&&hv(k,r,74)<.3?'BK74':ext?'BK01':'BK02',sk={sk:pc};
     o.body.push(Rc(x-P/2,yt,P,SH,sk));art(o.art,pc,x-P/2,yt);
     if(kind==='door')o.cut.push(Pg(arch(x,yb,P+2,DOOR,false).map(([a,b])=>[a<x?x-P/2-1:x+P/2+1,b]),sk));
@@ -587,6 +606,8 @@ function emitB(M,o,L){const g=ST.grid,B=g.bay,SH=g.storey,P=g.pier,SL=g.slab,X=c
     const p=[[x,y],[x,y+34]];for(let i=1;i<12;i++){const a=Math.PI-i*Math.PI/12;p.push([x+w/2+Math.cos(a)*w/2,y+34-Math.sin(a)*28])}p.push([x+w,y+34],[x+w,y]);o.body.push(Pg(p,{sk:'BK08'}));art(o.art,'BK08',X(c),y)}
   // stairs: a thin flight with risers a trooper can walk up
   for(let c=0;c<n;c++)for(let r=0;r<h[c];r++){const d=M.cells[c][r].stair;if(!d)continue;
+    const sty=M.cells[c][r].sty||'straight',cv=sty==='switchback'?'BK40a':sty==='spiral'?'BK43a':ruined&&hv(c,r,41)<.35?'BK41a':null;
+    if(cv){const f=sty==='switchback'?d>0:d<0,ft=Y(r+1)-SL;o.body.push(...maskOps(cv,X(c),ft,f));art(o.art,cv.slice(0,4),X(c),ft,{f});continue}
     // matches BK42: eight 16x16 risers from the bay line, top tread level with the floor above, solid stringer under (1:1)
     const fr=Y(r)-SL,ft=Y(r+1)-SL,x0=d>0?X(c):X(c+1),ns=8,run=B/ns,rise=(fr-ft)/ns,p=[[x0,fr]];
     for(let i=0;i<ns;i++)p.push([x0+d*i*run,fr-(i+1)*rise],[x0+d*(i+1)*run,fr-(i+1)*rise]);p.push([x0+d*B,ft+24],[x0+d*20,fr]);o.body.push(Pg(p,{sk:'BK42'}));art(o.art,'BK42',X(c),ft,{f:d<0})}
@@ -602,6 +623,7 @@ function emitB(M,o,L){const g=ST.grid,B=g.bay,SH=g.storey,P=g.pier,SL=g.slab,X=c
     if(rf.type==='parapet'){const pl=hl&&!(rf.c0===0&&M.noPar.l),pr=hr&&!(rf.c1===n-1&&M.noPar.r);
       if(pl)o.body.push(Rc(xa,yR-26,P,26,{sk:'BK55'}));if(pr)o.body.push(Rc(xb-P,yR-26,P,26,{sk:'BK55'}));
       if(pl)art(o.art,'BK55',x0,yR-16);if(pr&&(nb>1||!pl))art(o.art,'BK55',X(rf.c1),yR-16)}
+    else if(rf.type==='leanto'){const two=nb===2,cv=two?'BK50b':'BK50a',hh=two?128:64,f=rf.c0>0&&h[rf.c0-1]>ht;o.body.push(...maskOps(cv,x0,yR-hh,f));art(o.art,'BK50',x0,yR-hh,{l:two?'b':'a',f})}
     else if(rf.type==='belfry'){// open bell storey: two piers, a gabled cap, a shot corridor through the middle
       o.body.push(Rc(x0+4,yR-104,12,104,{sk:'BK54'}),Rc(x0+112,yR-104,12,104,{sk:'BK54'}),Pg([[x0-2,yR-84],[x0+B/2,yR-112],[x0+B+2,yR-84],[x0+B+2,yR-80],[x0-2,yR-80]],{sk:'BK54'}));art(o.art,'BK54',x0,yR-112)}
     else if(rf.type==='cupola'){const p=[[x0,yR-32]];for(let i=0;i<=12;i++){const a=Math.PI-i*Math.PI/12;p.push([x0+B/2+Math.cos(a)*B/2,yR-40-Math.sin(a)*52])}p.push([x0+B,yR-32]);
@@ -807,7 +829,9 @@ function buildPanel(){const box=$('#rules');box.innerHTML='';let pass=-1;
   $('#lr').value=ST.lr;$('#lrv').textContent=ST.lr.toFixed(2);
   $('#batchInfo').textContent=`batch ${ST.batch} · base seed ${ST.base}${ST.sketch?' · dressing a sketch':''}`;
   const tb=$('#tpls');tb.innerHTML=ST.tpl.length?'':'None yet. Lock a building to add it.';
-  ST.tpl.forEach((t,i)=>{const d=document.createElement('div');d.className='tpl';d.innerHTML=`<span>${t.name}</span><button data-i="${i}">remove</button>`;d.querySelector('button').onclick=()=>{ST.tpl.splice(i,1);save();buildPanel();cards.forEach(c=>c.lock=ST.tpl.some(t=>t.seed===c.L.seed&&t.bi===0));cards.forEach(paintCard)};tb.appendChild(d)})}
+  ST.tpl.forEach(t=>{const d=document.createElement('div');d.className='tpl';d.innerHTML=`<span>${t.name}</span>`+(t.bi?'':`<button>unlock</button>`);const b=d.querySelector('button');if(b)b.onclick=()=>unlockSeed(t.seed);tb.appendChild(d)});
+  const ds=$('#dbState');if(ds)ds.innerHTML=DBS.state==='db'?(DBS.err?'⚠ last save failed; kept in this browser':`● saved to the lab's database (${new Set(ST.tpl.map(t=>t.seed)).size} lots). Claude can pull these.`)
+    :DBS.state==='slow'?'Can\'t reach the database yet; locks are kept in this browser.':'This copy has no database: locks stay in this browser. Lock in the Claude artifact to keep them.'}
 function setDirty(){dirty=true;$('#bRoll').classList.add('hot')}
 
 function seeds(){const out=[];for(let i=0;i<24;i++)out.push(hash(ST.base,ST.batch,i));return out}
@@ -829,9 +853,16 @@ function paintCard(cd){const el=cd.el,L=cd.L;el.className='card'+(cd.mark>0?' ke
   el.querySelector('.ttl').textContent=L.massing+(L.kind!=='single'?` · ${L.kind}`:'');el.querySelector('.seed').textContent='#'+(L.seed%100000);
   el.querySelector('.bds').innerHTML=badges(L);const cv=el.querySelector('canvas');cv.width=Math.min(900,Math.round(el.clientWidth*(devicePixelRatio||1))||600);render(L,cv,opts())}
 function mark(i,v){const cd=cards[i];cd.mark=cd.mark===v?0:v;paintCard(cd);status()}
-function lock(i){const cd=cards[i];if(!cd.L)return;cd.lock=!cd.lock;
-  if(cd.lock){const pk=packLot(cd.L);cd.L.blds.forEach((M,bi)=>ST.tpl.push({name:`${M.type} ${M.n}×${Math.max(...M.h)} #${cd.L.seed%100000}${cd.L.blds.length>1?'/'+(bi+1):''}`,seed:cd.L.seed,bi,s:M.snap,lot:bi?null:pk}));if(!cd.mark)cd.mark=1}
-  else ST.tpl=ST.tpl.filter(t=>t.seed!==cd.L.seed);save();buildPanel();paintCard(cd);status()}
+const tplName=(L,M,bi)=>`${M.type} ${M.n}×${Math.max(...M.h)} #${L.seed%100000}${L.blds.length>1?'/'+(bi+1):''}`;
+// a locked lot as stored: exact geometry and skin placements (lot), each building's space for the generator to reuse (blds)
+function lockDoc(L){return{seed:L.seed,at:Date.now(),name:tplName(L,L.blds[0],0).replace(/\/1$/,''),lot:packLot(L),blds:L.blds.map((M,bi)=>({name:tplName(L,M,bi),type:M.type,n:M.n,h:M.h,s:M.snap})),chk:L.chk,sketch:ST.sketch||null}}
+function tplFromDocs(docs){return docs.flatMap(d=>(d.blds||[]).map((b,bi)=>({name:b.name,seed:d.seed,bi,s:b.s,lot:bi?null:d.lot})))}
+function lockSync(){cards.forEach(c=>{c.lock=!!c.L&&ST.tpl.some(t=>t.seed===c.L.seed)});cards.forEach(paintCard);buildPanel();status()}
+async function lockWrite(seed,doc){if(!DBS.db)return true;try{const r=DBS.db.doc('builds/b'+seed);await(doc?r.set(doc):r.delete());return true}catch(e){msg('Couldn\'t save the lock: '+(e.code||e.message)+'. It\'s kept in this browser for now.');DBS.err=1;return false}}
+function lock(i){const cd=cards[i];if(!cd.L)return;cd.lock=!cd.lock;const seed=cd.L.seed;
+  if(cd.lock){const d=lockDoc(cd.L);ST.tpl=ST.tpl.filter(t=>t.seed!==seed).concat(tplFromDocs([d]));if(!cd.mark)cd.mark=1;lockWrite(seed,d)}
+  else{ST.tpl=ST.tpl.filter(t=>t.seed!==seed);lockWrite(seed,null)}save();lockSync()}
+function unlockSeed(seed){ST.tpl=ST.tpl.filter(t=>t.seed!==seed);save();lockWrite(seed,null);lockSync()}
 function status(){const k=cards.filter(c=>c.mark>0).length,x=cards.filter(c=>c.mark<0).length;
   const done=cards.filter(c=>c.L),ok=done.filter(c=>c.L.chk.reached===c.L.chk.present).length;
   msg(`<b>${k}</b> kept · <b>${x}</b> cut · sealed rooms in <b>${done.filter(c=>c.L.chk.sealed).length}</b>${ST.lastLearn?' · last learn: '+ST.lastLearn:''}`)}
@@ -942,7 +973,7 @@ function drPaint(p,q,on){const GW=DR.C*DR.S,GH=DR.R*DR.S,rad=on?1.8:2.4,d=Math.h
 function packLot(L){const o=L.A.o,R=v=>Math.round(v),sh=x=>x.k==='r'?{k:'r',x:R(x.x),y:R(x.y),w:R(x.w),h:R(x.h)}:x.k==='c'?{k:'c',x:R(x.x),y:R(x.y),r:R(x.r)}:x.k==='p'?{k:'p',p:x.p.map(q=>[R(q[0]),R(q[1])])}:null;
   const pick=a=>a.map(sh).filter(Boolean);let x0=1e9,x1=-1e9;
   for(const s of o.body){const xs=s.k==='r'?[s.x,s.x+s.w]:s.k==='p'?s.p.map(q=>q[0]):[s.x-s.r,s.x+s.r];for(const v of xs){x0=Math.min(x0,v);x1=Math.max(x1,v)}}
-  return{x0:R(Math.max(0,x0-50)),x1:R(Math.min(L.W,x1+50)),gy:L.GY,body:pick(o.body),cut:pick(o.cut),rub:pick(o.rub),rung:pick(o.rung),back:pick(o.back),backCut:pick(o.backCut)}}
+  return{x0:R(Math.max(0,x0-50)),x1:R(Math.min(L.W,x1+50)),gy:L.GY,body:pick(o.body),cut:pick(o.cut),rub:pick(o.rub),rung:pick(o.rung),back:pick(o.back),backCut:pick(o.backCut),art:o.art||[],artBack:o.artBack||[],artRub:o.artRub||[]}}
 async function playInGame(lots){if(!lots.length){msg('Lock some buildings first, or use ▶ play on a card.');return}
   const bytes=new TextEncoder().encode(JSON.stringify({lots}));let enc;
   try{const buf=await new Response(new Blob([bytes]).stream().pipeThrough(new CompressionStream('deflate-raw'))).arrayBuffer();
@@ -977,7 +1008,7 @@ async function loadParts(){let base=null,man=null;
   for(const[code,p]of Object.entries(man.parts)){for(const[v,e]of Object.entries(p.variants)){const im={};for(const ly of['body','back','height'])if(e.layers[ly])im[ly]=await loadImg(base+e.layers[ly]);
       const out={};if(im.body&&!(e.layers.back&&!e.layers.height))out.body=bakeLit(im.body,im.height);if(im.back)out.back=im.back;if(out.body||out.back){(SK.lit[code]=SK.lit[code]||{})[v]=out;nv++}}}
   SK.ready=true;$('#oSkin').disabled=false;$('#skN').textContent=`(${nv})`;
-  const used=['BK01','BK02','BK03','BK04','BK05','BK06','BK07','BK08','BK09','BK10','BK11','BK12','BK42','BK51','BK52','BK53','BK54','BK55','BK70','BK71','BK72','BK73','BK74','BK75','BK80','BK81','BK90','BK91','BK92','BK93','BK94','BK95','BK96','BK97','BK98'];
+  const used=['BK01','BK02','BK03','BK04','BK05','BK06','BK07','BK08','BK09','BK10','BK11','BK12','BK42','BK51','BK52','BK53','BK54','BK55','BK70','BK71','BK72','BK73','BK74','BK75','BK80','BK81','BK90','BK91','BK92','BK93','BK94','BK95','BK96','BK97','BK98','BK40','BK41','BK43','BK50','BK60','BK61','BK63','BK64','BK65'];
   const vc={pass:'var(--green)',warn:'var(--amber)',fail:'var(--red)'},vt=e=>{const k=e.check;return k?`${k.verdict}: ${k.colours} colours, detail ${k.detail} (kit bar 0.28), near ${k.near}, lone ${k.lone}${k.notes.length?' · '+k.notes.join('; '):''}`:'not measured'};
   $('#partsList').innerHTML=`${nv} variants from <code>${man.source}</code> ${String(man.commit).slice(0,7)}<br>`+Object.entries(man.parts).map(([c,p])=>`<div>${used.includes(c)?'●':'○'} ${p.name.replace(/^BK\d+\s*/,'')} <b>${c}</b> · ${Object.entries(p.variants).sort().map(([v,e])=>`<span title="${vt(e)}" style="color:${vc[e.check?.verdict]||'inherit'};cursor:help">${v}</span>`).join('')}</div>`).join('')+
     `<div style="margin-top:4px">● placed by the generator · ○ in the kit, not placed yet. Letters: <span style="color:var(--green)">pass</span> · <span style="color:var(--amber)">busier than the bar</span> · <span style="color:var(--red)">painted or downscaled</span> (hover for numbers)</div>`;
@@ -986,6 +1017,14 @@ loadParts();
 
 window.__LAB={genLot,analyse,render,cards:()=>cards,ST:()=>ST,parseSketch};
 generate();
+(async()=>{if(!window.claude||typeof claude.use!=='function')return;let db=null;try{db=await claude.use('db')}catch(e){}if(!db)return;DBS.db=db;
+  let first=true;const t=setTimeout(()=>{if(DBS.state!=='db'){DBS.state='slow';buildPanel()}},10000);
+  db.collection('builds').onSnapshot(async snap=>{if(!snap.metadata.fromCache)clearTimeout(t);DBS.state='db';
+      const docs=snap.docs.map(d=>d.data()).filter(d=>d&&d.seed!=null);
+      if(first&&!snap.metadata.fromCache){first=false;const have=new Set(docs.map(d=>d.seed)),loose=[...new Set(ST.tpl.filter(t=>!have.has(t.seed)&&t.lot).map(t=>t.seed))];
+        for(const sd of loose){const ts=ST.tpl.filter(t=>t.seed===sd),d={seed:sd,at:Date.now(),name:ts[0].name.replace(/\/1$/,''),lot:ts[0].lot,blds:ts.map(t=>({name:t.name,s:t.s})),migrated:true};if(await lockWrite(sd,d))docs.push(d)}}
+      ST.tpl=tplFromDocs(docs);save();lockSync()},
+    e=>{clearTimeout(t);DBS.state='local';DBS.err=1;buildPanel()})})();
 </script>
 </body>
 </html>

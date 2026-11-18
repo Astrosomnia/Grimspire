@@ -29,5 +29,8 @@ Jarred edits numbers or leaves requests in Notes; a value that differs from live
 ## Field reports
 On "check reports": `tools/reports.py --since <last pulled at>` (last pull 4 Nov, `at` = 1793776956511), merge new items into the board's `reports/game` document, and create `triage/game__<firestore id>` docs with status `new` and a one-line note (agree or disagree, likely cause, size). Build only Go items, reply in each item's `log` (`by:'claude'`), mark Done once pushed. Never act on friend feedback without Jarred's Go.
 
+## Building lab locks
+Jarred locks lots in the **Building lab** artifact (https://claude.ai/artifact/CduDGcmy6973jLS3gwY78R). Each lock is a document `builds/b<seed>` in its database: the exact packed lot (collision, rungs, back, skin placements by part code) plus each building's space for the generator. On "pull builds": `db_list` the `builds` collection, write each to `data/buildings/b<seed>.json` (unchanged), commit, and log which seeds came in. A lock's geometry is final: art for a part must fit the shape the lab gave that part code.
+
 ## Retired (1 Nov 2026)
 Claude's artifact Forge, the Grimspire / Grimspire Test artifacts as build sources, the `forge-pipeline` tools, Forge hot-load and the artifact-only Proving ground (still to port; see the roadmap).
