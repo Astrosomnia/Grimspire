@@ -813,8 +813,8 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
   const seats=[],kBot=id=>{const b=labArt.get(id).frames[0].body;if(b._bot)return b._bot;const c=mk(b.width,b.height),cg=c.getContext('2d');cg.drawImage(b,0,0);
     const d=cg.getImageData(0,0,b.width,b.height).data,t=new Int16Array(b.width).fill(-1),lim=Math.floor(b.height*.7);
     for(let x=0;x<b.width;x++)for(let y=b.height-1;y>=lim;y--)if(d[(y*b.width+x)*4+3]>127){t[x]=y;break}{const s=kS(id);return b._bot=s===1?t:kRes(t,s)}};
-  const seatPiece=(id,r,flip)=>{const t=kBot(id),k=kTop(id),dw=t.length,col=x=>{const c=Math.floor((x-r.x)/z);return flip?dw-1-c:c};
-    const x0=r.x+(flip?dw-1-k.x1:k.x0)*z,x1=r.x+(flip?dw-1-k.x0:k.x1+1)*z;seats.push({x0,x1,bot:x=>{const c=col(x);return c>=0&&c<dw&&t[c]>=0?r.y+(t[c]+1)*z:null}})};
+  const seatPiece=(id,r,flip,full)=>{const t=kBot(id),k=kTop(id),dw=t.length,col=x=>{const c=Math.floor((x-r.x)/z);return flip?dw-1-c:c};
+    const x0=r.x+(flip?dw-1-k.x1:k.x0)*z,x1=r.x+(flip?dw-1-k.x0:k.x1+1)*z;seats.push({x0,x1,full,bot:x=>{const c=col(x);return c>=0&&c<dw&&t[c]>=0?r.y+(t[c]+1)*z:null}})};
   // Up and over: builds above whatever already stands, so troopers end up over and under each other: high spans
   // between towers that aren't neighbours (crossing over whatever stands between), upper decks stacked over the
   // gap between neighbours (some with a span missing, or a broken bridge from the taller tower when the other is
@@ -1033,7 +1033,7 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
       // Every K piece is picked per placement from its variants, so more spans and modules mean more variety.
       const lay=[],END=W-120;let x=90+rnd(0,40),cath=false,last='T',naves=0,bridges=0,tens=0,lms=0,dgs=0,crags=0;
       // diagonals (K14 fallen span, K15 flying buttress, K16 stair ramp) between two towers, and big rock (R05–R08, R10, R11)
-      const DGK=['K14','K15','K16'].filter(kitHas),CRK=['R05','R06','R07','R08','R10','R11'].filter(kitHas);
+      const DGK=['K14','K15','K16'].filter(kitHas),CRK=['R05','R06','R07','R08'].filter(kitHas);// (18 Nov) R10/R11 out until redrawn: banded facets, no real form
       // Landmarks (K10–K12: collapsed nave, breached belfry, fallen arch): big multi-level ruins kept whole, with their
       // slopes, broken floors and lower arches, standing on rock above the water. Up to two per map, each code once.
       const LMK=['K10','K11','K12','K13'].filter(k=>labArt.has(k)&&labArt.get(k).frames[0]?.body),lmW=k=>kD(k).w*z,lmUsed=new Set();
@@ -1156,7 +1156,7 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
   // it is solid, and drawn again in front of the art (NS.lip), so the line where art meets terrain is covered by
   // terrain. At each end that sits on the ground, a rubble apron eases the terrain up to the piece over 25–60 px.
   // Only ever adds ground: the hills and cliffs around stay as generated.
-  const LIPMAX=24,seatAll=()=>{if(!seats.length)return;const lip=new Path2D(),fill=pts=>{poly(g,pts)};
+  const seatAll=()=>{if(!seats.length)return;const lip=new Path2D(),fill=pts=>{poly(g,pts)};
     for(const st of seats){const c=[];for(let x=Math.ceil(st.x0);x<=st.x1;x+=3){const b=st.bot(x);c.push(b==null?null:[x,b,hAt(x)])}
       // runs of columns that touch down
       let run=[];const flush=()=>{if(run.length<2){run=[];return}
@@ -1166,11 +1166,9 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
         for(let i=0;i+1<under.length;i++)if(under[i+1][0]-under[i][0]<=4)fill([[under[i][0],under[i][1]-1],[under[i+1][0]+1,under[i+1][1]-1],[under[i+1][0]+1,under[i+1][2]+12],[under[i][0],under[i][2]+12]]);
         fill(top.concat(bot.slice().reverse()));
         // in front of the art: everything from the lip down, so a buried foot never shows through the ground
-        // (18 Nov, Jarred) only where the piece's foot is near the ground: where a hill rises well over the foot, the ground
-        // stays behind the piece instead of being painted across its face (no land inside buildings)
-        let sub=[];const lipOut=()=>{if(sub.length>1){const lp=sub.map(i=>top[i]).concat(sub.map(i=>deep[i]).reverse());lip.moveTo(lp[0][0],lp[0][1]);for(const p of lp)lip.lineTo(p[0],p[1]);lip.closePath()}sub=[]};
-        run.forEach(([x,b,gy],i)=>{if(b-gy<=LIPMAX)sub.push(i);else lipOut()});lipOut();run=[]};
-      for(const p of c){if(p&&p[1]>p[2]-40)run.push(p);else flush()}flush();
+        const lp=top.concat(deep.reverse());lip.moveTo(lp[0][0],lp[0][1]);for(const p of lp)lip.lineTo(p[0],p[1]);lip.closePath();run=[]};
+      // (18 Nov) rocks fill to the ground under their whole base (no floating side over a slope); R07's overhang excepted
+      for(const p of c){if(p&&(st.full||p[1]>p[2]-40))run.push(p);else flush()}flush();
       // aprons where an end sits near the ground
       for(const sd of[-1,1]){const ex=sd<0?st.x0+2:st.x1-2,b=st.bot(ex),gy=hAt(ex);if(b==null||b<gy-40)continue;
         const cy=Math.min(b,gy)-rnd(4,12),aw=rnd(25,60),pts=[];
@@ -1189,14 +1187,14 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
       // rock under any part of the footprint where the ground falls away below the piece
       {const pts=[[best.x-6,yb-4]];for(let xx=best.x-6;xx<=best.x+w+6;xx+=8)pts.push([xx,Math.max(yb-4,hAt(xx)+14)]);pts.push([best.x+w+6,yb-4]);poly(g,pts)}
       const c=putOcc(id.slice(0,3),id,best.x,yb,flip);occ.push([best.x,best.x+w]);seatPiece(id,c,flip);hangs.push({cx:best.x+w/2,cy:c.y+c.h*.4})}
-    const rk=['R05','R06','R07','R08','R09','R10','R11'].filter(kitHas),nr=rk.length?nW((L==='islands'?3:2)+(Math.random()<.5?1:0),1):0;
+    const rk=['R05','R06','R07','R08','R09'].filter(kitHas),nr=rk.length?nW((L==='islands'?3:2)+(Math.random()<.5?1:0),1):0;
     for(let i=0;i<nr;i++){const code=L==='islands'&&Math.random()<.6&&kitHas('R06')?'R06':rk[Math.random()*rk.length|0],id=pickK(code),w=occW(id),h=kD(id).h*z;
       let x=-1;for(let k=0;k<30;k++){const t=rnd(30,W-30-w);if(freeOcc(t,t+w)){x=t;break}}if(x<0)continue;
       // sunk a third to a half into the ground (or the water, where there's no ground)
       const gnd=Math.min(hAt(x+w*.5),H-30),yb=Math.min(H+20,gnd+h*rnd(.25,.45));if(yb-h*.9>sump-30)continue;
       // the scree's high end and the overhang's open nose follow the lie of the land: high end uphill, nose over the drop
       const leftHigh=hAt(x+w*.1)<hAt(x+w*.9),fl=code==='R08'?leftHigh:code==='R07'?!leftHigh:Math.random()<.5;
-      const c=putOcc(code,id,x,yb,fl);occ.push([x,x+w]);seatPiece(id,c,fl)}
+      const c=putOcc(code,id,x,yb,fl);occ.push([x,x+w]);seatPiece(id,c,fl,code!=='R07')}
     // diagonals against the towers: a flying buttress down from the shaft, or a stair ramp up to it
     for(const t of genT){if(Math.random()>.5)continue;const code=Math.random()<.5?'K15':'K16';if(!kitHas(code))continue;
       const id=pickK(code),w=occW(id),sd=Math.random()<.5?1:-1,ox=sd>0?t.x+TW-6:t.x+6-w;if(ox<10||ox+w>W-10||!freeOcc(ox+8,ox+w-8))continue;
@@ -1610,7 +1608,7 @@ vec3 band(vec3 L,ivec2 t,float n){float l=max(L.r,max(L.g,L.b));if(l<.0005)retur
   float q=max(i+(f>1.-Z?step(bay(t),(f-(1.-Z))/Z):0.),.6)/n;return L*(q*q/l);}
 `;
   const FS_SCENE0=COMMON+`
-uniform sampler2D uAlb,uGuts,uGraf,uEmis,uBack,uSoot,uBlur,uBake,uAtlas,uLM,uLD,uFx,uDyn,uHeight,uDet,uDetH;uniform float uDetOn,uDetHOn,uLMs,uLDOn;
+uniform sampler2D uAlb,uGuts,uGraf,uEmis,uBack,uSoot,uBlur,uBake,uAtlas,uLM,uLD,uFx,uDyn,uHeight,uDet,uDetH;uniform float uKeepG;uniform float uDetOn,uDetHOn,uLMs,uLDOn;
 uniform vec2 uRes,uCam;uniform float uScale,uTime,uSump,uBleed,uHz;uniform vec4 uSp[2];
 uniform vec4 uL[${NL}];uniform vec3 uLC[${NL}];uniform int uNL;
 out vec4 o;
@@ -1697,7 +1695,7 @@ vec3 world(vec2 w){
     N=normalize(vec3(-(gd*mix(2.6,4.,au)+ge*mix(3.4,2.05,au)+gb*.5*fw),1.));
     float edge=1.-smoothstep(.52,.9,e);
     stone=pow(A.rgb,vec3(1.25))*vec3(.8,.8,.94);
-    {float sl=lum(stone);stone=mix(stone,vec3(.27,.29,.36)*(.82+.36*h1(floor(q/2.)+3.)),smoothstep(.3,.04,sl));}
+    {float sl=lum(stone);vec3 lifted=mix(stone,vec3(.27,.29,.36)*(.82+.36*h1(floor(q/2.)+3.)),smoothstep(.3,.04,sl));/* (18 Nov) drawn art (has Height) is already brought to a common mean by nsKitBright; the dark-stone lift only erased its darks (crevices, recesses) while its lights passed, which is what flattened it. Drawn art skips the lift. */stone=mix(lifted,stone,au*uKeepG);}
     stone*=mix(1.,(.78+.34*tn)*mix(.5,1.,b0),fw);
     // grime on the art's own pixel grid: wet streaks under ledges (no per-pixel dots: Jarred, 16 Nov)
     vec2 gp=floor(q);
@@ -2162,7 +2160,7 @@ function litFrame0(lights,shx,shy){const gl=LIT.gl,T=LIT.T;
   const G=LIT.bg;litBind(S,'uAtlas',11,G.atlas);
   litBind(S,'uFx',14,G.fx);litBind(S,'uDyn',15,G.dyn);gl.uniform1f(S.u.uHz,Math.min(sump,H*.66));
   const k=DPR*scale*rs,cx=cam.x-shx/scale,cy=cam.y-shy/scale;
-  gl.uniform2f(S.u.uRes,gw,gh);gl.uniform2f(S.u.uCam,cx,cy);gl.uniform1f(S.u.uScale,k);gl.uniform1f(S.u.uTime,time);gl.uniform1f(S.u.uSump,sump);gl.uniform1f(S.u.uBleed,BLEED);gl.uniform1f(S.u.uLow,LIT.coarse?1:0);
+  gl.uniform2f(S.u.uRes,gw,gh);gl.uniform2f(S.u.uCam,cx,cy);gl.uniform1f(S.u.uScale,k);if(S.u.uKeepG)gl.uniform1f(S.u.uKeepG,/(?:^#|&)flatv\b/.test(location.hash)?0:1);gl.uniform1f(S.u.uTime,time);gl.uniform1f(S.u.uSump,sump);gl.uniform1f(S.u.uBleed,BLEED);gl.uniform1f(S.u.uLow,LIT.coarse?1:0);
   const NL=LIT.NL,vx=cx+gw/k/2,vy=cy+gh/k/2,vr=Math.hypot(gw,gh)/k/2;
   const M=LIT.lm||(LIT.lm=new Map()),dtL=Math.min(.1,Math.max(.001,time-(LIT.t0===undefined?time:LIT.t0)));LIT.t0=time;
   for(const s of M.values())s.tg=-1;
