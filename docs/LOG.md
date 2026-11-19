@@ -6,6 +6,10 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-18 · Claude · No square dark backs beside carved walls
+
+- Jarred: square dark backs showed behind island/ruins ground whose front edge is organic. Cause: the interior layer (`hollow`, dark rock behind caves) is everything under the first ground-height line; later carving (ruins noise, island flanks) cut wavy walls past that line, leaving its straight drops visible against open air. Now each exposed patch of interior is kept only if it is mostly walled by rock: a patch with over a quarter of its edge on open air goes. Caves, sewer rooms and crevices keep their dark. Visual only: map hashes unchanged (det.py 4/4).
+
 ## 2026-11-18 · Claude · Tower feet no longer show through the ground (GV 74)
 
 - Jarred: every tower showed a sliver of its base through the wall. Cause: the ground lip over a seated piece was sampled every 3 px from the left edge, so it stopped up to 3 px short of the right edge and that column of the tower's foot showed through. Seating columns now run 2 px past both edges and always land on the last one. Check over 4 maps: where the lip covers 6 px inside a tower edge, the edge column was uncovered 263/369 times before, 9/373 after.

@@ -1208,6 +1208,17 @@ function genTerrain(){genTerrain.n=(genTerrain.n||0)+1;toplAll=true;solid.fill(0
   for(let i=0,n=nW(L==='ruins'||L==='drowned'?0:L==='canyon'?2+(Math.random()*2|0):5+(Math.random()*4|0));i<n;i++){const x=rnd(150,W-150),y=hAt(x)+rnd(70,200);/* (13 Nov) canyons: fewer caves, so the big plateaus have room for a sewer */g.beginPath();g.ellipse(x,y,rnd(30,72),rnd(18,38),rnd(-.4,.4),0,Math.PI*2);g.fill()}
   g.globalCompositeOperation='source-over';
   const d=g.getImageData(0,0,W,H).data;for(let i=0;i<W*H;i++)solid[i]=d[i*4+3]>127?1:0;
+  // (18 Nov, Jarred) the interior (hollow) is everything under the first ground line, so where later carving (ruins noise,
+  // island flanks) cut wavy walls past that line, its straight drops showed as square dark backs against open air. Each
+  // exposed patch of interior (not solid, hollow) is kept only if it is mostly walled by rock: a patch with over a quarter
+  // of its edge on open air is a strip left beside a carved wall, not a cave, and goes. Visual only.
+  {const hq=hollow.getContext('2d'),hd=hq.getImageData(0,0,W,H),q=hd.data,hv=i=>!solid[i]&&q[i*4+3]>20,lab=new Int32Array(W*H),stk=new Int32Array(W*H);let id=0;
+    for(let s0=0;s0<W*H;s0++){if(lab[s0]||!hv(s0))continue;id++;let sp=0,n=0,air=0,rock=0;stk[sp++]=s0;lab[s0]=id;const mem=[];
+      while(sp){const i=stk[--sp];mem.push(i);n++;const x=i%W,y=(i/W)|0;
+        for(const [dx,dy] of [[1,0],[-1,0],[0,1],[0,-1]]){const xx=x+dx,yy=y+dy;if(xx<0||yy<0||xx>=W||yy>=H){rock++;continue}const k=yy*W+xx;
+          if(solid[k]){rock++;continue}if(hv(k)){if(!lab[k]){lab[k]=id;stk[sp++]=k}}else air++}}
+      if(air>(air+rock)*.25)for(const i of mem)q[i*4+3]=0}
+    hq.putImageData(hd,0,0)}
   // ruins: hang lamps under natural overhangs
   if(L==='ruins')for(let k=0;k<60&&hangs.length<6;k++){const x=rnd(120,W-120)|0;let y=0;while(y<H&&!solid[y*W+x])y++;let y2=y;while(y2<H&&solid[y2*W+x])y2++;
     let air=0;while(y2+air<H&&!solid[(y2+air)*W+x]&&air<60)air++;if(y2<sump-90&&air>=60&&y2-y>8&&!hangs.some(h=>Math.abs(h.cx-x)<150))hangs.push({cx:x,cy:y})}
