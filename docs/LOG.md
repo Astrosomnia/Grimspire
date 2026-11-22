@@ -6,6 +6,24 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-21 · Claude · Field reports 21 Nov: walls, turns, controls, crates (GV 75)
+
+- Pulled 14 reports (4–21 Nov). Jarred gave Go on all; the Field Reports board is public so the board couldn't be written from here (items and notes are in this entry instead).
+- **Wall scaling and lip-cliff runs** (Lyra, Louis): landing on a side foot now needs a top surface (open air over it), the air mantle needs a ledge at least 7 px deep with headroom, and walking climbs at most 60 px/s after a 14 px spurt (`CLIMB`, sheet rule `climbRate`). A 6:1 lip cliff: 200 px in 0.8 s → 3.3 s; stairs unchanged (2.68 s both); rough-wall jump test 88 → 48 px.
+- **Two goes** (Lyra): the trooper who has waited longest goes next; a swap hands the turn back so the trooper swapped out keeps their place (`went`/`wentP`).
+- **Stunned swap** (Jarred): a stagger stays with its trooper. Swapping into a staggered one roots them; swapping away keeps the stagger for later.
+- **Grenades through troopers** (Lyra): grenades bounce off bodies (`gBounce`): off the top with a roll away, off the side back out.
+- **Shooting through you** (Jarred): when another trooper sits between the chest and the muzzle, the shot starts at their body (wrapper after the art runtime). Scatter point blank: 0 → 35.
+- **Weapon per trooper** (Lyra): each trooper keeps the weapon they last held (`t.wpn`, `t.atk`), on swap too.
+- **Turn handover** (Lyra): a key still held when the turn changes is ignored until released (`LSTALE`).
+- **WASD arsenal / weapon keys** (Lyra): Q/E cycle weapons (still rotate girders with the Fabricator); movement keys navigate the open arsenal, fire/jump pick.
+- **Remap** (Lyra): pause → Keyboard (desktop only), two keys per action, saved per device (`gs-keys`); the hint line follows the bindings.
+- **Hollow colour:** #3dff8b → #97eb6a (Jarred's pick; reads apart from Neon Choir cyan, including under a yellow night filter).
+- **Crates:** drop chance 33% → 25%; mix health 20 / heavy 40 (was 30) / arms 25 (was 35) / tools 15; arms and tool crates give 2 (cutter 3); pickups get a flash, shake and bigger text, heavy ones a beat of slow-mo. Sheet updated.
+- **Off-turn troopers** (Jarred): boxed in fire they hop for it (twice, steering over the wall) before turning; they walk out of fallout (not off drops) and swim for the nearest bank. Fire ditch test: escaped, 30 → 9 damage.
+- Tests: det 4/4 match, dsim/dsim2/dsimart identical; aitest2 34.9 → 32.4 dmg/turn (2 CPU squads, within noise).
+- Next pull `--since 1795304664804`.
+
 ## 2026-11-18 · Claude · No square dark backs beside carved walls
 
 - Jarred: square dark backs showed behind island/ruins ground whose front edge is organic. Cause: the interior layer (`hollow`, dark rock behind caves) is everything under the first ground-height line; later carving (ruins noise, island flanks) cut wavy walls past that line, leaving its straight drops visible against open air. Now each exposed patch of interior is kept only if it is mostly walled by rock: a patch with over a quarter of its edge on open air goes. Caves, sewer rooms and crevices keep their dark. Visual only: map hashes unchanged (det.py 4/4).

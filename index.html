@@ -224,6 +224,7 @@ body.intitle #hud,body.intitle #desk,body.intitle #touch,body.intitle #recenter{
 .tile[aria-pressed="true"]{border-color:var(--c);box-shadow:inset 0 0 0 1px var(--c),0 0 14px var(--g);background:color-mix(in srgb,var(--c) 7%,transparent)}
 .tile:disabled{opacity:.35;cursor:default}
 .pbtns{display:grid;gap:8px}
+.krow{display:grid;grid-template-columns:1fr 92px 92px;gap:8px;align-items:center;padding:3px 0;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ash)}.kslot{height:32px;background:#10151e8c;border:1px solid #69758455;color:#cbd0d8;font:12px/1 Georgia,serif;letter-spacing:.04em;cursor:pointer}.kslot.on{border-color:var(--mag);color:#fff}
 .jrow{display:grid;grid-template-columns:1fr auto;gap:8px}
 .jrow input{min-width:0;background:transparent;border:1px solid rgba(230,228,222,.4);color:var(--bone);font:600 18px var(--mono);letter-spacing:.2em;text-transform:uppercase;padding:12px 14px}
 .jrow input:focus{outline:2px solid var(--fire);outline-offset:1px}
@@ -381,7 +382,7 @@ body.intitle #dbg{display:none}
 
 <div id="desk">
   <div class="drow"><button class="wchip" id="dArs" type="button">Plasma Mortar <em>∞</em></button><button class="wchip fz" id="dFuse" type="button" hidden>Fuse 3s</button></div>
-  <div class="keys"><b>← →</b> move · <b>↑ ↓</b> aim · hold <b>Space</b> to charge · <b>Enter</b> jump · <b>Tab</b> arsenal · <b>X</b> switch trooper · <b>1–5</b> fuse · mouse to the edge pans · scroll to zoom · <b>C</b> recenter · <b>Esc</b> pause</div>
+  <div class="keys" id="keyHint"><b>← →</b> move · <b>↑ ↓</b> aim · hold <b>Space</b> to charge · <b>Enter</b> jump · <b>Tab</b> arsenal · <b>X</b> switch trooper · <b>1–5</b> fuse · mouse to the edge pans · scroll to zoom · <b>C</b> recenter · <b>Esc</b> pause</div>
 </div>
 
 <div id="touch">
@@ -411,10 +412,20 @@ body.intitle #dbg{display:none}
       <label class="vol" for="vMus"><span>Music</span><input type="range" id="vMus" min="0" max="100" step="1" value="75"><output id="oMus">75%</output></label>
       <button class="go alt" id="pFull" type="button" hidden>Full screen</button>
       <button class="go alt" id="pLevers" type="button" hidden>Reset controls</button>
+      <button class="go alt" id="pKeys" type="button" hidden>Keyboard</button>
       <button class="go alt" id="pReport" type="button">Report a bug or idea</button>
       <button class="go alt" id="pForfeit" type="button" hidden>Forfeit and leave</button>
       <button class="go alt" id="pQuit" type="button">Quit to title</button>
     </div>
+  </div>
+</div>
+
+<div class="modal" id="keys" hidden>
+  <div class="apanel" style="max-width:420px" role="dialog" aria-label="Keyboard">
+    <div class="ahead"><h2>Keyboard</h2><button id="kClose" type="button">Done</button></div>
+    <p class="how" style="margin:0 0 10px">Click a slot, then press the key. Backspace clears it. P and Esc always pause.</p>
+    <div id="kGrid"></div>
+    <div class="pbtns" style="margin-top:12px"><button class="go alt" id="kReset" type="button">Reset to defaults</button></div>
   </div>
 </div>
 
@@ -510,7 +521,7 @@ const INK='#08090c',EDGE='#5f6676',BONE='#e6e4de';
 const TEAM=[
   {name:'Ash Legion',col:'#ff2e88',rgb:[255,46,136],cloth:[86,24,34],names:['Vael','Castor','Orsk','Hadrin','Absalom','Malchus','Corvin','Ezekar','Tobiah','Ulvar','Thrask','Severin']},
   {name:'Neon Choir',col:'#3ff3ff',rgb:[63,243,255],cloth:[30,46,68],names:['Seraph','Lumen','Kett','Mordre','Cantor','Ismay','Psalm','Vesper','Obadiah','Solenne','Thessaly','Verity']},
-  {name:'The Hollow',col:'#3dff8b',rgb:[61,255,139],cloth:[88,82,70],names:['Malphas','Sabnock','Orobas','Vapula','Zagan','Murmur','Crocell','Furfur','Andras','Haures','Bune','Glasya']},
+  {name:'The Hollow',col:'#97eb6a',rgb:[151,235,106],cloth:[88,82,70],names:['Malphas','Sabnock','Orobas','Vapula','Zagan','Murmur','Crocell','Furfur','Andras','Haures','Bune','Glasya']},
   {name:'Halo Guard',col:'#ffd84a',rgb:[255,216,74],cloth:[190,176,140],names:['Uriel','Aurion','Valthane','Imperon','Lucan','Ithrane','Halcyon','Thronn','Exarion','Kyrios','Solmar','Sanctus']}
 ];
 const FACDESC=['Magenta. The old guard of the ward.','Cyan. Hymns and plasma.','Green. They chant backwards.','Gold. Gabriel\u2019s host, scourged and shining.'];
@@ -2952,8 +2963,11 @@ function newGameInner(mode){
   dressSeed=null;dressWard();if(window.GRIMSPIRE_SET_PIECES)setPiecesPlace();
   nextTurn();
 }
-function pickNext(team){const list=troopers.filter(t=>t.team===team);
-  for(let k=1;k<=list.length;k++){const i=(S.ptr[team]+k)%list.length;if(list[i].alive){S.ptr[team]=i;return list[i]}}return null}
+/* (21 Nov, Lyra: "some characters got two goes") the trooper who has waited longest goes next, ties in squad order.
+   A swap hands the turn back: the one swapped out keeps their place in the queue. */
+function pickNext(team){const list=troopers.filter(t=>t.team===team);let best=null,bi=-1,bw=1e9;
+  for(let k=1;k<=list.length;k++){const i=(S.ptr[team]+k)%list.length,t=list[i];if(!t.alive)continue;const w=t.went??-1;if(w<bw){bw=w;best=t;bi=i}}
+  if(best){S.ptr[team]=bi;best.wentP=best.went;best.went=S.turnN}return best}
 function aliveGroups(){return new Set(troopers.filter(t=>t.alive).map(t=>S.ally?S.ally[t.team]:t.team))}
 function winCheck(){if(NS.labTestOn)return false;const g=aliveGroups();if(g.size<=1){gameOver(g.size?[...g][0]:-1);return true}return false}
 function nextSide(f){const o=S.order,n=o.length,i=o.indexOf(f);for(let k=1;k<=n;k++){const g=o[(i+k+n)%n];if(troopers.some(t=>t.alive&&t.team===g))return g}return f}
@@ -2970,7 +2984,8 @@ function beginTurn(){
   S.team=nextSide(S.team);S.active=pickNext(S.team);S.timer=TURN_SECS;S.phase='aim';S.charge=0;S.charging=false;S.locked=false;S.fired=false;
   S.jet=null;S.usedJet=false;S.cut=null;S.burst=null;S.strike=null;S.target=null;S.rot=0;S.camFree=false;S.camSnap=true;
   S.moved=false;S.swapped=false;S.second=false;S.ticked=false;S.mobile=false;S.rb=0;S.ars=false;S.saw=S.mini=S.drone=S.pod=null;S.stag=!!(S.active&&S.active.stag);if(S.active)S.active.stag=false;S.armed=isCPU()||(S.mode!=='online'&&S.mode!=='hot');
-  if(!hasAmmo(curW())||WP[S.weapon[S.team]].kind==='jet'||WP[S.weapon[S.team]].kind==='rope')S.weapon[S.team]=S.lastAtk[S.team];
+  {const a=S.active;if(a&&a.wpn&&WP[a.wpn])S.weapon[S.team]=a.wpn;if(a&&!hasAmmo(curW())&&a.atk&&WP[a.atk])S.weapon[S.team]=a.atk}/* (21 Nov, Lyra) each trooper keeps the weapon they last held */
+  if(!hasAmmo(curW())||WP[S.weapon[S.team]].kind==='jet'||WP[S.weapon[S.team]].kind==='rope')S.weapon[S.team]=(S.active&&S.active.atk&&WP[S.active.atk])?S.active.atk:S.lastAtk[S.team];
   else if(WP[S.weapon[S.team]].kind==='build')S.weapon[S.team]='mortar';/* (14 Nov, Jarred) a fabricator left in hand from last turn goes back to the mortar */
   S.shots=curW().shots||1;S.wind=Math.round(rnd(-1,1)*10)/10;AI.stage=0;AI.t=0;AI.gen=null;AI.plan=null;AI.cover=null;AI.replanned=false;AI.noised=false;AI.err=null;AI.stuck=0;AI.roped=false;
   if(S.stag)texts.push({x:S.active.x,y:S.active.y-58,txt:'Staggered · no moving this turn',life:2.4,col:BONE,small:true});
@@ -3046,7 +3061,7 @@ const canPick=()=>S.phase==='aim'&&!isCPU()&&!S.fired&&(!S.jet||S.jet.parked)&&!
 function selectWeapon(id){
   const w=WP[id];if(S.jet&&S.jet.parked&&w.kind==='jet'){S.weapon[S.team]=id;updWeapUI();return}
   if(!canPick()||!hasAmmo(w))return;if(w.kind==='jet'&&S.usedJet)return;if(S.jet&&S.jet.parked)S.jet=null;
-  S.weapon[S.team]=id;S.shots=w.shots||1;const t=S.active;
+  S.weapon[S.team]=id;S.shots=w.shots||1;const t=S.active;if(t)t.wpn=id;
   if(w.kind==='target'){const foes=troopers.filter(o=>o.alive&&foe(o.team,t.team)).sort((a,b)=>Math.abs(a.x-t.x)-Math.abs(b.x-t.x));S.target={x:foes[0]?foes[0].x:t.x+t.face*150,y:0}}
   else if(w.kind==='build')S.target={x:t.x+t.face*70,y:t.y-30};else if(w.kind==='warp')S.target={x:t.x+t.face*120,y:t.y-40};else S.target=null;
   if(w.kind==='pod')t.aim=Math.min(t.aim,-.87);
@@ -3119,14 +3134,18 @@ function setPause(p){if(S.phase==='title'||S.phase==='over')return;$('#pRestart'
 
 /* ================= actions ================= */
 function dropDepth(x,y){let k=0;while(k<300&&!isSolid(x,y+k+1))k++;return k}
+/* (21 Nov, field reports) walking climbs at most CLIMB.rate px/s once past a CLIMB.burst px spurt, so a cliff of little
+   lips can't be run up at 250 px/s any more. Stairs (about 40 px/s of rise) and slopes are unchanged. */
+const CLIMB={rate:60,burst:14};
 function walk(t,dir,dt,sp){if(t===S.active&&S.stag&&S.phase==='aim')return;
   if(S.saw&&t===S.active&&troopers.some(o=>o.alive&&o!==t&&(o.x-t.x)*dir>0&&(o.x-t.x)*dir<14&&Math.abs(o.y-t.y)<20)){t.face=dir;return}// press the blade into them
   sp*=wAt(t.x,t.y-6)?.55:wAt(t.x,t.y-2)?.8:1;/* wading */
+  t.clA=Math.max(0,(t.clA||0)-CLIMB.rate*dt);if(t.clA>CLIMB.burst){t.moving=true;t.anim+=dt*6;return}/* (21 Nov) hauling up a cliff of lips */
   const ox=t.x,oy=t.y,nx=clamp(t.x+dir*52*sp*dt,4,W-4);let ny=t.y,k=0;
   while(isSolid(nx,ny)&&k<11){ny--;k++}
   if(k>=11||isSolid(nx,ny-18))return;
   let d=0;while(!isSolid(nx,ny+1)&&d<8){ny++;d++}
-  t.x=nx;t.y=ny;t.moving=true;t.anim+=dt*14*sp;
+  t.x=nx;t.y=ny;t.moving=true;t.anim+=dt*14*sp;if(k>0)t.clA+=k;
   if(t===S.active&&t.anim-(t.stepA||0)>Math.PI){t.stepA=t.anim;sfx('step')}
   if(d>=8){
     // players fire to rope (Jarred 4 Nov: walking off a ledge shot it by accident); the CPU still ropes as it walks off a big drop
@@ -3166,13 +3185,13 @@ function enterWater(t){if(t.x<-4||t.x>W+4){abyss(t);return}
   if(!floorBelow(t.x)){splash(t.x,sump);sinkDrown(t,'lost to the sump');return}
   t.wet=true;t.wt=0;t.air=false;t.skid=false;t.knocked=false;t.rope=null;t.crouch=0;t.vy=Math.min(Math.max(t.vy,0),180)*.5;t.vx*=.3;splash(t.x,sump);
   texts.push({x:t.x,y:sump-34,txt:'In the sump',life:1.4,col:'#9fb4d8',small:true})}
-function swim(t,ax,dt){const dir=Math.sign(ax);if(!dir)return;t.face=dir;t.anim+=dt*8;t.moving=true;
+function swim(t,ax,dt,q){const dir=Math.sign(ax);if(!dir)return;t.face=dir;t.anim+=dt*8;t.moving=true;
   const nx=clamp(t.x+dir*30*Math.max(.5,Math.abs(ax))*dt,6,W-6);
   if(!isSolid(nx,t.y-8)&&!isSolid(nx,t.y-16)){
-    if(isSolid(nx,t.y)){let k=0;while(isSolid(nx,t.y-k)&&k<16)k++;if(k<16&&!isSolid(nx,t.y-k-16)){t.x=nx;t.y-=k;t.wet=false;t.air=false;S.moved=true;return}}
-    else if(floorBelow(nx)){t.x=nx;S.moved=true;return}else return}
+    if(isSolid(nx,t.y)){let k=0;while(isSolid(nx,t.y-k)&&k<16)k++;if(k<16&&!isSolid(nx,t.y-k-16)){t.x=nx;t.y-=k;t.wet=false;t.air=false;q||(S.moved=true);return}}
+    else if(floorBelow(nx)){t.x=nx;q||(S.moved=true);return}else return}
   // a bank too tall to wade onto: climb it if it's short enough
-  let k=0;while(isSolid(nx,t.y-k)&&k<22)k++;if(k<22&&!isSolid(nx,t.y-k-16)){t.x=nx;t.y-=k;t.wet=false;t.air=false;S.moved=true}}
+  let k=0;while(isSolid(nx,t.y-k)&&k<22)k++;if(k<22&&!isSolid(nx,t.y-k-16)){t.x=nx;t.y-=k;t.wet=false;t.air=false;q||(S.moved=true)}}
 function updSwim(t,dt){
   if(t.x<-4||t.x>W+4){abyss(t);return}
   t.wt=(t.wt||0)+dt;if(t.wt>=1){t.wt-=1;hurt(t,SUMP_DPS,true)}
@@ -3238,8 +3257,13 @@ function updCorpses(dt){for(const c of corpses){if(c.done)continue;c.t+=dt;corps
 function canSwitch(){return S.phase==='aim'&&!S.swapped&&!S.moved&&!S.fired&&!S.charging&&!S.jet&&!isCPU()&&!S.paused&&S.active&&troopers.filter(o=>o.alive&&o.team===S.team).length>1}
 function switchTo(o){if(!canSwitch())return;const list=troopers.filter(x=>x.team===S.team);
   if(!o){for(let k=1;k<=list.length;k++){const c=list[(S.ptr[S.team]+k)%list.length];if(c.alive&&c!==S.active){o=c;break}}}
-  if(!o||!o.alive||o===S.active||o.team!==S.team)return;S.ptr[S.team]=list.indexOf(o);S.active=o;S.swapped=true;S.camSnap=true;S.camFree=false;
+  if(!o||!o.alive||o===S.active||o.team!==S.team)return;
+  {const a=S.active;if(a){a.went=a.wentP;if(S.stag)a.stag=true}o.wentP=o.went;o.went=S.turnN}/* (21 Nov) queue place goes back; a stagger stays with its trooper */
+  S.stag=!!o.stag;o.stag=false;
+  S.ptr[S.team]=list.indexOf(o);S.active=o;S.swapped=true;S.camSnap=true;S.camFree=false;
+  {const own=o.wpn&&WP[o.wpn];if(own&&hasAmmo(own)&&own.kind!=='jet'&&own.kind!=='rope'&&own.kind!=='build')selectWeapon(o.wpn);else if(o.atk&&WP[o.atk])selectWeapon(o.atk)}/* (21 Nov, Lyra) their own weapon */
   if(curW().kind==='target'||curW().kind==='build')selectWeapon(S.weapon[S.team]);
+  if(S.stag)texts.push({x:o.x,y:o.y-70,txt:'Staggered · no moving this turn',life:2.2,col:BONE,small:true});
   texts.push({x:o.x,y:o.y-56,txt:o.name+' takes point',life:1.3,col:TEAM[o.team].col,small:true});sfx('switch')}
 function finish(){S.fired=true;S.locked=true;S.phase='resolve';S.charging=false;updWeapUI()}
 function origin(t){const[dx,dy]=aimVec(t);return[t.x+dx*13,t.y-12+dy*13,dx,dy]}
@@ -3284,7 +3308,7 @@ function tryFire(){
       S.fired=true;S.locked=true;S.moved=true;updWeapUI();return}
     case'cutter':{useAmmo(w);const[,,dx,dy]=origin(t);S.cut={t:3.3,dx,dy,dig:false};finish();return}
   }
-  const[ox,oy,dx,dy]=origin(t);if(!S.second)useAmmo(w);if(w.ammo<0)S.lastAtk[S.team]=w.id;
+  const[ox,oy,dx,dy]=origin(t);if(!S.second)useAmmo(w);if(w.ammo<0){S.lastAtk[S.team]=w.id;t.atk=w.id};
   if(w.kind==='rail'){railShot(t,ox,oy,dx,dy);sfx('rail')}
   else if(w.kind==='scatter'){scatterShot(t,ox,oy,dx,dy);sfx('scatter')}
   else if(w.kind==='burst'){S.burst={n:14,t:0,owner:t}}
@@ -3298,7 +3322,7 @@ function tryFire(){
 function launch(){
   const t=S.active,w=curW();if(!t||!t.alive||!w.charge){S.charging=false;return}
   const[ox,oy,dx,dy]=origin(t),sp=w.speed*Math.max(.08,S.charge);
-  useAmmo(w);t.lastPow[w.id]=S.charge;if(w.ammo<0)S.lastAtk[S.team]=w.id;
+  useAmmo(w);t.lastPow[w.id]=S.charge;if(w.ammo<0){S.lastAtk[S.team]=w.id;t.atk=w.id};
   projs.push({w,x:ox,y:oy,vx:dx*sp,vy:dy*sp,owner:t,age:0,fuse:w.kind==='grenade'?S.fuse:0,rest:false});S.moved=true;
   muzzle(ox,oy,TEAM[t.team].col);sfx('launch');S.charge=0;finish();if(w.kind==='grenade')S.mobile=true;
 }
@@ -3494,6 +3518,9 @@ function splash(x,y){for(let i=0;i<16;i++)parts.push({k:'splash',x:x+rnd(-6,6),y
 function puff(x,y){for(let i=0;i<5;i++)parts.push({k:'smoke',x:x+rnd(-4,4),y:y-2,vx:rnd(-30,30),vy:rnd(-20,-5),life:rnd(.4,.8),max:.8,s:rnd(2,4),c:70})}
 
 /* ================= physics ================= */
+/* (21 Nov, Lyra) landing on a side foot counts only on a top surface (open air over it), so a falling trooper
+   brushing lips on a rough wall slides past them instead of standing on them */
+function footing(x,y,s){return isSolid(x+3*s,y)&&!isSolid(x+3*s,y-8)&&!isSolid(x+5*s,y-8)}
 function updTrooper(t,dt){
   if(!t.alive)return;
   if(t.sq)t.sq=Math.max(0,t.sq-dt*3);
@@ -3528,19 +3555,21 @@ function updTrooper(t,dt){
     if(t.knocked||t!==S.active||S.phase!=='aim')t.ropeHop=null;
     else if(((t.x-h.x)*h.dir>=6&&t.vy>-30)||h.t>.45){t.ropeHop=null;if(curW().kind==='rope'&&hasAmmo(curW())){attachRope(t,h.x,h.y,h.dir);return}}}
   if(ctrl&&!t.knocked){const ax=axX();if(ax)t.face=Math.sign(ax)}/* (13 Nov, Jarred) turn in the air: face the other way mid-jump, momentum untouched */
+  if(t.hopOut){if(t.knocked)t.hopOut=0;else t.vx=t.hopOut*90}/* (21 Nov) a fleeing hop keeps pushing toward the way out */
   t.vy+=G*1.08*dt;t.vx*=Math.pow(t.knocked?.85:.6,dt);
   const n=Math.max(1,Math.ceil(Math.max(Math.abs(t.vx),Math.abs(t.vy))*dt)),sx=t.vx*dt/n,sy=t.vy*dt/n;
   for(let i=0;i<n;i++){
     if(sx){const nx=t.x+sx,s=Math.sign(sx);
       if(isSolid(nx+s*3,t.y-10)||isSolid(nx+s*3,t.y-18)){
         let k=0;if(!t.knocked&&t.vy>-70&&!isSolid(nx+s*3,t.y-22))while(k<16&&(isSolid(nx+s*3,t.y-k)||isSolid(nx,t.y-k)))k++;
-        if(k>0&&k<16&&!isSolid(nx,t.y-k-20)){t.x=nx+s*2;t.y-=k;t.vy=Math.min(t.vy,0);t.vx*=.4;puff(t.x,t.y);sfx('step');t.sq=.3}
+        /* (21 Nov) a mantle needs a ledge at least 7 px deep with headroom over it, not a lip on a rough wall */
+        if(k>0&&k<16&&!isSolid(nx,t.y-k-20)&&isSolid(nx+s*7,t.y-k+1)&&!isSolid(nx+s*7,t.y-k-8)){t.x=nx+s*2;t.y-=k;t.vy=Math.min(t.vy,0);t.vx*=.4;puff(t.x,t.y);sfx('step');t.sq=.3}
         else{const v=Math.abs(t.vx);if(t.clawed&&Math.hypot(t.vx,t.vy)>220){t.clawed=false;clawMoment(t.x+s*5,t.y-14)}if(v>120){shake=Math.min(14,shake+3+(t.knocked?v/120:0));sfx('thud')}
           if(t.knocked&&v>160){t.vx*=-.5;t.vy=Math.min(t.vy,0)-v*.12;t.sq=Math.min(.6,v/600);puff(t.x+s*4,t.y-12);debris(t.x+s*5,t.y-14);if(v>420)hurt(t,Math.round((v-420)*.04));if(v>=STAG_SLAM&&!t.stag&&t.alive){t.stag=true;texts.push({x:t.x,y:t.y-58,txt:'Staggered',life:1.8,col:CATCOL.Melee,small:true})}break}else t.vx*=-.25}}
       else if(isSolid(nx,t.y)){let k=0,yy=t.y;while(isSolid(nx,yy)&&k<5){yy--;k++}if(k<5){t.x=nx;t.y=yy}else t.vx*=-.25}
       else t.x=nx}
     const ny=t.y+sy;
-    if(sy>0){if(isSolid(t.x,ny)||isSolid(t.x-3,ny)||isSolid(t.x+3,ny)){const v=t.vy;
+    if(sy>0){if(isSolid(t.x,ny)||footing(t.x,ny,-1)||footing(t.x,ny,1)){const v=t.vy;
         // the pack only cushions a landing you're steering: after JET_GRACE s of free fall without thrust, falls hurt again (Jarred 4 Nov)
         const jetting=S.jet&&!S.jet.parked&&t===S.active&&!((S.jet.free||0)>JET_GRACE);
         if(v>480&&!jetting)hurt(t,Math.round((v-480)*.055));
@@ -3548,7 +3577,7 @@ function updTrooper(t,dt){
         if(v>360){shake=Math.min(16,shake+v/140);sfx('thud')}
         if(t.knocked&&v>220){t.down=Math.max(t.down||0,.8);t.downDir=Math.sign(t.vx)||t.downDir||1}
         if(t.knocked&&(t.bounced||0)<2&&v>(t.bounced?150:240)){t.vy=-v*(t.bounced?.22:.3);t.bounced=(t.bounced||0)+1;break}
-        t.vy=0;t.air=false;t.bounced=false;
+        t.vy=0;t.air=false;t.bounced=false;t.hopOut=0;
         if(t.knocked&&Math.abs(t.vx)>40&&!jetting){t.skid=true;t.vx*=.85}
         else{t.vx=0;t.knocked=false;t.clawed=false;t.recover=Math.max(t.recover||0,t.jumped?.22:v>360?.35:0)}
         t.jumped=false;break}
@@ -3593,6 +3622,11 @@ function detonate(p){const w=p.w;
     sump-=13*S.order.length;sfx('rise')}
   else if(w.id==='sun'){explode(p.x,p.y,w.r,w.dmg,{col:[170,150,255],ring:[220,210,255],hot:true,v:[p.vx,p.vy],am:true});AMX=AM_FLASH}
   else explode(p.x,p.y,w.r,w.dmg,{v:[p.vx,p.vy]})}
+/* (21 Nov, Lyra) troopers block each other, so lobbed grenades bounce off them too: off the top with a roll away, off the side back out */
+function gBounce(p,nx,ny){const o=troopers.find(t=>t.alive&&!(t===p.owner&&p.age<.3)&&Math.abs(t.x-nx)<6&&ny>t.y-BH&&ny<t.y+1);if(!o)return false;
+  if(p.y<=o.y-BH+1){p.vy=-Math.abs(p.vy)*.35;p.vx=p.vx*.6+(Math.sign(p.x-o.x)||1)*30}
+  else{const s=Math.sign(p.x-o.x)||-Math.sign(p.vx)||1;p.vx=s*Math.abs(p.vx)*.45;p.vy*=.8;p.x=o.x+s*6.5}
+  if(Math.hypot(p.vx,p.vy)>60)sfx('clink');return true}
 function updProjs(dt){
   for(let i=projs.length-1;i>=0;i--){const p=projs[i];p.age+=dt;
     if(p.imp!==undefined){p.imp-=dt;if(p.imp<=0){projs.splice(i,1);detonate(p)}continue}
@@ -3612,6 +3646,7 @@ function updProjs(dt){
       if(ny>=sump&&nx>=0&&nx<=W){p.x=nx;p.y=sump;fizzle(p);dead=true;break}
       if(p.w.kind==='shell'){if(p.w.bore&&solidP(nx,ny)&&!hitTrooper(nx,ny,p)&&!barrelAt(nx,ny)){p.x=nx;p.y=ny;p.vx=p.vy=0;p.bore={d:0,air:false};sfx('clink');shake=Math.min(10,shake+3);break}
         if(solidP(nx,ny)||hitTrooper(nx,ny,p)||barrelAt(nx,ny)){p.x=nx;p.y=ny;detonate(p);dead=true;break}}
+      else if(p.w.kind==='grenade'&&gBounce(p,nx,ny))break;
       else if(solidP(nx,ny)){const[mx,my]=normalAt(nx,ny),d=p.vx*mx+p.vy*my;if(d<0){p.vx-=2*d*mx;p.vy-=2*d*my}
         p.vx*=.5;p.vy*=.5;if(Math.abs(d)>60)sfx('clink');if(Math.hypot(p.vx,p.vy)<35){p.vx=p.vy=0;p.rest=true}break}
       p.x=nx;p.y=ny}
@@ -3735,7 +3770,7 @@ const orig=(t,face,a)=>{const dx=Math.cos(a)*face,dy=Math.sin(a);return[t.x+dx*1
 // spots this trooper can walk to (dropping off small ledges is fine, water and big falls are not)
 function walkReach(t,maxD=260,canRope=false){const res=[{x:t.x,y:t.y,dist:0,crates:[]}];
   for(const dir of[-1,1]){const g={x:t.x,y:t.y,face:dir,air:false,anim:0,vx:0,vy:0,moving:false};let dist=0,last=t.x,rope=false;const got=[];
-    for(let i=0;i<400;i++){const bx=g.x;walk(g,dir,1/30,1);
+    for(let i=0;i<400;i++){const bx=g.x;walk(g,dir,1/30,1);g.clA=0;
       if(g.air){let y=g.y,k=0;const lim=canRope&&!rope?ROPE_MAX+10:150;while(k<lim&&!isSolid(g.x,y+1)&&y<sump)y++,k++;if(k>=lim||y>=sump-2||g.x<24||g.x>W-24)break;if(k>120&&canRope)rope=true;g.y=y;g.air=false}
       if(g.x===bx)break;dist+=Math.abs(g.x-bx);
       for(const c of crates)if(c.landed&&!got.includes(c)&&Math.abs(c.x-g.x)<8&&Math.abs(c.y-g.y)<22)got.push(c);
@@ -3870,7 +3905,15 @@ function aiUpdate(dt){
     else if(w.shots&&S.shots>0&&S.phase==='aim'&&AI.t>.6){if(pl.target&&pl.target.alive){const A=aimAt(t,pl.target),ea=AI.err?AI.err.aim:AIL.aimErr;t.face=A.face;t.aim=A.aim+rnd(-ea,ea)}tryFire();AI.t=0}}
 }
 /* ================= input ================= */
-const KEYMAP={ArrowLeft:'left',KeyA:'left',ArrowRight:'right',KeyD:'right',ArrowUp:'up',KeyW:'up',ArrowDown:'down',KeyS:'down',Space:'fire',Enter:'jump',KeyJ:'jump',KeyQ:'rotl',KeyE:'rotr'};
+/* (21 Nov, Lyra) desktop keys can be remapped (pause > Keyboard); saved on this device. Two keys per action. */
+const DEFKEYS={left:['ArrowLeft','KeyA'],right:['ArrowRight','KeyD'],up:['ArrowUp','KeyW'],down:['ArrowDown','KeyS'],fire:['Space',''],jump:['Enter','KeyJ'],rotl:['KeyQ',''],rotr:['KeyE',''],arsenal:['Tab','KeyI'],swap:['KeyX','']};
+const KEYACTS=[['left','Walk left'],['right','Walk right'],['up','Aim up'],['down','Aim down'],['fire','Fire'],['jump','Jump'],['rotl','Previous weapon'],['rotr','Next weapon'],['arsenal','Arsenal'],['swap','Swap trooper']];
+let KEYS=(()=>{try{const k=JSON.parse(localStorage.getItem('gs-keys')||'null');if(k&&typeof k==='object'){const o={};for(const a in DEFKEYS)o[a]=Array.isArray(k[a])?[k[a][0]||'',k[a][1]||'']:DEFKEYS[a].slice();return o}}catch(e){}const o={};for(const a in DEFKEYS)o[a]=DEFKEYS[a].slice();return o})();
+let KEYMAP={};
+function keysChanged(save){KEYMAP={};for(const a in KEYS)for(const c of KEYS[a])if(c)KEYMAP[c]=a;if(save)try{localStorage.setItem('gs-keys',JSON.stringify(KEYS))}catch(e){}
+  const el=document.getElementById('keyHint');if(el){const k=a=>KEYS[a].filter(Boolean).map(keyName).join('/')||'—';
+    el.innerHTML=`<b>${k('left')} ${k('right')}</b> move · <b>${k('up')} ${k('down')}</b> aim · hold <b>${k('fire')}</b> to charge · <b>${k('jump')}</b> jump · <b>${k('rotl')} ${k('rotr')}</b> weapon · <b>${k('arsenal')}</b> arsenal · <b>${k('swap')}</b> switch trooper · <b>1–5</b> fuse · mouse to the edge pans · scroll to zoom · <b>C</b> recenter · <b>Esc</b> pause`}}
+
 const held=new Set(),press=new Set(),stick={x:0,y:0};      // what the simulation sees this step
 const LH=new Set(),LP=new Set(),LS={x:0,y:0},LA=[];         // what this device's player is doing
 const KBIT=['left','right','up','down','fire','jump','rotl','rotr'];
@@ -3879,29 +3922,54 @@ function act(k,v){if(k==='t'||k==='f'||k==='g'){for(let i=LA.length-1;i>=0;i--)i
 function applyAct(a){const[k,v]=a;if(k==='a'){S.ars=!!v&&S.phase==='aim';return}if(k==='k'){cutChutes();return}if(k==='q'){withdraw(v);return}if(k==='w')selectWeapon(v);else if(k==='f'){if(!S.charging)S.fuse=v}else if(k==='g'){S.span=v===2?2:1}
   else if(k==='s')switchTo(v<0?undefined:troopers[v]);
   else if(k==='t'){const w=curW();if(S.phase==='aim'&&!isCPU()&&(w.kind==='target'||w.kind==='build'||w.kind==='warp'))S.target={x:v[0],y:v[1]}}}
-function localFrame(){let h=0,p=0;KBIT.forEach((k,i)=>{if(LH.has(k))h|=1<<i;if(LP.has(k))p|=1<<i});LP.clear();return[h,p,Math.round(LS.x*100)/100,Math.round(LS.y*100)/100,LA.splice(0)]}
+/* (21 Nov, Lyra) a key still held when the turn changes hands is ignored until it's let go, so the last player's jump
+   can't throw the next player's trooper into the water */
+const LSTALE=new Set();let LTURN=null;
+function localFrame(){const tk=S.turnN+':'+(S.active?troopers.indexOf(S.active):-1);if(tk!==LTURN){LTURN=tk;for(const k of LH)LSTALE.add(k);LP.clear()}
+  let h=0,p=0;KBIT.forEach((k,i)=>{if(LSTALE.has(k))return;if(LH.has(k))h|=1<<i;if(LP.has(k))p|=1<<i});LP.clear();return[h,p,Math.round(LS.x*100)/100,Math.round(LS.y*100)/100,LA.splice(0)]}
+/* (21 Nov, Lyra) previous / next weapon from the keyboard, so the WASD player never needs the arrows */
+function cycleWeapon(d){if(!canPick()||!localTurn())return;const ids=ARS.map(w=>w.id).filter(id=>WP[id]&&hasAmmo(WP[id])&&!(WP[id].kind==='jet'&&S.usedJet));if(!ids.length)return;
+  const i=ids.indexOf(S.weapon[S.team]);act('w',ids[((i<0?0:i+d)%ids.length+ids.length)%ids.length])}
 function feed(f){const[h,p,sx,sy,acts]=f;if(acts.length&&S.phase==='aim')S.armed=true;held.clear();press.clear();for(let i=0;i<8;i++){if(h>>i&1)held.add(KBIT[i]);if(p>>i&1)press.add(KBIT[i])}stick.x=sx;stick.y=sy;for(const a of acts)applyAct(a)}
 const key=k=>held.has(k),pressed=k=>press.has(k);
 const axX=()=>clamp((key('left')?-1:0)+(key('right')?1:0)+stick.x,-1,1);
 const axY=()=>clamp((key('down')?1:0)-(key('up')?1:0)+stick.y,-1,1);
 addEventListener('keydown',e=>{
   if(S.phase==='title'||S.phase==='over')return;
+  if(!$('#keys').hidden){if(e.code==='Escape'||e.code==='KeyP'){e.preventDefault();$('#kClose').click()}return}
   if(e.code==='Escape'||e.code==='KeyP'){e.preventDefault();if(!$('#arsenal').hidden)closeArsenal();else setPause(!S.paused);return}
-  if(e.code==='Tab'||e.code==='KeyI'){e.preventDefault();$('#arsenal').hidden?openArsenal():closeArsenal();return}
-  if(!$('#arsenal').hidden&&/^Arrow/.test(e.code)){e.preventDefault();navArsenal(e.code);return}
-  if(e.code==='KeyC'){S.camFree=false;S.camSnap=true;return}
-  if(e.code==='KeyL'){nsToggle();return}
-  if(e.code==='KeyX'){e.preventDefault();act('s',-1);return}
+  const ka=KEYMAP[e.code];
+  if(ka==='arsenal'||(e.code==='Tab'&&!KEYMAP.Tab)){e.preventDefault();$('#arsenal').hidden?openArsenal():closeArsenal();return}
+  if(!$('#arsenal').hidden){const nav={left:'ArrowLeft',right:'ArrowRight',up:'ArrowUp',down:'ArrowDown'}[ka]||(/^Arrow/.test(e.code)?e.code:null);
+    if(nav){e.preventDefault();navArsenal(nav);return}
+    if((ka==='fire'||ka==='jump')&&e.code!=='Space'&&e.code!=='Enter'){e.preventDefault();const b=document.activeElement;if(b&&b.closest&&b.closest('#agrid'))b.click();return}}
+  if(e.code==='KeyC'&&!ka){S.camFree=false;S.camSnap=true;return}
+  if(e.code==='KeyL'&&!ka){nsToggle();return}
+  if(ka==='swap'){e.preventDefault();act('s',-1);return}
+  if((ka==='rotl'||ka==='rotr')&&!e.repeat&&curW().kind!=='build'&&$('#arsenal').hidden&&!S.paused){e.preventDefault();cycleWeapon(ka==='rotl'?-1:1);return}
   if(/^Digit[1-5]$/.test(e.code)&&curW().kind==='grenade'&&!S.charging){act('f',+e.code.slice(5));return}
   if(/^Digit[12]$/.test(e.code)&&curW().kind==='build'){act('g',+e.code.slice(5));return}
   if(e.code==='Equal'||e.code==='NumpadAdd'){setZoom(S.zoom*1.15);return}
   if(e.code==='Minus'||e.code==='NumpadSubtract'){setZoom(S.zoom/1.15);return}
-  const k=KEYMAP[e.code];if(!k||S.paused||!$('#arsenal').hidden)return;e.preventDefault();if(!LH.has(k))LP.add(k);LH.add(k)});
-addEventListener('keyup',e=>{const k=KEYMAP[e.code];if(k)LH.delete(k)});
-addEventListener('blur',()=>{LH.clear();LS.x=LS.y=0});
+  const k=KEYMAP[e.code];if(!k||!KBIT.includes(k)||S.paused||!$('#arsenal').hidden)return;e.preventDefault();if(!LH.has(k))LP.add(k);LH.add(k)});
+addEventListener('keyup',e=>{const k=KEYMAP[e.code];if(k){LH.delete(k);LSTALE.delete(k)}});
+addEventListener('blur',()=>{LH.clear();LSTALE.clear();LS.x=LS.y=0});
+/* ---- keyboard remap (desktop) ---- */
+const keyName=c=>!c?'—':c.startsWith('Key')?c.slice(3):c.startsWith('Digit')?c.slice(5):({ArrowLeft:'←',ArrowRight:'→',ArrowUp:'↑',ArrowDown:'↓',Space:'Space',Enter:'Enter',ShiftLeft:'L Shift',ShiftRight:'R Shift',ControlLeft:'L Ctrl',ControlRight:'R Ctrl',AltLeft:'L Alt',AltRight:'R Alt',Tab:'Tab',Backspace:'Backspace'}[c]||c.replace(/^Numpad/,'Num '));
+let KEYCAP=null;keysChanged(false);
+function buildKeys(){const g=$('#kGrid');g.innerHTML='';
+  for(const[a,label]of KEYACTS){const row=document.createElement('div');row.className='krow';const n=document.createElement('span');n.textContent=label;row.append(n);
+    for(let i=0;i<2;i++){const b=document.createElement('button');b.type='button';b.className='kslot';const cap=KEYCAP&&KEYCAP.a===a&&KEYCAP.i===i;b.textContent=cap?'Press a key…':keyName(KEYS[a][i]);if(cap)b.classList.add('on');
+      b.addEventListener('click',()=>{KEYCAP={a,i};buildKeys()});row.append(b)}
+    g.append(row)}}
+addEventListener('keydown',e=>{if(!KEYCAP)return;e.preventDefault();e.stopImmediatePropagation();const{a,i}=KEYCAP;KEYCAP=null;
+  if(e.code==='Escape'){buildKeys();return}
+  if(e.code==='Backspace'||e.code==='Delete')KEYS[a][i]='';
+  else if(e.code!=='KeyP'){for(const o in KEYS)for(let j=0;j<2;j++)if(KEYS[o][j]===e.code)KEYS[o][j]='';KEYS[a][i]=e.code}
+  keysChanged(true);buildKeys()},{capture:true});
 document.querySelectorAll('[data-k]').forEach(b=>{const k=b.dataset.k;
   const on=e=>{e.preventDefault();initAudio();try{b.setPointerCapture(e.pointerId)}catch(_){}if(!LH.has(k))LP.add(k);LH.add(k);b.classList.add('on')};
-  const off=()=>{LH.delete(k);b.classList.remove('on')};
+  const off=()=>{LH.delete(k);LSTALE.delete(k);b.classList.remove('on')};
   b.addEventListener('pointerdown',on);['pointerup','pointercancel','lostpointercapture'].forEach(ev=>b.addEventListener(ev,off));
   b.addEventListener('contextmenu',e=>e.preventDefault())});
 // One stick: sideways walks, up/down aims. The weaker axis is dropped so a sloppy thumb
@@ -3948,6 +4016,10 @@ try{localStorage.removeItem('grimspire.levers')}catch(_){}
 LEVERS.forEach(l=>l.apply());addEventListener('resize',()=>requestAnimationFrame(()=>LEVERS.forEach(l=>l.fit())));
 const leverOf=el=>LEVERS.find(l=>l.el===el);
 mkSlider($('#sWalk'),'x');mkSlider($('#sAim'),'y');
+if(!coarse)$('#pKeys').hidden=false;
+$('#pKeys').addEventListener('click',()=>{KEYCAP=null;buildKeys();$('#pause').hidden=true;$('#keys').hidden=false});
+$('#kClose').addEventListener('click',()=>{KEYCAP=null;$('#keys').hidden=true;$('#pause').hidden=!S.paused});
+$('#kReset').addEventListener('click',()=>{for(const a in DEFKEYS)KEYS[a]=DEFKEYS[a].slice();keysChanged(true);KEYCAP=null;buildKeys()});
 $('#pLevers').addEventListener('click',()=>{LEVERS.forEach(l=>l.reset());LEVERS.forEach(l=>l.apply())});
 $('#bArs').addEventListener('click',openArsenal);$('#dArs').addEventListener('click',openArsenal);
 $('#aClose').addEventListener('click',closeArsenal);$('#arsenal').addEventListener('click',e=>{if(e.target.id==='arsenal')closeArsenal()});
@@ -4098,27 +4170,39 @@ function addFire(x,y){if(fires.length>130)return;if(fires.some(f=>Math.abs(f.x-x
 function burnTrooper(t,d){if(!t.alive)return;if(time>(t.fcd||0)){hurt(t,d);t.fcd=time+.55}t.burn=Math.max(t.burn||0,1.3)}
 /* troopers who aren't being steered step out of fire on their own. Fire herds people, ledges included */
 function flee(t,dt){
-  if(!t.alive||t.air||t.wet||t.rope||t.skid||t.crouch>0)return;
+  if(!t.alive||t.air||t.rope||t.skid||t.crouch>0)return;
   if(t===S.active&&(S.phase==='aim'||S.phase==='retreat'||(S.phase==='resolve'&&S.mobile)))return;
+  if(t.wet){swimOut(t,dt);return}
   if(time-(t.hoseT??-9)<.12)return;// pinned by the hose: it drives them, they don't run
   let n=0,sx=0;for(const f of fires)if(Math.abs(f.x-t.x)<20&&f.y>t.y-28&&f.y<t.y+8){n++;sx+=f.x}
-  if(!n){t.fleeing=0;return}
+  if(!n){t.fleeing=0;t.fhop=0;radFlee(t,dt);return}
   if(!t.fleeing){t.fleeing=Math.sign(t.x-sx/n)||(Math.random()<.5?1:-1);t.panic=PANIC;texts.push({x:t.x,y:t.y-44,txt:'!',life:.8,col:'#ffb21e'})}
   // first a short panic: stumbling back and forth in the flames (Jarred 4 Nov: they ran out too fast), then run
   if(t.panic>0){t.panic-=dt;const d=(Math.floor(t.panic/PANIC_STEP)%2?1:-1)*t.fleeing;t.face=d;walk(t,d,dt,.55);return}
-  const bx=t.x;t.face=t.fleeing;walk(t,t.fleeing,dt,1.2);if(t.x===bx&&!t.air)t.fleeing*=-1}
+  const bx=t.x;t.face=t.fleeing;walk(t,t.fleeing,dt,1.2);
+  // (21 Nov, Jarred) boxed in a fire ditch: hop for it (twice) before turning round
+  if(t.x===bx&&!t.air&&!(t.clA>CLIMB.burst)){if((t.fhop||0)<2){t.fhop=(t.fhop||0)+1;t.crouch=.16;t.sq=.35;t.hopOut=t.fleeing}else{t.fhop=0;t.fleeing*=-1}}}
 const PANIC=.45,PANIC_STEP=.15;
+/* (21 Nov, Jarred) troopers off their turn walk out of fallout, away from its centre, but won't step off a drop to do it */
+function radFlee(t,dt){const z=zones.find(z=>inZone(t,z));if(!z){t.radDir=0;return}
+  if(!t.radDir)t.radDir=Math.sign(t.x-z.x)||1;const d=t.radDir,fx=t.x+d*6;let k=0;while(k<40&&!isSolid(fx,t.y+1+k))k++;
+  if(k>=40||t.y+k>sump-4){return}
+  const bx=t.x;t.face=d;walk(t,d,dt,1);if(t.x===bx&&!t.air&&!(t.clA>CLIMB.burst)){t.fhop=(t.fhop||0)+1;if(t.fhop<3){t.crouch=.16;t.sq=.35;t.hopOut=d}else{t.fhop=0;t.radDir=-d}}}
+/* (21 Nov, Jarred) and swim for the nearest bank when they're in the sump */
+function swimOut(t,dt){if(!t.swimDir)t.swimDir=landDir(t);const bx=t.x;swim(t,t.swimDir,dt,true);if(!t.wet){t.swimDir=0;return}
+  t.swimT=(t.swimT||0)+dt;if(t.x===bx&&t.swimT>.6){t.swimT=0;t.vy=-200;t.wet=false;t.air=true;t.vx=t.swimDir*85;t.y-=2;splash(t.x,sump)}}
 const CRATE={arms:{col:'#8fb3dc',rgb:[143,179,220]},heavy:{col:'#ffb21e',rgb:[255,178,30]},med:{col:'#a0ff46',rgb:[160,255,70]},tool:{col:'#3ff3ff',rgb:[63,243,255]}};
 function collect(c,t){
   let txt;
   if(c.type==='med'){t.hp+=35;txt='+35 health'}
   else{const pool=c.type==='heavy'?[['sun',35],['mine',35],['lance',20],['nuke',15],['buster',15],['minigun',15],['drone',20],['pod',15]]:c.type==='arms'?[['scatter',1],['bolter',1],['las',1],['flamer',1]]:[['jet',35],['cutter',35],['fab',30],['warp',20]];
-    let r=Math.random()*pool.reduce((a,p)=>a+p[1],0),id=pool[0][0];for(const[k,wt]of pool){if(r<wt){id=k;break}r-=wt}const n=id==='cutter'?2:1;
+    let r=Math.random()*pool.reduce((a,p)=>a+p[1],0),id=pool[0][0];for(const[k,wt]of pool){if(r<wt){id=k;break}r-=wt}const n=c.type==='heavy'?1:id==='cutter'?3:2;/* (21 Nov) rarer crates carry more: guns and tools come in pairs */
     S.ammo[t.team][id]=(S.ammo[t.team][id]||0)+n;txt='+'+WP[id].name+(n>1?' ×'+n:'')}
-  texts.push({x:c.x,y:c.y-30,txt,life:2.2,col:CRATE[c.type].col,small:true});sparks(c.x,c.y-8,10);sfx('pickup');updWeapUI();
+  texts.push({x:c.x,y:c.y-30,txt,life:2.8,col:CRATE[c.type].col});sparks(c.x,c.y-8,16);sfx('pickup');updWeapUI();
+  flashes.push({x:c.x,y:c.y-10,r:c.type==='heavy'?110:70,c:CRATE[c.type].rgb,life:.35,max:.35,i:.9});shake=Math.min(12,shake+(c.type==='heavy'?6:3));if(c.type==='heavy')slowmo(.35);
 }
-const DROP={chance:.33,superChance:.2,superN:4};
-const CRATEMIX={med:20,heavy:30,arms:35,tool:15};// % from the balance sheet
+const DROP={chance:.25,superChance:.2,superN:4};
+const CRATEMIX={med:20,heavy:40,arms:25,tool:15};// % from the balance sheet
 const crateType=()=>{let r=Math.random()*100;for(const k of['med','heavy','arms','tool']){if(r<CRATEMIX[k])return k;r-=CRATEMIX[k]}return'tool'};
 // a crate lands clear of the troopers: the first good spot at least CRATE_CLEAR px from anyone (random across the map,
 // not always the farthest, Jarred 4 Nov); if none turns up, the farthest of the good spots tried
@@ -5058,7 +5142,7 @@ function netCatchUp(){if(S.mode!=='online'||NET.role!=='watch')return;const behi
   if(behind>300&&!NET.skip)for(let i=0;i<Math.min(6,behind-240);i++)tick()}
 function netGameOver(){if(NET.role!=='act')clearNet()}
 function netLeave(){document.title=TITLE0;chatStop();if(NET.unC)NET.unC();if(NET.unM)NET.unM();NET.unC=NET.unM=null;NET.role=null;NET.started=false;S.mode='hot';$('#netBar').hidden=true}
-const GV=74;// bump on every release that changes the sim
+const GV=75;// bump on every release that changes the sim
 function startOnline(code,me,d){BE.update(code,{['vers.'+me]:GV,['arts.'+me]:window.GRIMSPIRE_ART_SIM||''}).catch(()=>{});NET.code=code;NET.me=me;NET.round=d.round||0;NET.snapK=-1;NET.snap=null;NET.matchAtt=d.att||'';NET.started=true;NET.leaving=false;saveNet();
   $('#net').hidden=true;if(!CHAT.un)chatStart();const cfg=Object.assign(mkCfg('online',d.seats,d.mode==='teams'),{mode:'online'});newGame('online',d.seed,cfg);S.genOK=true;
   const base=NET.round*1e5,has=d.snapK!=null&&d.snapK>=base&&d.snap;
@@ -5707,9 +5791,14 @@ const labSimKey=(()=>{let s=JSON.stringify(LAB_PAYLOAD.settings?.scale??1);for(c
   let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}return(h>>>0).toString(36)})();
 window.GRIMSPIRE_ART_SIM=labSimKey;
 // END GRIMSPIRE_ART_RUNTIME
+/* (21 Nov, field report) point blank: when another trooper's body sits between the chest and the muzzle, the shot starts
+   at their body instead of past it (the CPU walking right up with a scatter gun or flamer shot "through" you) */
+{const o0=origin;origin=function(t){const r=o0(t),cx=t.x,cy=t.y-12,L=Math.hypot(r[0]-cx,r[1]-cy);
+  if(L>.5)for(let d=0;d<=L;d++){const x=cx+(r[0]-cx)*d/L,y=cy+(r[1]-cy)*d/L;if(troopers.some(o=>o.alive&&o!==t&&Math.abs(o.x-x)<5.5&&y>o.y-BH&&y<o.y+1))return[x,y,r[2],r[3]]}
+  return r}}
 requestAnimationFrame(frame);
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(resize);
-window.__G={get W(){return W},S,AID,get carvBoxes(){return carvBoxes},gameOver:w=>gameOver(w),NET,stateHash,dress:()=>({tags,scan:(c,x,y,r)=>{const g=c==="g"?gfx:c==="t"?tctx:c==="b"?bctx:mctx;const d=g.getImageData(x-r|0,y-r|0,2*r,2*r).data;let m=0,n=0;for(let j=0;j<2*r;j++)for(let i=0;i<2*r;i++){if((i-r)**2+(j-r)**2>(r-2)**2)continue;const a=d[(j*2*r+i)*4+3];if(a>m)m=a;if(a>40)n++}return [m,n]},px:(c,x,y)=>{const g=c==="g"?gfx:c==="t"?tctx:c==="b"?bctx:mctx;return [...g.getImageData(x|0,y|0,1,1).data]}}),simStep:f=>simStep(f),DROP,OW,MINI,kill:t=>killTrooper(t),get corpses(){return corpses},get graves(){return graves},AI,mines:()=>mines,blds:()=>genTerrain.blds||[],maskURL:()=>{const c=mk(W/2,H/2),x=c.getContext("2d");x.fillStyle="#123";x.fillRect(0,0,W/2,H/2);x.drawImage(back,0,0,W/2,H/2);x.drawImage(terr,0,0,W/2,H/2);x.fillStyle="rgba(60,120,255,.5)";x.fillRect(0,sump/2,W/2,H);return c.toDataURL()},bus:()=>bus(),camSet:(x,y)=>{cam.x=x;cam.y=y},scr:(x,y)=>[(x-cam.x)*scale,(y-cam.y)*scale],base:()=>baseScale,setSump:v=>{sump=v},dropSpot:a=>dropSpot(a||[]),spawnShell:(x,y)=>projs.push({w:WP.mortar,x,y,vx:0,vy:200,owner:null,age:1,fuse:0,rest:false}),MUS,get AC(){return AC},initAudio,setMusicMode,ammo:(tm,id)=>S.ammo[tm][id],surfY:surf,press:k=>{press.add(k);held.add(k)},release:k=>held.delete(k),dropRopeT:t=>dropRope(t),isSolid,explode,shove,switchTo,addFire,hurtT:(t,d)=>hurt(t,d),labFlush:()=>labFlush(),jumpT:t=>jump(t),get projs(){return projs},get troopers(){return troopers},get barrels(){return barrels},get crates(){return crates},get fires(){return fires},get puddles(){return puddles},sump:()=>sump,newGame,update,render,tryFire,launch,selectWeapon,WP,blowBarrel,sky,mkCfg,get order(){return S.order},testWall:(x,y0,y1)=>{for(let yy=y0;yy<y1;yy++)for(let xx=x;xx<x+4;xx++)solid[yy*W+xx]=1},testFlat:(x0,x1,y)=>{for(let yy=y-140;yy<y+30;yy++)for(let x=x0;x<x1;x++)solid[yy*W+x]=yy>=y?1:0},get sentries(){return sentries},get zones(){return zones},get texts(){return texts},cutChutes,nextTurn};
+window.__G={get W(){return W},S,AID,get carvBoxes(){return carvBoxes},gameOver:w=>gameOver(w),NET,stateHash,dress:()=>({tags,scan:(c,x,y,r)=>{const g=c==="g"?gfx:c==="t"?tctx:c==="b"?bctx:mctx;const d=g.getImageData(x-r|0,y-r|0,2*r,2*r).data;let m=0,n=0;for(let j=0;j<2*r;j++)for(let i=0;i<2*r;i++){if((i-r)**2+(j-r)**2>(r-2)**2)continue;const a=d[(j*2*r+i)*4+3];if(a>m)m=a;if(a>40)n++}return [m,n]},px:(c,x,y)=>{const g=c==="g"?gfx:c==="t"?tctx:c==="b"?bctx:mctx;return [...g.getImageData(x|0,y|0,1,1).data]}}),simStep:f=>simStep(f),DROP,OW,MINI,kill:t=>killTrooper(t),get corpses(){return corpses},get graves(){return graves},AI,mines:()=>mines,blds:()=>genTerrain.blds||[],maskURL:()=>{const c=mk(W/2,H/2),x=c.getContext("2d");x.fillStyle="#123";x.fillRect(0,0,W/2,H/2);x.drawImage(back,0,0,W/2,H/2);x.drawImage(terr,0,0,W/2,H/2);x.fillStyle="rgba(60,120,255,.5)";x.fillRect(0,sump/2,W/2,H);return c.toDataURL()},bus:()=>bus(),camSet:(x,y)=>{cam.x=x;cam.y=y},scr:(x,y)=>[(x-cam.x)*scale,(y-cam.y)*scale],base:()=>baseScale,setSump:v=>{sump=v},dropSpot:a=>dropSpot(a||[]),spawnShell:(x,y)=>projs.push({w:WP.mortar,x,y,vx:0,vy:200,owner:null,age:1,fuse:0,rest:false}),MUS,get AC(){return AC},initAudio,setMusicMode,ammo:(tm,id)=>S.ammo[tm][id],surfY:surf,press:k=>{press.add(k);held.add(k)},release:k=>held.delete(k),dropRopeT:t=>dropRope(t),isSolid,explode,shove,switchTo,addFire,hurtT:(t,d)=>hurt(t,d),labFlush:()=>labFlush(),jumpT:t=>jump(t),get projs(){return projs},get troopers(){return troopers},get barrels(){return barrels},get crates(){return crates},get fires(){return fires},get puddles(){return puddles},sump:()=>sump,newGame,update,render,tryFire,launch,selectWeapon,WP,blowBarrel,sky,mkCfg,get order(){return S.order},testWall:(x,y0,y1)=>{for(let yy=y0;yy<y1;yy++)for(let xx=x;xx<x+4;xx++)solid[yy*W+xx]=1},testSet:(x,y,v)=>{solid[(y|0)*W+(x|0)]=v?1:0},testFlat:(x0,x1,y)=>{for(let yy=y-140;yy<y+30;yy++)for(let x=x0;x<x1;x++)solid[yy*W+x]=yy>=y?1:0},get sentries(){return sentries},get zones(){return zones},get texts(){return texts},cutChutes,nextTurn};
 })();
 </script>
 
