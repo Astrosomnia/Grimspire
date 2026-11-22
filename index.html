@@ -4172,22 +4172,24 @@ function burnTrooper(t,d){if(!t.alive)return;if(time>(t.fcd||0)){hurt(t,d);t.fcd
 function flee(t,dt){
   if(!t.alive||t.air||t.rope||t.skid||t.crouch>0)return;
   if(t===S.active&&(S.phase==='aim'||S.phase==='retreat'||(S.phase==='resolve'&&S.mobile)))return;
-  if(t.wet){swimOut(t,dt);return}
+  if(t.wet){if(t!==S.active)swimOut(t,dt);return}
   if(time-(t.hoseT??-9)<.12)return;// pinned by the hose: it drives them, they don't run
   let n=0,sx=0;for(const f of fires)if(Math.abs(f.x-t.x)<20&&f.y>t.y-28&&f.y<t.y+8){n++;sx+=f.x}
-  if(!n){t.fleeing=0;t.fhop=0;radFlee(t,dt);return}
+  if(!n){t.fleeing=0;t.fhop=0;if(t!==S.active)radFlee(t,dt);return}
   if(!t.fleeing){t.fleeing=Math.sign(t.x-sx/n)||(Math.random()<.5?1:-1);t.panic=PANIC;texts.push({x:t.x,y:t.y-44,txt:'!',life:.8,col:'#ffb21e'})}
   // first a short panic: stumbling back and forth in the flames (Jarred 4 Nov: they ran out too fast), then run
   if(t.panic>0){t.panic-=dt;const d=(Math.floor(t.panic/PANIC_STEP)%2?1:-1)*t.fleeing;t.face=d;walk(t,d,dt,.55);return}
   const bx=t.x;t.face=t.fleeing;walk(t,t.fleeing,dt,1.2);
   // (21 Nov, Jarred) boxed in a fire ditch: hop for it (twice) before turning round
-  if(t.x===bx&&!t.air&&!(t.clA>CLIMB.burst)){if((t.fhop||0)<2){t.fhop=(t.fhop||0)+1;t.crouch=.16;t.sq=.35;t.hopOut=t.fleeing}else{t.fhop=0;t.fleeing*=-1}}}
+  if(t.x===bx&&!t.air&&!(t.clA>CLIMB.burst)){if((t.fhop||0)<2&&hopsLeft(t)){t.fhop=(t.fhop||0)+1;t.crouch=.16;t.sq=.35;t.hopOut=t.fleeing}else{t.fhop=0;t.fleeing*=-1}}}
 const PANIC=.45,PANIC_STEP=.15;
 /* (21 Nov, Jarred) troopers off their turn walk out of fallout, away from its centre, but won't step off a drop to do it */
-function radFlee(t,dt){const z=zones.find(z=>inZone(t,z));if(!z){t.radDir=0;return}
+/* (21 Nov, Jarred) at most 4 escape hops per trooper per turn, so someone boxed in gives up and the turn can end */
+function hopsLeft(t){if(t.hopTurn!==S.turnN){t.hopTurn=S.turnN;t.hopN=0}if(t.hopN>=4)return false;t.hopN++;return true}
+function radFlee(t,dt){const z=zones.find(z=>inZone(t,z));if(!z){t.radDir=0;return}if(t.radGive===S.turnN)return
   if(!t.radDir)t.radDir=Math.sign(t.x-z.x)||1;const d=t.radDir,fx=t.x+d*6;let k=0;while(k<40&&!isSolid(fx,t.y+1+k))k++;
   if(k>=40||t.y+k>sump-4){return}
-  const bx=t.x;t.face=d;walk(t,d,dt,1);if(t.x===bx&&!t.air&&!(t.clA>CLIMB.burst)){t.fhop=(t.fhop||0)+1;if(t.fhop<3){t.crouch=.16;t.sq=.35;t.hopOut=d}else{t.fhop=0;t.radDir=-d}}}
+  const bx=t.x;t.face=d;walk(t,d,dt,1);if(t.x===bx&&!t.air&&!(t.clA>CLIMB.burst)){t.fhop=(t.fhop||0)+1;if(t.fhop<3&&hopsLeft(t)){t.crouch=.16;t.sq=.35;t.hopOut=d}else if(t.hopN>=4){t.radGive=S.turnN}else{t.fhop=0;t.radDir=-d}}}
 /* (21 Nov, Jarred) and swim for the nearest bank when they're in the sump */
 function swimOut(t,dt){if(!t.swimDir)t.swimDir=landDir(t);const bx=t.x;swim(t,t.swimDir,dt,true);if(!t.wet){t.swimDir=0;return}
   t.swimT=(t.swimT||0)+dt;if(t.x===bx&&t.swimT>.6){t.swimT=0;t.vy=-200;t.wet=false;t.air=true;t.vx=t.swimDir*85;t.y-=2;splash(t.x,sump)}}
