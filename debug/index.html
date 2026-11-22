@@ -4290,7 +4290,7 @@ function drawWave2(){
   const p=S.pod;if(p){if(!(SPR_DRAW&&SPR_DRAW.pod&&SPR_DRAW.pod(p))){ctx.save();ctx.translate(p.x,p.y);ctx.rotate(Math.atan2(p.vy,p.vx));ctx.fillStyle=INK;ctx.strokeStyle=EDGE;ctx.lineWidth=1.2;
       ctx.beginPath();ctx.moveTo(10,0);ctx.lineTo(4,-5);ctx.lineTo(-9,-5);ctx.lineTo(-9,5);ctx.lineTo(4,5);ctx.closePath();ctx.fill();ctx.stroke();
       ctx.shadowColor=TEAM[p.owner.team].col;ctx.shadowBlur=10;ctx.fillStyle=TEAM[p.owner.team].col;ctx.fillRect(-6,-1,10,2);ctx.restore()}}
-  for(const o of troopers)if(o.alive&&o.stag){ctx.save();ctx.fillStyle=CATCOL.Melee;ctx.globalAlpha=.8;for(let i=0;i<3;i++){const a=time*3+i*2.09;ctx.fillRect(o.x+Math.cos(a)*6-1,o.y-31+Math.sin(a)*2-1,2,2)}ctx.restore()}
+  for(const o of troopers)if(o.alive&&(o.stag||(o===S.active&&S.stag&&(S.phase==='aim'||S.phase==='retreat')))){ctx.save();ctx.fillStyle=CATCOL.Melee;ctx.globalAlpha=.8;for(let i=0;i<3;i++){const a=time*3+i*2.09;ctx.fillRect(o.x+Math.cos(a)*6-1,o.y-31+Math.sin(a)*2-1,2,2)}ctx.restore()}
 }
 let SPR_DRAW={
   sentry(q){if(!SPR.ready)return false;const pv=SPR.P.sentry.p;ctx.save();ctx.translate(q.x,q.y);prop('sentry',artW('sentry')/2,artH('sentry'),.8,true);
