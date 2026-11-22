@@ -6,6 +6,12 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-21 · Claude · Sump stays deadly; escapes give up instead of looping (GV 76)
+
+- Jarred: swimming for the bank confused troopers and caused loops. Removed: troopers in the sump don't swim out (`swimOut` gone).
+- Fire and fallout escapes, when blocked: hop twice, turn round once (two more hops), then give up for the rest of the turn and stand still (`escBlocked`). No more walking into a wall on a loop. Fire ditch test still escapes (9 damage); boxed-in fallout test ends the turn in 2.7 s (was 4.5).
+- dsim/dsim2 identical.
+
 ## 2026-11-21 · Claude · Field reports 21 Nov: walls, turns, controls, crates (GV 75)
 
 - Pulled 14 reports (4–21 Nov). Jarred gave Go on all; the Field Reports board is public so the board couldn't be written from here (items and notes are in this entry instead).
