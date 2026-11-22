@@ -22,6 +22,8 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 - **Crates:** drop chance 33% → 25%; mix health 20 / heavy 40 (was 30) / arms 25 (was 35) / tools 15; arms and tool crates give 2 (cutter 3); pickups get a flash, shake and bigger text, heavy ones a beat of slow-mo. Sheet updated.
 - **Off-turn troopers** (Jarred): boxed in fire they hop for it (twice, steering over the wall) before turning; they walk out of fallout (not off drops) and swim for the nearest bank. Fire ditch test: escaped, 30 → 9 damage.
 - **Fix after Jarred's first play:** the trooper whose turn it is never auto-flees fallout or swims (it took over after firing and hopped into a wall, so the turn never settled). Escape hops are capped at 4 per trooper per turn, then they give up: a boxed-in trooper in fallout now lets the turn end in about 4.5 s.
+- **Remap also covers** Recenter (C) and Zoom in / out (= − and numpad). Esc always pauses; 1–5 fuse and 1–2 girder span stay fixed.
+- **Names (Jarred):** Neon Choir is now Urim, Thummim, Mene, Tekel, Selah, Logos, Codex, Babel, Shibboleth, Cantor, Lumen, Vesper. The Hollow swaps Murmur, Crocell, Furfur and Bune for Legion, Wormwood, Ul-Qoth and Nhyrr. Halo Guard: Thronn → Ophan.
 - Tests: det 4/4 match, dsim/dsim2/dsimart identical; aitest2 34.9 → 32.4 dmg/turn (2 CPU squads, within noise).
 - Next pull `--since 1795304664804`.
 

@@ -520,9 +520,9 @@ const rollMapW=seed=>{let u=hrand((seed^0x5bd1e995)|0)()*MAP_WS.reduce((a,o)=>a+
 const INK='#08090c',EDGE='#5f6676',BONE='#e6e4de';
 const TEAM=[
   {name:'Ash Legion',col:'#ff2e88',rgb:[255,46,136],cloth:[86,24,34],names:['Vael','Castor','Orsk','Hadrin','Absalom','Malchus','Corvin','Ezekar','Tobiah','Ulvar','Thrask','Severin']},
-  {name:'Neon Choir',col:'#3ff3ff',rgb:[63,243,255],cloth:[30,46,68],names:['Seraph','Lumen','Kett','Mordre','Cantor','Ismay','Psalm','Vesper','Obadiah','Solenne','Thessaly','Verity']},
-  {name:'The Hollow',col:'#97eb6a',rgb:[151,235,106],cloth:[88,82,70],names:['Malphas','Sabnock','Orobas','Vapula','Zagan','Murmur','Crocell','Furfur','Andras','Haures','Bune','Glasya']},
-  {name:'Halo Guard',col:'#ffd84a',rgb:[255,216,74],cloth:[190,176,140],names:['Uriel','Aurion','Valthane','Imperon','Lucan','Ithrane','Halcyon','Thronn','Exarion','Kyrios','Solmar','Sanctus']}
+  {name:'Neon Choir',col:'#3ff3ff',rgb:[63,243,255],cloth:[30,46,68],names:['Urim','Thummim','Mene','Tekel','Selah','Logos','Codex','Babel','Shibboleth','Cantor','Lumen','Vesper']},
+  {name:'The Hollow',col:'#97eb6a',rgb:[151,235,106],cloth:[88,82,70],names:['Malphas','Sabnock','Orobas','Vapula','Zagan','Legion','Wormwood','Ul-Qoth','Andras','Haures','Nhyrr','Glasya']},
+  {name:'Halo Guard',col:'#ffd84a',rgb:[255,216,74],cloth:[190,176,140],names:['Uriel','Aurion','Valthane','Imperon','Lucan','Ithrane','Halcyon','Ophan','Exarion','Kyrios','Solmar','Sanctus']}
 ];
 const FACDESC=['Magenta. The old guard of the ward.','Cyan. Hymns and plasma.','Green. They chant backwards.','Gold. Gabriel\u2019s host, scourged and shining.'];
 const NEON={cyan:[63,243,255],mag:[255,46,136],amber:[255,165,40],acid:[160,255,70],ice:[185,212,255]};
@@ -3906,13 +3906,13 @@ function aiUpdate(dt){
 }
 /* ================= input ================= */
 /* (21 Nov, Lyra) desktop keys can be remapped (pause > Keyboard); saved on this device. Two keys per action. */
-const DEFKEYS={left:['ArrowLeft','KeyA'],right:['ArrowRight','KeyD'],up:['ArrowUp','KeyW'],down:['ArrowDown','KeyS'],fire:['Space',''],jump:['Enter','KeyJ'],rotl:['KeyQ',''],rotr:['KeyE',''],arsenal:['Tab','KeyI'],swap:['KeyX','']};
-const KEYACTS=[['left','Walk left'],['right','Walk right'],['up','Aim up'],['down','Aim down'],['fire','Fire'],['jump','Jump'],['rotl','Previous weapon'],['rotr','Next weapon'],['arsenal','Arsenal'],['swap','Swap trooper']];
+const DEFKEYS={left:['ArrowLeft','KeyA'],right:['ArrowRight','KeyD'],up:['ArrowUp','KeyW'],down:['ArrowDown','KeyS'],fire:['Space',''],jump:['Enter','KeyJ'],rotl:['KeyQ',''],rotr:['KeyE',''],arsenal:['Tab','KeyI'],swap:['KeyX',''],center:['KeyC',''],zoomIn:['Equal','NumpadAdd'],zoomOut:['Minus','NumpadSubtract']};
+const KEYACTS=[['left','Walk left'],['right','Walk right'],['up','Aim up'],['down','Aim down'],['fire','Fire'],['jump','Jump'],['rotl','Previous weapon'],['rotr','Next weapon'],['arsenal','Arsenal'],['swap','Swap trooper'],['center','Recenter'],['zoomIn','Zoom in'],['zoomOut','Zoom out']];
 let KEYS=(()=>{try{const k=JSON.parse(localStorage.getItem('gs-keys')||'null');if(k&&typeof k==='object'){const o={};for(const a in DEFKEYS)o[a]=Array.isArray(k[a])?[k[a][0]||'',k[a][1]||'']:DEFKEYS[a].slice();return o}}catch(e){}const o={};for(const a in DEFKEYS)o[a]=DEFKEYS[a].slice();return o})();
 let KEYMAP={};
 function keysChanged(save){KEYMAP={};for(const a in KEYS)for(const c of KEYS[a])if(c)KEYMAP[c]=a;if(save)try{localStorage.setItem('gs-keys',JSON.stringify(KEYS))}catch(e){}
   const el=document.getElementById('keyHint');if(el){const k=a=>KEYS[a].filter(Boolean).map(keyName).join('/')||'—';
-    el.innerHTML=`<b>${k('left')} ${k('right')}</b> move · <b>${k('up')} ${k('down')}</b> aim · hold <b>${k('fire')}</b> to charge · <b>${k('jump')}</b> jump · <b>${k('rotl')} ${k('rotr')}</b> weapon · <b>${k('arsenal')}</b> arsenal · <b>${k('swap')}</b> switch trooper · <b>1–5</b> fuse · mouse to the edge pans · scroll to zoom · <b>C</b> recenter · <b>Esc</b> pause`}}
+    el.innerHTML=`<b>${k('left')} ${k('right')}</b> move · <b>${k('up')} ${k('down')}</b> aim · hold <b>${k('fire')}</b> to charge · <b>${k('jump')}</b> jump · <b>${k('rotl')} ${k('rotr')}</b> weapon · <b>${k('arsenal')}</b> arsenal · <b>${k('swap')}</b> switch trooper · <b>1–5</b> fuse · mouse to the edge pans · <b>${k('zoomIn')} ${k('zoomOut')}</b> or scroll to zoom · <b>${k('center')}</b> recenter · <b>Esc</b> pause`}}
 
 const held=new Set(),press=new Set(),stick={x:0,y:0};      // what the simulation sees this step
 const LH=new Set(),LP=new Set(),LS={x:0,y:0},LA=[];         // what this device's player is doing
@@ -3943,19 +3943,19 @@ addEventListener('keydown',e=>{
   if(!$('#arsenal').hidden){const nav={left:'ArrowLeft',right:'ArrowRight',up:'ArrowUp',down:'ArrowDown'}[ka]||(/^Arrow/.test(e.code)?e.code:null);
     if(nav){e.preventDefault();navArsenal(nav);return}
     if((ka==='fire'||ka==='jump')&&e.code!=='Space'&&e.code!=='Enter'){e.preventDefault();const b=document.activeElement;if(b&&b.closest&&b.closest('#agrid'))b.click();return}}
-  if(e.code==='KeyC'&&!ka){S.camFree=false;S.camSnap=true;return}
+  if(ka==='center'){S.camFree=false;S.camSnap=true;return}
   if(e.code==='KeyL'&&!ka){nsToggle();return}
   if(ka==='swap'){e.preventDefault();act('s',-1);return}
   if((ka==='rotl'||ka==='rotr')&&!e.repeat&&curW().kind!=='build'&&$('#arsenal').hidden&&!S.paused){e.preventDefault();cycleWeapon(ka==='rotl'?-1:1);return}
   if(/^Digit[1-5]$/.test(e.code)&&curW().kind==='grenade'&&!S.charging){act('f',+e.code.slice(5));return}
   if(/^Digit[12]$/.test(e.code)&&curW().kind==='build'){act('g',+e.code.slice(5));return}
-  if(e.code==='Equal'||e.code==='NumpadAdd'){setZoom(S.zoom*1.15);return}
-  if(e.code==='Minus'||e.code==='NumpadSubtract'){setZoom(S.zoom/1.15);return}
+  if(ka==='zoomIn'){setZoom(S.zoom*1.15);return}
+  if(ka==='zoomOut'){setZoom(S.zoom/1.15);return}
   const k=KEYMAP[e.code];if(!k||!KBIT.includes(k)||S.paused||!$('#arsenal').hidden)return;e.preventDefault();if(!LH.has(k))LP.add(k);LH.add(k)});
 addEventListener('keyup',e=>{const k=KEYMAP[e.code];if(k){LH.delete(k);LSTALE.delete(k)}});
 addEventListener('blur',()=>{LH.clear();LSTALE.clear();LS.x=LS.y=0});
 /* ---- keyboard remap (desktop) ---- */
-const keyName=c=>!c?'—':c.startsWith('Key')?c.slice(3):c.startsWith('Digit')?c.slice(5):({ArrowLeft:'←',ArrowRight:'→',ArrowUp:'↑',ArrowDown:'↓',Space:'Space',Enter:'Enter',ShiftLeft:'L Shift',ShiftRight:'R Shift',ControlLeft:'L Ctrl',ControlRight:'R Ctrl',AltLeft:'L Alt',AltRight:'R Alt',Tab:'Tab',Backspace:'Backspace'}[c]||c.replace(/^Numpad/,'Num '));
+const keyName=c=>!c?'—':c.startsWith('Key')?c.slice(3):c.startsWith('Digit')?c.slice(5):({ArrowLeft:'←',ArrowRight:'→',ArrowUp:'↑',ArrowDown:'↓',Space:'Space',Enter:'Enter',ShiftLeft:'L Shift',ShiftRight:'R Shift',ControlLeft:'L Ctrl',ControlRight:'R Ctrl',AltLeft:'L Alt',AltRight:'R Alt',Tab:'Tab',Backspace:'Backspace',Equal:'=',Minus:'-',NumpadAdd:'Num +',NumpadSubtract:'Num −',Comma:',',Period:'.',Slash:'/',Semicolon:';',Quote:"'",BracketLeft:'[',BracketRight:']',Backquote:'`'}[c]||c.replace(/^Numpad/,'Num '));
 let KEYCAP=null;keysChanged(false);
 function buildKeys(){const g=$('#kGrid');g.innerHTML='';
   for(const[a,label]of KEYACTS){const row=document.createElement('div');row.className='krow';const n=document.createElement('span');n.textContent=label;row.append(n);
