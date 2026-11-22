@@ -23,7 +23,7 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 - **Off-turn troopers** (Jarred): boxed in fire they hop for it (twice, steering over the wall) before turning; they walk out of fallout (not off drops) and swim for the nearest bank. Fire ditch test: escaped, 30 → 9 damage.
 - **Fix after Jarred's first play:** the trooper whose turn it is never auto-flees fallout or swims (it took over after firing and hopped into a wall, so the turn never settled). Escape hops are capped at 4 per trooper per turn, then they give up: a boxed-in trooper in fallout now lets the turn end in about 4.5 s.
 - **Remap also covers** Recenter (C) and Zoom in / out (= − and numpad). Esc always pauses; 1–5 fuse and 1–2 girder span stay fixed.
-- **Names (Jarred):** Neon Choir is now Urim, Thummim, Mene, Tekel, Selah, Logos, Codex, Babel, Shibboleth, Cantor, Lumen, Vesper. The Hollow swaps Murmur, Crocell, Furfur and Bune for Legion, Wormwood, Ul-Qoth and Nhyrr. Halo Guard: Thronn → Ophan.
+- **Names (Jarred, second pass):** Neon Choir: Glyph, Codex, Cipher, Sigil, Rune, Hex, Gnomon, Quill, Lattice, Cantor, Lumen, Vesper (olde words with a hacker ring). The Hollow: Malphas, Sabnock, Orobas, Vhool, Zagan, Legion, Wormwood, Ul-Qoth, Andras, Tehom, Nhyrr, Yseth. Halo Guard: Uriel, Aureus, Valthane, Gloriam, Lucan, Ithrane, Halcyon, Ophan, Exarion, Kyrios, Cassiel, Sanctus.
 - Tests: det 4/4 match, dsim/dsim2/dsimart identical; aitest2 34.9 → 32.4 dmg/turn (2 CPU squads, within noise).
 - Next pull `--since 1795304664804`.
 
