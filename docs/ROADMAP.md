@@ -46,6 +46,7 @@ Prototype in HTML/canvas to nail the loop, weapons and feel, then rebuild in **G
 - The roguelike prototype (expect big changes to core systems)
 
 ## Done
+- **Select the Worms way + fuse per squad (22 Nov, GV 77).** See LOG.
 - **Field reports 21 Nov (GV 75):** no scaling rough walls or running up lip cliffs, fair turn rotation with swaps, grenades bounce off troopers, point-blank shots hit, stagger survives a swap, per-trooper weapon, held keys don't carry across turns, Q/E weapon cycle and WASD arsenal, desktop key remap, Hollow green yellower, crates 25% rarer and doubled, off-turn troopers hop out of fire, walk out of fallout and swim for the bank. See LOG 21 Nov.
 - **Back to the 11 Nov kit (18 Nov, GV 73):** 15–16 Nov refreshes rolled back except K13 dome, gritted rocks, S03; K10 cleaned 1× refresh, K05d weathered arch; facade-break circle off; drawn art keeps its darks (no dark-stone lift); statues no brick when zoomed; no kit glow inside hills; rocks seated on their whole base; R10/R11 out until redrawn. See LOG 18 Nov.
 - **Building lab playground (16 Nov):** `experiments/building-lab.html`, generator passes 1–8 from one weight table, game-physics reach and artillery checks with auto-fixes, keep/cut learning, lock-as-template, sketch dressing, export. Private artifact for Jarred. No game code changed

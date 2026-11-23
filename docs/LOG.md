@@ -6,6 +6,12 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-22 · Claude · Select the Worms way, fuse per squad (GV 77)
+
+- **Swap / Select** (Lyra's "choose trooper is weird", Jarred's call): 2 uses per squad per game (`SWAPS`). Before you move or fire, tap swap as often as you like to cycle through the squad in order; the first tap of a turn spends a use, cycling back to whoever's turn it was refunds it. The badge shows uses left (✓ while cycling). The order never moves (like Worms' Select Worm): whoever's turn it was still goes next round and the trooper you picked keeps their own slot. Replaces the 21 Nov "longest waited" rotation; `pickNext` is plain squad order again. A stagger still stays with its trooper.
+- **Fuse per squad** (Lyra): each squad keeps its own grenade fuse (`S.fuseT`), so Player A's 1 s no longer carries to Player B.
+- Test: 5 troopers, start 0 → tap → 1 (2→1 left) → cycle round to 0 (refunded) → pick 3 (1 left); next rounds go 0, 1, 2, 3. dsim/dsim2/dsimart identical, det match.
+
 ## 2026-11-21 · Claude · Sump stays deadly; escapes give up instead of looping (GV 76)
 
 - Jarred: swimming for the bank confused troopers and caused loops. Removed: troopers in the sump don't swim out (`swimOut` gone).

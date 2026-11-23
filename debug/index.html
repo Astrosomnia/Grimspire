@@ -391,7 +391,7 @@ body.intitle #dbg{display:none}
   <div class="slider v" id="sAim" aria-label="Aim"><span></span><i></i><b>AIM</b></div>
   <button id="bArs" type="button">Plasma Mortar</button>
   <button id="bFuse" type="button" hidden>Fuse 3s</button>
-  <button class="rbtn" id="bSwap" type="button" hidden aria-label="Switch trooper, one swap left this turn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9a8 8 0 0 1 14-3l2 2"/><path d="M20 3v5h-5"/><path d="M20 15a8 8 0 0 1-14 3l-2-2"/><path d="M4 21v-5h5"/></svg><small>×1</small></button>
+  <button class="rbtn" id="bSwap" type="button" hidden aria-label="Switch trooper"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9a8 8 0 0 1 14-3l2 2"/><path d="M20 3v5h-5"/><path d="M20 15a8 8 0 0 1-14 3l-2-2"/><path d="M4 21v-5h5"/></svg><small>×2</small></button>
   <button class="rbtn" id="bJump" data-k="jump" type="button">JUMP</button>
   <button class="rbtn" id="bFire" data-k="fire" type="button">FIRE</button>
 </div>
@@ -2959,16 +2959,14 @@ function newGameInner(mode){
   }
   for(let tm=0;tm<4;tm++){S.ammo[tm]={};for(const w of ARS)if(w.ammo>=0)S.ammo[tm][w.id]=w.ammo}
   crates=[];for(const w of NS.sewers||[])if(w.loot)crates.push({x:w.loot.x,y:w.loot.y,vy:0,type:'heavy',landed:false,para:false});ships=[];fires=[];flames=[];mines=[];girders=[];zones=[];sentries=[];S.saw=S.mini=S.drone=S.pod=null;S.stag=false;S.turnN=0;S.rnd=0;statsReset();S.events=[];S.ev=null;S.slow=null;S.cine=0;S.punch=null;S.hitstop=0;S.flame=null;
-  const n0=S.order.length,first=Math.floor(Math.random()*n0);S.team=S.order[(first+n0-1)%n0];S.ptr=[-1,-1,-1,-1];S.weapon=['mortar','mortar','mortar','mortar'];S.lastAtk=['mortar','mortar','mortar','mortar'];S.deathCd=0;S.paused=false;
+  const n0=S.order.length,first=Math.floor(Math.random()*n0);S.team=S.order[(first+n0-1)%n0];S.ptr=[-1,-1,-1,-1];S.swapsLeft=[SWAPS,SWAPS,SWAPS,SWAPS];S.swapFrom=-1;S.fuseT=[3,3,3,3];S.weapon=['mortar','mortar','mortar','mortar'];S.lastAtk=['mortar','mortar','mortar','mortar'];S.deathCd=0;S.paused=false;
   $('#ov').hidden=true;$('#end').hidden=true;$('#end').classList.remove('reveal');document.querySelectorAll('.endEdge').forEach(e=>e.remove());$('#pause').hidden=true;document.body.classList.remove('intitle');preloadEnd();
   dressSeed=null;dressWard();if(window.GRIMSPIRE_SET_PIECES)setPiecesPlace();
   nextTurn();
 }
-/* (21 Nov, Lyra: "some characters got two goes") the trooper who has waited longest goes next, ties in squad order.
-   A swap hands the turn back: the one swapped out keeps their place in the queue. */
-function pickNext(team){const list=troopers.filter(t=>t.team===team);let best=null,bi=-1,bw=1e9;
-  for(let k=1;k<=list.length;k++){const i=(S.ptr[team]+k)%list.length,t=list[i];if(!t.alive)continue;const w=t.went??-1;if(w<bw){bw=w;best=t;bi=i}}
-  if(best){S.ptr[team]=bi;best.wentP=best.went;best.went=S.turnN}return best}
+/* squad order, skipping the dead. Select (swap) doesn't move this: see switchTo */
+function pickNext(team){const list=troopers.filter(t=>t.team===team);
+  for(let k=1;k<=list.length;k++){const i=(S.ptr[team]+k)%list.length;if(list[i].alive){S.ptr[team]=i;return list[i]}}return null}
 function aliveGroups(){return new Set(troopers.filter(t=>t.alive).map(t=>S.ally?S.ally[t.team]:t.team))}
 function winCheck(){if(NS.labTestOn)return false;const g=aliveGroups();if(g.size<=1){gameOver(g.size?[...g][0]:-1);return true}return false}
 function nextSide(f){const o=S.order,n=o.length,i=o.indexOf(f);for(let k=1;k<=n;k++){const g=o[(i+k+n)%n];if(troopers.some(t=>t.alive&&t.team===g))return g}return f}
@@ -2984,7 +2982,7 @@ function beginTurn(){
   if(winCheck())return;
   S.team=nextSide(S.team);S.active=pickNext(S.team);S.timer=TURN_SECS;S.phase='aim';S.charge=0;S.charging=false;S.locked=false;S.fired=false;
   S.jet=null;S.usedJet=false;S.cut=null;S.burst=null;S.strike=null;S.target=null;S.rot=0;S.camFree=false;S.camSnap=true;
-  S.moved=false;S.swapped=false;S.second=false;S.ticked=false;S.mobile=false;S.rb=0;S.ars=false;S.saw=S.mini=S.drone=S.pod=null;S.stag=!!(S.active&&S.active.stag);if(S.active)S.active.stag=false;S.armed=isCPU()||(S.mode!=='online'&&S.mode!=='hot');
+  S.moved=false;S.swapped=false;S.swapFrom=-1;if(S.fuseT)S.fuse=S.fuseT[S.team]??3;S.second=false;S.ticked=false;S.mobile=false;S.rb=0;S.ars=false;S.saw=S.mini=S.drone=S.pod=null;S.stag=!!(S.active&&S.active.stag);if(S.active)S.active.stag=false;S.armed=isCPU()||(S.mode!=='online'&&S.mode!=='hot');
   {const a=S.active;if(a&&a.wpn&&WP[a.wpn])S.weapon[S.team]=a.wpn;if(a&&!hasAmmo(curW())&&a.atk&&WP[a.atk])S.weapon[S.team]=a.atk}/* (21 Nov, Lyra) each trooper keeps the weapon they last held */
   if(!hasAmmo(curW())||WP[S.weapon[S.team]].kind==='jet'||WP[S.weapon[S.team]].kind==='rope')S.weapon[S.team]=(S.active&&S.active.atk&&WP[S.active.atk])?S.active.atk:S.lastAtk[S.team];
   else if(WP[S.weapon[S.team]].kind==='build')S.weapon[S.team]='mortar';/* (14 Nov, Jarred) a fabricator left in hand from last turn goes back to the mortar */
@@ -3255,13 +3253,19 @@ function updCorpses(dt){for(const c of corpses){if(c.done)continue;c.t+=dt;corps
   if(c.kind==='martyr'){if(c.t>.5&&Math.random()<.4)sparks(c.x,c.y-14,1);if(c.t>=1.3){c.done=true;explode(c.x,c.y-6,30,20,{col:TEAM[c.team].rgb,ring:TEAM[c.team].rgb});graves.push({x:c.x,y:c.y,vy:0,team:c.team,rise:0})}}
   else if(c.t>=1.75){c.done=true;graves.push({x:c.x,y:c.y,vy:0,team:c.team,rise:0,body:c})}}
   corpses=corpses.filter(c=>!c.done)}
-function canSwitch(){return S.phase==='aim'&&!S.swapped&&!S.moved&&!S.fired&&!S.charging&&!S.jet&&!isCPU()&&!S.paused&&S.active&&troopers.filter(o=>o.alive&&o.team===S.team).length>1}
-function switchTo(o){if(!canSwitch())return;const list=troopers.filter(x=>x.team===S.team);
-  if(!o){for(let k=1;k<=list.length;k++){const c=list[(S.ptr[S.team]+k)%list.length];if(c.alive&&c!==S.active){o=c;break}}}
+/* (22 Nov, Jarred) Select, the Worms way: SWAPS uses a game per squad. Before you move or fire, tap swap as often as you
+   like to cycle through the squad; the first tap of a turn spends a use, coming back to whoever's turn it was refunds it.
+   The order never moves: whoever's turn it was still goes next round, and the trooper you picked keeps their own slot. */
+const SWAPS=2;
+function canSwitch(){return S.phase==='aim'&&(S.swapped||(S.swapsLeft?S.swapsLeft[S.team]:0)>0)&&!S.moved&&!S.fired&&!S.charging&&!S.jet&&!isCPU()&&!S.paused&&S.active&&troopers.filter(o=>o.alive&&o.team===S.team).length>1}
+function switchTo(o){if(!canSwitch())return;const list=troopers.filter(x=>x.team===S.team),n=list.length;
+  if(!o){const ai=list.indexOf(S.active);for(let k=1;k<=n;k++){const c=list[(ai+k)%n];if(c.alive&&c!==S.active){o=c;break}}}
   if(!o||!o.alive||o===S.active||o.team!==S.team)return;
-  {const a=S.active;if(a){a.went=a.wentP;if(S.stag)a.stag=true}o.wentP=o.went;o.went=S.turnN}/* (21 Nov) queue place goes back; a stagger stays with its trooper */
+  {const a=S.active;if(a&&S.stag)a.stag=true}/* a stagger stays with its trooper */
   S.stag=!!o.stag;o.stag=false;
-  S.ptr[S.team]=list.indexOf(o);S.active=o;S.swapped=true;S.camSnap=true;S.camFree=false;
+  if(!S.swapped){S.swapFrom=troopers.indexOf(S.active);S.swapped=true;S.swapsLeft[S.team]--;const fi=list.indexOf(S.active);S.ptr[S.team]=(fi-1+n)%n}
+  else if(troopers.indexOf(o)===S.swapFrom){S.swapped=false;S.swapsLeft[S.team]++;S.ptr[S.team]=list.indexOf(o);S.swapFrom=-1}
+  S.active=o;S.camSnap=true;S.camFree=false;
   {const own=o.wpn&&WP[o.wpn];if(own&&hasAmmo(own)&&own.kind!=='jet'&&own.kind!=='rope'&&own.kind!=='build')selectWeapon(o.wpn);else if(o.atk&&WP[o.atk])selectWeapon(o.atk)}/* (21 Nov, Lyra) their own weapon */
   if(curW().kind==='target'||curW().kind==='build')selectWeapon(S.weapon[S.team]);
   if(S.stag)texts.push({x:o.x,y:o.y-70,txt:'Staggered · no moving this turn',life:2.2,col:BONE,small:true});
@@ -3920,7 +3924,7 @@ const LH=new Set(),LP=new Set(),LS={x:0,y:0},LA=[];         // what this device'
 const KBIT=['left','right','up','down','fire','jump','rotl','rotr'];
 // UI actions that change the game go through a queue so they land on a step, in order, on every device
 function act(k,v){if(k==='t'||k==='f'||k==='g'){for(let i=LA.length-1;i>=0;i--)if(LA[i][0]===k)LA.splice(i,1)}LA.push([k,v])}
-function applyAct(a){const[k,v]=a;if(k==='a'){S.ars=!!v&&S.phase==='aim';return}if(k==='k'){cutChutes();return}if(k==='q'){withdraw(v);return}if(k==='w')selectWeapon(v);else if(k==='f'){if(!S.charging)S.fuse=v}else if(k==='g'){S.span=v===2?2:1}
+function applyAct(a){const[k,v]=a;if(k==='a'){S.ars=!!v&&S.phase==='aim';return}if(k==='k'){cutChutes();return}if(k==='q'){withdraw(v);return}if(k==='w')selectWeapon(v);else if(k==='f'){if(!S.charging){S.fuse=v;if(S.fuseT)S.fuseT[S.team]=v}}else if(k==='g'){S.span=v===2?2:1}
   else if(k==='s')switchTo(v<0?undefined:troopers[v]);
   else if(k==='t'){const w=curW();if(S.phase==='aim'&&!isCPU()&&(w.kind==='target'||w.kind==='build'||w.kind==='warp'))S.target={x:v[0],y:v[1]}}}
 /* (21 Nov, Lyra) a key still held when the turn changes hands is ignored until it's let go, so the last player's jump
@@ -4992,6 +4996,7 @@ function updHud(){netHud();{const tc=S.phase==='aim'||S.phase==='retreat'?TEAM[S
   const fab=S.phase==='aim'&&!isCPU()&&w.kind==='build',gren=(S.phase==='aim'&&!isCPU()&&w.kind==='grenade')||fab,ft=fab?`Span ×${S.span||1}`:`Fuse ${S.fuse}s`;
   for(const id of['#bFuse','#dFuse']){const el=$(id);if(el.hidden===gren)el.hidden=!gren;if(gren&&el.textContent!==ft)el.textContent=ft}
   const sw=canSwitch(),bs=$('#bSwap');if(bs.hidden===sw)bs.hidden=!sw;
+  if(sw){const nl=S.swapsLeft[S.team],tx=S.swapped?'✓':'×'+nl,sm=bs.querySelector('small');if(sm&&sm.textContent!==tx){sm.textContent=tx;bs.setAttribute('aria-label',S.swapped?'Switch trooper (cycling, already paid for)':`Switch trooper, ${nl} left this game`)}}
   const idle=S.phase==='aim'&&!S.armed;if(hc.idle!==idle){hc.idle=idle;hudEls.timer.classList.toggle('idle',idle)}
   const warn=(S.phase==='aim'&&S.timer<6&&!S.second)||S.phase==='retreat';if(hc.warn!==warn){hc.warn=warn;hudEls.timer.classList.toggle('warn',warn)}
   const wd=windAcc()/300;setS('wfill','left',(wd>=0?50:50+wd*50)+'%');setS('wfill','width',Math.abs(wd*50)+'%');
@@ -5025,7 +5030,7 @@ function chargeSound(){
 /* ================= save / load a whole match ================= */
 function rleEnc(a){const out=[];let cur=0,run=0;for(let i=0;i<a.length;i++){if(a[i]===cur)run++;else{out.push(run.toString(36));cur=a[i];run=1}}out.push(run.toString(36));return out.join('.')}
 function rleDec(str,a){let i=0,cur=0;for(const t of str.split('.')){const n=parseInt(t,36);a.fill(cur,i,i+n);i+=n;cur^=1}}
-const SKEYS=['stats','ars','rnd','swapped','order','ally','ctl','squad','gone','stag','armed','team','ptr','timer','phase','turnN','events','wind','ammo','weapon','lastAtk','shots','fuse','span','usedJet','rb','mobile','second','moved','fired','locked','deathCd','wait','ticked','lastBarrel','slow','deathCam','layout','retreat','target','rot','hitstop','punch'];
+const SKEYS=['stats','ars','rnd','swapped','swapsLeft','swapFrom','fuseT','order','ally','ctl','squad','gone','stag','armed','team','ptr','timer','phase','turnN','events','wind','ammo','weapon','lastAtk','shots','fuse','span','usedJet','rb','mobile','second','moved','fired','locked','deathCd','wait','ticked','lastBarrel','slow','deathCam','layout','retreat','target','rot','hitstop','punch'];
 function snapState(){const o={v:1,seed:S.seed,w:W,terr:rleEnc(solid),sump,time,rng:SR.s,act:troopers.indexOf(S.active),S:{}};
   for(const k of SKEYS)o.S[k]=S[k];
   Object.assign(o,{sentries,zones,troopers,mines,barrels,crates,fires,puddles,graves,corpses,girders,fx:fixtures.map(f=>f.alive?1:0).join('')});
@@ -5148,7 +5153,7 @@ function netCatchUp(){if(S.mode!=='online'||NET.role!=='watch')return;const behi
   if(behind>300&&!NET.skip)for(let i=0;i<Math.min(6,behind-240);i++)tick()}
 function netGameOver(){if(NET.role!=='act')clearNet()}
 function netLeave(){document.title=TITLE0;chatStop();if(NET.unC)NET.unC();if(NET.unM)NET.unM();NET.unC=NET.unM=null;NET.role=null;NET.started=false;S.mode='hot';$('#netBar').hidden=true}
-const GV=76;// bump on every release that changes the sim
+const GV=77;// bump on every release that changes the sim
 function startOnline(code,me,d){BE.update(code,{['vers.'+me]:GV,['arts.'+me]:window.GRIMSPIRE_ART_SIM||''}).catch(()=>{});NET.code=code;NET.me=me;NET.round=d.round||0;NET.snapK=-1;NET.snap=null;NET.matchAtt=d.att||'';NET.started=true;NET.leaving=false;saveNet();
   $('#net').hidden=true;if(!CHAT.un)chatStart();const cfg=Object.assign(mkCfg('online',d.seats,d.mode==='teams'),{mode:'online'});newGame('online',d.seed,cfg);S.genOK=true;
   const base=NET.round*1e5,has=d.snapK!=null&&d.snapK>=base&&d.snap;
