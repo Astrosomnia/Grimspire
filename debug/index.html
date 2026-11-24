@@ -102,6 +102,7 @@ body.chatting #chatFeed p.old{opacity:1}
 #banner small{display:block;font-family:var(--mono);font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--bone);margin-top:8px}
 #banner small.pre{margin:0 0 10px;color:var(--bone);letter-spacing:.4em}
 #banner.show{animation:ban 1.9s ease forwards}
+#banner.sd div{font-size:1.25em;letter-spacing:.08em;text-transform:uppercase}#banner.sd.show{animation:ban 2.6s ease forwards}
 @keyframes ban{0%{opacity:0;transform:translateY(8px)}12%{opacity:1;transform:none}75%{opacity:1}100%{opacity:0}}
 
 #recenter{position:fixed;z-index:2;top:calc(var(--hudh,82px) + 10px);right:max(16px,env(safe-area-inset-right,0px));
@@ -2959,7 +2960,7 @@ function newGameInner(mode){
   }
   for(let tm=0;tm<4;tm++){S.ammo[tm]={};for(const w of ARS)if(w.ammo>=0)S.ammo[tm][w.id]=w.ammo}
   crates=[];for(const w of NS.sewers||[])if(w.loot)crates.push({x:w.loot.x,y:w.loot.y,vy:0,type:'heavy',landed:false,para:false});ships=[];fires=[];flames=[];mines=[];girders=[];zones=[];sentries=[];S.saw=S.mini=S.drone=S.pod=null;S.stag=false;S.turnN=0;S.rnd=0;statsReset();S.events=[];S.ev=null;S.slow=null;S.cine=0;S.punch=null;S.hitstop=0;S.flame=null;
-  const n0=S.order.length,first=Math.floor(Math.random()*n0);S.team=S.order[(first+n0-1)%n0];S.ptr=[-1,-1,-1,-1];S.swapsLeft=[SWAPS,SWAPS,SWAPS,SWAPS];S.swapFrom=-1;S.fuseT=[3,3,3,3];S.weapon=['mortar','mortar','mortar','mortar'];S.lastAtk=['mortar','mortar','mortar','mortar'];S.deathCd=0;S.paused=false;
+  const n0=S.order.length,first=Math.floor(Math.random()*n0);S.team=S.order[(first+n0-1)%n0];S.ptr=[-1,-1,-1,-1];SDSHOWN=false;SDT=-1e9;S.swapsLeft=[SWAPS,SWAPS,SWAPS,SWAPS];S.swapFrom=-1;S.fuseT=[3,3,3,3];S.weapon=['mortar','mortar','mortar','mortar'];S.lastAtk=['mortar','mortar','mortar','mortar'];S.deathCd=0;S.paused=false;
   $('#ov').hidden=true;$('#end').hidden=true;$('#end').classList.remove('reveal');document.querySelectorAll('.endEdge').forEach(e=>e.remove());$('#pause').hidden=true;document.body.classList.remove('intitle');preloadEnd();
   dressSeed=null;dressWard();if(window.GRIMSPIRE_SET_PIECES)setPiecesPlace();
   nextTurn();
@@ -3053,7 +3054,11 @@ $('#eQuit').addEventListener('click',()=>quitToTitle());
 function quitToTitle(){document.querySelectorAll('.endEdge').forEach(e=>e.remove());$('#end').classList.remove('reveal');if(S.mode==='online')netLeave();S.phase='title';setMusicMode('title');S.paused=false;$('#pause').hidden=true;$('#end').hidden=true;$('#result').hidden=true;$('#lede').hidden=false;
   $('#goRematch').hidden=true;$('#goCpu').firstChild.textContent='Fight the machine';
   $('#ov').hidden=false;document.body.classList.add('intitle')}
-function banner(a,b,col,pre){const el=$('#banner');el.innerHTML='';if(pre){const p=document.createElement('small');p.className='pre';p.textContent=pre;el.append(p)}const t=document.createElement('div');t.textContent=a;t.style.color=col;
+/* (23 Nov, Jarred) sudden death gets its own title card the first time the sump rises; the next turn's banner carries a
+   small "Sudden death" line over it so it isn't lost when that banner takes over */
+let SDT=-1e9,SDSHOWN=false;const SD_COL='#ff3c4e';
+function sdBanner(){if(SDSHOWN)return false;SDSHOWN=true;SDT=performance.now();banner('Sudden death','The sump rises every round',SD_COL,null,true);return true}
+function banner(a,b,col,pre,sd){const el=$('#banner');el.innerHTML='';el.classList.toggle('sd',!!sd);if(!sd&&!pre&&performance.now()-SDT<5000)pre='Sudden death';if(pre){const p=document.createElement('small');p.className='pre';p.textContent=pre;el.append(p)}const t=document.createElement('div');t.textContent=a;t.style.color=col;
   t.style.textShadow=`0 0 22px ${col}`;const s=document.createElement('small');s.textContent=b;el.append(t,s);
   el.classList.remove('show');void el.offsetWidth;el.classList.add('show')}
 const canPick=()=>S.phase==='aim'&&!isCPU()&&!S.fired&&(!S.jet||S.jet.parked)&&!S.charging&&!S.paused;
@@ -3623,7 +3628,7 @@ function fizzle(p){const big=p.w.nuke||p.w.id==='sun';splash(p.x,sump);bubbles(p
 function detonate(p){const w=p.w;
   if(w.nuke){explode(p.x,p.y,w.r,w.dmg,{big:true,col:[255,230,180]});for(let i=0;i<40;i++)parts.push({k:'smoke',x:p.x+rnd(-40,40),y:p.y-rnd(0,60),vx:rnd(-30,30),vy:rnd(-140,-40),life:rnd(2,4),max:4,s:rnd(14,30),c:rnd(28,60)|0});
     {const R=w.r*1.45;zones.push({x:p.x,y:p.y+R*.25,r0:R,left:FALLOUT.turns})}
-    flash=1.6;if((S.rnd||0)<SD_ROUND){S.rnd=SD_ROUND;banner('The sump rises','Sudden death','#9fb4d8')}else texts.push({x:p.x,y:p.y-60,txt:'The sump rises',life:2.4,col:BONE,small:true});
+    flash=1.6;if((S.rnd||0)<SD_ROUND){S.rnd=SD_ROUND;sdBanner()||banner('The sump rises','Sudden death','#9fb4d8')}else texts.push({x:p.x,y:p.y-60,txt:'The sump rises',life:2.4,col:BONE,small:true});
     sump-=13*S.order.length;sfx('rise')}
   else if(w.id==='sun'){explode(p.x,p.y,w.r,w.dmg,{col:[170,150,255],ring:[220,210,255],hot:true,v:[p.vx,p.vy],am:true});AMX=AM_FLASH}
   else explode(p.x,p.y,w.r,w.dmg,{v:[p.vx,p.vy]})}
@@ -4221,7 +4226,7 @@ const CRATE_CLEAR=80,CRATE_PICKS=12;
 function dropSpot(avoid){const clear=(c,y)=>{let m=1e9;for(const t of troopers)if(t.alive)m=Math.min(m,Math.hypot(t.x-c,t.y-y));return m};let best=null,bd=-1,n=0;
   for(let i=0;i<60&&n<CRATE_PICKS;i++){const c=rnd(140,W-140),y=surf(c);if(y>80&&y<sump-70&&!isSolid(c,y-30)&&!avoid.some(a=>Math.abs(a-c)<160)){n++;const d=clear(c,y);if(d>=CRATE_CLEAR)return c;if(d>bd){bd=d;best=c}}}return best}
 function startEvent(k){
-  if(k==='rise'){S.ev={k,t:0,from:sump,to:sump-13*S.order.length};banner('The sump rises','Sudden death','#9fb4d8');sfx('rise')}
+  if(k==='rise'){S.ev={k,t:0,from:sump,to:sump-13*S.order.length};sdBanner()||banner('The sump rises','Sudden death','#9fb4d8');sfx('rise')}
   else{const big=Math.random()<DROP.superChance,dir=Math.random()<.5?1:-1,xs=[];
     for(let n=0;n<(big?DROP.superN:1);n++){const x=dropSpot(xs);if(x!==null)xs.push(x)}if(!xs.length)xs.push(W/2);
     xs.sort((a,b)=>(a-b)*dir);const drops=xs.map(x=>({x,type:crateType()}));

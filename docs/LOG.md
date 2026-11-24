@@ -6,6 +6,10 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-23 · Claude · Sudden death title card
+
+- Jarred: when sudden death begins (first sump rise, or a Doomsday Shell starting it early), a big crimson **SUDDEN DEATH** card shows ("The sump rises every round"), held a little longer than the turn banner. The next turn's banner carries a small "Sudden death" line above the squad name. Later rises keep the old "The sump rises" banner. Visual only, no GV change; det match.
+
 ## 2026-11-22 · Claude · Select the Worms way, fuse per squad (GV 77)
 
 - **Swap / Select** (Lyra's "choose trooper is weird", Jarred's call): 2 uses per squad per game (`SWAPS`). Before you move or fire, tap swap as often as you like to cycle through the squad in order; the first tap of a turn spends a use, cycling back to whoever's turn it was refunds it. The badge shows uses left (✓ while cycling). The order never moves (like Worms' Select Worm): whoever's turn it was still goes next round and the trooper you picked keeps their own slot. Replaces the 21 Nov "longest waited" rotation; `pickNext` is plain squad order again. A stagger still stays with its trooper.
