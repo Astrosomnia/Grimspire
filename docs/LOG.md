@@ -6,6 +6,10 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-24 · Claude · Names
+
+- Neon Choir: Glyph, Cipher, Sigil, Hex, Codex, Rune, Vector, Echo, Axiom, Null, Vox, Proxy. The Hollow: Xhaal for Wormwood, Zhothra for Andras.
+
 ## 2026-11-23 · Claude · Sudden death title card
 
 - Jarred: when sudden death begins (first sump rise, or a Doomsday Shell starting it early), a big crimson **SUDDEN DEATH** card shows ("The sump rises every round"), held a little longer than the turn banner. The next turn's banner carries a small "Sudden death" line above the squad name. Later rises keep the old "The sump rises" banner. Visual only, no GV change; det match.
