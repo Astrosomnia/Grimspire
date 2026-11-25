@@ -6,6 +6,19 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-25 · Claude · Horde mode, first build (branch `horde`, not on main)
+
+Jarred's brief (project doc `claude/horde-mode.md`): your squad against the Risen, round after round, with a drop ship shop between rounds. Overnight build for him to try.
+- **Title → Horde:** pick your squad and the turn order (*Whole squad*: every trooper acts, then the tide; *One trooper*: Worms order, tide after each turn). Always the drowned district. Four troopers, Rail Carbine and frag only.
+- **The Risen** (team slot borrowed while Horde runs, violet `#b79bff`): climb out of the water near the squad in waves (6, +2 a round; brutes from round 4). Claws only, one strike each per tide (12, brutes 22 and a big shove). They climb walls, step round small overhangs, and leap or wander when they make no headway. Knocked into the sump they go back under and come up again later in the round; off the map sides kills them; a crate dropped on one crushes it. Drawn in code (no Forge art): hunched, long clawed arms, wet hair, violet eyes, rim-lit like the troopers; brutes bigger with spines, a collar and a lit wound.
+- **The tide:** after your turn(s) every Risen moves and strikes at once for 4.5 s, then it's your go again.
+- **Downed, not dead:** a trooper at 0 is downed; a Risen that reaches them finishes them. Everyone downed is game over. Downed troopers get up at 25 at the end of a round. **Last Rites** (Horde-only item, Tools) raises a downed trooper beside you at 35 with a holy shockwave and doesn't end your turn.
+- **Tithe and the drop ship:** 5 a kill (brute 20), plus a round bonus. Round clear → the Drop ship screen (arsenal tiles): Last Rites, mortar and Thunder Fist unlocks, flamer, scatter, bolter, antimatter, mine, jump pack, wire, fabricator, field dressing. The ship flies over and drops each crate on or right next to a trooper. No crates during rounds. The sump rises every 3 rounds.
+- **End:** Overrun screen with rounds held, Risen slain, tithe, time.
+- **Tuning:** `HZ` in the Horde block, or hash overrides like `#hz.wave0=10&hz.tide=6`.
+- **Normal battles unchanged:** det match on all four seeds; dsim output identical to `main`; dsim2 identical. No GV bump (Horde is local only, never online).
+- **Not yet:** async co-op (2 × 2 troopers), spitters and bosses, bonus reliquary rooms, the tall fallback map, leaderboard, spawn warnings.
+
 ## 2026-11-25 · Claude · CPU pacing trim
 
 - Jarred: the long holds felt robotic. Hold on a swapped-to trooper 2.5 → 2 s; aim hold before firing 1.5 → 0.4 s (as it was). Weapon pick stays 1.5 s, swap look 1.4 s, 0.9 s per swap tap.
