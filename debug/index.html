@@ -384,7 +384,7 @@ body.intitle #dbg{display:none}
 <button id="recenter" type="button" hidden>Recenter</button>
 
 <div id="desk">
-  <div class="drow"><button class="wchip" id="dArs" type="button">Plasma Mortar <em>∞</em></button><button class="wchip fz" id="dFuse" type="button" hidden>Fuse 3s</button></div>
+  <div class="drow"><button class="wchip" id="dArs" type="button">Plasma Mortar <em>∞</em></button><button class="wchip fz" id="dFuse" type="button" hidden>Fuse 3s</button><button class="wchip" id="dBrace" type="button" hidden title="End the turn dug in (Horde)">Brace</button></div>
   <div class="keys" id="keyHint"><b>← →</b> move · <b>↑ ↓</b> aim · hold <b>Space</b> to charge · <b>Enter</b> jump · <b>Tab</b> arsenal · <b>X</b> switch trooper · <b>1–5</b> fuse · mouse to the edge pans · scroll to zoom · <b>C</b> recenter · <b>Esc</b> pause</div>
 </div>
 
@@ -566,6 +566,7 @@ const ARS=[
   {id:'cutter',name:'Plasma Cutter',cat:'Tools',kind:'cutter',ammo:5,desc:'Bores a tunnel in the aim direction. Burns anyone in front of the torch.'},
   {id:'fab',name:'Fabricator',cat:'Tools',kind:'build',ammo:3,desc:'Prints a girder anywhere within reach. Span sets one or two lengths (keys 1–2).'},
   {id:'warp',name:'Teleporter',cat:'Tools',kind:'warp',ammo:0,desc:'Pick an open spot within range. Blink there.'},
+  {id:'brace',name:'Brace',cat:'Tools',kind:'brace',ammo:0,hz:true,desc:'Horde only. End your turn dug in: half damage and barely a shove from claws until your next go.'},
   {id:'rite',name:'Last Rites',cat:'Tools',kind:'rite',ammo:0,hz:true,desc:'Horde only. Raise a downed trooper next to you, with a holy shockwave. Doesn\u2019t end your turn.'}
 ];
 const WP=Object.fromEntries(ARS.map(w=>[w.id,w]));
@@ -3119,6 +3120,7 @@ const ICONS={
   drone:'<path d="M4 13h14l2 3H3z"/><path d="M3 16h17v3H3z"/><circle cx="6" cy="17.5" r=".6"/><circle cx="11.5" cy="17.5" r=".6"/><circle cx="17" cy="17.5" r=".6"/><path d="M7 13V9h7v4"/><path d="M15 9l3-3"/>',
   pod:'<path d="M12 2c4 3 5 7 5 11v4H7v-4c0-4 1-8 5-11z"/><path d="M12 7v6"/><path d="M9 20l-1 2M15 20l1 2M12 20v2"/>',
   warp:'<circle cx="7" cy="16" r="3"/><circle cx="17" cy="8" r="3" stroke-dasharray="1.6 1.6"/><path d="M9.5 13.5l5-3"/><path d="M4 21h6M14 3h6"/>',
+  brace:'<path d="M12 3l7 3v5c0 5-3.2 8.2-7 10-3.8-1.8-7-5-7-10V6z"/><path d="M8.5 12.5l2.5 2.5 4.5-5"/>',
   rite:'<path d="M12 4v16M7.5 9h9"/><circle cx="12" cy="9" r="6.5" stroke-dasharray="1.4 2.1"/><path d="M8 21h8"/>',
   fab:'<path d="M2 8.5h20M2 15.5h20"/><path d="M2 15.5l3.3-7 3.4 7 3.3-7 3.3 7 3.4-7 3.3 7"/><path d="M12 2v3M12 19v3" stroke-dasharray="1 1.6"/>'
 };
@@ -3132,7 +3134,7 @@ function buildArsenal(){
   const root=$('#agrid');root.innerHTML='';
   for(const cat of CATS){const sec=document.createElement('div');sec.className='acat c-'+cat.toLowerCase();const h=document.createElement('h3');h.textContent=cat;sec.append(h);
     const grid=document.createElement('div');grid.className='agrid';
-    for(const w of ARS.filter(x=>x.cat===cat&&!x.off&&!(x.hz&&!S.hz))){const a=ammoOf(S.team,w);const b=document.createElement('button');b.type='button';b.className='tile';
+    for(const w of ARS.filter(x=>x.cat===cat&&!x.off&&!(x.hz&&!S.hz)&&!(S.hz&&!(ammoOf(S.team,x)>0)))){/* Horde: only what you have */const a=ammoOf(S.team,w);const b=document.createElement('button');b.type='button';b.className='tile';
       b.setAttribute('aria-pressed',String(S.weapon[S.team]===w.id));b.disabled=a<=0||(w.kind==='jet'&&S.usedJet);
       const n=document.createElement('b');n.textContent=w.name;const em=document.createElement('em');em.textContent=a===Infinity?'∞':'×'+a;n.append(em);
       const d=document.createElement('span');d.textContent=w.desc;b.insertAdjacentHTML('afterbegin',icon(w.id));b.append(n,d);
@@ -3301,7 +3303,7 @@ function tryFire(){
   if(t&&S.jet&&S.jet.parked&&w.kind==='jet'&&S.phase==='aim'){S.jet.parked=false;S.jet.age=0;t.air=true;t.vy=Math.min(t.vy,-80);t.y-=1;return}
   if(!t||!t.alive||S.phase!=='aim'||(!hasAmmo(w)&&!S.second)||(S.jet&&!S.jet.parked)||t.rope||S.saw||S.mini||S.drone||S.pod)return;
   if(w.kind!=='jet'&&w.kind!=='build'&&w.kind!=='target'&&w.kind!=='rope'&&t.air)return;
-  if(w.kind==='rite'){hzRite();return}
+  if(w.kind==='rite'){hzRite();return}if(w.kind==='brace'){hzBrace();return}
   S.camFree=false;
   switch(w.kind){
     case'shell':case'grenade':S.charging=true;S.charge=0;return;
@@ -4177,6 +4179,7 @@ $('#goCpu').addEventListener('click',()=>openSetup('cpu'));
 for(const ev of['pointerdown','keydown'])addEventListener(ev,()=>{if(!AC)initAudio()},{capture:true});
 $('#goHot').addEventListener('click',()=>openSetup('hot'));
 $('#goHorde').addEventListener('click',()=>openSetup('horde'));
+$('#dBrace').addEventListener('click',()=>{if(S.hz&&S.phase==='aim'&&!isCPU())hzBrace()});
 $('#hzCall').addEventListener('click',()=>{if(S.hz&&S.phase==='shop')hzShopCall()});$('#hzClear').addEventListener('click',()=>{if(S.hz&&S.phase==='shop')hzShopClear()});
 // canvas pan / pinch / tap
 const ptrs=new Map();let pinch=null;
@@ -4237,7 +4240,7 @@ if(/(^#|&)bldtest\b/.test(location.hash)){(async()=>{
   setTimeout(go,50);setInterval(()=>{if(NS.labTestOn&&S.phase==='aim')S.timer=TURN_SECS},500)})()}
 setInterval(()=>{if(DBG.on){if(DBG.inf&&S.phase==='aim')S.timer=TURN_SECS;if($('#dbP')&&!$('#dbP').hidden)dbgDraw()}},500);
 // Phones start closer in and can pinch in much further, to see the art.
-function setZoom(z,sx,sy){z=clamp(z,.55,coarse?4:2.4);if(sx!==undefined){const w=toWorld(sx,sy);S.zoom=z;scale=baseScale*z;cam.x=w.x-sx/scale;cam.y=w.y-sy/scale;S.camFree=true}else{S.zoom=z;scale=baseScale*z}}
+function setZoom(z,sx,sy){z=clamp(z,S.hz&&HZ.minZ?HZ.minZ:.55,coarse?4:2.4);if(sx!==undefined){const w=toWorld(sx,sy);S.zoom=z;scale=baseScale*z;cam.x=w.x-sx/scale;cam.y=w.y-sy/scale;S.camFree=true}else{S.zoom=z;scale=baseScale*z}}
 function targetAt(sx,sy){const w=curW();if(S.phase!=='aim'||isCPU()||!localTurn()||(w.kind!=='target'&&w.kind!=='build'&&w.kind!=='warp'))return false;const p=toWorld(sx,sy);act('t',[Math.round(clamp(p.x,10,W-10)),Math.round(p.y)]);return true}
 function tapAt(sx,sy){if(DBG.placing){dbgPlace(sx,sy);return}if(crates.some(c=>c.para&&!c.landed)&&localTurn()){act('k',1);return}if(targetAt(sx,sy))return}// swapping is the swap button or X only
 addEventListener('pointermove',e=>{if(e.pointerType==='mouse'){mouse.x=e.clientX;mouse.y=e.clientY;mouse.in=true}});
@@ -4611,7 +4614,7 @@ function update(dt){
    Flow: wave rises (phase 'hzrise') → your turns → the tide (phase 'tide', every Risen acts at once) → … → round clear →
    drop ship shop (phase 'shop' then 'hzship') → next wave. Local only (solo or pass the device), never online.
    Brief: claude/horde-mode.md in the Grimspire project. Tuning: HZ below, or #horde&hz.wave0=10 style hash overrides. */
-const HZ={wave0:6,waveAdd:2,cap:30,hp:24,hpAdd:2,claw:12,clawWind:.32,clawCd:.9,strikes:1,reach:13,speed:1,climb:38,tide:4.5,turn:30,
+const HZ={wave0:8,waveAdd:3,dig:7,digCd:.35,cap:30,hp:24,hpAdd:2,claw:12,clawWind:.32,clawCd:.9,strikes:1,reach:13,speed:1,climb:38,tide:4.5,turn:30,
   tithe:5,clear:10,clearAdd:5,riseEvery:3,riseBy:24,emergeGap:.16,backDelay:1.6,bruteFrom:4,bruteHp:90,bruteClaw:22,bruteTithe:20,
   riteHp:35,riteR:56,downedUp:25,order:'squad'};
 for(const m of location.hash.matchAll(/hz\.(\w+)=([\w.]+)/g))if(m[1]in HZ)HZ[m[1]]=isNaN(+m[2])?m[2]:+m[2];
@@ -4623,7 +4626,7 @@ const HZ_SHOP=[
   {id:'bolter',n:2,p:20,desc:'Fourteen-round burst.'},{id:'sun',n:1,p:30,desc:'Collapses, then bursts. Huge.'},{id:'mine',n:1,p:20,desc:'Drop it. Blows when they come close.'},
   {id:'jet',n:2,p:15,desc:'Thrust up and over. Keeps your turn.'},{id:'rope',n:3,p:10,desc:'Grapple up, rappel down.'},{id:'fab',n:3,p:15,desc:'Print girders. Wall them out.'},
   {id:'med',n:1,p:15,name:'Field dressing',desc:'+35 health to whoever it lands on.'}];
-let HZ_SAVED=null;
+let HZ_SAVED=null,HZ_ZOOM=null;
 function hzTeams(on,R){if(on){if(!HZ_SAVED){HZ_SAVED={R,T:TEAM[R]};TEAM[R]=RISEN_T}}else if(HZ_SAVED){TEAM[HZ_SAVED.R]=HZ_SAVED.T;HZ_SAVED=null}}
 const hzSquad=()=>troopers.filter(t=>t.team===S.hz.P);
 const hzRisen=()=>troopers.filter(t=>t.risen&&t.alive);
@@ -4632,9 +4635,10 @@ function hzInit(){const P=S.order[0],R=S.cfg.hzR;
   S.hz={P,R,round:0,tithe:0,earned:0,kills:0,queue:[],order:(S.cfg.hz&&S.cfg.hz.order)||HZ.order,tt:0,wait:0,cart:[],nextT:null,rise:null,t0:time};
   S.ctl[R]='c';S.ally[R]=R;
   // start with almost nothing: the Rail Carbine and frag charges. Everything else comes from the drop ship
-  S.ammo[P]={};for(const w of ARS)S.ammo[P][w.id]=0;S.ammo[P].rail=Infinity;S.ammo[P].frag=Infinity;
+  S.ammo[P]={};for(const w of ARS)S.ammo[P][w.id]=0;S.ammo[P].rail=Infinity;S.ammo[P].frag=Infinity;S.ammo[P].brace=Infinity;
   S.weapon[P]='rail';S.lastAtk[P]='rail';S.swapsLeft[P]=S.hz.order==='squad'?999:SWAPS;
   for(const t of hzSquad()){t.wpn='rail';t.atk='rail'}
+  updWeapUI();if(HZ_ZOOM===null)HZ_ZOOM=S.zoom;HZ.minZ=Math.max(.22,Math.min(cw/(W*baseScale),ch/(H*baseScale))*.98);setZoom(Math.max(HZ.minZ,cw/(W*baseScale)*.98));S.camFree=false;
   hzWave()}
 function hzWave(){const z=S.hz;z.round++;troopers=troopers.filter(t=>t.alive||!t.risen);
   const n=HZ.wave0+HZ.waveAdd*(z.round-1),nb=z.round>=HZ.bruteFrom?1+((z.round-HZ.bruteFrom)/2|0):0;
@@ -4647,7 +4651,7 @@ function hzSpawnAt(){const c=[],far=[],sq=hzSquad().filter(t=>t.alive);
     if(y<0)continue;let wet=false;for(let d=-50;d<=50;d+=10)if(!isSolid(x+d,sump+3)){wet=true;break}
     const dm=sq.reduce((m,t)=>Math.min(m,Math.hypot(t.x-x,t.y-y)),1e9),crowd=hzRisen().some(o=>Math.abs(o.x-x)<9&&Math.abs(o.y-y)<20);
     if(crowd)continue;(wet&&dm>130?c:far).push([x,y,dm])}
-  {const mid=c.filter(p=>p[2]<460);if(mid.length&&Math.random()<.75)return mid[Math.random()*mid.length|0]}// most come up within reach of the squad
+  {const mid=c.filter(p=>p[2]<380);if(mid.length&&Math.random()<.8)return mid[Math.random()*mid.length|0]}// most come up within reach of the squad
   if(c.length)return c[Math.random()*c.length|0];
   far.sort((a,b)=>b[2]-a[2]);if(far.length)return far[Math.random()*Math.min(8,far.length)|0];
   const x=rnd(60,W-60);return[x,surf(x)]}
@@ -4666,7 +4670,7 @@ function hzKill(t,how){if(!t.alive)return;t.alive=false;t.hp=0;t.rope=null;const
   texts.push({x:t.x,y:t.y-30,txt:(how?how+' · ':'')+'+'+g+' tithe',life:1.3,col:RISEN_T.col,small:true});if(b)shake=Math.min(12,shake+5)}
 // Risen movement that replaces physics: rising out of the water, and climbing walls. Returns true to skip normal physics.
 function hzRisenPre(t,dt){const r=t.risen;if(RR()<dt*.8)parts.push({k:'splash',x:t.x+rnd(-4,4),y:t.y-rnd(6,16),vx:rnd(-6,6),vy:rnd(10,30),life:.35,max:.4});
-  if(r.swing>0)r.swing=Math.max(0,r.swing-dt*4);
+  if(r.swing>0)r.swing=Math.max(0,r.swing-dt*4);if(r.dg>0)r.dg-=dt;
   if(r.st==='rise'){r.rt+=dt;t.moving=false;if(r.rt>=.8){r.st='up'}return true}
   if(t.knocked&&!t.air&&!t.skid&&!(t.down>0))t.knocked=false;/* a small shove leaves knocked set on the ground */
   if(t.knocked||t.air&&!r.clb){r.clb=false;r.atk=0;if(t.air&&!t.knocked&&r.wd&&r.wdT>0&&S.phase==='tide')t.vx=r.wd*120;return false}
@@ -4680,17 +4684,20 @@ function hzRisenPre(t,dt){const r=t.risen;if(RR()<dt*.8)parts.push({k:'splash',x
         const nx=t.x+d*(f+3);let ny=Math.floor(t.y)-1,k=0;while(isSolid(nx,ny)&&k<20){ny--;k++}
         if(k<20&&!isSolid(nx,ny-BH+3)){t.x=nx;t.y=ny;t.air=false;t.sq=.3}else{t.air=true;t.vy=0}r.clb=false;r.out=0;return true}
       if(a>5&&!isSolid(t.x+d,t.y-9)&&!isSolid(t.x+d,t.y-BH+2)){t.x+=d;continue}
-      const h=fd(t.y-BH-1);if(isSolid(t.x,t.y-BH-1)||h<a-3){r.out=(r.out||0)+1;if(r.out>18||isSolid(t.x-d,t.y-9)){r.clb=false;r.out=0;t.air=true;t.vy=0;t.vx=-d*30;r.wd=-d;r.wdT=2.5;return false}t.x-=d;continue}
+      const h=fd(t.y-BH-1);if(isSolid(t.x,t.y-BH-1)||h<a-3){hzDig(t,t.x+d*2,t.y-BH-4);r.cacc=0;break}// an overhang: claw up through it
       t.y-=1;if(t.y<16){r.clb=false;t.air=true;return false}}
     return true}
   return false}
+// claw through stone: a small cut ahead (or overhead when climbing), on a short cooldown
+function hzDig(t,x,y){const r=t.risen;if((r.dg||0)>0)return false;r.dg=HZ.digCd*(r.k==='brute'?.6:1);const R=HZ.dig*(r.k==='brute'?1.4:1);carve(x,y,R,false);if(Math.abs(y-(t.y-11))<3)carve(x,t.y-BH+3,R,false);// tall enough to walk through
+  for(let i=0;i<4;i++)parts.push({k:'spark',x,y,vx:rnd(-50,50),vy:rnd(-60,10),life:rnd(.1,.22),max:.22,col:RISEN_T.col});if(RR()<.25)debris(x,y);if(RR()<.3)sfx('cut');r.swing=.6;return true}
 function hzTarget(t){let b=null,bd=1e9;for(const o of troopers){if(!o.alive||o.team!==S.hz.P)continue;let d=Math.abs(o.x-t.x)+Math.abs(o.y-t.y)*1.4;if(o.dnd)d*=.8;if(d<bd){bd=d;b=o}}return b}
 function hzAct(t,dt){const r=t.risen;if(r.st!=='up'||r.clb||t.air||t.skid||t.down>0||t.knocked||t.recover>0||t.crouch>0)return;
   if(r.cd>0)r.cd-=dt;const b=r.k==='brute',reach=HZ.reach*(b?1.5:1);
   if(r.atk>0){r.atk-=dt;if(r.atk<=0){r.swing=1;const tg=r.tg;
       if(tg&&tg.alive&&Math.abs(tg.x-t.x)<reach+6&&Math.abs(tg.y-t.y)<24){
         if(tg.dnd){tg.dnd=false;tg.down=0;killTrooper(tg);texts.push({x:tg.x,y:tg.y-50,txt:tg.name+' · taken by the Risen',life:2.2,col:RISEN_T.col,small:true})}
-        else{hurt(tg,b?HZ.bruteClaw:HZ.claw,true);shove(tg,t.face*(b?260:110),b?-200:-70);if(b)tg.clawed=true}
+        else{const br=tg.brace?.5:1;hurt(tg,Math.round((b?HZ.bruteClaw:HZ.claw)*br),true);shove(tg,t.face*(b?260:110)*br*br,(b?-200:-70)*br*br);if(b)tg.clawed=true;if(tg.brace)texts.push({x:tg.x,y:tg.y-40,txt:'Braced',life:.9,col:TEAM[tg.team].col,small:true})}
         for(let i=0;i<5;i++)parts.push({k:'spark',x:tg.x-t.face*2,y:tg.y-12+rnd(-5,5),vx:t.face*rnd(40,120),vy:rnd(-60,40),life:rnd(.12,.25),max:.25,col:RISEN_T.col});
         sfx(b?'fist':'cut');shake=Math.min(10,shake+(b?4:1.5))}
       r.cd=HZ.clawCd*(b?1.4:1)}return}
@@ -4704,11 +4711,12 @@ function hzAct(t,dt){const r=t.risen;if(r.st!=='up'||r.clb||t.air||t.skid||t.dow
   t.face=dir;const bx=t.x,by=t.y;walk(t,dir,dt,r.sp);
   if(t.x===bx&&t.y===by&&!t.air){// blocked: climb it if there's a wall and headroom, otherwise hop or turn round
     if(isSolid(t.x+dir*5,t.y-10)&&!isSolid(t.x,t.y-BH-2)&&(dy<10||r.stuck>.4)){r.clb=true;r.stuck=0}
-    else r.stuck+=dt}
+    else{r.stuck+=dt;if(isSolid(t.x+dir*6,t.y-10)||isSolid(t.x,t.y-BH-2))hzDig(t,t.x+dir*7,t.y-11)}}
   else r.stuck=Math.max(0,r.stuck-dt)}
 // no headway toward them for 3 s (a crevice, an overhang they keep dropping off): leap at them; every third leap goes the other way
 function hzStuck(t,dt){const r=t.risen;if(r.st!=='up'||t.air||t.knocked||r.atk>0)return;const tg=hzTarget(t);if(!tg)return;const dx=tg.x-t.x,dy=tg.y-t.y,reach=HZ.reach*(r.k==='brute'?1.5:1);
   const dd=Math.hypot(dx,dy*1.3);if(r.best===undefined||dd<r.best-10){r.best=dd;r.bt=0;r.leaps=0}else r.bt=(r.bt||0)+dt;
+  if(r.bt>1.8&&dd>reach*2&&r.bt<=3){const a=Math.atan2(dy-6,dx);if(isSolid(t.x+Math.cos(a)*8,t.y-12+Math.sin(a)*8))hzDig(t,t.x+Math.cos(a)*8,t.y-12+Math.sin(a)*8)}
   if(r.bt>3&&dd>reach*2){r.bt=0;r.best=dd;r.leaps=(r.leaps||0)+1;const d=Math.sign(dx)||1;r.clb=false;if(r.leaps%2===0){r.wd=-(Math.sign(dx)||1);r.wdT=3.5;return}t.face=d;t.air=true;t.y-=1;t.vy=-280-(r.leaps%4===3?70:0);t.vx=d*130;r.wd=d;r.wdT=.8;if(RR()<.3)sfx('jump')}}
 function hzPhase(dt){const z=S.hz;if(!z)return;if(hzLost()&&S.phase!=='over')return hzOver();
   if(z.rise){const e=z.rise;e.t+=dt;sump=e.from+(e.to-e.from)*Math.min(1,e.t/1.8);if(e.t>1.8)z.rise=null}
@@ -4735,7 +4743,7 @@ function hzPost(dt){const z=S.hz;if(!z)return;
 function hzNextUp(){const sq=hzSquad();
   if(S.hz.order==='squad')return sq.find(t=>t.alive&&!t.dnd&&!t.hzA)||null;
   return pickNext(S.hz.P)}
-function hzCycle(){for(const t of hzSquad())t.hzA=false;if(hzLost())return hzOver();S.hz.nextT=hzNextUp();if(!S.hz.nextT)return hzTideStart();beginTurn()}
+function hzCycle(){for(const t of hzSquad()){t.hzA=false;t.brace=false}if(hzLost())return hzOver();S.hz.nextT=hzNextUp();if(!S.hz.nextT)return hzTideStart();beginTurn()}
 function hzNextTurn(){statTurnEnd();if(hzLost())return hzOver();S.turnN++;for(const z of zones)z.left--;zones=zones.filter(z=>z.left>0);
   if(S.active)S.active.hzA=true;
   if(!hzRisen().length&&!S.hz.queue.length)return hzRoundClear();// cleared mid-cycle: no need to wait for the tide
@@ -4786,6 +4794,10 @@ function hzRite(){const t=S.active,w=curW();if(!t||!S.hz)return;
   for(let i=0;i<20;i++)parts.push({k:'mote',x:d.x+rnd(-8,8),y:d.y-rnd(0,22),vx:rnd(-30,30),vy:rnd(-80,-20),life:rnd(.6,1.2),max:1.2,col:TEAM[t.team].col});
   texts.push({x:d.x,y:d.y-50,txt:'Last Rites · '+d.name+' rises',life:2.2,col:TEAM[t.team].col,small:true});sfx('fab');shake=Math.min(10,shake+4);
   S.weapon[S.team]=hasAmmo(WP[S.lastAtk[S.team]])?S.lastAtk[S.team]:'rail';S.shots=curW().shots||1;updWeapUI()}
+/* ---- Brace: end the turn dug in; half damage and a quarter of the shove from claws until the next cycle ---- */
+function hzBrace(){const t=S.active;if(!t||!S.hz||S.phase!=='aim')return;t.brace=true;t.sq=.35;
+  texts.push({x:t.x,y:t.y-52,txt:'Braced',life:1.4,col:TEAM[t.team].col,small:true});sfx('clank');S.phase='end';S.wait=0;S.charging=false;
+  S.weapon[S.team]=S.lastAtk[S.team]&&hasAmmo(WP[S.lastAtk[S.team]])?S.lastAtk[S.team]:'rail'}
 /* ---- the end ---- */
 function hzOver(){if(S.phase==='over')return;const z=S.hz;statTurnEnd();S.phase='over';setMusicMode('title');$('#hzShop').hidden=true;
   const E=$('#end'),P=z.P,col=RISEN_T.col;E.style.setProperty('--ec',col);E.classList.add('lost');
@@ -4796,7 +4808,7 @@ function hzOver(){if(S.phase==='over')return;const z=S.hz;statTurnEnd();S.phase=
   $('#eHi').replaceChildren(...H);$('#eTab').replaceChildren();
   $('#ov').hidden=true;$('#pause').hidden=true;E.hidden=false;document.body.classList.add('intitle');closeArsenal();
   E.classList.remove('reveal');void E.offsetWidth;E.classList.add('reveal');E.addEventListener('animationend',function done(ev){if(ev.target!==E)return;E.classList.remove('reveal');E.removeEventListener('animationend',done)})}
-function hzEnd(){hzTeams(false);S.hz=null;const s=$('#hzShop');if(s)s.hidden=true}
+function hzEnd(){hzTeams(false);S.hz=null;if(HZ_ZOOM!==null){setZoom(HZ_ZOOM);HZ_ZOOM=null}const s=$('#hzShop');if(s)s.hidden=true}
 /* ---- the look: drawn in code, no Forge art. Hunched drowned dead, long clawed arms, rags, violet eyes; brutes are bigger
    with an iron collar and a lit chest wound. Rim light comes from the same lights as the troopers. ---- */
 function drawRisen(t){const r=t.risen,b=r.k==='brute',sc=(b?1.45:.98)*TS;let up=1;if(r.st==='rise')up=Math.min(1,r.rt/.8);
@@ -5339,7 +5351,7 @@ function buildHud(){const L=$('#tl'),R=$('#tr');L.innerHTML='';R.innerHTML='';co
     hudEls['hp'+f]=b.querySelector('i');hudEls['c'+f]=b.querySelector('.tcount');hudEls['b'+f]=b});
   hudEls.hzBox=null;if(S.mode==='horde'){const b=document.createElement('div');b.className='team';b.style.color=RISEN_T.col;b.innerHTML=`<div class="tname">The Risen</div><div class="tcount hzc"></div>`;R.append(b);hudEls.hzBox=b.querySelector('.hzc');hc.hz=''}
   requestAnimationFrame(fitNames)}
-function updHud(){netHud();hzHud();{const tc=S.phase==='aim'||S.phase==='retreat'?TEAM[S.team].col:'';if(hc.tc!==tc){hc.tc=tc;hudEls.turn.style.color=tc}}
+function updHud(){netHud();hzHud();{const b=$('#dBrace'),on=!!S.hz&&S.phase==='aim';if(b.hidden===on)b.hidden=!on}{const tc=S.phase==='aim'||S.phase==='retreat'?TEAM[S.team].col:'';if(hc.tc!==tc){hc.tc=tc;hudEls.turn.style.color=tc}}
   for(const tm of S.order||[]){if(!hudEls['hp'+tm])continue;const list=troopers.filter(t=>t.team===tm),hp=list.reduce((a,t)=>a+(t.alive?t.hp:0),0),up=list.filter(t=>t.alive).length;
     // Active-side colour and contrast indicate turn ownership; counts remain visible.
     const now=tm===S.team&&(S.phase==='aim'||S.phase==='retreat');

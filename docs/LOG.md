@@ -6,6 +6,16 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-25 · Claude · Horde: Risen dig, whole-map view, Brace (branch `horde`)
+
+Jarred's first two minutes: Risen stuck on overhangs, hard to see where they come from, too many weapons listed, not stressful enough, and nothing to do some turns.
+- **Risen claw through stone:** a small cut (r 7, brutes 10) every 0.35 s when an overhang stops a climb, when they're blocked on the ground and can't climb, or when they've made no headway for 1.8 s. The cut is tall enough to walk through, so they tunnel. In the stuck-map test all eight reached the squad by about 15 s of tide (before, several never did).
+- **Whole map in view:** Horde opens zoomed out to fit the map's width, and you can zoom out that far (normal games keep the old limit). Zoom goes back to normal when you leave Horde.
+- **Arsenal shows only what you have** in Horde.
+- **Brace:** a Horde-only Tools item, always available, plus a **Brace** chip by the weapon on desktop. It ends the turn dug in: half claw damage and a quarter of the shove until your next cycle.
+- **Harder:** waves start at 8 and grow by 3 a round (were 6 and 2), and 80% come up within 380 px of the squad (was 75% within 460).
+- Normal battles still unchanged (dsim identical to `main`, det match).
+
 ## 2026-11-25 · Claude · Horde mode, first build (branch `horde`, not on main)
 
 Jarred's brief (project doc `claude/horde-mode.md`): your squad against the Risen, round after round, with a drop ship shop between rounds. Overnight build for him to try.
