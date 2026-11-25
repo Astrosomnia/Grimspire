@@ -2987,7 +2987,7 @@ function beginTurn(){
   {const a=S.active;if(a&&a.wpn&&WP[a.wpn])S.weapon[S.team]=a.wpn;if(a&&!hasAmmo(curW())&&a.atk&&WP[a.atk])S.weapon[S.team]=a.atk}/* (21 Nov, Lyra) each trooper keeps the weapon they last held */
   if(!hasAmmo(curW())||WP[S.weapon[S.team]].kind==='jet'||WP[S.weapon[S.team]].kind==='rope')S.weapon[S.team]=(S.active&&S.active.atk&&WP[S.active.atk])?S.active.atk:S.lastAtk[S.team];
   else if(WP[S.weapon[S.team]].kind==='build')S.weapon[S.team]='mortar';/* (14 Nov, Jarred) a fabricator left in hand from last turn goes back to the mortar */
-  S.shots=curW().shots||1;S.wind=Math.round(rnd(-1,1)*10)/10;AI.stage=0;AI.t=0;AI.gen=null;AI.plan=null;AI.cover=null;AI.replanned=false;AI.noised=false;AI.err=null;AI.stuck=0;AI.roped=false;
+  S.shots=curW().shots||1;S.wind=Math.round(rnd(-1,1)*10)/10;AI.stage=0;AI.t=0;AI.gen=null;AI.plan=null;AI.cover=null;AI.replanned=false;AI.noised=false;AI.err=null;AI.stuck=0;AI.roped=false;AI.swapLooked=false;AI.jetted=false;AI.sgen=null;
   if(S.stag)texts.push({x:S.active.x,y:S.active.y-58,txt:'Staggered · no moving this turn',life:2.4,col:BONE,small:true});
   // Faction and trooper intro; active UI colour carries turn ownership.
   {const al=S.cfg&&S.cfg.teams?S.order.find(f=>f!==S.team&&S.ally[f]===S.ally[S.team]):undefined,with_=al!==undefined?' · with '+TEAM[al].name:'';
@@ -3262,8 +3262,8 @@ function updCorpses(dt){for(const c of corpses){if(c.done)continue;c.t+=dt;corps
    like to cycle through the squad; the first tap of a turn spends a use, coming back to whoever's turn it was refunds it.
    The order never moves: whoever's turn it was still goes next round, and the trooper you picked keeps their own slot. */
 const SWAPS=2;
-function canSwitch(){return S.phase==='aim'&&(S.swapped||(S.swapsLeft?S.swapsLeft[S.team]:0)>0)&&!S.moved&&!S.fired&&!S.charging&&!S.jet&&!isCPU()&&!S.paused&&S.active&&troopers.filter(o=>o.alive&&o.team===S.team).length>1}
-function switchTo(o){if(!canSwitch())return;const list=troopers.filter(x=>x.team===S.team),n=list.length;
+function canSwitch(cpu){return S.phase==='aim'&&(S.swapped||(S.swapsLeft?S.swapsLeft[S.team]:0)>0)&&!S.moved&&!S.fired&&!S.charging&&!S.jet&&(cpu?isCPU():!isCPU())&&!S.paused&&S.active&&troopers.filter(o=>o.alive&&o.team===S.team).length>1}
+function switchTo(o,cpu){if(!canSwitch(cpu))return;const list=troopers.filter(x=>x.team===S.team),n=list.length;
   if(!o){const ai=list.indexOf(S.active);for(let k=1;k<=n;k++){const c=list[(ai+k)%n];if(c.alive&&c!==S.active){o=c;break}}}
   if(!o||!o.alive||o===S.active||o.team!==S.team)return;
   {const a=S.active;if(a&&S.stag)a.stag=true}/* a stagger stays with its trooper */
@@ -3730,8 +3730,8 @@ const AIX={aim0:.02,aimPer:.00007,pow0:.016,powPer:.00006,fumble:.15,fumbleK:2.5
    (19-21 to 21-18), and Jarred found it missed more and took odder shots, so it went back to the old settings.
    A genuinely harder machine needs better planning (the foe's real best reply, knock-offs, jet/rope/teleport), not tuning. */
 const AID={
-  recruit:{name:'Acolyte',sub:'Easier',walk:170,cover:110,aimK:1.45,fumble:.24,margin:.38,pickW:[3,3,2.5,2,1.5],expo:0,hide:0,low:0},
-  inquisitor:{name:'Inquisitor',sub:'Harder',walk:260,cover:150,aimK:1,fumble:.15,margin:.22,pickW:[5,3,2,1.4,1],expo:0,hide:0,low:0}};
+  recruit:{name:'Acolyte',sub:'Easier',walk:170,cover:110,aimK:1.45,fumble:.24,margin:.38,pickW:[3,3,2.5,2,1.5],expo:0,hide:0,low:0,swapP:.5,floodK:.6,floodP:.6,toolP:.5},
+  inquisitor:{name:'Inquisitor',sub:'Harder',walk:260,cover:150,aimK:1,fumble:.15,margin:.22,pickW:[5,3,2,1.4,1],expo:0,hide:0,low:0,swapP:1,floodK:1,floodP:1,toolP:1}};
 const aiD=()=>AID[S.cfg&&S.cfg.diff]||AID.inquisitor;/* (14 Nov) Templar dropped: an old 'veteran' setting plays as Inquisitor */
 // how exposed a spot is to the squads that move next: each foe with a clear line in comfortable range, more if they're close
 function exposure(P,foes){let e=0;for(const f of foes){const d=Math.hypot(f.x-P.x,f.y-P.y);if(d>700)continue;if(los(P.x,P.y-14,f.x,f.y-14))e+=d<240?1.6:1;else if(d<200)e+=.4}return e}
@@ -3787,6 +3787,9 @@ function walkReach(t,maxD=260,canRope=false){const res=[{x:t.x,y:t.y,dist:0,crat
       if(Math.abs(g.x-last)>=32){last=g.x;res.push({x:g.x,y:g.y,dist:dist+(rope?60:0),crates:got.slice(),rope})}
       if(dist>maxD)break}}
   return res}
+/* (25 Nov, Jarred) sudden death foresight: where the sump will be by this trooper's next turn (one more rise), or null */
+function nextFlood(){return (S.rnd||0)>=SD_ROUND?sump-13*S.order.length:null}
+const drowns=(P,fl)=>fl!==null&&P.y>fl-8;
 function spotRisk(P){let r=0;for(const z of zones)if(Math.hypot(P.x-z.x,P.y-8-z.y)<zoneR(z))r+=30;
   for(const m of mines)if(Math.hypot(m.x-P.x,m.y-P.y)<55)return 999;
   for(const f of fires)if(Math.abs(f.x-P.x)<22&&f.y>P.y-30&&f.y<P.y+8)r+=40;
@@ -3795,17 +3798,19 @@ function spotRisk(P){let r=0;for(const z of zones)if(Math.hypot(P.x-z.x,P.y-8-z.
 function crateVal(t,P){let v=0;for(const c of P.crates)v+=c.type==='heavy'?26:c.type==='arms'?18:c.type==='tool'?12:(18+Math.max(0,100-t.hp)*.4);return v}
 function* planGen(t,quick){
   const sx=t.x,sy=t.y,foes=foesOf(t);if(!foes.length)return null;
-  const D=aiD(),spots=(quick?[{x:t.x,y:t.y,dist:0,crates:[]}]:walkReach(t,D.walk,hasAmmo(WP.rope))).filter(P=>spotRisk(P)<900);
+  const D=aiD(),fl=Math.random()<D.floodP?nextFlood():null,danger=drowns(t,fl);
+  const spots=(quick?[{x:t.x,y:t.y,dist:0,crates:[]}]:walkReach(t,danger?Math.max(D.walk,420):D.walk,hasAmmo(WP.rope))).filter(P=>spotRisk(P)<900);
   if(!spots.length)spots.push({x:t.x,y:t.y,dist:0,crates:[]});
-  let best=null,bestNH=null;const cands=[];const consider=(c,P,extra)=>{c.s+=extra;c.P=P;cands.push(c);if(!best||c.s>best.s)best=c;if(WP[c.w].ammo<0&&(!bestNH||c.s>bestNH.s))bestNH=c};
+  let best=null,bestNH=null,chip=null;const cands=[];const consider=(c,P,extra)=>{c.s+=extra;c.P=P;cands.push(c);if(!best||c.s>best.s)best=c;if(WP[c.w].ammo<0&&(!bestNH||c.s>bestNH.s))bestNH=c};
   // orbital lance doesn't care where you stand
   if(hasAmmo(WP.lance))for(const e of foes){const acc=newAcc();for(const o of troopers)if(o.alive&&Math.abs(o.x-e.x)<22)hitEst(acc,o,t,25,0);
     estBlast(acc,e.x,Math.min(sump-8,surf(e.x)+30),52,55,t);consider({w:'lance',tx:e.x,s:scoreAcc(acc,true)},spots[0],0)}
   for(const P of spots){
-    t.x=P.x;t.y=P.y;const extra=crateVal(t,P)-spotRisk(P)-P.dist*.04-(D.expo?D.expo*exposure(P,foes):0);
+    t.x=P.x;t.y=P.y;const extra=crateVal(t,P)-spotRisk(P)-P.dist*.04-(D.expo?D.expo*exposure(P,foes):0)-(drowns(P,fl)?AIF.flood*D.floodK:0);
     // artillery: coarse sweep, then refine around the best
     const art=(id,speed,wind,r,dmg,heavy)=>{let b=null;const tryIt=(face,a,p)=>{const hit=simShell(t,face,a,p,speed,wind);if(!hit)return;const acc=newAcc();estBlast(acc,hit.x,hit.y,r,dmg,t);
-        const sc=scoreAcc(acc,heavy);if(!b||sc>b.s)b={w:id,face,aim:a,power:p,s:sc,hx:hit.x,hy:hit.y}};
+        const sc=scoreAcc(acc,heavy);if(!b||sc>b.s)b={w:id,face,aim:a,power:p,s:sc,hx:hit.x,hy:hit.y};
+        if(id==='mortar'&&acc.sf===0&&acc.al===0){let nd=1e9;for(const e of foes)nd=Math.min(nd,Math.hypot(e.x-hit.x,(e.y-11)-hit.y));if(!chip||nd<chip.nd)chip={w:id,face,aim:a,power:p,s:sc,hx:hit.x,hy:hit.y,nd,P,dang:drowns(P,fl)}}};
       for(const face of[-1,1])for(let a=-1.45;a<=.5;a+=.16)for(let p=.32;p<=1.001;p+=.11)tryIt(face,a,p);
       if(b){const b0=b;for(let da=-.08;da<=.081;da+=.04)for(let dp=-.06;dp<=.061;dp+=.03)tryIt(b0.face,b0.aim+da,clamp(b0.power+dp,.1,1))}
       if(b)consider(b,P,extra)};
@@ -3845,12 +3850,14 @@ function* planGen(t,quick){
   // don't burn a limited weapon on a weak shot
   const wasteful=c=>WP[c.w].ammo>=0&&WP[c.w].cat==='Heavy'&&c.s<45&&!!bestNH;
   let pick=best&&wasteful(best)?bestNH:best;if(!pick)return null;
-  // nothing worth shooting from anywhere close: go somewhere new instead of throwing at the same spot again
-  if(!quick&&pick.s<AIX.weak){const mv=relocateSpot(t,spots,foes);if(mv)return Object.assign({},pick,{P:mv,relocate:true})}
+  // standing where the water will be and nothing safe in walking reach: jump pack up first, then plan again from there
+  if(danger&&!quick&&!spots.some(P=>!drowns(P,fl))&&hasAmmo(WP.jet)&&!S.usedJet){const J=jetSpot(t,foes,fl);if(J)return{w:'jet',jet:J,P:{x:t.x},s:0}}
+  // nothing worth shooting from anywhere close: advance on purpose instead of throwing at the same spot again
+  if(pick.s<AIF.poor){const adv=advance(t,spots,foes,fl,chip,quick);if(adv)return adv}
   // a person doesn't always take the textbook shot: weighted pick among the close runners-up
   const cut=pick.s-Math.max(AIX.marginMin*D.margin/AIX.margin,Math.abs(pick.s)*D.margin),PW=D.pickW;
   const pool=cands.filter(c=>c.s>=cut&&c.s>AIX.weak&&!wasteful(c)).sort((a,b)=>b.s-a.s).slice(0,PW.length);
-  if(pool.length>1){let tot=0;for(let i=0;i<pool.length;i++)tot+=PW[i];let r=Math.random()*tot;for(let i=0;i<pool.length;i++){r-=PW[i];if(r<=0){pick=pool[i];break}}}
+  if(pool.length>1&&!(danger&&drowns(pick.P,fl)===false&&pool.some(c=>drowns(c.P,fl)))){let tot=0;for(let i=0;i<pool.length;i++)tot+=PW[i];let r=Math.random()*tot;for(let i=0;i<pool.length;i++){r-=PW[i];if(r<=0){pick=pool[i];break}}}
   return pick}
 // somewhere reachable that gets closer to the enemy, ideally with a clear line to one
 function relocateSpot(t,spots,foes){let best=null;
@@ -3869,7 +3876,8 @@ function pickCover(t){const D=aiD(),spots=walkReach(t,D.cover).filter(P=>spotRis
   // (14 Nov, Jarred: "they throw a grenade and run towards it") judge a grenade by where it will burst, not where it is mid-flight,
   // and don't walk through the blast to reach cover on the far side of it
   const danger=[],cross=[];for(const p of projs)if(p.w.kind==='grenade'){danger.push([p.x,p.y,p.w.r]);const q=grenadeRest(p);if(q){danger.push([q[0],q[1],p.w.r*1.15]);cross.push([q[0],q[1],p.w.r*1.15])}}for(const m of mines)danger.push([m.x,m.y,80]);for(const b of barrels)if(b.alive&&b.fuse>=0)danger.push([b.x,b.y,34]);
-  for(const P of spots){let sc=-P.dist*.02-spotRisk(P);for(const[x,y,r]of danger){const d=Math.hypot(P.x-x,P.y-y);if(d<r*1.9)sc-=(r*1.9-d)*2}
+  const fl=Math.random()<D.floodP?nextFlood():null;
+  for(const P of spots){let sc=-P.dist*.02-spotRisk(P)-(drowns(P,fl)?AIF.flood*D.floodK:0);for(const[x,y,r]of danger){const d=Math.hypot(P.x-x,P.y-y);if(d<r*1.9)sc-=(r*1.9-d)*2}
     for(const[x,y,r]of cross)if(Math.abs(P.y-y)<r&&Math.abs(P.x-t.x)>Math.abs(x-t.x)&&Math.sign(P.x-t.x)===Math.sign(x-t.x)&&Math.abs(x-t.x)>4)sc-=r*1.5;
     let near=1e9;for(const e of foes)near=Math.min(near,Math.hypot(e.x-P.x,e.y-P.y));sc+=Math.min(near,260)*.05;
     let roof=false;for(let k=30;k<100;k+=6)if(isSolid(P.x,P.y-k)){roof=true;break}if(roof)sc+=12;
@@ -3885,12 +3893,70 @@ function aiDrone(dt){const d=S.drone;let best=null,bd=1e9;for(const e of foesOf(
   if(Math.abs(best.x-d.x)<16&&Math.abs(best.y-d.y)<30){droneBlow();return}
   d.prog=(d.prog||0)+dt;if(d.prog>.6&&Math.abs(d.x-(d.lx||0))<3&&!d.hopped){d.hopped=true;droneHop()}
   if(d.prog>1){if(Math.abs(d.x-(d.lx||0))<4){droneBlow();return}d.lx=d.x;d.prog=0;d.hopped=false}}
+/* ===== (25 Nov, Jarred) the machine with foresight =====
+   AIF.flood   penalty for standing where the next sump rise will be (escape first, still shoot)
+   AIF.swapGain  a teammate's best plan must beat the active trooper's by this much (and be a kill or a big hit) to spend a swap
+   AIF.big     what counts as a big hit (plan score; a kill scores 45 on top of its damage)
+   AIF.poor    below this a plan is a nibble (a few HP of blast sting): advance on purpose instead */
+const AIF={flood:70,swapGain:35,big:55,poor:14};
+// first solid along a line from the chest, or null
+function lineHit(x0,y0,dx,dy,max){for(let d=6;d<max;d+=2){const x=x0+dx*d,y=y0+dy*d;if(x<2||x>W-2||y<-200)return null;if(isSolid(x,y))return{x,y,d}}return null}
+function nearestFoe(t,foes){let b=null,bd=1e9;for(const e of foes){const d=Math.hypot(e.x-t.x,e.y-t.y);if(d<bd){bd=d;b=e}}return b}
+// where a jump pack can put us: a standing spot up to ~200 px higher and ~260 px across, clear line to it, above the flood
+function jetSpot(t,foes,fl){let best=null;const e=nearestFoe(t,foes);
+  for(let x=Math.max(20,t.x-260);x<=Math.min(W-20,t.x+260);x+=8)for(const y of stands(x,t.y-210,t.y+10)){
+    if(fl!==null&&y>fl-12)continue;if(spotRisk({x,y})>=900)continue;if(!los(t.x,t.y-30,x,y-14))continue;
+    let sc=(t.y-y)*.3-Math.abs(x-t.x)*.15;if(e)sc-=Math.hypot(e.x-x,e.y-y)*.12;if(!best||sc>best.s)best={x,y,s:sc}}
+  return best}
+/* no shot worth taking: pick a deliberate way forward along the line to the nearest foe.
+   Order: walk somewhere clearly closer; else jump pack up a cliff; else bore through the wall (cutter) or blast it (carbine,
+   scatter or bolter up close, mortar further out); else chip at the cover around them with a mortar. */
+function advance(t,spots,foes,fl,chip,quick){const D=aiD(),e=nearestFoe(t,foes);if(!e)return null;
+  const cx=t.x,cy=t.y-12,L=Math.hypot(e.x-cx,(e.y-11)-cy),dx=(e.x-cx)/L,dy=((e.y-11)-cy)/L,face=dx>=0?1:-1,aim=clamp(Math.atan2(dy,Math.abs(dx)),-1.52,1.45);
+  const nowD=Math.hypot(e.x-t.x,e.y-t.y),tag=o=>Object.assign({s:AIX.weak,adv:true},o);
+  if(!quick){let mv=null;for(const P of spots){if(drowns(P,fl))continue;const d=Math.hypot(e.x-P.x,e.y-P.y);if(nowD-d<80)continue;const sc=nowD-d-P.dist*.25-spotRisk(P)+(los(P.x,P.y-14,e.x,e.y-14)?60:0);if(!mv||sc>mv.s)mv={P,s:sc}}
+    if(mv)return tag({w:'rail',face,aim,P:mv.P,relocate:true})}
+  const wall=lineHit(cx,cy,dx,dy,Math.min(L,260));
+  // the way on is up a cliff: jump pack
+  if(wall&&wall.d<70&&dy<-.35&&hasAmmo(WP.jet)&&!S.usedJet&&Math.random()<D.toolP){const J=jetSpot(t,foes,fl);if(J&&J.y<t.y-30)return tag({w:'jet',jet:J,P:{x:t.x}})}
+  if(wall&&wall.d<200){
+    // a wall in the way: bore through it if we have a cutter and it's close, otherwise shoot a hole in it
+    if(wall.d<45&&hasAmmo(WP.cutter)&&Math.random()<D.toolP)return tag({w:'cutter',face,aim,P:{x:t.x}});
+    if(wall.d>=24)return tag({w:'rail',face,aim,P:{x:t.x},path:true});
+    if(hasAmmo(WP.scatter))return tag({w:'scatter',face,aim,P:{x:t.x},path:true});
+    if(hasAmmo(WP.bolter))return tag({w:'bolter',face,aim,P:{x:t.x},path:true});
+    // too close for the carbine's spark: back off a step and shoot
+    const back=spots.find(P=>Math.sign(t.x-P.x)===face&&Math.abs(P.x-t.x)>=28&&!drowns(P,fl));if(back&&!quick)return tag({w:'rail',face,aim,P:back,path:true})}
+  // no wall to break: chip at the cover around them
+  if(chip&&chip.nd<160&&(!fl||!chip.dang))return Object.assign({},chip,{s:AIX.weak,adv:true});
+  if(hasAmmo(WP.fab)&&Math.random()<D.toolP){const g=bridgeSpot(t,face,fl);if(g)return tag({w:'fab',build:g,P:{x:t.x}})}
+  return null}
+// a gap in the way (we'd fall or swim): a girder from the lip outward
+function bridgeSpot(t,dir,fl){let x=t.x,y=t.y;for(let i=0;i<120;i++){const nx=x+dir*2;if(nx<20||nx>W-20)return null;let k=0;while(k<40&&!isSolid(nx,y+1+k))k++;
+    if(k>=40){const gx=nx+dir*44,gy=y+2;if(gy>=sump-8||(fl!==null&&gy>fl-8))return null;return{x:gx,y:gy}}if(k>0&&k<40)y+=k;let up=0;while(up<12&&isSolid(nx,y))y--,up++;if(up>=12)return null;x=nx}return null}
+/* swap: before acting, see whether a teammate standing where they are has a kill or a big hit this one doesn't */
+function* swapGen(t,mine){const out=[];for(const o of troopers){if(!o.alive||o===t||o.team!==t.team)continue;const g=planGen(o,true);let r;while(!(r=g.next()).done)yield;if(r.value&&!r.value.adv)out.push({o,pl:r.value})}
+  let best=null;for(const c of out)if(c.pl.s>=AIF.big&&c.pl.s>=mine+AIF.swapGain&&(!best||c.pl.s>best.pl.s))best=c;return best}
+function aiJet(t,dt){const j=S.jet,T=AI.plan&&AI.plan.jet;j.age+=dt;if(!T){S.jet.fuel=0}
+  const far=T&&Math.abs(T.x-t.x)>6;const thrust=T&&j.fuel>0&&((far&&t.y>T.y-24)||t.y>T.y+4||(t.vy>90&&far));j.free=thrust||!t.air?0:(j.free||0)+dt;
+  if(thrust){j.fuel-=dt;t.vy=Math.max(t.vy-1150*dt,-230);if(!t.air){t.air=true;t.y-=1}for(let i=0;i<2;i++)parts.push({k:'fire',x:t.x-t.face*7,y:t.y-8,vx:rnd(-20,20),vy:rnd(80,160),life:rnd(.15,.3),max:.7,s:rnd(2,4)});sfx('jet')}
+  if(T){const ax=far&&(t.y<T.y+40||Math.abs(T.x-t.x)>40)?Math.sign(T.x-t.x):0;if(ax){t.vx=clamp(t.vx+ax*520*dt,-170,170);t.face=ax;if(!t.air&&j.age>.1){t.air=true;t.y-=1}}else t.vx*=Math.pow(.05,dt)}
+  if(j.fuel<=0){S.jet=null;S.weapon[S.team]=S.lastAtk[S.team];S.shots=curW().shots||1;updWeapUI();AI.stage='replan'}
+  else if(!t.air&&j.age>.4&&!thrust){j.parked=true;t.vx=0;AI.stage='replan'}}
 function aiUpdate(dt){
   const t=S.active;AI.t+=dt;
   if(AI.stage===0&&t.wet){AI.sw=AI.sw||{dir:landDir(t),t:0,x:t.x};AI.sw.t+=dt;swim(t,AI.sw.dir,dt);
     if(AI.sw.t>.5&&Math.abs(t.x-AI.sw.x)<.5&&t.wet){jump(t);AI.sw.t=0}AI.sw.x=t.x;if(AI.sw.t<4&&t.wet)return;AI.sw=null;AI.t=0}
   if(AI.stage===0){if(AI.t>.5){AI.gen=planGen(t,false);AI.stage='think'}return}
-  if(AI.stage==='think'){const t0=performance.now();while(performance.now()-t0<7){const r=AI.gen.next();if(r.done){AI.plan=r.value||{w:'mortar',face:t.face,aim:-.8,power:.6,P:{x:t.x}};AI.stage='walk';AI.t=0;AI.stuck=0;break}}return}
+  if(AI.stage==='think'){const t0=performance.now();while(performance.now()-t0<7){const r=AI.gen.next();if(r.done){AI.plan=r.value||{w:'mortar',face:t.face,aim:-.8,power:.6,P:{x:t.x}};
+        // a swap is worth a look when we have swaps left and nothing here is already a kill-or-big-hit
+        if(!S.moved&&!AI.swapLooked&&S.swapsLeft&&S.swapsLeft[S.team]>0&&AI.plan.s<AIF.big+30&&Math.random()<aiD().swapP&&troopers.some(o=>o.alive&&o!==t&&o.team===t.team)){AI.swapLooked=true;AI.sgen=swapGen(t,AI.plan.s||0);AI.stage='swapthink';break}
+        AI.stage='walk';AI.t=0;AI.stuck=0;break}}return}
+  if(AI.stage==='swapthink'){const t0=performance.now();while(performance.now()-t0<7){const r=AI.sgen.next();if(r.done){const c=r.value;
+        if(c&&canSwitch(true)){switchTo(c.o,true);AI.plan=c.pl;AI.t=0;AI.stuck=0;AI.stage='swapped';return}
+        AI.stage='walk';AI.t=0;AI.stuck=0;break}}return}
+  if(AI.stage==='swapped'){if(AI.t>.7){AI.stage='walk';AI.t=0}return}
+  if(AI.stage==='replan'){if(t.air)return;AI.replanned=true;AI.gen=planGen(t,true);AI.stage='think';AI.t=0;return}
   const pl=AI.plan;
   if(AI.stage==='walk'){
     if(t.rope){const r=t.rope,nL=Math.min(ROPE_MAX,r.L+90*dt),[px,py]=ropePos(r,r.a,r.L);
@@ -3898,7 +3964,10 @@ function aiUpdate(dt){
     if(pl.P.rope&&!AI.roped&&hasAmmo(WP.rope)){AI.roped=true;S.weapon[S.team]='rope';updWeapUI()}
     if(aiWalk(t,pl.P.x,dt)||AI.t>9||S.timer<9){
       if((Math.abs(pl.P.x-t.x)>=3||pl.relocate)&&!AI.replanned){AI.replanned=true;AI.gen=planGen(t,true);AI.stage='think';return}
+      if(pl.w==='jet'){if(AI.jetted||S.usedJet||!hasAmmo(WP.jet)){AI.replanned=true;AI.gen=planGen(t,true);AI.stage='think';return}AI.jetted=true;S.weapon[S.team]='jet';updWeapUI();tryFire();S.moved=true;AI.stage='jet';AI.t=0;return}
+      if(pl.w==='fab'){S.weapon[S.team]='fab';S.span=1;S.rot=0;S.target={x:pl.build.x,y:pl.build.y};updWeapUI();if(fabValid()){tryFire();AI.stage='done';return}S.target=null;pl.w='rail'}
       S.weapon[S.team]=pl.w;S.shots=WP[pl.w].shots||1;updWeapUI();AI.stage='aim';AI.t=0}return}
+  if(AI.stage==='jet'||AI.stage==='done')return;
   if(AI.stage==='aim'){
     if(pl.aim===undefined){pl.aim=t.aim;pl.face=t.face}
     if(pl.target&&pl.target.alive&&['rail','scatter','bolter','las','flamer','minigun'].includes(pl.w)){const A=aimAt(t,pl.target);pl.face=A.face;pl.aim=pl.w==='flamer'?clamp(A.aim-.12,-1.5,1.4):A.aim}
@@ -4478,7 +4547,7 @@ function update(dt){
           if(S.charging){S.charge+=dt*.8;if(!key('fire')||S.charge>=1){S.charge=Math.min(1,S.charge);launch()}}
         }
       }
-    }else if(S.drone){aiDrone(dt)}else if(!t.air&&!t.skid&&!(t.down>0)){if(S.phase==='aim'&&!S.saw)aiUpdate(dt);else if(S.phase==='retreat'||(S.phase==='resolve'&&S.mobile))aiRetreat(t,dt)}
+    }else if(S.drone){aiDrone(dt)}else if(S.jet&&!S.jet.parked&&S.phase==='aim'){aiJet(t,dt)}else if(!t.air&&!t.skid&&!(t.down>0)){if(S.phase==='aim'&&!S.saw)aiUpdate(dt);else if(S.phase==='retreat'||(S.phase==='resolve'&&S.mobile))aiRetreat(t,dt)}
   }
   if(S.phase!=='aim'&&press.has('fire')&&crates.some(c=>c.para&&!c.landed))cutChutes();
   if(S.phase==='aim'&&!S.armed&&(held.size||press.size||stick.x||stick.y))S.armed=true;
@@ -5158,7 +5227,7 @@ function netCatchUp(){if(S.mode!=='online'||NET.role!=='watch')return;const behi
   if(behind>300&&!NET.skip)for(let i=0;i<Math.min(6,behind-240);i++)tick()}
 function netGameOver(){if(NET.role!=='act')clearNet()}
 function netLeave(){document.title=TITLE0;chatStop();if(NET.unC)NET.unC();if(NET.unM)NET.unM();NET.unC=NET.unM=null;NET.role=null;NET.started=false;S.mode='hot';$('#netBar').hidden=true}
-const GV=77;// bump on every release that changes the sim
+const GV=78;// bump on every release that changes the sim
 function startOnline(code,me,d){BE.update(code,{['vers.'+me]:GV,['arts.'+me]:window.GRIMSPIRE_ART_SIM||''}).catch(()=>{});NET.code=code;NET.me=me;NET.round=d.round||0;NET.snapK=-1;NET.snap=null;NET.matchAtt=d.att||'';NET.started=true;NET.leaving=false;saveNet();
   $('#net').hidden=true;if(!CHAT.un)chatStart();const cfg=Object.assign(mkCfg('online',d.seats,d.mode==='teams'),{mode:'online'});newGame('online',d.seed,cfg);S.genOK=true;
   const base=NET.round*1e5,has=d.snapK!=null&&d.snapK>=base&&d.snap;
