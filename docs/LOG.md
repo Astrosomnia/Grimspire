@@ -6,6 +6,10 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-25 · Claude · CPU pacing trim
+
+- Jarred: the long holds felt robotic. Hold on a swapped-to trooper 2.5 → 2 s; aim hold before firing 1.5 → 0.4 s (as it was). Weapon pick stays 1.5 s, swap look 1.4 s, 0.9 s per swap tap.
+
 ## 2026-11-25 · Claude · The machine with foresight (GV 78, branch `ai-foresight`)
 
 Jarred's three asks, built on a test branch:

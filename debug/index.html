@@ -3902,7 +3902,7 @@ function aiDrone(dt){const d=S.drone;let best=null,bd=1e9;for(const e of foesOf(
 const AIF={flood:70,swapGain:35,big:55,poor:14,swapNear:240};
 /* (25 Nov, Jarred) human-scale beats: a look before swapping, then it steps through the squad in turn order like a player would
    (swapStep per press), holds on the trooper it lands on, shows a newly picked weapon, and holds its aim before firing */
-const AIP={swapLook:1.4,swapStep:.9,swapHold:2.5,arm:1.5,aimHold:1.5};
+const AIP={swapLook:1.4,swapStep:.9,swapHold:2,arm:1.5,aimHold:.4};
 // first solid along a line from the chest, or null
 function lineHit(x0,y0,dx,dy,max){for(let d=6;d<max;d+=2){const x=x0+dx*d,y=y0+dy*d;if(x<2||x>W-2||y<-200)return null;if(isSolid(x,y))return{x,y,d}}return null}
 function nearestFoe(t,foes){let b=null,bd=1e9;for(const e of foes){const d=Math.hypot(e.x-t.x,e.y-t.y);if(d<bd){bd=d;b=e}}return b}
