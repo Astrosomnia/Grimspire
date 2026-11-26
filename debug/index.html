@@ -225,7 +225,7 @@ body.intitle #hud,body.intitle #desk,body.intitle #touch,body.intitle #recenter{
 .tile:hover:not(:disabled){border-color:var(--c)}
 .tile[aria-pressed="true"]{border-color:var(--c);box-shadow:inset 0 0 0 1px var(--c),0 0 14px var(--g);background:color-mix(in srgb,var(--c) 7%,transparent)}
 .tile:disabled{opacity:.35;cursor:default}
-#hzShop .hztithe{color:#b79bff;font-size:14px;letter-spacing:.14em;text-transform:uppercase;font-variant-numeric:tabular-nums}#hzShop .hzsub{margin:0;color:var(--ash);font-size:12px;line-height:1.4}#hzShop .hzrow{display:flex;justify-content:flex-end}#hzShop .apanel{max-height:94vh;overflow:auto;gap:10px}#hzGrid{grid-template-columns:repeat(auto-fill,minmax(170px,1fr))}#hzGrid .tile{padding:8px}
+#hzShop .hztithe{color:#b79bff;font-size:14px;letter-spacing:.14em;text-transform:uppercase;font-variant-numeric:tabular-nums}#hzShop .hzsub{margin:0;color:var(--ash);font-size:12px;line-height:1.4}#hzShop .hzrow{display:flex;justify-content:flex-end;gap:20px}#hzShop .apanel{max-height:94vh;overflow:auto;gap:10px}#hzGrid{grid-template-columns:repeat(auto-fill,minmax(170px,1fr))}#hzGrid .tile{padding:8px}
 .pbtns{display:grid;gap:8px}
 .krow{display:grid;grid-template-columns:1fr 92px 92px;gap:8px;align-items:center;padding:3px 0;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ash)}.kslot{height:32px;background:#10151e8c;border:1px solid #69758455;color:#cbd0d8;font:12px/1 Georgia,serif;letter-spacing:.04em;cursor:pointer}.kslot.on{border-color:var(--mag);color:#fff}
 .jrow{display:grid;grid-template-columns:1fr auto;gap:8px}
@@ -384,7 +384,7 @@ body.intitle #dbg{display:none}
 <button id="recenter" type="button" hidden>Recenter</button>
 
 <div id="desk">
-  <div class="drow"><button class="wchip" id="dArs" type="button">Plasma Mortar <em>∞</em></button><button class="wchip fz" id="dFuse" type="button" hidden>Fuse 3s</button><button class="wchip" id="dBrace" type="button" hidden title="End the turn dug in (Horde)">Brace</button></div>
+  <div class="drow"><button class="wchip" id="dArs" type="button">Plasma Mortar <em>∞</em></button><button class="wchip fz" id="dFuse" type="button" hidden>Fuse 3s</button><button class="wchip" id="dBrace" type="button" hidden title="End the turn dug in (Horde)">Brace</button><button class="wchip" id="dCall" type="button" hidden title="Call in the drop ship (Horde)">Drop ship</button></div>
   <div class="keys" id="keyHint"><b>← →</b> move · <b>↑ ↓</b> aim · hold <b>Space</b> to charge · <b>Enter</b> jump · <b>Tab</b> arsenal · <b>X</b> switch trooper · <b>1–5</b> fuse · mouse to the edge pans · scroll to zoom · <b>C</b> recenter · <b>Esc</b> pause</div>
 </div>
 
@@ -482,7 +482,7 @@ body.intitle #dbg{display:none}
     <div class="ahead"><h2>Drop ship</h2><b id="hzTithe" class="hztithe"></b></div>
     <p class="hzsub" id="hzShopSub"></p>
     <div class="agrid" id="hzGrid"></div>
-    <div class="hzrow"><button class="lnk" id="hzClear" type="button">Empty the crate</button></div>
+    <div class="hzrow"><button class="lnk" id="hzClear" type="button">Empty the crate</button><button class="lnk" id="hzBack" type="button">Back to the turn</button></div>
     <button class="go" id="hzCall" type="button">Call it in<span id="hzCallSub"></span></button>
   </div>
 </div>
@@ -566,6 +566,7 @@ const ARS=[
   {id:'cutter',name:'Plasma Cutter',cat:'Tools',kind:'cutter',ammo:5,desc:'Bores a tunnel in the aim direction. Burns anyone in front of the torch.'},
   {id:'fab',name:'Fabricator',cat:'Tools',kind:'build',ammo:3,desc:'Prints a girder anywhere within reach. Span sets one or two lengths (keys 1–2).'},
   {id:'warp',name:'Teleporter',cat:'Tools',kind:'warp',ammo:0,desc:'Pick an open spot within range. Blink there.'},
+  {id:'call',name:'Drop ship',cat:'Tools',kind:'call',ammo:0,hz:true,desc:'Horde only. Spend tithe on crates. Ends this turn; they land by you after the tide.'},
   {id:'brace',name:'Brace',cat:'Tools',kind:'brace',ammo:0,hz:true,desc:'Horde only. End your turn dug in: half damage and barely a shove from claws until your next go.'},
   {id:'rite',name:'Last Rites',cat:'Tools',kind:'rite',ammo:0,hz:true,desc:'Horde only. Raise a downed trooper next to you, with a holy shockwave. Doesn\u2019t end your turn.'}
 ];
@@ -3120,6 +3121,7 @@ const ICONS={
   drone:'<path d="M4 13h14l2 3H3z"/><path d="M3 16h17v3H3z"/><circle cx="6" cy="17.5" r=".6"/><circle cx="11.5" cy="17.5" r=".6"/><circle cx="17" cy="17.5" r=".6"/><path d="M7 13V9h7v4"/><path d="M15 9l3-3"/>',
   pod:'<path d="M12 2c4 3 5 7 5 11v4H7v-4c0-4 1-8 5-11z"/><path d="M12 7v6"/><path d="M9 20l-1 2M15 20l1 2M12 20v2"/>',
   warp:'<circle cx="7" cy="16" r="3"/><circle cx="17" cy="8" r="3" stroke-dasharray="1.6 1.6"/><path d="M9.5 13.5l5-3"/><path d="M4 21h6M14 3h6"/>',
+  call:'<path d="M3 10l9-5 9 5"/><path d="M6 9v4M18 9v4"/><path d="M8 15h8v6H8z"/><path d="M12 13v2"/>',
   brace:'<path d="M12 3l7 3v5c0 5-3.2 8.2-7 10-3.8-1.8-7-5-7-10V6z"/><path d="M8.5 12.5l2.5 2.5 4.5-5"/>',
   rite:'<path d="M12 4v16M7.5 9h9"/><circle cx="12" cy="9" r="6.5" stroke-dasharray="1.4 2.1"/><path d="M8 21h8"/>',
   fab:'<path d="M2 8.5h20M2 15.5h20"/><path d="M2 15.5l3.3-7 3.4 7 3.3-7 3.3 7 3.4-7 3.3 7"/><path d="M12 2v3M12 19v3" stroke-dasharray="1 1.6"/>'
@@ -3303,7 +3305,7 @@ function tryFire(){
   if(t&&S.jet&&S.jet.parked&&w.kind==='jet'&&S.phase==='aim'){S.jet.parked=false;S.jet.age=0;t.air=true;t.vy=Math.min(t.vy,-80);t.y-=1;return}
   if(!t||!t.alive||S.phase!=='aim'||(!hasAmmo(w)&&!S.second)||(S.jet&&!S.jet.parked)||t.rope||S.saw||S.mini||S.drone||S.pod)return;
   if(w.kind!=='jet'&&w.kind!=='build'&&w.kind!=='target'&&w.kind!=='rope'&&t.air)return;
-  if(w.kind==='rite'){hzRite();return}if(w.kind==='brace'){hzBrace();return}
+  if(w.kind==='rite'){hzRite();return}if(w.kind==='brace'){hzBrace();return}if(w.kind==='call'){hzCallOpen();return}
   S.camFree=false;
   switch(w.kind){
     case'shell':case'grenade':S.charging=true;S.charge=0;return;
@@ -4153,7 +4155,7 @@ function segBtns(el,vals,cur,onPick,label){el.innerHTML='';for(const v of vals){
 const SU={mode:'cpu',me:[0],hot:[0,1],cnt:1,rules:'ffa',diff:'inquisitor'};Object.assign(SU,PREF.su||{});
 function drawSetup(){const hz=SU.mode==='horde';$('#sHzG').hidden=!hz;if(hz){$('#sTitle').textContent='Horde';$('#sFacH').textContent='Your squad';$('#sCntG').hidden=true;$('#sDiffG').hidden=true;$('#sModeG').hidden=true;
     facChips($('#sFac'),false,SU.me,drawSetup);segBtns($('#sHz'),['squad','one'],SU.hzo||'squad',v=>{SU.hzo=v;drawSetup()},v=>v==='squad'?'Whole squad':'One trooper');
-    $('#sGoSub').textContent=`${TEAM[SU.me[0]].name} · four troopers · ${(SU.hzo||'squad')==='squad'?'every trooper acts, then the tide':'one trooper acts, then the tide'}`;return}
+    $('#sGoSub').textContent=`${TEAM[SU.me[0]].name} · four troopers · ${(SU.hzo||'squad')==='squad'?'every trooper acts, then the tide':'one trooper acts, then the tide'} · the water keeps rising`;return}
   const cpu=SU.mode==='cpu';$('#sTitle').textContent=cpu?'Fight the machine':'Commanders';
   $('#sFacH').textContent=cpu?'Your squad':'Squads in this battle (2 to 4)';$('#sCntG').hidden=!cpu;
   facChips($('#sFac'),!cpu,cpu?SU.me:SU.hot,drawSetup);
@@ -4180,7 +4182,8 @@ for(const ev of['pointerdown','keydown'])addEventListener(ev,()=>{if(!AC)initAud
 $('#goHot').addEventListener('click',()=>openSetup('hot'));
 $('#goHorde').addEventListener('click',()=>openSetup('horde'));
 $('#dBrace').addEventListener('click',()=>{if(S.hz&&S.phase==='aim'&&!isCPU())hzBrace()});
-$('#hzCall').addEventListener('click',()=>{if(S.hz&&S.phase==='shop')hzShopCall()});$('#hzClear').addEventListener('click',()=>{if(S.hz&&S.phase==='shop')hzShopClear()});
+$('#dCall').addEventListener('click',()=>{if(S.hz&&S.phase==='aim'&&!isCPU())hzCallOpen()});
+$('#hzCall').addEventListener('click',()=>{if(S.hz&&S.phase==='hzcall')hzShopCall()});$('#hzClear').addEventListener('click',()=>{if(S.hz&&S.phase==='hzcall')hzShopClear()});$('#hzBack').addEventListener('click',()=>{if(S.hz)hzShopBack()});
 // canvas pan / pinch / tap
 const ptrs=new Map();let pinch=null;
 const toWorld=(sx,sy)=>({x:sx/scale+cam.x,y:sy/scale+cam.y});
@@ -4609,65 +4612,80 @@ function update(dt){
 }
 
 /* ================= Horde (25 Nov 2026, branch horde) =================
-   Your squad against the Risen: the drowned dead of the Flood. They climb out of the water in waves, only claw, climb walls,
-   and go back under when knocked into the sump (they come up again later in the round). Off the map sides kills them.
-   Flow: wave rises (phase 'hzrise') → your turns → the tide (phase 'tide', every Risen acts at once) → … → round clear →
-   drop ship shop (phase 'shop' then 'hzship') → next wave. Local only (solo or pass the device), never online.
-   Brief: claude/horde-mode.md in the Grimspire project. Tuning: HZ below, or #horde&hz.wave0=10 style hash overrides. */
-const HZ={wave0:8,waveAdd:3,dig:7,digCd:.35,cap:30,hp:24,hpAdd:2,claw:12,clawWind:.32,clawCd:.9,strikes:1,reach:13,speed:1,climb:38,tide:4.5,turn:30,
-  tithe:5,clear:10,clearAdd:5,riseEvery:3,riseBy:24,emergeGap:.16,backDelay:1.6,bruteFrom:4,bruteHp:90,bruteClaw:22,bruteTithe:20,
-  riteHp:35,riteR:56,downedUp:25,order:'squad'};
+   Your squad against the Risen: the drowned dead of the Flood. No rounds: a new group climbs out of the water every few
+   tides, the sump rises a little every tide, and you last as long as you can. Call the drop ship on your turn (it costs
+   that turn; the crates land by you after the tide). Ammo is the thing: the carbine is free but weak, everything else is bought.
+   Flow: surge rises ('hzrise') → every trooper takes a turn → the tide ('tide', every Risen acts at once, the water climbs)
+   → maybe the drop ship ('hzship') → maybe a surge → … Local only (solo or pass the device), never online.
+   Brief: claude/horde-mode.md in the Grimspire project. Tuning: HZ below, or hash overrides like #hz.surge0=10&hz.turn=25 */
+const HZ={surge0:6,surgeAdd:1,surgeEvery:3,bruteEvery:5,spitFrom:2,cap:30,hp:36,hpAdd:1,spitHp:26,claw:12,clawWind:.32,clawCd:.9,strikes:1,reach:13,
+  speed:1,climb:38,tide:4.5,turn:20,risePer:6,riseAcc:.2,riseTop:70,dig:7,digCd:.35,emergeGap:.16,backDelay:1.6,
+  bruteHp:90,bruteClaw:22,spit:10,spitR:340,spitWind:.5,tithe:5,spitTithe:8,bruteTithe:20,stuckTides:3,
+  frags:4,riteHp:35,riteR:56,recruitHp:60,order:'squad'};
 for(const m of location.hash.matchAll(/hz\.(\w+)=([\w.]+)/g))if(m[1]in HZ)HZ[m[1]]=isNaN(+m[2])?m[2]:+m[2];
 const RISEN_T={name:'The Risen',col:'#b79bff',rgb:[183,155,255],cloth:[40,36,52],names:['Risen']};
+// all ammo, no permanent unlocks: the carbine is the only thing you never run out of
 const HZ_SHOP=[
-  {id:'rite',n:1,p:25,desc:'Raise a downed trooper beside you, with a holy shockwave. Keeps your turn.'},
-  {id:'mortar',n:Infinity,p:60,desc:'Lobbed plasma shell. Yours for the run.'},{id:'fist',n:Infinity,p:35,desc:'An uppercut that launches them. Yours for the run.'},
+  {id:'frag',n:3,p:15,desc:'Three frag charges.'},{id:'mortar',n:3,p:20,desc:'Three plasma shells. No fuse.'},
   {id:'flamer',n:2,p:25,desc:'Washes over a crowd and lights the ground.'},{id:'scatter',n:2,p:15,desc:'Buckshot. Nasty up close.'},
-  {id:'bolter',n:2,p:20,desc:'Fourteen-round burst.'},{id:'sun',n:1,p:30,desc:'Collapses, then bursts. Huge.'},{id:'mine',n:1,p:20,desc:'Drop it. Blows when they come close.'},
+  {id:'bolter',n:2,p:20,desc:'Fourteen-round burst.'},{id:'fist',n:2,p:15,desc:'Two uppercuts that launch them.'},
+  {id:'sun',n:1,p:30,desc:'Collapses, then bursts. Huge.'},{id:'mine',n:1,p:20,desc:'Drop it. Blows when they come close.'},
   {id:'jet',n:2,p:15,desc:'Thrust up and over. Keeps your turn.'},{id:'rope',n:3,p:10,desc:'Grapple up, rappel down.'},{id:'fab',n:3,p:15,desc:'Print girders. Wall them out.'},
-  {id:'med',n:1,p:15,name:'Field dressing',desc:'+35 health to whoever it lands on.'}];
-let HZ_SAVED=null,HZ_ZOOM=null;
+  {id:'rite',n:1,p:25,desc:'Raise a downed trooper beside you, with a holy shockwave. Keeps your turn.'},
+  {id:'med',n:1,p:15,name:'Field dressing',desc:'+35 health to whoever it lands on.'},
+  {id:'recruit',n:1,p:50,name:'Reinforcement',desc:'A fallen trooper back in the fight, at 60 health.'}];
+let HZ_SAVED=null,HZ_ZOOM=null,hzSpits=[];
 function hzTeams(on,R){if(on){if(!HZ_SAVED){HZ_SAVED={R,T:TEAM[R]};TEAM[R]=RISEN_T}}else if(HZ_SAVED){TEAM[HZ_SAVED.R]=HZ_SAVED.T;HZ_SAVED=null}}
 const hzSquad=()=>troopers.filter(t=>t.team===S.hz.P);
 const hzRisen=()=>troopers.filter(t=>t.risen&&t.alive);
 const hzLost=()=>!troopers.some(t=>t.team===S.hz.P&&t.alive&&!t.dnd);
+const hzRiseNext=()=>Math.round(HZ.risePer+HZ.riseAcc*S.hz.tides);
 function hzInit(){const P=S.order[0],R=S.cfg.hzR;
-  S.hz={P,R,round:0,tithe:0,earned:0,kills:0,queue:[],order:(S.cfg.hz&&S.cfg.hz.order)||HZ.order,tt:0,wait:0,cart:[],nextT:null,rise:null,t0:time};
-  S.ctl[R]='c';S.ally[R]=R;
-  // start with almost nothing: the Rail Carbine and frag charges. Everything else comes from the drop ship
-  S.ammo[P]={};for(const w of ARS)S.ammo[P][w.id]=0;S.ammo[P].rail=Infinity;S.ammo[P].frag=Infinity;S.ammo[P].brace=Infinity;
+  S.hz={P,R,tides:0,surge:0,next:HZ.surgeEvery,tithe:0,earned:0,kills:0,queue:[],plan:null,order:(S.cfg.hz&&S.cfg.hz.order)||HZ.order,tt:0,wait:0,cart:[],call:null,nextT:null,rise:null,t0:time};
+  S.ctl[R]='c';S.ally[R]=R;hzSpits=[];
+  S.ammo[P]={};for(const w of ARS)S.ammo[P][w.id]=0;Object.assign(S.ammo[P],{rail:Infinity,brace:Infinity,call:Infinity,frag:HZ.frags});
   S.weapon[P]='rail';S.lastAtk[P]='rail';S.swapsLeft[P]=S.hz.order==='squad'?999:SWAPS;
   for(const t of hzSquad()){t.wpn='rail';t.atk='rail'}
   updWeapUI();if(HZ_ZOOM===null)HZ_ZOOM=S.zoom;HZ.minZ=Math.max(.22,Math.min(cw/(W*baseScale),ch/(H*baseScale))*.98);setZoom(Math.max(HZ.minZ,cw/(W*baseScale)*.98));S.camFree=false;
-  hzWave()}
-function hzWave(){const z=S.hz;z.round++;troopers=troopers.filter(t=>t.alive||!t.risen);
-  const n=HZ.wave0+HZ.waveAdd*(z.round-1),nb=z.round>=HZ.bruteFrom?1+((z.round-HZ.bruteFrom)/2|0):0;
-  for(let i=0;i<n;i++)z.queue.push({k:'claw',d:i*HZ.emergeGap+rnd(0,.25)});
-  for(let i=0;i<nb;i++)z.queue.push({k:'brute',d:n*HZ.emergeGap*.6+i*.5});
-  S.phase='hzrise';S.active=null;z.wait=0;banner('Round '+z.round,nb?'The Risen rise · brutes among them':'The Risen rise',RISEN_T.col);sfx('rise')}
-// where a Risen climbs out: dry standing room on a bank within 50 px of open water, away from the squad
+  hzSurgePlan();hzSurge()}
+// the next surge: who comes and where, picked a tide early so the markers can show it
+function hzSurgePlan(){const z=S.hz,n=z.surge+1,list=[];const c=HZ.surge0+HZ.surgeAdd*(n-1),sp=n>=HZ.spitFrom?1+((n-HZ.spitFrom)/3|0):0,br=n%HZ.bruteEvery===0?1+((n/HZ.bruteEvery-1)/2|0):0;
+  for(let i=0;i<c;i++)list.push('claw');for(let i=0;i<sp;i++)list.push('spit');for(let i=0;i<br;i++)list.push('brute');
+  // one or two spots, so a surge reads as a group coming up somewhere
+  const a=hzSpawnAt(),b=list.length>6?hzSpawnAt():null;z.plan=list.map((k,i)=>({k,at:(b&&i%2)?b:a}))}
+function hzSurge(){const z=S.hz;z.surge++;troopers=troopers.filter(t=>t.alive||!t.risen);
+  (z.plan||[]).forEach((p,i)=>z.queue.push({k:p.k,d:i*HZ.emergeGap+rnd(0,.2),at:p.at}));z.plan=null;
+  const ks=z.queue.map(q=>q.k),extra=[ks.includes('brute')?'brutes':'',ks.includes('spit')?'spitters':''].filter(Boolean).join(' and ');
+  S.phase='hzrise';S.active=null;z.wait=0;banner(z.surge===1?'The Risen':'Surge '+z.surge,extra?'They rise · '+extra+' among them':'They rise',RISEN_T.col);sfx('rise')}
+// where a Risen climbs out: dry standing room on a bank within 50 px of open water, 130–380 px from the squad if it can
 function hzSpawnAt(){const c=[],far=[],sq=hzSquad().filter(t=>t.alive);
   for(let x=24;x<W-24;x+=6){let y=-1;for(let yy=Math.floor(sump)-2;yy>sump-80;yy--)if(isSolid(x,yy+1)&&!isSolid(x,yy)&&!isSolid(x,yy-BH)){y=yy;break}
     if(y<0)continue;let wet=false;for(let d=-50;d<=50;d+=10)if(!isSolid(x+d,sump+3)){wet=true;break}
-    const dm=sq.reduce((m,t)=>Math.min(m,Math.hypot(t.x-x,t.y-y)),1e9),crowd=hzRisen().some(o=>Math.abs(o.x-x)<9&&Math.abs(o.y-y)<20);
-    if(crowd)continue;(wet&&dm>130?c:far).push([x,y,dm])}
-  {const mid=c.filter(p=>p[2]<380);if(mid.length&&Math.random()<.8)return mid[Math.random()*mid.length|0]}// most come up within reach of the squad
+    const dm=sq.reduce((m,t)=>Math.min(m,Math.hypot(t.x-x,t.y-y)),1e9);(wet&&dm>130?c:far).push([x,y,dm])}
+  {const mid=c.filter(p=>p[2]<380);if(mid.length&&Math.random()<.8)return mid[Math.random()*mid.length|0]}
   if(c.length)return c[Math.random()*c.length|0];
   far.sort((a,b)=>b[2]-a[2]);if(far.length)return far[Math.random()*Math.min(8,far.length)|0];
   const x=rnd(60,W-60);return[x,surf(x)]}
-function hzEmerge(q){const p=hzSpawnAt();if(!p)return;const b=q.k==='brute',hp=b?HZ.bruteHp+10*S.hz.round:HZ.hp+HZ.hpAdd*(S.hz.round-1);
+// a spot near a planned one that isn't already taken
+function hzNear(at){if(!at)return hzSpawnAt();for(let k=0;k<12;k++){const x=clamp(at[0]+(k?rnd(-40,40):0),24,W-24);
+    let y=-1;for(let yy=Math.floor(sump)-2;yy>sump-90;yy--)if(isSolid(x,yy+1)&&!isSolid(x,yy)&&!isSolid(x,yy-BH)){y=yy;break}
+    if(y>0&&!hzRisen().some(o=>Math.abs(o.x-x)<9&&Math.abs(o.y-y)<20))return[x,y]}
+  return hzSpawnAt()}
+function hzEmerge(q){const p=hzNear(q.at);if(!p)return;const k=q.k,b=k==='brute',sp=k==='spit';
+  const hp=b?HZ.bruteHp+5*S.hz.surge:sp?HZ.spitHp+S.hz.surge:HZ.hp+HZ.hpAdd*(S.hz.surge-1);
   const sq=hzSquad().filter(t=>t.alive),near=sq.sort((a,c)=>Math.abs(a.x-p[0])-Math.abs(c.x-p[0]))[0];
-  troopers.push({team:S.hz.R,name:b?'Brute':'Risen',x:p[0],y:p[1],vx:0,vy:0,hp,alive:true,face:near?Math.sign(near.x-p[0])||1:1,aim:0,air:false,anim:rnd(0,6),moving:false,lastPow:{},
-    risen:{k:q.k,st:'rise',rt:0,cacc:0,out:0,hp0:hp,sp:(b?.55:HZ.speed)*rnd(.85,1.15),cd:rnd(0,.4),atk:0,clb:false,stuck:0,wd:0,swing:0}});
+  troopers.push({team:S.hz.R,name:b?'Brute':sp?'Spitter':'Risen',x:p[0],y:p[1],vx:0,vy:0,hp,alive:true,face:near?Math.sign(near.x-p[0])||1:1,aim:0,air:false,anim:rnd(0,6),moving:false,lastPow:{},
+    risen:{k,st:'rise',rt:0,cacc:0,out:0,hp0:hp,sp:(b?.55:sp?.8:HZ.speed)*rnd(.85,1.15),cd:rnd(0,.4),atk:0,clb:false,stuck:0,wd:0,swing:0,np:0}});
   splash(p[0],sump);bubbles(p[0],sump,6);if(Math.random()<.4)sfx(b?'gloomp':'splash')}
-// knocked into the water: back under, up again somewhere else later this round
-function hzSubmerge(t){t.alive=false;t.rope=null;splash(t.x,sump);bubbles(t.x,sump,8);S.hz.queue.push({k:t.risen.k,d:HZ.backDelay+rnd(0,1.5)});
-  texts.push({x:clamp(t.x,40,W-40),y:sump-30,txt:'Back under',life:1.2,col:RISEN_T.col,small:true})}
-function hzKill(t,how){if(!t.alive)return;t.alive=false;t.hp=0;t.rope=null;const z=S.hz,b=t.risen.k==='brute',g=b?HZ.bruteTithe:HZ.tithe;
+// knocked into the water: back under, up again near where they went in, later this tide or the next
+function hzSubmerge(t,quiet){t.alive=false;t.rope=null;splash(t.x,sump);bubbles(t.x,sump,8);S.hz.queue.push({k:t.risen.k,d:HZ.backDelay+rnd(0,1.5),at:quiet?null:[t.x,sump]});
+  if(!quiet)texts.push({x:clamp(t.x,40,W-40),y:sump-30,txt:'Back under',life:1.2,col:RISEN_T.col,small:true})}
+function hzKill(t,how){if(!t.alive)return;t.alive=false;t.hp=0;t.rope=null;const z=S.hz,k=t.risen.k,g=k==='brute'?HZ.bruteTithe:k==='spit'?HZ.spitTithe:HZ.tithe;
   z.kills++;z.tithe+=g;z.earned+=g;statKill(t);
-  for(let i=0;i<(b?26:14);i++)parts.push({k:'mote',x:t.x+rnd(-6,6),y:t.y-rnd(2,20),vx:rnd(-40,40),vy:rnd(-70,-10),life:rnd(.5,1.1),max:1.1,col:RISEN_T.col});
+  for(let i=0;i<(k==='brute'?26:14);i++)parts.push({k:'mote',x:t.x+rnd(-6,6),y:t.y-rnd(2,20),vx:rnd(-40,40),vy:rnd(-70,-10),life:rnd(.5,1.1),max:1.1,col:RISEN_T.col});
   for(let i=0;i<6;i++)parts.push({k:'splash',x:t.x+rnd(-5,5),y:t.y-rnd(4,16),vx:rnd(-50,50),vy:rnd(-90,-30),life:rnd(.3,.6),max:.6});
-  texts.push({x:t.x,y:t.y-30,txt:(how?how+' · ':'')+'+'+g+' tithe',life:1.3,col:RISEN_T.col,small:true});if(b)shake=Math.min(12,shake+5)}
+  texts.push({x:t.x,y:t.y-30,txt:(how?how+' · ':'')+'+'+g+' tithe',life:1.3,col:RISEN_T.col,small:true});if(k==='brute')shake=Math.min(12,shake+5)}
+
 // Risen movement that replaces physics: rising out of the water, and climbing walls. Returns true to skip normal physics.
 function hzRisenPre(t,dt){const r=t.risen;if(RR()<dt*.8)parts.push({k:'splash',x:t.x+rnd(-4,4),y:t.y-rnd(6,16),vx:rnd(-6,6),vy:rnd(10,30),life:.35,max:.4});
   if(r.swing>0)r.swing=Math.max(0,r.swing-dt*4);if(r.dg>0)r.dg-=dt;
@@ -4691,18 +4709,24 @@ function hzRisenPre(t,dt){const r=t.risen;if(RR()<dt*.8)parts.push({k:'splash',x
 // claw through stone: a small cut ahead (or overhead when climbing), on a short cooldown
 function hzDig(t,x,y){const r=t.risen;if((r.dg||0)>0)return false;r.dg=HZ.digCd*(r.k==='brute'?.6:1);const R=HZ.dig*(r.k==='brute'?1.4:1);carve(x,y,R,false);if(Math.abs(y-(t.y-11))<3)carve(x,t.y-BH+3,R,false);// tall enough to walk through
   for(let i=0;i<4;i++)parts.push({k:'spark',x,y,vx:rnd(-50,50),vy:rnd(-60,10),life:rnd(.1,.22),max:.22,col:RISEN_T.col});if(RR()<.25)debris(x,y);if(RR()<.3)sfx('cut');r.swing=.6;return true}
-function hzTarget(t){let b=null,bd=1e9;for(const o of troopers){if(!o.alive||o.team!==S.hz.P)continue;let d=Math.abs(o.x-t.x)+Math.abs(o.y-t.y)*1.4;if(o.dnd)d*=.8;if(d<bd){bd=d;b=o}}return b}
+const hzFinishable=o=>o.dnd&&o.dnT!==S.hz.tides;
+function hzTarget(t){let b=null,bd=1e9;for(const o of troopers){if(!o.alive||o.team!==S.hz.P||o.dnd&&!hzFinishable(o))continue;let d=Math.abs(o.x-t.x)+Math.abs(o.y-t.y)*1.4;if(o.dnd)d*=.8;if(d<bd){bd=d;b=o}}return b}
 function hzAct(t,dt){const r=t.risen;if(r.st!=='up'||r.clb||t.air||t.skid||t.down>0||t.knocked||t.recover>0||t.crouch>0)return;
   if(r.cd>0)r.cd-=dt;const b=r.k==='brute',reach=HZ.reach*(b?1.5:1);
   if(r.atk>0){r.atk-=dt;if(r.atk<=0){r.swing=1;const tg=r.tg;
       if(tg&&tg.alive&&Math.abs(tg.x-t.x)<reach+6&&Math.abs(tg.y-t.y)<24){
-        if(tg.dnd){tg.dnd=false;tg.down=0;killTrooper(tg);texts.push({x:tg.x,y:tg.y-50,txt:tg.name+' · taken by the Risen',life:2.2,col:RISEN_T.col,small:true})}
+        if(tg.dnd&&!hzFinishable(tg)){}
+        else if(tg.dnd){tg.dnd=false;tg.down=0;killTrooper(tg);texts.push({x:tg.x,y:tg.y-50,txt:tg.name+' · taken by the Risen',life:2.2,col:RISEN_T.col,small:true})}
         else{const br=tg.brace?.5:1;hurt(tg,Math.round((b?HZ.bruteClaw:HZ.claw)*br),true);shove(tg,t.face*(b?260:110)*br*br,(b?-200:-70)*br*br);if(b)tg.clawed=true;if(tg.brace)texts.push({x:tg.x,y:tg.y-40,txt:'Braced',life:.9,col:TEAM[tg.team].col,small:true})}
         for(let i=0;i<5;i++)parts.push({k:'spark',x:tg.x-t.face*2,y:tg.y-12+rnd(-5,5),vx:t.face*rnd(40,120),vy:rnd(-60,40),life:rnd(.12,.25),max:.25,col:RISEN_T.col});
         sfx(b?'fist':'cut');shake=Math.min(10,shake+(b?4:1.5))}
       r.cd=HZ.clawCd*(b?1.4:1)}return}
   const tg=hzTarget(t);if(!tg){t.moving=false;return}
-  const dx=tg.x-t.x,dy=tg.y-t.y;
+  const dx=tg.x-t.x,dy=tg.y-t.y,dist=Math.hypot(dx,dy);
+  if(r.k==='spit'){if(r.sw>0){r.sw-=dt;t.moving=false;if(r.sw<=0)hzSpitAt(t,tg);return}
+    if((r.hits||0)<HZ.strikes&&dist<HZ.spitR&&dist>40){t.face=Math.sign(dx)||1;r.sw=HZ.spitWind;r.hits=(r.hits||0)+1;return}
+    if(dist<160&&dist>40){t.moving=false;return}}// keep their distance once they've spat
+  if(!r.lunged&&dy<-24&&dy>-130&&Math.abs(dx)<100&&((r.bt||0)>.8||!isSolid(t.x+Math.sign(dx||1)*6,t.y-10))){hzLunge(t,dx,dy);return}
   if(Math.abs(dx)<reach&&Math.abs(dy)<22){t.face=Math.sign(dx)||t.face;t.moving=false;if(r.cd<=0&&(r.hits||0)<HZ.strikes){r.atk=HZ.clawWind*(b?1.5:1);r.tg=tg;r.hits=(r.hits||0)+1}return}
   // walk at them; directly under a ledge they're on, keep going in one direction until there's a wall to climb
   let dir=Math.abs(dx)>6?Math.sign(dx):(r.wd||t.face);
@@ -4714,28 +4738,48 @@ function hzAct(t,dt){const r=t.risen;if(r.st!=='up'||r.clb||t.air||t.skid||t.dow
     else{r.stuck+=dt;if(isSolid(t.x+dir*6,t.y-10)||isSolid(t.x,t.y-BH-2))hzDig(t,t.x+dir*7,t.y-11)}}
   else r.stuck=Math.max(0,r.stuck-dt)}
 // no headway toward them for 3 s (a crevice, an overhang they keep dropping off): leap at them; every third leap goes the other way
+// a leap aimed to land on them: enough height to clear the ledge, enough reach to arrive
+function hzLunge(t,dx,dy){const r=t.risen,g=G*1.08,h=-dy+18,vy=-Math.sqrt(2*g*h),T=-vy/g+Math.sqrt(2*g*8)/g;
+  r.lunged=true;r.clb=false;r.wdT=0;t.face=Math.sign(dx)||1;t.air=true;t.y-=1;t.vy=vy;t.vx=clamp(dx/T/Math.pow(.6,T*.5),-260,260);t.sq=.4;if(RR()<.5)sfx('jump')}
 function hzStuck(t,dt){const r=t.risen;if(r.st!=='up'||t.air||t.knocked||r.atk>0)return;const tg=hzTarget(t);if(!tg)return;const dx=tg.x-t.x,dy=tg.y-t.y,reach=HZ.reach*(r.k==='brute'?1.5:1);
   const dd=Math.hypot(dx,dy*1.3);if(r.best===undefined||dd<r.best-10){r.best=dd;r.bt=0;r.leaps=0}else r.bt=(r.bt||0)+dt;
   if(r.bt>1.8&&dd>reach*2&&r.bt<=3){const a=Math.atan2(dy-6,dx);if(isSolid(t.x+Math.cos(a)*8,t.y-12+Math.sin(a)*8))hzDig(t,t.x+Math.cos(a)*8,t.y-12+Math.sin(a)*8)}
   if(r.bt>3&&dd>reach*2){r.bt=0;r.best=dd;r.leaps=(r.leaps||0)+1;const d=Math.sign(dx)||1;r.clb=false;if(r.leaps%2===0){r.wd=-(Math.sign(dx)||1);r.wdT=3.5;return}t.face=d;t.air=true;t.y-=1;t.vy=-280-(r.leaps%4===3?70:0);t.vx=d*130;r.wd=d;r.wdT=.8;if(RR()<.3)sfx('jump')}}
+
+// spit: a lobbed glob, aimed with a little error. Hurts the squad only; no crater
+function hzSpitAt(t,tg){const dx=tg.x-t.x,dy=(tg.y-10)-(t.y-16),T=clamp(Math.hypot(dx,dy)/230,.55,1.5)*rnd(.92,1.08),g=G*.9;
+  hzSpits.push({x:t.x+t.face*6,y:t.y-16,vx:dx/T*rnd(.92,1.08),vy:dy/T-.5*g*T,g,life:4});t.risen.swing=1;sfx('gloomp')}
+function hzSpitUpd(dt){for(let i=hzSpits.length-1;i>=0;i--){const p=hzSpits[i];p.vy+=p.g*dt;p.x+=p.vx*dt;p.y+=p.vy*dt;p.life-=dt;
+    if(RR()<.6)parts.push({k:'mote',x:p.x,y:p.y,vx:rnd(-8,8),vy:rnd(-8,8),life:.3,max:.3,col:RISEN_T.col});
+    let hit=null;for(const o of troopers)if(o.alive&&!o.risen&&Math.abs(o.x-p.x)<8&&p.y>o.y-BH&&p.y<o.y+2){hit=o;break}
+    if(hit||isSolid(p.x,p.y)||p.y>sump||p.life<=0||p.x<-20||p.x>W+20){
+      if(hit){hurt(hit,Math.round(HZ.spit*(hit.brace?.5:1)),true);shove(hit,Math.sign(p.vx)*60,-40)}
+      for(let k=0;k<10;k++)parts.push({k:'splash',x:p.x,y:p.y,vx:rnd(-60,60),vy:rnd(-80,10),life:rnd(.2,.45),max:.45});
+      flashes.push({x:p.x,y:p.y,r:30,c:RISEN_T.rgb,life:.25,max:.25,i:.7});hzSpits.splice(i,1)}}}
+function hzDrawFX(){const z=S.hz;if(!z)return;
+  for(const p of hzSpits){ctx.save();ctx.shadowColor=RISEN_T.col;ctx.shadowBlur=8;ctx.fillStyle='#d9c9ff';ctx.beginPath();ctx.arc(p.x,p.y,2.4,0,Math.PI*2);ctx.fill();ctx.restore()}
+  // where the next surge comes up: a pulse on the water a tide ahead
+  if(z.plan&&z.next<=1){const seen=[];for(const p of z.plan){if(!p.at||seen.some(a=>a===p.at))continue;seen.push(p.at);const[x,y]=p.at,u=(time*1.6)%1;
+      ctx.save();ctx.strokeStyle=RISEN_T.col;ctx.lineWidth=1.4;ctx.globalAlpha=.9*(1-u);ctx.beginPath();ctx.ellipse(x,Math.max(y,sump-2),10+u*28,3+u*7,0,0,Math.PI*2);ctx.stroke();
+      ctx.globalAlpha=.85;ctx.fillStyle=RISEN_T.col;ctx.font=`600 ${11/Math.max(.5,S.zoom)}px "Chakra Petch",monospace`;ctx.textAlign='center';ctx.fillText(z.plan.filter(q=>q.at===p.at).length+' RISING',x,Math.min(y,sump)-16);ctx.restore()}}}
 function hzPhase(dt){const z=S.hz;if(!z)return;if(hzLost()&&S.phase!=='over')return hzOver();
-  if(z.rise){const e=z.rise;e.t+=dt;sump=e.from+(e.to-e.from)*Math.min(1,e.t/1.8);if(e.t>1.8)z.rise=null}
+  hzSpitUpd(dt);
+  if(z.rise){const e=z.rise;e.t+=dt;sump=e.from+(e.to-e.from)*Math.min(1,e.t/e.dur);if(e.t>=e.dur)z.rise=null}
   if(S.phase==='tide'||S.phase==='hzrise'){
     if(z.queue.length){const live=hzRisen().length;for(const q of z.queue)q.d-=dt;
       for(let i=0;i<z.queue.length;i++)if(z.queue[i].d<=0&&live<HZ.cap){hzEmerge(z.queue[i]);z.queue.splice(i,1);break}}}
-  if(S.phase==='hzrise'){if(!z.queue.length&&hzRisen().every(t=>t.risen.st==='up')&&settled()){z.wait+=dt;if(z.wait>.5){z.wait=0;hzCycle()}}else z.wait=0}
+  if(S.phase==='hzrise'){if((!z.queue.length||hzRisen().length>=HZ.cap)&&hzRisen().every(t=>t.risen.st==='up')&&settled()){z.wait+=dt;if(z.wait>.5){z.wait=0;hzCycle()}}else z.wait=0}
   else if(S.phase==='tide'){z.tt+=dt;
-    if(hzLost())return hzOver();
     if(z.tt<HZ.tide){for(const t of hzRisen()){hzStuck(t,dt);hzAct(t,dt)}}
-    else{for(const t of hzRisen())if(t.risen.atk>0)hzAct(t,dt);
-      if(z.tt>HZ.tide+6||settled()&&hzRisen().every(t=>!t.air&&!t.knocked&&t.risen.atk<=0&&!t.risen.clb&&t.risen.st==='up')&&!corpses.length){z.wait+=dt;if(z.wait>.5){z.wait=0;hzTideEnd()}}else z.wait=0}}
-  else if(S.phase==='shop'){if(z.shopT>0){z.shopT-=dt;if(z.shopT<=0&&settled())hzShopOpen();else if(z.shopT<=0)z.shopT=.1}}
-  else if(S.phase==='hzship'){if(!ships.length&&crates.every(c=>c.landed)&&settled()&&!z.rise){z.wait+=dt;if(z.wait>.6){z.wait=0;hzWave()}}else z.wait=0}}
+    else{for(const t of hzRisen())if(t.risen.atk>0||t.risen.sw>0)hzAct(t,dt);
+      if(z.tt>HZ.tide+6||settled()&&!hzSpits.length&&!z.rise&&hzRisen().every(t=>!t.air&&!t.knocked&&t.risen.atk<=0&&!(t.risen.sw>0)&&!t.risen.clb&&t.risen.st==='up')&&!corpses.length){z.wait+=dt;if(z.wait>.5){z.wait=0;hzTideEnd()}}else z.wait=0}}
+  else if(S.phase==='hzship'){if(!ships.length&&crates.every(c=>c.landed)&&settled()){z.wait+=dt;if(z.wait>.6){z.wait=0;if(z.queue.length)hzSurgeGo();else hzCycle()}}else z.wait=0}}
+function hzSurgeGo(){const z=S.hz;S.phase='hzrise';S.active=null;z.wait=0}
 // after the trooper physics each frame: Risen deaths, downed troopers, crates landing on Risen
 function hzPost(dt){const z=S.hz;if(!z)return;
   for(const t of troopers){if(!t.alive)continue;
     if(t.risen){if(t.hp<=0)hzKill(t);continue}
-    if(t.hp<=0&&!t.dnd){t.dnd=true;t.rope=null;texts.push({x:t.x,y:t.y-46,txt:t.name+' · downed',life:2,col:BONE,small:true});sfx('thud');
+    if(t.hp<=0&&!t.dnd){t.dnd=true;t.dnT=z.tides;t.rope=null;texts.push({x:t.x,y:t.y-46,txt:t.name+' · downed',life:2,col:BONE,small:true});sfx('thud');
       if(t===S.active&&(S.phase==='aim'||S.phase==='retreat')){S.phase='end';S.charging=false;S.jet=null;S.wait=0}}
     if(t.dnd){t.down=Math.max(t.down||0,.5);t.downDir=t.downDir||1}}
   for(const c of crates)if(!c.landed)for(const t of troopers)if(t.alive&&t.risen&&Math.abs(t.x-c.x)<10&&c.y>t.y-BH-4&&c.y<t.y+2){hurt(t,999,true);hzKill(t,'Crushed')}
@@ -4746,44 +4790,67 @@ function hzNextUp(){const sq=hzSquad();
 function hzCycle(){for(const t of hzSquad()){t.hzA=false;t.brace=false}if(hzLost())return hzOver();S.hz.nextT=hzNextUp();if(!S.hz.nextT)return hzTideStart();beginTurn()}
 function hzNextTurn(){statTurnEnd();if(hzLost())return hzOver();S.turnN++;for(const z of zones)z.left--;zones=zones.filter(z=>z.left>0);
   if(S.active)S.active.hzA=true;
-  if(!hzRisen().length&&!S.hz.queue.length)return hzRoundClear();// cleared mid-cycle: no need to wait for the tide
   if(S.hz.order==='squad'){const n=hzNextUp();if(n){S.hz.nextT=n;beginTurn();return}}
   hzTideStart()}
-function hzTideStart(){const z=S.hz;S.phase='tide';S.active=null;z.tt=0;z.wait=0;for(const t of hzRisen())t.risen.hits=0;
-  if(!hzRisen().length&&!z.queue.length)return hzRoundClear();
-  banner('The tide','The Risen surge',RISEN_T.col);sfx('rise')}
-function hzTideEnd(){const z=S.hz;if(hzLost())return hzOver();if(!hzRisen().length&&!z.queue.length)return hzRoundClear();hzCycle()}
-function hzRoundClear(){const z=S.hz,g=HZ.clear+HZ.clearAdd*(z.round-1);z.tithe+=g;z.earned+=g;
-  for(const t of hzSquad())if(t.alive&&t.dnd){t.dnd=false;t.down=0;t.hp=HZ.downedUp;texts.push({x:t.x,y:t.y-46,txt:t.name+' · back up',life:2,col:TEAM[t.team].col,small:true})}
-  S.phase='shop';S.active=null;banner('Round '+z.round+' held','+'+g+' tithe · the drop ship is listening',TEAM[z.P].col);z.shopT=1.3}
-/* ---- drop ship shop ---- */
-const hzItem=s=>({...s,name:s.name||WP[s.id].name,desc:s.desc||WP[s.id].desc,cat:s.id==='med'?'Tools':WP[s.id].cat,crate:s.id==='med'?'med':s.id==='rite'?'tool':WP[s.id].cat==='Heavy'?'heavy':WP[s.id].cat==='Tools'?'tool':'arms'});
-function hzOwned(s){return s.n===Infinity&&S.ammo[S.hz.P][s.id]===Infinity}
-function hzShopOpen(){const z=S.hz;z.cart=[];hzShopDraw();$('#hzShop').hidden=false;const f=$('#hzGrid .tile:not(:disabled)');if(f&&!coarse)f.focus({preventScroll:true})}
+function hzTideStart(){const z=S.hz;S.phase='tide';S.active=null;z.tt=0;z.wait=0;
+  for(const t of hzRisen()){const r=t.risen;r.hits=0;r.lunged=false;r.d0=hzGap(t)}
+  // the water climbs a little every tide
+  const up=hzRiseNext();if(sump-up>HZ.riseTop)z.rise={from:sump,to:sump-up,t:0,dur:HZ.tide};
+  banner('Tide '+(z.tides+1),z.next<=1?'The water climbs · a surge is coming':'The water climbs',RISEN_T.col);sfx('rise')}
+const hzGap=t=>hzSquad().filter(o=>o.alive).reduce((m,o)=>Math.min(m,Math.hypot(o.x-t.x,o.y-t.y)),1e9);
+function hzTideEnd(){const z=S.hz;if(hzLost())return hzOver();z.tides++;z.next--;
+  // a Risen that's made no headway in a few tides (a floating island, a sealed pocket) goes back under and tries again
+  for(const t of hzRisen()){const r=t.risen,g=hzGap(t);if(g>40&&g>(r.d0??g)-20)r.np++;else r.np=0;if(r.np>=HZ.stuckTides){r.np=0;hzSubmerge(t,true)}}
+  if(z.next===1&&!z.plan)hzSurgePlan();
+  const surge=z.next<=0;if(surge){z.next=HZ.surgeEvery;if(!z.plan)hzSurgePlan();hzSurgeQueue()}
+  if(z.call){hzShip(z.call);z.call=null;S.phase='hzship';S.active=null;z.wait=0;return}
+  if(surge||z.queue.length){if(surge){const ks=z.queue.map(q=>q.k),extra=[ks.includes('brute')?'brutes':'',ks.includes('spit')?'spitters':''].filter(Boolean).join(' and ');banner('Surge '+z.surge,extra?'They rise · '+extra+' among them':'They rise',RISEN_T.col);sfx('rise')}hzSurgeGo();return}
+  hzCycle()}
+function hzSurgeQueue(){const z=S.hz;z.surge++;troopers=troopers.filter(t=>t.alive||!t.risen);(z.plan||[]).forEach((p,i)=>z.queue.push({k:p.k,d:i*HZ.emergeGap+rnd(0,.2),at:p.at}));z.plan=null}
+/* ---- the drop ship: call it on your turn (costs the turn), it arrives after the tide and drops by the caller ---- */
+const hzItem=s=>({...s,name:s.name||WP[s.id].name,desc:s.desc||WP[s.id].desc,cat:s.id==='med'||s.id==='recruit'?'Tools':WP[s.id].cat,crate:s.id==='med'?'med':s.id==='rite'||s.id==='recruit'?'tool':WP[s.id].cat==='Heavy'?'heavy':WP[s.id].cat==='Tools'?'tool':'arms'});
+const hzOwned=()=>false;
+const hzFallen=()=>hzSquad().filter(t=>!t.alive).length;
+function hzCallOpen(){const z=S.hz,t=S.active;if(!t||S.phase!=='aim')return;
+  if(z.call){texts.push({x:t.x,y:t.y-52,txt:'The drop ship is already inbound',life:1.4,col:BONE,small:true});return}
+  z.cart=[];S.phase='hzcall';S.charging=false;closeArsenal();hzShopDraw();$('#hzShop').hidden=false;const f=$('#hzGrid .tile:not(:disabled)');if(f&&!coarse)f.focus({preventScroll:true})}
 function hzShopDraw(){const z=S.hz,g=$('#hzGrid');g.innerHTML='';
   $('#hzTithe').textContent=z.tithe+' tithe';
-  $('#hzShopSub').textContent=`Round ${z.round} held. Spend your tithe; the ship drops it on your squad on the way in.`;
-  for(const s0 of HZ_SHOP){const s=hzItem(s0),inCart=z.cart.filter(c=>c.id===s.id).length,own=hzOwned(s)||(s.n===Infinity&&inCart>0);
-    const b=document.createElement('button');b.type='button';b.className='tile';b.style.setProperty('--c',CATCOL[s.cat]);b.disabled=own||z.tithe<s.p;
-    const n=document.createElement('b');n.textContent=s.name+(s.n!==Infinity&&s.n>1?' ×'+s.n:'');const em=document.createElement('em');em.textContent=own?'owned':s.p;n.append(em);
-    const d=document.createElement('span');d.textContent=(inCart&&!own?'In the crate ×'+inCart+' · ':'')+s.desc;
-    b.insertAdjacentHTML('afterbegin',icon(s.id==='med'?'fab':s.id));if(s.id==='med')b.querySelector('.ico').outerHTML='<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16v13H4z"/><path d="M12 10v7M8.5 13.5h7"/><path d="M9 7V4h6v3"/></svg>';
+  $('#hzShopSub').textContent=`Calling it in ends ${S.active?S.active.name+'’s':'this'} turn. The crates land by them after the tide.`;
+  const recruits=z.cart.filter(c=>c.id==='recruit').length;
+  for(const s0 of HZ_SHOP){const s=hzItem(s0),inCart=z.cart.filter(c=>c.id===s.id).length,locked=s.id==='recruit'&&recruits>=hzFallen();
+    const b=document.createElement('button');b.type='button';b.className='tile';b.style.setProperty('--c',CATCOL[s.cat]);b.disabled=locked||z.tithe<s.p;
+    const n=document.createElement('b');n.textContent=s.name+(s.n>1?' ×'+s.n:'');const em=document.createElement('em');em.textContent=s.p;n.append(em);
+    const d=document.createElement('span');d.textContent=(inCart?'In the crate ×'+inCart+' · ':'')+(s.id==='recruit'&&!hzFallen()?'No one has fallen yet.':s.desc);
+    const ic=s.id==='med'?'<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16v13H4z"/><path d="M12 10v7M8.5 13.5h7"/><path d="M9 7V4h6v3"/></svg>'
+      :s.id==='recruit'?'<svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="7" r="3.2"/><path d="M5.5 20c.8-4 3.4-6.2 6.5-6.2s5.7 2.2 6.5 6.2"/><path d="M19 4v5M16.5 6.5h5"/></svg>':icon(s.id);
+    b.insertAdjacentHTML('afterbegin',ic);
     b.append(n,d);b.addEventListener('click',()=>{if(z.tithe<s.p)return;z.tithe-=s.p;z.cart.push(s);sfx('pickup');hzShopDraw();const nb=[...$('#hzGrid').children][HZ_SHOP.indexOf(s0)];if(nb&&!nb.disabled)nb.focus()});g.append(b)}
-  $('#hzClear').disabled=!z.cart.length;
-  $('#hzCallSub').textContent=z.cart.length?`${z.cart.length} crate${z.cart.length>1?'s':''} · then round ${z.round+1}`:`Nothing to drop · straight into round ${z.round+1}`}
+  $('#hzClear').disabled=!z.cart.length;$('#hzCall').disabled=!z.cart.length;
+  $('#hzCallSub').textContent=z.cart.length?`${z.cart.length} crate${z.cart.length>1?'s':''} · ends this turn`:'Pick something first'}
 function hzShopClear(){const z=S.hz;for(const c of z.cart)z.tithe+=c.p;z.cart=[];hzShopDraw()}
-function hzShopCall(){const z=S.hz;$('#hzShop').hidden=true;S.phase='hzship';z.wait=0;
-  if(HZ.riseEvery>0&&z.round%HZ.riseEvery===0){z.rise={from:sump,to:sump-HZ.riseBy,t:0};banner('The sump rises','Less ground to hold','#9fb4d8');sfx('rise')}
-  if(!z.cart.length)return;
-  // one crate per item, as close to a trooper as it can land without stacking: on them first, then a step either side
-  const sq=hzSquad().filter(t=>t.alive),xs=[],drops=[];
-  z.cart.forEach((s,i)=>{const t=sq[i%sq.length];let x=t.x;for(const off of[0,16,-16,30,-30,44,-44,60,-60]){const c=clamp(t.x+off,20,W-20);if(!xs.some(o=>Math.abs(o-c)<14)){x=c;break}}xs.push(x);drops.push({x,type:s.crate,item:s.id==='med'?null:s.id,n:s.n})});
+function hzShopBack(){hzShopClear();$('#hzShop').hidden=true;if(S.phase==='hzcall')S.phase='aim'}
+function hzShopCall(){const z=S.hz;if(!z.cart.length)return;$('#hzShop').hidden=true;
+  z.call={cart:z.cart.slice(),by:S.active};z.cart=[];const t=S.active;
+  texts.push({x:t.x,y:t.y-52,txt:'Drop ship called · after the tide',life:2,col:'#ffb21e',small:true});sfx('ship');
+  S.weapon[S.team]=S.lastAtk[S.team]&&hasAmmo(WP[S.lastAtk[S.team]])?S.lastAtk[S.team]:'rail';S.phase='end';S.wait=0;updWeapUI()}
+function hzShip(call){const sq=hzSquad().filter(t=>t.alive&&!t.dnd),by=call.by&&call.by.alive&&!call.by.dnd?call.by:sq[0]||hzSquad().find(t=>t.alive);if(!by)return;
+  // one crate per item, as close to the caller as it can land without stacking: on them first, then a step either side
+  const xs=[],drops=[];
+  for(const s of call.cart){let x=by.x;for(const off of[0,16,-16,30,-30,44,-44,60,-60,76,-76]){const c=clamp(by.x+off,20,W-20);if(!xs.some(o=>Math.abs(o-c)<14)){x=c;break}}xs.push(x);drops.push({x,type:s.crate,item:s.id==='med'?null:s.id,n:s.n})}
   const dir=Math.random()<.5?1:-1;drops.sort((a,b)=>(a.x-b.x)*dir);
   ships.push({x:dir>0?-160:W+160,y:rnd(40,90),vx:dir*640,dropX:drops[0].x,dropped:false,type:drops[0].type,item:drops[0].item,n:drops[0].n,drops:drops.slice(1),big:drops.length>1,fast:true});
-  banner('Drop ship inbound',drops.length+' crate'+(drops.length>1?'s':'')+' · heads up','#ffb21e');sfx('ship')}
-function hzCollect(c,t){const id=c.item,cur=S.ammo[t.team][id]||0;S.ammo[t.team][id]=c.n===Infinity?Infinity:cur+c.n;
-  texts.push({x:c.x,y:c.y-30,txt:'+'+WP[id].name+(c.n===Infinity?'':c.n>1?' ×'+c.n:''),life:2.6,col:CRATE[c.type].col});sparks(c.x,c.y-8,16);sfx('pickup');updWeapUI();
+  banner('Drop ship inbound',drops.length+' crate'+(drops.length>1?'s':'')+' for '+by.name,'#ffb21e');sfx('ship')}
+function hzCollect(c,t){const id=c.item;
+  if(id==='recruit'){const f=hzSquad().find(o=>!o.alive);
+    if(!f){S.hz.tithe+=50;texts.push({x:c.x,y:c.y-30,txt:'No one to bring back · tithe returned',life:2,col:BONE,small:true});return}
+    Object.assign(f,{alive:true,hp:HZ.recruitHp,x:c.x,y:c.y,vx:0,vy:0,dnd:false,down:0,air:false,knocked:false,rope:null,stag:false,sq:.5,hzA:true});
+    for(let i=0;i<24;i++)parts.push({k:'mote',x:f.x+rnd(-8,8),y:f.y-rnd(0,24),vx:rnd(-30,30),vy:rnd(-90,-20),life:rnd(.6,1.2),max:1.2,col:TEAM[f.team].col});
+    texts.push({x:f.x,y:f.y-50,txt:f.name+' · back in the fight',life:2.4,col:TEAM[f.team].col,small:true});sfx('fab');updHud();return}
+  const cur=S.ammo[t.team][id]||0;S.ammo[t.team][id]=cur+c.n;
+  texts.push({x:c.x,y:c.y-30,txt:'+'+WP[id].name+(c.n>1?' ×'+c.n:''),life:2.6,col:CRATE[c.type].col});sparks(c.x,c.y-8,16);sfx('pickup');updWeapUI();
   flashes.push({x:c.x,y:c.y-10,r:80,c:CRATE[c.type].rgb,life:.35,max:.35,i:.9});shake=Math.min(10,shake+3)}
+
 /* ---- Last Rites: raise a downed trooper next to you, with a holy shockwave. Doesn't end your turn ---- */
 function hzRite(){const t=S.active,w=curW();if(!t||!S.hz)return;
   const d=troopers.filter(o=>o.alive&&o.dnd&&o.team===t.team&&o!==t&&Math.hypot(o.x-t.x,o.y-t.y)<HZ.riteR).sort((a,b)=>Math.hypot(a.x-t.x,a.y-t.y)-Math.hypot(b.x-t.x,b.y-t.y))[0];
@@ -4794,26 +4861,30 @@ function hzRite(){const t=S.active,w=curW();if(!t||!S.hz)return;
   for(let i=0;i<20;i++)parts.push({k:'mote',x:d.x+rnd(-8,8),y:d.y-rnd(0,22),vx:rnd(-30,30),vy:rnd(-80,-20),life:rnd(.6,1.2),max:1.2,col:TEAM[t.team].col});
   texts.push({x:d.x,y:d.y-50,txt:'Last Rites · '+d.name+' rises',life:2.2,col:TEAM[t.team].col,small:true});sfx('fab');shake=Math.min(10,shake+4);
   S.weapon[S.team]=hasAmmo(WP[S.lastAtk[S.team]])?S.lastAtk[S.team]:'rail';S.shots=curW().shots||1;updWeapUI()}
+
 /* ---- Brace: end the turn dug in; half damage and a quarter of the shove from claws until the next cycle ---- */
 function hzBrace(){const t=S.active;if(!t||!S.hz||S.phase!=='aim')return;t.brace=true;t.sq=.35;
   texts.push({x:t.x,y:t.y-52,txt:'Braced',life:1.4,col:TEAM[t.team].col,small:true});sfx('clank');S.phase='end';S.wait=0;S.charging=false;
   S.weapon[S.team]=S.lastAtk[S.team]&&hasAmmo(WP[S.lastAtk[S.team]])?S.lastAtk[S.team]:'rail'}
+
 /* ---- the end ---- */
 function hzOver(){if(S.phase==='over')return;const z=S.hz;statTurnEnd();S.phase='over';setMusicMode('title');$('#hzShop').hidden=true;
   const E=$('#end'),P=z.P,col=RISEN_T.col;E.style.setProperty('--ec',col);E.classList.add('lost');
-  $('#eKick').textContent='Overrun';$('#eTitle').textContent=z.round>1?`The Risen took the ward in round ${z.round}. ${TEAM[P].name} held ${z.round-1}.`:`The Risen took the ward in the first round.`;
+  const best=Math.max(z.tides,+(PREF.hzBest||0));const isBest=z.tides>(+(PREF.hzBest||0));PREF.hzBest=best;savePref();
+  $('#eKick').textContent=isBest&&z.tides>0?'Overrun · new best':'Overrun';$('#eTitle').textContent=`The Risen took ${TEAM[P].name} after ${z.tides} tide${z.tides===1?'':'s'}.`;
   {const src=endArt(P+'-loss'),a=$('#eArt');a.classList.toggle('on',!!src);E.classList.toggle('art',!!src);a.style.backgroundImage=src?`url("${src}")`:''}
   const H=[],cell=(k,v,sub)=>{const d=document.createElement('div'),a=document.createElement('small'),b=document.createElement('b');a.textContent=k;b.textContent=v;d.append(a,b);if(sub){const e=document.createElement('i');e.textContent=sub;d.append(e)}H.push(d)};
-  cell('Rounds held',String(z.round-1),'died in round '+z.round);cell('Risen slain',String(z.kills));cell('Tithe earned',String(z.earned),z.tithe+' unspent');{const n=S.stats.turns||0;cell('Time',fmtDur(time-z.t0),n+(n===1?' turn':' turns'))}
+  cell('Tides held',String(z.tides),'best '+best);cell('Risen slain',String(z.kills),z.surge+' surge'+(z.surge===1?'':'s'));cell('Tithe earned',String(z.earned),z.tithe+' unspent');{const n=S.stats.turns||0;cell('Time',fmtDur(time-z.t0),n+(n===1?' turn':' turns'))}
   $('#eHi').replaceChildren(...H);$('#eTab').replaceChildren();
   $('#ov').hidden=true;$('#pause').hidden=true;E.hidden=false;document.body.classList.add('intitle');closeArsenal();
   E.classList.remove('reveal');void E.offsetWidth;E.classList.add('reveal');E.addEventListener('animationend',function done(ev){if(ev.target!==E)return;E.classList.remove('reveal');E.removeEventListener('animationend',done)})}
-function hzEnd(){hzTeams(false);S.hz=null;if(HZ_ZOOM!==null){setZoom(HZ_ZOOM);HZ_ZOOM=null}const s=$('#hzShop');if(s)s.hidden=true}
+function hzEnd(){hzTeams(false);S.hz=null;hzSpits=[];if(HZ_ZOOM!==null){setZoom(HZ_ZOOM);HZ_ZOOM=null}const s=$('#hzShop');if(s)s.hidden=true}
+
 /* ---- the look: drawn in code, no Forge art. Hunched drowned dead, long clawed arms, rags, violet eyes; brutes are bigger
    with an iron collar and a lit chest wound. Rim light comes from the same lights as the troopers. ---- */
 function drawRisen(t){const r=t.risen,b=r.k==='brute',sc=(b?1.45:.98)*TS;let up=1;if(r.st==='rise')up=Math.min(1,r.rt/.8);
   const LT=lightOn(t),off=Math.max(1,.75*scale*DPR),ph=t.anim||0,wk=t.moving?Math.sin(ph):0,lift=t.moving?Math.abs(Math.cos(ph))*.6:0,cl=r.clb;
-  const wind=r.atk>0?1-r.atk/(HZ.clawWind*(b?1.5:1)):0,sw=r.swing||0,bob=Math.sin(time*2+t.x)*.35,hy=lift+bob,FL='#14111b';
+  const spt=r.k==='spit',sac=spt?(r.sw>0?1-r.sw/HZ.spitWind:0):0,wind=r.atk>0?1-r.atk/(HZ.clawWind*(b?1.5:1)):0,sw=r.swing||0,bob=Math.sin(time*2+t.x)*.35,hy=lift+bob,FL='#14111b';
   ctx.save();if(up<1){ctx.beginPath();ctx.rect(t.x-50,t.y-90,100,90);ctx.clip()}
   ctx.translate(t.x,t.y+(1-up)*26*sc);ctx.rotate(t.tilt||0);ctx.scale(t.face*sc*(1+(t.sq||0)*.2),sc*(1-(t.sq||0)*.25));
   if(cl)ctx.rotate(-.55);
@@ -4850,17 +4921,22 @@ function drawRisen(t){const r=t.risen,b=r.k==='brute',sc=(b?1.45:.98)*TS;let up=
   // eyes: the only light on them (and a brute's chest wound)
   ctx.shadowColor=RISEN_T.col;ctx.shadowBlur=(b?11:8)*Math.max(.6,scale*.5);ctx.fillStyle=wind>0?'#f3ecff':RISEN_T.col;
   ctx.fillRect(8.4,-19.2+hy,1.7,.9);ctx.fillRect(6.6,-19+hy,1,.8);
+  if(spt){const R=2.2+sac*1.8+Math.sin(time*5+t.x)*.25;ctx.globalAlpha=.55+.45*sac;ctx.beginPath();ctx.ellipse(6.6,-14.2+hy,R*.8,R,0,0,Math.PI*2);ctx.fill();ctx.globalAlpha=1}
   if(b){ctx.globalAlpha=.6+.4*Math.sin(time*4+t.x);ctx.beginPath();ctx.moveTo(4.2,-17+lift);ctx.lineTo(5.6,-15.4+lift);ctx.lineTo(4.6,-12.6+lift);ctx.lineTo(3.4,-14.8+lift);ctx.fill();ctx.globalAlpha=1}
   ctx.shadowBlur=0;ctx.restore();
   if(up<1&&r.st==='rise'&&RR()<.5)parts.push({k:'splash',x:t.x+rnd(-6,6),y:t.y-rnd(0,4),vx:rnd(-30,30),vy:rnd(-80,-30),life:.4,max:.5})}
+
 // camera during the tide and the rising: the squad, pulled toward the nearest Risen to it
 function hzCam(){const sq=hzSquad().filter(t=>t.alive);if(!sq.length)return null;
   if(S.phase==='hzrise'){const r=hzRisen().filter(t=>t.risen.st==='rise').pop();if(r)return[r.x,r.y-20]}
   let best=null,bd=1e9;for(const r of hzRisen())for(const t of sq){const d=Math.hypot(r.x-t.x,r.y-t.y);if(d<bd){bd=d;best=[r,t]}}
   if(!best)return[sq[0].x,sq[0].y-14];const[r,t]=best;return[(r.x+t.x*2)/3,(r.y+t.y*2)/3-14]}
-// HUD: the Risen side of the top bar shows the round, how many are left and your tithe
-function hzHud(){const z=S.hz;if(!z)return;const el=hudEls.hzBox;if(!el)return;const left=hzRisen().length+z.queue.length,txt=`Round ${z.round} · ${left} left · ${z.tithe} tithe`;if(hc.hz!==txt){hc.hz=txt;el.textContent=txt}}
-window.__HZ={HZ,HZ_SHOP,hzItem,hzOwned,hzShopCall,hzRisen,hzKill,hzShopOpen,tryFire:()=>tryFire(),get troopers(){return troopers},get sump(){return sump},get W(){return W},get crates(){return crates},isSolid:(x,y)=>isSolid(x,y),cam};
+
+// HUD: the Risen side of the top bar: tide, the surge countdown, how many are up, how many can reach you this tide, and tithe
+function hzHud(){const z=S.hz;if(!z)return;const el=hudEls.hzBox;if(!el)return;const rs=hzRisen(),sq=hzSquad().filter(t=>t.alive);
+  const reach=rs.filter(r=>sq.some(t=>Math.abs(t.x-r.x)<70&&Math.abs(t.y-r.y)<40)).length;
+  const txt=`Tide ${z.tides+1} · ${z.next<=1?'surge next tide':'surge in '+z.next} · ${rs.length+z.queue.length} risen${reach?' · '+reach+' in reach':''} · ${z.tithe} tithe`;if(hc.hz!==txt){hc.hz=txt;el.textContent=txt}}
+window.__HZ={HZ,HZ_SHOP,hzItem,hzShopCall,hzCallOpen,hzRisen,hzKill,get troopers(){return troopers},get sump(){return sump},get W(){return W},get crates(){return crates},isSolid:(x,y)=>isSolid(x,y),get spits(){return hzSpits}};
 
 /* ================= render ================= */
 function resize(){DPR=Math.min(1.6,window.devicePixelRatio||1);cw=innerWidth;ch=innerHeight;cv.width=Math.round(cw*DPR);cv.height=Math.round(ch*DPR);
@@ -5233,7 +5309,7 @@ function render(dt){
     for(let i=1;i<n;i++){const f=i/n,j=(Math.random()-.5)*2.6;ctx.lineTo(r.x+(hx-r.x)*f+nx*j,r.y+(hy-r.y)*f+ny*j)}ctx.lineTo(hx,hy);ctx.stroke();
     ctx.shadowBlur=10;ctx.fillStyle='#bffcff';ctx.fillRect(r.x-2.5,r.y-3,5,4);ctx.fillStyle='#2a2d34';ctx.fillRect(r.x-1,r.y-6,2,3);ctx.restore();
     if(Math.random()<.25){const f=Math.random();parts.push({k:'spark',x:r.x+(hx-r.x)*f,y:r.y+(hy-r.y)*f,vx:rnd(-50,50),vy:rnd(-60,10),life:rnd(.1,.25),max:.25,col:'#9ffbff'});sfx('zap')}}
-  for(const t of troopers)if(t.alive&&!t.podded)(t.risen?drawRisen(t):drawTrooper(t));
+  for(const t of troopers)if(t.alive&&!t.podded)(t.risen?drawRisen(t):drawTrooper(t));if(S.hz)hzDrawFX();
   drawWave2();
   for(const p of projs){
     if(p.w.kind==='shell'){const c=p.w.nuke?'#ff6a3d':'#ffb21e';ctx.shadowColor=c;ctx.shadowBlur=18;ctx.fillStyle='#fff3cf';ctx.beginPath();ctx.arc(p.x,p.y,p.w.nuke?5:3.4,0,Math.PI*2);ctx.fill();ctx.shadowBlur=0}
@@ -5351,7 +5427,7 @@ function buildHud(){const L=$('#tl'),R=$('#tr');L.innerHTML='';R.innerHTML='';co
     hudEls['hp'+f]=b.querySelector('i');hudEls['c'+f]=b.querySelector('.tcount');hudEls['b'+f]=b});
   hudEls.hzBox=null;if(S.mode==='horde'){const b=document.createElement('div');b.className='team';b.style.color=RISEN_T.col;b.innerHTML=`<div class="tname">The Risen</div><div class="tcount hzc"></div>`;R.append(b);hudEls.hzBox=b.querySelector('.hzc');hc.hz=''}
   requestAnimationFrame(fitNames)}
-function updHud(){netHud();hzHud();{const b=$('#dBrace'),on=!!S.hz&&S.phase==='aim';if(b.hidden===on)b.hidden=!on}{const tc=S.phase==='aim'||S.phase==='retreat'?TEAM[S.team].col:'';if(hc.tc!==tc){hc.tc=tc;hudEls.turn.style.color=tc}}
+function updHud(){netHud();hzHud();{const on=!!S.hz&&S.phase==='aim';for(const b of[$('#dBrace'),$('#dCall')])if(b.hidden===on)b.hidden=!on}{const tc=S.phase==='aim'||S.phase==='retreat'?TEAM[S.team].col:'';if(hc.tc!==tc){hc.tc=tc;hudEls.turn.style.color=tc}}
   for(const tm of S.order||[]){if(!hudEls['hp'+tm])continue;const list=troopers.filter(t=>t.team===tm),hp=list.reduce((a,t)=>a+(t.alive?t.hp:0),0),up=list.filter(t=>t.alive).length;
     // Active-side colour and contrast indicate turn ownership; counts remain visible.
     const now=tm===S.team&&(S.phase==='aim'||S.phase==='retreat');
