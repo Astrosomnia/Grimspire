@@ -6,6 +6,16 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-26 · Claude · three.js Skirmish: a playable 2.5D prototype (experiment)
+
+- Jarred: expand the destruction test into a small playable version with verticality and opponents. New file `experiments/three-skirmish.html` (the test scene stays as it was).
+- **Map:** a new procedural ward each game (`?seed=N` repeats one): islands in the sump, towers of open-fronted rooms with doors, floor holes and stepped roofs, bridges between towers at shared floor heights (some broken), ledges and ruined arches. About 11,000 destructible blocks. Play happens on a 2D lane; the back wall is backdrop that still breaks. Squad sigils are sprayed inside the outermost towers.
+- **Play:** Ash Legion (you) against Neon Choir (CPU), three troopers each, 40 s turns, then 3 s to retreat. Walk, step up, jump, jump pack (1.7 s of fuel a turn), aim and charge. Fall damage over 3.6 m. The sump drowns you.
+- **Weapons:** Plasma Mortar (48, lobbed shell), Frag Charge (52, bounces, 3 s fuse, Rapier ball), Rail Carbine (two straight slugs, 22 each, small blast). Names and damage come from the game's weapon list; blast sizes are scaled to this world.
+- **CPU:** tests mortar and rail shots across angles and strengths by flying them through the grid, scores damage to the enemy against harm to its own side, and first walks along its floor to the best spot. It adds a little aim error.
+- **Controls:** arrows or WASD to walk and aim, Space to charge and fire, Enter to jump, Shift to jet, 1–3 to pick a weapon. Or drag to aim and release to fire. Phones get on-screen walk, jump and jet buttons. Two fingers or right-drag pan the camera; the wheel zooms. `?watch` plays CPU against CPU.
+- Tested headless: whole matches play to the end; controls checked by script; both Rapier and the lite fallback. Not yet tried on a real phone or GPU.
+
 ## 2026-11-26 · Claude · three.js test: procedural destruction (experiment)
 
 - Jarred: weave procedural destruction into the three.js scene. `experiments/three-test.html` now builds the ward from ~6,800 stone blocks (0.36 × 0.24 × 0.4 m, one instanced mesh): the bridge, a hollow tower with two floors, a stepped roof and the ASH sigil, and a ruined gate that frames the fallen saint. Masonry outside, darker rubble core inside, magenta and cyan glass windows.
