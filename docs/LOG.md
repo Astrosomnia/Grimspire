@@ -6,6 +6,21 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-26 · Jarred, Claude · three.js study: verdict and lessons
+
+Jarred tried the Skirmish (`experiments/three-skirmish.html`): "A really good study … makes me excited about a great version down the road." Not taking it further for now.
+
+**Keep for a future version:**
+- **Lighting:** neon point lights in rooms, a cool rim light behind, near-black stone, bloom over a low-resolution pixel render.
+- **Depth:** silhouette bands fading into fog, mist banks, moonlight shafts, black water with broken horizontal reflections.
+- **Neon signs:** the squad sigils, painted on blocks so they break with them.
+- **Destruction:** stone blocks with a rubble core, glowing hot debris and scorched rims, and unsupported sections falling as one piece before they shatter.
+
+**What was wrong:**
+- **Scale:** the map is only about 26 troopers wide (the 2D game is about 70), rooms are 1.5 troopers tall, and blocks are too big next to a trooper.
+- **Controls:** drag-to-aim, hold-to-charge and on-screen buttons were improvised. Next time, start from the 2D game's tuned controls.
+- **Phone speed:** too slow, mostly the physics: hundreds of Rapier rubble bodies and colliders rebuilt after every blast, on top of 11k blocks, shadows and a second render for the water. Next time, make most debris cosmetic particles, keep only a few dozen real bodies, and leave large collapses to a native physics engine (Godot's Jolt).
+
 ## 2026-11-26 · Claude · three.js Skirmish: a playable 2.5D prototype (experiment)
 
 - Jarred: expand the destruction test into a small playable version with verticality and opponents. New file `experiments/three-skirmish.html` (the test scene stays as it was).
