@@ -6,6 +6,14 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-26 · Claude · three.js test: procedural destruction (experiment)
+
+- Jarred: weave procedural destruction into the three.js scene. `experiments/three-test.html` now builds the ward from ~6,800 stone blocks (0.36 × 0.24 × 0.4 m, one instanced mesh): the bridge, a hollow tower with two floors, a stepped roof and the ASH sigil, and a ruined gate that frames the fallen saint. Masonry outside, darker rubble core inside, magenta and cyan glass windows.
+- Blasts vaporise the centre, throw the ring around it as hot, glowing clumps, and scorch the rim. A connectivity pass from the sump bed finds anything left unsupported, which falls as one rigid piece and shatters on impact or in the water. Rubble splashes, sinks and dissolves into motes when there's too much. The sigil is painted on its own blocks, so it breaks with them. Props on blocks (pinnacle caps, the mortar) fall when their block goes.
+- The Ash mortar shells the gate, Neon Choir shells come in from off-screen right onto the tower and bridge, and a tap on the stone calls a strike. The trooper walks on whatever is still standing, turns at gaps, gets blown off his feet, and rematerialises if he lands in the sump. Once about a sixth of the ward is down, it knits itself back from motes, bottom up.
+- Physics is Rapier 0.14 (WebAssembly, jsDelivr). If it can't load, a light grid-based fallback takes over; the corner tag says which is running. Low mist banks and moonlight shafts were added. `?calm` turns off the shelling, `?lite` forces the fallback.
+- Standalone, no game code touched.
+
 ## 2026-11-26 · Claude · three.js 2.5D test scene (experiment, not the game)
 
 - Jarred asked for a simple, no-interaction three.js test that looks rad. `experiments/three-test.html`: one Ash Legion trooper (box-built, enclosed helm, magenta visor, jump pack, oxblood cloak) patrols a drowned gothic bridge and turns at each end; a mortar on the broken end lobs shells into the sump every 3 s or so (muzzle flash, trail, fireball, water column, sparks, rising squad motes, ripple rings, camera shake).

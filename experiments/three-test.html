@@ -6,11 +6,13 @@
 <title>Grimspire 2.5D Test</title>
 <style>
   :root{--bg:#0c1018;--ink:#8a96b0;--mag:#ff2e88;--cyan:#3ff3ff}
-  html,body{margin:0;height:100%;background:var(--bg);overflow:hidden}
-  canvas{display:block;width:100vw;height:100vh;image-rendering:pixelated;image-rendering:crisp-edges}
-  #tag{position:fixed;left:14px;bottom:12px;font:600 11px/1.3 ui-monospace,Menlo,Consolas,monospace;letter-spacing:.12em;color:var(--ink);opacity:.55;text-transform:uppercase;pointer-events:none}
+  html,body{margin:0;height:100%;background:var(--bg);overflow:hidden;color-scheme:dark}
+  canvas{display:block;position:fixed;inset:0;width:100%;height:100%;image-rendering:pixelated;image-rendering:crisp-edges;touch-action:none;cursor:crosshair}
+  #tag{position:fixed;left:14px;bottom:12px;font:600 11px/1.5 ui-monospace,Menlo,Consolas,monospace;letter-spacing:.12em;color:var(--ink);opacity:.6;text-transform:uppercase;pointer-events:none}
   #tag b{color:var(--mag);font-weight:600}
+  #tag i{font-style:normal;color:var(--cyan)}
   #err{position:fixed;inset:0;display:none;place-items:center;color:var(--ink);font:14px ui-monospace,monospace;padding:16px;text-align:center}
+  #load{position:fixed;inset:0;display:grid;place-items:center;color:var(--ink);font:600 11px ui-monospace,monospace;letter-spacing:.2em;text-transform:uppercase;pointer-events:none;transition:opacity .6s}
 </style>
 <script type="importmap">
 {"imports":{
@@ -20,8 +22,9 @@
 </script>
 </head>
 <body>
-<div id="tag">Grimspire · <b>three.js</b> 2.5D test</div>
+<div id="tag">Grimspire · <b>three.js</b> 2.5D test<br><span id="hint">tap the stone to call a strike</span> · <i id="phys">…</i></div>
 <div id="err">WebGL didn't start on this device.</div>
+<div id="load">raising the ward…</div>
 <script type="module">
 import * as THREE from 'three';
 import { Reflector } from 'three/addons/objects/Reflector.js';
@@ -30,27 +33,29 @@ import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
 import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
 import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
 import { ShaderPass } from 'three/addons/postprocessing/ShaderPass.js';
-import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 
 // ---------------------------------------------------------------------------
-// Grimspire 2.5D test. One Ash Legion trooper patrols a drowned bridge; a mortar
-// lobs shells into the sump. Low internal resolution, nearest upscale: crisp
-// pixels, with bloom as a separate light layer. ?smooth for full resolution.
+// Grimspire 2.5D test. A drowned ward built from stone blocks: a bridge, a tower
+// with the squad's mark, a ruined gate framing a fallen saint. An Ash Legion mortar
+// shells the gate, Neon Choir shells fall on the tower, and anything a blast leaves
+// unsupported collapses, falls as one piece and shatters (Rapier rigid bodies, or a
+// lighter fallback). When the ward is wrecked enough it rebuilds itself from motes.
+// Rendered at low resolution and upscaled nearest: crisp pixels, glow layered on.
+// ?smooth  full resolution   ?px=240  pixel height   ?calm  no shelling
 // ---------------------------------------------------------------------------
 const Q = new URLSearchParams(location.search);
-const SMOOTH = Q.has('smooth');
-const PIX_H = +Q.get('px') || 340;           // internal render height in pixel mode
+const SMOOTH = Q.has('smooth'), CALM = Q.has('calm');
+const PIX_H = +Q.get('px') || 340;
 
 const C = {
   mag: new THREE.Color(0xff2e88), cyan: new THREE.Color(0x3ff3ff),
   fog: new THREE.Color(0x283246), skyTop: new THREE.Color(0x0b0f17), skyHor: new THREE.Color(0x3e4a63),
-  stone: new THREE.Color(0x2c3038), fire: new THREE.Color(0xffa45a), oxblood: new THREE.Color(0x3a0c16),
+  fire: new THREE.Color(0xffa45a), heat: new THREE.Color(1, .26, .05), oxblood: new THREE.Color(0x3a0c16),
 };
-
-// deterministic little RNG so the city looks the same each load
 let seed = 7;
-const R = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+const R = () => (seed = (seed * 16807) % 2147483647) / 2147483647;   // layout: same city every load
 const rr = (a, b) => a + (b - a) * R();
+const rnd = (a, b) => a + (b - a) * Math.random();                    // effects
 
 let renderer;
 try { renderer = new THREE.WebGLRenderer({ antialias: false, powerPreference: 'high-performance' }); }
@@ -62,103 +67,71 @@ renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFShadowMap;
 document.body.appendChild(renderer.domElement);
 
+// physics: Rapier (WebAssembly) if it loads, otherwise a light grid-based fallback
+let RAPIER = null, world = null;
+if (!Q.has('lite')) {
+  try {
+    RAPIER = (await import('https://cdn.jsdelivr.net/npm/@dimforge/rapier3d-compat@0.14.0/rapier.es.js')).default;
+    await RAPIER.init();
+    world = new RAPIER.World({ x: 0, y: -9.81, z: 0 }); world.timestep = 1 / 60;
+  } catch (e) { console.warn('Rapier unavailable, using the light fallback', e); RAPIER = null; world = null; }
+}
+document.getElementById('phys').textContent = world ? 'rapier physics' : 'lite physics';
+
 const scene = new THREE.Scene();
 scene.fog = new THREE.FogExp2(C.fog, 0.0135);
 const camera = new THREE.PerspectiveCamera(36, 1, 0.1, 600);
 
 // ---------------------------------------------------------------- textures
-function canvasTex(w, h, draw, repeat = 1) {
+function canvasTex(w, h, draw) {
   const c = document.createElement('canvas'); c.width = w; c.height = h;
   draw(c.getContext('2d'), w, h);
   const t = new THREE.CanvasTexture(c);
-  t.wrapS = t.wrapT = THREE.RepeatWrapping; t.repeat.set(repeat, repeat);
-  t.magFilter = THREE.NearestFilter; t.colorSpace = THREE.SRGBColorSpace;
+  t.wrapS = t.wrapT = THREE.RepeatWrapping; t.magFilter = THREE.NearestFilter; t.colorSpace = THREE.SRGBColorSpace;
   return t;
 }
-// dark masonry: coursed blocks, a little variation, chips
-const masonry = canvasTex(128, 128, (g, w, h) => {
-  g.fillStyle = '#2b2f37'; g.fillRect(0, 0, w, h);
-  const ch = 16;
-  for (let y = 0; y < h; y += ch) {
-    const off = (y / ch) % 2 ? 16 : 0;
-    for (let x = -32; x < w; x += 32) {
-      const v = 38 + (R() * 14 | 0);
-      g.fillStyle = `rgb(${v - 4},${v},${v + 8})`;
-      g.fillRect(x + off + 1, y + 1, 30, ch - 2);
-      g.fillStyle = 'rgba(0,0,0,.25)'; g.fillRect(x + off + 1, y + ch - 3, 30, 2);
-      if (R() < .3) { g.fillStyle = 'rgba(0,0,0,.35)'; g.fillRect(x + off + 4 + R() * 20, y + 3 + R() * 8, 3, 2); }
-    }
-  }
-}, 0.5);
-const roughStone = canvasTex(64, 64, (g, w, h) => {
-  for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) {
-    const v = 40 + (R() * 18 | 0); g.fillStyle = `rgb(${v},${v + 2},${v + 8})`; g.fillRect(x, y, 1, 1);
-  }
-}, 1);
-
-// graffiti: the squad's sigil and name, sprayed and dripping (emissive)
-const graffiti = canvasTex(256, 256, (g, w, h) => {
-  g.clearRect(0, 0, w, h);
-  g.strokeStyle = '#ff2e88'; g.fillStyle = '#ff2e88'; g.lineWidth = 9; g.lineCap = 'square';
+const grain = canvasTex(32, 32, (g, w, h) => {
+  for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) { const v = 200 + (R() * 55 | 0); g.fillStyle = `rgb(${v},${v},${v})`; g.fillRect(x, y, 1, 1); }
+  g.fillStyle = 'rgba(0,0,0,.35)'; for (let i = 0; i < 6; i++) g.fillRect(R() * w | 0, R() * h | 0, 2 + R() * 4 | 0, 1);
+});
+// the squad's sigil and name, sprayed and dripping
+const graffiti = canvasTex(256, 256, (g) => {
+  g.strokeStyle = g.fillStyle = '#ff2e88'; g.lineWidth = 10; g.lineCap = 'square';
   g.beginPath(); g.arc(128, 92, 52, 0, Math.PI * 2); g.stroke();
   g.beginPath(); g.moveTo(128, 30); g.lineTo(128, 160); g.moveTo(84, 78); g.lineTo(172, 78); g.stroke();
   g.beginPath(); g.moveTo(96, 132); g.lineTo(128, 60); g.lineTo(160, 132); g.stroke();
-  g.font = '900 46px Impact, "Arial Black", sans-serif'; g.textAlign = 'center';
-  g.fillText('ASH', 128, 214);
-  for (let i = 0; i < 16; i++) { const x = 70 + R() * 116, y = 120 + R() * 100; g.fillRect(x, y, 3, 8 + R() * 34); }
-}, 1);
-graffiti.repeat.set(1, 1);
+  g.font = '900 50px Impact, "Arial Black", sans-serif'; g.textAlign = 'center'; g.fillText('ASH', 128, 216);
+  for (let i = 0; i < 18; i++) g.fillRect(64 + R() * 128, 118 + R() * 100, 4, 10 + R() * 34);
+});
+graffiti.wrapS = graffiti.wrapT = THREE.ClampToEdgeWrapping;
 
-// ---------------------------------------------------------------- materials
-const stoneMat = new THREE.MeshStandardMaterial({ color: 0x8a90a0, map: masonry, roughness: .92, metalness: 0, envMapIntensity: .35 });
+// ---------------------------------------------------------------- distant city (static silhouettes)
 const farMat = new THREE.MeshStandardMaterial({ color: 0x3a4152, roughness: 1, envMapIntensity: .2 });
-const roughMat = new THREE.MeshStandardMaterial({ color: 0x9aa0b0, map: roughStone, roughness: .95, envMapIntensity: .35 });
 const ironMat = new THREE.MeshStandardMaterial({ color: 0x15171c, roughness: .55, metalness: .8 });
+const roughMat = new THREE.MeshStandardMaterial({ color: 0x9aa0b0, map: grain, roughness: .95, envMapIntensity: .35 });
+roughMat.color.multiplyScalar(.32);
 const glow = (c, k = 4) => new THREE.MeshBasicMaterial({ color: c.clone().multiplyScalar(k), fog: true });
-
-// ---------------------------------------------------------------- shapes
-function archPath(cx, y0, w, h, P = THREE.Path) {
-  const p = new P(), hw = w / 2, ys = y0 + h - w * .78;
+function archPath(cx, y0, w, h) {
+  const p = new THREE.Path(), hw = w / 2, ys = y0 + h - w * .78;
   p.moveTo(cx - hw, y0); p.lineTo(cx + hw, y0); p.lineTo(cx + hw, ys);
-  p.quadraticCurveTo(cx + hw, ys + w * .5, cx, ys + w * .78);
-  p.quadraticCurveTo(cx - hw, ys + w * .5, cx - hw, ys); p.lineTo(cx - hw, y0);
+  p.quadraticCurveTo(cx + hw, ys + w * .5, cx, ys + w * .78); p.quadraticCurveTo(cx - hw, ys + w * .5, cx - hw, ys); p.lineTo(cx - hw, y0);
   return p;
 }
-function extrude(shape, depth) {
-  const g = new THREE.ExtrudeGeometry(shape, { depth, bevelEnabled: false, curveSegments: 6 });
-  g.translate(0, 0, -depth / 2); return g;
-}
-// a gothic spire: body, corner pinnacles, steep roof, lancet windows
-function spireGeo(w, h, opts = {}) {
+function extrude(shape, depth) { const g = new THREE.ExtrudeGeometry(shape, { depth, bevelEnabled: false, curveSegments: 6 }); g.translate(0, 0, -depth / 2); return g; }
+const lit = [];
+function addSpire(group, x, z, w, h, litChance, bright = 1) {
   const b = h * rr(.55, .72), s = new THREE.Shape();
   s.moveTo(-w / 2, 0); s.lineTo(w / 2, 0); s.lineTo(w / 2, b + w * .7); s.lineTo(w * .36, b);
   s.lineTo(w * .3, b); s.lineTo(0, h); s.lineTo(-w * .3, b); s.lineTo(-w * .36, b); s.lineTo(-w / 2, b + w * .7); s.lineTo(-w / 2, 0);
-  const wins = [];
-  if (opts.windows !== false) {
-    const ww = w * .22, wh = Math.min(b * .3, ww * 3.6);
-    for (let y = b * .35; y + wh < b - w * .2; y += wh * 1.6) {
-      if (R() < .65) { s.holes.push(archPath(0, y, ww, wh)); wins.push({ x: 0, y, w: ww, h: wh }); }
-    }
-  }
-  return { geo: extrude(s, w * .8), wins, depth: w * .8 };
-}
-
-const lit = []; // window lights, flickered later
-
-function addSpire(group, x, z, w, h, litChance, mat = farMat, bright = 1) {
-  const { geo, wins, depth } = spireGeo(w, h);
-  const m = new THREE.Mesh(geo, mat); m.position.set(x, -1, z); group.add(m);
-  for (const wn of wins) {
+  const wins = [], ww = w * .22, wh = Math.min(b * .3, ww * 3.6);
+  for (let y = b * .35; y + wh < b - w * .2; y += wh * 1.6) if (R() < .65) { s.holes.push(archPath(0, y, ww, wh)); wins.push(y); }
+  const m = new THREE.Mesh(extrude(s, w * .8), farMat); m.position.set(x, -1, z); group.add(m);
+  for (const y of wins) {
     if (R() > litChance) continue;
-    const c = R() < .78 ? C.mag : C.cyan;
-    const pane = new THREE.Mesh(new THREE.PlaneGeometry(wn.w, wn.h + wn.w * .7), glow(c, rr(1, 1.8) * bright));
-    pane.position.set(x + wn.x, -1 + wn.y + (wn.h + wn.w * .7) / 2 - wn.w * .2, z);
-    group.add(pane); lit.push(pane);
+    const pane = new THREE.Mesh(new THREE.PlaneGeometry(ww, wh + ww * .7), glow(R() < .78 ? C.mag : C.cyan, rr(1, 1.8) * bright));
+    pane.position.set(x, -1 + y + (wh + ww * .7) / 2 - ww * .2, z); group.add(pane); lit.push(pane);
   }
-  return m;
 }
-
-// ---------------------------------------------------------------- sky
 {
   const sky = new THREE.Mesh(new THREE.SphereGeometry(450, 32, 16), new THREE.ShaderMaterial({
     side: THREE.BackSide, depthWrite: false, fog: false,
@@ -169,108 +142,192 @@ function addSpire(group, x, z, w, h, litChance, mat = farMat, bright = 1) {
         float y = vD.y;
         vec3 c = mix(hor, top, smoothstep(-.02, .55, y));
         float m = dot(normalize(vD), moon);
-        c += vec3(.55,.6,.72) * smoothstep(.99935, .9995, m) * .5;   // the moon, dim behind haze
-        c += vec3(.25,.3,.42) * pow(max(m,0.), 160.) * .35;           // its halo
-        c += vec3(.5,.12,.3) * pow(max(1.-abs(y-.04)*3.,0.),6.) * .12; // faint magenta smog on the horizon
+        c += vec3(.55,.6,.72) * smoothstep(.99935, .9995, m) * .5;
+        c += vec3(.25,.3,.42) * pow(max(m,0.), 160.) * .35;
+        c += vec3(.5,.12,.3) * pow(max(1.-abs(y-.04)*3.,0.),6.) * .12;
         gl_FragColor = vec4(c,1.);
         #include <tonemapping_fragment>
         #include <colorspace_fragment>
       }`,
   }));
-  scene.add(sky);
-}
-
-// ---------------------------------------------------------------- far city
-{
+  sky.name = 'sky'; scene.add(sky);
   const g = new THREE.Group();
-  // far skyline: merged, unlit windows except a few
-  for (let i = 0; i < 60; i++) {
-    const z = rr(-150, -85), x = rr(-130, 130);
-    addSpire(g, x, z, rr(3, 9), rr(16, 58), .1);
-  }
-  // middle band: cathedral facade with arcades and towers
+  for (let i = 0; i < 60; i++) addSpire(g, rr(-130, 130), rr(-150, -85), rr(3, 9), rr(16, 58), .1);
   for (let i = 0; i < 22; i++) addSpire(g, -64 + i * 6 + rr(-2, 2), rr(-60, -46), rr(3, 6), rr(12, 32), .22);
+  const s = new THREE.Shape(), x0 = -56, x1 = 56;
+  s.moveTo(x0, -1); s.lineTo(x1, -1); s.lineTo(x1, 6.5); s.lineTo(x0, 6.5); s.lineTo(x0, -1);
+  for (let x = x0 + 3.5; x < x1 - 3; x += 5) s.holes.push(archPath(x, -.8, 3.4, 5.4));
+  const via = new THREE.Mesh(extrude(s, 2), farMat); via.position.set(0, 0, -32); g.add(via);
+  for (let i = 0; i < 6; i++) addSpire(g, -40 + i * 15 + rr(-3, 3), -31, rr(3, 4.5), rr(14, 24), .3, .55);
   scene.add(g);
 }
-// mid arcade: a long run of arches at z=-22, a viaduct
-{
-  const s = new THREE.Shape(), x0 = -56, x1 = 56, top = 6.5;
-  s.moveTo(x0, -1); s.lineTo(x1, -1); s.lineTo(x1, top); s.lineTo(x0, top); s.lineTo(x0, -1);
-  for (let x = x0 + 3.5; x < x1 - 3; x += 5) s.holes.push(archPath(x, -.8, 3.4, 5.4));
-  const m = new THREE.Mesh(extrude(s, 2), farMat); m.position.set(0, 0, -32); scene.add(m);
-  // towers rising from the viaduct
-  for (let i = 0; i < 6; i++) addSpire(scene, -40 + i * 15 + rr(-3, 3), -31, rr(3, 4.5), rr(14, 24), .3, farMat, .55);
-}
 
-// ---------------------------------------------------------------- the bridge (play layer)
-const DECK = 2.45;
+// ---------------------------------------------------------------- the ward: a grid of stone blocks
+const CX = .36, CY = .24, CZ = .4, GX0 = -11.5, GY0 = -1.6, GZ0 = -3.25, NX = 70, NY = 76, NZ = 13, N = NX * NY * NZ;
+const ID = (i, j, k) => i + NX * (j + NY * k);
+const cI = c => c % NX, cJ = c => ((c / NX) | 0) % NY, cK = c => (c / (NX * NY)) | 0;
+const px = i => GX0 + (i + .5) * CX, py = j => GY0 + (j + .5) * CY, pz = k => GZ0 + (k + .5) * CZ;
+const xi = x => Math.floor((x - GX0) / CX), yj = y => Math.floor((y - GY0) / CY), zk = z => Math.floor((z - GZ0) / CZ);
+const cellAt = (x, y, z) => { const i = xi(x), j = yj(y), k = zk(z); return (i < 0 || j < 0 || k < 0 || i >= NX || j >= NY || k >= NZ) ? -1 : ID(i, j, k); };
+const DECK = GY0 + 16 * CY;            // 2.24, top of the bridge
+const ANCHOR_J = 4;                    // rows at or below this are footed in the sump bed
+const S_NONE = 0, S_STATIC = 1, S_BODY = 2, S_DEAD = 3, S_BUILD = 4;
+
+const type = new Uint8Array(N);        // 0 empty, 1 stone, 2 glass
+const state = new Uint8Array(N);
+const core = new Uint8Array(N);
+const inst = new Int32Array(N).fill(-1);
+const heat = new Float32Array(N);
+const glowBase = new Float32Array(N * 3);
+const put = (i, j, k, t = 1, g = null) => {
+  if (i < 0 || j < 0 || k < 0 || i >= NX || j >= NY || k >= NZ) return;
+  const c = ID(i, j, k); type[c] = t;
+  if (g) glowBase.set([g.r, g.g, g.b], c * 3); else glowBase.fill(0, c * 3, c * 3 + 3);
+};
+const inArch = (x, y, cx, w, ys) => {
+  const hw = w / 2; if (Math.abs(x - cx) >= hw) return false; if (y < ys) return true;
+  return Math.hypot(x - (cx - hw), y - ys) < w && Math.hypot(x - (cx + hw), y - ys) < w;
+};
+const magGlass = C.mag.clone().multiplyScalar(1.5), cyanGlass = C.cyan.clone().multiplyScalar(1.25);
+const props = [];
+// fill every cell whose centre is inside a box and passes a test
+function fillBox(x0, x1, y0, y1, z0, z1, f = () => 1) {
+  for (let k = Math.max(0, zk(z0)); k <= Math.min(NZ - 1, zk(z1)); k++) for (let j = Math.max(0, yj(y0)); j <= Math.min(NY - 1, yj(y1)); j++) for (let i = Math.max(0, xi(x0)); i <= Math.min(NX - 1, xi(x1)); i++) {
+    const x = px(i), y = py(j), z = pz(k);
+    if (x < x0 || x > x1 || y < y0 || y > y1 || z < z0 || z > z1) continue;
+    const t = f(x, y, z); if (t === 1 || t === true) put(i, j, k); else if (t) put(i, j, k, 2, t);
+  }
+}
 {
-  const s = new THREE.Shape();
-  const xl = -13, xr = 4.6;
-  s.moveTo(xl, -2); s.lineTo(xr - .4, -2); s.lineTo(xr - .2, -.4); s.lineTo(xr + .3, .3); s.lineTo(xr - .1, .9);
-  s.lineTo(xr + .25, 1.5); s.lineTo(xr - .15, 2.2); s.lineTo(xl, 2.2); s.lineTo(xl, -2);
-  for (let x = -10.6; x < xr - 1.5; x += 3.2) s.holes.push(archPath(x, -1.6, 2.2, 3.1));
-  const bridge = new THREE.Mesh(extrude(s, 2.4), stoneMat);
-  bridge.castShadow = bridge.receiveShadow = true; scene.add(bridge);
-  // deck slab and cornice
-  const deck = new THREE.Mesh(new THREE.BoxGeometry(xr - xl - .3, .25, 2.7), stoneMat);
-  deck.position.set((xl + xr) / 2 - .35, 2.325, 0); deck.castShadow = deck.receiveShadow = true; scene.add(deck);
-  const corn = new THREE.Mesh(new THREE.BoxGeometry(xr - xl - .5, .14, 2.9), stoneMat);
-  corn.position.set((xl + xr) / 2 - .4, 2.05, 0); scene.add(corn);
-  // pinnacles on the back edge over each pier
-  for (let x = -12.2; x < xr - 1; x += 3.2) {
-    const p = new THREE.Mesh(new THREE.ConeGeometry(.18, 1.5, 4), stoneMat);
-    p.position.set(x, DECK + .75, -1.15); p.rotation.y = Math.PI / 4; p.castShadow = true; scene.add(p);
-    const b = new THREE.Mesh(new THREE.BoxGeometry(.34, .35, .34), stoneMat); b.position.set(x, DECK + .17, -1.15); scene.add(b);
-  }
-  // rubble on the broken end
-  for (let i = 0; i < 7; i++) {
-    const r = new THREE.Mesh(new THREE.DodecahedronGeometry(rr(.2, .55), 0), roughMat);
-    r.position.set(xr + rr(-.4, 1.6), rr(-.1, .2), rr(-1, 1.4)); r.rotation.set(R() * 3, R() * 3, R() * 3); scene.add(r);
-  }
+  // bridge: four pointed arches, broken off at the right
+  const arches = [-5.3, -2.1, 1.1, 4.3], end = [];
+  for (let j = 0; j < NY; j++) { const y = py(j); end[j] = 4.6 - (y > 1.2 ? rr(.3, 1.6) : rr(0, .6)) - (y > 1.8 ? .6 : 0); }
+  fillBox(-10.4, 5, GY0, DECK, -1.25, 1.25, (x, y) => x <= end[yj(y)] && !arches.some(cx => inArch(x, y, cx, 2.2, -.4)));
+  for (const x of [-3.75, -.25, 2.75]) fillBox(x - .2, x + .2, DECK, DECK + .96, -1.25, -.85);
+  // tower: hollow above the deck, two floors, stepped roof, corner pinnacles, lancet windows
+  const tx0 = -10.5, tx1 = -7, tz0 = -2.75, tz1 = .75, tcx = -8.75, tcz = -1;
+  fillBox(tx0, tx1, GY0, 12.4, tz0, tz1, (x, y, z) => {
+    const ring = x < tx0 + .45 || x > tx1 - .45 || z < tz0 + .45 || z > tz1 - .45;
+    if (ring && z > tz1 - .45 && Math.abs(x - tcx) < .25 && ((y > 7 && y < 9.2) || (y > 10.1 && y < 10.9))) return magGlass;
+    if (ring && x > tx1 - .45 && Math.abs(z - tcz) < .3 && y > 7.5 && y < 8.8) return magGlass;
+    return y < DECK || (y > 5 && y < 5.25) || (y > 8.6 && y < 8.85) || ring;
+  });
+  fillBox(tx0, tx1, 12.4, 13.2, tz0, tz1);
+  fillBox(tx0 + .5, tx1 - .5, 13.2, 14, tz0 + .5, tz1 - .5);
+  fillBox(tx0 + 1.1, tx1 - 1.1, 14, 14.8, tz0 + 1.1, tz1 - 1.1);
+  fillBox(tcx - .2, tcx + .2, 14.8, 16.2, tcz - .2, tcz + .2);
+  for (const [x, z] of [[tx0, tz0], [tx1, tz0], [tx0, tz1], [tx1, tz1]]) fillBox(Math.min(x, x + (x === tx0 ? .4 : -.4)), Math.max(x, x + (x === tx0 ? .4 : -.4)), 13.2, 14.3, Math.min(z, z + (z === tz0 ? .4 : -.4)), Math.max(z, z + (z === tz0 ? .4 : -.4)));
+  // the gate: two piers and a broken pointed arch, framing the fallen saint
+  const tops = {};
+  fillBox(5.6, 11.4, GY0, 9, -2.75, -1.75, (x, y, z) => {
+    const top = tops[x] ??= 8.2 + Math.sin(x * 2.3) * .4 + rr(0, .5) - Math.max(0, x - 9.8) * 1.6;
+    if (y > top || inArch(x, y, 8.5, 3, 3.5)) return 0;
+    if (z > -2.05 && ((Math.abs(x - 6.25) < .2 && y > 3 && y < 5.2) || (Math.abs(x - 10.75) < .2 && y > 3.4 && y < 5.4))) return cyanGlass;
+    return 1;
+  });
+  fillBox(5.6, 6.5, GY0, 4.6, -1.75, -1.25); fillBox(5.6, 6.5, GY0, 2.2, -1.25, -.85); fillBox(10.9, 11.4, GY0, 3.4, -1.75, -1.25);
 }
-// left tower with the squad's mark
-{
-  const w = 3.4, h = 15, s = new THREE.Shape();
-  s.moveTo(-w / 2, -2); s.lineTo(w / 2, -2); s.lineTo(w / 2, h - 3); s.lineTo(w * .3, h - 3); s.lineTo(0, h + 2.5);
-  s.lineTo(-w * .3, h - 3); s.lineTo(-w / 2, h - 3); s.lineTo(-w / 2, -2);
-  s.holes.push(archPath(0, 8.6, 1, 3.4));
-  const t = new THREE.Mesh(extrude(s, 3.4), stoneMat); t.position.set(-8.9, 0, -.6); t.castShadow = t.receiveShadow = true; scene.add(t);
-  const pane = new THREE.Mesh(new THREE.PlaneGeometry(1, 4), glow(C.mag, 3)); pane.position.set(-8.9, 10.5, -.6); scene.add(pane); lit.push(pane);
-    const gm = new THREE.MeshStandardMaterial({ color: 0x111111, emissive: 0xffffff, emissiveMap: graffiti, emissiveIntensity: 2.2, transparent: true, alphaMap: null, map: graffiti, depthWrite: false });
-  const gf = new THREE.Mesh(new THREE.PlaneGeometry(2.7, 2.7), gm); gf.position.set(-8.9, 4.6, 1.12); scene.add(gf);
-  // side pinnacles
-  for (const sx of [-1, 1]) {
-    const p = new THREE.Mesh(new THREE.ConeGeometry(.3, 3, 4), stoneMat); p.position.set(-8.9 + sx * 1.6, h - 1.5, -.6 + 1.5); p.rotation.y = Math.PI / 4; scene.add(p);
-  }
+// classify, colour, build the instanced mesh
+const cells = [];
+for (let c = 0; c < N; c++) if (type[c]) cells.push(c);
+const NI = cells.length;
+const homeCol = new Float32Array(N * 3);
+const blockGeo = new THREE.BoxGeometry(1, 1, 1);
+const aHome = new Float32Array(NI * 3), aEmi = new Float32Array(NI * 3), aCore = new Float32Array(NI);
+const blockMat = new THREE.MeshStandardMaterial({ color: 0xffffff, map: grain, roughness: .88, metalness: 0, envMapIntensity: .4 });
+const blocks = new THREE.InstancedMesh(blockGeo, blockMat, NI);
+blocks.castShadow = blocks.receiveShadow = true; blocks.frustumCulled = false;
+const M = new THREE.Matrix4(), V = new THREE.Vector3(), QI = new THREE.Quaternion(), CELL = new THREE.Vector3(CX, CY, CZ), ZERO = new THREE.Vector3(0, 0, 0);
+const col = new THREE.Color();
+const isSolid = (i, j, k) => i >= 0 && j >= 0 && k >= 0 && i < NX && j < NY && k < NZ && type[ID(i, j, k)] > 0;
+cells.forEach((c, n) => {
+  inst[c] = n;
+  const i = cI(c), j = cJ(c), k = cK(c);
+  core[c] = isSolid(i + 1, j, k) && isSolid(i - 1, j, k) && isSolid(i, j + 1, k) && isSolid(i, j - 1, k) && isSolid(i, j, k + 1) && isSolid(i, j, k - 1) ? 1 : 0;
+  if (type[c] === 2) col.setRGB(.012, .012, .016);
+  else if (core[c]) { const v = rr(.55, 1.3); col.setRGB(.034 * v, .029 * v, .026 * v); if (R() < .08) col.setRGB(.07, .028, .012); }
+  else { const v = rr(.72, 1.25), b = rr(.95, 1.08); col.setRGB(.052 * v, .057 * v, .07 * v * b); }
+  homeCol.set([col.r, col.g, col.b], c * 3);
+  blocks.setColorAt(n, col);
+  aHome.set([px(i), py(j), pz(k)], n * 3);
+  aCore[n] = core[c];
+  state[c] = S_STATIC;
+  blocks.setMatrixAt(n, M.compose(V.set(px(i), py(j), pz(k)), QI, CELL));
+});
+blockGeo.setAttribute('aHome', new THREE.InstancedBufferAttribute(aHome, 3));
+const emiAttr = new THREE.InstancedBufferAttribute(aEmi, 3); emiAttr.setUsage(THREE.DynamicDrawUsage);
+blockGeo.setAttribute('aEmi', emiAttr);
+blockGeo.setAttribute('aCore', new THREE.InstancedBufferAttribute(aCore, 1));
+const TOWER_FRONT = pz(zk(.6)) + CZ / 2;
+blockMat.onBeforeCompile = sh => {
+  Object.assign(sh.uniforms, {
+    uCell: { value: CELL }, uGraf: { value: graffiti },
+    uDecal: { value: new THREE.Vector4(-9.95, 3.3, 2.6, 2.6) }, uDecalZ: { value: TOWER_FRONT },
+  });
+  sh.vertexShader = sh.vertexShader
+    .replace('#include <common>', `#include <common>
+      attribute vec3 aHome; attribute vec3 aEmi; attribute float aCore; uniform vec3 uCell;
+      varying vec3 vHome; varying vec3 vEmi; varying float vNz; varying float vCore; varying vec2 vBUv;`)
+    .replace('#include <begin_vertex>', `#include <begin_vertex>
+      vHome = aHome + position * uCell; vEmi = aEmi; vNz = normal.z; vCore = aCore; vBUv = uv;`);
+  sh.fragmentShader = sh.fragmentShader
+    .replace('#include <common>', `#include <common>
+      uniform sampler2D uGraf; uniform vec4 uDecal; uniform float uDecalZ;
+      varying vec3 vHome; varying vec3 vEmi; varying float vNz; varying float vCore; varying vec2 vBUv;`)
+    .replace('#include <color_fragment>', `#include <color_fragment>
+      float edge = min(min(vBUv.x, 1. - vBUv.x), min(vBUv.y, 1. - vBUv.y));
+      diffuseColor.rgb *= mix(.42, 1., smoothstep(.0, .1, edge));         // chiselled joints`)
+    .replace('#include <emissivemap_fragment>', `#include <emissivemap_fragment>
+      totalEmissiveRadiance += vEmi;
+      if (vNz > .5 && abs(vHome.z - uDecalZ) < .02) {                        // sprayed sigil, stays on its own blocks
+        vec2 g = (vHome.xy - uDecal.xy) / uDecal.zw;
+        if (g.x > 0. && g.y > 0. && g.x < 1. && g.y < 1.) {
+          vec4 t = texture2D(uGraf, g);
+          totalEmissiveRadiance += t.rgb * t.a * 2.3;
+          diffuseColor.rgb = mix(diffuseColor.rgb, vec3(.12,.01,.05), t.a * .5);
+        }
+      }`);
+};
+scene.add(blocks);
+const instDirty = { m: false, e: false, c: false };
+function writeEmi(c) {
+  const n = inst[c], h = heat[c], h2 = h * h * 1.1;
+  aEmi[n * 3] = glowBase[c * 3] + C.heat.r * h2; aEmi[n * 3 + 1] = glowBase[c * 3 + 1] + C.heat.g * h2; aEmi[n * 3 + 2] = glowBase[c * 3 + 2] + C.heat.b * h2;
+  instDirty.e = true;
 }
-// broken pilings in the foreground water
-for (const [x, z, h] of [[-6.5, 4.2, 1.4], [6.2, 3.1, 2.6], [11.5, 1.5, .9], [-1.5, 5.2, .7]]) {
-  const p = new THREE.Mesh(new THREE.CylinderGeometry(.32, .38, h + 2, 6), roughMat);
-  p.position.set(x, h / 2 - 1, z); p.rotation.z = rr(-.12, .12); p.castShadow = true; scene.add(p);
+cells.forEach(writeEmi);
+const hideCell = c => { blocks.setMatrixAt(inst[c], M.makeScale(0, 0, 0)); instDirty.m = true; };
+const homeCell = (c, s = 1) => { blocks.setMatrixAt(inst[c], M.compose(V.set(px(cI(c)), py(cJ(c)), pz(cK(c))), QI, V2.copy(CELL).multiplyScalar(s))); instDirty.m = true; };
+const V2 = new THREE.Vector3();
+const setCol = (c, k) => { col.setRGB(homeCol[c * 3] * k, homeCol[c * 3 + 1] * k, homeCol[c * 3 + 2] * k); blocks.setColorAt(inst[c], col); instDirty.c = true; };
+
+// static colliders, one per standing block
+const statics = new Array(N);
+function addStatic(c) {
+  if (!world) return;
+  statics[c] = world.createCollider(RAPIER.ColliderDesc.cuboid(CX / 2, CY / 2, CZ / 2).setTranslation(px(cI(c)), py(cJ(c)), pz(cK(c))).setFriction(.9));
 }
+function removeStatic(c) { if (world && statics[c]) { world.removeCollider(statics[c], false); statics[c] = null; } }
+cells.forEach(addStatic);
 
 // ---------------------------------------------------------------- fallen saint: head and iron halo, half-sunk
-const HEAD = new THREE.Vector3(10.2, .2, -6);
+const HEAD = new THREE.Vector3(8.8, .2, -6.4);
 {
   const g = new THREE.Group(); g.position.copy(HEAD);
   const sg = new THREE.SphereGeometry(2.3, 40, 28), pa = sg.attributes.position, v = new THREE.Vector3();
   for (let i = 0; i < pa.count; i++) {
     v.fromBufferAttribute(pa, i);
     const n = Math.sin(v.x * 2.1) * Math.sin(v.y * 2.7 + 1) * Math.sin(v.z * 1.9 + 2);
-    v.multiplyScalar(1 + n * .05); v.y *= 1.22; v.z *= 1.05;
-    pa.setXYZ(i, v.x, v.y, v.z);
+    v.multiplyScalar(1 + n * .05); v.y *= 1.22; v.z *= 1.05; pa.setXYZ(i, v.x, v.y, v.z);
   }
-  sg.computeVertexNormals(); sg.computeVertexNormals();
+  sg.computeVertexNormals();
   const head = new THREE.Mesh(sg, roughMat); head.castShadow = true; g.add(head);
-  // face, looking up and to the right: brow, nose, lips, chin
   const face = new THREE.Group(); face.rotation.set(-.25, .55, -1.05); g.add(face);
   const add = (geo, x, y, z, rx = 0) => { const m = new THREE.Mesh(geo, roughMat); m.position.set(x, y, z); m.rotation.x = rx; m.castShadow = true; face.add(m); return m; };
   add(new THREE.BoxGeometry(1.9, .32, .5), 0, .55, 2.1);
   const nose = add(new THREE.ConeGeometry(.36, 1.1, 4), 0, -.05, 2.35, Math.PI / 2 + .45); nose.rotation.y = Math.PI / 4;
   add(new THREE.BoxGeometry(.8, .14, .3), 0, -.75, 2.2); add(new THREE.BoxGeometry(.9, .14, .3), 0, -.95, 2.15);
   add(new THREE.BoxGeometry(1.1, .5, .6), 0, -1.5, 1.85);
-  // the broken iron halo
   const halo = new THREE.Group(); halo.position.set(-.9, .6, -1.2); halo.rotation.set(-.2, .45, .5); g.add(halo);
   halo.add(new THREE.Mesh(new THREE.TorusGeometry(3.6, .3, 4, 30, Math.PI * 1.55), ironMat));
   halo.add(new THREE.Mesh(new THREE.TorusGeometry(2.9, .12, 4, 30, Math.PI * 1.3), ironMat));
@@ -280,17 +337,18 @@ const HEAD = new THREE.Vector3(10.2, .2, -6);
   }
   const spear = new THREE.Mesh(new THREE.ConeGeometry(.25, 5, 4), ironMat); spear.position.set(-3.8, 1.2, 0); spear.rotation.z = Math.PI / 2 - .2; halo.add(spear);
   halo.traverse(o => o.castShadow = true);
-  g.rotation.z = -.15;
-  scene.add(g);
+  g.rotation.z = -.15; scene.add(g);
+  if (world) world.createCollider(RAPIER.ColliderDesc.ball(2.3).setTranslation(HEAD.x, HEAD.y, HEAD.z));
 }
-
-// ---------------------------------------------------------------- hanging chain (foreground depth cue)
+for (const [x, z, h] of [[-6.5, 4.2, 1.4], [6.2, 3.1, 2.6], [11.5, 1.5, .9], [-1.5, 5.2, .7]]) {
+  const p = new THREE.Mesh(new THREE.CylinderGeometry(.32, .38, h + 2, 6), roughMat);
+  p.position.set(x, h / 2 - 1, z); p.rotation.z = rr(-.12, .12); p.castShadow = true; scene.add(p);
+  if (world) world.createCollider(RAPIER.ColliderDesc.cylinder((h + 2) / 2, .35).setTranslation(x, h / 2 - 1, z));
+}
 const chain = new THREE.Group();
 {
   const lg = new THREE.TorusGeometry(.13, .04, 4, 8);
-  for (let i = 0; i < 70; i++) {
-    const l = new THREE.Mesh(lg, ironMat); l.position.y = -i * .2; if (i % 2) l.rotation.y = Math.PI / 2; chain.add(l);
-  }
+  for (let i = 0; i < 70; i++) { const l = new THREE.Mesh(lg, ironMat); l.position.y = -i * .2; if (i % 2) l.rotation.y = Math.PI / 2; chain.add(l); }
   chain.position.set(-3.6, 17, 3.2); scene.add(chain);
 }
 
@@ -305,17 +363,15 @@ const water = new Reflector(new THREE.PlaneGeometry(600, 300), {
     fragmentShader: `uniform sampler2D tDiffuse; uniform float uTime, uDen; uniform vec3 uFog; varying vec4 vUv; varying vec3 vW;
       float h(float n){ return fract(sin(n)*43758.5453); }
       void main(){
-        float row = floor(vW.z*3.2);                       // horizontal bands
-        float rn = h(row);
+        float row = floor(vW.z*3.2), rn = h(row);
         float wob = sin(vW.x*1.1 + uTime*(.5+rn) + rn*6.28)*.6 + sin(vW.x*.31 - uTime*.35 + row)*.4;
-        vec2 uv = vUv.xy/vUv.w;
-        uv.x += wob*.007; uv.y += (rn-.5)*.018;
+        vec2 uv = vUv.xy/vUv.w; uv.x += wob*.007; uv.y += (rn-.5)*.018;
         vec3 r = texture2D(tDiffuse, uv).rgb;
         float seg = floor(vW.x*.6 + uTime*.25*(rn-.5)*2.);
-        float gap = step(.3, h(row*1.7 + seg));            // broken streaks
+        float gap = step(.3, h(row*1.7 + seg));
         vec3 col = vec3(.006,.009,.015) + r*mix(.25,.85,gap);
         float gl = step(.992, h(row*3.1 + floor(vW.x*2.5))) * (.5+.5*sin(uTime*2.+row*5.));
-        col += gl*vec3(.35,.45,.6)*.25;                     // sparse glints
+        col += gl*vec3(.35,.45,.6)*.25;
         float d = length(vW - cameraPosition);
         col = mix(col, uFog, 1. - exp(-uDen*uDen*d*d));
         gl_FragColor = vec4(col,1.);
@@ -327,35 +383,72 @@ const water = new Reflector(new THREE.PlaneGeometry(600, 300), {
 water.rotation.x = -Math.PI / 2; water.position.set(0, 0, -100); scene.add(water);
 for (const k in waterUniforms) water.material.uniforms[k] = waterUniforms[k];
 
-// ---------------------------------------------------------------- environment (reflections)
+// ---------------------------------------------------------------- environment (reflections on metal)
 {
   const es = new THREE.Scene();
-  es.add(scene.children.find(o => o.material && o.material.uniforms && o.material.uniforms.moon).clone());
+  es.add(scene.getObjectByName('sky').clone());
   const panel = (c, k, x, y, z, w, h) => { const m = new THREE.Mesh(new THREE.PlaneGeometry(w, h), new THREE.MeshBasicMaterial({ color: c.clone().multiplyScalar(k), side: THREE.DoubleSide })); m.position.set(x, y, z); m.lookAt(0, 0, 0); es.add(m); };
   panel(C.mag, 2.5, -40, 5, 10, 18, 30); panel(C.cyan, 2.5, 40, 4, -10, 18, 30);
   panel(new THREE.Color(.5, .58, .75), .5, 0, 30, -30, 60, 16);
-  const pm = new THREE.PMREMGenerator(renderer);
-  scene.environment = pm.fromScene(es, .02).texture;
+  scene.environment = new THREE.PMREMGenerator(renderer).fromScene(es, .02).texture;
 }
+
 // ---------------------------------------------------------------- lights
 scene.add(new THREE.HemisphereLight(0x51607e, 0x07080b, .5));
-// rim: a hard cool light from behind and above, so troopers read as backlit silhouettes
 const rim = new THREE.DirectionalLight(0xbfd2ff, 2.2); rim.position.set(3, 9, -12); scene.add(rim);
 const moon = new THREE.DirectionalLight(0x9fb2d8, 1.6);
-moon.position.set(-14, 20, -18); moon.target.position.set(-3, 2, 0);
+moon.position.set(-14, 20, -18); moon.target.position.set(-1, 2, 0);
 moon.castShadow = true; moon.shadow.mapSize.set(1024, 1024);
-Object.assign(moon.shadow.camera, { left: -18, right: 18, top: 14, bottom: -6, near: 1, far: 60 });
+Object.assign(moon.shadow.camera, { left: -18, right: 18, top: 16, bottom: -8, near: 1, far: 70 });
 moon.shadow.bias = -.0008; scene.add(moon, moon.target);
 const fill = new THREE.DirectionalLight(0x3a4870, .6); fill.position.set(6, 4, 14); scene.add(fill);
-const magLight = new THREE.PointLight(C.mag, 70, 18, 2); magLight.position.set(-6.8, 5.6, 3.4); scene.add(magLight);
-const magLow = new THREE.PointLight(C.mag, 14, 9, 2); magLow.position.set(-7.6, .8, 3.4); scene.add(magLow);
-const cyanLight = new THREE.PointLight(C.cyan, 160, 22, 2); cyanLight.position.set(7.5, 1.2, -3); scene.add(cyanLight);
+const magLight = new THREE.PointLight(C.mag, 34, 14, 2); magLight.position.set(-5.6, 6, 4.2); scene.add(magLight);
+const magLow = new THREE.PointLight(C.mag, 6, 8, 2); magLow.position.set(-7.6, .8, 3.4); scene.add(magLow);
+const cyanLight = new THREE.PointLight(C.cyan, 110, 20, 2); cyanLight.position.set(8.4, 1.4, -4.4); scene.add(cyanLight);
+const cyanFront = new THREE.PointLight(C.cyan, 22, 10, 2); cyanFront.position.set(8, 1, 1.5); scene.add(cyanFront);
 const cyanFar = new THREE.PointLight(C.cyan, 300, 30, 2); cyanFar.position.set(16, 6, -16); scene.add(cyanFar);
-const boom = new THREE.PointLight(C.fire, 0, 26, 2); scene.add(boom);
+const booms = [0, 1, 2].map(() => { const l = new THREE.PointLight(C.fire, 0, 16, 2); scene.add(l); return l; });
+let boomI = 0;
 const flashL = new THREE.PointLight(C.fire, 0, 8, 2); scene.add(flashL);
-// a few neon slits in the water line, cyan to the right, magenta to the left
-for (const [x, z, c, w] of [[-8.6, -2.2, C.mag, .1], [7.2, -2.6, C.cyan, .1], [13, -9, C.cyan, .14], [-16, -6, C.mag, .14]]) {
-  const m = new THREE.Mesh(new THREE.BoxGeometry(w, 2.4, w), glow(c, 2.4)); m.position.set(x, 1.4, z); scene.add(m); lit.push(m);
+for (const [x, z, c] of [[-12.4, -2.2, C.mag], [4.9, -3.6, C.cyan], [13.6, -9, C.cyan], [-16, -6, C.mag]]) {
+  const m = new THREE.Mesh(new THREE.BoxGeometry(.1, 2.4, .1), glow(c, 2.4)); m.position.set(x, 1.4, z); scene.add(m); lit.push(m);
+}
+
+// ---------------------------------------------------------------- atmosphere: mist banks and light shafts
+const mists = [];
+{
+  const mistMat = (op, tint) => new THREE.ShaderMaterial({
+    transparent: true, depthWrite: false, fog: false,
+    uniforms: { uT: { value: 0 }, uOp: { value: op }, uCol: { value: tint }, uSeed: { value: Math.random() * 50 } },
+    vertexShader: `varying vec2 vUv; varying vec3 vW; void main(){ vUv = uv; vec4 w = modelMatrix*vec4(position,1.); vW = w.xyz; gl_Position = projectionMatrix*viewMatrix*w; }`,
+    fragmentShader: `uniform float uT, uOp, uSeed; uniform vec3 uCol; varying vec2 vUv; varying vec3 vW;
+      float h(vec2 p){ return fract(sin(dot(p, vec2(127.1,311.7)))*43758.5453); }
+      float n(vec2 p){ vec2 i = floor(p), f = fract(p); f = f*f*(3.-2.*f);
+        return mix(mix(h(i),h(i+vec2(1,0)),f.x), mix(h(i+vec2(0,1)),h(i+vec2(1,1)),f.x), f.y); }
+      void main(){
+        vec2 p = vec2(vW.x*.09 + uT*.04 + uSeed, vW.y*.35);
+        float d = n(p)*.6 + n(p*2.3 - uT*.05)*.4;
+        float a = smoothstep(1., .05, vUv.y) * smoothstep(.0, .08, vUv.y) * smoothstep(.25, .8, d) * uOp;
+        gl_FragColor = vec4(uCol, a);
+        #include <colorspace_fragment>
+      }`,
+  });
+  for (const [z, y, h, op] of [[-4.5, 1.2, 3.2, .32], [-12, 1.6, 4.5, .4], [-20, 2.2, 6, .45], [-38, 3, 9, .5], [3.5, .5, 1.6, .18]]) {
+    const m = new THREE.Mesh(new THREE.PlaneGeometry(160, h), mistMat(op, new THREE.Color(0x56647e)));
+    m.position.set(0, y, z); scene.add(m); mists.push(m);
+  }
+  // shafts of moonlight through the spires
+  const rayMat = new THREE.ShaderMaterial({
+    transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, fog: false, side: THREE.DoubleSide,
+    uniforms: { uT: { value: 0 } },
+    vertexShader: `varying vec2 vUv; void main(){ vUv = uv; gl_Position = projectionMatrix*modelViewMatrix*vec4(position,1.); }`,
+    fragmentShader: `uniform float uT; varying vec2 vUv;
+      void main(){ float x = abs(vUv.x-.5)*2.; float a = (1.-x*x) * smoothstep(0.,.6,vUv.y) * (.75+.25*sin(uT*.4+vUv.x*6.)) * .05;
+        gl_FragColor = vec4(vec3(.55,.65,.9)*a, 1.); }`,
+  });
+  for (const [x, z, w, rot] of [[-3, -14, 3.5, -.42], [4, -18, 2.2, -.45], [-12, -24, 4.5, -.4]]) {
+    const m = new THREE.Mesh(new THREE.PlaneGeometry(w, 40), rayMat); m.position.set(x, 14, z); m.rotation.z = rot; scene.add(m); mists.push(m);
+  }
 }
 
 // ---------------------------------------------------------------- particles
@@ -385,11 +478,12 @@ class Particles {
     });
     this.pts = new THREE.Points(geo, this.mat); this.pts.frustumCulled = false; scene.add(this.pts);
   }
-  emit(x, y, z, vx, vy, vz, life, s0, s1, col, a, grav = 0, drag = 0) {
+  emit(x, y, z, vx, vy, vz, life, s0, s1, c, a, grav = 0, drag = 0) {
     const i = this.i; this.i = (i + 1) % this.n;
-    this.p.set([x, y, z], i * 3); this.v.set([vx, vy, vz], i * 3);
+    this.p[i * 3] = x; this.p[i * 3 + 1] = y; this.p[i * 3 + 2] = z;
+    this.v[i * 3] = vx; this.v[i * 3 + 1] = vy; this.v[i * 3 + 2] = vz;
     this.life[i] = life; this.max[i] = life; this.s0[i] = s0; this.s1[i] = s1; this.a0[i] = a;
-    this.col.set([col.r, col.g, col.b], i * 3); this.g[i] = grav; this.drag[i] = drag;
+    this.col[i * 3] = c.r; this.col[i * 3 + 1] = c.g; this.col[i * 3 + 2] = c.b; this.g[i] = grav; this.drag[i] = drag;
   }
   update(dt) {
     const { p, v, c, s } = this;
@@ -407,11 +501,13 @@ class Particles {
     for (const a of ['position', 'col', 'size']) this.geo.attributes[a].needsUpdate = true;
   }
 }
-const glowP = new Particles(3000, true);
-const smokeP = new Particles(1200, false);
-const sprayP = new Particles(1600, false);
+const glowP = new Particles(4000, true);
+const smokeP = new Particles(1800, false);
+const sprayP = new Particles(2000, false);
+const TMP = new THREE.Color();
+const tint = (c, k) => TMP.copy(c).multiplyScalar(k);
+const GREY = (v) => TMP.setRGB(v, v * 1.03, v * 1.2);
 
-// expanding rings on the water
 const rings = [];
 const ringGeo = new THREE.RingGeometry(.9, 1, 40); ringGeo.rotateX(-Math.PI / 2);
 let rippleBudget = 0;
@@ -421,6 +517,22 @@ function ripple(x, z, size) {
   m.position.set(x, .03, z); m.scale.setScalar(.01); scene.add(m);
   rings.push({ m, t: 0, life: size > .5 ? 1.8 : .6, size });
 }
+function splash(x, z, amount, power = 1) {
+  ripple(x, z, Math.min(1.6, .6 + amount * .05));
+  const n = Math.min(160, 10 + amount * 8);
+  for (let i = 0; i < n; i++) {
+    const a = Math.random() * 6.28, r = rnd(0, .5 + amount * .02);
+    sprayP.emit(x + Math.cos(a) * r, .05, z + Math.sin(a) * r * .6, Math.cos(a) * rnd(.3, 2), rnd(2, 7) * power, Math.sin(a) * rnd(.3, 1.2), rnd(.8, 1.6), rnd(.05, .12), .03, TMP.setRGB(.55, .68, .8), .85, 9.8, .3);
+  }
+}
+function dust(x, y, z, n, size = 1) {
+  for (let i = 0; i < n; i++)
+    smokeP.emit(x + rnd(-.5, .5) * size, y + rnd(-.3, .4) * size, z + rnd(-.4, .4), rnd(-.8, .8), rnd(.2, 1.4), rnd(-.4, .4), rnd(1.8, 3.6), rnd(.4, .8) * size, rnd(1.6, 2.8) * size, GREY(rnd(.025, .045)), .45, -.15, 1);
+}
+function motes(x, y, z, n, c = null, spread = .4) {
+  for (let i = 0; i < n; i++)
+    glowP.emit(x + rnd(-spread, spread), y + rnd(-spread, spread), z + rnd(-spread, spread), rnd(-.3, .3), rnd(.3, 1.4), rnd(-.3, .3), rnd(1.2, 2.6), .06, 0, tint(c || (Math.random() < .7 ? C.mag : C.cyan), 3), 1, -.05, .4);
+}
 
 // ---------------------------------------------------------------- rain
 const RAIN = 800, rainPos = new Float32Array(RAIN * 6), rainV = new Float32Array(RAIN);
@@ -429,10 +541,232 @@ rainGeo.setAttribute('position', new THREE.BufferAttribute(rainPos, 3).setUsage(
 const rain = new THREE.LineSegments(rainGeo, new THREE.LineBasicMaterial({ color: 0x7f8fb0, transparent: true, opacity: .13, fog: true }));
 rain.frustumCulled = false; scene.add(rain);
 const rainReset = (i, top) => {
-  const x = rr(-22, 22), z = rr(-14, 8), y = top ? rr(14, 18) : rr(0, 18);
-  rainPos.set([x, y, z, x + .06, y + .55, z], i * 6); rainV[i] = rr(16, 22);
+  const x = rnd(-22, 22), z = rnd(-14, 8), y = top ? rnd(14, 18) : rnd(0, 18);
+  rainPos.set([x, y, z, x + .06, y + .55, z], i * 6); rainV[i] = rnd(16, 22);
 };
 for (let i = 0; i < RAIN; i++) rainReset(i, false);
+
+// ---------------------------------------------------------------- debris bodies
+// A body is one or more blocks moving together. Rapier simulates it when loaded;
+// otherwise each block falls on its own against the grid.
+const bodies = [];
+const BODY_CAP = world ? 520 : 900;
+const G = 9.81;
+const Vq = new THREE.Vector3(), Qq = new THREE.Quaternion();
+function spawnBody(list, offs, pos, q, vel, spin, chunk) {
+  if (!world && list.length > 1) {          // fallback: no compound bodies, every block on its own
+    list.forEach((c, n) => spawnBody([c], [ZERO.clone()], offs[n].clone().applyQuaternion(q).add(pos), q.clone(),
+      vel.clone().add(V.set(rnd(-.3, .3), rnd(0, .3), rnd(-.2, .2))), spin.clone(), false));
+    return;
+  }
+  const b = { cells: list, offs, pos: pos.clone(), q: q.clone(), v: vel.clone(), w: spin.clone(), t: 0, wet: false, chunk, prevV: vel.clone(), rest: 0 };
+  if (world) {
+    const rb = world.createRigidBody(RAPIER.RigidBodyDesc.dynamic().setTranslation(pos.x, pos.y, pos.z)
+      .setRotation({ x: q.x, y: q.y, z: q.z, w: q.w }).setLinvel(vel.x, vel.y, vel.z).setAngvel({ x: spin.x, y: spin.y, z: spin.z }));
+    for (const o of offs) world.createCollider(RAPIER.ColliderDesc.cuboid(CX * .47, CY * .47, CZ * .47).setTranslation(o.x, o.y, o.z).setFriction(.85).setRestitution(.08).setDensity(2.4), rb);
+    b.rb = rb;
+  }
+  for (const c of list) state[c] = S_BODY;
+  bodies.push(b);
+  return b;
+}
+function removeBody(b, how) {
+  if (b.rb) world.removeRigidBody(b.rb);
+  for (const c of b.cells) { hideCell(c); state[c] = S_DEAD; heat[c] = 0; }
+  if (how === 'motes') motes(b.pos.x, b.pos.y, b.pos.z, Math.min(6, b.cells.length), null, .3);
+  b.dead = true;
+}
+function detachSingles(list, center, power, clump = true) {
+  const groups = new Map();
+  for (const c of list) { removeStatic(c); const key = clump ? `${cI(c) >> 1},${cJ(c) >> 1},${cK(c)}` : c; if (!groups.has(key)) groups.set(key, []); groups.get(key).push(c); }
+  for (const g of groups.values()) {
+    const cen = new THREE.Vector3(); g.forEach(c => cen.add(V.set(px(cI(c)), py(cJ(c)), pz(cK(c))))); cen.divideScalar(g.length);
+    const d = cen.clone().sub(center); const len = Math.max(.2, d.length()); d.divideScalar(len);
+    const vel = d.multiplyScalar(power * rnd(.6, 1.2)).add(V.set(rnd(-.6, .6), rnd(1, 3.2) * Math.min(1, power / 4), rnd(.2, 1.4)));
+    spawnBody(g, g.map(c => new THREE.Vector3(px(cI(c)), py(cJ(c)), pz(cK(c))).sub(cen)), cen, QI, vel, new THREE.Vector3(rnd(-7, 7), rnd(-7, 7), rnd(-7, 7)), false);
+  }
+}
+// break a falling chunk into pieces of a few blocks each
+function shatter(b) {
+  const groups = new Map();
+  b.cells.forEach((c, n) => {
+    const o = b.offs[n];
+    const key = `${Math.floor(o.x / (CX * 3) + rnd(0, .4))},${Math.floor(o.y / (CY * 3) + rnd(0, .4))},${Math.floor(o.z / (CZ * 2))}`;
+    if (!groups.has(key)) groups.set(key, []);
+    groups.get(key).push(n);
+  });
+  const lv = b.v;
+  if (b.rb) world.removeRigidBody(b.rb);
+  b.dead = true;
+  for (const ns of groups.values()) {
+    const pc = new THREE.Vector3(); ns.forEach(n => pc.add(b.offs[n])); pc.divideScalar(ns.length);
+    const wp = pc.clone().applyQuaternion(b.q).add(b.pos);
+    const out = pc.clone().applyQuaternion(b.q).normalize().multiplyScalar(rnd(.5, 2.2));
+    spawnBody(ns.map(n => b.cells[n]), ns.map(n => b.offs[n].clone().sub(pc)), wp, b.q,
+      lv.clone().multiplyScalar(.5).add(out).add(V.set(0, rnd(.5, 2), 0)), new THREE.Vector3(rnd(-3, 3), rnd(-3, 3), rnd(-3, 3)), false);
+  }
+  dust(b.pos.x, b.pos.y, b.pos.z, Math.min(40, 6 + b.cells.length / 6), 1.4);
+  shake = Math.max(shake, Math.min(.5, b.cells.length / 300));
+}
+function stepFallbackBody(b, dt) {
+  if (b.rest > 1) {                                       // resting: wake if the block under it goes
+    const below = cellAt(b.pos.x, b.pos.y - CY * .8, b.pos.z);
+    if (b.pos.y < .2 || (below >= 0 && state[below] === S_STATIC)) return; b.rest = 0;
+  }
+  b.v.y -= G * dt; if (b.wet) b.v.multiplyScalar(1 - Math.min(1, 2.5 * dt));
+  const ox = b.pos.x;
+  b.pos.addScaledVector(b.v, dt);
+  const c = cellAt(b.pos.x, b.pos.y - CY * .45, b.pos.z);
+  if (c >= 0 && state[c] === S_STATIC) {
+    const top = py(cJ(c)) + CY / 2;
+    if (b.v.y < 0 && b.pos.y - CY * .45 < top && b.pos.y > top - CY * .3) {
+      b.pos.y = top + CY * .45; b.v.y *= -.22; b.v.x *= .55; b.v.z *= .55; b.w.multiplyScalar(.5);
+      if (Math.abs(b.v.y) < .6 && b.v.lengthSq() < .5) { b.rest++; b.v.set(0, 0, 0); b.w.set(0, 0, 0); }
+    } else { b.pos.x = ox; b.v.x *= -.3; }
+  }
+  if (b.w.lengthSq() > 0) b.q.multiply(Qq.setFromEuler(new THREE.Euler(b.w.x * dt, b.w.y * dt, b.w.z * dt))).normalize();
+}
+function stepBodies(dt) {
+  if (world) {
+    world.step();
+  }
+  for (const b of bodies) {
+    if (b.dead) continue;
+    b.t += dt;
+    if (b.rb) {
+      const t = b.rb.translation(), r = b.rb.rotation(), lv = b.rb.linvel();
+      b.pos.set(t.x, t.y, t.z); b.q.set(r.x, r.y, r.z, r.w);
+      b.prevV.copy(b.v); b.v.set(lv.x, lv.y, lv.z);
+      if (b.chunk && b.t > .2 && b.prevV.distanceTo(b.v) > 2.2) { shatter(b); continue; }
+    } else stepFallbackBody(b, dt);
+    if (!b.wet && b.pos.y < .15) {
+      b.wet = true; splash(b.pos.x, b.pos.z, b.cells.length, Math.min(2.2, .7 + Math.abs(b.v.y) * .12));
+      if (b.rb) { b.rb.setLinearDamping(2.4); b.rb.setAngularDamping(1.6); }
+      if (b.chunk && b.cells.length > 30) { shatter(b); continue; }
+    }
+    if (b.pos.y < -2.6 || b.pos.y < -40) { removeBody(b); continue; }
+  }
+  for (let i = bodies.length - 1; i >= 0; i--) if (bodies[i].dead) bodies.splice(i, 1);
+  // too many: the oldest dissolve into motes
+  let n = 0; for (const b of bodies) n++;
+  for (let i = 0; n > BODY_CAP && i < bodies.length; i++) { const b = bodies[i]; if (!b.chunk && b.t > 3) { removeBody(b, 'motes'); n--; } }
+  for (let i = bodies.length - 1; i >= 0; i--) if (bodies[i].dead) bodies.splice(i, 1);
+}
+function drawBodies() {
+  for (const b of bodies) {
+    if (b.rb && b.rb.isSleeping() && b.drawn) continue;
+    b.drawn = true;
+    b.cells.forEach((c, n) => {
+      Vq.copy(b.offs[n]).applyQuaternion(b.q).add(b.pos);
+      blocks.setMatrixAt(inst[c], M.compose(Vq, b.q, CELL));
+    });
+    instDirty.m = true;
+  }
+}
+
+// ---------------------------------------------------------------- collapse: whatever no longer reaches the sump bed falls
+const seen = new Uint8Array(N), queue = new Int32Array(N);
+const NB = [1, -1, NX, -NX, NX * NY, -NX * NY];
+function neighbours(c, f) {
+  const i = cI(c), j = cJ(c), k = cK(c);
+  if (i < NX - 1) f(c + 1); if (i > 0) f(c - 1);
+  if (j < NY - 1) f(c + NX); if (j > 0) f(c - NX);
+  if (k < NZ - 1) f(c + NX * NY); if (k > 0) f(c - NX * NY);
+}
+function collapse() {
+  seen.fill(0);
+  let qh = 0, qt = 0;
+  for (const c of cells) if (state[c] === S_STATIC && cJ(c) <= ANCHOR_J) { seen[c] = 1; queue[qt++] = c; }
+  const visit = c => { if (!seen[c] && state[c] === S_STATIC) { seen[c] = 1; queue[qt++] = c; } };
+  while (qh < qt) neighbours(queue[qh++], visit);
+  let fell = 0;
+  for (const s of cells) {
+    if (seen[s] || state[s] !== S_STATIC) continue;
+    // gather one loose component
+    const comp = []; qh = qt = 0; seen[s] = 1; queue[qt++] = s;
+    while (qh < qt) { const c = queue[qh++]; comp.push(c); neighbours(c, visit); }
+    fell += comp.length;
+    comp.forEach(removeStatic);
+    if (comp.length <= 3) { detachSingles(comp, new THREE.Vector3(px(cI(comp[0])), py(cJ(comp[0])) + 1, pz(cK(comp[0]))), .5); continue; }
+    const cen = new THREE.Vector3();
+    comp.forEach(c => cen.add(V.set(px(cI(c)), py(cJ(c)), pz(cK(c))))); cen.divideScalar(comp.length);
+    const offs = comp.map(c => new THREE.Vector3(px(cI(c)), py(cJ(c)), pz(cK(c))).sub(cen));
+    spawnBody(comp, offs, cen, QI, new THREE.Vector3(rnd(-.4, .4), -.3, rnd(-.2, .2)),
+      new THREE.Vector3(rnd(-.25, .25), rnd(-.1, .1), rnd(-.35, .35)), true);
+    dust(cen.x, cen.y, cen.z, 10, 1.2);
+  }
+  return fell;
+}
+
+// ---------------------------------------------------------------- heat and soot
+const hot = new Set();
+function warm(c, h) { if (h > heat[c]) { heat[c] = h; hot.add(c); writeEmi(c); } }
+function coolDown(dt) {
+  const k = Math.exp(-dt * 1.5);
+  for (const c of hot) {
+    heat[c] *= k; if (heat[c] < .01) { heat[c] = 0; hot.delete(c); }
+    writeEmi(c);
+  }
+}
+
+// ---------------------------------------------------------------- blasts
+let shake = 0, deadCount = 0;
+const CENTER = new THREE.Vector3();
+function blast(p, r, kind) {
+  const l = booms[boomI++ % booms.length]; l.position.set(p.x, p.y + .8, p.z); l.intensity = 320;
+  shake = Math.max(shake, .38);
+  const ball = new THREE.Mesh(ballGeo, new THREE.MeshBasicMaterial({ color: tint(C.fire, 1.8), transparent: true, depthWrite: false, blending: THREE.AdditiveBlending }));
+  ball.position.copy(p); scene.add(ball); balls.push({ m: ball, t: 0, r });
+  // the blocks
+  const i0 = xi(p.x - r * 1.5), i1 = xi(p.x + r * 1.5), j0 = yj(p.y - r * 1.5), j1 = yj(p.y + r * 1.5), k0 = zk(p.z - r * 1.5), k1 = zk(p.z + r * 1.5);
+  const loose = [];
+  for (let k = Math.max(0, k0); k <= Math.min(NZ - 1, k1); k++)
+    for (let j = Math.max(0, j0); j <= Math.min(NY - 1, j1); j++)
+      for (let i = Math.max(0, i0); i <= Math.min(NX - 1, i1); i++) {
+        const c = ID(i, j, k); if (state[c] !== S_STATIC) continue;
+        const d = Math.hypot(px(i) - p.x, (py(j) - p.y) * 1.1, pz(k) - p.z);
+        if (d < r * (.5 + Math.random() * .15) || (type[c] === 2 && d < r * 1.2)) {
+          // gone: vaporised into dust and hot chips
+          removeStatic(c); hideCell(c); state[c] = S_DEAD; deadCount++;
+          if (type[c] === 2) {
+            const g = glowBase.subarray(c * 3, c * 3 + 3);
+            for (let n = 0; n < 7; n++) glowP.emit(px(i), py(j), pz(k), rnd(-4, 4), rnd(0, 6), rnd(1, 5), rnd(.6, 1.6), .06, .02, TMP.setRGB(g[0] * 1.5, g[1] * 1.5, g[2] * 1.5), 1, 9.8, .6);
+          } else if (Math.random() < .5) glowP.emit(px(i), py(j), pz(k), rnd(-5, 5), rnd(1, 8), rnd(-1, 4), rnd(.5, 1.2), .07, .02, tint(C.fire, rnd(2, 4)), 1, 9.8, .8);
+        } else if (d < r) { loose.push(c); deadCount++; }
+        else if (d < r * 1.55) { warm(c, .35 * (1 - (d - r) / (r * .55))); setCol(c, .5); }
+      }
+  detachSingles(loose, p, 7 * (kind === 'strike' ? 1.2 : 1));
+  for (const c of loose) warm(c, rnd(.4, .85));
+  // shove nearby rubble
+  for (const b of bodies) {
+    const d = b.pos.distanceTo(p); if (d > r * 2.2 || b.dead) continue;
+    const f = (1 - d / (r * 2.2)) * 6, dir = b.pos.clone().sub(p).normalize().multiplyScalar(f).add(V.set(0, f * .5, 0));
+    if (b.rb) { const m = b.rb.mass(); b.rb.applyImpulse({ x: dir.x * m, y: dir.y * m, z: dir.z * m }, true); }
+    else { b.v.add(dir); b.rest = 0; }
+  }
+  // the props and the trooper
+  for (const pr of props) if (!pr.body && pr.mesh.position.distanceTo(p) < r * 1.2) pr.kick = p.clone();
+  knock(p, r);
+  // effects
+  const wet = p.y < 1;
+  if (wet) {
+    ripple(p.x, p.z, 1); setTimeout(() => ripple(p.x, p.z, 1.6), 140);
+    for (let i = 0; i < 240; i++) {
+      const a = Math.random() * 6.28, rr2 = rnd(0, .7), up = rnd(5, 13) * (1 - rr2 * .6);
+      sprayP.emit(p.x + Math.cos(a) * rr2, .1, p.z + Math.sin(a) * rr2 * .6, Math.cos(a) * rnd(.3, 2.2), up, Math.sin(a) * rnd(.3, 1.5), rnd(1.2, 2.2), rnd(.06, .14), .03, TMP.setRGB(.55, .68, .8), .9, 9.8, .2);
+    }
+  }
+  for (let i = 0; i < 90; i++) {
+    const a = Math.random() * 6.28, sp = rnd(3, 10);
+    glowP.emit(p.x, p.y + .2, p.z, Math.cos(a) * sp, rnd(2, 11), Math.sin(a) * sp * .5 + 1, rnd(.4, 1.2), .08, .02, tint(C.fire, rnd(3, 6)), 1, 9.8, 1.2);
+  }
+  motes(p.x, p.y + .5, p.z, 40, kind === 'choir' ? C.cyan : C.mag, 1.2);
+  for (let i = 0; i < 46; i++)
+    smokeP.emit(p.x + rnd(-1, 1), p.y + rnd(0, 2), p.z + rnd(-.6, .6), rnd(-.8, .8), rnd(.8, 3), rnd(-.5, .5), rnd(2.5, 4.5), rnd(.6, 1), rnd(2.2, 3.4), GREY(rnd(.03, .05)), .5, -.2, .9);
+  deadCount += collapse();
+}
+const ballGeo = new THREE.SphereGeometry(1, 16, 10);
+const balls = [];
 
 // ---------------------------------------------------------------- the trooper
 function box(w, h, d, mat, x = 0, y = 0, z = 0) { const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat); m.position.set(x, y, z); m.castShadow = true; return m; }
@@ -441,65 +775,175 @@ const under = new THREE.MeshStandardMaterial({ color: 0x0e1014, roughness: .8, m
 const cloth = new THREE.MeshStandardMaterial({ color: C.oxblood, roughness: .95, side: THREE.DoubleSide });
 const visorMat = new THREE.MeshBasicMaterial({ color: C.mag.clone().multiplyScalar(6) });
 const ventMat = new THREE.MeshBasicMaterial({ color: C.mag.clone().multiplyScalar(2.2) });
-
 function makeTrooper() {
-  const T = { root: new THREE.Group() };
+  const T = { root: new THREE.Group() }; T.root.rotation.order = 'YXZ';
   const hips = new THREE.Group(); hips.position.y = .98; T.root.add(hips); T.hips = hips;
-  hips.add(box(.42, .2, .28, under, 0, 0, 0));
+  hips.add(box(.42, .2, .28, under));
   T.legs = [-1, 1].map(sd => {
     const thigh = new THREE.Group(); thigh.position.set(sd * .13, -.05, 0); hips.add(thigh);
-    thigh.add(box(.19, .46, .22, armour, 0, -.22, 0));
-    thigh.add(box(.2, .12, .26, under, 0, -.02, 0));
+    thigh.add(box(.19, .46, .22, armour, 0, -.22, 0)); thigh.add(box(.2, .12, .26, under, 0, -.02, 0));
     const knee = new THREE.Group(); knee.position.y = -.45; thigh.add(knee);
-    knee.add(box(.2, .14, .14, armour, 0, 0, .08));                 // knee guard
-    knee.add(box(.16, .44, .19, armour, 0, -.22, 0));
-    const foot = box(.2, .11, .34, under, 0, -.47, .05); knee.add(foot);
+    knee.add(box(.2, .14, .14, armour, 0, 0, .08)); knee.add(box(.16, .44, .19, armour, 0, -.22, 0)); knee.add(box(.2, .11, .34, under, 0, -.47, .05));
     return { thigh, knee };
   });
   const torso = new THREE.Group(); torso.position.y = .08; hips.add(torso); T.torso = torso;
-  torso.add(box(.48, .5, .3, armour, 0, .3, 0));
-  torso.add(box(.4, .22, .1, armour, 0, .42, .17));                  // chest plate
-  torso.add(box(.36, .08, .02, ventMat, 0, .2, .16));                 // belt light
-  torso.add(box(.3, .16, .34, under, 0, .62, 0));                     // ribbed collar
-  // jump pack: twin thrusters
+  torso.add(box(.48, .5, .3, armour, 0, .3, 0)); torso.add(box(.4, .22, .1, armour, 0, .42, .17));
+  torso.add(box(.36, .08, .02, ventMat, 0, .2, .16)); torso.add(box(.3, .16, .34, under, 0, .62, 0));
   for (const sd of [-1, 1]) {
     const th = new THREE.Mesh(new THREE.CylinderGeometry(.08, .1, .5, 6), armour); th.position.set(sd * .12, .35, -.24); th.castShadow = true; torso.add(th);
     const tip = new THREE.Mesh(new THREE.CylinderGeometry(.07, .07, .03, 6), ventMat); tip.position.set(sd * .12, .09, -.24); torso.add(tip);
   }
   torso.add(box(.36, .3, .1, armour, 0, .45, -.2));
-  // head: tall enclosed helm, recessed visor
   const head = new THREE.Group(); head.position.y = .78; torso.add(head); T.head = head;
-  head.add(box(.26, .32, .3, armour, 0, .02, 0));
-  head.add(box(.2, .18, .08, armour, 0, -.06, .16));                  // elongated faceplate
-  head.add(box(.2, .04, .03, visorMat, 0, .06, .16));                 // visor slit
-  head.add(box(.04, .12, .3, armour, 0, .2, 0));                      // crest
+  head.add(box(.26, .32, .3, armour, 0, .02, 0)); head.add(box(.2, .18, .08, armour, 0, -.06, .16));
+  head.add(box(.2, .04, .03, visorMat, 0, .06, .16)); head.add(box(.04, .12, .3, armour, 0, .2, 0));
   const vl = new THREE.PointLight(C.mag, 1.6, 2.2, 2); vl.position.set(0, .06, .35); head.add(vl);
-  // pauldrons and arms
   T.arms = [-1, 1].map(sd => {
     const sh = new THREE.Group(); sh.position.set(sd * .33, .52, 0); torso.add(sh);
     const p = box(.24, .14, .34, armour, sd * .04, .06, 0); p.rotation.z = sd * -.35; sh.add(p);
     sh.add(box(.14, .36, .15, under, 0, -.18, 0));
     const el = new THREE.Group(); el.position.y = -.36; sh.add(el);
-    el.add(box(.15, .32, .16, armour, 0, -.16, 0));
-    el.add(box(.12, .1, .12, under, 0, -.34, 0));
+    el.add(box(.15, .32, .16, armour, 0, -.16, 0)); el.add(box(.12, .1, .12, under, 0, -.34, 0));
     return { sh, el };
   });
-  // rifle slung across the back
   const gun = new THREE.Group(); gun.position.set(0, .4, -.32); gun.rotation.z = .9; torso.add(gun);
   gun.add(box(.08, 1, .08, ironMat)); gun.add(box(.1, .25, .12, ironMat, 0, -.15, 0)); gun.add(box(.03, .1, .03, ventMat, 0, .5, 0));
-  // long cloak from the shoulders
   const cg = new THREE.PlaneGeometry(.5, 1.05, 1, 6); cg.translate(0, -.525, 0);
   const cloak = new THREE.Mesh(cg, cloth); cloak.position.set(0, .64, -.31); cloak.castShadow = true; torso.add(cloak); T.cloak = cloak;
   T.root.scale.setScalar(1.1);
   return T;
 }
 const trooper = makeTrooper();
-trooper.root.position.set(-6, DECK, .2);
+const TR = { x: -3, y: DECK, z: .2, dir: 1, state: 'walk', t: 0, ph: 0, yaw: Math.PI / 2, vx: 0, vy: 0, pitch: 0, spin: 0, a: -5.2, b: .8, speed: 1.35, scale: 1 };
 scene.add(trooper.root);
-const patrol = { a: -5.5, b: .4, dir: 1, state: 'walk', t: 0, ph: 0, yaw: Math.PI / 2, speed: 1.35 };
+// top of the highest standing block in this column, at or below y
+function groundAt(x, z, y) {
+  const i = xi(x), k = zk(z); if (i < 0 || i >= NX || k < 0 || k >= NZ) return null;
+  for (let j = Math.min(NY - 1, yj(y)); j >= 0; j--) if (state[ID(i, j, k)] === S_STATIC) { const top = GY0 + (j + 1) * CY; return top > .05 ? top : null; }
+  return null;
+}
+function knock(p, r) {
+  if (TR.state === 'gone') return;
+  const d = Math.hypot(TR.x - p.x, TR.y + .9 - p.y, (TR.z - p.z) * .7);
+  if (d > r + 1.4) return;
+  const s = Math.sign(TR.x - p.x) || 1, f = 1 - d / (r + 1.4);
+  TR.state = 'thrown'; TR.t = 0; TR.vx = s * (3 + f * 5); TR.vy = 3 + f * 6; TR.spin = s * rnd(5, 9);
+}
+function updateTrooper(dt, t) {
+  const P = TR, Tr = trooper;
+  const fallCheck = () => {
+    const g = groundAt(P.x, P.z, P.y + .1);
+    if (g === null || g < P.y - .45) { P.state = 'fall'; P.vx = P.dir * .6; P.vy = 0; P.spin = 0; return true; }
+    P.y += (g - P.y) * Math.min(1, dt * 14); return false;
+  };
+  if (P.state === 'walk') {
+    P.ph += dt * P.speed * 3.3;
+    const nx = P.x + P.dir * P.speed * dt, ga = groundAt(nx + P.dir * .35, P.z, P.y + .45);
+    if (ga === null || ga < P.y - .5 || ga > P.y + .4 || (P.dir > 0 ? nx >= P.b : nx <= P.a)) { P.state = 'idle'; P.t = 0; }
+    else P.x = nx;
+    fallCheck();
+  } else if (P.state === 'idle' || P.state === 'turn') {
+    P.t += dt; P.ph += (Math.round(P.ph / Math.PI) * Math.PI - P.ph) * Math.min(1, dt * 6);
+    if (P.state === 'idle' && P.t > 1.6) { P.state = 'turn'; P.t = 0; P.dir *= -1; }
+    else if (P.state === 'turn' && P.t > .7) P.state = 'walk';
+    fallCheck();
+  } else if (P.state === 'fall' || P.state === 'thrown') {
+    P.t += dt; P.vy -= G * dt; P.x += P.vx * dt; P.y += P.vy * dt; P.pitch += P.spin * dt;
+    const g = groundAt(P.x, P.z, P.y + .3);
+    if (g !== null && P.y <= g && P.vy < 0) {
+      P.y = g; dust(P.x, P.y, P.z, 6, .5);
+      if (P.state === 'thrown') { P.state = 'down'; P.t = 0; P.pitch = Math.sign(P.spin || 1) * 1.45; } else { P.state = 'idle'; P.t = 1; P.pitch = 0; }
+    } else if (P.y < -.1) {
+      splash(P.x, P.z, 14, 1.4); motes(P.x, .5, P.z, 20, C.mag, .6);
+      P.state = 'gone'; P.t = 0; Tr.root.visible = false;
+    }
+  } else if (P.state === 'down') {
+    P.t += dt; if (P.t > 1.1) { P.state = 'getup'; P.t = 0; }
+    if (groundAt(P.x, P.z, P.y + .1) === null) { P.state = 'fall'; P.vy = 0; P.vx = 0; }
+  } else if (P.state === 'getup') {
+    P.t += dt; P.pitch *= Math.exp(-dt * 7); if (P.t > .6) { P.pitch = 0; P.state = 'idle'; P.t = .8; }
+  } else if (P.state === 'gone') {
+    P.t += dt;
+    if (P.t > 2.4) {             // rematerialise somewhere solid on the bridge
+      for (let n = 0; n < 30; n++) {
+        const x = rnd(P.a, P.b), g = groundAt(x, P.z, DECK + .1);
+        if (g !== null && g > DECK - .4 && groundAt(x + .4, P.z, DECK + .1) !== null && groundAt(x - .4, P.z, DECK + .1) !== null) {
+          P.x = x; P.y = g; P.pitch = 0; P.state = 'idle'; P.t = 0; P.scale = 0; Tr.root.visible = true; motes(x, g + 1, P.z, 30, C.mag, .5); break;
+        }
+      }
+    }
+  }
+  P.scale = Math.min(1, P.scale + dt * 2.5);
+  const tgtYaw = P.dir > 0 ? Math.PI / 2 : -Math.PI / 2;
+  P.yaw += (tgtYaw - P.yaw) * Math.min(1, dt * 4.5);
+  Tr.root.position.set(P.x, P.y, P.z);
+  Tr.root.rotation.set(P.pitch * (P.dir > 0 ? 1 : -1) * Math.sign(P.vx || 1) * Math.sign(P.dir), P.yaw, 0);
+  if (P.state === 'thrown' || P.state === 'fall' || P.state === 'down' || P.state === 'getup') Tr.root.rotation.x = P.pitch;
+  Tr.root.scale.setScalar(1.1 * (P.scale < 1 ? .2 + .8 * P.scale : 1));
+  const walking = P.state === 'walk', flail = P.state === 'thrown' || P.state === 'fall';
+  const s = Math.sin(P.ph), c = Math.cos(P.ph), amp = walking ? 1 : 0;
+  Tr.legs.forEach((L, i) => {
+    const si = Math.sin(P.ph + (i ? Math.PI : 0)), ci = Math.cos(P.ph + (i ? Math.PI : 0));
+    L.thigh.rotation.x = flail ? Math.sin(t * 14 + i * 3) * .6 : -si * .5 * amp;
+    L.knee.rotation.x = flail ? .9 : (.08 + Math.max(0, ci) * .85) * amp + .05;
+  });
+  Tr.arms.forEach((A, i) => {
+    const si = Math.sin(P.ph + (i ? 0 : Math.PI));
+    A.sh.rotation.x = flail ? -2.2 + Math.sin(t * 12 + i) * .5 : -si * .4 * amp; A.sh.rotation.z = (i ? -1 : 1) * (flail ? .5 : .08);
+    A.el.rotation.x = -.35 - Math.max(0, si) * .3 * amp;
+  });
+  Tr.hips.position.y = .98 + Math.abs(c) * .045 * amp - (1 - amp) * .01 + (walking ? 0 : Math.sin(t * 1.8) * .008);
+  Tr.torso.rotation.x = .07 * amp + .02; Tr.torso.rotation.y = s * .07 * amp;
+  Tr.head.rotation.y = P.state === 'idle' ? Math.sin(P.t * 2.2) * .5 : 0;
+  Tr.cloak.rotation.x = .12 + amp * (.25 + Math.abs(s) * .1) + Math.sin(t * 2.3) * .04 + (flail ? .9 : 0);
+}
 
-// ---------------------------------------------------------------- the mortar
-const mortar = new THREE.Group(); mortar.position.set(2.5, DECK, .2); scene.add(mortar);
+// ---------------------------------------------------------------- props: things that sit on a block and fall when it goes
+function addProp(mesh, half) {
+  const below = cellAt(mesh.position.x, mesh.position.y - .1, mesh.position.z);
+  const pr = { mesh, half, cell: below, home: mesh.position.clone(), homeQ: mesh.quaternion.clone(), body: null, v: new THREE.Vector3(), w: new THREE.Vector3() };
+  props.push(pr); return pr;
+}
+function dropProp(pr, from) {
+  const p = pr.mesh.position, v = from ? p.clone().sub(from).normalize().multiplyScalar(5).add(V.set(0, 4, 0)) : new THREE.Vector3(0, 0, 0);
+  if (world) {
+    const rb = world.createRigidBody(RAPIER.RigidBodyDesc.dynamic().setTranslation(p.x, p.y + pr.half.y, p.z)
+      .setRotation(pr.mesh.quaternion).setLinvel(v.x, v.y, v.z).setAngvel({ x: rnd(-3, 3), y: rnd(-3, 3), z: rnd(-3, 3) }));
+    world.createCollider(RAPIER.ColliderDesc.cuboid(pr.half.x, pr.half.y, pr.half.z).setTranslation(0, 0, 0).setDensity(3), rb);
+    pr.body = rb;
+  } else { pr.body = 'lite'; pr.v.copy(v); pr.w.set(rnd(-3, 3), rnd(-3, 3), rnd(-3, 3)); }
+}
+function updateProps(dt) {
+  for (const pr of props) {
+    if (!pr.body && (pr.kick || (pr.cell >= 0 && state[pr.cell] !== S_STATIC))) { dropProp(pr, pr.kick); pr.kick = null; }
+    if (!pr.body) continue;
+    const m = pr.mesh;
+    if (pr.body === 'lite') {
+      pr.v.y -= G * dt; m.position.addScaledVector(pr.v, dt); m.rotation.x += pr.w.x * dt; m.rotation.z += pr.w.z * dt;
+      const g = groundAt(m.position.x, m.position.z, m.position.y + .2);
+      if (g !== null && m.position.y < g) { m.position.y = g; pr.v.multiplyScalar(.3); pr.v.y = 0; pr.w.multiplyScalar(.3); }
+    } else {
+      const t = pr.body.translation(), r = pr.body.rotation();
+      m.quaternion.set(r.x, r.y, r.z, r.w); m.position.set(t.x, t.y, t.z).sub(V.set(0, pr.half.y, 0).applyQuaternion(m.quaternion));
+    }
+    if (!pr.wet && m.position.y < .1) { pr.wet = true; splash(m.position.x, m.position.z, 12); if (pr.body !== 'lite') pr.body.setLinearDamping(2.5); }
+  }
+}
+function resetProps() {
+  for (const pr of props) {
+    if (pr.body && pr.body !== 'lite') world.removeRigidBody(pr.body);
+    pr.body = null; pr.wet = false; pr.kick = null; pr.mesh.position.copy(pr.home); pr.mesh.quaternion.copy(pr.homeQ);
+    motes(pr.home.x, pr.home.y + .3, pr.home.z, 12, null, .4);
+  }
+}
+// pinnacle caps on the bridge
+for (const x of [-3.75, -.25, 2.75]) {
+  const cone = new THREE.Mesh(new THREE.ConeGeometry(.24, .9, 4), roughMat); cone.geometry.translate(0, .45, 0);
+  cone.position.set(x, DECK + .96, -1.05); cone.rotation.y = Math.PI / 4; cone.castShadow = true; scene.add(cone);
+  addProp(cone, new THREE.Vector3(.17, .45, .17));
+}
+// the mortar
+const mortar = new THREE.Group(); mortar.position.set(2.45, DECK, .2); scene.add(mortar);
 const tubeG = new THREE.Group();
 {
   const plate = new THREE.Mesh(new THREE.CylinderGeometry(.42, .48, .07, 8), ironMat); plate.position.y = .035; plate.castShadow = true; mortar.add(plate);
@@ -511,57 +955,98 @@ const tubeG = new THREE.Group();
     const leg = new THREE.Mesh(new THREE.CylinderGeometry(.025, .025, .9, 5), ironMat);
     leg.position.set(.3, .4, sz * .22); leg.rotation.set(sz * .35, 0, .45); leg.castShadow = true; mortar.add(leg);
   }
-  const ammo = box(.5, .3, .32, armour, -.75, .15, -.1); mortar.add(ammo);
-  mortar.add(box(.44, .03, .02, ventMat, -.75, .22, .07));
+  mortar.add(box(.5, .3, .32, armour, -.75, .15, -.1)); mortar.add(box(.44, .03, .02, ventMat, -.75, .22, .07));
 }
-const muzzle = new THREE.Vector3();
+const mortarProp = addProp(mortar, new THREE.Vector3(.5, .3, .3));
+
+// ---------------------------------------------------------------- shells
 const shells = [];
 const shellGeo = new THREE.CylinderGeometry(.06, .06, .3, 6);
-let fireT = 1.4, kick = 0;
-function fire() {
+const muzzle = new THREE.Vector3();
+function launch(from, to, T, kind) {
+  const v = new THREE.Vector3((to.x - from.x) / T, (to.y - from.y + .5 * G * T * T) / T, (to.z - from.z) / T);
+  const m = new THREE.Mesh(shellGeo, ironMat); m.position.copy(from); scene.add(m);
+  shells.push({ m, v, kind, age: 0 });
+  return v;
+}
+// a random standing block on the side facing the camera, inside a box
+function pickTarget(x0, x1, y0, y1) {
+  for (let n = 0; n < 60; n++) {
+    const i = xi(rnd(x0, x1)), j = yj(rnd(y0, y1)); if (i < 0 || i >= NX || j < 0 || j >= NY) continue;
+    for (let k = NZ - 1; k >= 0; k--) { const c = ID(i, j, k); if (state[c] === S_STATIC) return new THREE.Vector3(px(i), py(j), pz(k) + CZ * .5); }
+  }
+  return null;
+}
+let fireT = 1.2, choirT = 3.5, kick = 0;
+function fireMortar() {
+  if (mortarProp.body) return;
   tubeG.localToWorld(muzzle.set(0, 1.28, 0));
-  const tgt = new THREE.Vector3(rr(6.5, 15), 0, rr(-9, -1.5));
-  const T = rr(2.1, 2.7), G = 9.8;
-  const v = new THREE.Vector3((tgt.x - muzzle.x) / T, (tgt.y - muzzle.y + .5 * G * T * T) / T, (tgt.z - muzzle.z) / T);
-  const m = new THREE.Mesh(shellGeo, ironMat); m.position.copy(muzzle); scene.add(m);
-  shells.push({ m, v, G });
+  const tgt = Math.random() < .72 ? pickTarget(5.6, 11.4, 0, 8.5) : null;
+  const to = tgt || new THREE.Vector3(rnd(6.5, 15), 0, rnd(-9, -3.5));
+  const v = launch(muzzle, to, rnd(1.7, 2.3), 'ash');
   kick = 1; flashL.position.copy(muzzle); flashL.intensity = 60;
   const d = v.clone().normalize();
-  for (let i = 0; i < 26; i++) glowP.emit(muzzle.x, muzzle.y, muzzle.z, d.x * rr(2, 7) + rr(-1, 1), d.y * rr(2, 7) + rr(-1, 1), rr(-1, 1), rr(.1, .3), .09, .02, C.fire.clone().multiplyScalar(4), 1, 2, 4);
-  for (let i = 0; i < 16; i++) smokeP.emit(muzzle.x, muzzle.y, muzzle.z, d.x * rr(.5, 2) + rr(-.4, .4), d.y * rr(.5, 2), rr(-.5, .5), rr(1.2, 2.4), .25, 1.1, new THREE.Color(.22, .23, .27), .5, -.15, 1.2);
+  for (let i = 0; i < 26; i++) glowP.emit(muzzle.x, muzzle.y, muzzle.z, d.x * rnd(2, 7) + rnd(-1, 1), d.y * rnd(2, 7) + rnd(-1, 1), rnd(-1, 1), rnd(.1, .3), .09, .02, tint(C.fire, 4), 1, 2, 4);
+  for (let i = 0; i < 16; i++) smokeP.emit(muzzle.x, muzzle.y, muzzle.z, d.x * rnd(.5, 2) + rnd(-.4, .4), d.y * rnd(.5, 2), rnd(-.5, .5), rnd(1.2, 2.4), .25, 1.1, GREY(.22), .5, -.15, 1.2);
   shake = Math.max(shake, .12);
 }
-function explode(p) {
-  boom.position.set(p.x, 1.5, p.z); boom.intensity = 900;
-  ripple(p.x, p.z, 1); setTimeout(() => ripple(p.x, p.z, 1.6), 140);
-  const ball = new THREE.Mesh(new THREE.SphereGeometry(1, 16, 10), new THREE.MeshBasicMaterial({ color: C.fire.clone().multiplyScalar(5), transparent: true, depthWrite: false, blending: THREE.AdditiveBlending }));
-  ball.position.set(p.x, .4, p.z); scene.add(ball); balls.push({ m: ball, t: 0 });
-  // water column
-  for (let i = 0; i < 260; i++) {
-    const a = R() * 6.28, r = rr(0, .7), up = rr(5, 13) * (1 - r * .6);
-    sprayP.emit(p.x + Math.cos(a) * r, .1, p.z + Math.sin(a) * r * .6, Math.cos(a) * rr(.3, 2.2), up, Math.sin(a) * rr(.3, 1.5), rr(1.2, 2.2), rr(.06, .14), .03, new THREE.Color(.55, .68, .8), .9, 9.8, .2);
-  }
-  // sparks and embers
-  for (let i = 0; i < 90; i++) {
-    const a = R() * 6.28, sp = rr(3, 10);
-    glowP.emit(p.x, .5, p.z, Math.cos(a) * sp, rr(2, 11), Math.sin(a) * sp * .5, rr(.4, 1.2), .08, .02, C.fire.clone().multiplyScalar(rr(3, 6)), 1, 9.8, 1.2);
-  }
-  // the squad's motes, rising slow
-  for (let i = 0; i < 50; i++)
-    glowP.emit(p.x + rr(-1.5, 1.5), rr(.3, 2), p.z + rr(-1, 1), rr(-.4, .4), rr(.4, 1.6), rr(-.3, .3), rr(2, 4), .07, .0, (R() < .7 ? C.mag : C.cyan).clone().multiplyScalar(3), 1, -.05, .3);
-  // smoke and steam
-  for (let i = 0; i < 46; i++)
-    smokeP.emit(p.x + rr(-1, 1), rr(.5, 2.5), p.z + rr(-.6, .6), rr(-.8, .8), rr(.8, 3), rr(-.5, .5), rr(2.5, 4.5), rr(.6, 1), rr(2.2, 3.4), new THREE.Color(.17, .18, .22), .55, -.2, .9);
-  shake = Math.max(shake, .35);
+function fireChoir() {            // incoming from off-screen right, Neon Choir cyan
+  const near = Math.random() < .3;
+  const tgt = near ? pickTarget(TR.x - 2.5, TR.x + 2.5, DECK - 1.5, DECK) : pickTarget(-10.5, -6.5, 0, 16);
+  if (!tgt) return;
+  launch(new THREE.Vector3(rnd(18, 26), rnd(14, 20), rnd(-6, -2)), tgt, rnd(2.2, 2.8), 'choir');
 }
-const balls = [];
-let shake = 0;
+function strike(p) {               // called by a tap
+  launch(p.clone().add(new THREE.Vector3(rnd(3, 6), 18, rnd(2, 5))), p, 1.1, 'strike');
+}
+
+// ---------------------------------------------------------------- rebuild: the ward knits itself back from motes
+let rebuild = null, lastBuild = 0;
+const totalCells = NI;
+function startRebuild(t) {
+  for (const b of bodies) if (!b.dead) { if (b.rb) world.removeRigidBody(b.rb); b.dead = true; motes(b.pos.x, b.pos.y, b.pos.z, Math.min(4, b.cells.length), null, .3); for (const c of b.cells) { hideCell(c); state[c] = S_DEAD; } }
+  bodies.length = 0;
+  const list = cells.filter(c => state[c] !== S_STATIC).sort((a, b) => cJ(a) - cJ(b));
+  const j0 = list.length ? cJ(list[0]) : 0;
+  rebuild = { t: 0, list: list.map(c => ({ c, at: (cJ(c) - j0) * .045 + Math.random() * .5, on: false })) };
+  for (const e of rebuild.list) state[e.c] = S_BUILD;
+}
+function stepRebuild(dt, t) {
+  rebuild.t += dt; let left = 0;
+  for (const e of rebuild.list) {
+    if (e.done) continue;
+    const k = (rebuild.t - e.at) / .45;
+    if (k < 0) { left++; continue; }
+    const c = e.c;
+    if (!e.on) { e.on = true; if (Math.random() < .25) glowP.emit(px(cI(c)), py(cJ(c)), pz(cK(c)) + .3, 0, rnd(.2, .6), 0, .8, .08, .02, tint(Math.random() < .7 ? C.mag : C.cyan, 3), 1, 0, 0); }
+    if (k >= 1) {
+      e.done = true; state[c] = S_STATIC; heat[c] = 0; setCol(c, 1); homeCell(c, 1); addStatic(c);
+      glowBase.subarray(c * 3, c * 3 + 3); writeEmi(c);
+    } else {
+      left++; homeCell(c, .2 + .8 * k * k);
+      const n = inst[c], g = (1 - k) * 2.2, mc = (cI(c) + cJ(c)) % 5 ? C.mag : C.cyan;
+      aEmi[n * 3] = glowBase[c * 3] + mc.r * g; aEmi[n * 3 + 1] = glowBase[c * 3 + 1] + mc.g * g; aEmi[n * 3 + 2] = glowBase[c * 3 + 2] + mc.b * g; instDirty.e = true;
+    }
+  }
+  if (!left) { rebuild = null; lastBuild = t; deadCount = 0; resetProps(); }
+}
+
+// ---------------------------------------------------------------- tap to strike
+const ray = new THREE.Raycaster(), ndc = new THREE.Vector2();
+renderer.domElement.addEventListener('pointerdown', e => {
+  if (rebuild) return;
+  ndc.set(e.clientX / innerWidth * 2 - 1, -(e.clientY / innerHeight) * 2 + 1);
+  ray.setFromCamera(ndc, camera);
+  const hit = ray.intersectObject(blocks, false)[0];
+  if (hit) { strike(hit.point.clone().add(hit.face.normal.clone().multiplyScalar(.05))); return; }
+  const t = -ray.ray.origin.y / ray.ray.direction.y;
+  if (t > 0) strike(ray.ray.origin.clone().addScaledVector(ray.ray.direction, t));
+});
 
 // ---------------------------------------------------------------- post
 const composer = new EffectComposer(renderer);
 composer.addPass(new RenderPass(scene, camera));
-const bloom = new UnrealBloomPass(new THREE.Vector2(256, 256), .85, .55, .72);
-composer.addPass(bloom);
+composer.addPass(new UnrealBloomPass(new THREE.Vector2(256, 256), .85, .55, .72));
 composer.addPass(new OutputPass());
 const grade = new ShaderPass({
   uniforms: { tDiffuse: { value: null }, uRes: { value: new THREE.Vector2(1, 1) }, uT: { value: 0 } },
@@ -570,15 +1055,14 @@ const grade = new ShaderPass({
     float h(vec2 p){ return fract(sin(dot(p, vec2(12.9898,78.233)))*43758.5453); }
     void main(){
       vec3 c = texture2D(tDiffuse, vUv).rgb;
-      c = mix(c, c*vec3(.92,.97,1.08) + vec3(.008,.01,.02), .6);          // cool grade, lifted blacks
-      vec2 q = vUv-.5; c *= 1. - dot(q,q)*.9;                               // vignette
-      c += (h(floor(vUv*uRes) + floor(uT*12.)) - .5) * .022;               // fine grain, per pixel
+      c = mix(c, c*vec3(.92,.97,1.08) + vec3(.008,.01,.02), .6);
+      vec2 q = vUv-.5; c *= 1. - dot(q,q)*.9;
+      c += (h(floor(vUv*uRes) + floor(uT*12.)) - .5) * .022;
       gl_FragColor = vec4(c,1.);
     }`,
 });
 composer.addPass(grade);
 
-// ---------------------------------------------------------------- sizing
 let W = 1, H = 1, PR = 1;
 function resize() {
   W = innerWidth; H = innerHeight;
@@ -586,98 +1070,88 @@ function resize() {
   renderer.setPixelRatio(PR); renderer.setSize(W, H, false);
   composer.setPixelRatio(PR); composer.setSize(W, H);
   camera.aspect = W / H; camera.updateProjectionMatrix();
-  const bh = H * PR;
-  for (const P of [glowP, smokeP, sprayP]) P.mat.uniforms.uScale.value = bh / (2 * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)));
+  for (const P of [glowP, smokeP, sprayP]) P.mat.uniforms.uScale.value = H * PR / (2 * Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)));
   grade.uniforms.uRes.value.set(W * PR, H * PR);
 }
 addEventListener('resize', resize); resize();
 
 // ---------------------------------------------------------------- loop
 const clock = new THREE.Clock();
-let t = 0;
+let t = 0, camX = -1.5, acc = 0;
 const look = new THREE.Vector3();
-let camX = -1.5;
 function step(dt) {
   t += dt;
   waterUniforms.uTime.value = t; grade.uniforms.uT.value = t;
+  for (const m of mists) m.material.uniforms.uT.value = t;
 
-  // camera: slow drift, portrait pulls back
   const asp = W / H, dist = asp < 1 ? 17 + (1 - asp) * 16 : 17;
-  if (asp < 1) camX += (trooper.root.position.x * .7 + 1 - camX) * Math.min(1, dt * .8);  // portrait: follow the trooper
-  else camX = -1.5 + Math.sin(t * .07) * 1.1;
-  const cx = camX;
-  camera.position.set(cx + (Math.random() - .5) * shake, 3.7 + Math.sin(t * .05) * .3 + (Math.random() - .5) * shake, dist);
-  look.set(cx * .8, asp < 1 ? 4 : 3.1, 0); camera.lookAt(look);
+  if (asp < 1) camX += (TR.x * .7 + 1 - camX) * Math.min(1, dt * .8);
+  else camX = -.2 + Math.sin(t * .07) * 1.3;
+  camera.position.set(camX + (Math.random() - .5) * shake, 3.9 + Math.sin(t * .05) * .3 + (Math.random() - .5) * shake, dist);
+  look.set(camX * .8, asp < 1 ? 4 : 3.4, 0); camera.lookAt(look);
   shake *= Math.pow(.02, dt);
 
-  // trooper patrol
-  const P = patrol, Tr = trooper;
-  if (P.state === 'walk') {
-    P.ph += dt * P.speed * 3.3;
-    const x = Tr.root.position.x + P.dir * P.speed * dt;
-    Tr.root.position.x = x;
-    if ((P.dir > 0 && x >= P.b) || (P.dir < 0 && x <= P.a)) { P.state = 'idle'; P.t = 0; }
-  } else if (P.state === 'idle') {
-    P.t += dt; P.ph += (Math.round(P.ph / Math.PI) * Math.PI - P.ph) * Math.min(1, dt * 6);
-    if (P.t > 1.6) { P.state = 'turn'; P.t = 0; P.dir *= -1; }
-  } else {
-    P.t += dt; if (P.t > .7) { P.state = 'walk'; }
-  }
-  const tgtYaw = P.dir > 0 ? Math.PI / 2 : -Math.PI / 2;
-  P.yaw += (tgtYaw - P.yaw) * Math.min(1, dt * 4.5);
-  Tr.root.rotation.y = P.yaw;
-  const walking = P.state === 'walk', s = Math.sin(P.ph), c = Math.cos(P.ph), amp = walking ? 1 : 0;
-  Tr.legs.forEach((L, i) => {
-    const sg = i ? -1 : 1, si = Math.sin(P.ph + (i ? Math.PI : 0)), ci = Math.cos(P.ph + (i ? Math.PI : 0));
-    L.thigh.rotation.x = -si * .5 * amp;
-    L.knee.rotation.x = (.08 + Math.max(0, ci) * .85) * amp + .05;
-  });
-  Tr.arms.forEach((A, i) => {
-    const si = Math.sin(P.ph + (i ? 0 : Math.PI));
-    A.sh.rotation.x = -si * .4 * amp; A.sh.rotation.z = (i ? -1 : 1) * .08;
-    A.el.rotation.x = -.35 - Math.max(0, si) * .3 * amp;
-  });
-  Tr.hips.position.y = .98 + Math.abs(c) * .045 * amp - (1 - amp) * .01 + (walking ? 0 : Math.sin(t * 1.8) * .008);
-  Tr.torso.rotation.x = .07 * amp + .02;
-  Tr.torso.rotation.y = s * .07 * amp;
-  Tr.head.rotation.y = walking ? 0 : Math.sin(P.t * 2.2) * .5;
-  Tr.cloak.rotation.x = .12 + amp * (.25 + Math.abs(s) * .1) + Math.sin(t * 2.3) * .04;
+  updateTrooper(dt, t);
 
-  // mortar
-  fireT -= dt; if (fireT <= 0) { fire(); fireT = rr(2.6, 3.8); }
+  // firing
+  if (!rebuild && !CALM) {
+    fireT -= dt; if (fireT <= 0) { fireMortar(); fireT = rnd(2.4, 3.6); }
+    choirT -= dt; if (choirT <= 0) { fireChoir(); choirT = rnd(3.2, 5); }
+  }
   kick = Math.max(0, kick - dt * 5); tubeG.position.x = -kick * .12; tubeG.position.y = .12 - kick * .05;
   flashL.intensity *= Math.pow(.0005, dt);
-  boom.intensity *= Math.pow(.004, dt);
+  for (const l of booms) l.intensity *= Math.pow(.004, dt);
   for (let i = shells.length - 1; i >= 0; i--) {
-    const S = shells[i];
-    S.v.y -= S.G * dt; S.m.position.addScaledVector(S.v, dt);
-    S.m.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), S.v.clone().normalize());
+    const S = shells[i]; S.age += dt;
+    let hit = null;
+    for (let s = 0; s < 3 && !hit; s++) {
+      S.v.y -= G * dt / 3; S.m.position.addScaledVector(S.v, dt / 3);
+      const q = S.m.position, c = cellAt(q.x, q.y, q.z);
+      if ((c >= 0 && state[c] === S_STATIC) || q.y <= 0 || q.distanceTo(HEAD) < 2.3) hit = q.clone();
+    }
     const q = S.m.position;
-    for (let k = 0; k < 3; k++) glowP.emit(q.x, q.y, q.z, rr(-.3, .3), rr(-.3, .3), rr(-.3, .3), rr(.25, .5), .07, .01, C.mag.clone().multiplyScalar(rr(2, 4)), 1, 0, 2);
-    if (Math.random() < .5) smokeP.emit(q.x, q.y, q.z, 0, .2, 0, rr(.8, 1.5), .12, .5, new THREE.Color(.25, .26, .3), .3, -.1, .5);
-    if (q.y <= 0) { explode(q.clone()); scene.remove(S.m); shells.splice(i, 1); }
+    S.m.quaternion.setFromUnitVectors(V.set(0, 1, 0), V2.copy(S.v).normalize());
+    const tc = S.kind === 'choir' ? C.cyan : S.kind === 'strike' ? C.fire : C.mag;
+    for (let k = 0; k < 3; k++) glowP.emit(q.x, q.y, q.z, rnd(-.3, .3), rnd(-.3, .3), rnd(-.3, .3), rnd(.25, .5), .07, .01, tint(tc, rnd(2, 4)), 1, 0, 2);
+    if (Math.random() < .5) smokeP.emit(q.x, q.y, q.z, 0, .2, 0, rnd(.8, 1.5), .12, .5, GREY(.25), .3, -.1, .5);
+    if (hit || S.age > 8) {
+      if (hit) blast(hit, S.kind === 'strike' ? 1.6 : S.kind === 'choir' ? 1.45 : 1.25, S.kind);
+      scene.remove(S.m); shells.splice(i, 1);
+    }
   }
   for (let i = balls.length - 1; i >= 0; i--) {
     const B = balls[i]; B.t += dt;
-    const k = B.t / .45; B.m.scale.set(.4 + k * 2.6, (.4 + k * 2.6) * 1.2, .4 + k * 2.6); B.m.material.opacity = Math.max(0, 1 - k);
-    if (k >= 1) { scene.remove(B.m); B.m.geometry.dispose(); B.m.material.dispose(); balls.splice(i, 1); }
+    const k = B.t / .32, s = (.25 + k * .95) * B.r;
+    B.m.scale.set(s, s * 1.15, s); B.m.material.opacity = Math.max(0, 1 - k) ** 2;
+    if (k >= 1) { scene.remove(B.m); B.m.material.dispose(); balls.splice(i, 1); }
   }
+
+  // physics at a fixed 60 Hz
+  acc += dt; let n = 0;
+  while (acc >= 1 / 60 && n < 2) { stepBodies(1 / 60); acc -= 1 / 60; n++; }
+  if (n === 2) acc = 0;
+  drawBodies(); updateProps(dt); coolDown(dt);
+  for (const b of bodies) for (const c of b.cells) if (heat[c] > .25 && Math.random() < dt * 3) glowP.emit(b.pos.x, b.pos.y, b.pos.z, rnd(-.2, .2), rnd(.2, .6), 0, rnd(.3, .7), .05, .01, tint(C.fire, 3), 1, -.3, 1);
+
+  // rebuild when the ward is wrecked enough, or after a long while
+  if (!rebuild && (deadCount > totalCells * .16 || (t - lastBuild > 75 && deadCount > 40))) startRebuild(t);
+  if (rebuild) stepRebuild(dt, t);
+
   for (let i = rings.length - 1; i >= 0; i--) {
     const Rg = rings[i]; Rg.t += dt; const k = Rg.t / Rg.life;
-    Rg.m.scale.setScalar(.05 + k * 4 * Rg.size); Rg.m.material.opacity = .5 * (1 - k) * (Rg.size > .5 ? 1 : .6);
+    Rg.m.scale.setScalar(.05 + k * 2.6 * Rg.size); Rg.m.material.opacity = .38 * (1 - k) * (Rg.size > .5 ? 1 : .6);
     if (k >= 1) { scene.remove(Rg.m); Rg.m.material.dispose(); rings.splice(i, 1); }
   }
   rippleBudget = Math.min(rippleBudget + dt * 30, 6);
 
-  // ambient: drifting motes, neon flicker, chain sway, rain
-  if (Math.random() < dt * 14) glowP.emit(rr(-14, 14), rr(0, 8), rr(-8, 3), rr(-.1, .1), rr(.05, .3), 0, rr(4, 8), .05, .05, (R() < .6 ? C.mag : C.cyan).clone().multiplyScalar(2), .8, 0, 0);
+  if (Math.random() < dt * 14) glowP.emit(rnd(-14, 14), rnd(0, 8), rnd(-8, 3), rnd(-.1, .1), rnd(.05, .3), 0, rnd(4, 8), .05, .05, tint(Math.random() < .6 ? C.mag : C.cyan, 2), .8, 0, 0);
   for (let i = 0; i < lit.length; i++) {
     const L = lit[i], m = L.material;
     if (!L.userData.base) L.userData.base = m.color.clone();
     const f = (i * 7919 % 13 === 0 && Math.sin(t * 9 + i) > .7 && Math.random() < .5) ? .15 : 1;
     m.color.copy(L.userData.base).multiplyScalar(f * (.92 + .08 * Math.sin(t * 1.3 + i)));
   }
-  magLight.intensity = 70 * (.9 + .1 * Math.sin(t * 3.1)) * (Math.random() < .01 ? .3 : 1);
+  magLight.intensity = 34 * (.9 + .1 * Math.sin(t * 3.1)) * (Math.random() < .01 ? .3 : 1);
   chain.rotation.z = Math.sin(t * .6) * .015; chain.rotation.x = Math.sin(t * .45) * .01;
   for (let i = 0; i < RAIN; i++) {
     const o = i * 6, dy = rainV[i] * dt;
@@ -685,8 +1159,10 @@ function step(dt) {
     if (rainPos[o + 1] < 0) { if (Math.random() < .03) ripple(rainPos[o], rainPos[o + 2], .1); rainReset(i, true); }
   }
   rainGeo.attributes.position.needsUpdate = true;
-
   glowP.update(dt); smokeP.update(dt); sprayP.update(dt);
+  if (instDirty.m) { blocks.instanceMatrix.needsUpdate = true; instDirty.m = false; }
+  if (instDirty.e) { emiAttr.needsUpdate = true; instDirty.e = false; }
+  if (instDirty.c) { blocks.instanceColor.needsUpdate = true; instDirty.c = false; }
 }
 
 function frame() {
@@ -695,10 +1171,13 @@ function frame() {
   composer.render();
   requestAnimationFrame(frame);
 }
-// warm up so the first frame already has some life in it
-for (let i = 0; i < 90; i++) step(1 / 60);
-window.__step = step; // used by the screenshot test
-requestAnimationFrame(frame);
+for (let i = 0; i < 60; i++) step(1 / 60);
+window.__step = step; window.__strike = p => strike(new THREE.Vector3(...p));
+window.__rebuild = () => startRebuild(t);
+window.__stats = () => ({ bodies: bodies.length, dead: deadCount, total: totalCells, rebuild: !!rebuild, trooper: TR.state, physics: world ? 'rapier' : 'lite' });
+window.__advance = (sec) => { for (let i = 0; i < sec * 60; i++) step(1 / 60); composer.render(); };
+const ld = document.getElementById('load'); ld.style.opacity = 0; setTimeout(() => ld.remove(), 700);
+if (!Q.has('test')) requestAnimationFrame(frame); else composer.render();
 </script>
 </body>
 </html>
