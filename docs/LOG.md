@@ -6,6 +6,19 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-25 · Claude · Horde: surges instead of rounds (branch `horde`)
+
+From the fresh-eyes review and Jarred's calls: no rounds, the water never stops, ammo matters, and no hiding on high ground.
+- **Surges, not rounds:** a group of Risen climbs out every 3 tides (6, +1 each surge). Spitters from surge 2, brutes every 5th surge. The run is scored in tides held (best saved, shown on the Overrun screen).
+- **Warning:** a tide ahead, violet "N RISING" pulses on the water where the next surge will come up. The HUD reads tide · surge countdown · Risen up · how many are in claw reach · tithe.
+- **The water climbs every tide** (6 px, +0.2 a tide, during the tide), so you're always being pushed up. It replaces the every-3-rounds jump that drowned people without warning.
+- **Drop ship on call:** a Horde-only **Drop ship** item in Tools (and a desktop chip). Spend tithe, it ends that trooper's turn, and the crates land by them after the tide. **Back to the turn** cancels and refunds. One call at a time.
+- **Ammo economy:** no permanent unlocks. Start with Rail Carbine (unlimited), 4 frags, Brace and Drop ship. The shop sells frags ×3, mortar ×3, flamer, scatter, bolter, fist ×2, antimatter, mine, jump pack, wire, fabricator, Last Rites, field dressing and **Reinforcement** (50: a fallen trooper back at 60). Risen have 36 health (+1 a surge), so the carbine takes two hits per kill.
+- **Floating islands:** Risen leap at anyone up to 130 px above them. A Risen that gets no closer for 3 tides sinks and comes up somewhere else. **Spitters** (26 health, 8 tithe) lob a glob from up to 340 px once a tide (10 damage, halved by Brace). In a test with the squad on two tower tops, they took nothing for 11 tides, then spit, then climbers.
+- **Downed:** can't be finished in the tide they went down. Downed troopers stay down until Last Rites; there's no free get-up any more.
+- **Turns:** 20 s (were 30).
+- Normal battles still unchanged (dsim identical to `main`, det match).
+
 ## 2026-11-25 · Claude · Horde: Risen dig, whole-map view, Brace (branch `horde`)
 
 Jarred's first two minutes: Risen stuck on overhangs, hard to see where they come from, too many weapons listed, not stressful enough, and nothing to do some turns.
