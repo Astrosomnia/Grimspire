@@ -6,6 +6,13 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 
 ---
 
+## 2026-11-26 · Claude · three.js 2.5D test scene (experiment, not the game)
+
+- Jarred asked for a simple, no-interaction three.js test that looks rad. `experiments/three-test.html`: one Ash Legion trooper (box-built, enclosed helm, magenta visor, jump pack, oxblood cloak) patrols a drowned gothic bridge and turns at each end; a mortar on the broken end lobs shells into the sump every 3 s or so (muzzle flash, trail, fireball, water column, sparks, rising squad motes, ripple rings, camera shake).
+- Look: layered extruded gothic silhouettes in three depth bands with fog, black reflective water broken into horizontal streaks (Reflector plus custom shader), fallen saint's head with a broken iron halo, hanging chain in the foreground, sprayed ASH sigil, rain, magenta left and cyan right, moon rim light, bloom.
+- Renders at ~340 px tall and upscales nearest-neighbour for crisp pixels; `?smooth` for full resolution, `?px=240` etc. to change the pixel size. Portrait follows the trooper. three.js 0.160 from jsDelivr.
+- Standalone: touches no game code, no GV change.
+
 ## 2026-11-25 · Claude · CPU pacing trim
 
 - Jarred: the long holds felt robotic. Hold on a swapped-to trooper 2.5 → 2 s; aim hold before firing 1.5 → 0.4 s (as it was). Weapon pick stays 1.5 s, swap look 1.4 s, 0.9 s per swap tap.
