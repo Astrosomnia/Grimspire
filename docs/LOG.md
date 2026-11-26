@@ -14,6 +14,7 @@ One shared log for everyone: Jarred, Claude, ChatGPT and the Forge. Whatever you
 - **Weapons:** Plasma Mortar (48, lobbed shell), Frag Charge (52, bounces, 3 s fuse, Rapier ball), Rail Carbine (two straight slugs, 22 each, small blast). Names and damage come from the game's weapon list; blast sizes are scaled to this world.
 - **CPU:** tests mortar and rail shots across angles and strengths by flying them through the grid, scores damage to the enemy against harm to its own side, and first walks along its floor to the best spot. It adds a little aim error.
 - **Controls:** arrows or WASD to walk and aim, Space to charge and fire, Enter to jump, Shift to jet, 1–3 to pick a weapon. Or drag to aim and release to fire. Phones get on-screen walk, jump and jet buttons. Two fingers or right-drag pan the camera; the wheel zooms. `?watch` plays CPU against CPU.
+- Zoom (Jarred: way too close): starts wider and zooms out far enough to see the whole ward, using the wheel, pinch, the − and + buttons, or Q/E. The setting is remembered. Shadows, fog and rain scale with the view.
 - Tested headless: whole matches play to the end; controls checked by script; both Rapier and the lite fallback. Not yet tried on a real phone or GPU.
 
 ## 2026-11-26 · Claude · three.js test: procedural destruction (experiment)

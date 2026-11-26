@@ -39,6 +39,8 @@
   #over{position:absolute;inset:0;display:grid;place-items:center;background:rgba(6,8,12,.55);pointer-events:auto}
   #over div{display:grid;gap:14px;justify-items:center;text-align:center}
   #over h1{margin:0;font-size:20px;letter-spacing:.18em}
+  #zoomg{position:absolute;right:max(12px,env(safe-area-inset-right,0px));top:50%;transform:translateY(-50%);display:grid;gap:6px;pointer-events:auto}
+  #zoomg button{font-size:16px;padding:6px}
   #corner{position:absolute;right:max(12px,env(safe-area-inset-right,0px));bottom:calc(64px + env(safe-area-inset-bottom,0px));color:var(--ink);opacity:.5;font-size:9px;text-align:right}
   #load{position:fixed;inset:0;display:grid;place-items:center;color:var(--ink);font:600 11px ui-monospace,monospace;letter-spacing:.2em;text-transform:uppercase;pointer-events:none;transition:opacity .6s}
   @media (max-width:640px){#banner{top:calc(34px + env(safe-area-inset-top,0px))}.tb{width:38vw}}
@@ -62,7 +64,8 @@
   <div id="banner"><div id="who"></div><div id="timer"></div></div>
   <div id="tags"></div>
   <div id="power"><b id="powb"></b></div>
-  <div id="help">← → walk · ↑ ↓ aim · space hold to fire · enter jump · shift jet · 1 2 3 weapon · or drag to aim</div>
+  <div id="help">← → walk · ↑ ↓ aim · space hold to fire · enter jump · shift jet · 1 2 3 weapon · drag to aim · wheel or Q E zoom · right-drag pan</div>
+  <div id="zoomg"><button id="zin" aria-label="Zoom in">+</button><button id="zout" aria-label="Zoom out">−</button></div>
   <div id="corner"><span id="phys">…</span><br><span id="seedl"></span></div>
   <div id="bottom">
     <div class="grp touch"><button id="bl" aria-label="Walk left">◀</button><button id="br" aria-label="Walk right">▶</button></div>
@@ -511,8 +514,8 @@ for (const k in waterUniforms) water.material.uniforms[k] = waterUniforms[k];
 scene.add(new THREE.HemisphereLight(0x51607e, 0x07080b, .7));
 const rim = new THREE.DirectionalLight(0xbfd2ff, 2.2); rim.position.set(3, 9, -12); scene.add(rim);
 const moon = new THREE.DirectionalLight(0x9fb2d8, 1.6);
-moon.castShadow = true; moon.shadow.mapSize.set(1024, 1024);
-Object.assign(moon.shadow.camera, { left: -17, right: 17, top: 15, bottom: -9, near: 1, far: 80 });
+moon.castShadow = true; moon.shadow.mapSize.set(2048, 2048);
+Object.assign(moon.shadow.camera, { left: -17, right: 17, top: 15, bottom: -9, near: 1, far: 120 });
 moon.shadow.bias = -.0008; scene.add(moon, moon.target);
 const fill = new THREE.DirectionalLight(0x3a4870, 1.05); fill.position.set(6, 4, 14); scene.add(fill);
 const booms = [0, 1, 2].map(() => { const l = new THREE.PointLight(C.fire, 0, 16, 2); scene.add(l); return l; });
@@ -652,8 +655,9 @@ rainGeo.setAttribute('position', new THREE.BufferAttribute(rainPos, 3).setUsage(
 const rain = new THREE.LineSegments(rainGeo, new THREE.LineBasicMaterial({ color: 0x7f8fb0, transparent: true, opacity: .13, fog: true }));
 rain.frustumCulled = false; scene.add(rain);
 let camX = 0, camY = 4;
+let viewHW = 22, viewHH = 10;
 const rainReset = (i, top) => {
-  const x = camX + rnd(-22, 22), z = rnd(-14, 8), y = top ? camY + rnd(10, 14) : camY + rnd(-6, 14);
+  const x = camX + rnd(-viewHW - 4, viewHW + 4), z = rnd(-14, 8), y = top ? camY + viewHH + rnd(2, 6) : camY + rnd(-viewHH, viewHH + 6);
   rainPos.set([x, y, z, x + .06, y + .55, z], i * 6); rainV[i] = rnd(16, 22);
 };
 for (let i = 0; i < RAIN; i++) rainReset(i, false);
@@ -1332,15 +1336,18 @@ renderer.domElement.addEventListener('pointerdown', e => {
   if (!isHuman() || game.phase !== 'aim') { panLast = mid(); return; }
   dragging = true; renderer.domElement.setPointerCapture(e.pointerId); aimAt(e); startCharge();
 });
-function mid() { let x = 0, y = 0; for (const p of ptrs.values()) { x += p.x; y += p.y; } return { x: x / ptrs.size, y: y / ptrs.size, n: ptrs.size }; }
+function mid() { let x = 0, y = 0; const ps = [...ptrs.values()]; for (const p of ps) { x += p.x; y += p.y; } return { x: x / ps.length, y: y / ps.length, n: ps.length, d: ps.length === 2 ? Math.hypot(ps[0].x - ps[1].x, ps[0].y - ps[1].y) : 0 }; }
 renderer.domElement.addEventListener('pointermove', e => {
   if (ptrs.has(e.pointerId)) ptrs.set(e.pointerId, { x: e.clientX, y: e.clientY });
-  if (panLast && ptrs.size) { const m = mid(); if (m.n === panLast.n) { const k = zoom / innerHeight * .75; pan.x -= (m.x - panLast.x) * k; pan.y += (m.y - panLast.y) * k; } panLast = m; return; }
+  if (panLast && ptrs.size) { const m = mid(); if (m.n === panLast.n) { const k = zoom / innerHeight * .75; pan.x -= (m.x - panLast.x) * k; pan.y += (m.y - panLast.y) * k; if (m.n === 2 && panLast.d > 20 && m.d > 20) setZoom(zoom * panLast.d / m.d); } panLast = m; return; }
   if (dragging && isHuman() && game.phase === 'aim') aimAt(e);
 });
 for (const ev of ['pointerup', 'pointercancel']) renderer.domElement.addEventListener(ev, e => { ptrs.delete(e.pointerId); if (!ptrs.size) panLast = null; else panLast = mid(); });
 renderer.domElement.addEventListener('pointerup', () => { if (dragging) { dragging = false; chargeRelease(); } });
-renderer.domElement.addEventListener('wheel', e => { zoom = clamp(zoom * (e.deltaY > 0 ? 1.1 : .9), 9, 34); }, { passive: true });
+renderer.domElement.addEventListener('wheel', e => { setZoom(zoom * (e.deltaY > 0 ? 1.12 : .89)); }, { passive: true });
+function setZoom(z) { zoom = clamp(z, 9, 72); try { localStorage.setItem('gs-zoom', zoom.toFixed(1)); } catch (e) {} }
+for (const [id, k] of [['zin', .8], ['zout', 1.25]]) document.getElementById(id).addEventListener('pointerdown', e => { e.stopPropagation(); e.preventDefault(); setZoom(zoom * k); });
+addEventListener('keydown', e => { if (e.code === 'KeyQ' || e.code === 'Minus' || e.code === 'NumpadSubtract') setZoom(zoom * 1.2); if (e.code === 'KeyE' || e.code === 'Equal' || e.code === 'NumpadAdd') setZoom(zoom / 1.2); });
 const hold = (id, k) => { const b = document.getElementById(id);
   b.addEventListener('pointerdown', e => { e.preventDefault(); held[k] = true; b.setPointerCapture(e.pointerId); });
   for (const ev of ['pointerup', 'pointercancel']) b.addEventListener(ev, () => { held[k] = false; }); };
@@ -1414,7 +1421,8 @@ const grade = new ShaderPass({
     }`,
 });
 composer.addPass(grade);
-let W = 1, H = 1, PR = 1, zoom = 17;
+let W = 1, H = 1, PR = 1, zoom = 28;
+try { const z = +localStorage.getItem('gs-zoom'); if (z >= 9 && z <= 72) zoom = z; } catch (e) {}
 function resize() {
   W = innerWidth; H = innerHeight;
   PR = SMOOTH ? Math.min(devicePixelRatio, 2) : Math.min(devicePixelRatio, PIX_H / Math.min(W, H));
@@ -1460,7 +1468,14 @@ function step(dt) {
   if (live) { fx = live.p.x; fy = live.p.y; }
   focus.x += (fx - focus.x) * Math.min(1, dt * (live ? 4 : 3.2)); focus.y += (fy - focus.y) * Math.min(1, dt * (live ? 4 : 3.2));
   const asp = W / H, dist = zoom * (asp < 1 ? 1 + (1 - asp) * 1.1 : 1);
-  camX = clamp(focus.x + pan.x, -20, 20); camY = clamp(focus.y + 1.2 + pan.y, 3.2, 22);
+  const tf = Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)), hh = dist * tf, hw = hh * camera.aspect;
+  camX = hw >= 28 ? 0 : clamp(focus.x + pan.x, -28 + hw, 28 - hw);
+  camY = clamp(focus.y + 1.2 + pan.y, Math.max(3.2, hh * .8 - 1), Math.max(22, hh * .8 - 1));
+  if (Math.abs(hw - viewHW) > .5) {
+    viewHW = hw; viewHH = hh;
+    Object.assign(moon.shadow.camera, { left: -hw - 4, right: hw + 4, top: hh + 8, bottom: -hh - 8 }); moon.shadow.camera.updateProjectionMatrix();
+    scene.fog.density = waterUniforms.uDen.value = .012 * Math.min(1, 26 / dist);
+  }
   camera.position.set(camX + (Math.random() - .5) * shake, camY + 1.2 + (Math.random() - .5) * shake, dist);
   look.set(camX, camY - .2, 0); camera.lookAt(look);
   shake *= Math.pow(.02, dt);
@@ -1483,7 +1498,7 @@ function step(dt) {
     if (k >= 1) { scene.remove(Rg.m); Rg.m.material.dispose(); rings.splice(i, 1); }
   }
   rippleBudget = Math.min(rippleBudget + dt * 30, 6);
-  if (Math.random() < dt * 14) glowP.emit(camX + rnd(-16, 16), camY + rnd(-5, 6), rnd(-8, 3), rnd(-.1, .1), rnd(.05, .3), 0, rnd(4, 8), .05, .05, tint(Math.random() < .5 ? C.mag : C.cyan, 2), .8, 0, 0);
+  if (Math.random() < dt * 14) glowP.emit(camX + rnd(-viewHW, viewHW), camY + rnd(-viewHH, viewHH), rnd(-8, 3), rnd(-.1, .1), rnd(.05, .3), 0, rnd(4, 8), .05, .05, tint(Math.random() < .5 ? C.mag : C.cyan, 2), .8, 0, 0);
   for (let i = 0; i < lit.length; i++) {
     const L = lit[i], m = L.material;
     if (!L.userData.base) L.userData.base = m.color.clone();
@@ -1493,7 +1508,7 @@ function step(dt) {
   for (let i = 0; i < RAIN; i++) {
     const o = i * 6, dy = rainV[i] * dt;
     rainPos[o + 1] -= dy; rainPos[o + 4] -= dy; rainPos[o] -= dy * .1; rainPos[o + 3] -= dy * .1;
-    if (rainPos[o + 1] < 0 || rainPos[o + 1] < camY - 10 || Math.abs(rainPos[o] - camX) > 24) { if (rainPos[o + 1] < 0 && Math.random() < .03) ripple(rainPos[o], rainPos[o + 2], .1); rainReset(i, true); }
+    if (rainPos[o + 1] < 0 || rainPos[o + 1] < camY - viewHH - 2 || Math.abs(rainPos[o] - camX) > viewHW + 6) { if (rainPos[o + 1] < 0 && Math.random() < .03) ripple(rainPos[o], rainPos[o + 2], .1); rainReset(i, true); }
   }
   rainGeo.attributes.position.needsUpdate = true;
   glowP.update(dt); smokeP.update(dt); sprayP.update(dt);
